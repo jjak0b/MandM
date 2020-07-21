@@ -57,7 +57,7 @@ var comp_obj_list = new Vue({ el: '.quest_list', data: quest_list } );
 var questApp = new Vue({
     el: '#questApp'
 });
-QrScanner.WORKER_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/')) + "/../qr-scanner/qr-scanner-worker.min.js";
+QrScanner.WORKER_PATH = '/qr-scanner/qr-scanner-worker.min.js';
 
 
 var cameraApp = new Vue({

@@ -1,4 +1,5 @@
 /* DOM Widget which handle mission list rendering */
+
 export var WidgetMissions = new Vue({
 	el: '#quest_list',
 	data: {
@@ -53,4 +54,9 @@ Vue.component('objective-item', {
 				<button type="button" role="button" class="objective-help-btn btn btn-lg btn-danger" data-toggle="popover" data-placement="right" data-html="true" v-bind:data-content="objective_hint">{{ objective_hint_label }}</a>
 			</div>
 		</details>`
+});
+
+/* inzializza popover */
+$(function () {
+	$('[data-toggle="popover"]').popover();
 });

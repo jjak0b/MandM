@@ -1,11 +1,10 @@
-// import StoryPlayer from "./StoryPlayer";
-
-// var storyPlayer = new StoryPlayer();
-
+import StoryPlayer from "./StoryPlayer.js";
 import {WidgetCamera} from "./WidgetCamera.js";
-import {WidgetMissions} from "./WidgetMissions.js";
+import Story from "/shared/js/Story.js";
 
+var storyPlayer = new StoryPlayer();
 // temp
+storyPlayer.loadStory( { gamemode: Story.ENUM_GAMEMODE.SOLO } );
 var objective_default_data1 = {
 	quest_name:					 	"Nome quest 1",
 	objective_name:				 	"Nome obiettivo",
@@ -34,12 +33,15 @@ var addmission2 = {
 	actionType: "addMission",
 	data: objective_default_data2
 };
-WidgetMissions.missions = [ objective_default_data1, objective_default_data2 ];
-/*
+
 setTimeout( function() {
 	storyPlayer.eventLister.dispatchEvent( new CustomEvent (
 		addmission1.actionType,
-		addmission1
+		{ detail: addmission1 }
+	));
+	storyPlayer.eventLister.dispatchEvent( new CustomEvent (
+		addmission1.actionType,
+		{ detail: addmission2 }
 	));
 }, 1000 );
-*/
+

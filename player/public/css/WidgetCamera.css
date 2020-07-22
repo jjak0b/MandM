@@ -1,0 +1,11 @@
+#collapse-camera {
+    background-color: #fff;
+}
+#camera-preview-container {
+    width: 90%;
+}
+#camera-preview {
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+}

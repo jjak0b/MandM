@@ -1,145 +1,145 @@
 <!DOCTYPE html>
 <html>
 	<head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" >
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" >
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
 		<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="/qr-scanner/qr-scanner.umd.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="/qr-scanner/qr-scanner.umd.min.js"></script>
 	</head>
 	<style>
-        #camera-preview-container {
-            width: 90%;
-        }
-        #camera-preview {
-            border-width: 1px;
-            border-color: black;
-            border-style: solid;
-        }
+		#camera-preview-container {
+			width: 90%;
+		}
+		#camera-preview {
+			border-width: 1px;
+			border-color: black;
+			border-style: solid;
+		}
 		#overlay-container {
-            height: 100%;
+			height: 100%;
 		}
 		#menu-container{
 		}
 		#collapse-container{
-            overflow-y: auto;
+			overflow-y: auto;
 		}
-        #collapse-camera {
-            background-color: #fff;
-            
-        }
+		#collapse-camera {
+			background-color: #fff;
+
+		}
 	</style>
 	<script>
 		/* inzializza popover */
 		$(function () {
 			$('[data-toggle="popover"]').popover();
 		});
-    </script>
+	</script>
 	<body>
 		<div class="" id="main" >
-            <div class="position-absolute" id="overlay-container">
-                <!-- Mi serve calcolare l'altezza dinamicamente in differenza tra 100 - menu-container -->
-                <div id="collapse-container" class="fixed-top">
-                    <div class="collapse" id="collapse-camera" data-parent="#collapse-container">
-                        <div class="container" id="app-camera">
-                            <div class="row d-flex justify-content-center text-justify">
-                                <p><br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d</p>
-                                <p >Direziona la fotocamera verso i codici per ispezionare indizi o analizzare nuove scoperte</p>
-                            </div>
-                            <div v-if="hasCamera" class="row">
-                                <div class="col">
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col">
-                                            <select id="camera-select"
-                                                v-model="camera_type"
-                                                v-on:change="updateCamera()">
-                                                <option value="environment" selected="selected">Posteriore</option>
-                                                <option value="user">Frontale</option>
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <div v-if="hasFlash" class="row custom-control custom-switch">
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch1"
-                                                    v-on:change="toggleFlash()"
-                                                    v-bind:checked="isFlashOn()">
-                                                <label class="custom-control-label" for="customSwitch1">Flash {{ isFlashOn() ? "acceso": "spento" }}</label>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <ol id="qr-scanned" style="overflow: scroll;">
-                                            </ol>
-                                        </div>
-                                    </div>
-                                    <div class="row d-flex justify-content-center">
-                                        <div class="col" id="camera-preview-container">
-                                            <video id="camera-preview" class="w-100" poster="https://media.giphy.com/media/xTk9ZvMnbIiIew7IpW/source.gif"></video>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-else class="row d-flex justify-content-center">
-                                <p>Fotocamera non rilevata</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collapse" id="collapse-quest" data-parent="#collapse-container">
-                        <div id="questApp">
-                            <ul class="list-group" id="quest_list">
-                                <li class="list-group-item quest_objective">
-                                    <objective-item
-                                        v-bind:quest_name                       ="quest_name"
-                                        v-bind:objective_name                   ="objective_name"
-                                        v-bind:objective_progress_perc          ="objective_progress_perc"
-                                        v-bind:objective_message_redeem_reward  ="objective_message_redeem_reward"
-                                        v-bind:objective_description            ="objective_description"
-                                        v-bind:objective_hint                   ="objective_hint"
-                                        v-bind:objective_hint_label             ="objective_hint_label">
-                                    </objective-item>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div id="menu-container" class="fixed-bottom">
-                    <nav class="navbar navbar-light bg-light h-100">
-                        <div class="container">
-                            <ul class="row nav nav-tabs justify-content-center">
-                                <li class="col nav-item">
-                                    <a class="nav-link" id="nav-camera-tab" data-toggle="collapse" href="#collapse-camera" role="button" aria-expanded="false" aria-controls="collapse-camera"><span aria-label="Ispeziona codice QR" class="h1 glyphicon glyphicon-qrcode"></span></a>
-                                </li>
-                                <li class="col nav-item">
-                                    <a class="nav-link" id="nav-quest-tab" data-toggle="collapse" href="#collapse-quest" role="button" aria-expanded="false" aria-controls="collapse-quest"><span aria-label="Missioni" class="h1 glyphicon glyphicon-gift"></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
-                </div>
-                <script>
-                    {
-                        // Calcolo l'altezza di collapse-container dinamicamente e in percentuale dello spazio rimasto disponibile nell'elemento padre, tenendo conto di quanto spazio spazio occupa menu-container
-                        let menu_container = $("#menu-container")[0];
-                        $("#collapse-container").height( (100 - ($( menu_container ).height() / $( menu_container ).parent().height() * 100)) + "%" ); 
-                    }
-                </script>
-            </div>
-            <script src="overlayApp.js"></script>
+			<div class="position-absolute" id="overlay-container">
+				<!-- Mi serve calcolare l'altezza dinamicamente in differenza tra 100 - menu-container -->
+				<div id="collapse-container" class="fixed-top">
+					<div class="collapse" id="collapse-camera" data-parent="#collapse-container">
+						<div class="container" id="app-camera">
+							<div class="row d-flex justify-content-center text-justify">
+								<p><br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d<br>d</p>
+								<p >Direziona la fotocamera verso i codici per ispezionare indizi o analizzare nuove scoperte</p>
+							</div>
+							<div v-if="hasCamera" class="row">
+								<div class="col">
+									<div class="row d-flex justify-content-center">
+										<div class="col">
+											<select id="camera-select"
+												v-model="camera_type"
+												v-on:change="updateCamera()">
+												<option value="environment" selected="selected">Posteriore</option>
+												<option value="user">Frontale</option>
+											</select>
+										</div>
+										<div class="col">
+											<div v-if="hasFlash" class="row custom-control custom-switch">
+												<input type="checkbox" class="custom-control-input" id="customSwitch1"
+													v-on:change="toggleFlash()"
+													v-bind:checked="isFlashOn()">
+												<label class="custom-control-label" for="customSwitch1">Flash {{ isFlashOn() ? "acceso": "spento" }}</label>
+											</div>
+										</div>
+										<div class="col">
+											<ol id="qr-scanned" style="overflow: scroll;">
+											</ol>
+										</div>
+									</div>
+									<div class="row d-flex justify-content-center">
+										<div class="col" id="camera-preview-container">
+											<video id="camera-preview" class="w-100" poster="https://media.giphy.com/media/xTk9ZvMnbIiIew7IpW/source.gif"></video>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div v-else class="row d-flex justify-content-center">
+								<p>Fotocamera non rilevata</p>
+							</div>
+						</div>
+					</div>
+					<div class="collapse" id="collapse-quest" data-parent="#collapse-container">
+						<div id="questApp">
+							<ul class="list-group" id="quest_list">
+								<li v-for="mission in missionsList" class="list-group-item">
+									<objective-item
+										v-bind:quest_name 						= "mission.quest_name"
+										v-bind:objective_name 					= "mission.objective_name"
+										v-bind:objective_progress_perc 			= "mission.objective_progress_perc"
+										v-bind:objective_message_redeem_reward 	= "mission.objective_message_redeem_reward"
+										v-bind:objective_description 			= "mission.objective_description"
+										v-bind:objective_hint 					= "mission.objective_hint"
+										v-bind:objective_hint_label 			= "mission.objective_hint_label">
+									</objective-item>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div id="menu-container" class="fixed-bottom">
+					<nav class="navbar navbar-light bg-light h-100">
+						<div class="container">
+							<ul class="row nav nav-tabs justify-content-center">
+								<li class="col nav-item">
+									<a class="nav-link" id="nav-camera-tab" data-toggle="collapse" href="#collapse-camera" role="button" aria-expanded="false" aria-controls="collapse-camera"><span aria-label="Ispeziona codice QR" class="h1 glyphicon glyphicon-qrcode"></span></a>
+								</li>
+								<li class="col nav-item">
+									<a class="nav-link" id="nav-quest-tab" data-toggle="collapse" href="#collapse-quest" role="button" aria-expanded="false" aria-controls="collapse-quest"><span aria-label="Missioni" class="h1 glyphicon glyphicon-gift"></span></a>
+								</li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+				<script>
+					{
+						// Calcolo l'altezza di collapse-container dinamicamente e in percentuale dello spazio rimasto disponibile nell'elemento padre, tenendo conto di quanto spazio spazio occupa menu-container
+						let menu_container = $("#menu-container")[0];
+						$("#collapse-container").height( (100 - ($( menu_container ).height() / $( menu_container ).parent().height() * 100)) + "%" );
+					}
+				</script>
+			</div>
+			<script src="overlayApp.js"></script>
 			<div class="container-fluid" >
-                <div class="row">
-                    <div class="col">
-                        <div>
-                            <label for="inputFile">Carica storia</label>
-                            <input id="inputFile" type="file"/>
-                            <p>oppure </p>
-                            <button onclick="$('#nav-camera-tab').focus(); $('#nav-camera-tab').trigger('click');">Scansiona il codice della storia</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
-    </body>
+				<div class="row">
+					<div class="col">
+						<div>
+							<label for="inputFile">Carica storia</label>
+							<input id="inputFile" type="file"/>
+							<p>oppure </p>
+							<button onclick="$('#nav-camera-tab').focus(); $('#nav-camera-tab').trigger('click');">Scansiona il codice della storia</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
 </html>

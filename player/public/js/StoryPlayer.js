@@ -1,5 +1,5 @@
-import {WidgetCamera} from "./WidgetCamera.js";
-import {WidgetMissions} from "./WidgetMissions.js";
+import {CameraWidget} from "./CameraWidget.js";
+import {MissionsWidget} from "./MissionsWidget.js";
 import Story from "/shared/js/Story.js";
 
 export default class StoryPlayer {
@@ -13,12 +13,12 @@ export default class StoryPlayer {
 	loadStory( data ) {
 		// TODO
 		this.story = new Story( data );
-		WidgetMissions.missions = this.story.missions;
+		MissionsWidget.missions = this.story.missions;
 	}
 
 	_initCallbacks() {
 		let self = this;
-		WidgetCamera.onScanDecode = function ( resultDecode ) {
+		CameraWidget.onScanDecode = function (resultDecode ) {
 			console.log("On scan decode:", resultDecode);
 			var dataScanned = null;
 			/* Sometimes scanner detect false positive "" so will ignore them */
@@ -27,7 +27,7 @@ export default class StoryPlayer {
 					dataScanned = JSON.parse( resultDecode );
 				}
 				catch( e ) {
-					WidgetCamera.onScanError( "[StoryPlayer] received a not valid JSON: " + resultDecode );
+					CameraWidget.onScanError( "[StoryPlayer] received a not valid JSON: " + resultDecode );
 				}
 
 				if( dataScanned && data.actionType ) {
@@ -39,10 +39,10 @@ export default class StoryPlayer {
 				}
 			}
 			else {
-				WidgetCamera.onScanError( "[StoryPlayer] received a not valid JSON: " + resultDecode );
+				CameraWidget.onScanError( "[StoryPlayer] received a not valid JSON: " + resultDecode );
 			}
 		};
-		WidgetCamera.onScanError = function (error) {
+		CameraWidget.onScanError = function (error) {
 			if( !(error instanceof DOMException) ) // se aperto con protocollo file, gli errori sono spammati
 				console.error( "On scan error: ", error );
 		};

@@ -1,5 +1,5 @@
 import StoryPlayer from "./StoryPlayer.js";
-import {WidgetCamera} from "./WidgetCamera.js";
+import {CameraWidget} from "./CameraWidget.js";
 import Story from "/shared/js/Story.js";
 
 var storyPlayer = new StoryPlayer();

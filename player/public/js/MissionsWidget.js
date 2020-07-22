@@ -1,6 +1,6 @@
 /* DOM Widget which handle mission list rendering */
 
-export var WidgetMissions = new Vue({
+export var MissionsWidget = new Vue({
 	el: '#quest_list',
 	data: {
 		missions: []

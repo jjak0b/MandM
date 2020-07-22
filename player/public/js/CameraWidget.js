@@ -2,7 +2,7 @@ import QrScanner from '/qr-scanner/qr-scanner.min.js';
 QrScanner.WORKER_PATH = '/qr-scanner/qr-scanner-worker.min.js';
 
 /* DOM Widget which handle camera, scanner functionalities */
-export var WidgetCamera = new Vue({
+export var CameraWidget = new Vue({
 	el: '#app-camera',
 	data: {
 		hasCamera: null,

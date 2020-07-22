@@ -21,4 +21,7 @@ app.use(
     '/qr-scanner',
     require('./routes/qr-scanner')
 );
-
+app.use(
+	'/shared/*',
+	require('./routes/shared')
+);

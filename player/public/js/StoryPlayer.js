@@ -1,5 +1,5 @@
 import {CameraWidget} from "./CameraWidget.js";
-import {MissionsWidget} from "./MissionsWidget.js";
+import {vm as MissionListWidget} from "/player/components/MissionListWidget.js";
 import Story from "/shared/js/Story.js";
 
 export default class StoryPlayer {
@@ -13,7 +13,7 @@ export default class StoryPlayer {
 	loadStory( data ) {
 		// TODO
 		this.story = new Story( data );
-		MissionsWidget.missions = this.story.missions;
+		MissionListWidget.missions = this.story.missions;
 	}
 
 	_initCallbacks() {

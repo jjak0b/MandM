@@ -64,19 +64,7 @@
 					</div>
 					<div class="collapse" id="collapse-quest" data-parent="#collapse-container">
 						<div>
-							<ul class="list-group" id="quest_list">
-								<li v-for="mission in missions" class="list-group-item">
-									<objective-item
-										v-bind:quest_name 						= "mission.quest_name"
-										v-bind:objective_name 					= "mission.objective_name"
-										v-bind:objective_progress_perc 			= "mission.objective_progress_perc"
-										v-bind:objective_message_redeem_reward 	= "mission.objective_message_redeem_reward"
-										v-bind:objective_description 			= "mission.objective_description"
-										v-bind:objective_hint 					= "mission.objective_hint"
-										v-bind:objective_hint_label 			= "mission.objective_hint_label">
-									</objective-item>
-								</li>
-							</ul>
+							<mission-list-widget id="mission-list-widget" v-bind:missions="missions"></mission-list-widget>
 						</div>
 					</div>
 				</div>

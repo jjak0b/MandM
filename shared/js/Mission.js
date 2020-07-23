@@ -4,8 +4,10 @@ export default class Mission {
 	/* Story */		story,
 	/* Object */	mission_data
 	) {
+
 		this.story_owner = story;
-		this.actions = new Array();
+
+		this.actions = null;
 		this.quest_name = mission_data.quest_name;
 		this.objective_name = mission_data.objective_name;
 		this.objective_progress_perc = mission_data.objective_progress_perc;

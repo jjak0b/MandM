@@ -2,6 +2,7 @@ import StoryPlayer from "./StoryPlayer.js";
 import {CameraWidget} from "./CameraWidget.js";
 import Story from "/shared/js/Story.js";
 
+
 var storyPlayer = new StoryPlayer();
 // temp
 storyPlayer.loadStory( { gamemode: Story.ENUM_GAMEMODE.SOLO } );
@@ -39,9 +40,16 @@ setTimeout( function() {
 		addmission1.actionType,
 		{ detail: addmission1 }
 	));
+}, 1000 );
+
+setTimeout( function() {
 	storyPlayer.eventLister.dispatchEvent( new CustomEvent (
 		addmission1.actionType,
 		{ detail: addmission2 }
 	));
-}, 1000 );
+}, 1500 );
 
+/* init popover */
+$(function () {
+	$('[data-toggle="popover"]').popover();
+});

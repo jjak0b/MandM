@@ -1,7 +1,7 @@
-var express = require('express');
-var path = require('path');
-var router = express.Router();
-var app = require( '../app' );
+const express = require('express');
+const path = require('path');
+const router = express.Router();
 
-app.use( '/shared', express.static(path.join(__basedir, '/shared' )) );
+router.get('/', express.static(path.join(__basedir, '/shared')));
+
 module.exports = router;

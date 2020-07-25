@@ -18,6 +18,10 @@ app.use(
     require('./routes/player')
 );
 app.use(
+	'/editor',
+	require('./routes/editor')
+);
+app.use(
     '/qr-scanner',
     require('./routes/qr-scanner')
 );

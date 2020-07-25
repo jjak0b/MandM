@@ -1,0 +1,8 @@
+{
+	"CameraWidget" : {
+		"cameraType" : {
+			"front": "Front-facing camera",
+			"back": "Back camera"
+		}
+	}
+}

@@ -6,9 +6,8 @@
 # Specific files section
 
 # Specific directories section
-bin/
-.eslintcache
 .idea/
-jspm_packages/
 node_modules/
+jspm_packages/
 .npm
+.eslintcache

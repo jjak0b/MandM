@@ -1,0 +1,20 @@
+{
+	"shared" : {
+		"label-save": "Salva",
+		"label-remove": "Rimuovi",
+		"label-add": "Aggiungi",
+		"label-i18n" : "Internazionalizza",
+		"label-mission": "Missione | Missioni",
+		"label-activity": "Attività",
+		"label-story": "Storia | Storie"
+	},
+	"I18nSelectorWidget" : {
+		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
+		"label-locale-select": "Seleziona l'internazionalizzazione corrente da modificare"
+	},
+	"MissionEditorWidget" : {
+		"label-mission-title": "Titolo della missione",
+		"label-mission-description" : "Descrizione della missione",
+		"label-mission-list" : "Lista missioni"
+	}
+}

@@ -1,4 +1,5 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
+import {i18n} from "./Translations.js"
 
 export const component = {
 	template: template,
@@ -57,6 +58,7 @@ Vue.component( 'mission-editor-widget', component );
 
 export const vm = new Vue ({
 	el: "#mission-editor-widget",
+	i18n,
 	data: {
 		missions: []
 	}

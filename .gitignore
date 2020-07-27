@@ -1,14 +1,44 @@
 # Wildcard files section
 *.sw[op]
 
+## Express rules
+*.log
+*.pid
+*.seed
+*.pid.lock
+*.tgz
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Wildcard directories section
 
 # Specific files section
+## Express rules
+logs
+pids
+lib-cov
+coverage
+.npm
+.nyc_output
+.grunt
+bower_components
+.lock-wscript
+.eslintcache
+.node_repl_history
+.yarn-integrity
+.env
+.next
+.npm
+.eslintcache
 
 # Specific directories section
-bin/
-.eslintcache
 .idea/
-jspm_packages/
 node_modules/
-.npm
+jspm_packages/
+
+## Express rules
+build/Release
+node_modules/
+jspm_packages/
+typings/

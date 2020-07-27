@@ -89,7 +89,7 @@ function getLocales( locale, pathDirName) {
 }
 
 function setLocalesResponse( res, locale, pathDirName) {
-	getLocales( pathDirName, locale, pathDirName )
+	getLocales( locale, pathDirName )
 	.then( function( data ) {
 		console.log( "sending locales " + (locale ? locale : "") + " data:", data );
 		res.json( data );
@@ -100,4 +100,4 @@ function setLocalesResponse( res, locale, pathDirName) {
 	});
 }
 
-module.exports = { getLocales: getLocales, setLocalesResponse: setLocalesResponse };
+module.exports = { getLocales: getLocales, setLocalesResponse: setLocalesResponse, i18n: require('langmap') };

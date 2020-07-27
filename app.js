@@ -16,6 +16,5 @@ app.use(cookieParser());
 app.use('/play', require('./routes/player'));
 app.use('/edit', require('./routes/editor'));
 app.use('/scan', require('./routes/qr-scanner'));
-app.use('/shared/*', require('./routes/shared'));
+app.use('/shared', require('./routes/shared'));
 module.exports = app;
-

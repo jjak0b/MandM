@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const Promise = require( 'promise');
-const Locales = require( '../shared/locales');
+const Locales = require( '../shared/js/locales');
 
 /* GET locales listing. */
 router.get('/', ( req, res ) => Locales.setLocalesResponse( res, null, __dirname ) );

@@ -15,6 +15,6 @@ app.use(cookieParser());
 /* Dedicate a router to each top-level base path. */
 app.use('/play', require('./routes/player'));
 app.use('/scan', require('./routes/qr-scanner'));
-app.use('/shared/*', require('./routes/shared'));
 
+app.use('/shared', require('./routes/shared'));
 module.exports = app;

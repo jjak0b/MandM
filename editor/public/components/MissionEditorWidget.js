@@ -1,45 +1,50 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
-import {i18n} from "./Translations.js"
+import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
 
 export const component = {
 	template: template,
 	props: {
 		missions: Array,
-		missionId: Number,
-		missionTitle:  String,
-		missionDescription: String
+		locale: String,
+		localesData: Object
 	},
 	data : function () {
 		return {
 			nextId: 0,
+			missionId: 0,
 			missionCache: null
 		}
+	},
+	components: {
+		'i18n-input-widget': asyncLoadComponentI18nInputWidget
+	},
+	beforeMount: function () {
+
+	},
+	computed: {
+		localeTitle: 		function () {  return Number.isNaN( this.missionId ) ? undefined : 'mission.title.' + this.missionId },
+		localeDescription: 	function () {  return Number.isNaN( this.missionId ) ? undefined : 'mission.description.' + this.missionId }
 	},
 	methods: {
 		save() {
 			let mission = this.missionCache;
 			if( !mission ) {
-				mission = {};
+				mission = [];
 				this.missions.push( mission );
-				this.missionId = this.nextId ++;
+				mission.id = this.nextId++;
+				mission.title = this.localeTitle;
+				mission.description = this.localeDescription;
 				console.log( "registered new mission: ", mission );
 			}
 
-			mission.id =  this.missionId;
-			mission.title = this.missionTitle;
-			mission.description = this.missionDescription;
-
-			// clean
-			this.missionId = null;
-			this.missionTitle = null;
-			this.missionDescription = null;
-
+			// set new Id, so new locale data will be available
 			this.missionCache = null;
+			this.missionId = this.nextId;
+			console.log( "Set new ID: " , this.missionId  );
+
 		},
 		remove() {
-			this.missionId = null;
-			this.missionTitle = null;
-			this.missionDescription = null;
+			this.missionId = this.nextId;
 			if( this.missionCache ) {
 				this.missions.splice(this.missions.indexOf(this.missionCache), 1);
 				this.missionCache = null;
@@ -47,19 +52,7 @@ export const component = {
 		},
 		load( mission ) {
 			this.missionCache = mission;
-
 			this.missionId = mission.id;
-			this.missionTitle = mission.title;
-			this.missionDescription = mission.description;
 		}
 	}
-}
-Vue.component( 'mission-editor-widget', component );
-
-export const vm = new Vue ({
-	el: "#mission-editor-widget",
-	i18n,
-	data: {
-		missions: []
-	}
-});
+};

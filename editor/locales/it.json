@@ -12,6 +12,24 @@
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
 		"label-locale-select": "Seleziona l'internazionalizzazione corrente da modificare"
 	},
+	"StoryEditorWidget" : {
+		"label-story-title": "Titolo della storia",
+		"label-story-description" : "Descrizione della storia",
+		"gamemodes" : {
+			"solo" : {
+				"label" : "Modalità individuale",
+				"description" : "Il giocatore gioca individualmente"
+			},
+			"group" : {
+				"label" : "Modalità gruppo",
+				"description" : "I giocatori collaborano in un gruppo"
+			},
+			"class" : {
+				"label" : "Modalità classe",
+				"description" : "I gruppi agiscono indipendentemente e sono in competizione"
+			}
+		}
+	},
 	"MissionEditorWidget" : {
 		"label-mission-title": "Titolo della missione",
 		"label-mission-description" : "Descrizione della missione",

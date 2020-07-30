@@ -12,6 +12,24 @@
 		"label-i18n-select": "Select and add an internationalization to make it available",
 		"label-locale-select": "Select current internationalization to edit"
   	},
+	"StoryEditorWidget" : {
+		"label-story-title": "Story title",
+		"label-story-description" : "Story description",
+		"gamemodes" : {
+			"solo" : {
+				"label" : "Solo mode",
+				"description" : "The player plays individually"
+			},
+			"group" : {
+				"label" : "Group mode",
+				"description" : "The players collaborate each to other in a group"
+			},
+			"class" : {
+				"label" : "Class mode",
+				"description" : "The groups play independently and are in competitions"
+			}
+		}
+	},
 	"MissionEditorWidget" : {
 		"label-mission-title": "Mission title",
 		"label-mission-description" : "Mission description",

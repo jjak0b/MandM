@@ -1,6 +1,10 @@
+#story-editor-widget-section div {
+    float:left;
+    display:block;
+    margin:10px;
+}
+
 div.sezionealto{
-    width:90%;
-    height: 50%;
     border: solid 3px #42b983;
     padding: 5px;
 }
@@ -77,4 +81,9 @@ button#bottonefinale{
     width: 100px;
     height: 50px;
     background-color: #32c011
+}
+
+
+div#sezioneBottoni{
+    float:right;
 }

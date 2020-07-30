@@ -4,6 +4,7 @@ import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget
 export const component = {
 	template: template,
 	props: {
+		value: Object, // mission cache
 		missions: Array,
 		locale: String,
 		localesData: Object
@@ -11,8 +12,7 @@ export const component = {
 	data : function () {
 		return {
 			nextId: 0,
-			missionId: 0,
-			missionCache: null
+			missionId: 0
 		}
 	},
 	components: {
@@ -27,9 +27,9 @@ export const component = {
 	},
 	methods: {
 		save() {
-			let mission = this.missionCache;
+			let mission = this.value;
 			if( !mission ) {
-				mission = [];
+				mission = {};
 				this.missions.push( mission );
 				mission.id = this.nextId++;
 				mission.title = this.localeTitle;
@@ -38,20 +38,20 @@ export const component = {
 			}
 
 			// set new Id, so new locale data will be available
-			this.missionCache = null;
+			this.value = null;
 			this.missionId = this.nextId;
 			console.log( "Set new ID: " , this.missionId  );
 
 		},
 		remove() {
 			this.missionId = this.nextId;
-			if( this.missionCache ) {
-				this.missions.splice(this.missions.indexOf(this.missionCache), 1);
-				this.missionCache = null;
+			if( this.value ) {
+				this.missions.splice(this.missions.indexOf(this.value), 1);
+				this.value = null;
 			}
 		},
 		load( mission ) {
-			this.missionCache = mission;
+			this.value = mission;
 			this.missionId = mission.id;
 		}
 	}

@@ -11,20 +11,31 @@ export const template =
 			class="tab-pane fade container"
 			role="tabpanel"
 			aria-labelledby="story-tab">
-			<story-editor-widget id="story-editor-widget"></story-editor-widget>
+			<story-editor-widget
+			id="story-editor-widget"
+			v-model="cache.story"></story-editor-widget>
 		</section>
-		<section id="mission-editor-widget-section" class="tab-pane fade container" role="tabpanel" aria-labelledby="missions-tab">
+		<section
+			id="mission-editor-widget-section"
+			class="tab-pane fade container"
+			role="tabpanel"
+			aria-labelledby="missions-tab">
 			<mission-editor-widget id="mission-editor-widget"
-			   v-bind:missions="missions"
-			   v-bind:locale="locale"
-			   v-bind:localesData="localesData"></mission-editor-widget>
+			 	v-bind:missions="cache.story.missions"
+			 	v-bind:locale="locale"
+				v-bind:localesData="cache.story.localesData"
+			 	v-model="cache.mission"></mission-editor-widget>
 		</section>
-		<section id="activity-editor-widget-section" class="tab-pane fade container" role="tabpanel" aria-labelledby="activities-tab">
+		<section
+			id="activity-editor-widget-section"
+			class="tab-pane fade container"
+			role="tabpanel"
+			aria-labelledby="activities-tab">
 			<activity-editor-widget id="activity-editor-widget"
-			   v-bind:missions="missions"
-			   v-bind:activities="activities"
-			   v-bind:locale="locale"
-			   v-bind:localesData="localesData"></activity-editor-widget> 
+				v-bind:mission="cache.mission"
+				v-bind:locale="locale"
+				v-bind:localesData="cache.story.localesData"
+				v-model="cache.activity"></activity-editor-widget>
 		</section>
 	</div>
 </div>

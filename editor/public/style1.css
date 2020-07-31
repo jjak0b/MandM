@@ -87,3 +87,11 @@ button#bottonefinale{
 div#sezioneBottoni{
     float:right;
 }
+
+#story-editor-widget-section div{
+    display:block;
+}
+
+#sezioneinfo{
+    float:right;
+}

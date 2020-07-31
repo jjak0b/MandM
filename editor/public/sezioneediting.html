@@ -41,46 +41,44 @@
                     <img class="pulsanteMod" id="mod1" src="61456.png" height="10" width="10">
                     </div>
                 <!-- Preparare la sezione di pulsanti nel caso premi l'img delle opzioni, esce fuori la tenda con i bottoni etc..  -->
-
-            <div class="cSezioneCentrale">
-                <div id="Miniziale" class="cMissione">
-                    <button class="pulsanteAdd" onclick="aggiungi()">Aggiungi </button>
-                    <!-- L'immg e' per testing per il testo che si mette sopra di esso  -->
-                    <!--<img src="PaintingInizio.png" height="200"> --->
-                    <!-- Sistemare sta cacchio di img, devo metterlo a fianco del titolo, non e' definitivo  -->
-                    <h2>{{titolo_missione_iniziale}}</h2>
-                    <div class="cDescrizioneMiss">
-                        {{descrizione_missione}}
-
-                        <!-- Dumbfuck non vuole stare oltre l'img  -->
-                        <!-- Manca da mettere gli obiettivi, pulsante di modifica  e alcuni descrittori per definire di che tipo e' la missione
-                         es. Tipo=iniziale Precedente=Null/fallita/superata-->
-                        <img class="pulsanteMod" src="61456.png" height="10" width="10">
-                    </div>
-                </div>
-                <div id="Mfinale" class="cMissione">
-                    <!-- <img src="PaintingInizio.png" height="200" >-->
-                    <h2>{{titolo_missione_finale}}</h2><br>
-
-                    <div class="cDescrizioneMiss">
-                        {{descrizione_missione}}
-                    </div>
-                    <div>
-                        <img class="pulsanteMod" src="61456.png" height="10" width="10">
-                    </div>
-                </div>
-
+            <div class="centroStor">
+            <div id="descrizioneSto">
+                <p>{{descrizione_Stor}}</p>
             </div>
+                <div id="sezioneinfo">
 
+                    <input type="range" max="17" min="6" name="et" id="rangemin" >
+                    <label for="et">Et&aacute; Min:<span id="demomin"></span></label>
+                    <input type="range" max="18" min="7" name="et" id="rangemax" >
+                    <label for="et">Et&aacute; Max:<span id="demomax"></span></label>
+                    <script>
+                        var slidermin = document.getElementById("rangemin");
+                        var outputmin = document.getElementById("demomin");
+                        var slidermax = document.getElementById("rangemax");
+                        var outputmax = document.getElementById("demomax");
+                        outputmin.innerHTML = slidermin.value;
 
-            <!-- Ogni volta che si decide di voler creare una nuova storia, ci saranno sempre di default 1 scenario iniziale e 1 finale
-              (possiamo metterci un esempio), per ogni scenario che l'utente aggiunge esso va messo tra l'iniziale e finale.
-              a differenza di quelli gia' presenti, i nuovi scenari hanno un bottone aggiuntivo, quello di modifica-->
+                        slidermin.oninput = function() {
+                            outputmin.innerHTML = this.value;
+                            slidermax.setAttribute("min",slidermin.value);
+                        }
 
-            <div id="sezionefinale">
-                <button id="bottonefinale" onclick="">Salva</button>
-                <!-- Per ora solo il pulsante per salvare la storia, potrei mettere un onClick che controlli che la storia
-                 abbia un titolo valido e altro-->
+                        outputmax.innerHTML = slidermax.value;
+
+                        slidermax.oninput = function() {
+                            outputmax.innerHTML = this.value;
+                            slidermin.setAttribute("max",slidermax.value);
+                        }
+                    </script>
+                    <p>Tipo di partita</p>
+                    <input type="checkbox" id="singolo" name="tipoStor" value="singolo" >
+                    <label for="singolo">Singolo</label>
+                    <input type="checkbox" id="cooperativo" name="tipoStor" value="cooperativo">
+                    <label for="cooperativo">Cooperativo</label>
+                    <input type="checkbox" id="squadre" name="tipoStor" value="squadre">
+                    <label for="squadre">Squadre</label>
+
+                </div>
             </div>
 
         </section>

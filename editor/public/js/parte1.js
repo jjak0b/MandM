@@ -2,7 +2,7 @@ var agg= new Vue({
     el:'#agg',
     methods: {
         aggiungi:function (){
-           if (is_parent($('#container').selected)){
+           if (data.selected.has_children){
 alert("daddy");
            }
         }
@@ -19,3 +19,7 @@ var rem= new Vue({
 })
 
 $(button).addEventListener("click", aggiungi);
+
+$(".demoqr").qrcode({
+    text:'https://www.jqueryscript.net'
+});

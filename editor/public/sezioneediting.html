@@ -92,6 +92,7 @@
             <script>
                 $(function() {
                     $('#container').jstree({
+
                         'core' : {
                             "check_callback" : true,
                             'data' : [
@@ -115,7 +116,29 @@
                                 }
                             ]
                         },
-                        "plugins" : ["dnd"]
+                        'types': {
+                          "#":{
+                              'max_children':0,
+                          'max_depth':3,
+                              'valid_children': ["rootMiss"]
+                          },
+                            'rootMiss':{
+                              'max_children': 2,
+                                'valid_children':["success" , "failure"]
+                            },
+                            'success':{
+                              'max_children':4
+                            },
+                            'failure':{
+                                'max_children':4
+                            }
+
+                        },
+
+                        "plugins" : [
+                            "contextmenu", "dnd", "search",
+                            "state", "types", "wholerow"
+                        ]
                     });
 
                 });

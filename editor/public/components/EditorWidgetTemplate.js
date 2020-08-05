@@ -23,7 +23,6 @@ export const template =
 			<mission-editor-widget id="mission-editor-widget"
 			 	v-bind:missions="cache.story.missions"
 			 	v-bind:locale="locale"
-				v-bind:localesData="cache.story.localesData"
 			 	v-model="cache.mission"></mission-editor-widget>
 		</section>
 		<section
@@ -34,7 +33,6 @@ export const template =
 			<activity-editor-widget id="activity-editor-widget"
 				v-bind:mission="cache.mission"
 				v-bind:locale="locale"
-				v-bind:localesData="cache.story.localesData"
 				v-model="cache.activity"></activity-editor-widget>
 		</section>
 	</div>

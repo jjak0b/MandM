@@ -1,5 +1,5 @@
 import {template} from "./EditorWidgetTemplate.js"
-import {i18n, localesData} from "./Translations.js";
+import { i18n, i18nContent } from "./Translations.js";
 import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./I18nSelectorWidget.js";
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
 import { component as storyEditorComponent } from "./StoryEditorWidget.js";
@@ -14,8 +14,7 @@ export const component = {
 			cache: {
 				story: { // data to export
 					missions: [],
-					activities: [],
-					localesData: {}
+					activities: []
 				},
 				mission: null,
 				activity: null
@@ -28,6 +27,11 @@ export const component = {
 		'story-editor-widget': storyEditorComponent,
 		'mission-editor-widget': missionEditorComponent,
 		'activity-editor-widget': activityEditorComponent
+	},
+	watch: {
+		'locale' : function ( newLocale ) {
+			i18nContent.locale = newLocale;
+		}
 	}
 }
 

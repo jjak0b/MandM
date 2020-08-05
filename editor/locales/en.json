@@ -3,6 +3,7 @@
 		"label-save": "Save",
 		"label-remove": "Remove",
 		"label-add": "Add",
+		"label-duplicate" : "Duplicate",
 		"label-i18n" : "Internationalize",
 		"label-mission": "Missions | Mission",
 		"label-activity": "Activity | Activities",
@@ -34,5 +35,9 @@
 		"label-mission-title": "Mission title",
 		"label-mission-description" : "Mission description",
 		"label-mission-list" : "Mission list"
-  	}
+  	},
+	"ActivityEditorWidget" : {
+		"label-activity-title" : "Activity title",
+		"label-activity-description" : "Activity description"
+	}
 }

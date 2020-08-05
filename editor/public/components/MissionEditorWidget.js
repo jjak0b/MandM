@@ -6,8 +6,7 @@ export const component = {
 	props: {
 		value: Object, // mission cache
 		missions: Array,
-		locale: String,
-		localesData: Object
+		locale: String
 	},
 	data : function () {
 		return {
@@ -41,18 +40,20 @@ export const component = {
 			this.value = null;
 			this.missionId = this.nextId;
 			console.log( "Set new ID: " , this.missionId  );
-
+			this.$emit( 'input', this.value );
 		},
 		remove() {
 			this.missionId = this.nextId;
 			if( this.value ) {
 				this.missions.splice(this.missions.indexOf(this.value), 1);
 				this.value = null;
+				this.$emit( 'input', this.value );
 			}
 		},
 		load( mission ) {
 			this.value = mission;
 			this.missionId = mission.id;
+			this.$emit( 'input', this.value );
 		}
 	}
 };

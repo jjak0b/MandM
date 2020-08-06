@@ -88,8 +88,15 @@ export const component = {
 				this.setValue( parent );
 			}
 		},
-		duplicate() {
-
+		duplicate(self = this.value ) {
+			let id = this.nextId++;
+			let activity = {
+				id: id,
+				title: self.localeTitle+id,
+				description: self.localeDescription+id,
+				parent: self.parent,
+				children: self.children
+			}
 		},
 		isRoot() {
 			if( this.value && Number.isInteger( this.value.id )){

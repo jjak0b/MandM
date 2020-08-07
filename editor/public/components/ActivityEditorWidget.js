@@ -16,20 +16,32 @@ export const component = {
 	data() {
 		return {
 			nextId: 0,
-			activityId: null
+			activityId: null,
+			treeRoot: null,
+			refresh: false,
+			activityTypes: {
+				"tell" : "ActivityEditorWidget.activity-type.tell",
+				"condition": "ActivityEditorWidget.activity-type.condition"
+			}
 		}
 	},
 	watch: {
 		'mission' : function( mission ) {
 			if( mission ) {
 				if( !('tree' in mission) ){
-					Vue.set( mission, 'tree', { } );
+					mission['tree'] = {};
 				}
 				if( !( 'children' in mission.tree ) ) {
-					Vue.set( mission.tree, 'children', [] ) ;
+					mission['tree']['children'] = [];
 				}
-				console.log( "changed mission to:", mission)
-				this.setValue( mission.tree );
+				if( !( 'title' in mission.tree ) ) {
+					mission['tree']['title'] = mission.title;
+				}
+				if( !( 'type' in mission.tree ) ) {
+					mission['tree']['type'] = "#";
+				}
+				this.treeRoot = mission.tree;
+				this.setValue( this.treeRoot );
 			}
 			else{
 				this.setValue( null );
@@ -42,9 +54,8 @@ export const component = {
 	},
 	methods: {
 		setValue(value ) {
-			this.value = value;
 			this.activityId = value ? value.id : null;
-			this.$emit( 'input', this.value );
+			this.$emit( 'input', value );
 		},
 		save() {
 			let activity = this.value;
@@ -58,14 +69,14 @@ export const component = {
 			}
 
 			// set new Id, so new locale data will be available
-			this.value = null;
 			this.activityId = this.nextId;
 			console.log( "Set new ID: " , this.activityId  );
-			this.$emit( 'input', this.value );
+			this.setValue( null );
 		},
 		load( activity ) {
 			this.activityId = activity.id;
 			this.setValue( activity );
+			this.target = activity;
 		},
 		add: function( self = this.value ) {
 			let id = this.nextId++;
@@ -96,41 +107,26 @@ export const component = {
 				return false;
 			}
 			return true
+		},
+		onAdd(){
+			let id = this.nextId++;
+			let item = {
+				id: id,
+				title: 'activity.title.'+id,
+				description: 'activity.description.'+id,
+				type: "tell",
+				children: [] // TODO: SET only if conditional activity
+			}
+			this.setValue( item );
+			// item['id'] = this.$refs.treeView.Add( item, parent );
+
+			this.$refs.treeView.add( item );
+		},
+		onRemove(){
+			this.$refs.treeView.remove();
+		},
+		onDuplicate(){
+			this.$refs.treeView.duplicate();
 		}
-	},
-	updated() {
-		let self = this;
-		let e = document.getElementById('treeView');
-		if( !e )
-			console.error( e );
-		this.$nextTick( function(){
-			$(e).jstree({
-				"core" : {
-					// so that create works
-					"check_callback" : true
-				}
-			});
-		});
 	}
 };
-/*
-function TreeFromDataToJSON( root, locale, localeData ){
-	if( !root ){
-		return null;
-	}
-	else {
-		let obj = {
-			a_attr: {
-				'v-html': VueI18n.$t( root.title, locale, localeData );
-			}
-		};
-
-		if( root.children ) {
-			obj[ 'children' ] = [];
-			for (let i = 0; i < root.children.length) {
-				obj.children[i] = TreeFromDataToJSON(component, root.children[i])
-			}
-		}
-		return obj;
-	}
-}*/

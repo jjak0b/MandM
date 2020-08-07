@@ -1,5 +1,5 @@
 import {template} from "./I18nInputWidgetTemplate.js";
-import {i18nContent} from "./Translations.js";
+import {i18nContent, I18nString} from "./Translations.js";
 
 export const component = {
 	i18n: i18nContent,
@@ -35,16 +35,8 @@ export const component = {
 		}
 	},
 	methods: {
-		buildObjectFromLabel( localeLabel, value ){
-			let obj = {};
-			let ref = obj;
-			localeLabel.split('.').forEach( ( key, i, keys) => {
-				ref = ref[ key ] = ( i == (keys.length-1) ? value : {} );
-			});
-			return obj;
-		},
 		setContentOf( locale, label, value) {
-			let obj = this.buildObjectFromLabel( label, value );
+			let obj = I18nString.buildObjectFromLabel( label, value );
 			this.$i18n.mergeLocaleMessage( locale, obj );
 			return obj;
 		},

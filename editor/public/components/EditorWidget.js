@@ -31,6 +31,13 @@ export const component = {
 	watch: {
 		'locale' : function ( newLocale ) {
 			i18nContent.locale = newLocale;
+			console.info("[Editor]","Updated current", "locale", newLocale );
+		},
+		'cache.mission': function( newVal ) {
+			console.info("[Editor]","Updated current", "mission", newVal );
+		},
+		'cache.activity': function( newVal ) {
+			console.info("[Editor]","Updated current", "activity", newVal );
 		}
 	}
 }

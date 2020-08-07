@@ -38,6 +38,18 @@
 	},
 	"ActivityEditorWidget" : {
 		"label-activity-title" : "Titolo dell'attività",
-		"label-activity-description" : "Descrizione dell'attività"
+		"label-activity-description" : "Descrizione dell'attività",
+		"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
+		"label-activity-type" : "Seleziona tipologia di attività",
+		"activity-type" : {
+			"condition" : {
+				"label" : "Condizionale",
+			  	"description" : "Crea una ramificazione degli esiti possibili"
+			},
+		  	"tell" : {
+				"label" : "Racconto",
+				"description" : "Spiega e racconta un dialogo"
+			}
+		}
 	}
 }

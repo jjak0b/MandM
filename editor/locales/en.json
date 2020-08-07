@@ -5,7 +5,7 @@
 		"label-add": "Add",
 		"label-duplicate" : "Duplicate",
 		"label-i18n" : "Internationalize",
-		"label-mission": "Missions | Mission",
+		"label-mission": "Mission | Missions",
 		"label-activity": "Activity | Activities",
 		"label-story": "Story | Stories"
   	},
@@ -38,6 +38,18 @@
   	},
 	"ActivityEditorWidget" : {
 		"label-activity-title" : "Activity title",
-		"label-activity-description" : "Activity description"
+		"label-activity-description" : "Activity description",
+		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
+		"label-activity-type" : "Select an activity type",
+		"activity-type" : {
+			"condition" : {
+				"label" : "Condition",
+				"description" : "Create a branch of possible results"
+			},
+			"tell" : {
+				"label" : "Telltales",
+				"description" : "Explain and tell a dialogue"
+			}
+		}
 	}
 }

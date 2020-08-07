@@ -37,23 +37,24 @@ export const component = {
 			}
 
 			// set new Id, so new locale data will be available
-			this.value = null;
 			this.missionId = this.nextId;
 			console.log( "Set new ID: " , this.missionId  );
-			this.$emit( 'input', this.value );
+			this.setValue( null )
 		},
 		remove() {
 			this.missionId = this.nextId;
 			if( this.value ) {
 				this.missions.splice(this.missions.indexOf(this.value), 1);
-				this.value = null;
-				this.$emit( 'input', this.value );
+				this.setValue( null );
 			}
 		},
 		load( mission ) {
-			this.value = mission;
+			// this.value = mission;
 			this.missionId = mission.id;
-			this.$emit( 'input', this.value );
+			this.setValue( mission );
+		},
+		setValue( value ) {
+			this.$emit( 'input', value );
 		}
 	}
 };

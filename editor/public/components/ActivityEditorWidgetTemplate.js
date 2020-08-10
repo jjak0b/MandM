@@ -17,10 +17,10 @@ export const template =
 				aria-describedby="activityTreeDescription"
 				ref="treeView"
 				v-if="mission != null"
-				v-model="treeRoot"
 				v-bind:target="value"
 				v-bind:locale="locale"
 				v-on:select="load"
+				v-on:input="updateTree"
 			></activity-tree-widget>
 		</div>
 	</div>
@@ -88,7 +88,7 @@ export const template =
 									type="text"
 									required="required"
 									class="form-control"
-									v-bind:disabled="mission ? true : false"
+									v-bind:disabled="!mission || isRoot()"
 									v-bind:locale="locale"
 									v-bind:locale-label="localeTitle"
 								></i18n-input-widget>
@@ -105,7 +105,7 @@ export const template =
 									name="activityDescription"
 									class="form-control"
 									rows="4"
-									v-bind:disabled="mission ? true : false"
+									v-bind:disabled="!mission || isRoot()"
 									v-bind:locale="locale"
 									v-bind:locale-label="localeDescription"
 								></i18n-input-widget>

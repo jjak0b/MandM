@@ -1,6 +1,7 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
+import JSTreeNode from "../js/JSTreeNode.js";
 
 export const component = {
 	template: template,
@@ -17,7 +18,6 @@ export const component = {
 		return {
 			nextId: 0,
 			activityId: null,
-			treeRoot: null,
 			refresh: false,
 			activityTypes: {
 				"tell" : "ActivityEditorWidget.activity-type.tell",
@@ -29,33 +29,31 @@ export const component = {
 		'mission' : function( mission ) {
 			if( mission ) {
 				if( !('tree' in mission) ){
-					mission['tree'] = {};
+					mission['tree'] = new JSTreeNode( undefined, "#", { title: mission.title}, [] );
 				}
-				if( !( 'children' in mission.tree ) ) {
-					mission['tree']['children'] = [];
-				}
-				if( !( 'title' in mission.tree ) ) {
-					mission['tree']['title'] = mission.title;
-				}
-				if( !( 'type' in mission.tree ) ) {
-					mission['tree']['type'] = "#";
-				}
-				this.treeRoot = mission.tree;
-				this.setValue( this.treeRoot );
+				console.info( "[ActivityEditor]", "changed mission tree", mission['tree'] );
+				this.$nextTick( function () {
+					this.loadTree( mission.tree ); // load tree into Tree component
+					this.load( mission.tree ); // set current activity
+				})
 			}
 			else{
-				this.setValue( null );
+				this.load( null );
 			}
 		}
 	},
 	computed: {
-		localeTitle: 		function () {  return this.value && Number.isInteger( this.value.id ) ? 'activity.title.' + this.value.id : null },
-		localeDescription: 	function () {  return this.value && Number.isInteger( this.value.id ) ? 'activity.description.' + this.value.id : null }
+		localeTitle: 		function () {  return this.value && this.value.id && !this.isRoot() ? 'activity.title.' + this.value.id : null },
+		localeDescription: 	function () {  return this.value && this.value.id && !this.isRoot() ? 'activity.description.' + this.value.id : null }
 	},
 	methods: {
 		setValue(value ) {
 			this.activityId = value ? value.id : null;
+			// this.value = value;
 			this.$emit( 'input', value );
+		},
+		updateTree( value ) {
+			Vue.set( this.mission, "tree", value );
 		},
 		save() {
 			let activity = this.value;
@@ -74,9 +72,8 @@ export const component = {
 			this.setValue( null );
 		},
 		load( activity ) {
-			this.activityId = activity.id;
+			console.info( "[ActivityEditor]", "Loading current activity", activity );
 			this.setValue( activity );
-			this.target = activity;
 		},
 		add: function( self = this.value ) {
 			let id = this.nextId++;
@@ -110,21 +107,35 @@ export const component = {
 			}
 		},
 		isRoot() {
-			if( this.value && Number.isInteger( this.value.id )){
-				return false;
+			if( this.value && this.value.id== JSTreeNode.DEFAULT.id ){
+				return true;
 			}
-			return true
+			return false;
+		},
+		loadTree( tree ) {
+			this.$refs.treeView.load( tree );
 		},
 		onAdd(){
 			let id = this.nextId++;
-			let item = {
+			let item = new JSTreeNode(
+				id,
+				"tell",
+				{
+					title: 'activity.title.'+id,
+					description: 'activity.description.'+id
+				},
+				[]
+			);
+			/*let item = {
 				id: id,
-				title: 'activity.title.'+id,
-				description: 'activity.description.'+id,
+				data: {
+					title: 'activity.title.'+id,
+					description: 'activity.description.'+id
+				},
 				type: "tell",
-				children: [] // TODO: SET only if conditional activity
-			}
-			this.setValue( item );
+				children: []
+			}*/
+			// this.setValue( item );
 			// item['id'] = this.$refs.treeView.Add( item, parent );
 
 			this.$refs.treeView.add( item );

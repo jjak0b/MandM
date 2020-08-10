@@ -1,16 +1,17 @@
 import {template} from "./ActivityTreeWidgetTemplate.js";
 import {i18n, i18nContent, I18nString } from "./Translations.js";
+import JSTreeNode from "../js/JSTreeNode.js";
 
 export const component = {
 	i18n: i18nContent,
 	template: template,
 	props: {
-		value : Object,
 		target: Object,
 		locale : String
 	},
 	data() {
 		return {
+			value : null,
 			tree: null,
 		}
 	},
@@ -22,25 +23,24 @@ export const component = {
 		"target.type": function( newVal ) {
 			let selectedNode = this.tree.get_selected(true)[0];
 			if( selectedNode ){
-				selectedNode.a_attr[ "aria-roledescription" ].label = getRoleDescriptionLabelByType( newVal );
+				selectedNode.a_attr[ "aria-roledescription" ].label = JSTreeNode.getRoleDescriptionLabelByType( newVal );
 				this.tree.set_type( selectedNode, newVal );
 				this.redraw();
 			}
-
 		}
 	},
 	updated(){
 		this.redraw();
 	},
-	mounted() {
-		this.$nextTick( function() {
-			console.info("[ActivityEditor]", "loading new", "action", this.value )
- 			this.load( this.value );
-		});
-	},
 	methods: {
-		setValue( value ){
-			this.$emit( 'input', value );
+		notifyValue() {
+			let jsonNode = this.tree.get_json( '#', {
+				no_state: true,
+				no_li_attr: true,
+				no_a_attr: true,
+				flat: false
+			})[0];
+			this.$emit( 'input', JSTreeNode.parse( jsonNode ) );
 		},
 		redraw(){
 			/*
@@ -49,16 +49,23 @@ export const component = {
 			 */
 			this.$nextTick( function() {
 				this.tree.redraw( true );
+				this.notifyValue();
 			});
 		},
-		load( tree ) {
+		load( jsonData ) {
 			let self = this;
 			let e = this.$refs.treeView;
 			if( !e ) console.error( "[ActivityEditor]", "No TreeView found" );
-			let jsonData = TreeFromDataToJSON( tree );
+			if( this.tree ) {
+				this.tree.destroy( false );
+				this.tree = null;
+			}
+			if( !jsonData ) return;
+
+			console.info("[ActivityTree]", "loading new", "activity tree", jsonData );
+
 			// open root
 			jsonData[ 'state'] = { opened: true, selected: true };
-
 			$( e ).jstree({
 				"core": {
 					// so that create works
@@ -102,12 +109,21 @@ export const component = {
 		},
 		onSelect( event, data ) {
 			let node = data.instance.get_node(data.selected[0]);
-			let item = node.data;
-			this.$emit( "select", item );
+			// let item = node.data;
+			let jsonNode = this.tree.get_json(
+				node,
+				{
+					no_state: true,
+					no_li_attr: true,
+					no_a_attr: true,
+					flat: false
+				}
+			);
+			this.$emit( "select", JSTreeNode.parse( jsonNode ) );
 		},
-		add( item ) {
-			if (!item ) return;
-			let jsonNode = TreeFromDataToJSON( item );
+		add( jsonNode ) {
+			if (!jsonNode ) return;
+			// let jsonNode = TreeFromDataToJSON( item );
 			let parentNode = null;
 			let position = null;
 			let selectedNode = this.tree.get_selected(true)[0];
@@ -140,7 +156,6 @@ export const component = {
 				then redraw the tree to update the texts
 			*/
 			this.redraw();
-
 		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];
@@ -149,38 +164,6 @@ export const component = {
 			i18nContent.removeMessageAll( selectedNode.data.description );
 			this.tree.delete_node( selectedNode );
 			this.tree.select_node( nextSelectNode  );
-
-
 		}
 	}
 };
-
-
-function getRoleDescriptionLabelByType( type ){
-	return type != "#" ? "ActivityEditorWidget.activity-type." + type + ".label" : "shared.label-mission";
-}
-function TreeFromDataToJSON( root ){
-	if( !root ){
-		return null;
-	}
-	else {
-		let roleLabelDescription = getRoleDescriptionLabelByType( root.type );
-		let obj = {
-			// id: "a_" + ( root.id != undefined ? root.id : -1 ),
-			text: new I18nString( i18nContent, root.title ),
-			type: root.type,
-			data: root,
-			a_attr: {
-				"aria-roledescription": new I18nString( i18n, roleLabelDescription )
-			}
-		};
-
-		if( root.children ) {
-			obj[ 'children' ] = [];
-			for (let i = 0; i < root.children.length; i++ ) {
-				obj.children.push( TreeFromDataToJSON(root.children[i]) );
-			}
-		}
-		return obj;
-	}
-}

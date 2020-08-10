@@ -6,6 +6,7 @@ export const component = {
 	template: template,
 	inheritAttrs: false,
 	props: {
+		"disabled": Boolean,
 		"tag": String,
 		"value": Object,
 		"locale": String, /* current i18n */
@@ -18,7 +19,7 @@ export const component = {
 		}
 	},
 	computed: {
-		isDisabled: function() { return !this.locale || !this.localeLabel }
+		isDisabled: function() { return this.disabled || !this.locale || !this.localeLabel }
 	},
 	watch: {
 		locale: function ( newLocale ) {

@@ -1,0 +1,20 @@
+{
+  "players": {
+    "name": "Nome giocatore",
+    "story": "Storia",
+    "points": "0",
+    "status": "Posizione nella storia"
+  },
+  "coop": {
+    "components": [],
+    "story": "Storia",
+    "points": "0",
+    "status": "Posizione nella storia"
+  },
+  "team": {
+    "components": [],
+    "story": "Storia",
+    "points": "0",
+    "status": "Posizione nella storia"
+  }
+}

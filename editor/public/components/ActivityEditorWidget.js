@@ -21,7 +21,7 @@ export const component = {
 			refresh: false,
 			activityTypes: {
 				"tell" : "ActivityEditorWidget.activity-type.tell",
-				"condition": "ActivityEditorWidget.activity-type.condition"
+				"quest": "ActivityEditorWidget.activity-type.quest"
 			}
 		}
 	},

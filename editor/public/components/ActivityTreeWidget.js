@@ -82,14 +82,14 @@ export const component = {
 				"types":{
 					"#": {
 						"valid_children": [
-							"condition",
+							"quest",
 							"tell"
 						],
 						"icon": "glyphicon glyphicon-briefcase"
 					},
-					"condition": {
+					"quest": {
 						"valid_children": [
-							"condition",
+							"quest",
 							"tell"
 						],
 						"icon": "glyphicon glyphicon-info-sign"
@@ -136,7 +136,7 @@ export const component = {
 
 				switch( type ){
 					case "#":
-					case "condition" :
+					case "quest" :
 						parentNode = selectedNode;
 						id = this.tree.create_node( parentNode, jsonNode, 'last' );
 						break;

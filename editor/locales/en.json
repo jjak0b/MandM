@@ -42,9 +42,9 @@
 		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
 		"label-activity-type" : "Select an activity type",
 		"activity-type" : {
-			"condition" : {
-				"label" : "Condition",
-				"description" : "Create a branch of possible results"
+			"quest" : {
+				"label" : "Quest",
+				"description" : "Create an interactive activity which will create a branch of possible results"
 			},
 			"tell" : {
 				"label" : "Telltales",

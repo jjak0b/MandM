@@ -167,6 +167,9 @@ export const template =
 							</div>
 						</fieldset>
 					</div>
+					<options-condition-widget
+					v-if="this.$refs.treeView.isCondition()">
+					</options-condition-widget>
 				</div>
 			</form>
 		</div>

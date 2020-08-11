@@ -34,39 +34,39 @@ export const component = {
 	},
 	methods: {
 		notifyValue() {
-			let jsonNode = this.tree.get_json( '#', {
+			let jsonNode = this.tree.get_json('#', {
 				no_state: true,
 				no_li_attr: true,
 				no_a_attr: true,
 				flat: false
 			})[0];
-			this.$emit( 'input', JSTreeNode.parse( jsonNode ) );
+			this.$emit('input', JSTreeNode.parse(jsonNode));
 		},
-		redraw(){
+		redraw() {
 			/*
 				a jstree error happens if not delayed by 1 tick,
 				probably si caused by performing blur, focus, ... events and redrawing at same tick
 			 */
-			this.$nextTick( function() {
-				this.tree.redraw( true );
+			this.$nextTick(function () {
+				this.tree.redraw(true);
 				this.notifyValue();
 			});
 		},
-		load( jsonData ) {
+		load(jsonData) {
 			let self = this;
 			let e = this.$refs.treeView;
-			if( !e ) console.error( "[ActivityEditor]", "No TreeView found" );
-			if( this.tree ) {
-				this.tree.destroy( false );
+			if (!e) console.error("[ActivityEditor]", "No TreeView found");
+			if (this.tree) {
+				this.tree.destroy(false);
 				this.tree = null;
 			}
-			if( !jsonData ) return;
+			if (!jsonData) return;
 
-			console.info("[ActivityTree]", "loading new", "activity tree", jsonData );
+			console.info("[ActivityTree]", "loading new", "activity tree", jsonData);
 
 			// open root
-			jsonData[ 'state'] = { opened: true, selected: true };
-			$( e ).jstree({
+			jsonData['state'] = {opened: true, selected: true};
+			$(e).jstree({
 				"core": {
 					// so that create works
 					"check_callback": true,
@@ -79,7 +79,7 @@ export const component = {
 					"unique",
 					"types"
 				],
-				"types":{
+				"types": {
 					"#": {
 						"valid_children": [
 							"condition",
@@ -104,10 +104,10 @@ export const component = {
 					}
 				}
 			});
-			this.tree = $( e ).jstree(true);
-			$( e ).on( "select_node.jstree", this.onSelect );
+			this.tree = $(e).jstree(true);
+			$(e).on("select_node.jstree", this.onSelect);
 		},
-		onSelect( event, data ) {
+		onSelect(event, data) {
 			let node = data.instance.get_node(data.selected[0]);
 			// let item = node.data;
 			let jsonNode = this.tree.get_json(
@@ -119,10 +119,10 @@ export const component = {
 					flat: false
 				}
 			);
-			this.$emit( "select", JSTreeNode.parse( jsonNode ) );
+			this.$emit("select", JSTreeNode.parse(jsonNode));
 		},
-		add( jsonNode ) {
-			if (!jsonNode ) return;
+		add(jsonNode) {
+			if (!jsonNode) return;
 			// let jsonNode = TreeFromDataToJSON( item );
 			let parentNode = null;
 			let position = null;
@@ -131,25 +131,25 @@ export const component = {
 			let id = null;
 			let node = null;
 
-			if( selectedNode ){
-				let type = this.tree.get_type( selectedNode );
+			if (selectedNode) {
+				let type = this.tree.get_type(selectedNode);
 
-				switch( type ){
+				switch (type) {
 					case "#":
 					case "condition" :
 						parentNode = selectedNode;
-						id = this.tree.create_node( parentNode, jsonNode, 'last' );
+						id = this.tree.create_node(parentNode, jsonNode, 'last');
 						break;
 					default:
-						let parentId = this.tree.get_parent( selectedNode );
-						parentNode = this.tree.get_node( parentId );
-						position = parentNode.children.indexOf( selectedNode.id );
-						id = this.tree.create_node( parentNode, jsonNode, position );
+						let parentId = this.tree.get_parent(selectedNode);
+						parentNode = this.tree.get_node(parentId);
+						position = parentNode.children.indexOf(selectedNode.id);
+						id = this.tree.create_node(parentNode, jsonNode, position);
 						break;
 				}
 			}
-			this.tree.deselect_node( selectedNode.id );
-			this.tree.select_node( id );
+			this.tree.deselect_node(selectedNode.id);
+			this.tree.select_node(id);
 			/*
 				Wait next tick and so the parent gets the data.title and set it on the form's input
 				then the i18n content is updated but the selected item's text is not
@@ -159,11 +159,18 @@ export const component = {
 		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];
-			let nextSelectNode = this.tree.get_prev_dom( selectedNode );
-			i18nContent.removeMessageAll( selectedNode.data.title );
-			i18nContent.removeMessageAll( selectedNode.data.description );
-			this.tree.delete_node( selectedNode );
-			this.tree.select_node( nextSelectNode  );
+			let nextSelectNode = this.tree.get_prev_dom(selectedNode);
+			i18nContent.removeMessageAll(selectedNode.data.title);
+			i18nContent.removeMessageAll(selectedNode.data.description);
+			this.tree.delete_node(selectedNode);
+			this.tree.select_node(nextSelectNode);
+		},
+		isCondition() {
+			let selectedNode = this.tree.get_selected(true)[0];
+			if (this.tree.get_type(selectedNode) !== 'condition') {
+				return true
+			}
 		}
+
 	}
 };

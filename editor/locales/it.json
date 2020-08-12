@@ -1,8 +1,10 @@
 {
 	"shared" : {
+		"label-new-element": "Nuovo elemento {name}",
 		"label-save": "Salva",
 		"label-remove": "Rimuovi",
 		"label-add": "Aggiungi",
+		"label-add-name": "Aggiungi {name}",
 		"label-duplicate" : "Duplica",
 		"label-i18n" : "Internazionalizza",
 		"label-mission": "Missione | Missioni",
@@ -40,8 +42,8 @@
 		"label-activity-title" : "Titolo dell'attività",
 		"label-activity-description" : "Descrizione dell'attività",
 		"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
-		"label-activity-type" : "Seleziona tipologia di attività",
-		"activity-type" : {
+		"label-select-nodeType" : "Seleziona il tipo di elemento da aggiungere all'albero",
+		"treeNode-type" : {
 			"quest" : {
 				"label" : "Sfida",
 			  	"description" : "Crea un'attività interattiva, che porterà a uno o più esiti possibili"
@@ -49,6 +51,10 @@
 		  	"tell" : {
 				"label" : "Racconto",
 				"description" : "Spiega e racconta un dialogo"
+			},
+			"branch" : {
+				"label": "Ramo",
+				"description": "Descrive un possibile percorso della storia"
 			}
 		}
 	}

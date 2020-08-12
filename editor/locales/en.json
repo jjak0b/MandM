@@ -1,8 +1,10 @@
 {
 	"shared" : {
+		"label-new-element": "New {name} item",
 		"label-save": "Save",
 		"label-remove": "Remove",
 		"label-add": "Add",
+		"label-add-name": "Add {name}",
 		"label-duplicate" : "Duplicate",
 		"label-i18n" : "Internationalize",
 		"label-mission": "Mission | Missions",
@@ -40,8 +42,8 @@
 		"label-activity-title" : "Activity title",
 		"label-activity-description" : "Activity description",
 		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
-		"label-activity-type" : "Select an activity type",
-		"activity-type" : {
+		"label-select-nodeType" : "Select a type of element to add to the tree",
+		"treeNode-type" : {
 			"quest" : {
 				"label" : "Quest",
 				"description" : "Create an interactive activity which will create a branch of possible results"
@@ -49,6 +51,10 @@
 			"tell" : {
 				"label" : "Telltales",
 				"description" : "Explain and tell a dialogue"
+			},
+			"branch" : {
+				"label": "Branch",
+				"description": "Describes a possible path of the story"
 			}
 		}
 	}

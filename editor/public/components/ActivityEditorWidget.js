@@ -2,6 +2,7 @@ import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
+import NodeUtils from "../js/NodeUtils.js";
 
 export const component = {
 	template: template,
@@ -19,10 +20,13 @@ export const component = {
 			nextId: 0,
 			activityId: null,
 			refresh: false,
-			activityTypes: {
-				"tell" : "ActivityEditorWidget.activity-type.tell",
-				"quest": "ActivityEditorWidget.activity-type.quest"
-			}
+			nodeTypes: {
+				[NodeUtils.Types.Tell]: "ActivityEditorWidget.treeNode-type.tell",
+				[NodeUtils.Types.Quest]: "ActivityEditorWidget.treeNode-type.quest",
+				[NodeUtils.Types.Branch]: "ActivityEditorWidget.treeNode-type.branch",
+			},
+			NodeUtils: NodeUtils,
+			typeToAdd: null
 		}
 	},
 	watch: {
@@ -43,10 +47,27 @@ export const component = {
 		}
 	},
 	computed: {
-		localeTitle: 		function () {  return this.value && this.value.id && !this.isRoot() ? 'activity.title.' + this.value.id : null },
-		localeDescription: 	function () {  return this.value && this.value.id && !this.isRoot() ? 'activity.description.' + this.value.id : null }
+		localeTitle: 		function () {  return this.value && this.value.id ? 'activity.title.' + this.value.id : null },
+		localeDescription: 	function () {  return this.value && this.value.id ? 'activity.description.' + this.value.id : null }
 	},
 	methods: {
+		shouldShowTypeInSelector( type ){
+			if( !this.value || !type ){
+				return false;
+			}
+
+			switch( type ){
+				case NodeUtils.Types.Tell:
+				case NodeUtils.Types.Quest:
+					return [ "#", NodeUtils.Types.Branch, NodeUtils.Types.Tell].includes( this.value.type );
+					break;
+				case NodeUtils.Types.Branch:
+					return NodeUtils.Types.Quest == this.value.type;
+					break;
+			}
+
+			return true;
+		},
 		setValue(value ) {
 			this.activityId = value ? value.id : null;
 			// this.value = value;
@@ -55,46 +76,9 @@ export const component = {
 		updateTree( value ) {
 			Vue.set( this.mission, "tree", value );
 		},
-		save() {
-			let activity = this.value;
-			if( !activity ) {
-				activity = {};
-				this.makeFolder( activity );
-				activity.id = this.nextId++;
-				activity.title = this.localeTitle;
-				activity.description = this.localeDescription;
-				console.log( "registered new activity: ", activity );
-			}
-
-			// set new Id, so new locale data will be available
-			this.activityId = this.nextId;
-			console.log( "Set new ID: " , this.activityId  );
-			this.setValue( null );
-		},
 		load( activity ) {
 			console.info( "[ActivityEditor]", "Loading current activity", activity );
 			this.setValue( activity );
-		},
-		add: function( self = this.value ) {
-			let id = this.nextId++;
-			let activity = {
-				id: id,
-				title: 'activity.title.'+id,
-				description: 'activity.description.'+id,
-				parent: self,
-				children: []
-			}
-
-			if( self && self.children )
-				self.children.push( activity );
-			this.setValue( activity );
-		},
-		remove() {
-			if( this.value ) {
-				let parent = this.value.parent;
-				parent.children.splice(parent.children.indexOf(this.value), 1);
-				this.setValue( parent );
-			}
 		},
 		duplicate(self = this.value ) {
 			let id = this.nextId++;
@@ -106,8 +90,8 @@ export const component = {
 				children: self.children
 			}
 		},
-		isRoot() {
-			if( this.value && this.value.id== JSTreeNode.DEFAULT.id ){
+		isActivity() {
+			if( this.value && (this.value.type == NodeUtils.Types.Quest || this.value.type == NodeUtils.Types.Tell) ) {
 				return true;
 			}
 			return false;
@@ -117,28 +101,15 @@ export const component = {
 		},
 		onAdd(){
 			let id = this.nextId++;
-			let item = new JSTreeNode(
-				id,
-				"tell",
-				{
-					title: 'activity.title.'+id,
-					description: 'activity.description.'+id
-				},
-				[]
-			);
-			/*let item = {
-				id: id,
-				data: {
-					title: 'activity.title.'+id,
-					description: 'activity.description.'+id
-				},
-				type: "tell",
-				children: []
-			}*/
+			let data = {
+				title: 'activity.title.'+id,
+				description: 'activity.description.'+id
+			}
 			// this.setValue( item );
 			// item['id'] = this.$refs.treeView.Add( item, parent );
 
-			this.$refs.treeView.add( item );
+			let item = this.$refs.treeView.add( id, this.typeToAdd, data );
+			this.typeToAdd = null;
 		},
 		onRemove(){
 			this.$refs.treeView.remove();

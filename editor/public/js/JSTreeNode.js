@@ -1,4 +1,5 @@
 import {i18n, i18nContent, I18nString} from "../components/Translations.js";
+import NodeUtils from "./NodeUtils.js";
 
 /* jsTree Node Object structure */
 export default class JSTreeNode {
@@ -18,7 +19,7 @@ export default class JSTreeNode {
 		this.type = type;
 		this.data = data;
 		this.text = new I18nString( i18nContent, data.title );
-		let roleLabelDescription = JSTreeNode.getRoleDescriptionLabelByType( type );
+		let roleLabelDescription = NodeUtils.getRoleDescriptionLabelByType( type );
 		this.a_attr = {
 			"aria-roledescription": new I18nString( i18n, roleLabelDescription )
 		}
@@ -43,10 +44,6 @@ export default class JSTreeNode {
 	 */
 	static parse( jsonNode ) {
 		return new JSTreeNode( jsonNode.id, jsonNode.type, jsonNode.data, jsonNode.children );
-	}
-
-	static getRoleDescriptionLabelByType( type ) {
-		return type != "#" ? "ActivityEditorWidget.activity-type." + type + ".label" : "shared.label-mission";
 	}
 
 }

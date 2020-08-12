@@ -34,35 +34,33 @@ export const template =
 								type="button"
 								class="form-control btn btn-primary btn-block"
 								v-on:click="onAdd()" 
-								v-bind:disabled="value == null"
+								v-bind:disabled="typeToAdd == null"
 							>{{ $t( 'shared.label-add' ) }}</button>
 							<button
 								type="button"
 								class="form-control btn btn-secondary btn-block"
 								v-on:click="onDuplicate()"
-								v-bind:disabled="value == null || isRoot()"
+								v-bind:disabled="value == null || !isActivity()"
 							>{{ $t( 'shared.label-duplicate' ) }}</button>
 							<button
 								type="button"
 								class="form-control btn btn-danger btn-block"
 								v-on:click="onRemove()"
-								v-bind:disabled="value == null || isRoot()"
+								v-bind:disabled="value == null || !isActivity()"
 							>{{ $t( 'shared.label-remove' ) }}</button>
 						</span>
 					</div>
 					<div class="col-10">
 						<fieldset class="form-group">
-							<legend>{{ $t( "ActivityEditorWidget.label-activity-type" ) }}</legend>
-							<div v-for="(localeLabel, type) in activityTypes" class="form-check">
+							<legend>{{ $t( "ActivityEditorWidget.label-select-nodeType" ) }}</legend>
+							<div v-for="(localeLabel, type) in nodeTypes" class="form-check" v-if="shouldShowTypeInSelector( type )">
 								<input
 									type="radio"
 									class="form-check-input"
 									name="activityType"
-									v-if="value != null"
 									v-bind:id="'activity-type_' + type"
-									v-bind:disabled="value.type == '#'"
 									v-bind:value="type"
-									v-model="value.type"
+									v-model="typeToAdd"
 									v-bind:aria-describedby="'activityType-description_' + type"
 								/>
 								<label
@@ -88,9 +86,14 @@ export const template =
 									type="text"
 									required="required"
 									class="form-control"
-									v-bind:disabled="!mission || isRoot()"
+									v-bind:disabled="false"
 									v-bind:locale="locale"
 									v-bind:locale-label="localeTitle"
+									v-bind:placeholder="(value && value.type && value.type != NodeUtils.Types.Root ) ?
+															$t('shared.label-new-element',
+																{ 'name': $tc( NodeUtils.getRoleDescriptionLabelByType( value.type ) ) }
+															)
+															: null"
 								></i18n-input-widget>
 							</div>
 						</fieldset>
@@ -105,7 +108,7 @@ export const template =
 									name="activityDescription"
 									class="form-control"
 									rows="4"
-									v-bind:disabled="!mission || isRoot()"
+									v-bind:disabled="!mission"
 									v-bind:locale="locale"
 									v-bind:locale-label="localeDescription"
 								></i18n-input-widget>

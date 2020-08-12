@@ -1,7 +1,7 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
-import {component as conditionActivityOptionWidget} from "./ActivityTypeOpEditorWidget.js";
+import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 
 export const component = {
@@ -13,7 +13,7 @@ export const component = {
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-		'option-conditions-widget': conditionActivityOptionWidget,
+		'branch-editor-widget': conditionActivityOptionWidget,
 		'activity-tree-widget': activityTreeWidgetComponent
 	},
 	data() {

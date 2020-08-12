@@ -7,7 +7,11 @@ import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js"
 export const component = {
     template: template,
     props:{
-
+        objective: Object
+    },
+    components:{
+        'i18n-input-widget': asyncLoadComponentI18nInputWidget,
+        'activity-tree-widget': activityTreeWidgetComponent
     },
     data:{
         return:{

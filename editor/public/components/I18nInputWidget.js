@@ -1,11 +1,12 @@
 import {template} from "./I18nInputWidgetTemplate.js";
-import {i18nContent, I18nString} from "./Translations.js";
+import {i18n, i18nContent, I18nString} from "./Translations.js";
 
 export const component = {
 	i18n: i18nContent,
 	template: template,
 	inheritAttrs: false,
 	props: {
+		"placeholder": String, // Note: this could be a placeholder html attribute, it's meaning is "a default value"
 		"disabled": Boolean,
 		"tag": String,
 		"value": Object,
@@ -22,7 +23,7 @@ export const component = {
 		isDisabled: function() { return this.disabled || !this.locale || !this.localeLabel }
 	},
 	watch: {
-		locale: function ( newLocale ) {
+	/*	locale: function ( newLocale ) {
 			if( this.localeLabel && !this.$i18n.te( this.localeLabel, newLocale ) ) {
 				let obj = this.setContentOf( newLocale, this.localeLabel, "");
 				console.warn( `Register for new locale '${ newLocale }', the label '${ this.localeLabel }'`, obj );
@@ -33,7 +34,7 @@ export const component = {
 				let obj = this.setContentOf( this.locale, newLabel, "");
 				console.warn( `Register for locale '${ this.locale }', new label '${ newLabel }'`, obj );
 			}
-		}
+		}*/
 	},
 	methods: {
 		setContentOf( locale, label, value) {
@@ -46,6 +47,16 @@ export const component = {
 			this.$emit( eventType, value );
 			let obj = this.setContentOf( this.locale, this.localeLabel, value);
 			// console.log( `Update for locale '${ this.locale }', the label '${ this.localeLabel }'`, obj );
+		},
+		getContent(){
+			if( this.isDisabled ){;
+				return this.placeholder;
+			}
+			else if( !this.$i18n.te( this.localeLabel ) ) {
+				let obj = this.setContentOf( this.locale, this.localeLabel, this.placeholder || "" );
+				console.warn( "Register for new locale", this.locale, ", the label", this.localeLabel, ": ", obj );
+			}
+			return this.$i18n.t( this.localeLabel );
 		}
 	}
 };

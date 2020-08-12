@@ -56,7 +56,6 @@ export class I18nString {
 		});
 		return obj;
 	}
-	static remove
 }
 
 i18nContent.removeMessageAll = function ( key ){

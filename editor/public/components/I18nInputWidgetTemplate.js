@@ -5,7 +5,7 @@ export const template =
 	v-on="$listeners"
 	v-on:input="notifyValue( 'input', $event.target.value )"
 	v-bind:disabled="isDisabled"
-	v-bind:value="isDisabled ? '' : $t( localeLabel )"
+	v-bind:value="getContent()"
 >
 <textarea
 	v-else-if="tag == 'textarea'"
@@ -13,13 +13,13 @@ export const template =
 	v-on="$listeners"
 	v-on:input="notifyValue( 'input', $event.target.value )"
 	v-bind:disabled="isDisabled"
-	v-bind:value="isDisabled ? '' : $t( localeLabel )"
+	v-bind:value="getContent()"
 ></textarea>
 <label
 	v-else-if="tag == 'label'"
 	v-bind="$attrs"
 	v-on="$listeners"
-	v-html="isDisabled ? '' : $t( localeLabel )"
+	v-html="getContent()"
 ></label>
 <select
 	v-else-if="tag == 'select'"

@@ -8,47 +8,15 @@ import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js"
 export const component = {
     template: template,
     props: {
-        inputType:{
-            "Any":String,
-            "Atom":String,
-            "Range":String,
-            "Function":String
+        value: Object,
+        inputTypes: {
+            "Any": " BranchEditorWidget.input-type.any",
+            "Atom": "BranchEditorWidget.input-type.atom",
+            "Range": "BranchEditorWidget.input-type.range",
+            "Function": "BranchEditorWidget.input-type.function"
         },
-        value:String,
-        inputTypes: Object,
-        Functions:{
-            Match: {
-                name: "eq",
-                locale:String,
-                self: Object,
-                param: Object
-            },
-            Different:{
-                name:"neq",
-                locale:String,
-                self:Object,
-                param:Object
-            },
-            Contains:{
-                name: "hasInside",
-                locale:String,
-                self:Object,
-                param:Array
-            },
-            Any:{
-                name: "isThere",
-                locale:String,
-                self:null,
-                param:Object
-            },
-            Between:{
-                name: "isInRange",
-                locale:String,
-                self:Number,
-                param:Number
-            }
-        }
-    },
+        locale: String
+        },
     components:{
         'i18n-input-widget': asyncLoadComponentI18nInputWidget,
         'activity-tree-widget': activityTreeWidgetComponent
@@ -56,8 +24,39 @@ export const component = {
 
     data(){
         return{
-
+            functionsType: {
+                Match: {
+                    name: "eq",
+                    locale: String,
+                    self: Object,
+                    param: Object
+                },
+                Different: {
+                    name: "neq",
+                    locale: String,
+                    self: Object,
+                    param: Object
+                },
+                Contains: {
+                    name: "hasInside",
+                    locale: String,
+                    self: Object,
+                    param: Array
+                },
+                Any: {
+                    name: "isThere",
+                    locale: String,
+                    self: null,
+                    param: Object
+                },
+                Between: {
+                    name: "isInRange",
+                    locale: String,
+                    self: Number,
+                    param: Number
+                }
             }
+        }
 
         },
     methods:{

@@ -4,13 +4,13 @@ import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget
 export const component = {
 	template: template,
 	props: {
+		nextId: Number,
 		value: Object, // mission cache
 		missions: Array,
 		locale: String
 	},
 	data : function () {
 		return {
-			nextId: 0,
 			missionId: 0
 		}
 	},
@@ -31,6 +31,7 @@ export const component = {
 				mission = {};
 				this.missions.push( mission );
 				mission.id = this.nextId++;
+				this.$emit( "inc-Id" );
 				mission.title = this.localeTitle;
 				mission.description = this.localeDescription;
 				console.log( "registered new mission: ", mission );

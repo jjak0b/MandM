@@ -23,7 +23,10 @@ export const template =
 			<mission-editor-widget id="mission-editor-widget"
 			 	v-bind:missions="cache.story.missions"
 			 	v-bind:locale="locale"
-			 	v-model="cache.mission"></mission-editor-widget>
+			 	v-bind:nextId="cache.story.missionNextId"
+			 	v-on:inc-Id="++cache.story.missionNextId"
+			 	v-model="cache.mission"
+			></mission-editor-widget>
 		</section>
 		<section
 			id="activity-editor-widget-section"
@@ -33,7 +36,10 @@ export const template =
 			<activity-editor-widget id="activity-editor-widget"
 				v-bind:mission="cache.mission"
 				v-bind:locale="locale"
-				v-model="cache.activity"></activity-editor-widget>
+				v-bind:nextId="cache.story.activityNextId"
+				v-on:inc-Id="++cache.story.activityNextId"
+				v-model="cache.activity"
+			></activity-editor-widget>
 		</section>
 	</div>
 </div>

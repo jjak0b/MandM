@@ -13,6 +13,8 @@ export const component = {
 			locale: null,
 			cache: {
 				story: { // data to export
+					missionNextId: 0,
+					activityNextId: 0,
 					missions: [],
 					activities: []
 				},

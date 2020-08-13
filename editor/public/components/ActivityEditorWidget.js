@@ -3,11 +3,22 @@ import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js"
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
+import {i18nContent, I18nString} from "./Translations.js";
 
+function createEmptyData(){
+	return {
+		noteInfo: {
+			name: null,
+			description: null
+		},
+		title: null,
+		description: null
+	}
+}
 export const component = {
 	template: template,
 	props: {
-		value: Object, // current activity
+		nextId: Number,
 		locale: String,
 		mission : Object
 	},
@@ -17,7 +28,7 @@ export const component = {
 	},
 	data() {
 		return {
-			nextId: 0,
+			shouldShowTree: false,
 			activityId: null,
 			refresh: false,
 			nodeTypes: {
@@ -26,90 +37,96 @@ export const component = {
 				[NodeUtils.Types.Branch]: "ActivityEditorWidget.treeNode-type.branch",
 			},
 			NodeUtils: NodeUtils,
-			typeToAdd: null
+			currentNode: null /* object node used by jsTree */
 		}
 	},
 	watch: {
-		'mission' : function( mission ) {
+		'mission' : function( mission, oldMission ) {
+			if( oldMission ){
+				this.save( oldMission );
+			}
 			if( mission ) {
-				if( !('tree' in mission) ){
-					mission['tree'] = new JSTreeNode( undefined, "#", { title: mission.title}, [] );
-				}
-				console.info( "[ActivityEditor]", "changed mission tree", mission['tree'] );
+				let tree = mission['tree'] || new JSTreeNode( undefined, new I18nString(i18nContent, mission.title ), NodeUtils.Types.Root, createEmptyData(), [] );
+				console.info( "[ActivityEditor]", "changed mission tree", tree );
 				this.$nextTick( function () {
-					this.loadTree( mission.tree ); // load tree into Tree component
-					this.load( mission.tree ); // set current activity
+					this.loadTree( tree ); // load tree into Tree component
 				})
 			}
 			else{
-				this.load( null );
+				this.loadTree( null );
 			}
 		}
 	},
 	computed: {
-		localeTitle: 		function () {  return this.value && this.value.id ? 'activity.title.' + this.value.id : null },
-		localeDescription: 	function () {  return this.value && this.value.id ? 'activity.description.' + this.value.id : null }
+		localeTitle: 		function () {  return this.currentNode && this.currentNode.id ? 'activity.title.' + this.currentNode.id : null },
+		localeDescription: 	function () {  return this.currentNode && this.currentNode.id ? 'activity.description.' + this.currentNode.id : null }
 	},
 	methods: {
+		// serialize tree data and set it to parent mission
+		save( mission ){
+			let tree = this.$refs.treeView.get_json();
+			Vue.set( mission, "tree", tree );
+			console.log( "[ActivityEditor]", "Saving tree data", tree, "into mission", mission );
+		},
+		// load the tree on TreeWidget
+		loadTree( tree ) {
+			this.$refs.treeView.load( tree );
+		},
+		// callback which load the node to the editor
+		loadNode( node ) {
+			console.info( "[ActivityEditor]", "Loading current activity", activity );
+			this.currentNode = node;
+		},
+
+		// events and utilities
 		shouldShowTypeInSelector( type ){
-			if( !this.value || !type ){
+			if( !this.currentNode || !type ){
 				return false;
 			}
 
 			switch( type ){
 				case NodeUtils.Types.Tell:
 				case NodeUtils.Types.Quest:
-					return [ "#", NodeUtils.Types.Branch, NodeUtils.Types.Tell].includes( this.value.type );
+					return [NodeUtils.Types.Root, NodeUtils.Types.Branch, NodeUtils.Types.Tell].includes( this.currentNode.type );
 					break;
 				case NodeUtils.Types.Branch:
-					return NodeUtils.Types.Quest == this.value.type;
+					return NodeUtils.Types.Quest == this.currentNode.type;
 					break;
 			}
 
 			return true;
 		},
-		setValue(value ) {
-			this.activityId = value ? value.id : null;
-			// this.value = value;
-			this.$emit( 'input', value );
-		},
-		updateTree( value ) {
-			Vue.set( this.mission, "tree", value );
-		},
-		load( activity ) {
-			console.info( "[ActivityEditor]", "Loading current activity", activity );
-			this.setValue( activity );
-		},
-		duplicate(self = this.value ) {
-			let id = this.nextId++;
-			let activity = {
-				id: id,
-				title: self.localeTitle+id,
-				description: self.localeDescription+id,
-				parent: self.parent,
-				children: self.children
-			}
-		},
 		isActivity() {
-			if( this.value && (this.value.type == NodeUtils.Types.Quest || this.value.type == NodeUtils.Types.Tell) ) {
+			if( this.currentNode && (this.currentNode.type == NodeUtils.Types.Quest || this.currentNode.type == NodeUtils.Types.Tell) ) {
 				return true;
 			}
 			return false;
 		},
-		loadTree( tree ) {
-			this.$refs.treeView.load( tree );
-		},
-		onAdd(){
-			let id = this.nextId++;
-			let data = {
-				title: 'activity.title.'+id,
-				description: 'activity.description.'+id
+		onAdd( event ){
+			let inputs = $( event.currentTarget).serializeArray();
+			let nodeInfo = {};
+			// set key and value as pair
+			for( let i = 0; i < inputs.length; i++ ) {
+				nodeInfo[ inputs[i]["name"] ] = inputs[i]["value"];
 			}
-			// this.setValue( item );
-			// item['id'] = this.$refs.treeView.Add( item, parent );
 
-			let item = this.$refs.treeView.add( id, this.typeToAdd, data );
-			this.typeToAdd = null;
+			let id = this.nextId++;
+			this.$emit( "inc-Id");
+
+			// TODO: fill this field if adding components which edit node data
+			let data = createEmptyData();
+			data.noteInfo = {
+				name: nodeInfo["node-name"],
+			};
+			data.title = 'activity.title.'+id;
+			data.description = 'activity.description.'+id;
+
+			let item = this.$refs.treeView.add( id, nodeInfo["node-type"], data.noteInfo.name, data );
+
+			// clear form
+			if( item ){
+				$( event.currentTarget).trigger("reset");
+			}
 		},
 		onRemove(){
 			this.$refs.treeView.remove();

@@ -7,12 +7,11 @@ export const component = {
 	i18n: i18nContent,
 	template: template,
 	props: {
-		target: Object,
+		value: Object,
 		locale : String
 	},
 	data() {
 		return {
-			value : null,
 			tree: null,
 		}
 	},
@@ -20,21 +19,29 @@ export const component = {
 		'locale' : function( newVal) {
 			if( this.tree )
 				this.redraw();
+		},
+		"value.text" : function ( newVal ) {
+			this.tree.rename_node(this.value, newVal);
 		}
 	},
 	updated(){
 		this.redraw();
 	},
 	methods: {
-		notifyValue() {
-			let jsonNode = this.tree.get_json( '#', {
+		notifyValue(){
+			console.info( "[ActivityTree]", "updating current node", this.value );
+			this.$emit( 'input', this.value );
+		},
+		get_json( id = "#") {
+			let jsonNode = this.tree.get_json( id, {
 				no_state: true,
 				no_li_attr: true,
 				no_a_attr: true,
 				flat: false
-			})[0];
-			this.$emit( 'input', JSTreeNode.parse( jsonNode ) );
-			this.redraw();
+			});
+			jsonNode = id == "#" ? jsonNode[0] : jsonNode;
+			let jsTreeNode = JSTreeNode.parse( jsonNode );
+			return jsTreeNode;
 		},
 		redraw(){
 			/*
@@ -63,6 +70,12 @@ export const component = {
 				this.tree.destroy( false );
 				this.tree = null;
 			}
+
+			this.value = null;
+			this.notifyValue();
+			if( !jsonData ){
+				return;
+			}
 			// open root
 
 			$( e ).jstree({
@@ -73,11 +86,10 @@ export const component = {
 					data: data
 				},
 				"plugins": [
-					"unique",
 					"types"
 				],
 				"types":{
-					"#": {
+					[NodeUtils.Types.Root]: {
 						"valid_children": [
 							NodeUtils.Types.Quest,
 							NodeUtils.Types.Tell
@@ -111,51 +123,38 @@ export const component = {
 			$( e ).on( "select_node.jstree", this.onSelect );
 			$( e ).on( "create_node.jstree", this.onCreate );
 		},
+		// events
 		onCreate( event, data ) {
 			let node = data.node;
 		},
 		onSelect( event, data ) {
 			let node = data.instance.get_node(data.selected[0]);
-			// let item = node.data;
-			let jsonNode = this.tree.get_json(
-				node,
-				{
-					no_state: true,
-					no_li_attr: true,
-					no_a_attr: true,
-					flat: false
-				}
-			);
-			this.$emit( "select", JSTreeNode.parse( jsonNode ) );
+			this.value = node;
+			this.notifyValue();
 		},
-		add( id, type, nodeData ) {
+		// Operations
+		add( id, type, nodeName, nodeData ) {
 			if (!nodeData )
-				return;
-
+				return null;
+			let node = null;
 			let selectedNode = this.tree.get_selected(true)[0]
 
-			id = this.createNewNode( id, type, nodeData, selectedNode );
+			id = this.createNewNode( id, type, nodeName, nodeData, selectedNode );
 
-			if( selectedNode )
-				this.tree.deselect_node( selectedNode.id );
-			this.tree.select_node( id );
-			/*
-				Wait next tick and so the parent gets the data.title and set it on the form's input
-				then the i18n content is updated but the selected item's text is not
-				then redraw the tree to update the texts
-			*/
-			this.notifyValue();
-			let node = this.tree.get_node( id );
-			return JSTreeNode.parse( node );
+			if( id ) {
+				if (selectedNode)
+					this.tree.deselect_node(selectedNode.id);
+				this.tree.select_node(id);
+				node = this.tree.get_node(id);
+			}
+			return node;
 		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];
 			let nextSelectNode = this.tree.get_prev_dom( selectedNode );
 
 			this._remove( selectedNode );
-
 			this.tree.select_node( nextSelectNode );
-			this.notifyValue();
 		},
 		_remove( node ) {
 			if( node.children ) {
@@ -168,7 +167,7 @@ export const component = {
 			i18nContent.removeMessageAll( node.data.description );
 			this.tree.delete_node( node );
 		},
-		createNewNode( id, newType, nodeData, selectedNode ) {
+		createNewNode( id, newType, nodeName, nodeData, selectedNode ) {
 			// this.$i18n.t( 'shared.label-new-element', { 'name': this.$i18n.tc( NodeUtils.getRoleDescriptionLabelByType( item.type ) ) } )
 			let selectedtype = this.tree.get_type( selectedNode );
 			let item = null;
@@ -180,7 +179,7 @@ export const component = {
 			switch( selectedtype ) {
 
 				// roots
-				case "#":
+				case NodeUtils.Types.Root:
 				case NodeUtils.Types.Branch:
 				case NodeUtils.Types.Quest:
 
@@ -198,6 +197,7 @@ export const component = {
 			}
 			item = new JSTreeNode(
 				id,
+				nodeName,
 				newType,
 				nodeData,
 				[]

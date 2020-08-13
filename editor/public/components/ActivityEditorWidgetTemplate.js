@@ -17,63 +17,120 @@ export const template =
 				aria-describedby="activityTreeDescription"
 				ref="treeView"
 				v-if="mission != null"
-				v-bind:target="value"
 				v-bind:locale="locale"
-				v-on:select="load"
-				v-on:input="updateTree"
+				v-model="currentNode"
 			></activity-tree-widget>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col">
-			<form v-on:submit.prevent="save()" v-on:input="$refs.treeView.redraw()">
+	<div v-if="currentNode">
+		<div>
+			<form v-on:submit.prevent="onAdd">
 				<div class="form-row">
-					<div class="col-2 align-self-center">
-						<span class="form-group btn-group-vertical" role="group">
-							<button
-								type="button"
-								class="form-control btn btn-primary btn-block"
-								v-on:click="onAdd()" 
-								v-bind:disabled="typeToAdd == null"
-							>{{ $t( 'shared.label-add' ) }}</button>
-							<button
-								type="button"
-								class="form-control btn btn-secondary btn-block"
-								v-on:click="onDuplicate()"
-								v-bind:disabled="value == null || !isActivity()"
-							>{{ $t( 'shared.label-duplicate' ) }}</button>
-							<button
-								type="button"
-								class="form-control btn btn-danger btn-block"
-								v-on:click="onRemove()"
-								v-bind:disabled="value == null || !isActivity()"
-							>{{ $t( 'shared.label-remove' ) }}</button>
-						</span>
-					</div>
 					<div class="col-10">
 						<fieldset class="form-group">
 							<legend>{{ $t( "ActivityEditorWidget.label-select-nodeType" ) }}</legend>
 							<div v-for="(localeLabel, type) in nodeTypes" class="form-check" v-if="shouldShowTypeInSelector( type )">
 								<input
 									type="radio"
+									required="required"
 									class="form-check-input"
-									name="activityType"
-									v-bind:id="'activity-type_' + type"
+									name="node-type"
+									v-bind:id="'node-type_' + type"
 									v-bind:value="type"
-									v-model="typeToAdd"
-									v-bind:aria-describedby="'activityType-description_' + type"
+									v-bind:aria-describedby="'description_node-type' + type"
 								/>
 								<label
 									class="form-check-label"
-									v-bind:for="'activity-type_' + type"
+									v-bind:for="'node-type_' + type"
 								>{{ $t(localeLabel + '.label' ) }}</label>
 								<p
-									v-bind:id="'activityType-description_' + type"
+									v-bind:id="'description_node-type' + type"
 								>{{ $t( localeLabel + '.description' ) }}</p>
 							</div>
 						</fieldset>
 					</div>
+					<div class="col-2 align-self-center">
+						<span class="form-group btn-group-vertical" role="group">
+							<input
+								type="submit"
+								class="form-control btn btn-primary btn-block"
+							/>{{ $t( 'shared.label-add' ) }}
+							<input
+								type="reset"
+								class="form-control btn btn-primary btn-block"
+							/>
+						</span>
+					</div>
 				</div>
+				<div class="form-row">
+					<div class="col">
+						<fieldset class="form-group">
+							<legend> {{ $t( 'ActivityEditorWidget.label-note-name' ) }} </legend>
+							<input
+								id="node-name"
+								name="node-name"
+								type="text"
+								required="required"
+								class="form-control"
+							/>
+						</fieldset>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div>
+			<form
+				>
+				<div class="btn-group" role="group">
+					<button
+						type="button"
+						class="form-control btn btn-secondary"
+						v-on:click="onDuplicate()"
+						v-bind:disabled="currentNode == null || !isActivity()"
+					>{{ $t( 'shared.label-duplicate' ) }}</button>
+					<button
+						type="button"
+						class="form-control btn btn-danger"
+						v-on:click="onRemove()"
+						v-bind:disabled="currentNode == null || !isActivity()"
+					>{{ $t( 'shared.label-remove' ) }}</button>
+				</div>
+				<div class="form-row">
+					<div class="col">
+						<fieldset class="form-group">
+							<legend> {{ $t( 'ActivityEditorWidget.label-note-name' ) }} </legend>
+							<input
+								id="node-name"
+								name="node-name"
+								type="text"
+								required="required"
+								class="form-control"
+								v-bind:disabled="!mission || !currentNode"
+								v-model="currentNode.text"
+							/>
+						</fieldset>
+					</div>
+					<div class="col">
+						<fieldset class="form-group">
+							<legend>{{ $t( 'ActivityEditorWidget.label-note-description' ) }}</legend>
+							<textarea
+								id="node-note"
+								name="node-note"
+								class="form-control"
+								rows="4"
+								v-bind:disabled="!mission || !currentNode"
+								v-model="currentNode.data.noteInfo.description"
+							></textarea>
+						</fieldset>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div>
+			<form
+			v-on:submit.prevent
+			>
+				<hr>
 				<div class="form-row">
 					<div class="col">
 						<fieldset class="form-group">
@@ -86,14 +143,9 @@ export const template =
 									type="text"
 									required="required"
 									class="form-control"
-									v-bind:disabled="false"
+									v-bind:disabled="!mission || !isActivity()"
 									v-bind:locale="locale"
-									v-bind:locale-label="localeTitle"
-									v-bind:placeholder="(value && value.type && value.type != NodeUtils.Types.Root ) ?
-															$t('shared.label-new-element',
-																{ 'name': $tc( NodeUtils.getRoleDescriptionLabelByType( value.type ) ) }
-															)
-															: null"
+									v-bind:locale-label="currentNode.data.title"
 								></i18n-input-widget>
 							</div>
 						</fieldset>
@@ -108,9 +160,9 @@ export const template =
 									name="activityDescription"
 									class="form-control"
 									rows="4"
-									v-bind:disabled="!mission"
+									v-bind:disabled="!mission || !isActivity()"
 									v-bind:locale="locale"
-									v-bind:locale-label="localeDescription"
+									v-bind:locale-label="currentNode.data.description"
 								></i18n-input-widget>
 							</div>
 						</fieldset>

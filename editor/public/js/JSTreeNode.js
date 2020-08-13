@@ -10,15 +10,22 @@ export default class JSTreeNode {
 	/**
 	 *
 	 * @param id Id of the node, set undefined, if you want to set it automatically
+	 * @param tagName custom tag name for the node used to identify it visually into the three
 	 * @param type type of the node into Jstree
 	 * @param data custom data
-	 * @param children array of children nodes
+	 * @param children array of children nodes (will be parsed to be a JSTreeNode's Object )
 	 */
-	constructor( id = "-1", type, data, children ) {
+	constructor(
+		/*Number|String*/		id = JSTreeNode.DEFAULT.id,
+		/*String|I18nString*/ 	tagName,
+		/*NodeUtils.Types*/ 	type,
+		/*Object*/ 				data,
+		/*Array*/				children
+	) {
 		this.id = "" + id;
+		this.text = tagName;
 		this.type = type;
 		this.data = data;
-		this.text = new I18nString( i18nContent, data.title );
 		let roleLabelDescription = NodeUtils.getRoleDescriptionLabelByType( type );
 		this.a_attr = {
 			"aria-roledescription": new I18nString( i18n, roleLabelDescription )
@@ -29,6 +36,7 @@ export default class JSTreeNode {
 				let c = children[i];
 				this.children[ i ] = new JSTreeNode(
 					c.id,
+					c.text,
 					c.type,
 					c.data,
 					c.children
@@ -43,7 +51,7 @@ export default class JSTreeNode {
 	 * @returns {JSTreeNode}
 	 */
 	static parse( jsonNode ) {
-		return new JSTreeNode( jsonNode.id, jsonNode.type, jsonNode.data, jsonNode.children );
+		return new JSTreeNode( jsonNode.id, jsonNode.text, jsonNode.type, jsonNode.data, jsonNode.children );
 	}
 
 }

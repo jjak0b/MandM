@@ -7,7 +7,7 @@ const nodeTypes = {
 export default class NodeUtils {
 	static getRoleDescriptionLabelByType( type ) {
 		switch ( type ) {
-			case "#":
+			case NodeUtils.Types.Root:
 				return "shared.label-mission";
 				break;
 			case NodeUtils.Types.Branch:
@@ -30,7 +30,7 @@ export default class NodeUtils {
 		switch( parentType ){
 
 			// get leaf
-			case "#":
+			case NodeUtils.Types.Root:
 			case NodeUtils.Types.Branch:
 			case NodeUtils.Types.Tell:
 			case NodeUtils.Types.ActivityGeneric:

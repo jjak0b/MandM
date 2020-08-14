@@ -167,9 +167,13 @@ export const template =
 							</div>
 						</fieldset>
 					</div>
-					<branch-editor-widget
-					v-if="this.$refs.treeView.isCondition()">
+					<div class="col-10">
+                       <fieldset class="form-group">
+                        <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
+					<branch-editor-widget>
 					</branch-editor-widget>
+					</fieldset>
+					</div>
 				</div>
 			</form>
 		</div>

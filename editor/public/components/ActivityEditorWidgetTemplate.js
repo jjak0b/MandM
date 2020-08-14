@@ -170,8 +170,20 @@ export const template =
 					<div class="col-10">
                        <fieldset class="form-group">
                         <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
-					<branch-editor-widget>
-					</branch-editor-widget>
+					<div v-for="(keyType, valueType) in inputTypes" class="form-check">
+<input
+	 type="radio"
+	 class="form-check-input"
+	 name="keyType"
+	 v-bind:id="'input-type_' + keyType"
+	 v-bind:value="valueType"
+	 v-bind:aria-describedby="keyType"
+								/>
+	 <label
+	  class="form-check-label"
+	  v-bind:for="'input-type_' + keyType"
+	 >{{ $t(keyType + '.label' ) }}</label>
+</div> 
 					</fieldset>
 					</div>
 				</div>

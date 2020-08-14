@@ -58,6 +58,20 @@
 				"label": "Ramo",
 				"description": "Descrive un possibile percorso della storia"
 			}
+		},
+		"input-type": {
+			"any": {
+				"label": "Qualsiasi"
+			},
+			"atom": {
+				"label": "Singolo"
+			},
+			"range":{
+				"label":"Rateo"
+			},
+			"function": {
+				"label": "Funzione"
+			}
 		}
 	}
 }

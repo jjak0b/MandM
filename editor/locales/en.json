@@ -58,6 +58,21 @@
 				"label": "Branch",
 				"description": "Describes a possible path of the story"
 			}
+		},
+		"input-type": {
+				"any": {
+					"label": "any"
+				},
+				"atom": {
+					"label": "atom"
+				},
+				"range":{
+				"label":"range"
+				},
+				"function": {
+					"label": "function"
+				}
+			}
 		}
 	}
 }

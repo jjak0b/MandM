@@ -24,6 +24,12 @@ export const component = {
 			activityTypes: {
 				"tell" : "ActivityEditorWidget.activity-type.tell",
 				"condition": "ActivityEditorWidget.activity-type.condition"
+			},
+			inputTypes: {
+				"Any": " ActivityEditorWidget.input-type.any",
+				"Atom": "ActivityEditorWidget.input-type.atom",
+				"Range": "ActivityEditorWidget.input-type.range",
+				"Function": "ActivityEditorWidget.input-type.function"
 			}
 		}
 	},

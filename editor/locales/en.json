@@ -41,14 +41,30 @@
 		"label-activity-description" : "Activity description",
 		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
 		"label-activity-type" : "Select an activity type",
+		"label-input-type": "Select a conditional input",
 		"activity-type" : {
-			"condition" : {
-				"label" : "Condition",
-				"description" : "Create a branch of possible results"
+			"condition": {
+				"label": "Condition",
+				"description": "Create a branch of possible results"
 			},
-			"tell" : {
-				"label" : "Telltales",
-				"description" : "Explain and tell a dialogue"
+			"tell": {
+				"label": "Telltales",
+				"description": "Explain and tell a dialogue"
+			}
+		},
+		"input-type": {
+				"any": {
+					"label": "any"
+				},
+				"atom": {
+					"label": "atom"
+				},
+				"range":{
+				"label":"range"
+				},
+				"function": {
+					"label": "function"
+				}
 			}
 		}
 	}

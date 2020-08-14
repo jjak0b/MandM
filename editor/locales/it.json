@@ -41,6 +41,7 @@
 		"label-activity-description" : "Descrizione dell'attività",
 		"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
 		"label-activity-type" : "Seleziona tipologia di attività",
+		"label-input-type": "Seleziona tipologia di input",
 		"activity-type" : {
 			"condition" : {
 				"label" : "Condizionale",
@@ -49,6 +50,20 @@
 		  	"tell" : {
 				"label" : "Racconto",
 				"description" : "Spiega e racconta un dialogo"
+			}
+		},
+		"input-type": {
+			"any": {
+				"label": "Qualsiasi"
+			},
+			"atom": {
+				"label": "Singolo"
+			},
+			"range":{
+				"label":"Rateo"
+			},
+			"function": {
+				"label": "Funzione"
 			}
 		}
 	}

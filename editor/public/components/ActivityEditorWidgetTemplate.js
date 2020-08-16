@@ -65,7 +65,7 @@ export const template =
 				<div class="form-row">
 					<div class="col">
 						<fieldset class="form-group">
-							<legend> {{ $t( 'ActivityEditorWidget.label-note-name' ) }} </legend>
+							<legend> {{ $t( 'ActivityEditorWidget.label-node-item-name' ) }} </legend>
 							<input
 								id="node-name"
 								name="node-name"
@@ -98,7 +98,7 @@ export const template =
 				<div class="form-row">
 					<div class="col">
 						<fieldset class="form-group">
-							<legend> {{ $t( 'ActivityEditorWidget.label-note-name' ) }} </legend>
+							<legend> {{ $t( 'ActivityEditorWidget.label-node-item-name' ) }} </legend>
 							<input
 								id="node-name"
 								name="node-name"
@@ -112,7 +112,7 @@ export const template =
 					</div>
 					<div class="col">
 						<fieldset class="form-group">
-							<legend>{{ $t( 'ActivityEditorWidget.label-note-description' ) }}</legend>
+							<legend>{{ $t( 'ActivityEditorWidget.label-node-item-description' ) }}</legend>
 							<textarea
 								id="node-note"
 								name="node-note"

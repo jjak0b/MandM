@@ -43,6 +43,8 @@
 		"label-activity-description" : "Descrizione dell'attività",
 		"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
 		"label-select-nodeType" : "Seleziona il tipo di elemento da aggiungere all'albero",
+		"label-node-item-name" : "Nome elemento dell'albero",
+		"label-node-item-description" : "Nota sull'elemento dell'albero",
 		"treeNode-type" : {
 			"quest" : {
 				"label" : "Sfida",

@@ -4,6 +4,8 @@ import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
 import {i18nContent, I18nString} from "./Translations.js";
+import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidget.js";
+import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
 
 function createEmptyData(){
 	return {
@@ -23,6 +25,8 @@ export const component = {
 		mission : Object
 	},
 	components: {
+		'activity-tale-editor-widget': activityTaleEditorComponent,
+		'activity-quest-editor-widget': activityQuestEditorComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		'activity-tree-widget': activityTreeWidgetComponent
 	},
@@ -96,8 +100,11 @@ export const component = {
 
 			return true;
 		},
-		isActivity() {
-			if( this.currentNode && (this.currentNode.type == NodeUtils.Types.Quest || this.currentNode.type == NodeUtils.Types.Tell) ) {
+		isActivity( checkType ) {
+			if( checkType ){
+				return this.currentNode && this.currentNode.type == checkType;
+			}
+			else if( this.currentNode && (this.currentNode.type == NodeUtils.Types.Quest || this.currentNode.type == NodeUtils.Types.Tell) ) {
 				return true;
 			}
 			return false;

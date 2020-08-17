@@ -170,6 +170,15 @@ export const template =
 				</div>
 			</form>
 		</div>
+		<hr>
+		<section v-if="isActivity( NodeUtils.Types.Tell )">
+			<activity-tale-editor-widget
+			></activity-tale-editor-widget>
+		</section>
+		<section v-if="isActivity( NodeUtils.Types.Quest )">
+			<activity-quest-editor-widget
+			></activity-quest-editor-widget>
+		</section>
 	</div>
 </div>`
 ;

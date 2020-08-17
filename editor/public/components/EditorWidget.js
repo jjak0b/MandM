@@ -16,7 +16,8 @@ export const component = {
 					missionNextId: 0,
 					activityNextId: 0,
 					missions: [],
-					activities: []
+					activities: [],
+					assetNextId: 0
 				},
 				mission: null,
 				activity: null

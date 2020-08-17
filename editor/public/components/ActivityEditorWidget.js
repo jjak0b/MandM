@@ -6,6 +6,7 @@ import NodeUtils from "../js/NodeUtils.js";
 import {i18nContent, I18nString} from "./Translations.js";
 import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidget.js";
 import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
+import { component as sceneEditorComponent } from "./SceneEditorWidget.js ";
 
 function createEmptyData(){
 	return {
@@ -20,11 +21,13 @@ function createEmptyData(){
 export const component = {
 	template: template,
 	props: {
+		nextAssetId: Number,
 		nextId: Number,
 		locale: String,
 		mission : Object
 	},
 	components: {
+		'scene-editor-widget' :sceneEditorComponent,
 		'activity-tale-editor-widget': activityTaleEditorComponent,
 		'activity-quest-editor-widget': activityQuestEditorComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,

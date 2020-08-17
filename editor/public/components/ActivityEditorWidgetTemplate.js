@@ -171,6 +171,12 @@ export const template =
 			</form>
 		</div>
 		<hr>
+		<section v-if="isActivity()">
+			<scene-editor-widget
+				v-bind:locale="locale"
+				v-bind:nextAssetId="nextAssetId"
+			></scene-editor-widget>
+		</section>
 		<section v-if="isActivity( NodeUtils.Types.Tell )">
 			<activity-tale-editor-widget
 			></activity-tale-editor-widget>

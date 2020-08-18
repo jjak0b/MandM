@@ -8,22 +8,22 @@ import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js"
 export const component = {
     template: template,
     props: {
-        value: Object,
-        inputTypes: {
-            "Any": " BranchEditorWidget.input-type.any",
-            "Atom": "BranchEditorWidget.input-type.atom",
-            "Range": "BranchEditorWidget.input-type.range",
-            "Function": "BranchEditorWidget.input-type.function"
+        value: String, //Type of input selected in radio
+        valuef: String
         },
-        locale: String
-        },
-    components:{
-        'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-        'activity-tree-widget': activityTreeWidgetComponent
-    },
-
     data(){
         return{
+            inputTypes: {
+                "Any": " ActivityEditorWidget.input-type.any",
+                "Atom": "ActivityEditorWidget.input-type.atom",
+                "Range": "ActivityEditorWidget.input-type.range",
+                "Function": "ActivityEditorWidget.input-type.function"
+            },
+            functioVal: {
+                "Array": "ActivityEditorWidget.input-func-value.array",
+                "Value": "ActivityEditorWidget.input-func-value.value",
+                "Variable": "ActivityEditorWidget.input-func-value.variable"
+            },
             functionsType: {
                 Match: {
                     name: "eq",
@@ -55,17 +55,13 @@ export const component = {
                     self: Number,
                     param: Number
                 }
-            }
+             }//,
+            // content: this.value
         }
-
-        },
-    methods:{
-        checktype : function(){
-
-        }
-
     }
-
-
-
-    }
+    // methods: {
+    //     handleInput (e) {
+            // this.$emit('input', this.content)
+        // }
+    // }
+}

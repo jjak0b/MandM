@@ -65,6 +65,17 @@
 			"function": {
 				"label": "Funzione"
 			}
+		},
+		"input-func-value":{
+			"array" : {
+				"label":"Lista"
+			},
+			"value" : {
+				"label":"Singolo"
+			},
+			"variable" : {
+				"label":"Variable"
+			}
 		}
 	}
 }

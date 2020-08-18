@@ -1,17 +1,59 @@
 export const template = `
-<div v-for="(keyType, valueType) in inputTypes" class="form-check">
-								<input
-									type="radio"
-									class="form-check-input"
-									name="inputTy"
-									v-bind:id="'input-type_' + keyType"
-									v-bind:value="valuetype"
-									v-model="value.type"
-								/>
-								<label
-									class="form-check-label"
-									v-bind:for="'input-type_' + type"
-								>{{ $t(localeLabel + '.label' ) }}</label>
-							</div>
-</div> 
-`
+<fieldset class="form-group">
+ <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
+ <div v-for="(keyType, valueType) in inputTypes" class="form-check">
+  <input type="radio"
+	 class="form-check-input"
+	 name="keyType"
+	 v-bind:id="'input-type_' + keyType"
+	 v-bind:value="valueType"
+	 v-model="value"
+	 v-bind:aria-describedby="keyType"
+  />
+<!--FIXME: "Any" label for radio button doesn't get "translated" to the json label assigned-->
+  <label
+	class="form-check-label"
+	v-bind:for="'input-type_' + keyType"
+  >{{ $t(keyType + '.label' ) }}</label>
+ </div>
+ <div v-if="value === 'Atom'">
+  <textarea name="valuea"></textarea>
+  <lable for="valuea">Valore</lable>
+  <select name="tipo">
+   <option>Number</option>
+   <option>Text</option>
+  </select>
+  <label for="tipo">Type</label>
+ </div>
+<!-- FIXME: Range section rendered before being selected-->
+  <div v-if="value === 'Range'"
+    <lable for="min">Min</lable>
+    <textarea id="min"></textarea>
+    <lable for="max">Max</lable>
+    <textarea id="max"></textarea>
+  </div>
+  <div v-if="value === 'Function'">
+    <select v-model="valuef">
+        <option v-for="(functions, value) in functioVal" 
+        v-bind:id="functions"
+        v-bind:value="value"> {{ $t( functions + '.label'  ) }}
+        </option>
+    </select>
+    <div v-if=" valuef === 'Array' "></div>
+    <div v-if=" valuef === 'Value' ">
+        <textarea name="txtFV" placeholder="Insert correlated value..">
+        </textarea>
+        <label for="txtFV">Insertvalue</label>
+        <select>
+            <option>Number</option>
+            <option>Text</option>
+        </select>
+    </div>
+    <div v-if=" valuef === 'Variabile'">
+    <!-- FIXME: Select doesn't appear-->
+        <select> 
+        </select>
+    </div>
+ </div>
+</fieldset>
+`;

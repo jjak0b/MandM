@@ -72,6 +72,17 @@
 				"function": {
 					"label": "function"
 				}
+			},
+		"input-func-value":{
+			"array" : {
+				"label":"Array"
+			},
+			"value" : {
+				"label":"Value"
+			},
+			"variable" : {
+				"label":"Variable"
 			}
 		}
 	}
+}

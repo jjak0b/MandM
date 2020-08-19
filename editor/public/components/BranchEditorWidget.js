@@ -14,7 +14,7 @@ export const component = {
     data(){
         return{
             inputTypes: {
-                "Any": " ActivityEditorWidget.input-type.any",
+                "Any": "ActivityEditorWidget.input-type.any",
                 "Atom": "ActivityEditorWidget.input-type.atom",
                 "Range": "ActivityEditorWidget.input-type.range",
                 "Function": "ActivityEditorWidget.input-type.function"

@@ -10,7 +10,6 @@ export const template = `
 	 v-model="value"
 	 v-bind:aria-describedby="keyType"
   />
-<!--FIXME: "Any" label for radio button doesn't get "translated" to the json label assigned-->
   <label
 	class="form-check-label"
 	v-bind:for="'input-type_' + keyType"
@@ -25,21 +24,28 @@ export const template = `
   </select>
   <label for="tipo">Type</label>
  </div>
-<!-- FIXME: Range section rendered before being selected-->
-  <div v-if="value === 'Range'"
+ <div v-if="value === 'Range'">
     <lable for="min">Min</lable>
     <textarea id="min"></textarea>
     <lable for="max">Max</lable>
     <textarea id="max"></textarea>
-  </div>
-  <div v-if="value === 'Function'">
+ </div>
+ <div v-if="value === 'Function'">
     <select v-model="valuef">
         <option v-for="(functions, value) in functioVal" 
         v-bind:id="functions"
         v-bind:value="value"> {{ $t( functions + '.label'  ) }}
         </option>
     </select>
-    <div v-if=" valuef === 'Array' "></div>
+    <div v-if=" valuef === 'Array' ">
+    <ul>
+    <li v-for="functions in functionsType">
+    <div v-bind:class="'array-func' + functions"
+    <p>{{functions.name}}</p>
+</li>
+</ul>
+    
+</div>
     <div v-if=" valuef === 'Value' ">
         <textarea name="txtFV" placeholder="Insert correlated value..">
         </textarea>
@@ -49,8 +55,7 @@ export const template = `
             <option>Text</option>
         </select>
     </div>
-    <div v-if=" valuef === 'Variabile'">
-    <!-- FIXME: Select doesn't appear-->
+    <div v-if=" valuef === 'Variable'">
         <select> 
         </select>
     </div>

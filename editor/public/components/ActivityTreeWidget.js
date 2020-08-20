@@ -1,4 +1,5 @@
 import {template} from "./ActivityTreeWidgetTemplate.js";
+import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import {i18n, i18nContent, I18nString } from "./Translations.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
@@ -9,6 +10,9 @@ export const component = {
 	props: {
 		value: Object,
 		locale : String
+	},
+	components: {
+		'toolbar': activityToolbar
 	},
 	data() {
 		return {
@@ -208,5 +212,23 @@ export const component = {
 			console.log("created node with id", nodeId);
 			return nodeId;
 		}
+	},
+	mounted() {
+		var menu = $('#menu');
+		$(document).ready(function() {
+			$('#treeView').on('contextmenu', function(e) {
+				e.preventDefault();
+				menu.css({
+					position: 'fixed',
+					display: 'block',
+					zIndex: 1,
+					top: e.clientY,
+					left: e.clientX
+				});
+			});
+			$(document).click(function() {
+				menu.css({ display: 'none' });
+			});
+		});
 	}
 };

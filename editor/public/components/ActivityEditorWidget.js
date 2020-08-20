@@ -1,5 +1,6 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
+import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
@@ -24,7 +25,8 @@ export const component = {
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-		'activity-tree-widget': activityTreeWidgetComponent
+		'activity-tree-widget': activityTreeWidgetComponent,
+		'toolbar': activityToolbar
 	},
 	data() {
 		return {
@@ -37,7 +39,9 @@ export const component = {
 				[NodeUtils.Types.Branch]: "ActivityEditorWidget.treeNode-type.branch",
 			},
 			NodeUtils: NodeUtils,
-			currentNode: null /* object node used by jsTree */
+			currentNode: null /* object node used by jsTree */,
+			isAddFormVisible: false,
+			isEditFormVisible: false
 		}
 	},
 	watch: {
@@ -127,12 +131,29 @@ export const component = {
 			if( item ){
 				$( event.currentTarget).trigger("reset");
 			}
-		},
+			this.isAddFormVisible = false;
+		}/*,
 		onRemove(){
 			this.$refs.treeView.remove();
 		},
 		onDuplicate(){
 			this.$refs.treeView.duplicate();
-		}
+		}*/
+	},
+	mounted() {
+		$(document).on("addToolbar", () => {
+			this.isEditFormVisible = false;
+			this.isAddFormVisible = true;
+		});
+		$(document).on("editToolbar", () => {
+			this.isAddFormVisible = false;
+			this.isEditFormVisible = true;
+		});
+		$(document).on("duplicateToolbar", () => {
+			this.$refs.treeView.duplicate();
+		});
+		$(document).on("removeToolbar", () => {
+			this.$refs.treeView.remove();
+		});
 	}
 };

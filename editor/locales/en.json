@@ -44,6 +44,7 @@
 		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
 		"label-select-nodeType" : "Select a type of element to add to the tree",
 		"label-node-item-name" : "Tree item's name",
+		"label-input-type":"Select input type",
 		"label-node-item-description" : "Note about the tree item",
 		"treeNode-type" : {
 			"quest" : {

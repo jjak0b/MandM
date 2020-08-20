@@ -185,6 +185,10 @@ export const template =
 			<activity-quest-editor-widget
 			></activity-quest-editor-widget>
 		</section>
+		<section v-if="isActivity( NodeUtils.Types.Branch )">
+			<branch-editor-widget
+			></branch-editor-widget>
+		</section>
 	</div>
 </div>`
 ;

@@ -13,12 +13,19 @@ export const component = {
 		}
 	},
 	computed: {
-		style: function () {
-			return (!this.showCSSGrid)
-				?	""
-				:	`border-width: 0.25em;
-					border-color: #000000;
-					border-style: solid;`;
+		classes: function () {
+			let classes = [];
+			classes.push( ( this.value.colSize > 0 ? 'col-' + this.value.colSize : 'col') );
+			if( this.showCSSGrid || this.selected ) {
+				classes.push( 'rounded-0 border' );
+				if( this.selected ) {
+					classes.push( 'border-primary' );
+				}
+				else{
+					classes.push( 'border-danger' );
+				}
+			}
+			return classes;
 		}
 	},
 	watch: {

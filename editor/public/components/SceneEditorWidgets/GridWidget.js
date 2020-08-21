@@ -107,6 +107,17 @@ export const component = {
 		getRowsCount(){
 			return this.gridData.length;
 		},
+		getColumnsCount() {
+			if( this.gridData.length > 0 && this.gridData[ this.selectedIndex.row ] ){
+				let a_columns = this.gridData[ this.selectedIndex.row ];
+				let columnSize = 0;
+				for (let i = 0; i < a_columns.length; i++){
+					columnSize += a_columns[i].colSize;
+				}
+				return columnSize;
+			}
+			return 0;
+		},
 		AddColumn( shouldAddAfter, cellData ) {
 			let index = this.selectedIndex.col;
 
@@ -121,6 +132,7 @@ export const component = {
 				0,
 				cellData
 			);
+			this.onSetCol(index);
 		},
 		removeCell() {
 			let index = this.selectedIndex.col;
@@ -146,6 +158,7 @@ export const component = {
 			}
 
 			this.gridData.splice(index, 0, [  ] );
+			this.onSetRow( index );
 			this.AddColumn( false,{ colSize: 1, component: null } )
 		},
 		removeRow() {
@@ -173,12 +186,7 @@ export const component = {
 		getAvailableColumnsCount() {
 			if( this.selectedIndex.row >= this.gridData.length || this.gridData.length < 1 )
 				return -1;
-			let a_columns = this.gridData[ this.selectedIndex.row ];
-			let columnSize = 0;
-			for (let i = 0; i < a_columns.length; i++){
-				columnSize += a_columns[i].colSize;
-			}
-			return this.maxColumns - columnSize;
+			return this.maxColumns - this.getColumnsCount();
 		},
 		getAvailableRowsCount() {
 			return this.maxRows - this.gridData.length;

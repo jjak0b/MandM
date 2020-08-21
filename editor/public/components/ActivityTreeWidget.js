@@ -215,19 +215,33 @@ export const component = {
 	},
 	mounted() {
 		var menu = $('#menu');
-		$(document).ready(function() {
-			$('#treeView').on('contextmenu', function(e) {
-				e.preventDefault();
-				menu.css({
+		var treeView = $('#treeView');
+
+		treeView.on('contextmenu', function(e) {
+
+			e.preventDefault();
+			let x = e.clientX;
+			let y = e.clientY;
+			var ev = new MouseEvent( "click", { clientX: x, clientY: y, bubbles: true } );
+			var el = document.elementFromPoint(x,y);
+			el.dispatchEvent(ev);
+
+			menu.css({
 					position: 'fixed',
 					display: 'block',
 					zIndex: 1,
 					top: e.clientY,
 					left: e.clientX
-				});
 			});
+			menu.focus();
+
 			$(document).click(function() {
 				menu.css({ display: 'none' });
+			});
+			$(document).on("keydown", function (event) {
+				if (event.which === 13 || event.which === 27) {
+					menu.css({display: 'none'});
+				}
 			});
 		});
 	}

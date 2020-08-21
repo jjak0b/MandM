@@ -8,11 +8,10 @@ export const template =
 	<row
 		v-for="(columns, index) in gridData"
 		v-bind:value="columns"
-		v-bind:selected="selectedIndex.row == index"
-		v-bind:selectedCol="selectedIndex.col"
+		v-bind:target="cursor"
+		v-bind:rowIndex="index"
 		v-bind:showCSSGrid="showCSSGrid"
-		v-on:setRow="onSetRow( index )"
-		v-on:setCol="onSetCol"
+		v-on:setCursor="onSetCursor"
 		v-on:currentCellData="$emit('input', $event.target.value )"
 	></row>
 </div>

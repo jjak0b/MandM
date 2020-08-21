@@ -8,8 +8,8 @@ export const component = {
 	},
 	props: {
 		value: Array,
-		selected: Boolean,
-		selectedCol: Number,
+		target: Array,
+		rowIndex: Number,
 		showCSSGrid: Boolean
 	},
 	data() {

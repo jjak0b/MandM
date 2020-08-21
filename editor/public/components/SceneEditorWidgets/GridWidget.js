@@ -15,21 +15,20 @@ export const component = {
 	},
 	data(){
 		return {
-			selectedIndex: {
-				row: 0,
-				col: 0
-			},
+			cursor: [
+				0,
+				0
+			],
 			gridData : [],
 			currentCell: null
 		}
 	},
 	methods: {
 		KeyHandler( event ) {
-			let row = this.selectedIndex.row;
-			let col = this.selectedIndex.col;
+			let row = this.cursor[0];
+			let col = this.cursor[1];
 			let shouldStopPropagation = true;
 
-			console.log( "event key:", event.key);
 			if( KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.ArrowRight ) ) {
 				++col;
 			}
@@ -71,16 +70,14 @@ export const component = {
 			}
 
 			if( shouldStopPropagation ){
+				row = Math.min( Math.max( 0, row ), this.gridData.length-1 );
+				col = Math.min( Math.max( 0, col ), this.gridData[ row ].length-1 );
+
+				this.onSetCursor( [row, col] );
+
+				this.$emit( "input", this.gridData );
 				event.stopPropagation();
 			}
-			row = Math.min( Math.max( 0, row ), this.gridData.length-1 );
-			col = Math.min( Math.max( 0, col ), this.gridData[ row ].length-1 );
-
-			this.onSetRow( row );
-			this.onSetCol( col );
-			console.log( this.selectedIndex );
-
-			this.$emit( "input", this.gridData );
 
 		},
 		// allow to prevent arrowUp/Down, pageUp/down, home/end scrolling the page
@@ -95,11 +92,8 @@ export const component = {
 				event.preventDefault();
 			}
 		},
-		onSetCol( value ){
-			this.$set( this.selectedIndex, "col", value );
-		},
-		onSetRow( value ) {
-			this.$set( this.selectedIndex, "row", value );
+		onSetCursor( value ) {
+			this.cursor.splice(0, 2, value[0], value[1] );
 		},
 		onSetCellData( value ) {
 			this.currentCell = value;
@@ -108,8 +102,8 @@ export const component = {
 			return this.gridData.length;
 		},
 		getColumnsCount() {
-			if( this.gridData.length > 0 && this.gridData[ this.selectedIndex.row ] ){
-				let a_columns = this.gridData[ this.selectedIndex.row ];
+			if( this.gridData.length > 0 && this.gridData[ this.cursor[0] ] ){
+				let a_columns = this.gridData[ this.cursor[0] ];
 				let columnSize = 0;
 				for (let i = 0; i < a_columns.length; i++){
 					columnSize += a_columns[i].colSize;
@@ -119,31 +113,31 @@ export const component = {
 			return 0;
 		},
 		AddColumn( shouldAddAfter, cellData ) {
-			let index = this.selectedIndex.col;
+			let index = this.cursor[1];
 
-			if ( !this.gridData[this.selectedIndex.row] )
-				this.$set( this.gridData, this.selectedIndex.row, [] );
+			if ( !this.gridData[this.cursor[0]] )
+				this.$set( this.gridData, this.cursor[0], [] );
 
-			if( shouldAddAfter && this.gridData[this.selectedIndex.row].length > 0 )
+			if( shouldAddAfter && this.gridData[this.cursor[0]].length > 0 )
 				index += 1;
 
-			this.gridData[this.selectedIndex.row].splice(
+			this.gridData[this.cursor[0]].splice(
 				index,
 				0,
 				cellData
 			);
-			this.onSetCol(index);
+			this.onSetCursor( [ this.cursor[0], index ] );
 		},
 		removeCell() {
-			let index = this.selectedIndex.col;
-			if( this.gridData.length > 0 && this.gridData[this.selectedIndex.row] ) {
-				if ( this.gridData[this.selectedIndex.row].length > 1) {
-					this.gridData[this.selectedIndex.row].splice(index, 1);
-					if (index >= this.gridData[this.selectedIndex.row].length) {
-						index = this.gridData[this.selectedIndex.row].length - 1
-						this.onSetCol(index);
+			let index = this.cursor[1];
+			if( this.gridData.length > 0 && this.gridData[this.cursor[0]] ) {
+				if ( this.gridData[this.cursor[0]].length > 1) {
+					this.gridData[this.cursor[0]].splice(index, 1);
+					if (index >= this.gridData[this.cursor[0]].length) {
+						index = this.gridData[this.cursor[0]].length - 1
 					}
 					// else the columns is already valid in the new row
+					this.onSetCursor( [ this.cursor[0], index ] );
 				}
 				// if there is 1 column, so remove the row
 				else {
@@ -152,39 +146,39 @@ export const component = {
 			}
 		},
 		AddRow( shouldAddAfter ) {
-			let index = this.selectedIndex.row;
+			let index = this.cursor[0];
 			if( shouldAddAfter && this.gridData.length > 0 ){
 				index += 1;
 			}
 
 			this.gridData.splice(index, 0, [  ] );
-			this.onSetRow( index );
+			this.onSetCursor( [ index, 0 ] );
 			this.AddColumn( false,{ colSize: 1, component: null } )
 		},
 		removeRow() {
-			let indexRow = this.selectedIndex.row;
-			let indexCol = this.selectedIndex.col;
+			let indexRow = this.cursor[0];
+			let indexCol = this.cursor[1];
 			if( this.gridData.length > 0 ) {
 				this.gridData.splice( indexRow, 1 );
 				if( indexRow >= this.gridData.length) {
 					indexRow = Math.max( 0, this.gridData.length-1);
-					this.onSetRow( indexRow );
 				}
 
 				if( this.gridData.length > 0 ) {
-					if( this.gridData[ indexRow ].length >= indexCol ){
+					if( indexCol >= this.gridData[ indexRow ].length ){
 						indexCol = Math.max( 0, this.gridData[ indexRow ].length - 1 );
-						this.onSetCol( indexCol );
 					}
 					// else the columns is already valid in the new row
 				}
 				else{
-					this.onSetCol( 0 );
+					indexCol = 0;
 				}
+
+				this.onSetCursor( [ indexRow, indexCol ] );
 			}
 		},
 		getAvailableColumnsCount() {
-			if( this.selectedIndex.row >= this.gridData.length || this.gridData.length < 1 )
+			if( this.cursor[0] >= this.gridData.length || this.gridData.length < 1 )
 				return -1;
 			return this.maxColumns - this.getColumnsCount();
 		},

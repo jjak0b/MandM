@@ -6,9 +6,10 @@ export const template =
 	<column
 		v-for="(column, index) in value"
 		v-bind:value="column"
-		v-bind:selected="selected && selectedCol == index"
+		v-bind:target="target"
+		v-bind:coords="[rowIndex, index]"
 		v-bind:showCSSGrid="showCSSGrid"
-		v-on:setCol="setCurrentIndex( index )"
+		v-on:setCursor="$emit('setCursor', $event)"
 		v-on:currentCellData="$emit($event)"
 	></column>
 </div>

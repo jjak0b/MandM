@@ -4,21 +4,22 @@ export const component = {
 	template: template,
 	props: {
 		value: Object,
-		selected : Boolean,
+		target: Array,
+		coords: Array,
 		showCSSGrid: Boolean
 	},
 	data() {
 		return {
-
+			isSelected: false
 		}
 	},
 	computed: {
 		classes: function () {
 			let classes = [];
 			classes.push( ( this.value.colSize > 0 ? 'col-' + this.value.colSize : 'col') );
-			if( this.showCSSGrid || this.selected ) {
+			if( this.showCSSGrid || this.isSelected ) {
 				classes.push( 'rounded-0 border' );
-				if( this.selected ) {
+				if( this.isSelected ) {
 					classes.push( 'border-primary' );
 				}
 				else{
@@ -29,11 +30,29 @@ export const component = {
 		}
 	},
 	watch: {
-		"selected" : function (newVal, oldVal) {
-			if(newVal) {
-				this.$el.focus();
-				this.$emit("currentCellData", this.value );
-			}
+		"target": function (newVal) {
+			this.updateFocus();
 		}
 	},
+	mounted() {
+		this.updateFocus();
+	},
+	methods: {
+		focusMe() {
+			this.$el.focus();
+			this.$emit("currentCellData", this.value );
+		},
+		updateFocus(){
+			if(this.target && this.target[0] == this.coords[0] &&this.target[1] == this.coords[1] ) {
+				this.isSelected = true;
+				this.focusMe();
+			}
+			else{
+				this.isSelected = false;
+			}
+		},
+		onFocus() {
+			this.$emit('setCursor', this.coords );
+		}
+	}
 }

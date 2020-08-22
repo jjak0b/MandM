@@ -8,7 +8,7 @@ export const component = {
 		"row" : rowComponent
 	},
 	props: {
-		currentCellData: Object,
+		value: Object,
 		maxRows: Number,
 		maxColumns: Number,
 		showCSSGrid: Boolean
@@ -21,6 +21,25 @@ export const component = {
 			],
 			gridData : [],
 			currentCell: null
+		}
+	},
+	watch: {
+		// parent to child update is not needed because we send the object reference on updated cursor, so any field change
+		// happens on same object reference
+
+		// child to parent
+		// Note: we send the object reference, so if the internal field are changed, will be updated also on child since it's a reference
+		"cursor": function (newVal, oldVal) {
+			if( newVal
+				&& newVal[0] < this.gridData.length
+				&& newVal[1] < this.gridData[ newVal[0] ].length ) {
+				console.log("update", "cursor", newVal, "sending", this.gridData[ newVal[0] ][ newVal[1] ] );
+				this.$emit( 'input', this.gridData[ newVal[0] ][ newVal[1] ] );
+			}
+			else{
+				console.warn("update", "cursor", newVal );
+				this.$emit( 'input', null );
+			}
 		}
 	},
 	methods: {
@@ -178,7 +197,7 @@ export const component = {
 			}
 		},
 		getAvailableColumnsCount() {
-			if( this.cursor[0] >= this.gridData.length || this.gridData.length < 1 )
+			if( this.gridData.length < 1 )
 				return -1;
 			return this.maxColumns - this.getColumnsCount();
 		},

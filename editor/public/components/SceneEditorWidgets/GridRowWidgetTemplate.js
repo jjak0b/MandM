@@ -2,7 +2,7 @@ export const template =
 `
 <div
 	role="row"
-	class="row">
+	class="row no-gutters">
 	<column
 		v-for="(column, index) in value"
 		v-bind:value="column"

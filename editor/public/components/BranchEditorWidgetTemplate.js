@@ -38,14 +38,16 @@ export const template = `
         </option>
     </select>
     <div v-if=" valuef === 'Array' ">
-    <ul>
-    <li v-for="functions in functionsType">
-    <div v-bind:class="'array-func' + functions"
-    <p>{{functions.name}}</p>
-</li>
-</ul>
-    
-</div>
+       <div>
+        <textarea v-model="valueAr">
+        </textarea> 
+        <select>
+            <option value="Text">text</option>
+            <option value="Number">Number</option>
+        </select>
+       </div>
+       <button v-on:click="save()">Add</button>
+    </div>
     <div v-if=" valuef === 'Value' ">
         <textarea name="txtFV" placeholder="Insert correlated value..">
         </textarea>

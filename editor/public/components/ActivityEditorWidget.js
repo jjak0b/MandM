@@ -155,5 +155,12 @@ export const component = {
 		$(document).on("removeToolbar", () => {
 			this.$refs.treeView.remove();
 		});
+		$(document).on("grabToolbar", () => {
+			this.$refs.treeView.grab();
+		});
+		$(document).on("dropToolbar", () => {
+			this.$refs.treeView.drop();
+
+		});
 	}
 };

@@ -36,7 +36,6 @@ export const component = {
 		"value" : {
 			deep: true,
 			handler: function ( value ) {
-				console.warn("update");
 				if( value && value.component && value.component.style ) {
 					let dummy = $( this.$refs.styleEl )[0];
 					$(dummy).css( "transform", `rotateX(${this.value.component.style.angles.x}) rotateY(${ this.value.component.style.angles.y }) rotateZ(${ this.value.component.style.angles.z })` );

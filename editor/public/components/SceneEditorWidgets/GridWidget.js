@@ -33,11 +33,9 @@ export const component = {
 			if( newVal
 				&& newVal[0] < this.gridData.length
 				&& newVal[1] < this.gridData[ newVal[0] ].length ) {
-				console.log("update", "cursor", newVal, "sending", this.gridData[ newVal[0] ][ newVal[1] ] );
 				this.$emit( 'input', this.gridData[ newVal[0] ][ newVal[1] ] );
 			}
 			else{
-				console.warn("update", "cursor", newVal );
 				this.$emit( 'input', null );
 			}
 		}

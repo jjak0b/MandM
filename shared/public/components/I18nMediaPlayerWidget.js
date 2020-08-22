@@ -4,12 +4,12 @@ import {i18nContent} from "/edit/components/Translations.js"; // TODO: move this
 let i18nList = {};
 
 export const component = {
+	inheritAttrs: false,
 	i18n: i18nContent,
 	template: template,
 	props: {
 		value: Object,
 		locale: String,
-		tag: String
 	},
 	data() {
 		return {

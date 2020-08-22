@@ -12,7 +12,7 @@ export const template =
 			v-bind:min="min"
 			v-bind:max="max"
 			v-bind:step="step"
-			v-model="value"
+			v-model.number="value"
 		/>
 	</div>
 	<div class="col">
@@ -26,7 +26,7 @@ export const template =
 			v-bind:min="min"
 			v-bind:max="max"
 			v-bind:step="step"
-			v-model="value"
+			v-model.number="value"
 		/>
 	</div>
 </div>

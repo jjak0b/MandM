@@ -2,14 +2,17 @@
 import {template} from "./BranchEditorWidgetTemplate.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
-
+import {component as TextAreaIn} from "./InputAreaTypeWidget.js";
 
 
 export const component = {
     template: template,
     props: {
         value: String, //Type of input selected in radio
-        valuef: String
+        valuef: String,
+        items:Array,
+        valueAr:'valore',
+        valueT:String
         },
     data(){
         return{
@@ -55,13 +58,27 @@ export const component = {
                     self: Number,
                     param: Number
                 }
-             }//,
-            // content: this.value
+             }
         }
+    },
+     // methods: {
+     //     save() {
+     //         let func = this.valoreAr;
+     //         if( !func ) {
+     //             func = {};
+     //             this.items.push( func );
+     //             func.valore = func;
+     //             // this.$emit( "inc-Id" );
+     //             // mission.title = this.localeTitle;
+     //             // mission.description = this.localeDescription;
+     //             console.log( "registered new mission: ", func );
+     //         }
+     //
+     //         // set new Id, so new locale data will be available
+     //         console.log( "Set new ID: " , func  );
+     //     }
+     // },
+    components:{
+        'text-area-input': TextAreaIn
     }
-    // methods: {
-    //     handleInput (e) {
-            // this.$emit('input', this.content)
-        // }
-    // }
 }

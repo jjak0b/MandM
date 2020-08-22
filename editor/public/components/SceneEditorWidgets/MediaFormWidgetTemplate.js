@@ -12,7 +12,7 @@ export const template =
 						v-bind:id="'mediaForm-media-type_' + type "
 						required="required"
 						v-bind:value="type"
-						v-model="mediaType"
+						v-model="value.tag"
 						v-on:change="$( $refs.form ).trigger('reset')"
 					/>
 					<label
@@ -40,7 +40,7 @@ export const template =
 				-->
 			<fieldset>
 				<legend>{{ $t( "MediaForm.label_upload_file" ) }}</legend>
-				<div v-if="mediaType && mediaType == 'image'">
+				<div v-if="value.tag && value.tag == 'image'">
 					<div class="form-group">
 						<label
 							for="mediaForm-input-file-image"
@@ -71,7 +71,7 @@ export const template =
 						></i18n-input-widget>
 					</div>
 				</div>
-				<div v-if="mediaType && mediaType == 'video' ">
+				<div v-if="value.tag && value.tag == 'video' ">
 					<div class="form-group">
 						<label
 							for="mediaForm-input-file-video"
@@ -87,7 +87,7 @@ export const template =
 						/>
 					</div>
 				</div>
-				<div v-if="mediaType && mediaType == 'audio' ">
+				<div v-if="value.tag && value.tag == 'audio' ">
 					<div class="form-group">
 						<label
 							for="mediaForm-input-file-audio"
@@ -103,7 +103,7 @@ export const template =
 						/>
 					</div>
 				</div>
-				<div v-if="mediaType && ( mediaType == 'audio' || mediaType == 'video' )" >
+				<div v-if="value.tag && ( value.tag == 'audio' || value.tag == 'video' )" >
 					<div class="form-group">
 						<label
 							for="mediaForm-input-file-subtitles"
@@ -130,8 +130,8 @@ export const template =
 	<section class="col">
 		<i18n-media-player-widget ref="preview"
 			v-if="shouldPreview()"
-			v-bind:tag="mediaType"
 			v-bind:value="value"
+			v-bind:locale="locale"
 		></i18n-media-player-widget>
 	</section>
 </div>

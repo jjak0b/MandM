@@ -9,12 +9,12 @@ export const component = {
 		"i18n-media-player-widget" : asyncLoadComponentI18nMediaPlayer
 	},
 	props: {
+		value: Object,
 		assetId : Number,
 		locale : String
 	},
 	data() {
 		return {
-			value: null,
 			/*labelMediaSourceTypes : {
 				"file" : "SceneEditor.imgSourceTypes.label_file",
 				"uri" : "SceneEditor.imgSourceTypes.label_uri"
@@ -24,7 +24,6 @@ export const component = {
 				"video" : "MediaForm.MediaType.label_video",
 				"image" : "MediaForm.MediaType.label_image"
 			},
-			mediaType: null,
 			sourceType: null,
 			files : {
 				main: null,
@@ -42,7 +41,7 @@ export const component = {
 		updateAssetForPreview() {
 			let value = {};
 			value[ "src" ] = this.files.main ? URL.createObjectURL(this.files.main) : null
-			if( this.mediaType == "image" ){
+			if( this.value.tag == "image" ){
 				value[ "subtitles" ] = this.localeImageCaptionLabel;
 			}
 			else {
@@ -56,7 +55,9 @@ export const component = {
 					});
 				}
 			}
-			this.value = value;
+			let self = this;
+			Object.keys( value )
+				.forEach( (key) => self.$set( self.value, key, value[ key ] ) );
 		},
 		onFileload(event, fileCategory) {
 			let file = event.target.files[0];

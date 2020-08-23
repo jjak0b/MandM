@@ -216,6 +216,8 @@ export const component = {
 		},
 		grab() {
 			this.grabNode = this.tree.get_selected(true)[0];
+			this.grabNode.li_attr["aria-grabbed"] = true;
+			this.redraw();
 		},
 		drop() {
 			if(this.grabNode) {
@@ -232,6 +234,12 @@ export const component = {
 					//altrimenti viene spostato all'interno del nodo selezionato
 					moved = this.tree.move_node(this.grabNode, selectedNode);
 				}
+				if (moved) {
+					this.tree.deselect_node(selectedNode);
+					this.tree.select_node(this.grabNode);
+				}
+				this.grabNode.li_attr["aria-grabbed"] = false;
+				this.redraw();
 				this.grabNode = null;
 			}
 		},

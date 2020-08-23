@@ -20,13 +20,17 @@ export default class JSTreeNode {
 		/*String|I18nString*/ 	tagName,
 		/*NodeUtils.Types*/ 	type,
 		/*Object*/ 				data,
-		/*Array*/				children
+		/*Array*/				children,
 	) {
 		this.id = "" + id;
 		this.text = tagName;
 		this.type = type;
 		this.data = data;
 		let roleLabelDescription = NodeUtils.getRoleDescriptionLabelByType( type );
+		this.li_attr = {
+			"aria-haspopup": true,
+			"aria-grabbed": false
+		}
 		this.a_attr = {
 			"aria-roledescription": new I18nString( i18n, roleLabelDescription )
 		}

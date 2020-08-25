@@ -6,7 +6,7 @@ export const component = {
     prop:{
         list: Array,
         value: Object,
-        type: String
+        type: String //FIXME: Error tells me that this variable is not defined
     },
 data(){
         return {

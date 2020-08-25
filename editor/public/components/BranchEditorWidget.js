@@ -11,8 +11,10 @@ export const component = {
         value: String, //Type of input selected in radio
         valuef: String,
         items:Array,
-        valueAr:'valore',
-        valueT:String
+        valuear:String,
+        valueT:String,
+        type:String,
+        valueSel:Array
         },
     data(){
         return{
@@ -62,21 +64,7 @@ export const component = {
         }
     },
      // methods: {
-     //     save() {
-     //         let func = this.valoreAr;
-     //         if( !func ) {
-     //             func = {};
-     //             this.items.push( func );
-     //             func.valore = func;
-     //             // this.$emit( "inc-Id" );
-     //             // mission.title = this.localeTitle;
-     //             // mission.description = this.localeDescription;
-     //             console.log( "registered new mission: ", func );
-     //         }
-     //
-     //         // set new Id, so new locale data will be available
-     //         console.log( "Set new ID: " , func  );
-     //     }
+     //  function:
      // },
     components:{
         'text-area-input': TextAreaIn

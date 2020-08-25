@@ -16,6 +16,22 @@ data(){
             }
         }
 },
+    methods:{
+        addT:function(){
+            if(this.value){
+                if(this.type === 'text'){
+                    this.list.push(this.value.txt);
+                }
+            }
+        },
+        addN:function(){
+            if(this.value){
+                if(this.type === 'number'){
+                    this.list.push(this.value.num);
+                }
+            }
+        }
+    }
 
 
 }

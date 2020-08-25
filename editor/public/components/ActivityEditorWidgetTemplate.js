@@ -168,8 +168,6 @@ export const template =
 						</fieldset>
 					</div>
 		</div>
-		<branch-editor-widget>
-        </branch-editor-widget>
 		<hr>
 		<section v-if="isActivity()">
 			<scene-editor-widget

@@ -44,19 +44,25 @@ export const template = `
         </option>
     </select>
     <div v-if=" valuef === 'Array'">
-       <div>
-        <textarea v-model="valueAr">
-        </textarea> 
-        <select>
-            <option value="Text">text</option>
-            <option value="Number">Number</option>
-        </select>
-       </div>
+    <text-area-input></text-area-input>
+<!--       <div>-->
+<!--       <select v-model="test">-->
+<!--            <option v-bind:value="1">Text</option>-->
+<!--            <option v-bind:value="2">Number</option>-->
+<!--        </select>-->
+<!--        </div>-->
+<!--        <div v-if="test === 1">-->
+<!--        <textarea v-model="valuear">-->
+<!--        </textarea> -->
+<!--       </div>-->
+<!--       <div v-if="test === 2" min="1">-->
+<!--       <input type="number" v-model="valuenum">-->
+<!--       </div>-->
        <button v-on:click="save()">Add</button>
     </div>
     <div v-if=" valuef === 'Value'">
     //FIXME:Single value input doesn't show
-       <select v-model="valueAr">
+       <select v-model="valuear">
             <option v-bind:value="Text">text</option>
             <option v-bind:value="Number">Number</option>
         </select>

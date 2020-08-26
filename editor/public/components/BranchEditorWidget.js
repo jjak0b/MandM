@@ -11,9 +11,11 @@ export const component = {
         value: String, //Type of input selected in radio
         valuef: String,
         items:Array,
-        valuear:String,
         valueT:String,
         type:String,
+        test:Number,
+        valuenum:Number,
+        valuear:String,
         valueSel:Array
         },
     data(){

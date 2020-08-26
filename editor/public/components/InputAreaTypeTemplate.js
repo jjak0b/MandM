@@ -1,11 +1,16 @@
-export const template =
-    `
-<select v-model="type">
-<option v-bind:value="text">Text</option>
-<option v-bind:value="number">Number</option>
-</select>
-<textarea v-if="type === 'text'" name="txtar" 
-placeholder="Enter text" v-model="svalue"></textarea>
-<input v-if="type === 'number'" name="innum">
-
+export const template = `
+<div>
+       <select v-model="test">
+            <option v-bind:value="1">Text</option>
+            <option v-bind:value="2">Number</option>
+        </select>
+        </div>
+        <div v-if="test == 1">
+        <textarea v-model="valuear">
+        </textarea> 
+       </div>
+       <div v-if="test == 2" min="1">
+       <input type="number" v-model="valuenum">
+       </div>
+     
 `;

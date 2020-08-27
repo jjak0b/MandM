@@ -1,15 +1,35 @@
 export const template =
 `
-<div class="w-100">
+<div class="w-100" v-bind="$attrs">
 	<figure
 		v-if="value.tag == 'image'"
-		v-bind="$attrs"
+		class="figure"
 	>
 		<img
+			ref="img"
+			v-bind:id="$attrs.id + '-img'"
 			v-bind:src="value.src"
 			v-bind:alt="$t(value.subtitles)"
+			v-bind:usemap="'#' + $attrs.id + '-map'"
+			class="figure-img img-fluid rounded" 
 		/>
-		<figcaption>{{ $t(value.subtitles) }}</figcaption>
+		<map
+			v-if="value.areas"
+			ref="map"
+			v-bind:name="$attrs.id + '-map'"
+		>
+			<area
+				v-for="(area, i) in value.areas"
+				ref="area"
+				v-bind:shape="area.shape"
+				v-bind:coords="getStringAreaCoords( i )"
+				v-bind:alt="$t( area.alt )"
+				v-bind:href="area.href"
+			/>
+		</map>
+		<figcaption
+			class="figure-caption text-right"
+		>{{ $t(value.subtitles) }}</figcaption>
 	</figure>
 	<video
 		v-if="value.tag == 'video'"
@@ -32,7 +52,7 @@ export const template =
 		controls="controls"
 		v-bind="$attrs"
 		v-bind:src="value.src"
-		aria-describedby="lyrics"
+		v-bind:aria-describedby="$attrs[id] + 'lyrics'"
 		class="w-100"
 	>
 		<track v-for="(source, lang) in value.subtitles"
@@ -47,7 +67,7 @@ export const template =
 	</audio>
 	<p
 		v-if="value.tag == 'audio'"
-		id="lyrics"
+		v-bind:id="$attrs[id] + 'lyrics'"
 		aria-label="Lyrics" v-html="subtitleContent">
 	</p>
 </div>

@@ -19,27 +19,27 @@ export const component = {
 			},
 			i18nList: i18nList,
 			subtitleContent: null,
-			indexOverArea: -1
+			indexOverArea: -1,
+			updateFlagToggle: false
 		}
 	},
 	mounted(){
-		this.$nextTick( this.updateMapAreas );
-		window.addEventListener( "resize",this.updateMapAreas );
+		if( this.value.tag == "image" ){
+			window.addEventListener( "resize",this.updateMapAreas );
+		}
+		console.log("b");
 	},
 	watch: {
-		"value.areas": {
-			deep: true,
-			handler: function (newVal) {
-				// if a new area is updated, then update it
-				this.$nextTick( this.updateMapAreas );
-			}
+
+	},
+	beforeUpdate() {
+		if( this.value.tag == "image" ) {
+			this.updateMapAreas();
 		}
 	},
 	updated(){
-		if( this.value.tag == "image" ) {
-			if( this.indexOverArea >= 0 )
-				this.highlightMapArea( this.indexOverArea );
-		}
+
+		console.log("a");
 	},
 	beforeDestroy(){
 		if( this.value.tag == "image" ) {
@@ -57,15 +57,17 @@ export const component = {
 		arrayToCoords( coords ) {
 			if( !coords ) return "";
 		},
-		resizeArea( indexArea ){
+		resizeArea( indexArea, imgWidth, imgHeight){
+			console.log( "res", indexArea);
+			let coords = [];
 			if( !this.value || !this.value.areas || !this.value.areas[ indexArea ] )
-				return;
+				return coords;
 			let self = this;
 			let area = this.value.areas[ indexArea ];
 
 			if( !area.vertices || !area.vertices.length )
-				return;
-			let coords = [];
+				return coords;
+
 			area.vertices.forEach( (vertex, indexVertex) => {
 				vertex.forEach( (axisValuePercent, axisIndex) =>{
 					let percentRate = axisValuePercent/100.0;
@@ -73,39 +75,44 @@ export const component = {
 					// y coords are odd
 					// radius is on even index, so will get width as reference
 					if( axisIndex == 0 ) {
-						let width = self.$refs.img.width;
-						coords.push( percentRate * width );
+						coords.push( percentRate * imgWidth );
 					}
 					else {
-						let height = self.$refs.img.height;
-						coords.push( percentRate * height );
+						coords.push( percentRate * imgHeight );
 					}
 				});
 			});
-			this.$set( this.map.coords, indexArea, coords );
+			return coords;
 		},
 		updateMapAreas() {
+			// update a variable to force view update and recompute map coords
+
 			let self = this;
-			let useHighlight = false;
-			if( this.value && this.value.areas && this.$refs.img ) {
-				let self = this;
-				this.value.areas.forEach( ( area, indexArea ) => {
-					self.resizeArea( indexArea );
-					$( self.$refs.area[ indexArea ] ).data(
-						"maphilight",
-						{
-							neverOn: !area.useHighlight,
-						}
-					);
-					if( !useHighlight ) useHighlight = area.useHighlight;
-				});
-				if( useHighlight )
-					$( this.$refs.img ).maphilight();
+			if( this.value && this.value.areas ) {
+				//this.$nextTick( function () {
+					let useHighlight = false;
+					this.value.areas.forEach( ( area, indexArea ) => {
+						$(self.$refs.area[indexArea]).data(
+							"maphilight",
+							{
+								neverOn: ! area.useHighlight,
+							}
+						);
+						if( !useHighlight ) useHighlight = area.useHighlight;
+					});
+					if( useHighlight ){
+						console.log( "m", this.$refs.img, "w", this.$refs.img.width );
+						$( this.$refs.img ).maphilight();
+					}
+				//});
 			}
+			this.updateFlagToggle = !this.updateFlagToggle;
 		},
 		getStringAreaCoords( areaIndex ){
-			if( this.map && this.map.coords && this.map.coords[ areaIndex ] ){
-				return this.map.coords[ areaIndex ].join();
+			let coords = this.resizeArea( areaIndex, this.$refs.img.width, this.$refs.img.height );
+			if( coords ){
+				console.log( "coords", coords );
+				return coords.join();
 			}
 			return ""
 		},

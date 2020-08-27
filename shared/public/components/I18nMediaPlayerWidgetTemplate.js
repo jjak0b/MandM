@@ -1,17 +1,17 @@
 export const template =
 `
-<div class="w-100" v-bind="$attrs">
+<div class="w-100">
 	<figure
 		v-if="value.tag == 'image'"
 		class="figure"
 	>
 		<img
 			ref="img"
-			v-bind:id="$attrs.id + '-img'"
+			v-bind="$attrs"
 			v-bind:src="value.src"
 			v-bind:alt="$t(value.subtitles)"
 			v-bind:usemap="'#' + $attrs.id + '-map'"
-			class="figure-img img-fluid rounded" 
+			class="w-100 figure-img img-fluid rounded" 
 		/>
 		<map
 			v-if="value.areas"

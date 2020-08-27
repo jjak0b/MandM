@@ -5,21 +5,23 @@ import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js"
 import {component as TextAreaIn} from "./InputAreaTypeWidget.js";
 
 
+
 export const component = {
     template: template,
     props: {
         value: String, //Type of input selected in radio
         valuef: String,
-        items:Array,
         valueT:String,
         type:String,
         test:Number,
-        valuenum:Number,
+        valueTypeSel:String,
         valuear:String,
         valueSel:Array
         },
     data(){
         return{
+            list:[],
+            valueAr:null,
             inputTypes: {
                 "Any": "ActivityEditorWidget.input-type.any",
                 "Atom": "ActivityEditorWidget.input-type.atom",
@@ -35,29 +37,34 @@ export const component = {
                 Match: {
                     name: "eq",
                     locale: String,
+                    list:[],
                     self: Object,
                     param: Object
                 },
                 Different: {
                     name: "neq",
+                    list:[],
                     locale: String,
                     self: Object,
                     param: Object
                 },
                 Contains: {
                     name: "hasInside",
+                    list:[],
                     locale: String,
                     self: Object,
                     param: Array
                 },
                 Any: {
                     name: "isThere",
+                    list:[],
                     locale: String,
                     self: null,
                     param: Object
                 },
                 Between: {
                     name: "isInRange",
+                    list:[],
                     locale: String,
                     self: Number,
                     param: Number
@@ -65,9 +72,13 @@ export const component = {
              }
         }
     },
-     // methods: {
-     //  function:
-     // },
+
+     methods: {
+
+         add() {
+             this.list.push( this.valueAr );
+         }
+    },
     components:{
         'text-area-input': TextAreaIn
     }

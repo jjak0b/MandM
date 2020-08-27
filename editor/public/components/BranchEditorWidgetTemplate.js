@@ -42,23 +42,31 @@ export const template = `
         v-bind:id="functions"
         v-bind:value="value"> {{ $t( functions + '.label'  ) }}
         </option>
+       
     </select>
     <div v-if=" valuef === 'Array'">
-    <text-area-input></text-area-input>
-<!--       <div>-->
-<!--       <select v-model="test">-->
-<!--            <option v-bind:value="1">Text</option>-->
-<!--            <option v-bind:value="2">Number</option>-->
-<!--        </select>-->
-<!--        </div>-->
-<!--        <div v-if="test === 1">-->
-<!--        <textarea v-model="valuear">-->
-<!--        </textarea> -->
-<!--       </div>-->
-<!--       <div v-if="test === 2" min="1">-->
-<!--       <input type="number" v-model="valuenum">-->
-<!--       </div>-->
-       <button v-on:click="save()">Add</button>
+<!--    <text-area-input></text-area-input>-->
+       <div>
+       <select v-model="test">
+            <option v-bind:value="1">Text</option>
+            <option v-bind:value="2">Number</option>
+        </select>
+        </div>
+        <!-- Sezione con area dipende da val del select testo --->
+        <div v-if="test === 1">
+   <input v-model="valueAr" type="text">
+<!--        <input type="text" v-model="valuear">-->
+<!--        <input type="submit" value="Submit">-->
+<button @click="add()">Aggiungi
+   </button>
+      </div>
+       <div v-if="test === 2" min="1">
+       <input type="number" v-model.number="valueAr">
+        <button @click="add()">Aggiungi
+   </button>
+        </div>
+        <pre>{{ JSON.stringify(this.list, null, 2) }}</pre>
+</div>
     </div>
     <div v-if=" valuef === 'Value'">
     //FIXME:Single value input doesn't show

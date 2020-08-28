@@ -38,6 +38,8 @@ export const template =
 				v-bind:locale="locale"
 				v-bind:nextId="cache.story.activityNextId"
 				v-on:inc-Id="++cache.story.activityNextId"
+				v-bind:nextAssetId="cache.story.assetNextId"
+				v-on:inc-assetId="++cache.story.assetNextId"
 				v-model="cache.activity"
 			></activity-editor-widget>
 		</section>

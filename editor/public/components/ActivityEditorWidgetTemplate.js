@@ -156,14 +156,30 @@ export const template =
 							</fieldset>
 						</div>
 					</div>
-					<div class="btn-group" role="group">
-						<input type="submit" class="btn btn-primary"></input>
-						<input type="reset" class="btn btn-primary"></input>
-					</div>
-				</form>
-			</div>
-		</template>
-	</template>
-</div>
-`
+				</div>
+			</form>
+		</div>
+		<branch-editor-widget>
+        </branch-editor-widget>
+		<hr>
+		<section v-if="isActivity()">
+			<scene-editor-widget
+				v-bind:locale="locale"
+				v-bind:nextAssetId="nextAssetId"
+			></scene-editor-widget>
+		</section>
+		<section v-if="isActivity( NodeUtils.Types.Tell )">
+			<activity-tale-editor-widget
+			></activity-tale-editor-widget>
+		</section>
+		<section v-if="isActivity( NodeUtils.Types.Quest )">
+			<activity-quest-editor-widget
+			></activity-quest-editor-widget>
+		</section>
+		<section v-if="isActivity( NodeUtils.Types.Branch )">
+			<branch-editor-widget
+			></branch-editor-widget>
+		</section>
+	</div>
+</div>`
 ;

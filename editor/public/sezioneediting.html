@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SezioneEditing</title>
+    <link rel="stylesheet" href="css/style1.css">
+
+</head>
+<body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" >
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.10/vue.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/themes/default/style.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.8/jstree.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="module" src="./js/init.js"></script>
+<script src="js/parte1.js"></script>
+
+<div>
+    <nav>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="story-tab" data-toggle="tab" href="#story-editor-widget-section" role="tab" aria-controls="home" aria-selected="true">Story</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="missions-tab" data-toggle="tab" href="#mission-editor-widget-section" role="tab" aria-controls="profile" aria-selected="false">Missions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="activities-tab" data-toggle="tab" href="#activity-editor-widget-section" role="tab" aria-controls="contact" aria-selected="false">Activities</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="tab-content">
+        <section id="story-editor-widget-section" class="tab-pane fade container" role="tabpanel" aria-labelledby="story-tab">
+            <story-editor-widget id="story-editor-widget"></story-editor-widget>
+            <div class="sezionealto">
+                <div id="titolo"> <h1>{{titolo_della_storia}}</h1></div>
+                    <!-- Il pulsante di modifica va trasformato in pulsante e non va li' ma a sotto a dx di titolo  -->
+                    <img class="pulsanteMod" id="mod1" src="assets/61456.png" height="10" width="10">
+                    </div>
+                <!-- Preparare la sezione di pulsanti nel caso premi l'img delle opzioni, esce fuori la tenda con i bottoni etc..  -->
+            <div class="centroStor">
+            <div id="descrizioneSto">
+                <p>{{descrizione_Stor}}</p>
+            </div>
+                <div id="sezioneinfo">
+
+                    <input type="range" max="17" min="6" name="et" id="rangemin" >
+                    <label for="et">Et&aacute; Min:<span id="demomin"></span></label>
+                    <input type="range" max="18" min="7" name="et" id="rangemax" >
+                    <label for="et">Et&aacute; Max:<span id="demomax"></span></label>
+                    <script>
+                        var slidermin = document.getElementById("rangemin");
+                        var outputmin = document.getElementById("demomin");
+                        var slidermax = document.getElementById("rangemax");
+                        var outputmax = document.getElementById("demomax");
+                        outputmin.innerHTML = slidermin.value;
+
+                        slidermin.oninput = function() {
+                            outputmin.innerHTML = this.value;
+                            slidermax.setAttribute("min",slidermin.value);
+                        }
+
+                        outputmax.innerHTML = slidermax.value;
+
+                        slidermax.oninput = function() {
+                            outputmax.innerHTML = this.value;
+                            slidermin.setAttribute("max",slidermax.value);
+                        }
+                    </script>
+                    <p>Tipo di partita</p>
+                    <input type="checkbox" id="singolo" name="tipoStor" value="singolo" >
+                    <label for="singolo">Singolo</label>
+                    <input type="checkbox" id="cooperativo" name="tipoStor" value="cooperativo">
+                    <label for="cooperativo">Cooperativo</label>
+                    <input type="checkbox" id="squadre" name="tipoStor" value="squadre">
+                    <label for="squadre">Squadre</label>
+
+                </div>
+            </div>
+
+        </section>
+        <section id="mission-editor-widget-section" class="tab-pane fade container" role="tabpanel" aria-labelledby="missions-tab">
+
+            <mission-editor-widget id="mission-editor-widget"
+                                   v-bind:missions="missions"
+            ></mission-editor-widget>
+
+            <div id="container"></div>
+            <script>
+                $(function() {
+                    $('#container').jstree({
+
+                        'core' : {
+                            "check_callback" : true,
+                            'data' : [
+                                {
+                                    "text" : "Storia",
+                                    id:"0",
+                                    "state" : {"opened" : true,
+                                    "selected":true},
+                                    "children" : [
+                                        {
+                                            "text" : "Missione iniziale",
+                                            "children" : [
+                                                {
+                                                    "text" : "Successo",
+                                                },
+                                                { "text" : "Fallimento"}
+                                            ]
+                                        },
+                                        { "text" : "Finale"}
+                                    ]
+                                }
+                            ]
+                        },
+                        'types': {
+                          "#":{
+                              'max_children':0,
+                          'max_depth':3,
+                              'valid_children': ["rootMiss"]
+                          },
+                            'rootMiss':{
+                              'max_children': 2,
+                                'valid_children':["success" , "failure"]
+                            },
+                            'success':{
+                              'max_children':4
+                            },
+                            'failure':{
+                                'max_children':4
+                            }
+
+                        },
+
+                        "plugins" : [
+                            "contextmenu", "dnd", "search",
+                            "state", "types", "wholerow"
+                        ]
+                    });
+
+                });
+            </script>
+            <div id="sezioneBottoni">
+           <button id="agg">Aggiungi</button>
+                <button id="rem">Elimina</button>
+                <button>Modifica</button>
+            </div>
+        </section>
+        <section id="activity-editor-widget-section" class="tab-pane fade container" role="tabpanel" aria-labelledby="activities-tab">
+            <activity-editor-widget id="activity-editor-widget"></activity-editor-widget>
+
+
+
+
+        </section>
+    </div>
+</div>
+
+
+</body>
+
+</html>

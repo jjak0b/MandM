@@ -11,9 +11,10 @@ export const template =
 			v-bind:src="value.src"
 			v-bind:alt="$t(value.subtitles)"
 			v-bind:usemap="'#' + $attrs.id + '-map'"
-			class="w-100 figure-img img-fluid rounded" 
+			class="figure-img img-fluid rounded" 
 		/>
 		<map
+			:key="updateFlagToggle"
 			v-if="value.areas"
 			ref="map"
 			v-bind:name="$attrs.id + '-map'"

@@ -25,25 +25,40 @@ export const component = {
 	},
 	mounted(){
 		if( this.value.tag == "image" ){
-			window.addEventListener( "resize",this.updateMapAreas );
+			window.addEventListener( "resize", this.onResize );
 		}
 		console.log("b");
 	},
 	watch: {
-
+		"value.areas": {
+			deep: true,
+			handler: function (areas) {
+				this.$nextTick( this.updateMapAreas );
+			}
+		}
 	},
 	beforeUpdate() {
 		if( this.value.tag == "image" ) {
+			// here image size may have been changed, resized, and the highlight plugin may be buggy so refresh it
+			this.setupHighlight();
+
+			// let the view to update the areas coords
 			this.updateMapAreas();
 		}
 	},
 	updated(){
+		if( this.value.tag == "image" ) {
+			// into before update we let the view to update the map areas coords, so update the highlight plugin with new DOM
+			this.setupHighlight();
 
-		console.log("a");
+			// while updating area sizes in editor, highlight it
+			if (this.indexOverArea >= 0)
+				this.highlightMapArea(this.indexOverArea);
+		}
 	},
 	beforeDestroy(){
 		if( this.value.tag == "image" ) {
-			window.removeEventListener("resize", this.updateMapAreas);
+			window.removeEventListener("resize", this.onResize);
 		}
 	},
 	methods: {
@@ -54,8 +69,11 @@ export const component = {
 			else
 				this.subtitleContent = "";
 		},
-		arrayToCoords( coords ) {
-			if( !coords ) return "";
+		onResize( event ){
+			if( this.value.tag == "image" ){
+				// trigger vue cicle to update
+				this.updateMapAreas();
+			}
 		},
 		resizeArea( indexArea, imgWidth, imgHeight){
 			console.log( "res", indexArea);
@@ -86,26 +104,7 @@ export const component = {
 		},
 		updateMapAreas() {
 			// update a variable to force view update and recompute map coords
-
-			let self = this;
-			if( this.value && this.value.areas ) {
-				//this.$nextTick( function () {
-					let useHighlight = false;
-					this.value.areas.forEach( ( area, indexArea ) => {
-						$(self.$refs.area[indexArea]).data(
-							"maphilight",
-							{
-								neverOn: ! area.useHighlight,
-							}
-						);
-						if( !useHighlight ) useHighlight = area.useHighlight;
-					});
-					if( useHighlight ){
-						console.log( "m", this.$refs.img, "w", this.$refs.img.width );
-						$( this.$refs.img ).maphilight();
-					}
-				//});
-			}
+			// see :key="updateFlagToggle" on template
 			this.updateFlagToggle = !this.updateFlagToggle;
 		},
 		getStringAreaCoords( areaIndex ){
@@ -115,6 +114,25 @@ export const component = {
 				return coords.join();
 			}
 			return ""
+		},
+		setupHighlight(){
+			let self = this;
+			if( this.value && this.value.areas ) {
+				let useHighlight = false;
+				this.value.areas.forEach( ( area, indexArea ) => {
+					$(self.$refs.area[indexArea]).data(
+						"maphilight",
+						{
+							neverOn: !area.useHighlight,
+						}
+					);
+					if( !useHighlight ) useHighlight = area.useHighlight;
+				});
+				if( useHighlight ){
+					console.log( "m", this.$refs.img, "w", this.$refs.img.width );
+					$( this.$refs.img ).maphilight();
+				}
+			}
 		},
 		highlightMapArea( indexArea ){
 			this.indexOverArea = indexArea;

@@ -143,7 +143,7 @@ export const component = {
 			if (!nodeData )
 				return null;
 			let node = null;
-			let selectedNode = this.tree.get_selected(true)[0]
+			let selectedNode = this.tree.get_selected(true)[0];
 
 			id = this.createNewNode( id, type, nodeName, nodeData, selectedNode );
 
@@ -154,6 +154,12 @@ export const component = {
 				node = this.tree.get_node(id);
 			}
 			return node;
+		},
+		edit( nodeData ) {
+			let selectedNode = this.tree.get_selected(true)[0];
+			if(selectedNode) {
+				selectedNode.data.noteInfo = nodeData.noteInfo;
+			}
 		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];

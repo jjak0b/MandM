@@ -72,7 +72,10 @@ export const component = {
 	},
 	computed: {
 		localeTitle: 		function () {  return this.currentNode && this.currentNode.id ? 'activity.title.' + this.currentNode.id : null },
-		localeDescription: 	function () {  return this.currentNode && this.currentNode.id ? 'activity.description.' + this.currentNode.id : null }
+		localeDescription: 	function () {  return this.currentNode && this.currentNode.id ? 'activity.description.' + this.currentNode.id : null },
+		nodeNameValue: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.name : null },
+		nodeNoteValue: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.note : null },
+		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) }
 	},
 	methods: {
 		// serialize tree data and set it to parent mission
@@ -118,39 +121,57 @@ export const component = {
 			}
 			return false;
 		},
-		onAdd( event ){
-			let inputs = $( event.currentTarget).serializeArray();
+		onSubmit( event ) {
+			if (this.isAddFormVisible) this.onAdd( event )
+			else if (this.isEditFormVisible) this.onEdit( event )
+		},
+		onAdd( event ) {
+			let inputs = $(event.currentTarget).serializeArray();
 			let nodeInfo = {};
 			// set key and value as pair
-			for( let i = 0; i < inputs.length; i++ ) {
-				nodeInfo[ inputs[i]["name"] ] = inputs[i]["value"];
+			for (let i = 0; i < inputs.length; i++) {
+				nodeInfo[inputs[i]["name"]] = inputs[i]["value"];
 			}
 
 			let id = this.nextId++;
-			this.$emit( "inc-Id");
+			this.$emit("inc-Id");
 
 			// TODO: fill this field if adding components which edit node data
 			let data = createEmptyData();
 			data.noteInfo = {
 				name: nodeInfo["node-name"],
+				note: nodeInfo["node-note"]
 			};
-			data.title = 'activity.title.'+id;
-			data.description = 'activity.description.'+id;
+			data.title = 'activity.title.' + id;
+			data.description = 'activity.description.' + id;
 
-			let item = this.$refs.treeView.add( id, nodeInfo["node-type"], data.noteInfo.name, data );
+			let item = this.$refs.treeView.add(id, nodeInfo["node-type"], data.noteInfo.name, data);
 
 			// clear form
-			if( item ){
-				$( event.currentTarget).trigger("reset");
+			if (item) {
+				$(event.currentTarget).trigger("reset");
 			}
 			this.isAddFormVisible = false;
-		}/*,
-		onRemove(){
-			this.$refs.treeView.remove();
 		},
-		onDuplicate(){
-			this.$refs.treeView.duplicate();
-		}*/
+		onEdit( event ) {
+			let inputs = $(event.currentTarget).serializeArray();
+			let nodeInfo = {};
+			// set key and value as pair
+			for (let i = 0; i < inputs.length; i++) {
+				nodeInfo[inputs[i]["name"]] = inputs[i]["value"];
+			}
+
+			let data = createEmptyData();
+			data.noteInfo = {
+				name: nodeInfo["node-name"],
+				note: nodeInfo["node-note"]
+			};
+
+			this.$refs.treeView.edit(data);
+
+			$(event.currentTarget).trigger("reset");
+			this.isEditFormVisible = false;
+		}
 	},
 	mounted() {
 		$(document).on("addToolbar", () => {

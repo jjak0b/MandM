@@ -14,7 +14,7 @@ export const component = {
         valueT:String,
         type:String,
         test:Number,
-        valueTypeSel:String,
+        valueTypeSel:Object,
         valuear:String,
         valueSel:Array
         },
@@ -75,9 +75,32 @@ export const component = {
 
      methods: {
 
-         add() {
-             this.list.push( this.valueAr );
+         addM() {
+             if(this.valueAr) {
+                 this.functionsType.Match.list.push(this.valueAr);
+             }
+             },
+         addN() {
+             if(this.valueAr) {
+                 this.functionsType.Different.list.push(this.valueAr);
+             }
+         },
+         addI() {
+             if(this.valueAr) {
+                 this.functionsType.Contains.list.push(this.valueAr);
+             }
+         },
+         addT() {
+             if(this.valueAr) {
+                 this.functionsType.Any.list.push(this.valueAr);
+             }
+         },
+         addR() {
+             if(this.valueAr) {
+                 this.functionsType.Between.list.push(this.valueAr);
+             }
          }
+
     },
     components:{
         'text-area-input': TextAreaIn

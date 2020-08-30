@@ -33,7 +33,6 @@ export const template =
 			v-on="$listeners"
 			v-for="( item, keyItem ) in list"
 			class="list-group-item"
-			style="display: list-item"
 		>
 			<slot
 				name="item"

@@ -201,7 +201,7 @@ export const component = {
 			let libValue = data.get( "classnameLib" );
 
 			if( customValue )
-				classes = classes.concat( customValue.split(" ") );
+				classes = classes.concat( customValue.trim().split(" ") );
 			if( libValue )
 				classes = classes.concat( libValue.split(" ") );
 

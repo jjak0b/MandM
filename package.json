@@ -12,6 +12,7 @@
     "express": "~4.16.1",
     "langmap": "0.0.16",
     "morgan": "~1.9.1",
-    "promise": "^8.1.0"
+    "promise": "^8.1.0",
+    "vue-accessible-color-picker": "^1.0.1"
   }
 }

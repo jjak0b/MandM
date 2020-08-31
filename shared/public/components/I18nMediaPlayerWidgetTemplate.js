@@ -53,7 +53,7 @@ export const template =
 		controls="controls"
 		v-bind="$attrs"
 		v-bind:src="value.src"
-		v-bind:aria-describedby="$attrs[id] + 'lyrics'"
+		v-bind:aria-describedby="$attrs.id + '-lyrics'"
 		class="w-100"
 	>
 		<track v-for="(source, lang) in value.subtitles"
@@ -68,7 +68,7 @@ export const template =
 	</audio>
 	<p
 		v-if="value.tag == 'audio'"
-		v-bind:id="$attrs[id] + 'lyrics'"
+		v-bind:id="$attrs.id + '-lyrics'"
 		aria-label="Lyrics" v-html="subtitleContent">
 	</p>
 </div>

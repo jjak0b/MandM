@@ -167,6 +167,8 @@ export const template =
 							</div>
 						</fieldset>
 					</div>
+				</div>
+			</form>
 		</div>
 		<hr>
 		<section v-if="isActivity()">

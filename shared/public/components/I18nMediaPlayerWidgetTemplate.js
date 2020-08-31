@@ -1,8 +1,9 @@
 export const template =
 `
-<span>
+<div class="w-100">
 	<figure
-		v-if="tag == 'image'"
+		v-if="value.tag == 'image'"
+		v-bind="$attrs"
 	>
 		<img
 			v-bind:src="value.src"
@@ -11,9 +12,11 @@ export const template =
 		<figcaption>{{ $t(value.subtitles) }}</figcaption>
 	</figure>
 	<video
-		v-if="tag == 'video'"
+		v-if="value.tag == 'video'"
 		controls="controls"
+		v-bind="$attrs"
 		v-bind:src="value.src"
+		class="w-100"
 	>
 		<track v-for="(source, lang) in value.subtitles"
 			kind="subtitles"
@@ -25,10 +28,12 @@ export const template =
 		{{ $t( "shared.errors.video_tag_unsupported" ) }}
 	</video>
 	<audio 
-		v-if="tag == 'audio'"
+		v-if="value.tag == 'audio'"
 		controls="controls"
+		v-bind="$attrs"
 		v-bind:src="value.src"
 		aria-describedby="lyrics"
+		class="w-100"
 	>
 		<track v-for="(source, lang) in value.subtitles"
 			kind="subtitles"
@@ -41,9 +46,9 @@ export const template =
 		{{ $t( "shared.errors.audio_tag_unsupported" ) }}
 	</audio>
 	<p
-		v-if="tag == 'audio'"
+		v-if="value.tag == 'audio'"
 		id="lyrics"
 		aria-label="Lyrics" v-html="subtitleContent">
 	</p>
-</span>
+</div>
 `;

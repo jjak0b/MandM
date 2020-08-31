@@ -50,7 +50,8 @@ export const component = {
 			NodeUtils: NodeUtils,
 			currentNode: null /* object node used by jsTree */,
 			isAddFormVisible: false,
-			isEditFormVisible: false
+			isEditFormVisible: false,
+			selectedType: null
 		}
 	},
 	watch: {
@@ -71,11 +72,11 @@ export const component = {
 		}
 	},
 	computed: {
-		localeTitle: 		function () {  return this.currentNode && this.currentNode.id ? 'activity.title.' + this.currentNode.id : null },
-		localeDescription: 	function () {  return this.currentNode && this.currentNode.id ? 'activity.description.' + this.currentNode.id : null },
-		nodeNameValue: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.name : null },
-		nodeNoteValue: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.note : null },
-		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) }
+		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) },
+		nodeName: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.name : null },
+		nodeNote: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.note : null },
+		activityTitle: function () { return this.isEditFormVisible ? this.currentNode.data.title : 'activity.title.' + this.nextId },
+		activityDescription: function () { return this.isEditFormVisible ? this.currentNode.data.description : 'activity.description.' + this.nextId }
 	},
 	methods: {
 		// serialize tree data and set it to parent mission
@@ -121,9 +122,22 @@ export const component = {
 			}
 			return false;
 		},
+		isSelected( checkType ) {
+			if( checkType ){
+				return this.selectedType == checkType;
+			}
+			else if( this.selectedType == NodeUtils.Types.Quest || this.selectedType == NodeUtils.Types.Tell ) {
+				return true;
+			}
+			return false;
+		},
+		checkType( type ) { return this.isAddFormVisible ? this.isSelected( type ) : this.isActivity( type ) },
 		onSubmit( event ) {
 			if (this.isAddFormVisible) this.onAdd( event )
 			else if (this.isEditFormVisible) this.onEdit( event )
+		},
+		onSelectedNode() {
+			this.selectedType = null;
 		},
 		onAdd( event ) {
 			let inputs = $(event.currentTarget).serializeArray();
@@ -152,6 +166,7 @@ export const component = {
 				$(event.currentTarget).trigger("reset");
 			}
 			this.isAddFormVisible = false;
+			this.selectedType = null;
 		},
 		onEdit( event ) {
 			let inputs = $(event.currentTarget).serializeArray();
@@ -171,6 +186,7 @@ export const component = {
 
 			$(event.currentTarget).trigger("reset");
 			this.isEditFormVisible = false;
+			this.selectedType = null;
 		}
 	},
 	mounted() {

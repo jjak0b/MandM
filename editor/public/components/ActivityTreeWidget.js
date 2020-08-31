@@ -278,5 +278,10 @@ export const component = {
 				}
 			});
 		}
+	},
+	mounted() {
+		$("#treeView").on("select_node.jstree", () => {
+			this.$emit("selectedNode");
+		});
 	}
 };

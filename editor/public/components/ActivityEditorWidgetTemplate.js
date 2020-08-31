@@ -20,12 +20,13 @@ export const template =
 				v-if="mission != null"
 				v-bind:locale="locale"
 				v-model="currentNode"
+				v-on:selectedNode="onSelectedNode"
 			></activity-tree-widget>
 		</div>
 	</div>
 	<div v-if="showActivityForm" >
 		<div>
-			<form v-on:submit.prevent="onSubmit">
+			<form v-on:submit.prevent="onSubmit" id="activityForm">
 				<div class="form-row">
 					<div class="col-10" v-if="isAddFormVisible">
 						<fieldset class="form-group">
@@ -36,6 +37,7 @@ export const template =
 									required="required"
 									class="form-check-input"
 									name="node-type"
+									v-model="selectedType"
 									v-bind:id="'node-type_' + type"
 									v-bind:value="type"
 									v-bind:aria-describedby="'description_node-type' + type"
@@ -73,7 +75,7 @@ export const template =
 								type="text"
 								required="required"
 								class="form-control"
-								v-model="nodeNameValue"
+								v-bind:value="nodeName"
 							/>
 						</fieldset>
 					</div>
@@ -87,7 +89,7 @@ export const template =
 								name="node-note"
 								rows="4"
 								class="form-control"
-								v-model="nodeNoteValue"
+								v-bind:value="nodeNote"
 							textarea/>
 						</fieldset>
 					</div>
@@ -95,70 +97,66 @@ export const template =
 			</form>
 		</div>
 		<div>
-			<form
-			v-on:submit.prevent
-			>
-				<hr>
-				<div class="form-row">
-					<div class="col">
-						<fieldset class="form-group">
-							<legend> {{ $t( 'ActivityEditorWidget.label-activity-title' ) }} </legend>
-							<div class="form-check">
-								<i18n-input-widget
-									v-bind:tag="'input'"
-									id="activity-title"
-									name="activityTitle"
-									type="text"
-									required="required"
-									class="form-control"
-									v-bind:disabled="!mission || !isActivity()"
-									v-bind:locale="locale"
-									v-bind:locale-label="currentNode.data.title"
-								></i18n-input-widget>
-							</div>
-						</fieldset>
-					</div>
-					<div class="col">
-						<fieldset class="form-group">
-							<legend>{{ $t( 'ActivityEditorWidget.label-activity-description' ) }}</legend>
-							<div>
-								<i18n-input-widget
-									v-bind:tag="'textarea'"
-									id="activity-description"
-									name="activityDescription"
-									class="form-control"
-									rows="4"
-									v-bind:disabled="!mission || !isActivity()"
-									v-bind:locale="locale"
-									v-bind:locale-label="currentNode.data.description"
-								></i18n-input-widget>
-							</div>
-						</fieldset>
-					</div>
+			<hr>
+			<div class="form-row">
+				<div class="col">
+					<fieldset class="form-group">
+						<legend> {{ $t( 'ActivityEditorWidget.label-activity-title' ) }} </legend>
+						<div class="form-check">
+							<i18n-input-widget
+								v-bind:tag="'input'"
+								id="activity-title"
+								name="activityTitle"
+								type="text"
+								required="required"
+								class="form-control"
+								v-bind:locale="locale"
+								v-bind:locale-label="activityTitle"
+							></i18n-input-widget>
+						</div>
+					</fieldset>
 				</div>
-			</form>
+				<div class="col">
+					<fieldset class="form-group">
+						<legend>{{ $t( 'ActivityEditorWidget.label-activity-description' ) }}</legend>
+						<div>
+							<i18n-input-widget
+								v-bind:tag="'textarea'"
+								id="activity-description"
+								name="activityDescription"
+								class="form-control"
+								rows="4"
+								v-bind:locale="locale"
+								v-bind:locale-label="activityDescription"
+							></i18n-input-widget>
+						</div>
+					</fieldset>
+				</div>
+			</div>
 		</div>
-		<branch-editor-widget>
-        </branch-editor-widget>
 		<hr>
-		<section v-if="isActivity()">
+		<section v-if="checkType()">
+			<p>QUEST or TELL</p>
 			<scene-editor-widget
 				v-bind:locale="locale"
 				v-bind:nextAssetId="nextAssetId"
 			></scene-editor-widget>
 		</section>
-		<section v-if="isActivity( NodeUtils.Types.Tell )">
+	<section v-if="checkType(NodeUtils.Types.Tell)">
+			<p>TELL</p>
 			<activity-tale-editor-widget
 			></activity-tale-editor-widget>
 		</section>
-		<section v-if="isActivity( NodeUtils.Types.Quest )">
+		<section v-if="checkType(NodeUtils.Types.Quest)">
+			<p>QUEST</p>
 			<activity-quest-editor-widget
 			></activity-quest-editor-widget>
 		</section>
-		<section v-if="isActivity( NodeUtils.Types.Branch )">
+		<section v-if="checkType(NodeUtils.Types.Branch)">
+			<p>BRANCH</p>
 			<branch-editor-widget
 			></branch-editor-widget>
 		</section>
 	</div>
-</div>`
-;
+</div>
+`;

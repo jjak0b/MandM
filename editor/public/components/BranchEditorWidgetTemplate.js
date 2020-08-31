@@ -44,93 +44,57 @@ export const template = `
     <select v-model="valueTypeSel">
         <option v-for="func in functionsType">{{func.name}}</option>
     </select>
-       <div v-if="valueTypeSel === 'eq'">
+       <div>
        <select v-model="test">
-            <option v-bind:value="1">Text</option>
+            <option v-bind:value="1" selected>Text</option>
             <option v-bind:value="2">Number</option>
         </select>
         <!-- Sezione con area dipende da val del select testo --->
             <div v-if="test === 1">
                 <input v-model="valueAr" type="text">
-<!--        <input type="text" v-model="valuear">-->
-<!--        <input type="submit" value="Submit">-->
             </div>
             <div v-if="test === 2" min="1">
                 <input type="number" v-model.number="valueAr">
             </div>
-            <button @click="addM()">Aggiungi
+            </div>
+            <div v-if="valueTypeSel === 'eq'">
+            <button @click="addA(functionsType.Match)">Aggiungi
+            </button>
+            <button @click="remA(functionsType.Match)">Togli ultimo
             </button>
             <pre>{{ JSON.stringify(this.functionsType.Match.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'neq'">
-            <select v-model="test">
-                <option v-bind:value="1">Text</option>
-                <option v-bind:value="2">Number</option>
-            </select>
-        <!-- Sezione con area dipende da val del select testo --->
-            <div v-if="test === 1">
-                 <input v-model="valueAr" type="text">
-<!--        <input type="text" v-model="valuear">-->
-<!--        <input type="submit" value="Submit">-->
-            </div>
-            <div v-if="test === 2" min="1">
-                <input type="number" v-model.number="valueAr">
-            </div>
-            <button @click="addN()">Aggiungi
+            <button @click="addA(functionsType.Different)">Aggiungi
+            </button>
+            <button @click="remA(functionsType.Different)">Togli ultimo
             </button>
             <pre>{{ JSON.stringify(this.functionsType.Different.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'hasInside'">
-            <select v-model="test">
-                <option v-bind:value="1">Text</option>
-                <option v-bind:value="2">Number</option>
-            </select>
         <!-- Sezione con area dipende da val del select testo --->
-            <div v-if="test === 1">
-                <input v-model="valueAr" type="text">
-<!--        <input type="text" v-model="valuear">-->
-<!--        <input type="submit" value="Submit">-->
-            </div>
-            <div v-if="test === 2" min="1">
-                <input type="number" v-model.number="valueAr">
-            </div>
-            <button @click="addI()">Aggiungi
+            <button @click="addA(functionsType.Contains)">Aggiungi
+            </button>
+            <button @click="remA(functionsType.Contains)">Togli ultimo
             </button>
             <pre>{{ JSON.stringify(this.functionsType.Contains.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'isThere'">
-            <select v-model="test">
-                <option v-bind:value="1">Text</option>
-                <option v-bind:value="2">Number</option>
-            </select>
+
         <!-- Sezione con area dipende da val del select testo --->
-            <div v-if="test === 1">
-                <input v-model="valueAr" type="text">
-<!--        <input type="text" v-model="valuear">-->
-<!--        <input type="submit" value="Submit">-->
-            </div>
-            <div v-if="test === 2" min="1">
-                <input type="number" v-model.number="valueAr">
-            </div>
-            <button @click="addT()">Aggiungi
+            <button @click="addA(functionsType.Any)">Aggiungi
+            </button>
+            <button @click="remA(functionsType.Any)">Togli ultimo
             </button>
             <pre>{{ JSON.stringify(this.functionsType.Any.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'isInRange'">
-            <select v-model="test">
-                <option v-bind:value="1">Text</option>
-                <option v-bind:value="2">Number</option>
-            </select>
         <!-- Sezione con area dipende da val del select testo --->
-            <div v-if="test === 1">
-                <input v-model="valueAr" type="text">
 <!--        <input type="text" v-model="valuear">-->
 <!--        <input type="submit" value="Submit">-->
-            </div>
-            <div v-if="test === 2" min="1">
-                <input type="number" v-model.number="valueAr">
-            </div>
-            <button @click="addR()">Aggiungi
+            <button @click="addA(functionsType.Between)">Aggiungi
+            </button>
+            <button @click="remA(functionsType.Between)">Togli ultimo
             </button>
             <pre>{{ JSON.stringify(this.functionsType.Between.list, null, 2) }}</pre>
         </div>

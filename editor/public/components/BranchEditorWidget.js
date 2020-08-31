@@ -18,10 +18,10 @@ export const component = {
         valuear:String,
         valueSel:Array
         },
-    data(){
-        return{
-            list:[],
-            valueAr:null,
+    data: function () {
+        return {
+            list: [],
+            valueAr: null,
             inputTypes: {
                 "Any": "ActivityEditorWidget.input-type.any",
                 "Atom": "ActivityEditorWidget.input-type.atom",
@@ -37,67 +37,52 @@ export const component = {
                 Match: {
                     name: "eq",
                     locale: String,
-                    list:[],
+                    list: [],
                     self: Object,
                     param: Object
                 },
                 Different: {
                     name: "neq",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: Object,
                     param: Object
                 },
                 Contains: {
                     name: "hasInside",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: Object,
                     param: Array
                 },
                 Any: {
                     name: "isThere",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: null,
                     param: Object
                 },
                 Between: {
                     name: "isInRange",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: Number,
                     param: Number
                 }
-             }
+            }
         }
     },
 
      methods: {
 
-         addM() {
+         addA(val) {
              if(this.valueAr) {
-                 this.functionsType.Match.list.push(this.valueAr);
+                 val.list.push(this.valueAr);
              }
              },
-         addN() {
-             if(this.valueAr) {
-                 this.functionsType.Different.list.push(this.valueAr);
-             }
-         },
-         addI() {
-             if(this.valueAr) {
-                 this.functionsType.Contains.list.push(this.valueAr);
-             }
-         },
-         addT() {
-             if(this.valueAr) {
-                 this.functionsType.Any.list.push(this.valueAr);
-             }
-         },
-         addR() {
-             if(this.valueAr) {
-                 this.functionsType.Between.list.push(this.valueAr);
+         remA(val) {
+             if(val.list.length != 0) {
+                 val.list.pop();
              }
          }
 

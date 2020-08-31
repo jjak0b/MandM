@@ -1,10 +1,13 @@
 import { template } from "./MediaFormWidgetTemplate.js";
 import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../I18nInputWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
+import {FormUtils} from "/shared/js/FormUtils.js";
+import {component as listComponent } from "/shared/components/ListWidget.js";
 
 export const component = {
 	template: template,
 	components: {
+		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"i18n-media-player-widget" : asyncLoadComponentI18nMediaPlayer
 	},
@@ -28,11 +31,19 @@ export const component = {
 			files : {
 				main: null,
 				subtitles: {}
-			}
+			},
+			shouldUseMap: false,
+			nextAreaId: 0
 		}
 	},
 	computed: {
-		localeImageCaptionLabel: function () { return (this.assetId != null && this.assetId != undefined) ? 'assets.caption.' + this.assetId : null },
+		localeLabelAssetPrefix: function() { return (this.assetId != null && this.assetId != undefined) ? 'assets.' + this.assetId : null },
+		localeImageCaptionLabel: function () {
+			let prefix = this.localeLabelAssetPrefix;
+			if (prefix)
+				return prefix + ".caption";
+			return null;
+		}
 	},
 	methods: {
 		shouldPreview() {
@@ -74,6 +85,63 @@ export const component = {
 			}
 
 			this.updateAssetForPreview();
+		},
+		onAddArea( event ) {
+			let data = FormUtils.getAssociativeArray($(event.target).serializeArray());
+
+			let id = this.nextAreaId++;
+			let area = {
+				id: id,
+				alt: this.localeLabelAssetPrefix + '.areaAlt.'+ id,
+				shape: data["shape"],
+				action: data["action"],
+				href: data["action"] == 'url' ? "#" : "#", // TODO: get URL, anchor or "#" otherwise
+				vertices: (() => {
+					if (data["shape"] == 'circle') {
+						return [ [50, 50], [50] ];
+					}
+					else if (data["shape"] == 'rect') {
+						return [ [25, 25], [75, 75] ];
+					}
+					else {
+						return null;
+					}
+				})(),
+			};
+			if (!this.value.areas)
+				this.$set(this.value, "areas", [] );
+			this.value.areas.push( area );
+		},
+		onRemoveArea( index ) {
+
+			if( 0 <= index && index < this.value.areas.length ) {
+				this.$refs.preview.unHighlightMapArea( index );
+				this.value.areas.splice( index, 1 );
+			}
+
+			if( !this.value.areas.length ) {
+				this.$set( this.value, "areas", undefined );
+				delete this.value["areas"];
+			}
+		},
+		getLocaleLabelVertexDescription( area, vertexIndex ){
+			switch ( area.shape ) {
+				case "rect":
+					if( vertexIndex == 0 )
+						return "MediaForm.areas.label-rectangle-top-left";
+					else
+						return "MediaForm.areas.label-rectangle-bottom-right";
+					break;
+				case "circle":
+					if( vertexIndex == 0 )
+						return "MediaForm.areas.label-circle-centre";
+					else
+						return "MediaForm.areas.label-circle-radius";
+					break;
+				default:
+					return "";
+					break
+			}
 		}
 	}
 }

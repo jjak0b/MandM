@@ -18,9 +18,13 @@ export const component = {
         valuear:String,
         valueSel:Array
         },
-    data: function () {
+    data() {
         return {
-            list: [],
+            val:{
+                tag: '',
+                value: [],
+                type: ''
+        },
             valueAr: null,
             inputTypes: {
                 "Any": "ActivityEditorWidget.input-type.any",
@@ -74,7 +78,6 @@ export const component = {
     },
 
      methods: {
-
          addA(val) {
              if(this.valueAr) {
                  val.list.push(this.valueAr);

@@ -136,24 +136,20 @@ export const template =
 		</div>
 		<hr>
 		<section v-if="checkType()">
-			<p>QUEST or TELL</p>
 			<scene-editor-widget
 				v-bind:locale="locale"
 				v-bind:nextAssetId="nextAssetId"
 			></scene-editor-widget>
 		</section>
 	<section v-if="checkType(NodeUtils.Types.Tell)">
-			<p>TELL</p>
 			<activity-tale-editor-widget
 			></activity-tale-editor-widget>
 		</section>
 		<section v-if="checkType(NodeUtils.Types.Quest)">
-			<p>QUEST</p>
 			<activity-quest-editor-widget
 			></activity-quest-editor-widget>
 		</section>
 		<section v-if="checkType(NodeUtils.Types.Branch)">
-			<p>BRANCH</p>
 			<branch-editor-widget
 			></branch-editor-widget>
 		</section>

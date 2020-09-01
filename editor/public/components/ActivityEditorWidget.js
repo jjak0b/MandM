@@ -50,8 +50,7 @@ export const component = {
 			NodeUtils: NodeUtils,
 			currentNode: null /* object node used by jsTree */,
 			isAddFormVisible: false,
-			isEditFormVisible: false,
-			selectedType: null
+			isEditFormVisible: false
 		}
 	},
 	watch: {
@@ -186,7 +185,6 @@ export const component = {
 
 			$(event.currentTarget).trigger("reset");
 			this.isEditFormVisible = false;
-			this.selectedType = null;
 		}
 	},
 	mounted() {

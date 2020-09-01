@@ -10,6 +10,7 @@ export const template =
 					type="checkbox"
 					v-model="shouldUseCustomSelector"
 					class="form-check-input"
+					v-bind:aria-controls="$attrs['aria-controls']"
 				/>
 				<label
 					for="style-selector-input-use-custom"
@@ -35,8 +36,9 @@ export const template =
 					id="style-selector-input-custom-selector"
 					required="required"
 					type="text"
-					v-model.trim="selector.custom"
+					v-model="selector.custom"
 					class="form-control"
+					v-bind:aria-controls="$attrs['aria-controls']"
 					aria-describedby="style-selector-label-warning-custom-selector"
 				/>
 			</div>
@@ -55,8 +57,9 @@ export const template =
 						<input
 							id="style-selector-input-element"
 							type="text"
-							v-model.trim="selector.tag"
+							v-model="selector.tag"
 							class="form-control"
+							v-bind:aria-controls="$attrs['aria-controls']"
 						/>
 						<div class="input-group-append" >
 							<div role="presentation" class="input-group-text">&sol;&gt;</div>
@@ -77,8 +80,9 @@ export const template =
 						<input
 							id="attributeEditor-input-class"
 							type="text"
-							v-model.trim="selector.class"
+							v-model="selector.class"
 							class="form-control"
+							v-bind:aria-controls="$attrs['aria-controls']"
 						/>
 					</div>
 				</div>
@@ -96,8 +100,9 @@ export const template =
 						<input
 							id="style-selector-input-id"
 							type="text"
-							v-model.trim="selector.id"
+							v-model="selector.id"
 							class="form-control"
+							v-bind:aria-controls="$attrs['aria-controls']"
 						/>
 					</div>
 				</div>
@@ -117,8 +122,9 @@ export const template =
 								<input
 									id="style-selector-input-attr-name"
 									type="text"
-									v-model.trim="selector.attrName"
+									v-model="selector.attrName"
 									class="form-control"
+									v-bind:aria-controls="$attrs['aria-controls']"
 								/>
 							</div>				
 						</div>
@@ -131,7 +137,13 @@ export const template =
 									id="style-selector-input-attrOp"
 									v-model="selector.attrOp"
 									class="form-control"
+									v-bind:aria-controls="$attrs['aria-controls']"
 								>
+									<option
+										v-bind:value="null"
+										selected="selected"
+										disabled
+									>{{ $t( "shared.label-select-option") }}</option>
 									<option
 										value="="
 									>{{ $t( "StyleEditorWidget.StyleSelector.selector.attributeOp.label-equals") }}</option>
@@ -158,8 +170,9 @@ export const template =
 								<input
 									id="style-selector-input-attr-value"
 									type="text"
-									v-model.trim="selector.attrValue"
+									v-model="selector.attrValue"
 									class="form-control"
+									v-bind:aria-controls="$attrs['aria-controls']"
 								/>
 							</div>
 						</div>
@@ -174,6 +187,7 @@ export const template =
 										value="i"
 										v-model="selector.case"
 										class="form-check-input"
+										v-bind:aria-controls="$attrs['aria-controls']"
 									/>
 									<label
 										for="style-selector-input-attr-insensitive"
@@ -201,8 +215,9 @@ export const template =
 							id="style-selector-input-pseudo-class"
 							list="style-selector-datalist-pseudo-class"
 							type="text"
-							v-model.trim="selector.pseudoClass"
+							v-model="selector.pseudoClass"
 							class="form-control"
+							v-bind:aria-controls="$attrs['aria-controls']"
 						>
 						<datalist
 							id="style-selector-datalist-pseudo-class"
@@ -228,8 +243,9 @@ export const template =
 							id="style-selector-input-pseudo-element"
 							list="style-selector-datalist-pseudo-element"
 							type="text"
-							v-model.trim="selector.pseudoElement"
+							v-model="selector.pseudoElement"
 							class="form-control"
+							v-bind:aria-controls="$attrs['aria-controls']"
 						>
 						<datalist
 							id="style-selector-datalist-pseudo-element"

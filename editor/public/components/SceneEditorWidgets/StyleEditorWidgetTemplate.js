@@ -10,10 +10,13 @@ export const template =
 		>
 			<style-selector-widget
 				v-on:input="selector=$event"
+				aria-controls="style-editor-widget-preview-form-selector"
 			></style-selector-widget>
 			<div>
-				<label></label>
-				<p><code>{{selector}}</code></p>
+				<p><code
+						id="style-editor-widget-preview-form-selector"
+						aria-live="polite"
+					>{{selector}}</code></p>
 			</div>
 			<div class="form-group">
 				<button

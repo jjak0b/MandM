@@ -70,6 +70,11 @@ export const component = {
 		toSelector() {
 			let value = "";
 
+			let self = this;
+			Object.keys( this.selector ).forEach( (key) => {
+				if( self.selector[ key ] && typeof self.selector[ key ] == "string" && self.selector[ key ].length > 0 )
+					self.$set( self.selector, key, self.selector[ key ].trim() );
+			});
 			if( this.shouldUseCustomSelector ){
 				if( this.selector.custom && this.selector.custom.length > 0)
 					value = this.selector.custom;

@@ -105,27 +105,29 @@ export const component = {
 		updateMapAreas() {
 			// update a variable to force view update and recompute map coords
 			// see :key="updateFlagToggle" on template
+			if( !this.value.areas || !this.$refs.img ) return;
+			for( let areaIndex = 0; areaIndex < this.value.areas.length; areaIndex++ ) {
+				let coords = this.resizeArea(areaIndex, this.$refs.img.width, this.$refs.img.height);
+				this.map.coords[areaIndex] = coords ? coords.join() : "";
+			}
 			this.updateFlagToggle = !this.updateFlagToggle;
 		},
 		getStringAreaCoords( areaIndex ){
-			let coords = this.resizeArea( areaIndex, this.$refs.img.width, this.$refs.img.height );
-			if( coords ){
-				console.log( "coords", coords );
-				return coords.join();
-			}
-			return ""
+			return ( 0 <= areaIndex && areaIndex < this.map.coords.length ) ? this.map.coords[ areaIndex ] : "";
 		},
 		setupHighlight(){
 			let self = this;
-			if( this.value && this.value.areas ) {
+			if( this.value && this.value.areas && this.$refs.img ) {
 				let useHighlight = false;
 				this.value.areas.forEach( ( area, indexArea ) => {
-					$(self.$refs.area[indexArea]).data(
-						"maphilight",
-						{
-							neverOn: !area.useHighlight,
-						}
-					);
+					if( self.$refs.area && self.$refs.area[indexArea] ) {
+						$(self.$refs.area[indexArea]).data(
+							"maphilight",
+							{
+								neverOn: !area.useHighlight,
+							}
+						);
+					}
 					if( !useHighlight ) useHighlight = area.useHighlight;
 				});
 				if( useHighlight ){

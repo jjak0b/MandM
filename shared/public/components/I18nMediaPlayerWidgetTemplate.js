@@ -10,7 +10,7 @@ export const template =
 			v-bind="$attrs"
 			v-bind:src="value.src"
 			v-bind:alt="$t(value.subtitles)"
-			v-bind:usemap="'#' + $attrs.id + '-map'"
+			v-bind:usemap="value.areas ? '#' + $attrs.id + '-map' : ''"
 			class="figure-img img-fluid rounded" 
 		/>
 		<map

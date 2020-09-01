@@ -1,4 +1,5 @@
 export const template = `
+<form ref="form">
 <fieldset class="form-group">
  <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
  <div v-for="(keyType, valueType) in inputTypes" class="form-check">
@@ -7,7 +8,7 @@ export const template = `
 	 name="keyType"
 	 v-bind:id="'input-type_' + keyType"
 	 v-bind:value="valueType"
-	 v-model="value"
+	 v-model="val.tag"
 	 v-bind:aria-describedby="keyType"
   />
   <label
@@ -15,8 +16,9 @@ export const template = `
 	v-bind:for="'input-type_' + keyType"
   >{{ $t(keyType + '.label' ) }}</label>
  </div>
- <div v-if="value === 'Atom'">
- <text-area-input></text-area-input>
+ <div v-if="val.tag == 'Atom' && val.tag">
+ <text-area-input
+ v-bind:values="valueAr"></text-area-input>
 <!--  <textarea v-if="valueAr === 'text'" name="valuea"></textarea>-->
 <!--  <lable v-if="valueAr === 'text'" for="valuea">Text</lable>-->
 <!--  <input type="number" v-if="valueAr === 'number'" name="valuen">-->
@@ -27,13 +29,13 @@ export const template = `
 <!--   <option v-bind:value="text">Text</option>-->
 <!--  </select>-->
  </div>
- <div v-if="value === 'Range'">
+ <div v-if="val.tag == 'Range'&& val.tag">
     <lable for="min">Min</lable>
-    <textarea id="min"></textarea>
+    <input type="number" min=1 id="min">
     <lable for="max">Max</lable>
-    <textarea id="max"></textarea>
+    <input type="number" id="max">
  </div>
- <div v-if="value === 'Function'">
+ <div v-if="val.tag == 'Function' && val.tag">
     <select v-model="valuef">
         <option v-for="(functions, value) in functioVal" 
         v-bind:id="functions"
@@ -44,6 +46,11 @@ export const template = `
     <select v-model="valueTypeSel">
         <option v-for="func in functionsType">{{func.name}}</option>
     </select>
+<!--//FIXME: Using the component just reloads the page, probable resolution is to add $emit-->
+
+<!--<text-area-input-->
+<!-- v-bind:values="valueAr"-->
+<!--v-on:add="addA(functionsType.Match)"></text-area-input>-->
        <div>
        <select v-model="test">
             <option v-bind:value="1" selected>Text</option>
@@ -101,9 +108,7 @@ export const template = `
     </div>
     <div v-if=" valuef === 'Value'">
     //FIXME:Single value input doesn't show
-        <text-area-input v-bind:values="valueAr"
-        v-bind:inty="test">
-      
+        <text-area-input v-bind:values="valueAr">
         </text-area-input>
     </div>
     <div v-if=" valuef === 'Variable'">
@@ -112,4 +117,5 @@ export const template = `
     </div>
  </div>
 </fieldset>
+</form>
 `;

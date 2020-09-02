@@ -9,20 +9,15 @@ import {component as TextAreaIn} from "./InputAreaTypeWidget.js";
 export const component = {
     template: template,
     props: {
-        value: String, //Type of input selected in radio
-        valuef: String,
-        valueT:String,
-        type:String,
-        test:Number,
-        valueTypeSel:Object,
-        valuear:String,
-        valueSel:Array
+        value: Object, //The node selected with type Branch
         },
     data() {
         return {
+            valueTypeSel:Object,
+            valuef: String,
             val:{
                 tag: '',
-                value: [],
+                list: [],
                 type: ''
         },
             valueAr: null,

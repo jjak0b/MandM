@@ -4,7 +4,7 @@ import {template} from "./InputAreaTypeTemplate.js";
 export const component = {
     template:template,
     props:{
-        values:null
+        value:null
     },
 data(){
         return {
@@ -15,4 +15,5 @@ data(){
             }
         }
 }
+
 }

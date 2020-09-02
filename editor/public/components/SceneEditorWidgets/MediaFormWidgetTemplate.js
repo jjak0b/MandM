@@ -3,7 +3,11 @@ export const template =
 <div>
 	<div class="row">
 		<section class="col">
-			<form ref="form" v-on:change="updateAssetForPreview()">
+			<form
+				ref="form"
+				v-on:submit.prevent
+				v-on:reset="reset()"
+			>
 				<fieldset class="form-group">
 					<legend>{{ $t( "MediaForm.label_mediatype" ) }}</legend>
 					<div v-for="(label, type) in labelMediaTypes" >
@@ -14,7 +18,7 @@ export const template =
 							required="required"
 							v-bind:value="type"
 							v-model="value.tag"
-							v-on:change="$( $refs.form ).trigger('reset')"
+							v-bind:disabled="value.tag && value.tag != type"
 						/>
 						<label
 							v-bind:for="'mediaForm-media-type_' + type "
@@ -53,6 +57,8 @@ export const template =
 								required="required"
 								accept="image/*"
 								v-on:change="onFileload($event, 'main')"
+								v-on:change="updateSource()"
+								v-on:change="updateCaptions()"
 								class="form-control"
 							/>
 						</div>
@@ -71,17 +77,23 @@ export const template =
 								class="form-control"
 							></i18n-input-widget>
 						</div>
-						<div class="form-group">						
-							<label for="mediaForm-input-image-useMap"
-							>{{ $t( "MediaForm.label-input-useArea" ) }}</label>
-							<input
-								id="mediaForm-input-image-useMap"
-								type="checkbox"
-								v-model="shouldUseMap"
-							>
-							<div v-if="shouldUseMap">
-								<div class="row">
-									<div class="col">
+						<div class="form-group">
+							<div class="form-check">
+								<input
+									id="mediaForm-input-image-useMap"
+									type="checkbox"
+									v-model="shouldUseMap"
+									v-bind:disabled="!value.src"
+									class="form-check-input"
+								>
+								<label
+									for="mediaForm-input-image-useMap"
+									class="form-check-label"
+								>{{ $t( "MediaForm.label-input-useArea" ) }}</label>							
+							</div>
+							<div class="row" v-if="shouldUseMap">
+								<div class="col">
+									<div>
 										<form
 											id="mediaForm-input-image-area-form"
 											v-on:submit.prevent="onAddArea"
@@ -146,6 +158,7 @@ export const template =
 								required="required"
 								accept="video/*"
 								v-on:change="onFileload($event, 'main')"
+								v-on:change="updateSource()"
 								class="form-control"
 							/>
 						</div>
@@ -162,6 +175,7 @@ export const template =
 								required="required"
 								accept="audio/*"
 								v-on:change="onFileload($event,'main')"
+								v-on:change="updateSource()"
 								class="form-control"
 							/>
 						</div>
@@ -169,19 +183,21 @@ export const template =
 					<div v-if="value.tag && ( value.tag == 'audio' || value.tag == 'video' )" >
 						<div class="form-group">
 							<label
-								for="mediaForm-input-file-subtitles"
-							>{{ $t( "MediaForm.label-input-file.subtitles") }}</label>
+								for="mediaForm-input-file-captions"
+							>{{ $t( "MediaForm.label-input-file.captions") }}</label>
 							<input
 								type="file"
-								name="subtitles"
-								id="mediaForm-input-file-subtitles"
-								aria-describedby="mediaForm-input-file-subtitles-description"
+								name="captions"
+								id="mediaForm-input-file-captions"
+								aria-describedby="mediaForm-input-file-captions-description"
 								accept="text/vtt, .vtt"
-								v-on:change="onFileload($event, 'subtitle' )"
+								v-on:change="onFileload($event, 'captions' )"
+								v-on:change="updateCaptions()"
+								v-on:change="updateSource()"
 								class="form-control"
 							/>
 						</div>
-						<p id="mediaForm-input-file-subtitles-description">{{ $t( "MediaForm.label-input-file.subtitles_accessibility") }}</p>
+						<p id="mediaForm-input-file-captions-description">{{ $t( "MediaForm.label-input-file.captions_accessibility") }}</p>
 					</div>
 				</fieldset>
 				<div class="btn-group" role="group">
@@ -192,7 +208,7 @@ export const template =
 		</section>
 	</div>
 	<div class="row">
-		<section class="col">
+		<section class="col" v-if="value.tag && value.tag == 'image'">
 			<form v-on:submit.prevent>
 				<div class="form-row">
 					<div class="col">
@@ -242,7 +258,8 @@ export const template =
 													<i18n-input-widget
 														v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-alt'"
 														tag="input"
-														v-bind:localeLabel="area.alt"
+														v-bind:locale="locale"
+														v-bind:locale-label="area.alt"
 														class="form-control"
 													></i18n-input-widget>
 												</div>

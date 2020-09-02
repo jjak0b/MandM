@@ -18,7 +18,7 @@ export const component = {
 				coords:[]
 			},
 			i18nList: i18nList,
-			subtitleContent: null,
+			captionContent: null,
 			indexOverArea: -1,
 			updateFlagToggle: false
 		}
@@ -27,7 +27,6 @@ export const component = {
 		if( this.value.tag == "image" ){
 			window.addEventListener( "resize", this.onResize );
 		}
-		console.log("b");
 	},
 	watch: {
 		"value.areas": {
@@ -65,9 +64,9 @@ export const component = {
 		onCueChange( event ){
 			let cues = event.target.track.activeCues;
 			if( cues && cues[0] && cues[0].text )
-				this.subtitleContent = cues[0].text.replace(/\n/g, '<br>');
+				this.captionContent = cues[0].text;
 			else
-				this.subtitleContent = "";
+				this.captionContent = "";
 		},
 		onResize( event ){
 			if( this.value.tag == "image" ){
@@ -76,7 +75,6 @@ export const component = {
 			}
 		},
 		resizeArea( indexArea, imgWidth, imgHeight){
-			console.log( "res", indexArea);
 			let coords = [];
 			if( !this.value || !this.value.areas || !this.value.areas[ indexArea ] )
 				return coords;
@@ -131,7 +129,6 @@ export const component = {
 					if( !useHighlight ) useHighlight = area.useHighlight;
 				});
 				if( useHighlight ){
-					console.log( "m", this.$refs.img, "w", this.$refs.img.width );
 					$( this.$refs.img ).maphilight();
 				}
 			}

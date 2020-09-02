@@ -1,5 +1,5 @@
 export const template = `
-<form ref="form">
+<form ref="form" v-on:submit.prevent>
 <fieldset class="form-group">
  <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
  <div v-for="(keyType, valueType) in inputTypes" class="form-check">
@@ -18,7 +18,8 @@ export const template = `
  </div>
  <div v-if="val.tag == 'Atom' && val.tag">
  <text-area-input
- v-bind:values="valueAr"></text-area-input>
+ v-model="valueAr"
+ v-on:agg="advise()"></text-area-input>
 <!--  <textarea v-if="valueAr === 'text'" name="valuea"></textarea>-->
 <!--  <lable v-if="valueAr === 'text'" for="valuea">Text</lable>-->
 <!--  <input type="number" v-if="valueAr === 'number'" name="valuen">-->
@@ -46,69 +47,47 @@ export const template = `
     <select v-model="valueTypeSel">
         <option v-for="func in functionsType">{{func.name}}</option>
     </select>
-<!--//FIXME: Using the component just reloads the page, probable resolution is to add $emit-->
 
-<!--<text-area-input-->
-<!-- v-bind:values="valueAr"-->
-<!--v-on:add="addA(functionsType.Match)"></text-area-input>-->
-       <div>
-       <select v-model="test">
-            <option v-bind:value="1" selected>Text</option>
-            <option v-bind:value="2">Number</option>
-        </select>
-        <!-- Sezione con area dipende da val del select testo --->
-            <div v-if="test === 1">
-                <input v-model="valueAr" type="text">
-            </div>
-            <div v-if="test === 2" min="1">
-                <input type="number" v-model.number="valueAr">
-            </div>
-            </div>
             <div v-if="valueTypeSel === 'eq'">
-            <button @click="addA(functionsType.Match)">Aggiungi
-            </button>
+<text-area-input
+v-model="valueAr" v-on:agg="addA(functionsType.Match)"></text-area-input>
+            
             <button @click="remA(functionsType.Match)">Togli ultimo
             </button>
-            <pre>{{ JSON.stringify(this.functionsType.Match.list, null, 2) }}</pre>
+            <pre>{{ JSON.stringify(functionsType.Match.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'neq'">
-            <button @click="addA(functionsType.Different)">Aggiungi
-            </button>
+            <text-area-input
+v-model="valueAr" v-on:agg="addA(functionsType.Different)"></text-area-input>
             <button @click="remA(functionsType.Different)">Togli ultimo
             </button>
-            <pre>{{ JSON.stringify(this.functionsType.Different.list, null, 2) }}</pre>
+            <pre>{{ JSON.stringify(functionsType.Different.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'hasInside'">
-        <!-- Sezione con area dipende da val del select testo --->
-            <button @click="addA(functionsType.Contains)">Aggiungi
-            </button>
+            <text-area-input
+v-model="valueAr" v-on:agg="addA(functionsType.Contains)"></text-area-input>
             <button @click="remA(functionsType.Contains)">Togli ultimo
             </button>
-            <pre>{{ JSON.stringify(this.functionsType.Contains.list, null, 2) }}</pre>
+            <pre>{{ JSON.stringify(functionsType.Contains.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'isThere'">
-
-        <!-- Sezione con area dipende da val del select testo --->
-            <button @click="addA(functionsType.Any)">Aggiungi
-            </button>
+<text-area-input
+v-model="valueAr" v-on:agg="addA(functionsType.Any)"></text-area-input>
             <button @click="remA(functionsType.Any)">Togli ultimo
             </button>
-            <pre>{{ JSON.stringify(this.functionsType.Any.list, null, 2) }}</pre>
+            <pre>{{ JSON.stringify(functionsType.Any.list, null, 2) }}</pre>
         </div>
         <div v-if="valueTypeSel === 'isInRange'">
-        <!-- Sezione con area dipende da val del select testo --->
-<!--        <input type="text" v-model="valuear">-->
-<!--        <input type="submit" value="Submit">-->
-            <button @click="addA(functionsType.Between)">Aggiungi
-            </button>
+        <text-area-input
+        v-model="valueAr" v-on:agg="addA(functionsType.Between)"></text-area-input>
             <button @click="remA(functionsType.Between)">Togli ultimo
             </button>
-            <pre>{{ JSON.stringify(this.functionsType.Between.list, null, 2) }}</pre>
+            <pre>{{ JSON.stringify(functionsType.Between.list, null, 2) }}</pre>
         </div>
     </div>
     <div v-if=" valuef === 'Value'">
     //FIXME:Single value input doesn't show
-        <text-area-input v-bind:values="valueAr">
+        <text-area-input v-model="valueAr">
         </text-area-input>
     </div>
     <div v-if=" valuef === 'Variable'">

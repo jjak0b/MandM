@@ -78,6 +78,15 @@ export const component = {
     },
 
      methods: {
+
+        advise() {
+            if (this.valueAr) {
+                this.val.value.push(this.valueAr);
+                console.info("[ActivityEditor]", "added", this.valueAr);
+            }else{
+                console.info("[ActivityEditor]", "insert a value")
+            }
+            },
          addA(val) {
              if(this.valueAr) {
                  val.list.push(this.valueAr);

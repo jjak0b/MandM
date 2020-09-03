@@ -50,7 +50,10 @@ export const component = {
 			NodeUtils: NodeUtils,
 			currentNode: null /* object node used by jsTree */,
 			isAddFormVisible: false,
-			isEditFormVisible: false
+			isEditFormVisible: false,
+			selectedType: null,
+			tmpNodeName: null,
+			tmpNodeNote: null
 		}
 	},
 	watch: {
@@ -72,8 +75,6 @@ export const component = {
 	},
 	computed: {
 		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) },
-		nodeName: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.name : null },
-		nodeNote: function () { return this.isEditFormVisible ? this.currentNode.data.noteInfo.note : null },
 		activityTitle: function () { return this.isEditFormVisible ? this.currentNode.data.title : 'activity.title.' + this.nextId },
 		activityDescription: function () { return this.isEditFormVisible ? this.currentNode.data.description : 'activity.description.' + this.nextId }
 	},
@@ -166,6 +167,8 @@ export const component = {
 			}
 			this.isAddFormVisible = false;
 			this.selectedType = null;
+			this.tmpNodeName = null;
+			this.tmpNodeNote = null;
 		},
 		onEdit( event ) {
 			let inputs = $(event.currentTarget).serializeArray();

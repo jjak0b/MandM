@@ -69,13 +69,23 @@ export const template =
 					<div class="col">
 						<fieldset class="form-group">
 							<legend> {{ $t( 'ActivityEditorWidget.label-node-item-name' ) }} </legend>
-							<input
+							<input v-if="isAddFormVisible"
+								key="node-name-add"
 								id="node-name"
 								name="node-name"
 								type="text"
 								required="required"
 								class="form-control"
-								v-bind:value="nodeName"
+								v-model="tmpNodeName"
+							/>
+							<input v-if="isEditFormVisible"
+								key="node-name-edit"
+								id="node-name"
+								name="node-name"
+								type="text"
+								required="required"
+								class="form-control"
+								v-model="currentNode.data.noteInfo.name"
 							/>
 						</fieldset>
 					</div>
@@ -84,13 +94,22 @@ export const template =
 					<div class="col">
 						<fieldset class="form-group">
 							<legend> {{ $t( 'ActivityEditorWidget.label-node-item-description' ) }} </legend>
-							<textarea
+							<textarea v-if="isAddFormVisible"
+								key="node-note-add"
 								id="node-note"
 								name="node-note"
 								rows="4"
 								class="form-control"
-								v-bind:value="nodeNote"
-							textarea/>
+								v-model="tmpNodeNote"
+							></textarea>
+							<textarea v-if="isEditFormVisible"
+								key="node-note-edit"
+								id="node-note"
+								name="node-note"
+								rows="4"
+								class="form-control"
+								v-model="currentNode.data.noteInfo.note"
+							></textarea>
 						</fieldset>
 					</div>
 				</div>

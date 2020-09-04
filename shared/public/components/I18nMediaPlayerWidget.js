@@ -61,6 +61,17 @@ export const component = {
 		}
 	},
 	methods: {
+		areaOnClick( indexArea, event ) {
+			if( !this.value || !this.value.areas ) return;
+			let area = this.value.areas[ i ];
+			if( area.value != null )
+				this.$emit( 'input', area.value );
+
+
+			if( area.action == 'event' ){
+				// TODO: dispatch event to window (global) object
+			}
+		},
 		onCueChange( event ){
 			let cues = event.target.track.activeCues;
 			if( cues && cues[0] && cues[0].text )

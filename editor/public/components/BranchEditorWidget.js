@@ -17,7 +17,7 @@ export const component = {
             valuef: String,
             val:{
                 tag: '',
-                list: [],
+                param: [],
                 type: ''
         },
             valueAr: null,
@@ -76,7 +76,7 @@ export const component = {
 
         advise() {
             if (this.valueAr) {
-                this.val.value.push(this.valueAr);
+                this.val.param.push(this.valueAr);
                 console.info("[ActivityEditor]", "added", this.valueAr);
             }else{
                 console.info("[ActivityEditor]", "insert a value")
@@ -84,7 +84,14 @@ export const component = {
             },
          addA(val) {
              if(this.valueAr) {
-                 val.list.push(this.valueAr);
+            if (val.name==='hasInside') {
+                val.param.push(this.valueAr);
+            }else{
+                val.param.value=this.valueAr;
+            }
+                 console.info("[ActivityEditor]", "Inserito");
+             }else{
+                 console.info("[ActivityEditor]", "insert a value");
              }
              },
          remA(val) {

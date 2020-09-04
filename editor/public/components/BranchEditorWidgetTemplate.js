@@ -8,7 +8,7 @@ export const template = `
 	        name="keyType"
 	        v-bind:id="'input-type_' + keyType"
 	        v-bind:value="valueType"
-	        v-model="val.tag"
+	        v-model="val.tag"  <!-- This is for saving the type of option the value the user is about to put is coming from --->
 	        v-bind:aria-describedby="keyType"
             />
         <label
@@ -17,9 +17,10 @@ export const template = `
         >{{ $t(keyType + '.label' ) }}</label>
         </div>
         <div v-if="val.tag == 'Atom' && val.tag">
-            <text-area-input
-            v-model="valueAr"
+            <text-area-input 
+            v-bind:value="valueAr"
             v-on:agg="advise()"></text-area-input>
+            <!--            v-bind:type="val.type"-->
         </div>
         <div v-if="val.tag == 'Range'&& val.tag">
             <lable for="min">Min</lable>
@@ -43,35 +44,38 @@ export const template = `
                     v-model="valueAr" v-on:agg="addA(functionsType.Match)"></text-area-input>
                     <button @click="remA(functionsType.Match)">Togli ultimo
                     </button>
-                    <pre>{{ JSON.stringify(functionsType.Match.list, null, 2) }}</pre>
+                    <!--FIXME: I want to save the value into the object param.value but it doesnt appear to happen --->
+                    <div v-if="functionsType.Match.param.value">
+                    <p>lol</p>
+                    </div>
                 </div>
                 <div v-if="valueTypeSel === 'neq'">
                     <text-area-input
                     v-model="valueAr" v-on:agg="addA(functionsType.Different)"></text-area-input>
                     <button @click="remA(functionsType.Different)">Togli ultimo
                     </button>
-                    <pre>{{ JSON.stringify(functionsType.Different.list, null, 2) }}</pre>
+                    <pre>{{ JSON.stringify(functionsType.Different.param, null, 2) }}</pre>
                 </div>
                 <div v-if="valueTypeSel === 'hasInside'">
                     <text-area-input
                     v-model="valueAr" v-on:agg="addA(functionsType.Contains)"></text-area-input>
                     <button @click="remA(functionsType.Contains)">Togli ultimo
                     </button>
-                    <pre>{{ JSON.stringify(functionsType.Contains.list, null, 2) }}</pre>
+                    <pre>{{ JSON.stringify(functionsType.Contains.param, null, 2) }}</pre>
                 </div>
                 <div v-if="valueTypeSel === 'isThere'">
                     <text-area-input
                     v-model="valueAr" v-on:agg="addA(functionsType.Any)"></text-area-input>
                     <button @click="remA(functionsType.Any)">Togli ultimo
                     </button>
-                    <pre>{{ JSON.stringify(functionsType.Any.list, null, 2) }}</pre>
+                    <pre>{{ JSON.stringify(functionsType.Any.param, null, 2) }}</pre>
                 </div>
                 <div v-if="valueTypeSel === 'isInRange'">
                     <text-area-input
                     v-model="valueAr" v-on:agg="addA(functionsType.Between)"></text-area-input>
                     <button @click="remA(functionsType.Between)">Togli ultimo
                     </button>
-                    <pre>{{ JSON.stringify(functionsType.Between.list, null, 2) }}</pre>
+                    <pre>{{ JSON.stringify(functionsType.Between.param, null, 2) }}</pre>
                 </div>
             </div>
             <div v-if=" valuef === 'Value'">

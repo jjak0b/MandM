@@ -5,12 +5,11 @@ export const InputValidityStates = {
 	Warning: 1
 };
 export const component = {
+	inheritAttrs: false,
 	template: template,
 	props: {
-		label: String,
-		isValidCallback: Function,
-		warningMessage: String,
-		errorMessage: String
+		value: String,
+		isValidCallback: Function
 	},
 	data() {
 		return {
@@ -23,10 +22,41 @@ export const component = {
 			messageClass: null
 		};
 	},
+	computed: {
+		inputListeners: function () {
+			let self = this;
+			// `Object.assign` merges objects together to form a new object
+			return Object.assign({},
+				// We add all the listeners from the parent
+				this.$listeners,
+				// Then we can add custom listeners or override the
+				// behavior of some listeners.
+				{
+					// This ensures that the component works with v-model
+					input: function (event) {
+						self.$emit('input', event.target.value);
+					}
+				}
+			)
+		},
+		hasDescription: function () {
+			return this.statusMessageContent || this.statusValue != null;
+		}
+	},
+	mounted(){
+		let fakeEvent = {
+			target: this.$refs.input
+		}
+		this.onInput( fakeEvent );
+	},
 	methods:{
 		onInput(event){
-			let AreConstraintsValid = event.target.checkValidity();
-			let validityState = 0;
+			this.value = event.target.value;
+			let AreConstraintsValid = true;
+			if( event.target.reportValidity ){
+				AreConstraintsValid = event.target.reportValidity();
+			}
+
 			let eventToCheck = {
 				value : event.target.value,
 				message: null,
@@ -36,14 +66,14 @@ export const component = {
 
 			let callback = this.isValidCallback;
 			this.statusValue = callback ? callback( eventToCheck ) : null;
-			this.updateView( eventToCheck );
 			// warning is a valid value but user is informed of this state
-			if( AreConstraintsValid && this.statusValue ){
-				this.$emit( "valid", event );
+			if( AreConstraintsValid && this.statusValue >= 0 ){
+				this.$emit( "valid", event.target.value );
 			}
-			else {
-				this.$emit( "invalid", event );
+			else if( this.$refs.input) {
+				this.$emit( "invalid", event.target.value );
 			}
+			this.updateView( eventToCheck );
 		},
 		updateView( data ) {
 			switch ( this.statusValue ) {

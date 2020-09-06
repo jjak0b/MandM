@@ -1,90 +1,170 @@
 {
-	"shared" : {
-		"label-new-element": "New {name} item",
-		"label-save": "Save",
-		"label-remove": "Remove",
-		"label-add": "Add",
-	  	"label-reset": "Reset",
-	  "label-add-name": "Add {name}",
-		"label-duplicate" : "Duplicate",
-		"label-i18n" : "Internationalize",
-		"label-mission": "Mission | Missions",
-		"label-activity": "Activity | Activities",
-		"label-story": "Story | Stories"
-  	},
-	"I18nSelectorWidget" : {
-		"label-i18n-select": "Select and add an internationalization to make it available",
-		"label-locale-select": "Select current internationalization to edit"
-  	},
-	"StoryEditorWidget" : {
-		"label-story-title": "Story title",
-		"label-story-description" : "Story description",
-		"gamemodes" : {
-			"solo" : {
-				"label" : "Solo mode",
-				"description" : "The player plays individually"
-			},
-			"group" : {
-				"label" : "Group mode",
-				"description" : "The players collaborate each to other in a group"
-			},
-			"class" : {
-				"label" : "Class mode",
-				"description" : "The groups play independently and are in competitions"
-			}
-		}
-	},
-	"MissionEditorWidget" : {
-		"label-mission-title": "Mission title",
-		"label-mission-description" : "Mission description",
-		"label-mission-list" : "Mission list"
-  	},
-	"ActivityEditorWidget" : {
-		"label-activity-title" : "Activity title",
-		"label-activity-description" : "Activity description",
-		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
-		"label-select-nodeType" : "Select a type of element to add to the tree",
-		"label-node-item-name" : "Tree item's name",
-		"label-input-type":"Select input type",
-		"label-node-item-description" : "Note about the tree item",
-		"treeNode-type" : {
-			"quest" : {
-				"label" : "Quest",
-				"description" : "Create an interactive activity which will create a branch of possible results"
-			},
-			"tell" : {
-				"label" : "Telltales",
-				"description" : "Explain and tell a dialogue"
-			},
-			"branch" : {
-				"label": "Branch",
-				"description": "Describes a possible path of the story"
-			}
-		},
-		"input-type": {
-				"any": {
-					"label": "any"
-				},
-				"atom": {
-					"label": "atom"
-				},
-				"range":{
-				"label":"range"
-				},
-				"function": {
-					"label": "function"
-				}
-			},
-		"input-func-value":{
-			"array" : {
-				"label":"Array"
-			},
-			"value" : {
-				"label":"Value"
-			},
-			"variable" : {
-				"label":"Variable"
-			}
-		}
+  "shared": {
+	"label-new-element": "New {name} item",
+	"label-save": "Save",
+	"label-remove": "Remove",
+	"label-add": "Add",
+	"label-add-after": "Add after",
+	"label-add-before": "Add before",
+	"label-reset": "Reset",
+	"label-add-name": "Add {name}",
+	"label-duplicate": "Duplicate",
+	"label-i18n": "Internationalize",
+	"label-mission": "Mission | Missions",
+	"label-activity": "Activity | Activities",
+	"label-story": "Story | Stories",
+	"errors": {
+	  "video-tag-unsupported": "Video tag unsupported",
+	  "audio-tag-unsupported": "Audio tag unsupported"
 	}
+  },
+  "I18nSelectorWidget": {
+	"label-i18n-select": "Select and add an internationalization to make it available",
+	"label-locale-select": "Select current internationalization to edit"
+  },
+  "StoryEditorWidget": {
+	"label-story-title": "Story title",
+	"label-story-description": "Story description",
+	"gamemodes": {
+	  "solo": {
+		"label": "Solo mode",
+		"description": "The player plays individually"
+	  },
+	  "group": {
+		"label": "Group mode",
+		"description": "The players collaborate each to other in a group"
+	  },
+	  "class": {
+		"label": "Class mode",
+		"description": "The groups play independently and are in competitions"
+	  }
+	}
+  },
+  "MissionEditorWidget": {
+	"label-mission-title": "Mission title",
+	"label-mission-description": "Mission description",
+	"label-mission-list": "Mission list"
+  },
+  "ActivityEditorWidget": {
+	"label-activity-title": "Activity title",
+	"label-activity-description": "Activity description",
+	"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
+	"label-select-nodeType": "Select a type of element to add to the tree",
+	"label-node-item-name": "Tree item's name",
+	"label-input-type": "Select input type",
+	"label-node-item-description": "Note about the tree item",
+	"treeNode-type": {
+	  "quest": {
+		"label": "Quest",
+		"description": "Create an interactive activity which will create a branch of possible results"
+	  },
+	  "tell": {
+		"label": "Telltales",
+		"description": "Explain and tell a dialogue"
+	  },
+	  "branch": {
+		"label": "Branch",
+		"description": "Describes a possible path of the story"
+	  }
+	},
+	"input-type": {
+	  "any": {
+		"label": "any"
+	  },
+	  "atom": {
+		"label": "atom"
+	  },
+	  "range": {
+		"label": "range"
+	  },
+	  "function": {
+		"label": "function"
+	  }
+	},
+	"input-func-value": {
+	  "array": {
+		"label": "Array"
+	  },
+	  "value": {
+		"label": "Value"
+	  },
+	  "variable": {
+		"label": "Variable"
+	  }
+	}
+  },
+  "SceneEditorWidget": {
+	"GridWidget": {
+	  "label-show-grid-border": "Show grid border",
+	  "label-edit-selected-cell": "Edit selected cell",
+	  "label-edit-cell-size": "Edit cell size",
+	  "label-remove-cell": "Remove cell",
+	  "label-add-row": "Add row",
+	  "label-remove-row": "Remove row",
+	  "label-add-col": "Add col",
+	  "label-max-col": "Max col"
+	},
+	"StyleWidget": {
+	  "label-width": "Width",
+	  "label-width-percent-range": "Width percent range",
+	  "label-width-percent-number": "Width percent number",
+	  "label-height": "Height",
+	  "label-height-percent-range": "Height percent range",
+	  "label-height-percent-number": "Height percent number",
+	  "label-angle": "Angle",
+	  "label-angle-range-X": "Range X",
+	  "label-angle-number-X": "Number X",
+	  "label-angle-range-Y": "Range Y",
+	  "label-angle-number-Y": "Number Y",
+	  "label-angle-range-Z": "Range Z",
+	  "label-angle-number-Z": "Number Z",
+	  "label-position": "Position",
+	  "label-position-range-left": "Range left",
+	  "label-position-number-left": "Number left",
+	  "label-position-range-right": "Range right",
+	  "label-position-number-right": "Number right",
+	  "label-position-range-bottom": "Range bottom",
+	  "label-position-number-bottom": "Number bottom",
+	  "label-position-range-top": "Range top",
+	  "label-position-number-top": "Number top"
+	}
+  },
+  "MediaForm": {
+	"media-type": "Media type",
+	"label-upload-file": "Upload file",
+	"label-use-highlight": "Use highlight",
+	"label-vertex-description": "Vertex description",
+	"label-mediatype": "Media type",
+	"label-add-image-area": "Add image area",
+	"MediaType": {
+	  "label-audio": "Audio",
+	  "label-video": "Video",
+	  "label-image": "Image"
+	},
+	"label-input-file": {
+	  "audio": "Audio",
+	  "video": "Video",
+	  "image": "Image",
+	  "subtitles": "Subtitles",
+	  "subtitles-accessibility": "Subtitles Accessibility",
+	  "image-caption": "Image caption",
+	  "use-area": "Use area"
+	},
+	"areas": {
+	  "label-shape-full": "Full",
+	  "label-shape-rectangle": "Rectangle",
+	  "label-shape-circle": "Circle",
+	  "label-rectangle-top-left": "Rectangle top left",
+	  "label-rectangle-bottom-right": "Rectangle bottom right",
+	  "label-circle-centre": "Circle centre",
+	  "label-circle-radius": "Circle radius",
+	  "label-select-shape-area": "Select shape area",
+	  "label-select-interact-action": "Select interact action",
+	  "actions": {
+		"label-open-url-new-tab": "Open url in a new tab",
+		"label-navigate-to-page-element": "Navigate to page element",
+		"label-return-a-value-to-activity": "Return a value to activity"
+	  }
+	}
+  }
 }

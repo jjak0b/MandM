@@ -23,9 +23,9 @@ export const component = {
 				"uri" : "SceneEditor.imgSourceTypes.label_uri"
 			},*/
 			labelMediaTypes : {
-				"audio" : "MediaForm.MediaType.label_audio",
-				"video" : "MediaForm.MediaType.label_video",
-				"image" : "MediaForm.MediaType.label_image"
+				"audio" : "MediaForm.MediaType.label-audio",
+				"video" : "MediaForm.MediaType.label-video",
+				"image" : "MediaForm.MediaType.label-image"
 			},
 			sourceType: null,
 			files : {

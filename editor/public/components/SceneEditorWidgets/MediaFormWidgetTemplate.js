@@ -5,7 +5,7 @@ export const template =
 		<section class="col">
 			<form ref="form" v-on:change="updateAssetForPreview()">
 				<fieldset class="form-group">
-					<legend>{{ $t( "MediaForm.label_mediatype" ) }}</legend>
+					<legend>{{ $t( "MediaForm.label-mediatype" ) }}</legend>
 					<div v-for="(label, type) in labelMediaTypes" >
 						<input
 							type="radio"
@@ -40,7 +40,7 @@ export const template =
 					</fieldset>
 					-->
 				<fieldset>
-					<legend>{{ $t( "MediaForm.label_upload_file" ) }}</legend>
+					<legend>{{ $t( "MediaForm.label-upload-file" ) }}</legend>
 					<div v-if="value.tag && value.tag == 'image'">
 						<div class="form-group">
 							<label
@@ -59,7 +59,7 @@ export const template =
 						<div class="form-group">
 							<label
 								for="mediaForm-input-image-caption"
-							>{{ $t( "MediaForm.label-input-file.imageCaption" ) }}</label>
+							>{{ $t( "MediaForm.label-input-file.image-caption" ) }}</label>
 							<i18n-input-widget
 								v-bind:tag="'textarea'"
 								class="form-control"
@@ -73,7 +73,7 @@ export const template =
 						</div>
 						<div class="form-group">						
 							<label for="mediaForm-input-image-useMap"
-							>{{ $t( "MediaForm.label-input-useArea" ) }}</label>
+							>{{ $t( "MediaForm.label-input-file.use-area" ) }}</label>
 							<input
 								id="mediaForm-input-image-useMap"
 								type="checkbox"
@@ -91,7 +91,7 @@ export const template =
 												<div class="form-group">
 													<label
 														for="mediaForm-input-image-area-shape"
-													>{{ $t( "MediaForm.label-select-shape-area" ) }}</label>
+													>{{ $t( "MediaForm.areas.label-select-shape-area" ) }}</label>
 													<select
 														id="mediaForm-input-image-area-shape"
 														name="shape"
@@ -181,7 +181,7 @@ export const template =
 								class="form-control"
 							/>
 						</div>
-						<p id="mediaForm-input-file-subtitles-description">{{ $t( "MediaForm.label-input-file.subtitles_accessibility") }}</p>
+						<p id="mediaForm-input-file-subtitles-description">{{ $t( "MediaForm.label-input-file.subtitles-accessibility") }}</p>
 					</div>
 				</fieldset>
 				<div class="btn-group" role="group">

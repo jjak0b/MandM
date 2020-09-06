@@ -46,7 +46,7 @@ export const template =
 			v-bind:label="lang"
 		/>
 		<!-- Visile only if it's unsupported by browser-->
-		{{ $t( "shared.errors.video_tag_unsupported" ) }}
+		{{ $t( "shared.errors.video_tag-unsupported" ) }}
 	</video>
 	<audio 
 		v-if="value.tag == 'audio'"
@@ -64,7 +64,7 @@ export const template =
 			v-on:cuechange="onCueChange"
 		/>
 		<!-- Visile only if it's unsupported by browser-->
-		{{ $t( "shared.errors.audio_tag_unsupported" ) }}
+		{{ $t( "shared.errors.audio_tag-unsupported" ) }}
 	</audio>
 	<p
 		v-if="value.tag == 'audio'"

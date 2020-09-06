@@ -5,25 +5,25 @@ export const template =
 		<section class="col">
 			<fieldset>
 				<legend>Element sizing</legend>
-				<h3>{{ $t( "SceneEditor.label_width" ) }}</h3>
+				<h3>{{ $t( "SceneEditorWidget.StyleWidget.label-width" ) }}</h3>
 				<input-range-number-widget
 					name="width"
 					v-model="value.size.x"
 					min="0"
 					max="100"
 					step="0.5"
-					labelNumber="SceneEditor.label_width_percent_number"
-					labelRange="SceneEditor.label_width_percent_range"
+					labelNumber="SceneEditorWidget.StyleWidget.label-width-percent-number"
+					labelRange="SceneEditorWidget.StyleWidget.label-width-percent-range"
 				></input-range-number-widget>
-				<h3>{{ $t( "SceneEditor.label_height" ) }}</h3>
+				<h3>{{ $t( "SceneEditorWidget.StyleWidget.label-height" ) }}</h3>
 				<input-range-number-widget
 					name="height"
 					v-model="value.size.y"
 					min="0"
 					max="100"
 					step="0.5"
-					labelNumber="SceneEditor.label_height_percent_number"
-					labelRange="SceneEditor.label_height_percent_range"
+					labelNumber="SceneEditorWidget.StyleWidget.label-height-percent-number"
+					labelRange="SceneEditorWidget.StyleWidget.label-height-percent-range"
 				></input-range-number-widget>
 			</fieldset>
 		</section>
@@ -31,7 +31,7 @@ export const template =
 		<section class="col">
 			<fieldset>
 				<legend>Element orienting</legend>
-				<h3>{{ $t( "SceneEditor.label_angle" ) }}</h3>
+				<h3>{{ $t( "SceneEditorWidget.StyleWidget.label-angle" ) }}</h3>
 				<div class="row">
 					<div class="col">
 						<input-range-number-widget
@@ -40,8 +40,8 @@ export const template =
 							min="0"
 							max="360"
 							step="0.5"
-							labelNumber="SceneEditor.label_angle_number_X"
-							labelRange="SceneEditor.label_angle_range_X"
+							labelNumber="SceneEditorWidget.StyleWidget.label-angle-number-X"
+							labelRange="SceneEditorWidget.StyleWidget.label-angle-range-X"
 						></input-range-number-widget>
 					</div>
 					<div class="col">
@@ -51,8 +51,8 @@ export const template =
 							min="0"
 							max="360"
 							step="0.5"
-							labelNumber="SceneEditor.label_angle_number_Y"
-							labelRange="SceneEditor.label_angle_range_Y"
+							labelNumber="SceneEditorWidget.StyleWidget.label-angle-number-Y"
+							labelRange="SceneEditorWidget.StyleWidget.label-angle-range-Y"
 						></input-range-number-widget>
 					</div>
 					<div class="col">
@@ -62,8 +62,8 @@ export const template =
 							min="0"
 							max="360"
 							step="0.5"
-							labelNumber="SceneEditor.label_angle_number_Z"
-							labelRange="SceneEditor.label_angle_range_Z"
+							labelNumber="SceneEditorWidget.StyleWidget.label-angle-number-Z"
+							labelRange="SceneEditorWidget.StyleWidget.label-angle-range-Z"
 						></input-range-number-widget>
 					</div>
 				</div>
@@ -73,7 +73,7 @@ export const template =
 		<section class="col">
 			<fieldset>
 				<legend>Element positioning</legend>
-				<h3>{{ $t( "SceneEditor.label_position" ) }}</h3>
+				<h3>{{ $t( "SceneEditorWidget.StyleWidget.label-position" ) }}</h3>
 				<div class="row">
 					<div class="col">
 						<input-range-number-widget
@@ -82,8 +82,8 @@ export const template =
 							min="0"
 							max="100"
 							step="0.5"
-							labelNumber="SceneEditor.label_position_number_left"
-							labelRange="SceneEditor.label_position_range_left"
+							labelNumber="SceneEditorWidget.StyleWidget.label-position-number-left"
+							labelRange="SceneEditorWidget.StyleWidget.label-position-range-left"
 						></input-range-number-widget>
 					</div>
 					<div class="col">
@@ -93,8 +93,8 @@ export const template =
 							min="0"
 							max="100"
 							step="0.5"
-							labelNumber="SceneEditor.label_position_number_right"
-							labelRange="SceneEditor.label_position_range_right"
+							labelNumber="SceneEditorWidget.StyleWidget.label-position-number-right"
+							labelRange="SceneEditorWidget.StyleWidget.label-position-range-right"
 						></input-range-number-widget>
 					</div>
 				</div>
@@ -106,8 +106,8 @@ export const template =
 							min="0"
 							max="100"
 							step="0.5"
-							labelNumber="SceneEditor.label_position_number_bottom"
-							labelRange="SceneEditor.label_position_range_bottom"
+							labelNumber="SceneEditorWidget.StyleWidget.label-position-number-bottom"
+							labelRange="SceneEditorWidget.StyleWidget.label-position-range-bottom"
 						></input-range-number-widget>
 					</div>
 					<div class="col">
@@ -117,8 +117,8 @@ export const template =
 							min="0"
 							max="100"
 							step="0.5"
-							labelNumber="SceneEditor.label_position_number_top"
-							labelRange="SceneEditor.label_position_range_top"
+							labelNumber="SceneEditorWidget.StyleWidget.label-position-number-top"
+							labelRange="SceneEditorWidget.StyleWidget.label-position-range-top"
 						></input-range-number-widget>
 					</div>
 				</div>

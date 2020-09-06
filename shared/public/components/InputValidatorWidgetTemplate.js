@@ -1,12 +1,12 @@
 export const template =
 `
-<div>
+<div class="form-group">
 	<label
 		v-if="$attrs.type != 'checkbox' && $attrs.type != 'radio'"
 		v-bind:for="$attrs.id"
 		v-bind:class="labelClass"
 	>
-		<strong v-if="statusLabel != null" >{{ $t(statusLabel) }}</strong>
+		<strong v-if="statusLabel != null" v-t="statusLabel"></strong>
 		<strong v-if="statusSymbol != null" v-html="statusSymbol"></strong>
 		<slot></slot>
 	</label>
@@ -28,7 +28,7 @@ export const template =
 			class="flex-fill"
 			v-bind:class="labelClass"
 		>
-			<strong v-if="statusLabel != null" >{{ $t(statusLabel) }}</strong>
+			<strong v-if="statusLabel != null" v-t="statusLabel"></strong>
 			<strong v-if="statusSymbol != null" v-html="statusSymbol"></strong>
 			<slot></slot>
 		</label>
@@ -40,10 +40,10 @@ export const template =
 			role="alert"
 			aria-live="polite"
 		>	
-			<span v-if="statusMessageContent" v-html="statusMessageContent"></span>
-			<slot v-else-if="statusValue == ValidityStates.Error"	name="error">{{ $t(statusLabel) }}</slot>
-			<slot v-else-if="statusValue == ValidityStates.Ok" 		name="ok">{{ $t(statusLabel) }}</slot>
-			<slot v-else-if="statusValue == ValidityStates.Warning" name="warning">{{ $t(statusLabel) }}</slot>
+			<span v-if="statusMessageContent">{{ statusMessageContent }}</span>
+			<slot v-else-if="statusValue == ValidityStates.Error"	name="error"	v-t="statusLabel"></slot>
+			<slot v-else-if="statusValue == ValidityStates.Ok" 		name="ok"		v-t="statusLabel"></slot>
+			<slot v-else-if="statusValue == ValidityStates.Warning" name="warning"	v-t="statusLabel"></slot>
 		</div>
 	</div>
 </div>

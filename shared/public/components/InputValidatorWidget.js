@@ -43,34 +43,62 @@ export const component = {
 			return this.statusMessageContent || this.statusValue != null;
 		}
 	},
-	mounted(){
-		let fakeEvent = {
-			target: this.$refs.input
+	watch: {
+		"value": function (newVal) {
+			let fakeEvent = {
+				target: this.$refs.input
+			}
+			this.onInput( fakeEvent );
 		}
-		this.onInput( fakeEvent );
 	},
 	methods:{
 		onInput(event){
 			this.value = event.target.value;
 			let AreConstraintsValid = true;
-			if( event.target.reportValidity ){
-				AreConstraintsValid = event.target.reportValidity();
+			if( event.target ){
+				event.target.setCustomValidity(""); // unset custom validity
+				if( event.target.reportValidity ){
+					AreConstraintsValid = event.target.reportValidity();
+				}
 			}
 
 			let eventToCheck = {
+				target: event.target,
 				value : event.target.value,
-				message: null,
-				label: null,
+				i18nMessage: null,
+				i18nLabel: null,
 				symbol: null
 			}
 
 			let callback = this.isValidCallback;
-			this.statusValue = callback ? callback( eventToCheck ) : null;
-			// warning is a valid value but user is informed of this state
-			if( AreConstraintsValid && this.statusValue >= 0 ){
+			// check first constraints with browser and then check callback
+			let isValid = AreConstraintsValid;
+			if( isValid ){
+				this.statusValue = callback ? callback( eventToCheck ) : null;
+				// warning is a valid value but user is informed of this state
+				// null and so 0 is a valid state
+				isValid = this.statusValue >= InputValidityStates.Ok;
+			}
+			else{
+				this.statusValue = InputValidityStates.Error;
+			}
+
+			if( isValid ){
 				this.$emit( "valid", event.target.value );
 			}
-			else if( this.$refs.input) {
+			// the value is not valid
+			else {
+				// only callback returned invalid state
+				if( AreConstraintsValid && this.statusValue < 0 ) {
+					// so check if custom message is set
+					if( eventToCheck.i18nMessage ){
+						event.target.setCustomValidity( eventToCheck.i18nMessage );
+					}
+					// else we must force notify browser is invalid with a generic error message
+					else {
+						event.target.setCustomValidity( this.$i18n.t( "shared.label-invalid" ) );
+					}
+				}
 				this.$emit( "invalid", event.target.value );
 			}
 			this.updateView( eventToCheck );
@@ -78,31 +106,31 @@ export const component = {
 		updateView( data ) {
 			switch ( this.statusValue ) {
 				case InputValidityStates.Ok:
-					this.statusLabel = data.label || "shared.label-ok";
+					this.statusLabel = data.i18nLabel || "shared.label-ok";
 					this.statusSymbol = data.symbol || "&check;"
 					this.labelClass = [ "text-success" ];
 					this.messageClass = [ "alert", "alert-success" ];
 					break;
 				case InputValidityStates.Warning:
-					this.statusLabel = data.label || "shared.label-warning";
+					this.statusLabel = data.i18nLabel || "shared.label-warning";
 					this.statusSymbol = data.symbol || "&excl;"
 					this.labelClass = [ "text-warning" ];
 					this.messageClass = [ "alert","alert-warning" ];
 					break;
 				case InputValidityStates.Error:
-					this.statusLabel = data.label || "shared.label-error";
+					this.statusLabel = data.i18nLabel || "shared.label-invalid";
 					this.statusSymbol = data.symbol || "&#9747;"
 					this.labelClass = [ "text-danger" ];
 					this.messageClass = [ "alert","alert-danger" ];
 					break;
 				default:
-					this.statusLabel = data.label;
+					this.statusLabel = data.i18nLabel;
 					this.statusSymbol = data.symbol;
 					this.labelClass = null;
-					this.messageClass = null;
+					this.messageClass = [ "alert", "alert-info" ];
 
 			}
-			this.statusMessageContent = data.message;
+			this.statusMessageContent = data.i18nMessage;
 		}
 	}
 

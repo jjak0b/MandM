@@ -99,45 +99,46 @@ export const template =
 											v-on:submit.prevent="onAddArea"
 										>
 											<fieldset form="mediaForm-input-image-area-form">
-												<legend>{{ $t( "MediaForm.label-add-image-area" ) }}</legend>
-												<div class="form-group">
-													<label
-														for="mediaForm-input-image-area-shape"
-													>{{ $t( "MediaForm.label-select-shape-area" ) }}</label>
-													<select
-														id="mediaForm-input-image-area-shape"
-														name="shape"
-														required="required"
-														class="form-control"
-													>
-														<option value="default" selected="selected">{{ $t( "MediaForm.areas.label-shape-full" ) }}</option>
-														<option value="rect">{{ $t( "MediaForm.areas.label-shape-rectangle" ) }}</option>
-														<option value="circle">{{ $t( "MediaForm.areas.label-shape-circle" ) }}</option>
-													</select>
-												</div>
-												<div class="form-group">
-													<label
-														for="mediaForm-input-image-area-action"
-													>{{ $t( "MediaForm.areas.label-select-interact-action" ) }}</label>
-													<select
-														id="mediaForm-input-image-area-action"
-														name="action"
-														required="required"
-														class="form-control"
-													>
-														<option value="url">{{ $t( "MediaForm.areas.actions.label-open-url-new-tab" ) }}</option>
-														<option value="anchor">{{ $t( "MediaForm.areas.actions.label-navigate-to-page-element" ) }}</option>
-														<option value="return">{{ $t( "MediaForm.areas.actions.label-return-a-value-to-activity" ) }}</option>
-													</select>
-													<div class="form-group">
-														
+												<legend v-t="'MediaForm.label-add-image-area'"></legend>
+												<div class="form-row">
+													<div class="col">
+														<div class="form-group">
+															<label
+																for="mediaForm-input-image-area-shape"
+																v-t="'MediaForm.label-select-shape-area'"
+															></label>
+															<select
+																id="mediaForm-input-image-area-shape"
+																name="shape"
+																required="required"
+																class="form-control"
+															>
+																<option
+																	selected="selected"
+																	value="default"
+																	v-t="'MediaForm.areas.label-shape-full'"
+																></option>
+																<option
+																	value="rect"
+																	v-t="'MediaForm.areas.label-shape-rectangle'"
+																></option>
+																<option
+																	value="circle"
+																	v-t="'MediaForm.areas.label-shape-circle'"
+																></option>
+															</select>
+														</div>
 													</div>
 												</div>
-												<div class="form-group">
-													<button
-														type="submit"
-														class="btn btn-success"
-													>{{ $t("shared.label-add" ) }}</button>
+												<div class="form-row">
+													<div class="col">
+														<div class="form-group">
+															<button
+																type="submit"
+																class="btn btn-success"
+															>{{ $t("shared.label-add" ) }}</button>
+														</div>
+													</div>
 												</div>
 											</fieldset>
 										</form>
@@ -263,6 +264,75 @@ export const template =
 														class="form-control"
 													></i18n-input-widget>
 												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<div class="form-group">
+													<label
+														v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
+														v-t="'MediaForm.label-select-link-interaction'"
+													></label>
+													<select
+														v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
+														name="link-interaction"
+														v-on:change="onChangeAreaLinkType( areaIndex, $event )"
+														class="form-control"
+													>
+														<option
+															selected="selected"
+															value="none"
+															v-t="'shared.label-none'"
+														></option>
+														<option
+															value="anchor"
+															v-t="'MediaForm.areas.actions.label-navigate-to-page-element'"
+														></option>
+														<option
+															value="url"
+															v-t="'MediaForm.areas.actions.label-open-url-new-tab'"
+														></option>
+													</select>
+												</div>
+											</div>
+											<div class="col" >
+												<input-validator
+													v-if="area.hrefType == 'anchor'"
+													key="interaction-anchor"
+													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-anchor'"
+													type="text"
+													name="anchor"
+													required="required"
+													v-on:keydown.space.prevent
+													v-on:valid="area.href = '#' + $event"
+													v-bind:value="area.href"
+													v-bind:isValidCallback="(e) => (!e.value || document.getElementById(e.value)) ? null : 1"
+												>
+													<template v-slot:default="">{{ $t("MediaForm.areas.label-add-anchor-to-scroll-onto-when-triggered") }}</template>
+													<template v-slot:warning="">{{ $t("MediaForm.areas.label-anchor-warning-no-element-found") }}</template>
+												</input-validator>
+												<input-validator
+													v-else-if="area.hrefType == 'url'"
+													key="interaction-url"
+													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-url'"
+													type="url"
+													name="url"
+													required="required"
+													v-on:keydown.space.prevent
+													v-on:valid="area.href = $event"
+													v-bind:value="area.href"
+												>
+												{{ $t("MediaForm.areas.label-add-url-to-open-when-triggered") }}
+												<template v-slot:error="">
+													<h5 v-t="'MediaForm.areas.label-url-invalid'"></h5>
+													<p>{{ $t("MediaForm.areas.label-url-invalid-example", "https://www.google.it") }}</p>
+												</template>
+												</input-validator>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												
 											</div>
 										</div>
 									</div>

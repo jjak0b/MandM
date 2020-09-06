@@ -3,11 +3,13 @@ import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../I18nInputWidge
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
 import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";
+import {component as inputValidator} from "/shared/components/InputValidatorWidget.js";
 import {i18nContent} from "../Translations.js";
 
 export const component = {
 	template: template,
 	components: {
+		"input-validator": inputValidator,
 		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"i18n-media-player-widget" : asyncLoadComponentI18nMediaPlayer
@@ -142,7 +144,9 @@ export const component = {
 				alt: this.localeLabelAssetPrefix + '.areaAlt.'+ id,
 				shape: data["shape"],
 				action: data["action"],
-				href: data["action"] == 'anchor' ? "#" : "javascript:void(0)", // TODO: get URL, anchor or "#" otherwise
+				href: null,
+				target: null,
+				returnValue: data["return"],
 				vertices: (() => {
 					if (data["shape"] == 'circle') {
 						return [ [50, 50], [50] ];
@@ -153,7 +157,7 @@ export const component = {
 					else {
 						return null;
 					}
-				})(),
+				})()
 			};
 			if (!this.value.areas)
 				this.$set(this.value, "areas", [] );
@@ -190,6 +194,25 @@ export const component = {
 					return "";
 					break
 			}
-		}
+		},
+		onChangeAreaLinkType( areaIndex, event ) {
+			let area = this.value.areas[ areaIndex ];
+			this.$set( area, "hrefType", event.target.value );
+			let href = null;
+			let target = null;
+			switch( area.hrefType ) {
+				case "anchor":
+					target = "_self"
+					break;
+				case "url":
+					target = "_blank"
+					break;
+				default:
+					href = "javascript:void(0)";
+			}
+
+			this.$set( area, "href", href );
+			this.$set( area, "target", target );
+		},
 	}
 }

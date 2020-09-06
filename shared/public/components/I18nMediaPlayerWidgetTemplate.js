@@ -27,7 +27,7 @@ export const template =
 				v-bind:coords="getStringAreaCoords( i )"
 				v-bind:alt="$t( area.alt )"
 				v-bind:href="area.href"
-				v-bind:target="area.action == 'url' ? '_blank' : null"
+				v-bind:target="area.target"
 				v-on:click="areaOnClick( i, $event )"
 			/>
 		</map>

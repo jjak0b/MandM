@@ -1,20 +1,22 @@
 export const template =
     `<div>
-<select v-model="data.tag">
+<select v-model="val.tag">
 <option value="Text">Text</option>
 <option value="Number">Number</option>
 <option value="Array">Array</option>
 </select>
-    <div v-if="data.tag == 'Number'">
-        <input type="number" v-on:input="$emit('input',$event.target.value)">
+    <div v-if="val.tag == 'Number'">
+        <input type="number" v-model.number="temp">
+        <button v-on:click="check()">Add</button>
     </div>
-    <div v-if="data.tag == 'Text'">
-    <input type="text" v-on:input="$emit('input',$event.target.value)">
+    <div v-if="val.tag == 'Text'">
+    <input type="text" v-model="temp">
+    <button v-on:click="check()">Add</button>
 </div>
-<div v-if="data.tag == 'Array'">
-<input type="text">
-<button v-on:click="data.param.push($event.target.value)">Add</button>
-<button v-on:click="data.param.pop()">Remove</button>
+<div v-if="val.tag == 'Array'">
+<input type="text" v-model="temp">
+<button v-on:click="val.param.push(temp)">Add</button>
+<button v-on:click="val.param.pop()">Remove</button>
 </div>
 </div>
 

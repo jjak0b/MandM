@@ -18,6 +18,7 @@ export const template =
 <button v-on:click="val.param.push(temp)">Add</button>
 <button v-on:click="val.param.pop()">Remove</button>
 </div>
+<button v-on:click="$emit('val')">Save</button> 
 </div>
 
 `;

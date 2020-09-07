@@ -143,10 +143,10 @@ export const component = {
 				id: id,
 				alt: this.localeLabelAssetPrefix + '.areaAlt.'+ id,
 				shape: data["shape"],
-				action: data["action"],
-				href: null,
+				action: null, // TODO: eventAction built into an interaction editor component
+				href: "javascript:void(0)",
 				target: null,
-				returnValue: data["return"],
+				value: null, // TODO: value returned can be a value built with a variable editor component
 				vertices: (() => {
 					if (data["shape"] == 'circle') {
 						return [ [50, 50], [50] ];

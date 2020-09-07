@@ -63,7 +63,7 @@ export const component = {
 	methods: {
 		areaOnClick( indexArea, event ) {
 			if( !this.value || !this.value.areas ) return;
-			let area = this.value.areas[ i ];
+			let area = this.value.areas[ indexArea ];
 			if( area.value != null )
 				this.$emit( 'input', area.value );
 

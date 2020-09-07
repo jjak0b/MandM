@@ -332,7 +332,13 @@ export const template =
 										</div>
 										<div class="row">
 											<div class="col">
-												
+												<!-- TODO: Temp; replace this with interactable form component for return value and event-->
+												<input-validator
+													id="mediaForm-input-image-area-action-returnValue"
+													type="text"
+													name="return"
+													v-model="area.value"
+												>{{ $t("MediaForm.areas.label-set-value-to-return-as-player-input") }}</input-validator>
 											</div>
 										</div>
 									</div>

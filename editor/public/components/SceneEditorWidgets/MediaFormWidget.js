@@ -36,6 +36,11 @@ export const component = {
 				"video" : "MediaForm.MediaType.label_video",
 				"image" : "MediaForm.MediaType.label_image"
 			},
+			labelShapeTypes: {
+				"default" : "MediaForm.areas.label-shape-full",
+				"rect" : "MediaForm.areas.label-shape-rectangle",
+				"circle" : "MediaForm.areas.label-shape-circle"
+			},
 			sourceType: null,
 			files : {
 				main: null,

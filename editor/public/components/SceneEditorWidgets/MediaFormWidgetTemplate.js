@@ -114,17 +114,10 @@ export const template =
 																class="form-control"
 															>
 																<option
-																	selected="selected"
-																	value="default"
-																	v-t="'MediaForm.areas.label-shape-full'"
-																></option>
-																<option
-																	value="rect"
-																	v-t="'MediaForm.areas.label-shape-rectangle'"
-																></option>
-																<option
-																	value="circle"
-																	v-t="'MediaForm.areas.label-shape-circle'"
+																	v-for="(label, shape) in labelShapeTypes"
+																	v-bind:selected="shape == 'default' || null"
+																	v-bind:value="shape"
+																	v-t="label"
 																></option>
 															</select>
 														</div>
@@ -209,182 +202,184 @@ export const template =
 		</section>
 	</div>
 	<div class="row">
-		<section class="col" v-if="value.tag && value.tag == 'image'">
+		<section class="col" v-if="value.tag && value.tag == 'image' && value.areas">
 			<form v-on:submit.prevent>
-				<div class="form-row">
-					<div class="col">
-						<list-item-widget
-							tag="ol"
-							v-bind:list="value.areas"
+				<b-card no-body>
+					<b-tabs card vertical>
+						<b-tab
+							v-for="(area, areaIndex) in value.areas"
+							:key="areaIndex"
 						>
-							<template
-								v-slot:item="{ item: area, keyItem: areaIndex }"
+							<template v-slot:title>
+								<span v-t="labelShapeTypes[ area.shape ]"></span>
+							</template>
+							<div
+								v-on:mouseover="$refs.preview.highlightMapArea( areaIndex )"
+								v-on:mouseout="$refs.preview.unHighlightMapArea( areaIndex )"
 							>
-								<div
-									v-on:mouseover="$refs.preview.highlightMapArea( areaIndex )"
-									v-on:mouseout="$refs.preview.unHighlightMapArea( areaIndex )"
-								>
-									<div class="col"
-									>
-										<div class="row">
-											<div class="col">
-												<button
-													v-on:click="onRemoveArea(areaIndex)"
-													type="button"
-													class="btn btn-danger"
-												>{{ $t( "shared.label-remove" ) }}</button>
-											</div>
-											<div class="col">
-												<div class="form-check">
-													<input
-														v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-useHighlight'"
-														type="checkbox"
-														selected="selected"
-														v-model="area.useHighlight"
-														class="form-check-input"
-													/>
-													<label
-														v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-useHighlight'"
-														class="form-check-label"
-													>{{ $t( "MediaForm.areas.label-use-highlight" ) }}</label>
-												</div>
-											</div>
+								<div class="col">
+									<div class="row">
+										<div class="col-auto">
+											<b-button
+												size="sm"
+												variant="danger"
+												v-on:click="onRemoveArea( areaIndex )"
+												class="float-right"
+												v-t="'shared.label-remove'"
+											></b-button>
 										</div>
-										<div class="row">
-											<div class="col">
-												<div class="form-group">
-													<label
-														v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-alt'"
-													>{{ $t( "shared.accessibility.label-alt" ) }}</label>
-													<i18n-input-widget
-														v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-alt'"
-														tag="input"
-														v-bind:locale="locale"
-														v-bind:locale-label="area.alt"
-														class="form-control"
-													></i18n-input-widget>
-												</div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col">
-												<div class="form-group">
-													<label
-														v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
-														v-t="'MediaForm.label-select-link-interaction'"
-													></label>
-													<select
-														v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
-														name="link-interaction"
-														v-on:change="onChangeAreaLinkType( areaIndex, $event )"
-														class="form-control"
-													>
-														<option
-															selected="selected"
-															value="none"
-															v-t="'shared.label-none'"
-														></option>
-														<option
-															value="anchor"
-															v-t="'MediaForm.areas.actions.label-navigate-to-page-element'"
-														></option>
-														<option
-															value="url"
-															v-t="'MediaForm.areas.actions.label-open-url-new-tab'"
-														></option>
-													</select>
-												</div>
-											</div>
-											<div class="col" >
-												<input-validator
-													v-if="area.hrefType == 'anchor'"
-													key="interaction-anchor"
-													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-anchor'"
-													type="text"
-													name="anchor"
-													required="required"
-													v-on:keydown.space.prevent
-													v-on:valid="area.href = '#' + $event"
-													v-bind:value="area.href"
-													v-bind:isValidCallback="(e) => (!e.value || document.getElementById(e.value)) ? null : 1"
-												>
-													<template v-slot:default="">{{ $t("MediaForm.areas.label-add-anchor-to-scroll-onto-when-triggered") }}</template>
-													<template v-slot:warning="">{{ $t("MediaForm.areas.label-anchor-warning-no-element-found") }}</template>
-												</input-validator>
-												<input-validator
-													v-else-if="area.hrefType == 'url'"
-													key="interaction-url"
-													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-url'"
-													type="url"
-													name="url"
-													required="required"
-													v-on:keydown.space.prevent
-													v-on:valid="area.href = $event"
-													v-bind:value="area.href"
-												>
-												{{ $t("MediaForm.areas.label-add-url-to-open-when-triggered") }}
-												<template v-slot:error="">
-													<h5 v-t="'MediaForm.areas.label-url-invalid'"></h5>
-													<p>{{ $t("MediaForm.areas.label-url-invalid-example", "https://www.google.it") }}</p>
-												</template>
-												</input-validator>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col">
-												<!-- TODO: Temp; replace this with interactable form component for return value and event-->
-												<input-validator
-													id="mediaForm-input-image-area-action-returnValue"
-													type="text"
-													name="return"
-													v-model="area.value"
-												>{{ $t("MediaForm.areas.label-set-value-to-return-as-player-input") }}</input-validator>
+										<div class="col-auto">
+											<div class="form-check">
+												<input
+													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-useHighlight'"
+													type="checkbox"
+													selected="selected"
+													v-model="area.useHighlight"
+													class="form-check-input"
+												/>
+												<label
+													v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-useHighlight'"
+													class="form-check-label"
+												>{{ $t( "MediaForm.areas.label-use-highlight" ) }}</label>
 											</div>
 										</div>
 									</div>
-									<div
-										v-if="area.vertices"
-										class="col"
-									>
-										<table>
-											<caption>{{ $t( "shared.label-shape-TYPE" ) }}</caption>
-											<thead>
-												<tr>
-													<th>{{  $t( "MediaForm.areas.label-vertex-description" ) }}</th>
-													<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-0'"
-													>{{ $t( "shared.label_axis", "X" ) }}</th>
-													<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-1'"
-													>{{ $t( "shared.label_axis", "Y" ) }}</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr v-for="(vertex, vertexIndex) in area.vertices">
-													<td
-														v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-vertex-' + vertexIndex"
-													>{{ $t( getLocaleLabelVertexDescription( area, vertexIndex ) ) }}</td>
-													<td v-for="(axisValue, axisIndex) in vertex">
-														<input
-															v-bind:aria-labelledby="'mediaForm-label-image-area-' + areaIndex + '-axis-' + axisIndex"
-															v-bind:aria-describedby="'mediaForm-label-image-area-' + areaIndex + '-vertex-' + vertexIndex"
-															type="number"
-															min="0"
-															max="100"
-															step="1"
-															v-model="vertex[axisIndex]"
-															class="form-control"
-														/>
-													</td>
-												</tr>
-											</tbody>
-										</table>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label
+													v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-alt'"
+												>{{ $t( "shared.accessibility.label-alt" ) }}</label>
+												<i18n-input-widget
+													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-alt'"
+													tag="input"
+													v-bind:locale="locale"
+													v-bind:locale-label="area.alt"
+													class="form-control"
+												></i18n-input-widget>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<div class="form-group">
+												<label
+													v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
+													v-t="'MediaForm.label-select-link-interaction'"
+												></label>
+												<select
+													v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
+													name="link-interaction"
+													v-on:change="onChangeAreaLinkType( areaIndex, $event )"
+													class="form-control"
+												>
+													<option
+														selected="selected"
+														value="none"
+														v-t="'shared.label-none'"
+													></option>
+													<option
+														value="anchor"
+														v-t="'MediaForm.areas.actions.label-navigate-to-page-element'"
+													></option>
+													<option
+														value="url"
+														v-t="'MediaForm.areas.actions.label-open-url-new-tab'"
+													></option>
+												</select>
+											</div>
+										</div>
+										<div class="col" >
+											<input-validator
+												v-if="area.hrefType == 'anchor'"
+												key="interaction-anchor"
+												v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-anchor'"
+												type="text"
+												name="anchor"
+												required="required"
+												v-on:keydown.space.prevent
+												v-on:valid="area.href = '#' + $event"
+												v-bind:value="area.href"
+												v-bind:isValidCallback="(e) => (!e.value || document.getElementById(e.value)) ? null : 1"
+											>
+												<template v-slot:default="">{{ $t("MediaForm.areas.label-add-anchor-to-scroll-onto-when-triggered") }}</template>
+												<template v-slot:warning="">{{ $t("MediaForm.areas.label-anchor-warning-no-element-found") }}</template>
+											</input-validator>
+											<input-validator
+												v-else-if="area.hrefType == 'url'"
+												key="interaction-url"
+												v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-url'"
+												type="url"
+												name="url"
+												required="required"
+												v-on:keydown.space.prevent
+												v-on:valid="area.href = $event"
+												v-bind:value="area.href"
+											>
+											{{ $t("MediaForm.areas.label-add-url-to-open-when-triggered") }}
+											<template v-slot:error="">
+												<h5 v-t="'MediaForm.areas.label-url-invalid'"></h5>
+												<p>{{ $t("MediaForm.areas.label-url-invalid-example", "https://www.google.it") }}</p>
+											</template>
+											</input-validator>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<!-- TODO: Temp; replace this with interactable form component for return value and event-->
+											<input-validator
+												id="mediaForm-input-image-area-action-returnValue"
+												type="text"
+												name="return"
+												v-model="area.value"
+											>{{ $t("MediaForm.areas.label-set-value-to-return-as-player-input") }}</input-validator>
+										</div>
 									</div>
 								</div>
-							</template>
-						</list-item-widget>
-					</div>
-				</div>
+								<div
+									v-if="area.vertices"
+									class="col"
+								>
+									<table>
+										<caption>{{ $t( "shared.label-shape-TYPE" ) }}</caption>
+										<thead>
+											<tr>
+												<th>{{  $t( "MediaForm.areas.label-vertex-description" ) }}</th>
+												<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-0'"
+												>{{ $t( "shared.label_axis", "X" ) }}</th>
+												<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-1'"
+												>{{ $t( "shared.label_axis", "Y" ) }}</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(vertex, vertexIndex) in area.vertices">
+												<td
+													v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-vertex-' + vertexIndex"
+												>{{ $t( getLocaleLabelVertexDescription( area, vertexIndex ) ) }}</td>
+												<td v-for="(axisValue, axisIndex) in vertex">
+													<input
+														v-bind:aria-labelledby="'mediaForm-label-image-area-' + areaIndex + '-axis-' + axisIndex"
+														v-bind:aria-describedby="'mediaForm-label-image-area-' + areaIndex + '-vertex-' + vertexIndex"
+														type="number"
+														min="0"
+														max="100"
+														step="1"
+														v-model="vertex[axisIndex]"
+														class="form-control"
+													/>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</b-tab>
+					</b-tabs>
+				</b-card>
 			</form>
 		</section>
+	</div>
+	<div class="row">
 		<section class="col">
 			<i18n-media-player-widget
 				ref="preview"

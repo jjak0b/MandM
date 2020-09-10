@@ -5,11 +5,12 @@ import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";
 import {component as inputValidator} from "/shared/components/InputValidatorWidget.js";
 import {i18nContent} from "../Translations.js";
+import {component as imageAreaTabPanel} from "./MediaFormWidgets/MediaFormImageAreaTabPanel.js";
 
 export const component = {
 	template: template,
 	components: {
-		"input-validator": inputValidator,
+		"media-form-image-area-tabpanel": imageAreaTabPanel,
 		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"i18n-media-player-widget" : asyncLoadComponentI18nMediaPlayer
@@ -180,44 +181,6 @@ export const component = {
 				this.$set( this.value, "areas", undefined );
 				delete this.value["areas"];
 			}
-		},
-		getLocaleLabelVertexDescription( area, vertexIndex ){
-			switch ( area.shape ) {
-				case "rect":
-					if( vertexIndex == 0 )
-						return "MediaForm.areas.label-rectangle-top-left";
-					else
-						return "MediaForm.areas.label-rectangle-bottom-right";
-					break;
-				case "circle":
-					if( vertexIndex == 0 )
-						return "MediaForm.areas.label-circle-centre";
-					else
-						return "MediaForm.areas.label-circle-radius";
-					break;
-				default:
-					return "";
-					break
-			}
-		},
-		onChangeAreaLinkType( areaIndex, event ) {
-			let area = this.value.areas[ areaIndex ];
-			this.$set( area, "hrefType", event.target.value );
-			let href = null;
-			let target = null;
-			switch( area.hrefType ) {
-				case "anchor":
-					target = "_self"
-					break;
-				case "url":
-					target = "_blank"
-					break;
-				default:
-					href = "javascript:void(0)";
-			}
-
-			this.$set( area, "href", href );
-			this.$set( area, "target", target );
-		},
+		}
 	}
 }

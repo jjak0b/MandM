@@ -8,6 +8,8 @@ export const template =
 	<div ref="styleEl">
 		<component
 			v-if="value.component && value.component.options"
+			v-bind:id="value.component.id"
+			v-bind:class="value.component.class"
 			:is="value.component.options"
 			v-model="value.component.value"
 			v-bind:tabindex="isSelected ? 0 : -1"

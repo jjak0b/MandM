@@ -5,12 +5,13 @@ export const template =
 		v-if="value.tag == 'image'"
 		class="figure"
 	>
-		<img
+		<img	
+			v-if="value.src"
 			ref="img"
 			v-bind="$attrs"
 			v-bind:src="value.src"
-			v-bind:alt="$t(value.subtitles)"
-			v-bind:usemap="'#' + $attrs.id + '-map'"
+			v-bind:alt="value.captions ? $t(value.captions[0]) : ''"
+			v-bind:usemap="value.areas ? '#' + $attrs.id + '-map' : ''"
 			class="figure-img img-fluid rounded" 
 		/>
 		<map
@@ -26,11 +27,13 @@ export const template =
 				v-bind:coords="getStringAreaCoords( i )"
 				v-bind:alt="$t( area.alt )"
 				v-bind:href="area.href"
+				v-bind:target="area.target"
+				v-on:click="areaOnClick( i, $event )"
 			/>
 		</map>
 		<figcaption
 			class="figure-caption text-right"
-		>{{ $t(value.subtitles) }}</figcaption>
+		>{{ value.captions && value.captions[0] ? $t(value.captions[0]) : '' }}</figcaption>
 	</figure>
 	<video
 		v-if="value.tag == 'video'"
@@ -39,8 +42,8 @@ export const template =
 		v-bind:src="value.src"
 		class="w-100"
 	>
-		<track v-for="(source, lang) in value.subtitles"
-			kind="subtitles"
+		<track v-for="(source, lang) in value.captions"
+			kind="captions"
 			v-bind:src="source"
 			v-bind:srclang="lang"
 			v-bind:label="lang"
@@ -53,11 +56,11 @@ export const template =
 		controls="controls"
 		v-bind="$attrs"
 		v-bind:src="value.src"
-		v-bind:aria-describedby="$attrs[id] + 'lyrics'"
+		v-bind:aria-describedby="$attrs.id + '-lyrics'"
 		class="w-100"
 	>
-		<track v-for="(source, lang) in value.subtitles"
-			kind="subtitles"
+		<track v-for="(source, lang) in value.captions"
+			kind="captions"
 			v-bind:src="source"
 			v-bind:srclang="lang"
 			v-bind:label="lang"
@@ -66,10 +69,11 @@ export const template =
 		<!-- Visile only if it's unsupported by browser-->
 		{{ $t( "shared.errors.audio_tag_unsupported" ) }}
 	</audio>
-	<p
+	<pre
 		v-if="value.tag == 'audio'"
-		v-bind:id="$attrs[id] + 'lyrics'"
-		aria-label="Lyrics" v-html="subtitleContent">
-	</p>
+		v-bind:id="$attrs.id + '-lyrics'"
+		v-html="captionContent"
+		aria-live="polite"
+	></pre>
 </div>
 `;

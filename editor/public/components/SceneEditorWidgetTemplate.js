@@ -12,6 +12,17 @@ export const template =
 	</div>
 </section>
 <hr>
+<section>
+	<div class="row">
+		<div class="col">
+			<attribute-editor-widget
+				v-if="currentCellCache && currentCellCache.component"
+				v-model="currentCellCache.component"
+			></attribute-editor-widget>
+		</div>
+	</div>
+</section>
+<hr>
 <section id="sceneEditor-componentEditor">
 	<div class="row" v-if="currentCellCache && currentCellCache.component">
 		<div class="col">

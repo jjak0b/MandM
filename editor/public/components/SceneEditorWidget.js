@@ -4,7 +4,7 @@ import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
 import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
-
+import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
 export const component = {
 	template: template,
 	props: {
@@ -14,6 +14,7 @@ export const component = {
 	components : {
 		"media-form-widget": mediaFormComponent,
 		"grid-widget": gridComponent,
+		"attribute-editor-widget": attributeEditorComponent,
 		"style-editor-widget": styleEditorComponent
 	},
 	data() {

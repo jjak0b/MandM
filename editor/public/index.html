@@ -4,9 +4,9 @@
 	<meta charset="UTF-8">
 	<title>Editor</title>
 	<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link rel="stylesheet" crossorigin="anonymous" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+	<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 	<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.16.0/dist/bootstrap-vue.css"/>
-	<link rel="stylesheet" crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+	<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/jstree@3.3.10/dist/themes/default/style.min.css" />
 	<link rel="stylesheet" crossorigin="anonymous" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/vue-i18n/dist/vue-i18n.js"></script>
@@ -18,22 +18,89 @@
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script crossorigin="anonymous" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="/libs/datalist-polyfill/datalist-polyfill.min.js"></script>
+	<script type="module" src="./js/init.js"></script>
 </head>
 <body>
-	<script type="module" src="./js/init.js"></script>
-		<nav>
-			<ul class="nav nav-tabs" id="myTab" role="tablist">
-				<li class="nav-item">
-					<a class="nav-link active" id="story-tab" data-toggle="tab" href="#story-editor-widget-section" role="tab" aria-controls="story-editor-widget-section" aria-selected="true">Story</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="missions-tab" data-toggle="tab" href="#mission-editor-widget-section" role="tab" aria-controls="mission-editor-widget-section" aria-selected="false">Missions</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" id="activities-tab" data-toggle="tab" href="#activity-editor-widget-section" role="tab" aria-controls="activity-editor-widget-section" aria-selected="false">Activities</a>
-				</li>
-			</ul>
-		</nav>
-		<editor-widget id="editor-widget"></editor-widget>
+	<nav>
+		<div class="nav nav-tabs" id="myTab" role="tablist">
+			<a
+				role="tab"
+				class="nav-item nav-link active"
+				data-toggle="tab"
+				href="#story-editor-widget-section"
+				aria-controls="story-editor-widget-section"
+				aria-selected="true"
+			>Story</a>
+			<a
+				role="tab"
+				class="nav-item nav-link"
+				data-toggle="tab"
+				href="#mission-editor-widget-section"
+				aria-controls="mission-editor-widget-section"
+				aria-selected="false"
+			>Missions</a>
+			<a
+				role="tab"
+				class="nav-item nav-link"
+				data-toggle="tab"
+				href="#activity-editor-widget-section"
+				aria-controls="activity-editor-widget-section"
+				aria-selected="false"
+			>Activities</a>
+		</div>
+	</nav>
+	<main id="editor" role="main">
+		<section>
+			<i18n-selector-widget
+					id="i18n-selector-widget"
+					v-model="locale"
+			></i18n-selector-widget>
+		</section>
+		<div class="tab-content">
+			<section
+				id="story-editor-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="story-tab"
+			>
+				<story-editor-widget
+					id="story-editor-widget"
+					v-model="cache.story"
+				></story-editor-widget>
+			</section>
+			<section
+				id="mission-editor-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="missions-tab"
+			>
+				<mission-editor-widget
+					id="mission-editor-widget"
+					v-bind:missions="cache.story.missions"
+					v-bind:locale="locale"
+					v-bind:nextId="cache.story.missionNextId"
+					v-on:inc-Id="++cache.story.missionNextId"
+					v-model="cache.mission"
+				></mission-editor-widget>
+			</section>
+			<section
+				id="activity-editor-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="activities-tab"
+			>
+				<activity-editor-widget
+					id="activity-editor-widget"
+					v-bind:mission="cache.mission"
+					v-bind:locale="locale"
+					v-bind:nextId="cache.story.activityNextId"
+					v-on:inc-Id="++cache.story.activityNextId"
+					v-bind:nextAssetId="cache.story.assetNextId"
+					v-on:inc-assetId="++cache.story.assetNextId"
+					v-model="cache.activity"
+				></activity-editor-widget>
+			</section>
+		</div>
+	</main>
 </body>
 </html>

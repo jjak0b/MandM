@@ -154,10 +154,11 @@ export const template =
 			</div>
 		</div>
 		<hr>
-		<section v-if="checkType()">
+		<section v-if="checkType() && currentNode && currentNode.data.scene">
 			<scene-editor-widget
 				v-bind:locale="locale"
 				v-bind:nextAssetId="nextAssetId"
+				v-bind:scene="currentNode.data.scene"
 			></scene-editor-widget>
 		</section>
 	<section v-if="checkType(NodeUtils.Types.Tell)">

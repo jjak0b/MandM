@@ -223,6 +223,7 @@ export const template =
 <section id="gridSection">
 	<grid-widget
 		ref="grid"
+		v-bind:gridData="scene.grid"
 		v-bind:maxRows="maxRows"
 		v-bind:maxColumns="maxColumns"
 		v-bind:showCSSGrid="showCSSGrid"

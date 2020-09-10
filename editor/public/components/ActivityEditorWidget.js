@@ -158,7 +158,7 @@ export const component = {
 			};
 			data.title = 'activity.title.' + id;
 			data.description = 'activity.description.' + id;
-
+			data.scene = { grid: [] };
 			let item = this.$refs.treeView.add(id, nodeInfo["node-type"], data.noteInfo.name, data);
 
 			// clear form

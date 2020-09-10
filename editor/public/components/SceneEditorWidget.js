@@ -8,6 +8,7 @@ import { component as attributeEditorComponent } from "./SceneEditorWidgets/Attr
 export const component = {
 	template: template,
 	props: {
+		scene: Object,
 		locale: String,
 		nextAssetId: Number
 	},

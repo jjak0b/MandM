@@ -9,6 +9,7 @@
 		"label-duplicate" : "Duplicate",
 		"label-i18n" : "Internationalize",
 		"label-mission": "Mission | Missions",
+		"label-missions": "No mission | {count} mission | {count} missions",
 		"label-activity": "Activity | Activities",
 		"label-story": "Story | Stories"
   	},

@@ -8,6 +8,7 @@
 		"label-duplicate" : "Duplica",
 		"label-i18n" : "Internazionalizza",
 		"label-mission": "Missione | Missioni",
+		"label-missions": "Nessuna missione | {count} missione | {count} missioni",
 		"label-activity": "Attività",
 		"label-story": "Storia | Storie"
 	},
@@ -34,6 +35,7 @@
 		}
 	},
 	"MissionEditorWidget" : {
+		"label-mission-no-title": "Missione senza titolo",
 		"label-mission-title": "Titolo della missione",
 		"label-mission-description" : "Descrizione della missione",
 		"label-mission-list" : "Lista missioni"

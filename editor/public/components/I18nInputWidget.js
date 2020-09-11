@@ -53,10 +53,15 @@ export const component = {
 				return this.placeholder;
 			}
 			else if( !this.$i18n.te( this.localeLabel ) ) {
-				let obj = this.setContentOf( this.locale, this.localeLabel, this.placeholder || "" );
-				console.warn( "Register for new locale", this.locale, ", the label", this.localeLabel, ": ", obj );
+				if( this.placeholder ) {
+					let obj = this.setContentOf(this.locale, this.localeLabel, this.placeholder );
+					console.warn("Register for new locale", this.locale, ", the label", this.localeLabel, ": ", obj);
+				}
 			}
-			return this.$i18n.t( this.localeLabel );
+
+			if( this.$i18n.te( this.localeLabel ) )
+				return this.$i18n.t( this.localeLabel );
+			return ""
 		}
 	}
 };

@@ -26,7 +26,7 @@ export const component = {
 				this.redraw();
 		},
 		"value.text" : function ( newVal ) {
-			this.tree.rename_node(this.value, newVal);
+			if( this.tree ) this.tree.rename_node(this.value, newVal);
 		}
 	},
 	updated(){
@@ -45,8 +45,7 @@ export const component = {
 				flat: false
 			});
 			jsonNode = id == "#" ? jsonNode[0] : jsonNode;
-			let jsTreeNode = JSTreeNode.parse( jsonNode );
-			return jsTreeNode;
+			return jsonNode;
 		},
 		redraw(){
 			/*

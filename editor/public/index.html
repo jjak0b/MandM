@@ -79,7 +79,7 @@
 					v-bind:missions="cache.story.missions"
 					v-bind:locale="locale"
 					v-bind:next-id="cache.story.missionNextId"
-					v-on:inc-Id="++cache.story.missionNextId"
+					v-on:inc-id="++cache.story.missionNextId"
 					v-model="cache.mission"
 				></mission-editor-widget>
 			</section>
@@ -94,7 +94,7 @@
 					v-bind:mission="cache.mission"
 					v-bind:locale="locale"
 					v-bind:next-id="cache.story.activityNextId"
-					v-on:inc-Id="++cache.story.activityNextId"
+					v-on:inc-id="++cache.story.activityNextId"
 					v-bind:next-asset-id="cache.story.assetNextId"
 					v-on:inc-assetId="++cache.story.assetNextId"
 					v-model="cache.activity"

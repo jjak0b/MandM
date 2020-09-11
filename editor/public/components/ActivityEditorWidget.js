@@ -168,7 +168,7 @@ export const component = {
 			}
 
 			let id = this.nextId++;
-			this.$emit("inc-Id");
+			this.$emit("inc-id");
 
 			// TODO: fill this field if adding components which edit node data
 			let data = createEmptyData();

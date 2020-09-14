@@ -3,7 +3,7 @@ import {template} from "./BranchEditorWidgetTemplate.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as TextAreaIn} from "./InputAreaTypeWidget.js";
-
+import {component as test} from "./InputValueWidget.js";
 
 
 export const component = {
@@ -102,6 +102,7 @@ export const component = {
 
     },
     components:{
+        'input-val':test,
         'text-area-input': TextAreaIn
     }
 }

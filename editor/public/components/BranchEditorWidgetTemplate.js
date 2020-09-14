@@ -1,6 +1,7 @@
 export const template = `
 <form ref="form" v-on:submit.prevent>
     <fieldset class="form-group">
+    <!-- This is for saving the type of option the value the user is about to put is coming from --->
     <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
         <div v-for="(keyType, valueType) in inputTypes" class="form-check">
             <input type="radio"
@@ -8,7 +9,7 @@ export const template = `
 	        name="keyType"
 	        v-bind:id="'input-type_' + keyType"
 	        v-bind:value="valueType"
-	        v-model="val.tag"  <!-- This is for saving the type of option the value the user is about to put is coming from --->
+	        v-model="val.tag"  
 	        v-bind:aria-describedby="keyType"
             />
         <label
@@ -87,6 +88,12 @@ export const template = `
             </select>
         </div>
     </div>
+    <div v-if="val.tag == 'Any' && val.tag">
+   <input-val
+   v-bind:tag="val.tag"
+   v-bind:param="val.param"
+   v-bind:type="val.type"></input-val>
+</div>
     </fieldset>
 </form>
 `;

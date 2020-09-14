@@ -9,7 +9,7 @@ export const template = `
         v-on:input="$emit('input',$event.target.value)"
         type="text">
        </div>
-       <div v-if="type == '2'" min="1">
+       <div v-if="type == '2'">
        <input type="number" v-bind:value="value" 
         v-on:input="$emit('input',$event.target.value)">
        </div>

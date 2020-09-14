@@ -371,7 +371,9 @@ export const component = {
 							],
 							options: styleStringComponent
 						}
-					]
+					],
+					separator: ", ",
+					wrapper: "\""
 				},
 				"font-kerning": {
 					parameters: [
@@ -407,5 +409,65 @@ export const component = {
 		data.properties["font-family"].parameters[ 1 ] = data.properties["font-family"].parameters[ 0 ];
 
 		return data;
+	},
+	methods: {
+		addRule() {
+			let rule = {
+				selector: "",
+				body: {}
+			};
+			this.rules.push( rule );
+		},
+		removeRule( index ) {
+			this.rules.splice( index, 1 );
+		},
+		addProperty( rule, event ) {
+			if( !rule.body.properties )
+				this.$set( rule.body, 'properties', [] );
+			let serializedArray = $( event.target ).serializeArray();
+			let property = {
+				name: serializedArray[0].value,
+				values: []
+			};
+
+
+			if( this.properties[ property.name ] && this.properties[ property.name ].parameters ) {
+				for( let i = 0; i < this.properties[ property.name ].parameters.length; i++ )
+					property.values[ i ] = null;
+			}
+
+			$( event.target ).trigger('reset');
+			rule.body.properties.push( property );
+		},
+		removeProperty( rule, index ) {
+			if( !rule.body || !rule.body.properties ) return;
+
+			rule.body.properties.splice( index, 1 );
+		},
+		getPropertyValue( property ) {
+			if( !property ) return null;
+
+			let propertyData = this.properties[ property.name ];
+
+			let separator = " ";
+			let wrapper = null;
+			if( propertyData ) {
+				separator = propertyData.separator || separator;
+				wrapper = propertyData.wrapper || wrapper;
+			}
+
+			let values = property.values.filter( ( val ) => val ); // get only truthy, not undefined or null values
+
+			if( values.length > 0 ) {
+				if( wrapper ) {
+					for( let i = 0; i < values.length; i++ ) {
+						values[i] = wrapper + values[i] + wrapper;
+					}
+				}
+				return values.join( separator );
+			}
+
+			return ""
+		}
 	}
 };

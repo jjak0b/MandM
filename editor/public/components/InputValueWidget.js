@@ -17,7 +17,7 @@ export const component = {
     methods:{
         check: function () {
             this.param.pop();
-           this.param.push(this.temp);
+            this.param.push(this.temp);
         },
         wipe:function (){
             var i=0;

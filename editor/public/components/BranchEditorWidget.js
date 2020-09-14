@@ -71,35 +71,32 @@ export const component = {
             }
         }
     },
-
      methods: {
-
-        advise() {
+         advise() {
             if (this.valueAr) {
-                this.val.param.push(this.valueAr);
-                console.info("[ActivityEditor]", "added", this.valueAr);
-            }else{
-                console.info("[ActivityEditor]", "insert a value")
-            }
+                    this.val.param.push(this.valueAr);
+                    console.info("[ActivityEditor]", "added", this.valueAr);
+                }else{
+                    console.info("[ActivityEditor]", "insert a value")
+                }
             },
          addA(val) {
-             if(this.valueAr) {
-            if (val.name==='hasInside') {
-                val.param.push(this.valueAr);
-            }else{
-                val.param.value=this.valueAr;
-            }
+             if (this.valueAr) {
+                 if (val.name === 'hasInside') {
+                     val.param.push(this.valueAr);
+                 } else {
+                     val.param.value = this.valueAr;
+                 }
                  console.info("[ActivityEditor]", "Inserito");
-             }else{
+             } else {
                  console.info("[ActivityEditor]", "insert a value");
              }
-             },
+         },
          remA(val) {
              if(val.list.length != 0) {
                  val.list.pop();
              }
          }
-
     },
     components:{
         'input-val':test,

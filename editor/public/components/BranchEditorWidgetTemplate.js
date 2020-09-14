@@ -89,11 +89,11 @@ export const template = `
         </div>
     </div>
     <div v-if="val.tag == 'Any' && val.tag">
-   <input-val
-   v-bind:tag="val.tag"
-   v-bind:param="val.param"
-   v-bind:type="val.type"></input-val>
-</div>
+        <input-val
+        v-bind:tag="val.tag"
+        v-bind:param="val.param"
+        v-bind:type="val.type"></input-val>
+    </div>
     </fieldset>
 </form>
 `;

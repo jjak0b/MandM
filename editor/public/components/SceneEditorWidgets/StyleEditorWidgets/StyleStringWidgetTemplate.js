@@ -14,7 +14,8 @@ export const template =
 				type="text"
 				v-bind:id="'StyleString-value-' + $attrs.id"
 				v-bind:list="'StyleString-datalist-' + $attrs.id"
-				v-model="value"
+				v-bind:value="value"
+				v-on:input="$emit('input', $event.target.value )"
 				class="form-control"
 			/>
 			<datalist

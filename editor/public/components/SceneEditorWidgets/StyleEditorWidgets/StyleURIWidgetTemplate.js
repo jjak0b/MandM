@@ -11,10 +11,11 @@ export const template =
 				v-bind:for="'StyleURI-value-' + $attrs.id"
 			>{{ $t('StyleEditorWidget.label-property-value' ) }}</label>
 			<input
-				type="uri"
+				type="url"
 				v-bind:id="'StyleURI-value-' + $attrs.id"
 				v-bind:list="'StyleURI-datalist-' + $attrs.id"
-				v-model="value"
+				v-bind:value="value"
+				v-on:input="$emit('input', $event.target.value )"
 				class="form-control"
 			/>
 			<datalist

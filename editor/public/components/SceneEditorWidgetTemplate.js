@@ -28,6 +28,7 @@ export const template =
 		<div class="col">
 			<component
 				v-bind:is="widgetsTable[ currentCellCache.component.name ].editor"
+				v-bind:props="currentCellCache.component.props"
 				v-model="currentCellCache.component.value"
 				v-bind:assetId="nextAssetId"
 				v-bind:locale="locale"

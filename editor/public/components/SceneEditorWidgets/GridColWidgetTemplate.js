@@ -11,6 +11,7 @@ export const template =
 			v-bind:id="value.component.id"
 			v-bind:class="value.component.class"
 			:is="value.component.options"
+			v-bind="value.component.props"
 			v-model="value.component.value"
 			v-bind:tabindex="isSelected ? 0 : -1"
 		></component>

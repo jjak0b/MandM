@@ -131,9 +131,8 @@ export const component = {
 			this.$set( this.currentCellCache.component, "name",  name );
 			if( this.widgetsTable[ name ] )
 				this.$set( this.currentCellCache.component, "options", this.widgetsTable[ name ].options );
-
-			this.$set( this.currentCellCache.component, "value", {} );
-
+			this.$set( this.currentCellCache.component, "props", {} );
+			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
 			if( !this.currentCellCache.component.style ) {
 				this.$set( this.currentCellCache.component, "style", {} )
 				this.$set(

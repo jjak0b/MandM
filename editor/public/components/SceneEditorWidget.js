@@ -5,6 +5,9 @@ import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/componen
 import { FormUtils} from "/shared//js/FormUtils.js";
 import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
 import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
+import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
+import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
+
 export const component = {
 	template: template,
 	props: {
@@ -13,6 +16,7 @@ export const component = {
 		nextAssetId: Number
 	},
 	components : {
+		"user-widget-datepicker-editor": datepickerEditorComponent,
 		"media-form-widget": mediaFormComponent,
 		"grid-widget": gridComponent,
 		"attribute-editor-widget": attributeEditorComponent,
@@ -25,7 +29,13 @@ export const component = {
 			isFormGridEnabled: false,
 			showCSSGrid: true,
 			widgetsTable: {
+				"user-widget-datepicker" : {
+					editor: "user-widget-datepicker-editor",
+					label: "UserWidgets.Datepicker.label-widget-name",
+					options: datepickerComponent
+				},
 				"i18n-media-player-widget": {
+					editor: "media-form-widget",
 					label: "I18nMediaPlayerWidget.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}

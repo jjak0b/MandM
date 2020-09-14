@@ -9,7 +9,7 @@ export const template =
 			<b-form-row>
 				<b-col>
 					<b-form-checkbox
-						v-model="value.readonly"
+						v-model="props.readonly"
 						switch inline
 					>{{ $t('UserWidgets.Datepicker.label-readonly') }}</b-form-checkbox>
 				</b-col>
@@ -20,7 +20,7 @@ export const template =
 					>
 						<b-form-select
 							id="user-widget-datepicker-editor-start-weekday"
-							v-model="value.startWeekday"
+							v-model="props.startWeekday"
 							v-bind:options="startWeekdays"
 						></b-form-select>
 					</b-form-group>
@@ -40,8 +40,8 @@ export const template =
 					>
 						<b-form-datepicker
 							id="datepicker-date-min"
-							v-model="value.min"
-							v-bind:max="value.max"
+							v-model="props.min"
+							v-bind:max="props.max"
 							v-bind:locale="$i18n.locale"
 							v-bind:start-weekday="value.startWeekday"
 							reset-button="true"
@@ -55,8 +55,8 @@ export const template =
 					>
 						<b-form-datepicker
 							id="datepicker-date-max"
-							v-model="value.max"
-							v-bind:min="value.min"
+							v-model="props.max"
+							v-bind:min="props.min"
 							v-bind:locale="$i18n.locale"
 							v-bind:start-weekday="value.startWeekday"
 							reset-button="true"
@@ -76,7 +76,7 @@ export const template =
 					>
 						<b-form-select
 							id="user-widget-datepicker-editor-variant-selected"
-							v-model="value.selectedVariant"
+							v-model="props.selectedVariant"
 							v-bind:options="colorVariants"
 						>
 							<template v-slot:first>
@@ -96,7 +96,7 @@ export const template =
 					>
 						<b-form-select
 							id="user-widget-datepicker-editor-variant-today"
-							v-model="value.todayVariant"
+							v-model="props.todayVariant"
 							v-bind:options="colorVariants"
 						>
 							<template v-slot:first>
@@ -118,6 +118,7 @@ export const template =
 	<user-widget-datepicker
 		v-bind:value="value"
 		v-bind:locale="locale"
+		v-bind="props"
 	></user-widget-datepicker>
 </section>
 </div>

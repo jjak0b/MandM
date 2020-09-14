@@ -3,7 +3,7 @@ import {template} from "./UserWidgetDatepickerTemplate.js";
 export const component = {
 	template: template,
 	props: {
-		value: String,
+		value: Object,
 	},
 	data() {
 		return {
@@ -28,24 +28,31 @@ export const component = {
 			}
 		}
 	},
+	beforeMount() {
+		this.translateLabels();
+	},
 	beforeUpdate() {
-		console.log("updated");
-		if( this.prevLocale != this.$i18n.locale ) {
-			this.prevLocale = this.$i18n.locale;
-			let self = this;
-			console.log( self.$i18n );
-			this.labels.forEach( (label, index) => {
-				let localeLabel = "UserWidgets.Datepicker." + label
-				let message =  self.$i18n.t( localeLabel );
+		this.translateLabels();
+	},
+	methods: {
+		translateLabels() {
+			if( this.prevLocale != this.$i18n.locale ) {
+				this.prevLocale = this.$i18n.locale;
+				let self = this;
+				console.log( self.$i18n );
+				this.labels.forEach( (label, index) => {
+					let localeLabel = "UserWidgets.Datepicker." + label
+					let message =  self.$i18n.t( localeLabel );
 
-				if( message && message != localeLabel ) {
-					self.$set( self.localeLabels, label, message );
-				}
-				else {
-					self.$set( self.localeLabels, label, undefined );
-					delete self.localeLabels[ label ];
-				}
-			});
+					if( message && message != localeLabel ) {
+						self.$set( self.localeLabels, label, message );
+					}
+					else {
+						self.$set( self.localeLabels, label, undefined );
+						delete self.localeLabels[ label ];
+					}
+				});
+			}
 		}
 	}
 };

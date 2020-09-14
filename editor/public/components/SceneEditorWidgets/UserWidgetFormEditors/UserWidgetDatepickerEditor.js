@@ -4,6 +4,7 @@ import {component as datepickerComponent} from "/shared/components/UserWidgetDat
 export const component = {
 	template: template,
 	props: {
+		props: Object,
 		value: Object,
 		locale: String
 	},

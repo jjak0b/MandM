@@ -111,7 +111,7 @@ export const component = {
 					Object.keys( this.value.captions ).forEach( ( lang) => {
 						if( this.value.captions[ lang ] )
 							URL.revokeObjectURL( this.value.captions[ lang ] );
-						delete this.value.captions[ lang ];
+						this.$delete( this.value.captions, lang );
 					});
 				}
 				// alloc new urls for also new files

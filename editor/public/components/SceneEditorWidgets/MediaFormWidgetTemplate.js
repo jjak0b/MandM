@@ -56,9 +56,7 @@ export const template =
 								id="mediaForm-input-file-image"
 								required="required"
 								accept="image/*"
-								v-on:change="onFileload($event, 'main')"
-								v-on:change="updateSource()"
-								v-on:change="updateCaptions()"
+								v-on:change="(event) => { onFileload(event, 'main'); updateSource(); updateCaptions(); }"
 								class="form-control"
 							/>
 						</div>
@@ -68,7 +66,6 @@ export const template =
 							>{{ $t( "MediaForm.label-input-file.imageCaption" ) }}</label>
 							<i18n-input-widget
 								v-bind:tag="'textarea'"
-								class="form-control"
 								id="mediaForm-input-image-caption"
 								name="fileCaption"
 								rows="4"
@@ -151,8 +148,7 @@ export const template =
 								id="mediaForm-input-file-video"
 								required="required"
 								accept="video/*"
-								v-on:change="onFileload($event, 'main')"
-								v-on:change="updateSource()"
+								v-on:change="(event) => { onFileload(event, 'main'); updateSource(); }"
 								class="form-control"
 							/>
 						</div>
@@ -168,8 +164,7 @@ export const template =
 								id="mediaForm-input-file-audio"
 								required="required"
 								accept="audio/*"
-								v-on:change="onFileload($event,'main')"
-								v-on:change="updateSource()"
+								v-on:change="(event) => { onFileload(event, 'main'); updateSource(); }"
 								class="form-control"
 							/>
 						</div>
@@ -185,9 +180,7 @@ export const template =
 								id="mediaForm-input-file-captions"
 								aria-describedby="mediaForm-input-file-captions-description"
 								accept="text/vtt, .vtt"
-								v-on:change="onFileload($event, 'captions' )"
-								v-on:change="updateCaptions()"
-								v-on:change="updateSource()"
+								v-on:change="(event) =>{ onFileload(event, 'captions'); updateCaptions(); updateSource(); }"
 								class="form-control"
 							/>
 						</div>

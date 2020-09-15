@@ -12,7 +12,6 @@ export const template =
 		v-bind:rowIndex="index"
 		v-bind:showCSSGrid="showCSSGrid"
 		v-on:setCursor="onSetCursor"
-		v-on:currentCellData="$emit('input', $event.target.value )"
 	></row>
 </div>
 `;

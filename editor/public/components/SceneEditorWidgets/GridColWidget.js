@@ -40,7 +40,6 @@ export const component = {
 	methods: {
 		focusMe() {
 			this.$el.focus();
-			this.$emit("currentCellData", this.value );
 		},
 		updateFocus(){
 			if(this.target && this.target[0] == this.coords[0] &&this.target[1] == this.coords[1] ) {

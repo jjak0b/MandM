@@ -91,7 +91,6 @@ export const template = `
     <div v-if="val.tag == 'Any' && val.tag">
         <input-val
         v-on:value="update($event)"
-        v-bind:param="val.param"
         v-bind:type="val.type"></input-val>
     </div>
     </fieldset>

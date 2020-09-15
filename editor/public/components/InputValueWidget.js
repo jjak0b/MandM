@@ -4,17 +4,22 @@ import {template} from "./InputValueWidgetTemplate.js";
 export const component = {
     template: template,
     props:{
-            type: String,
-            param: []
+            type: String
     },
     data() {
         return {
+            param: [],
             componentsType:{
                 time:"b-time",
                 date:"UserWidgetDatepicker"
             },
             temp:null
         }
+    },
+    watch:{
+      'type': function(){
+          this.wipe();
+      }
     },
     methods:{
         check: function () {

@@ -4,14 +4,16 @@ import {template} from "./InputValueWidgetTemplate.js";
 export const component = {
     template: template,
     props:{
-            tag: String,
             type: String,
             param: []
     },
     data() {
         return {
-            temp:null,
-            arr:[]
+            componentsType:{
+                time:"b-time",
+                date:"UserWidgetDatepicker"
+            },
+            temp:null
         }
     },
     methods:{

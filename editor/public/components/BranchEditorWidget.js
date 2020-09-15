@@ -72,12 +72,17 @@ export const component = {
         }
     },
      methods: {
+        update(arr){
+          var i=0;
+          var j=arr.length+1;
+          this.val.param=arr.slice(i,j);
+        },
          advise() {
             if (this.valueAr) {
                     this.val.param.push(this.valueAr);
                     console.info("[ActivityEditor]", "added", this.valueAr);
                 }else{
-                    console.info("[ActivityEditor]", "insert a value")
+                    console.info("[ActivityEditor]", "insert a value");
                 }
             },
          addA(val) {

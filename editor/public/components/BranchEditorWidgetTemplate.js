@@ -90,7 +90,7 @@ export const template = `
     </div>
     <div v-if="val.tag == 'Any' && val.tag">
         <input-val
-        v-bind:tag="val.tag"
+        v-on:value="update($event)"
         v-bind:param="val.param"
         v-bind:type="val.type"></input-val>
     </div>

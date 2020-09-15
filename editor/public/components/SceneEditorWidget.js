@@ -127,8 +127,7 @@ export const component = {
 			}
 
 			if(!this.currentCellCache.component ) {
-				let component = {};
-				this.$set( this.currentCellCache, "component", { component: component } );
+				this.$set( this.currentCellCache, "component", {} );
 			}
 
 			this.$set( this.currentCellCache.component, "name",  name );

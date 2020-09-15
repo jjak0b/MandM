@@ -32,12 +32,13 @@ export class I18nString {
 	constructor( i18n, label = "" ) {
 		if( !i18n )
 			console.error("not valid i18n for label:", label );
-		this.i18n = i18n;
+		// if we export this object, then i18n would be a complex object and it's not needed. Just get it from a function
+		this.geti18n = () => i18n;
 		this.label = label;
 	}
 
 	toString() {
-		return I18nString.get( this.i18n, this.label );
+		return I18nString.get( this.geti18n(), this.label );
 	}
 	toLowerCase(){
 		return this.toString().toLowerCase();

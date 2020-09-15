@@ -75,8 +75,28 @@ export const component = {
 	},
 	computed: {
 		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) },
-		activityTitle: function () { return this.isEditFormVisible ? this.currentNode.data.title : 'activity.title.' + this.nextId },
-		activityDescription: function () { return this.isEditFormVisible ? this.currentNode.data.description : 'activity.description.' + this.nextId }
+		activityTitle: function () {
+			if( this.currentNode ) {
+				if( this.currentNode.data.title ) {
+					return this.currentNode.data.title;
+				}
+				else { // will register new label
+					return 'activity.title.' + this.currentNode.id
+				}
+			}
+			return null;
+		},
+		activityDescription: function () {
+			if( this.currentNode ) {
+				if( this.currentNode.data.description ) {
+					return this.currentNode.data.description;
+				}
+				else { // will register new label
+					return 'activity.description.' + this.currentNode.id
+				}
+			}
+			return null;
+		}
 	},
 	methods: {
 		// serialize tree data and set it to parent mission
@@ -148,7 +168,7 @@ export const component = {
 			}
 
 			let id = this.nextId++;
-			this.$emit("inc-Id");
+			this.$emit("inc-id");
 
 			// TODO: fill this field if adding components which edit node data
 			let data = createEmptyData();
@@ -158,7 +178,7 @@ export const component = {
 			};
 			data.title = 'activity.title.' + id;
 			data.description = 'activity.description.' + id;
-
+			data.scene = { grid: [] };
 			let item = this.$refs.treeView.add(id, nodeInfo["node-type"], data.noteInfo.name, data);
 
 			// clear form

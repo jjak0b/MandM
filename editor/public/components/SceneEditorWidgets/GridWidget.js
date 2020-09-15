@@ -8,6 +8,7 @@ export const component = {
 		"row" : rowComponent
 	},
 	props: {
+		gridData: Array,
 		value: Object,
 		maxRows: Number,
 		maxColumns: Number,
@@ -19,7 +20,6 @@ export const component = {
 				0,
 				0
 			],
-			gridData : [],
 			currentCell: null
 		}
 	},

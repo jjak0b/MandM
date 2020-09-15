@@ -2,21 +2,12 @@ import {template} from "./StyleSelectorFieldsetTemplate.js";
 
 export const component = {
 	template: template,
+	props: {
+		selector: Object
+	},
 	data() {
 		let data = {
 			shouldUseCustomSelector: false,
-			selector: {
-				custom: null,
-				tag: null,
-				class: null,
-				id: null,
-				attrName: null,
-				attrOp: null,
-				attrValue: null,
-				case: [],
-				pseudoClass: null,
-				pseudoElement: null
-			},
 			pseudo: {
 				classes: [
 					"active",
@@ -66,6 +57,51 @@ export const component = {
 			}
 		}
 	},
+	beforeMount() {
+		this.$set(this.selector, 'custom', null );
+		this.$set(this.selector, 'tag', "*" );
+		this.$set(this.selector, 'class', null );
+		this.$set(this.selector, 'id', null );
+		this.$set(this.selector, 'attrName', null );
+		this.$set(this.selector, 'attrOp', null );
+		this.$set(this.selector, 'attrValue', null );
+		this.$set(this.selector, 'case', [] );
+		this.$set(this.selector, 'pseudoClass', null );
+		this.$set(this.selector, 'pseudoElement', null );
+		this.$set(this.selector, 'toString',
+			function (){
+				let value = "";
+				if( this.custom && this.custom.length > 0) {
+					value = this.custom;
+				}
+				else{
+					if( this.tag && this.tag.length > 0 )
+						value += this.tag;
+
+					if( this.class && this.class.length > 0 )
+						value += `.${this.class}`;
+
+					if( this.id && this.id.length > 0 )
+						value += `#${this.id}`;
+
+					if( (this.attrName && this.attrName.length > 0)
+						&& ( this.attrOp && this.attrOp.length > 0 )
+						&& ( this.attrValue && this.attrValue.length > 0 ) ) {
+						let caseInsensitive = this.case || "";
+						value += `[ ${this.attrName} ${this.attrOp} "${this.attrValue}" ${caseInsensitive}]`;
+					}
+
+					if( this.pseudoClass && this.pseudoClass.length > 0 )
+						value += `:${this.pseudoClass}`;
+
+					if( this.pseudoElement && this.pseudoElement.length > 0 )
+						value += `::${this.pseudoElement}`;
+
+				}
+				return value.length > 0 ? value : null;
+			}.bind( this.selector )
+		);
+	},
 	methods: {
 		toSelector() {
 			let value = "";
@@ -75,34 +111,7 @@ export const component = {
 				if( self.selector[ key ] && typeof self.selector[ key ] == "string" && self.selector[ key ].length > 0 )
 					self.$set( self.selector, key, self.selector[ key ].trim() );
 			});
-			if( this.shouldUseCustomSelector ){
-				if( this.selector.custom && this.selector.custom.length > 0)
-					value = this.selector.custom;
-			}
-			else{
-				if( this.selector.tag && this.selector.tag.length > 0 )
-					value += this.selector.tag;
 
-				if( this.selector.class && this.selector.class.length > 0 )
-					value += `.${this.selector.class}`;
-
-				if( this.selector.id && this.selector.id.length > 0 )
-					value += `#${this.selector.id}`;
-
-				if( (this.selector.attrName && this.selector.attrName.length > 0)
-					&& ( this.selector.attrOp && this.selector.attrOp.length > 0 )
-					&& ( this.selector.attrValue && this.selector.attrValue.length > 0 ) ) {
-					let caseInsensitive = this.selector.case || "";
-					value += `[ ${this.selector.attrName} ${this.selector.attrOp} "${this.selector.attrValue}" ${caseInsensitive}]`;
-				}
-
-				if( this.selector.pseudoClass && this.selector.pseudoClass.length > 0 )
-					value += `:${this.selector.pseudoClass}`;
-
-				if( this.selector.pseudoElement && this.selector.pseudoElement.length > 0 )
-					value += `::${this.selector.pseudoElement}`;
-
-			}
 			return value.length > 0 ? value : null;
 		}
 	}

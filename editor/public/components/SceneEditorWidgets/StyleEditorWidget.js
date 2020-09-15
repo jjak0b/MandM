@@ -20,7 +20,10 @@ export const component = {
 		"input-range-number-widget" : inputRangeNumberComponent
 	},
 	props: {
-		value: String
+		value: {
+			type: Object,
+			default: {}
+		}
 	},
 	data(){
 		let data = {
@@ -413,21 +416,37 @@ export const component = {
 	methods: {
 		addRule() {
 			let rule = {
-				selector: "",
-				body: {}
+				selector: {},
+				body: {
+					properties: [],
+					toString() {
+						let body = "";
+						this.properties.forEach( ( property, index ) => body += `\t${property};\n` );
+						return body;
+					}
+				},
+				toString() {
+					return `${ this.selector } {\n${this.body}}`
+				}
 			};
+
+			if( !this.value.rules ){
+				this.$set( this.value, 'rules', this.rules );
+			}
 			this.rules.push( rule );
 		},
 		removeRule( index ) {
 			this.rules.splice( index, 1 );
 		},
 		addProperty( rule, event ) {
-			if( !rule.body.properties )
-				this.$set( rule.body, 'properties', [] );
 			let serializedArray = $( event.target ).serializeArray();
+			let self = this;
 			let property = {
 				name: serializedArray[0].value,
-				values: []
+				values: [],
+				toString() {
+					return this.name + ": " + self.getPropertyValue( property );
+				}
 			};
 
 

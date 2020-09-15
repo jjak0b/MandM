@@ -31,7 +31,7 @@ export const template =
 							v-on:submit.prevent
 						>
 							<style-selector-widget
-								v-on:input="rule.selector=$event"
+								v-bind:selector="rule.selector"
 							></style-selector-widget>
 						</b-form>
 					</b-tab>
@@ -50,7 +50,7 @@ export const template =
 									<code
 										id="style-editor-widget-preview-form-selector"
 										aria-live="polite"
-									>{{ property.name + ': ' + getPropertyValue( property ) }}</code>
+									>{{ property }}</code>
 								</template>
 								<b-form
 									v-on:submit.prevent
@@ -141,6 +141,12 @@ export const template =
 								</p>
 							</template>
 						</b-tabs>
+					</b-tab>
+					<b-tab
+						:key="'rule-preview-' +  ruleIndex"
+						v-bind:title="$t('StyleEditorWidget.rule.label-css-preview')"
+					>
+						<code><pre>{{ rule }}</pre></code>
 					</b-tab>
 				</b-tabs>
 			</b-card>

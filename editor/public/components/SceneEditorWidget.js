@@ -60,6 +60,9 @@ export const component = {
 			return this.getMaxColumnsForGrid() + (this.currentCellCache ? this.currentCellCache.colSize : 0);
 		}
 	},
+	beforeMount(){
+		this.scene.style = {};
+	},
 	mounted(){
 		this.isFormGridEnabled = this.$refs.grid;
 	},
@@ -134,34 +137,7 @@ export const component = {
 			this.$set( this.currentCellCache.component, "props", {} );
 			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
 			if( !this.currentCellCache.component.style ) {
-				this.$set( this.currentCellCache.component, "style", {} )
-				this.$set(
-					this.currentCellCache.component.style,
-					"size",
-					{
-						x: 100,
-						y: 100
-					}
-				);
-				this.$set(
-					this.currentCellCache.component.style,
-					"angles",
-					{
-						x: 0,
-						y: 0,
-						z: 0
-					}
-				);
-				this.$set(
-					this.currentCellCache.component.style,
-					"position",
-					{
-						left: 0,
-						right: 0,
-						top: 0,
-						bottom: 0
-					}
-				);
+				this.$set( this.currentCellCache.component, "style", {} );
 			}
 
 

@@ -6,7 +6,7 @@ export const template =
 		<div class="col">
 			<style-editor-widget
 				v-if="currentCellCache && currentCellCache.component"
-				v-model="currentCellCache.component.style"
+				v-bind:value="scene.style"
 			></style-editor-widget>
 		</div>
 	</div>

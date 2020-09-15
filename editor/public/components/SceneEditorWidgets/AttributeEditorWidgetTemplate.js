@@ -15,10 +15,8 @@ export const template =
 						id="attributeEditor-input-id"
 						tyoe="text"
 						class="form-control"
-						v-model="value.id"
-						v-bind:value="value.id"
-						v-on:input="$set( value, 'id', $event.target.value.trim() )"
-						
+						v-model.trim="value.id"
+						v-on:keydown.space.prevent
 					/>
 				</div>
 			</div>

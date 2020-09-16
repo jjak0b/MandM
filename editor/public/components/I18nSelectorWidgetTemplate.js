@@ -9,7 +9,8 @@ export const template =
 	</div>
 	<div class="form-group">
 		<label for="locale">{{ $t( 'I18nSelectorWidget.label-locale-select' ) }}</label>
-		<select id="locale" class="form-control" v-model="value" v-on:change="notifyValue( $event.target.value )">
+		<select id="locale" class="form-control" v-bind:value="value" v-on:change="notifyValue( $event.target.value )">
+			<option value="" disabled="disabled" selected="selected" v-t="'shared.label-select-option'"></option>
 			<option v-for="(lang, code) in localesList" v-bind:value="code" >{{ lang.englishName }} [ {{code}} ]</option>
 		</select>
 	</div>

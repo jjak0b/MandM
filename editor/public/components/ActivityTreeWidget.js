@@ -125,6 +125,12 @@ export const component = {
 			this.tree = $( e ).jstree(true);
 			$( e ).on( "select_node.jstree", this.onSelect );
 			$( e ).on( "create_node.jstree", this.onCreate );
+
+			// select root node
+			let nodeToSelect = this.tree.get_node( jsonData.id );
+			this.tree.select_node( nodeToSelect );
+			// since "select_node.jstree" seems to be trigghered only by user select, we will notify to parent manually
+			this.notifyValue( nodeToSelect );
 		},
 		// events
 		onCreate( event, data ) {

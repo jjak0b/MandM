@@ -37,6 +37,9 @@ bower_components
 node_modules/
 jspm_packages/
 
+# Authored
+stories/
+
 ## Express rules
 build/Release
 node_modules/

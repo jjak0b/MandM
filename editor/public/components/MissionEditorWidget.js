@@ -24,7 +24,7 @@ export const component = {
 	methods: {
 		add() {
 			let mission = {};
-			mission.id = this.nextId++; this.$emit( "inc-id" );
+			mission.id = this.nextId; this.$emit( "inc-id" );
 			mission.title = 'mission.' + mission.id + '.title';
 			mission.description = 'mission.' + mission.id + '.description';
 			console.log( "registered new mission: ", mission );

@@ -1,4 +1,5 @@
 import {template} from "./ActivityTreeWidgetTemplate.js";
+import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import {i18n, i18nContent, I18nString } from "./Translations.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
@@ -8,11 +9,15 @@ export const component = {
 	template: template,
 	props: {
 		value: Object,
-		locale : String
+		locale: String
+	},
+	components: {
+		'toolbar': activityToolbar
 	},
 	data() {
 		return {
 			tree: null,
+			grabNode: null
 		}
 	},
 	watch: {
@@ -86,7 +91,8 @@ export const component = {
 					data: data
 				},
 				"plugins": [
-					"types"
+					"types",
+					"dnd"
 				],
 				"types":{
 					[NodeUtils.Types.Root]: {
@@ -207,6 +213,64 @@ export const component = {
 
 			console.log("created node with id", nodeId);
 			return nodeId;
+		},
+		grab() {
+			this.grabNode = this.tree.get_selected(true)[0];
+			this.grabNode.li_attr["aria-grabbed"] = true;
+			this.redraw();
+		},
+		drop() {
+			if(this.grabNode) {
+				let selectedNode = this.tree.get_selected(true)[0];
+				let parentNode = this.tree.get_node(this.tree.get_parent(selectedNode));
+				let position = $.inArray(selectedNode.id, parentNode.children);
+				let type = this.tree.get_type(selectedNode);
+				let moved = false;
+				if (type !== '#') {
+					//viene spostato nella posizione del nodo selezionato se possibile
+					moved = this.tree.move_node(this.grabNode, parentNode, position);
+				}
+				if (!moved) {
+					//altrimenti viene spostato all'interno del nodo selezionato
+					moved = this.tree.move_node(this.grabNode, selectedNode);
+				}
+				if (moved) {
+					this.tree.deselect_node(selectedNode);
+					this.tree.select_node(this.grabNode);
+				}
+				this.grabNode.li_attr["aria-grabbed"] = false;
+				this.redraw();
+				this.grabNode = null;
+			}
+		},
+		contextMenuHandler(e) {
+			const menu = $('#menu');
+			const treeView = $('#treeView');
+
+			e.preventDefault();
+			let x = e.clientX;
+			let y = e.clientY;
+			var ev = new MouseEvent("click", {clientX: x, clientY: y, bubbles: true});
+			var el = document.elementFromPoint(x, y);
+			el.dispatchEvent(ev);
+
+			menu.css({
+				position: 'fixed',
+				display: 'block',
+				zIndex: 1,
+				top: e.clientY,
+				left: e.clientX
+			});
+			menu.focus();
+
+			$(document).click(function () {
+				menu.css({display: 'none'});
+			});
+			$(document).on("keydown", function (event) {
+				if (event.which === 13 || event.which === 27) {
+					menu.css({display: 'none'});
+				}
+			});
 		}
 	}
 };

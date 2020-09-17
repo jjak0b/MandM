@@ -46,7 +46,13 @@ router.get('/:name', ( req, res ) => {
 					res.sendStatus( StatusCodes.CONFLICT );
 				}
 				else{
-					res.json( data );
+					try {
+						let jsonObj = JSON.parse( data );
+						res.json( jsonObj );
+					}
+					catch( e ) {
+						res.sendStatus( StatusCodes.CONFLICT );
+					}
 				}
 			});
 		}

@@ -8,6 +8,14 @@ export const component = {
 	},
 	data() {
 		return {
+			formImport: {
+				data: null,
+				isLoading: false,
+				file: null,
+				remoteName: null,
+				validityFile: null,
+				validityRemoteName: null,
+			},
 			remoteStories: null, // names
 			delayForNextRemoteRequest: 5000,
 			tmpStory: {
@@ -36,7 +44,7 @@ export const component = {
 			// if remoteStories is not defined is because server couldn't be reached
 			this.tmpStory.isAvailable = this.remoteStories ? !this.remoteStories.includes( this.tmpStory.name ) : null;
 			return this.tmpStory.isAvailable;
-		},
+		}
 	},
 	beforeMount() {
 		let self = this;
@@ -49,7 +57,76 @@ export const component = {
 		}
 		keepFetch();
 	},
+	watch: {
+		"formImport.remoteName": function (name) {
+			this.formImport.validityRemoteName = null;
+		},
+		"formImport.file" : function (file) {
+			this.formImport.validityFile = null;
+			if( file ) {
+				let self = this;
+				this.formImport.isLoading = true; // start loading spinner
+				this.getJSONFromFile( this.formImport.file )
+					.then( (jsonData) => {
+						self.formImport.validityFile = true;
+						console.log( "[StoryEditor]", jsonData );
+						self.formImport.data = jsonData;
+					})
+					.catch( (error) => {
+						self.formImport.validityFile = false;
+
+						console.error( "[StoryEditor]", "Error importing JSON file:", error );
+					})
+					.finally( () => {
+						self.formImport.isLoading = false; // stop loading spinner
+					});
+			}
+		}
+	},
 	methods: {
+		onFormImportSubmit( event ) {
+			let shouldStopPropagation = true;
+			if( this.formImport.file ) {
+				// file is valid so can be loaded
+				if( this.formImport.validityFile ) {
+					shouldStopPropagation = false;
+					let data = this.formImport.data;
+
+					this.load( data );
+				}
+			}
+			else if( this.formImport.remoteName ) {
+				shouldStopPropagation = false;
+				let self = this;
+				this.formImport.isLoading = true; // start loading spinner
+				this.formImport.validityRemoteName = null; // while downloading reset it
+				this.getJSONFromRemote( this.formImport.remoteName )
+					// file has been downloaded so can be loaded
+					.done( (jsonData) => {
+						self.formImport.validityRemoteName = true;
+						self.load( jsonData );
+					})
+					// file can't be downloaded for some reason so report it
+					.fail( ( xhr, textStatus, error) => {
+						self.formImport.validityRemoteName = false;
+						console.error( "[StoryEditor]", `Error downloading story "${self.formImport.remoteName}"`, "cause:", error );
+					})
+					.always( () => {
+						self.formImport.isLoading = false; // stop loading spinner
+					});
+			}
+
+			if( shouldStopPropagation ) {
+				event.stopPropagation();
+			}
+		},
+		onFormImportReset( event ) {
+			this.formImport.file = null;
+			this.formImport.remoteName = null;
+			this.formImport.validityFile = null;
+			this.formImport.validityRemoteName = null;
+			this.formImport.data = null;
+		},
 		addStoryRemote( event ) {
 			if( this.stateNewStory === false ){
 				event.stopPropagation();
@@ -62,8 +139,8 @@ export const component = {
 				contentType: 'application/json',
 				data: JSON.stringify( data )
 			})
-			.catch( (e) => {
-				console.error("[StoryEditor]", "Failed to create new Story", "QUERY:", params, "body:", data );
+			.fail( ( xhr, textStatus, error) => {
+				console.error("[StoryEditor]", `Failed to create new Story ${params.name}`, error );
 			});
 		},
 		getRemoteStoryNames() {
@@ -95,35 +172,27 @@ export const component = {
 				Vue.set( this.value, keys[i], data[ keys[i]] );
 			}
 		},
-		onFileload(event) {
+		getJSONFromFile( file ) {
 			let self = this;
-			let file = event.target.files[0];
-			let errorMessage = "Input file type '" + file.type + "' is not valid ! \nPlease upload a valid JSON file type with '.json' extension";
-			if( file.type !== 'application/json'){
-
-				alert( errorMessage );
-				console.error( errorMessage );
-
-				// clear input tag
-				event.target.value = "";
+			return new Promise( function (resolve, reject) {
+			if( file.type !== 'application/json') {
+				reject( `Input file type "${file.type}" is not valid ! \nPlease upload a valid JSON file type with '.json' extension` );
+				return;
 			}
-
 			let reader = new FileReader();
 			reader.onload = function (onLoadEvent) {
 				try {
-					let data = JSON.parse(onLoadEvent.target.result);
-					self.load( data );
+					resolve( JSON.parse(onLoadEvent.target.result) );
 				}
 				catch( exception ) {
-					errorMessage = "Error reading input file type, please upload valid JSON";
-					alert( errorMessage );
-					console.error( errorMessage, exception );
-
-					// clear input tag
-					event.target.value = "";
+					reject( exception );
 				}
 			};
 			reader.readAsText( file );
+			});
+		},
+		getJSONFromRemote( name ) {
+			return $.get( `/stories/${name}` );
 		}
 	}
 }

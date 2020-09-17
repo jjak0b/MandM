@@ -13,6 +13,6 @@ export const template = `
        <input type="number" v-bind:value="value" 
         v-on:input="$emit('input',$event.target.value)">
        </div>
-            <button v-on:click="$emit('agg')">Aggiungi </button>
+            <button v-on:click="$emit('agg', value)">Aggiungi </button>
        </div>
 `;

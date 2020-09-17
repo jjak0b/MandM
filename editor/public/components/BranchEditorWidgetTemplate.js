@@ -18,16 +18,17 @@ export const template = `
         >{{ $t(keyType + '.label' ) }}</label>
         </div>
         <div v-if="val.tag == 'Atom' && val.tag">
-            <text-area-input 
-            v-bind:value="valueAr"
-            v-on:agg="advise()"></text-area-input>
+            <input-val
+        v-on:value="update($event)"
+        v-bind:type="val.type"></input-val>
             <!--            v-bind:type="val.type"-->
         </div>
         <div v-if="val.tag == 'Range'&& val.tag">
             <lable for="min">Min</lable>
-            <input type="number" min=1 id="min">
+            <input type="number" v-model.number="valmin" v-bind:max="this.valmax" id="min">
             <lable for="max">Max</lable>
-            <input type="number" id="max">
+            <input type="number" v-model.number="valmax" v-bind:min="this.valmin" id="max">
+            <button v-on:click="mimax()">Aggiungi</button>
         </div>
         <div v-if="val.tag == 'Function' && val.tag">
             <select v-model="valuef">
@@ -87,11 +88,6 @@ export const template = `
             <select> 
             </select>
         </div>
-    </div>
-    <div v-if="val.tag == 'Any' && val.tag">
-        <input-val
-        v-on:value="update($event)"
-        v-bind:type="val.type"></input-val>
     </div>
     </fieldset>
 </form>

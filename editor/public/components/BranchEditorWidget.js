@@ -13,6 +13,8 @@ export const component = {
         },
     data() {
         return {
+            valmin:Number,
+            valmax:Number,
             valueTypeSel:Object,
             valuef: String,
             val:{
@@ -77,14 +79,31 @@ export const component = {
           var j=arr.length+1;
           this.val.param=arr.slice(i,j);
         },
-         advise() {
-            if (this.valueAr) {
-                    this.val.param.push(this.valueAr);
-                    console.info("[ActivityEditor]", "added", this.valueAr);
+         whipe(){
+             var i=0;
+             while(i<this.val.param.lenght){
+                 this.val.param.pop();
+                 i++;
+             }
+         },
+         advise(val) {
+            if (val) {
+               this.whipe();
+                    this.val.param.push(val);
+                    console.info("[ActivityEditor]", "added", val);
                 }else{
                     console.info("[ActivityEditor]", "insert a value");
                 }
             },
+         mimax(){
+             if(this.valmin && this.valmax) {
+                 this.whipe();
+                 this.val.param.push(this.valmax);
+                 this.val.param.push(this.valmin);
+             }else{
+                 alert('Inserire min e max');
+             }
+           },
          addA(val) {
              if (this.valueAr) {
                  if (val.name === 'hasInside') {

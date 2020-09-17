@@ -4,20 +4,16 @@ import {template} from "./InputAreaTypeTemplate.js";
 export const component = {
     template:template,
     props:{
-        inty:Number,
-        values:null
+        value:null
     },
 data(){
         return {
-        //     type: String,
-        //     svalue: {
-        //         text:String,
-        //         num:Number
-        //     },
+            type:Number,
             inputT: {
                 "text": "ActivityEditorWidget.input-area.text",
                 "numb": "ActivityEditorWidget.input-area.numb"
             }
         }
 }
+
 }

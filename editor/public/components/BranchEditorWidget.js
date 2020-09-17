@@ -3,25 +3,24 @@ import {template} from "./BranchEditorWidgetTemplate.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as TextAreaIn} from "./InputAreaTypeWidget.js";
-
+import {component as test} from "./InputValueWidget.js";
 
 
 export const component = {
     template: template,
     props: {
-        value: String, //Type of input selected in radio
-        valuef: String,
-        valueT:String,
-        type:String,
-        test:Number,
-        valueTypeSel:Object,
-        valuear:String,
-        valueSel:Array
+        value: Object, //The node selected with type Branch
         },
-    data(){
-        return{
-            list:[],
-            valueAr:null,
+    data() {
+        return {
+            valueTypeSel:Object,
+            valuef: String,
+            val:{
+                tag: '',
+                param: [],
+                type: ''
+        },
+            valueAr: null,
             inputTypes: {
                 "Any": "ActivityEditorWidget.input-type.any",
                 "Atom": "ActivityEditorWidget.input-type.atom",
@@ -37,72 +36,75 @@ export const component = {
                 Match: {
                     name: "eq",
                     locale: String,
-                    list:[],
+                    list: [],
                     self: Object,
                     param: Object
                 },
                 Different: {
                     name: "neq",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: Object,
                     param: Object
                 },
                 Contains: {
                     name: "hasInside",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: Object,
                     param: Array
                 },
                 Any: {
                     name: "isThere",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: null,
                     param: Object
                 },
                 Between: {
                     name: "isInRange",
-                    list:[],
+                    list: [],
                     locale: String,
                     self: Number,
                     param: Number
                 }
-             }
+            }
         }
     },
-
      methods: {
-
-         addM() {
-             if(this.valueAr) {
-                 this.functionsType.Match.list.push(this.valueAr);
-             }
-             },
-         addN() {
-             if(this.valueAr) {
-                 this.functionsType.Different.list.push(this.valueAr);
+        update(arr){
+          var i=0;
+          var j=arr.length+1;
+          this.val.param=arr.slice(i,j);
+        },
+         advise() {
+            if (this.valueAr) {
+                    this.val.param.push(this.valueAr);
+                    console.info("[ActivityEditor]", "added", this.valueAr);
+                }else{
+                    console.info("[ActivityEditor]", "insert a value");
+                }
+            },
+         addA(val) {
+             if (this.valueAr) {
+                 if (val.name === 'hasInside') {
+                     val.param.push(this.valueAr);
+                 } else {
+                     val.param.value = this.valueAr;
+                 }
+                 console.info("[ActivityEditor]", "Inserito");
+             } else {
+                 console.info("[ActivityEditor]", "insert a value");
              }
          },
-         addI() {
-             if(this.valueAr) {
-                 this.functionsType.Contains.list.push(this.valueAr);
-             }
-         },
-         addT() {
-             if(this.valueAr) {
-                 this.functionsType.Any.list.push(this.valueAr);
-             }
-         },
-         addR() {
-             if(this.valueAr) {
-                 this.functionsType.Between.list.push(this.valueAr);
+         remA(val) {
+             if(val.list.length != 0) {
+                 val.list.pop();
              }
          }
-
     },
     components:{
+        'input-val':test,
         'text-area-input': TextAreaIn
     }
 }

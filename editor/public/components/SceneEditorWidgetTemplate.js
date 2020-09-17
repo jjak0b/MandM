@@ -6,8 +6,19 @@ export const template =
 		<div class="col">
 			<style-editor-widget
 				v-if="currentCellCache && currentCellCache.component"
-				v-model="currentCellCache.component.style"
+				v-bind:value="scene.style"
 			></style-editor-widget>
+		</div>
+	</div>
+</section>
+<hr>
+<section>
+	<div class="row">
+		<div class="col">
+			<attribute-editor-widget
+				v-if="currentCellCache && currentCellCache.component"
+				v-model="currentCellCache.component"
+			></attribute-editor-widget>
 		</div>
 	</div>
 </section>
@@ -15,12 +26,13 @@ export const template =
 <section id="sceneEditor-componentEditor">
 	<div class="row" v-if="currentCellCache && currentCellCache.component">
 		<div class="col">
-			<media-form-widget
-				v-if="currentCellCache.component.name == 'i18n-media-player-widget' "
+			<component
+				v-bind:is="widgetsTable[ currentCellCache.component.name ].editor"
+				v-bind:props="currentCellCache.component.props"
+				v-model="currentCellCache.component.value"
 				v-bind:assetId="nextAssetId"
 				v-bind:locale="locale"
-				v-model="currentCellCache.component.value"
-			></media-form-widget>
+			></component>
 		</div>
 	</div>
 </section>
@@ -212,6 +224,7 @@ export const template =
 <section id="gridSection">
 	<grid-widget
 		ref="grid"
+		v-bind:gridData="scene.grid"
 		v-bind:maxRows="maxRows"
 		v-bind:maxColumns="maxColumns"
 		v-bind:showCSSGrid="showCSSGrid"

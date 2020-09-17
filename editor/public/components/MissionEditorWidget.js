@@ -1,5 +1,6 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
+import {i18nContent} from "./Translations.js";
 
 export const component = {
 	template: template,
@@ -11,48 +12,38 @@ export const component = {
 	},
 	data : function () {
 		return {
-			missionId: 0
+
 		}
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget
 	},
-	beforeMount: function () {
-
-	},
 	computed: {
-		localeTitle: 		function () {  return Number.isNaN( this.missionId ) ? undefined : 'mission.title.' + this.missionId },
-		localeDescription: 	function () {  return Number.isNaN( this.missionId ) ? undefined : 'mission.description.' + this.missionId }
+		missionPlaceholderTitle: function () { return this.$t('MissionEditorWidget.label-mission-no-title' ) }
 	},
 	methods: {
-		save() {
-			let mission = this.value;
-			if( !mission ) {
-				mission = {};
-				this.missions.push( mission );
-				mission.id = this.nextId++;
-				this.$emit( "inc-Id" );
-				mission.title = this.localeTitle;
-				mission.description = this.localeDescription;
-				console.log( "registered new mission: ", mission );
-			}
-
-			// set new Id, so new locale data will be available
-			this.missionId = this.nextId;
-			console.log( "Set new ID: " , this.missionId  );
-			this.setValue( null )
+		add() {
+			let mission = {};
+			mission.id = this.nextId; this.$emit( "inc-id" );
+			mission.title = 'mission.' + mission.id + '.title';
+			mission.description = 'mission.' + mission.id + '.description';
+			console.log( "registered new mission: ", mission );
+			this.missions.push( mission );
 		},
-		remove() {
-			this.missionId = this.nextId;
-			if( this.value ) {
-				this.missions.splice(this.missions.indexOf(this.value), 1);
+		remove( index ) {
+			let mission = this.missions[ index ];
+			if( mission ) {
+				i18nContent.removeMessageAll( mission.title );
+				i18nContent.removeMessageAll( mission.description );
+				this.missions.splice( index, 1);
 				this.setValue( null );
 			}
 		},
-		load( mission ) {
-			// this.value = mission;
-			this.missionId = mission.id;
-			this.setValue( mission );
+		load( index ) {
+			let mission = this.missions[ index ];
+			if( mission ) {
+				this.setValue(mission);
+			}
 		},
 		setValue( value ) {
 			this.$emit( 'input', value );

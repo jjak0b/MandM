@@ -20,14 +20,15 @@ export const template =
 				v-if="mission != null"
 				v-bind:locale="locale"
 				v-model="currentNode"
+				v-on:selectedNode="onSelectedNode"
 			></activity-tree-widget>
 		</div>
-	</div>	
-	<template v-if="currentNode">
-		<div v-if="isAddFormVisible">
-			<form v-on:submit.prevent="onAdd">
+	</div>
+	<div v-if="showActivityForm" >
+		<div>
+			<form v-on:submit.prevent="onSubmit" id="activityForm">
 				<div class="form-row">
-					<div class="col-10">
+					<div class="col-10" v-if="isAddFormVisible">
 						<fieldset class="form-group">
 							<legend>{{ $t( "ActivityEditorWidget.label-select-nodeType" ) }}</legend>
 							<div v-for="(localeLabel, type) in nodeTypes" class="form-check" v-if="shouldShowTypeInSelector( type )">
@@ -36,6 +37,7 @@ export const template =
 									required="required"
 									class="form-check-input"
 									name="node-type"
+									v-model="selectedType"
 									v-bind:id="'node-type_' + type"
 									v-bind:value="type"
 									v-bind:aria-describedby="'description_node-type' + type"
@@ -55,7 +57,7 @@ export const template =
 							<input
 								type="submit"
 								class="form-control btn btn-primary btn-block"
-							/>
+							/>{{ $t( 'shared.label-add' ) }}
 							<input
 								type="reset"
 								class="form-control btn btn-primary btn-block"
@@ -67,117 +69,110 @@ export const template =
 					<div class="col">
 						<fieldset class="form-group">
 							<legend> {{ $t( 'ActivityEditorWidget.label-node-item-name' ) }} </legend>
-							<input
+							<input v-if="isAddFormVisible"
+								key="node-name-add"
 								id="node-name"
 								name="node-name"
 								type="text"
 								required="required"
 								class="form-control"
+								v-model="tmpNodeName"
 							/>
+							<input v-if="isEditFormVisible"
+								key="node-name-edit"
+								id="node-name"
+								name="node-name"
+								type="text"
+								required="required"
+								class="form-control"
+								v-model="currentNode.data.noteInfo.name"
+							/>
+						</fieldset>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col">
+						<fieldset class="form-group">
+							<legend> {{ $t( 'ActivityEditorWidget.label-node-item-description' ) }} </legend>
+							<textarea v-if="isAddFormVisible"
+								key="node-note-add"
+								id="node-note"
+								name="node-note"
+								rows="4"
+								class="form-control"
+								v-model="tmpNodeNote"
+							></textarea>
+							<textarea v-if="isEditFormVisible"
+								key="node-note-edit"
+								id="node-note"
+								name="node-note"
+								rows="4"
+								class="form-control"
+								v-model="currentNode.data.noteInfo.note"
+							></textarea>
 						</fieldset>
 					</div>
 				</div>
 			</form>
 		</div>
-		<template v-if="isEditFormVisible">
-			<div>
-				<form
-					>
-					<div class="form-row">
-						<div class="col">
-							<fieldset class="form-group">
-								<legend> {{ $t( 'ActivityEditorWidget.label-node-item-name' ) }} </legend>
-								<input
-									id="node-name"
-									name="node-name"
-									type="text"
-									required="required"
-									class="form-control"
-									v-bind:disabled="!mission || !currentNode"
-									v-model="currentNode.text"
-								/>
-							</fieldset>
+		<div>
+			<hr>
+			<div class="form-row">
+				<div class="col">
+					<fieldset class="form-group">
+						<legend> {{ $t( 'ActivityEditorWidget.label-activity-title' ) }} </legend>
+						<div class="form-check">
+							<i18n-input-widget
+								v-bind:tag="'input'"
+								id="activity-title"
+								name="activityTitle"
+								type="text"
+								required="required"
+								class="form-control"
+								v-bind:locale="locale"
+								v-bind:locale-label="activityTitle"
+							></i18n-input-widget>
 						</div>
-						<div class="col">
-							<fieldset class="form-group">
-								<legend>{{ $t( 'ActivityEditorWidget.label-node-item-description' ) }}</legend>
-								<textarea
-									id="node-note"
-									name="node-note"
-									class="form-control"
-									rows="4"
-									v-bind:disabled="!mission || !currentNode"
-									v-model="currentNode.data.noteInfo.description"
-								></textarea>
-							</fieldset>
-						</div>
-					</div>
-				</form>
-			</div>
-			<div>
-				<form
-				v-on:submit.prevent
-				>
-					<hr>
-					<div class="form-row">
-						<div class="col">
-							<fieldset class="form-group">
-								<legend> {{ $t( 'ActivityEditorWidget.label-activity-title' ) }} </legend>
-								<div class="form-check">
-									<i18n-input-widget
-										v-bind:tag="'input'"
-										id="activity-title"
-										name="activityTitle"
-										type="text"
-										required="required"
-										class="form-control"
-										v-bind:disabled="!mission || !isActivity()"
-										v-bind:locale="locale"
-										v-bind:locale-label="currentNode.data.title"
-									></i18n-input-widget>
-								</div>
-							</fieldset>
-						</div>
-						<div class="col">
-							<fieldset class="form-group">
-								<legend>{{ $t( 'ActivityEditorWidget.label-activity-description' ) }}</legend>
-								<div>
-									<i18n-input-widget
-										v-bind:tag="'textarea'"
-										id="activity-description"
-										name="activityDescription"
-										class="form-control"
-										rows="4"
-										v-bind:disabled="!mission || !isActivity()"
-										v-bind:locale="locale"
-										v-bind:locale-label="currentNode.data.description"
-									></i18n-input-widget>
-								</div>
-							</fieldset>
-						</div>
-					</div>
+					</fieldset>
 				</div>
-			</form>
+				<div class="col">
+					<fieldset class="form-group">
+						<legend>{{ $t( 'ActivityEditorWidget.label-activity-description' ) }}</legend>
+						<div>
+							<i18n-input-widget
+								v-bind:tag="'textarea'"
+								id="activity-description"
+								name="activityDescription"
+								class="form-control"
+								rows="4"
+								v-bind:locale="locale"
+								v-bind:locale-label="activityDescription"
+							></i18n-input-widget>
+						</div>
+					</fieldset>
+				</div>
+			</div>
 		</div>
 		<hr>
-		<section v-if="isActivity()">
+		<section v-if="checkType() && currentNode && currentNode.data.scene">
 			<scene-editor-widget
 				v-bind:locale="locale"
 				v-bind:nextAssetId="nextAssetId"
+				v-bind:scene="currentNode.data.scene"
 			></scene-editor-widget>
 		</section>
-		<section v-if="isActivity( NodeUtils.Types.Tell )">
+	<section v-if="checkType(NodeUtils.Types.Tell)">
 			<activity-tale-editor-widget
 			></activity-tale-editor-widget>
 		</section>
-		<section v-if="isActivity( NodeUtils.Types.Quest )">
+		<section v-if="checkType(NodeUtils.Types.Quest)">
 			<activity-quest-editor-widget
 			></activity-quest-editor-widget>
 		</section>
-		<section v-if="isActivity( NodeUtils.Types.Branch )">
+		<section v-if="checkType(NodeUtils.Types.Branch)">
 			<branch-editor-widget
 			></branch-editor-widget>
 		</section>
 	</div>
-</div>`
-;
+</div>
+`;

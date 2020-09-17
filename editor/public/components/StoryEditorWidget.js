@@ -1,4 +1,5 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
+import {FormUtils} from "/shared//js/FormUtils.js";
 
 export const component = {
 	template: template,
@@ -7,6 +8,13 @@ export const component = {
 	},
 	data() {
 		return {
+			remoteStories: null, // names
+			delayForNextRemoteRequest: 5000,
+			tmpStory: {
+				name: null,
+				nameChecked: null,
+				isAvailable: null
+			},
 			gamemodes: {
 				0 : "StoryEditorWidget.gamemodes.solo",
 				1 : "StoryEditorWidget.gamemodes.group",
@@ -14,7 +22,57 @@ export const component = {
 			}
 		}
 	},
+	computed: {
+		stateNewStory() {
+			if( this.tmpStory.name ) {
+				return this.isStoryNameAvailable;
+			}
+			return false;
+		},
+		isStoryNameAvailable() {
+			if( !this.tmpStory.name ) {
+				return false;
+			}
+			// if remoteStories is not defined is because server couldn't be reached
+			this.tmpStory.isAvailable = this.remoteStories ? !this.remoteStories.includes( this.tmpStory.name ) : null;
+			return this.tmpStory.isAvailable;
+		},
+	},
+	beforeMount() {
+		let self = this;
+		function keepFetch() {
+			self.getRemoteStoryNames()
+				.catch( (e) => {
+					console.error( "[StoryEditor]", "Unable getting remote story names");
+					setTimeout( keepFetch, self.delayForNextRemoteRequest )
+				});
+		}
+		keepFetch();
+	},
 	methods: {
+		addStoryRemote( event ) {
+			if( this.stateNewStory === false ){
+				event.stopPropagation();
+				return;
+			}
+			let data = this.value;
+			let params = FormUtils.getAssociativeArray( $( event.target ).serializeArray() );
+			$.ajax( `/stories/${params.name}`, {
+				method: "put",
+				contentType: 'application/json',
+				data: JSON.stringify( data )
+			})
+			.catch( (e) => {
+				console.error("[StoryEditor]", "Failed to create new Story", "QUERY:", params, "body:", data );
+			});
+		},
+		getRemoteStoryNames() {
+			let self = this;
+			return $.get( `/stories/` )
+				.then(names => {
+					if( names ) self.remoteStories = names;
+				});
+		},
 		notifyValue( type, value ) {
 			this.$emit( type, value );
 		},

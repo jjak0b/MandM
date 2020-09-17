@@ -18,7 +18,7 @@ export const component = {
 				coords:[]
 			},
 			i18nList: i18nList,
-			subtitleContent: null,
+			captionContent: null,
 			indexOverArea: -1,
 			updateFlagToggle: false
 		}
@@ -27,7 +27,6 @@ export const component = {
 		if( this.value.tag == "image" ){
 			window.addEventListener( "resize", this.onResize );
 		}
-		console.log("b");
 	},
 	watch: {
 		"value.areas": {
@@ -62,12 +61,23 @@ export const component = {
 		}
 	},
 	methods: {
+		areaOnClick( indexArea, event ) {
+			if( !this.value || !this.value.areas ) return;
+			let area = this.value.areas[ indexArea ];
+			if( area.value != null )
+				this.$emit( 'input', area.value );
+
+
+			if( area.action == 'event' ){
+				// TODO: dispatch event to window (global) object
+			}
+		},
 		onCueChange( event ){
 			let cues = event.target.track.activeCues;
 			if( cues && cues[0] && cues[0].text )
-				this.subtitleContent = cues[0].text.replace(/\n/g, '<br>');
+				this.captionContent = cues[0].text;
 			else
-				this.subtitleContent = "";
+				this.captionContent = "";
 		},
 		onResize( event ){
 			if( this.value.tag == "image" ){
@@ -76,7 +86,6 @@ export const component = {
 			}
 		},
 		resizeArea( indexArea, imgWidth, imgHeight){
-			console.log( "res", indexArea);
 			let coords = [];
 			if( !this.value || !this.value.areas || !this.value.areas[ indexArea ] )
 				return coords;
@@ -105,31 +114,32 @@ export const component = {
 		updateMapAreas() {
 			// update a variable to force view update and recompute map coords
 			// see :key="updateFlagToggle" on template
+			if( !this.value.areas || !this.$refs.img ) return;
+			for( let areaIndex = 0; areaIndex < this.value.areas.length; areaIndex++ ) {
+				let coords = this.resizeArea(areaIndex, this.$refs.img.width, this.$refs.img.height);
+				this.map.coords[areaIndex] = coords ? coords.join() : "";
+			}
 			this.updateFlagToggle = !this.updateFlagToggle;
 		},
 		getStringAreaCoords( areaIndex ){
-			let coords = this.resizeArea( areaIndex, this.$refs.img.width, this.$refs.img.height );
-			if( coords ){
-				console.log( "coords", coords );
-				return coords.join();
-			}
-			return ""
+			return ( 0 <= areaIndex && areaIndex < this.map.coords.length ) ? this.map.coords[ areaIndex ] : "";
 		},
 		setupHighlight(){
 			let self = this;
-			if( this.value && this.value.areas ) {
+			if( this.value && this.value.areas && this.$refs.img ) {
 				let useHighlight = false;
 				this.value.areas.forEach( ( area, indexArea ) => {
-					$(self.$refs.area[indexArea]).data(
-						"maphilight",
-						{
-							neverOn: !area.useHighlight,
-						}
-					);
+					if( self.$refs.area && self.$refs.area[indexArea] ) {
+						$(self.$refs.area[indexArea]).data(
+							"maphilight",
+							{
+								neverOn: !area.useHighlight,
+							}
+						);
+					}
 					if( !useHighlight ) useHighlight = area.useHighlight;
 				});
 				if( useHighlight ){
-					console.log( "m", this.$refs.img, "w", this.$refs.img.width );
 					$( this.$refs.img ).maphilight();
 				}
 			}

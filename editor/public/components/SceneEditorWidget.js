@@ -4,16 +4,22 @@ import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
 import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
+import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
+import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
+import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
 
 export const component = {
 	template: template,
 	props: {
+		scene: Object,
 		locale: String,
 		nextAssetId: Number
 	},
 	components : {
+		"user-widget-datepicker-editor": datepickerEditorComponent,
 		"media-form-widget": mediaFormComponent,
 		"grid-widget": gridComponent,
+		"attribute-editor-widget": attributeEditorComponent,
 		"style-editor-widget": styleEditorComponent
 	},
 	data() {
@@ -23,7 +29,13 @@ export const component = {
 			isFormGridEnabled: false,
 			showCSSGrid: true,
 			widgetsTable: {
+				"user-widget-datepicker" : {
+					editor: "user-widget-datepicker-editor",
+					label: "UserWidgets.Datepicker.label-widget-name",
+					options: datepickerComponent
+				},
 				"i18n-media-player-widget": {
+					editor: "media-form-widget",
 					label: "I18nMediaPlayerWidget.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}
@@ -47,6 +59,9 @@ export const component = {
 		maxCellSizeAvailable: function() {
 			return this.getMaxColumnsForGrid() + (this.currentCellCache ? this.currentCellCache.colSize : 0);
 		}
+	},
+	beforeMount(){
+		this.scene.style = {};
 	},
 	mounted(){
 		this.isFormGridEnabled = this.$refs.grid;
@@ -112,45 +127,16 @@ export const component = {
 			}
 
 			if(!this.currentCellCache.component ) {
-				let component = {};
-				this.$set( this.currentCellCache, "component", { component: component } );
+				this.$set( this.currentCellCache, "component", {} );
 			}
 
 			this.$set( this.currentCellCache.component, "name",  name );
 			if( this.widgetsTable[ name ] )
 				this.$set( this.currentCellCache.component, "options", this.widgetsTable[ name ].options );
-
-			this.$set( this.currentCellCache.component, "value", {} );
-
+			this.$set( this.currentCellCache.component, "props", {} );
+			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
 			if( !this.currentCellCache.component.style ) {
-				this.$set( this.currentCellCache.component, "style", {} )
-				this.$set(
-					this.currentCellCache.component.style,
-					"size",
-					{
-						x: 100,
-						y: 100
-					}
-				);
-				this.$set(
-					this.currentCellCache.component.style,
-					"angles",
-					{
-						x: 0,
-						y: 0,
-						z: 0
-					}
-				);
-				this.$set(
-					this.currentCellCache.component.style,
-					"position",
-					{
-						left: 0,
-						right: 0,
-						top: 0,
-						bottom: 0
-					}
-				);
+				this.$set( this.currentCellCache.component, "style", {} );
 			}
 
 

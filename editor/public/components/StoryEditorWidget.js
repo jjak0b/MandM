@@ -1,4 +1,5 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
+import {FormUtils} from "/shared//js/FormUtils.js";
 
 export const component = {
 	template: template,
@@ -55,10 +56,9 @@ export const component = {
 				return;
 			}
 			let data = this.value;
-			let params = $( event.target ).serialize();
-			$.ajax( `/stories?${params}`, {
+			let params = FormUtils.getAssociativeArray( $( event.target ).serializeArray() );
+			$.ajax( `/stories/${params.name}`, {
 				method: "put",
-				dataType: "json",
 				contentType: 'application/json',
 				data: JSON.stringify( data )
 			})

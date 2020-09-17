@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const router = express.Router();
 const fs = require('fs');
-
+const StatusCodes = require("http-status-codes").StatusCodes;
 const dirNameStories = "stories"
 const pathFolderStories = path.join( __basedir, dirNameStories );
 var storiesSaved = [];
@@ -37,29 +37,38 @@ router.get('/:name', ( req, res ) => {
 	if( req.params.name ) {
 		let storyDir = path.join( __basedir, dirNameStories, req.params.name);
 
-		fs.readFile( path.join( storyDir, "story.json" ), 'utf8', function (err, data) {
-			if (err) throw err;
-			else{
-				res.json( data );
-			}
-		});
+		if( !storiesSaved.includes( req.params.name ) ) {
+			res.sendStatus( StatusCodes.NOT_FOUND );
+		}
+		else{
+			fs.readFile( path.join( storyDir, "story.json" ), 'utf8', function (err, data) {
+				if (err){
+					res.sendStatus( StatusCodes.CONFLICT );
+				}
+				else{
+					res.json( data );
+				}
+			});
+		}
 	}
 });
 
-router.put("/", ( req, res ) => {
+router.put("/:name", ( req, res ) => {
 
-	let storyDir = path.join( __basedir, dirNameStories, req.query.name);
+	let storyDir = path.join( __basedir, dirNameStories, req.params.name);
 
 	if ( !fs.existsSync( storyDir ) ){
 		fs.mkdirSync( storyDir );
 	}
 
 	fs.writeFile( path.join( storyDir, "story.json" ), JSON.stringify(req.body), 'utf8', function (err) {
-		if (err) throw err;
+		if (err){
+			res.sendStatus( StatusCodes.CONFLICT );
+		}
 		else{
-			storiesSaved.push( req.query.name );
-			console.log("Story added: ", req.query.name );
-			res.end('{"status" : 200}');
+			storiesSaved.push( req.params.name );
+			console.log("Story added: ", req.params.name );
+			res.sendStatus( StatusCodes.CREATED );
 		}
 	});
 });

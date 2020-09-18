@@ -1,28 +1,22 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
 import {FormUtils} from "/shared//js/FormUtils.js";
-
+import { component as formImportFile } from "./StoryEditorWidgets/StoryFormImportFile.js";
+import { component as formImportServer } from "./StoryEditorWidgets/StoryFormImportServer.js";
+import { component as formExportFile } from "./StoryEditorWidgets/StoryFormExportFile.js";
+import { component as formExportServer } from "./StoryEditorWidgets/StoryFormExportServer.js";
 export const component = {
 	template: template,
 	props: {
 		value: Object // story Cache
 	},
+	components: {
+		"form-import-file": formImportFile,
+		"form-import-server": formImportServer,
+		"form-export-file": formExportFile,
+		"form-export-server": formExportServer,
+	},
 	data() {
 		return {
-			formImport: {
-				data: null,
-				isLoading: false,
-				file: null,
-				remoteName: null,
-				validityFile: null,
-				validityRemoteName: null,
-			},
-			formExport: {
-				name: null,
-				validityName: null,
-				isLoading: false,
-				validityOperation: null,
-				validityForm: null,
-			},
 			remoteStories: null, // names
 			delayForNextRemoteRequest: 5000,
 			gamemodes: {
@@ -43,119 +37,7 @@ export const component = {
 		}
 		keepFetch();
 	},
-	watch: {
-		"formImport.remoteName": function (name) {
-			this.formImport.validityRemoteName = null;
-		},
-		"formImport.file" : function (file) {
-			this.formImport.validityFile = null;
-			if( file ) {
-				let self = this;
-				this.formImport.isLoading = true; // start loading spinner
-				this.getJSONFromFile( this.formImport.file )
-					.then( (jsonData) => {
-						self.formImport.validityFile = true;
-						console.log( "[StoryEditor]", jsonData );
-						self.formImport.data = jsonData;
-					})
-					.catch( (error) => {
-						self.formImport.validityFile = false;
-
-						console.error( "[StoryEditor]", "Error importing JSON file:", error );
-					})
-					.finally( () => {
-						self.formImport.isLoading = false; // stop loading spinner
-					});
-			}
-		},
-		"formExport.name" : function (name) {
-			this.formExport.validityOperation = null;
-			this.formExport.validityForm = null;
-			if( name ) {
-				// if remoteStories is not defined is because server couldn't be reached
-				this.formExport.validityName = this.remoteStories ? !this.remoteStories.includes( this.formExport.name ) : null;
-			}
-			else {
-				this.formExport.validityName = null;
-			}
-		}
-	},
-	computed: {
-		formExportCanSubmit: function () {
-			return this.formExport.validityForm == null ? this.formExport.validityName : this.formExport.validityForm;
-		}
-	},
 	methods: {
-		onFormImportSubmit( event ) {
-			let shouldStopPropagation = true;
-			if( this.formImport.file ) {
-				// file is valid so can be loaded
-				if( this.formImport.validityFile ) {
-					shouldStopPropagation = false;
-					let data = this.formImport.data;
-
-					this.load( data );
-				}
-			}
-			else if( this.formImport.remoteName ) {
-				shouldStopPropagation = false;
-				let self = this;
-				this.formImport.isLoading = true; // start loading spinner
-				this.formImport.validityRemoteName = null; // while downloading reset it
-				this.getJSONFromRemote( this.formImport.remoteName )
-					// file has been downloaded so can be loaded
-					.done( (jsonData) => {
-						self.formImport.validityRemoteName = true;
-						self.load( jsonData );
-					})
-					// file can't be downloaded for some reason so report it
-					.fail( ( xhr, textStatus, error) => {
-						self.formImport.validityRemoteName = false;
-						console.error( "[StoryEditor]", `Error downloading story "${self.formImport.remoteName}"`, "cause:", error );
-					})
-					.always( () => {
-						self.formImport.isLoading = false; // stop loading spinner
-					});
-			}
-
-			if( shouldStopPropagation ) {
-				event.stopPropagation();
-			}
-		},
-		onFormImportReset( event ) {
-			this.formImport.file = null;
-			this.formImport.remoteName = null;
-			this.formImport.validityFile = null;
-			this.formImport.validityRemoteName = null;
-			this.formImport.data = null;
-		},
-		onFormExportSubmit( event ) {
-			if( !this.formExportCanSubmit ){
-				event.stopPropagation();
-				return;
-			}
-			let self = this;
-			let data = this.value;
-			let params = FormUtils.getAssociativeArray( $( event.target ).serializeArray() );
-			this.formExport.isLoading = true;
-			this.formExport.validityOperation = null;
-			$.ajax( `/stories/${params.name}`, {
-				method: "put",
-				contentType: 'application/json',
-				data: JSON.stringify( data )
-			})
-			.done( (data) => {
-				self.formExport.validityOperation = true;
-			})
-			.fail( ( xhr, textStatus, error) => {
-				self.formExport.validityOperation = false;
-				console.error("[StoryEditor]", `Failed to create new Story ${params.name}`, error );
-			})
-			.always( ()=>{
-				self.formExport.isLoading = false;
-				this.getRemoteStoryNames();
-			});
-		},
 		getRemoteStoryNames() {
 			let self = this;
 			return $.get( `/stories/` )
@@ -166,45 +48,11 @@ export const component = {
 		notifyValue( type, value ) {
 			this.$emit( type, value );
 		},
-		updateStoryURI( event ){
-			let a = event.target;
-			a.href= null;
-			a.download = null;
-			a.type = null;
-			if( !this.value ) return event.preventDefault();
-
-			a.type = 'text/json'
-			let data = a.type + ";charset=utf-8," + encodeURIComponent( JSON.stringify( this.value ) );
-			a.href = 'data:' + data;
-			a.download = 'Story.json';
-		},
 		load( data ) {
 			let keys = Object.keys(data);
 			for( let i = 0; i < keys.length; i++ ){
 				Vue.set( this.value, keys[i], data[ keys[i]] );
 			}
 		},
-		getJSONFromFile( file ) {
-			let self = this;
-			return new Promise( function (resolve, reject) {
-			if( file.type !== 'application/json') {
-				reject( `Input file type "${file.type}" is not valid ! \nPlease upload a valid JSON file type with '.json' extension` );
-				return;
-			}
-			let reader = new FileReader();
-			reader.onload = function (onLoadEvent) {
-				try {
-					resolve( JSON.parse(onLoadEvent.target.result) );
-				}
-				catch( exception ) {
-					reject( exception );
-				}
-			};
-			reader.readAsText( file );
-			});
-		},
-		getJSONFromRemote( name ) {
-			return $.get( `/stories/${name}` );
-		}
 	}
 }

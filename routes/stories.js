@@ -72,8 +72,13 @@ router.put("/:name", ( req, res ) => {
 			res.sendStatus( StatusCodes.CONFLICT );
 		}
 		else{
-			storiesSaved.push( req.params.name );
-			console.log("Story added: ", req.params.name );
+			if( !storiesSaved.includes(req.params.name) ) {
+				storiesSaved.push(req.params.name);
+				console.log("Story added: ", req.params.name);
+			}
+			else{
+				console.log("Story replaced: ", req.params.name);
+			}
 			res.sendStatus( StatusCodes.CREATED );
 		}
 	});

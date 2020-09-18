@@ -16,34 +16,20 @@ export const component = {
 				validityFile: null,
 				validityRemoteName: null,
 			},
+			formExport: {
+				name: null,
+				validityName: null,
+				isLoading: false,
+				validityOperation: null,
+				validityForm: null,
+			},
 			remoteStories: null, // names
 			delayForNextRemoteRequest: 5000,
-			tmpStory: {
-				name: null,
-				nameChecked: null,
-				isAvailable: null
-			},
 			gamemodes: {
 				0 : "StoryEditorWidget.gamemodes.solo",
 				1 : "StoryEditorWidget.gamemodes.group",
 				2 : "StoryEditorWidget.gamemodes.class"
 			}
-		}
-	},
-	computed: {
-		stateNewStory() {
-			if( this.tmpStory.name ) {
-				return this.isStoryNameAvailable;
-			}
-			return false;
-		},
-		isStoryNameAvailable() {
-			if( !this.tmpStory.name ) {
-				return false;
-			}
-			// if remoteStories is not defined is because server couldn't be reached
-			this.tmpStory.isAvailable = this.remoteStories ? !this.remoteStories.includes( this.tmpStory.name ) : null;
-			return this.tmpStory.isAvailable;
 		}
 	},
 	beforeMount() {
@@ -81,6 +67,22 @@ export const component = {
 						self.formImport.isLoading = false; // stop loading spinner
 					});
 			}
+		},
+		"formExport.name" : function (name) {
+			this.formExport.validityOperation = null;
+			this.formExport.validityForm = null;
+			if( name ) {
+				// if remoteStories is not defined is because server couldn't be reached
+				this.formExport.validityName = this.remoteStories ? !this.remoteStories.includes( this.formExport.name ) : null;
+			}
+			else {
+				this.formExport.validityName = null;
+			}
+		}
+	},
+	computed: {
+		formExportCanSubmit: function () {
+			return this.formExport.validityForm == null ? this.formExport.validityName : this.formExport.validityForm;
 		}
 	},
 	methods: {
@@ -127,26 +129,37 @@ export const component = {
 			this.formImport.validityRemoteName = null;
 			this.formImport.data = null;
 		},
-		addStoryRemote( event ) {
-			if( this.stateNewStory === false ){
+		onFormExportSubmit( event ) {
+			if( !this.formExportCanSubmit ){
 				event.stopPropagation();
 				return;
 			}
+			let self = this;
 			let data = this.value;
 			let params = FormUtils.getAssociativeArray( $( event.target ).serializeArray() );
+			this.formExport.isLoading = true;
+			this.formExport.validityOperation = null;
 			$.ajax( `/stories/${params.name}`, {
 				method: "put",
 				contentType: 'application/json',
 				data: JSON.stringify( data )
 			})
+			.done( (data) => {
+				self.formExport.validityOperation = true;
+			})
 			.fail( ( xhr, textStatus, error) => {
+				self.formExport.validityOperation = false;
 				console.error("[StoryEditor]", `Failed to create new Story ${params.name}`, error );
+			})
+			.always( ()=>{
+				self.formExport.isLoading = false;
+				this.getRemoteStoryNames();
 			});
 		},
 		getRemoteStoryNames() {
 			let self = this;
 			return $.get( `/stories/` )
-				.then(names => {
+				.done(names => {
 					if( names ) self.remoteStories = names;
 				});
 		},
@@ -164,7 +177,6 @@ export const component = {
 			let data = a.type + ";charset=utf-8," + encodeURIComponent( JSON.stringify( this.value ) );
 			a.href = 'data:' + data;
 			a.download = 'Story.json';
-
 		},
 		load( data ) {
 			let keys = Object.keys(data);

@@ -31,6 +31,16 @@ export const component = {
             while(i<this.param.length){
                 this.param.pop();
             }
+        },
+        rem: function(){
+            var position=this.param.indexOf(this.temp,0);
+            if(position != -1) {
+                this.param.splice(position, 1);
+            while (position < this.param.lenght) {
+                this.param[position] = this.param[position + 1];
+                position++;
+            }
+            }
         }
     }
 

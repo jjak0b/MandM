@@ -23,7 +23,7 @@ export const template =
 </option>
 </select>
     <button v-on:click="param.push(temp)"v-on:submit.prevent>Add</button>
-    <button v-on:click="param.pop()" v-on:submit.prevent>Remove</button>
+    <button v-on:click="rem()" v-on:submit.prevent>Remove</button>
     </div>
     <button v-on:click="$emit('value', param)">Save</button> 
     <div v-for="val in param">

@@ -7,6 +7,20 @@ import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEdi
 import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
+import { component as selectComponent } from "/shared/components/UserWidgetSelect.js";
+import { component as selectEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetSelectEditor.js";
+import { component as checkboxComponent } from "/shared/components/UserWidgetCheckbox.js";
+import { component as checkboxEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetCheckboxEditor.js";
+import { component as radioComponent } from "/shared/components/UserWidgetRadio.js";
+import { component as radioEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetRadioEditor.js";
+import { component as textInputComponent } from "/shared/components/UserWidgetTextInput.js";
+import { component as textInputEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetTextInputEditor.js";
+import { component as numberInputComponent } from "/shared/components/UserWidgetNumberInput.js";
+import { component as numberInputEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetNumberInputEditor.js";
+import { component as rangeComponent } from "/shared/components/UserWidgetRange.js";
+import { component as rangeEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetRangeEditor.js";
+import { component as spinbuttonComponent } from "/shared/components/UserWidgetSpinbutton.js";
+import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetSpinbuttonEditor.js";
 
 export const component = {
 	template: template,
@@ -16,6 +30,13 @@ export const component = {
 		nextAssetId: Number
 	},
 	components : {
+		"user-widget-select-editor": selectEditorComponent,
+		"user-widget-checkbox-editor": checkboxEditorComponent,
+		"user-widget-radio-editor": radioEditorComponent,
+		"user-widget-textInput-editor": textInputEditorComponent,
+		"user-widget-numberInput-editor": numberInputEditorComponent,
+		"user-widget-range-editor": rangeEditorComponent,
+		"user-widget-spinbutton-editor": spinbuttonEditorComponent,
 		"user-widget-datepicker-editor": datepickerEditorComponent,
 		"media-form-widget": mediaFormComponent,
 		"grid-widget": gridComponent,
@@ -29,6 +50,41 @@ export const component = {
 			isFormGridEnabled: false,
 			showCSSGrid: true,
 			widgetsTable: {
+				"user-widget-checkbox" : {
+					editor: "user-widget-checkbox-editor",
+					label: "UserWidgets.Checkbox.label-widget-name",
+					options: checkboxComponent
+				},
+				"user-widget-select" : {
+					editor: "user-widget-select-editor",
+					label: "UserWidgets.Select.label-widget-name",
+					options: selectComponent
+				},
+				"user-widget-radio" : {
+					editor: "user-widget-radio-editor",
+					label: "UserWidgets.Radio.label-widget-name",
+					options: radioComponent
+				},
+				"user-widget-textInput" : {
+					editor: "user-widget-textInput-editor",
+					label: "UserWidgets.TextInput.label-widget-name",
+					options: textInputComponent
+				},
+				"user-widget-numberInput" : {
+					editor: "user-widget-numberInput-editor",
+					label: "UserWidgets.NumberInput.label-widget-name",
+					options: numberInputComponent
+				},
+				"user-widget-range" : {
+					editor: "user-widget-range-editor",
+					label: "UserWidgets.Range.label-widget-name",
+					options: rangeComponent
+				},
+				"user-widget-spinbutton" : {
+					editor: "user-widget-spinbutton-editor",
+					label: "UserWidgets.Spinbutton.label-widget-name",
+					options: spinbuttonComponent
+				},
 				"user-widget-datepicker" : {
 					editor: "user-widget-datepicker-editor",
 					label: "UserWidgets.Datepicker.label-widget-name",
@@ -163,9 +219,16 @@ export const component = {
 					}
 				);
 			}
-
-
 			console.log("[SceneEditor]", "Set component data", this.currentCellCache.component );
+		},
+		onAddElement(toAdd) {
+			if (! ('options' in this.currentCellCache.component.props)) {
+				this.$set( this.currentCellCache.component.props, 'options', [] );
+			}
+			this.currentCellCache.component.props.options.push( toAdd );
+		},
+		onRemoveElement(index) {
+			this.currentCellCache.component.props.options.splice( index, 1 );
 		}
 	}
 };

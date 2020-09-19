@@ -32,6 +32,8 @@ export const template =
 				v-model="currentCellCache.component.value"
 				v-bind:assetId="nextAssetId"
 				v-bind:locale="locale"
+				v-on:addElement="onAddElement"
+				v-on:removeElement="onRemoveElement"
 			></component>
 		</div>
 	</div>

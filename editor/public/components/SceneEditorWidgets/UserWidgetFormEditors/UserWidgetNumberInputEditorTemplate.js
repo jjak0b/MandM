@@ -1,0 +1,71 @@
+export const template =
+		`
+<div>
+<section>
+	<b-form>
+		<b-form-group>
+			<template v-slot:label
+			>{{ $t('UserWidgets.numberInput.label-settings') }}</template>
+			<b-form-row>
+				<b-col>
+					<b-form-group
+						label-for="user-widget-numberInput-editor-placeholder"
+						v-bind:label="$t('UserWidgets.NumberInput.label-placeholder')"
+					>
+					<b-form-input
+						type="number"
+						id="user-widget-numberInput-editor-placeholder"
+						v-model="props.placeholder"
+					></b-form-input>
+					</b-form-group>
+				</b-col>
+				<b-col>
+					<b-form-group
+						label-for="user-widget-numberInput-editor-step"
+						v-bind:label="$t('UserWidgets.NumberInput.label-step')"
+					>
+					<b-form-input
+						type="number"
+						id="user-widget-numberInput-editor-step"
+						v-model="props.step"
+					></b-form-input>
+					</b-form-group>
+				</b-col>
+			</b-form-row>
+			<b-form-row>
+				<b-col>
+					<b-form-group
+						label-for="user-widget-numberInput-editor-min"
+						v-bind:label="$t('UserWidgets.NumberInput.label-min')"
+					>
+					<b-form-input
+						type="number"
+						id="user-widget-numberInput-editor-min"
+						v-model="props.min"
+					></b-form-input>
+					</b-form-group>
+				</b-col>
+				<b-col>
+					<b-form-group
+						label-for="user-widget-numberInput-editor-max"
+						v-bind:label="$t('UserWidgets.NumberInput.label-max')"
+					>
+					<b-form-input
+						type="number"
+						id="user-widget-numberInput-editor-max"
+						v-model="props.max"
+					></b-form-input>
+					</b-form-group>
+				</b-col>
+			</b-form-row>
+		</b-form-group>
+	</b-form>
+</section>
+<section>
+	<h4 v-t="'shared.label-preview'"></h4>
+	<user-widget-numberInput
+		v-bind="props"
+	></user-widget-numberInput>
+</section>
+</div>
+`

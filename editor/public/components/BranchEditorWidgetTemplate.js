@@ -23,7 +23,8 @@ export const template = `
         v-bind:type="val.type"></input-val>
             <!--            v-bind:type="val.type"-->
         </div>
-        <div v-if="val.tag == 'Range'&& val.tag">
+        <div v-if="val.tag == 'Range'&& val.tag" aria-describedby="Ran">
+        <b-alert show id="Ran">Inserisci il valore minimo e massimo premendo aggiungi</b-alert>
             <lable for="min">Min</lable>
             <input type="number" v-model.number="valmin" v-bind:max="this.valmax" id="min">
             <lable for="max">Max</lable>
@@ -31,6 +32,7 @@ export const template = `
             <button v-on:click="mimax()">Aggiungi</button>
         </div>
         <div v-if="val.tag == 'Function' && val.tag">
+        <b-alert>Crea una serie di oggetti con valori diversi e funzionalità diverse</b-alert>
             <select v-model="valuef">
                 <option v-for="(functions, value) in functioVal" 
                 v-bind:id="functions"
@@ -89,6 +91,11 @@ export const template = `
             </select>
         </div>
     </div>
+    <div style="float:right">
+    <div v-for="val in val.param">
+    {{val}}
+    </div>
+</div>
     </fieldset>
 </form>
 `;

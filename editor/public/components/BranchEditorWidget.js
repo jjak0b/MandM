@@ -98,8 +98,8 @@ export const component = {
          mimax(){
              if(this.valmin && this.valmax) {
                  this.whipe();
-                 this.val.param.push(this.valmax);
                  this.val.param.push(this.valmin);
+                 this.val.param.push(this.valmax);
              }else{
                  alert('Inserire min e max');
              }

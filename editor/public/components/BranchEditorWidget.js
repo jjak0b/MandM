@@ -86,10 +86,11 @@ export const component = {
                  i++;
              }
          },
-         advise(val) {
+         advise(val, tipe) {
             if (val) {
                this.whipe();
                     this.val.param.push(val);
+                    this.val.tag=tipe;
                     console.info("[ActivityEditor]", "added", val);
                 }else{
                     console.info("[ActivityEditor]", "insert a value");

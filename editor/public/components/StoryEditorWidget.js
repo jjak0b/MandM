@@ -1,12 +1,24 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
-
+import {FormUtils} from "/shared//js/FormUtils.js";
+import { component as formImportFile } from "./StoryEditorWidgets/StoryFormImportFile.js";
+import { component as formImportServer } from "./StoryEditorWidgets/StoryFormImportServer.js";
+import { component as formExportFile } from "./StoryEditorWidgets/StoryFormExportFile.js";
+import { component as formExportServer } from "./StoryEditorWidgets/StoryFormExportServer.js";
 export const component = {
 	template: template,
 	props: {
 		value: Object // story Cache
 	},
+	components: {
+		"form-import-file": formImportFile,
+		"form-import-server": formImportServer,
+		"form-export-file": formExportFile,
+		"form-export-server": formExportServer,
+	},
 	data() {
 		return {
+			remoteStories: null, // names
+			delayForNextRemoteRequest: 5000,
 			gamemodes: {
 				0 : "StoryEditorWidget.gamemodes.solo",
 				1 : "StoryEditorWidget.gamemodes.group",
@@ -14,22 +26,27 @@ export const component = {
 			}
 		}
 	},
+	beforeMount() {
+		let self = this;
+		function keepFetch() {
+			self.getRemoteStoryNames()
+				.catch( (e) => {
+					console.error( "[StoryEditor]", "Unable getting remote story names");
+					setTimeout( keepFetch, self.delayForNextRemoteRequest )
+				});
+		}
+		keepFetch();
+	},
 	methods: {
+		getRemoteStoryNames() {
+			let self = this;
+			return $.get( `/stories/` )
+				.done(names => {
+					if( names ) self.remoteStories = names;
+				});
+		},
 		notifyValue( type, value ) {
 			this.$emit( type, value );
-		},
-		updateStoryURI( event ){
-			let a = event.target;
-			a.href= null;
-			a.download = null;
-			a.type = null;
-			if( !this.value ) return event.preventDefault();
-
-			a.type = 'text/json'
-			let data = a.type + ";charset=utf-8," + encodeURIComponent( JSON.stringify( this.value ) );
-			a.href = 'data:' + data;
-			a.download = 'Story.json';
-
 		},
 		load( data ) {
 			let keys = Object.keys(data);
@@ -37,35 +54,5 @@ export const component = {
 				Vue.set( this.value, keys[i], data[ keys[i]] );
 			}
 		},
-		onFileload(event) {
-			let self = this;
-			let file = event.target.files[0];
-			let errorMessage = "Input file type '" + file.type + "' is not valid ! \nPlease upload a valid JSON file type with '.json' extension";
-			if( file.type !== 'application/json'){
-
-				alert( errorMessage );
-				console.error( errorMessage );
-
-				// clear input tag
-				event.target.value = "";
-			}
-
-			let reader = new FileReader();
-			reader.onload = function (onLoadEvent) {
-				try {
-					let data = JSON.parse(onLoadEvent.target.result);
-					self.load( data );
-				}
-				catch( exception ) {
-					errorMessage = "Error reading input file type, please upload valid JSON";
-					alert( errorMessage );
-					console.error( errorMessage, exception );
-
-					// clear input tag
-					event.target.value = "";
-				}
-			};
-			reader.readAsText( file );
-		}
 	}
 }

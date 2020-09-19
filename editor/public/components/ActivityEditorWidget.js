@@ -167,8 +167,7 @@ export const component = {
 				nodeInfo[inputs[i]["name"]] = inputs[i]["value"];
 			}
 
-			let id = this.nextId++;
-			this.$emit("inc-id");
+			let id = this.nextId; this.$emit("inc-id");
 
 			// TODO: fill this field if adding components which edit node data
 			let data = createEmptyData();

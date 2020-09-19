@@ -10,7 +10,6 @@ export const template =
 		v-bind:coords="[rowIndex, index]"
 		v-bind:showCSSGrid="showCSSGrid"
 		v-on:setCursor="$emit('setCursor', $event)"
-		v-on:currentCellData="$emit($event)"
 	></column>
 </div>
 `;

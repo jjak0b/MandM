@@ -17,5 +17,6 @@ app.use('/play', require('./routes/player'));
 app.use('/edit', require('./routes/editor'));
 app.use('/scan', require('./routes/qr-scanner'));
 app.use('/shared', require('./routes/shared'));
+app.use( '/stories', require('./routes/stories'));
 app.use( '/libs', require('./routes/libs'));
 module.exports = app;

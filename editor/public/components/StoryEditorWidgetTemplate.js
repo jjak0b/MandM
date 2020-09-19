@@ -1,26 +1,70 @@
 export const template =
 `<div>
-	<form v-on:submit.prevent >
-		<div class="row form-group">
-			<div class="col">
-				<input type="file" id="input-file" accept="application/json" v-on:change="onFileload($event)">
-				<!--<label for="input-file"></label>-->
-			</div>
-			<div class="col">
-				<a href="" v-on:click="updateStoryURI( $event )" class="btn">Download</a>
-			</div>
-		</div>
-		<div class="row form-group">
-			<div class="col">
-				<div v-for="(localeLabel, key) in gamemodes" >
-					<input type="radio" v-bind:id="'mode_'+key" v-bind:value="key" v-model="value.gamemode" name="'gamemode'" aria-describedby="gamemode-description">
-					<label v-bind:for="'mode_' + key">{{ $t(localeLabel + '.label' ) }}</label>
-				</div>
-			</div>
-			<div class="col" id="gamemode-description">
-				<p v-for="(localeLabel, key) in gamemodes" v-if="value.gamemode == key">{{ $t( localeLabel + '.description' ) }}</p>
-			</div>
-		</div>
-	</form>
+	<b-tabs>
+		<b-tab
+			v-bind:title="$t('StoryEditorWidget.label-import')"
+		>
+			<b-tabs
+				vertical
+			>
+				<b-tab
+					v-bind:title="$t('StoryEditorWidget.label-from-file')"	
+				>
+					<form-import-file
+						v-on:import="load"
+					></form-import-file>
+				</b-tab>
+				<b-tab
+					v-bind:title="$t('StoryEditorWidget.label-from-server')"	
+				>
+					<form-import-server
+						v-bind:names="remoteStories"
+						v-on:import="load"
+					></form-import-server>
+				</b-tab>
+			</b-tabs>
+		</b-tab>
+		<b-tab
+			v-bind:title="$t('StoryEditorWidget.label-export')"
+		>
+			<b-tabs
+				vertical
+			>
+				<b-tab
+					v-bind:title="$t('StoryEditorWidget.label-onto-file')"
+				>
+					<form-export-file
+						v-bind:data-export="value"
+					></form-export-file>
+				</b-tab>
+				<b-tab
+					v-bind:title="$t('StoryEditorWidget.label-onto-server')"
+				>
+					<form-export-server
+						v-bind:names="remoteStories"
+						v-on:update-names="getRemoteStoryNames()"
+					></form-export-server>
+				</b-tab>
+			</b-tabs>
+		</b-tab>
+	</b-tabs>
+	<hr>
+	<b-form
+		v-on:submit.prevent
+	>
+		<b-form-group>
+			<b-form-row>
+				<b-col>
+					<div v-for="(localeLabel, key) in gamemodes" >
+						<input type="radio" v-bind:id="'mode_'+key" v-bind:value="key" v-model="value.gamemode" name="'gamemode'" aria-describedby="gamemode-description">
+						<label v-bind:for="'mode_' + key">{{ $t(localeLabel + '.label' ) }}</label>
+					</div>
+				</b-col>
+				<b-col id="gamemode-description">
+					<p v-for="(localeLabel, key) in gamemodes" v-if="value.gamemode == key">{{ $t( localeLabel + '.description' ) }}</p>
+				</b-col>
+			</b-form-row>
+		</b-form-group>
+	</b-form>
 </div>`
 ;

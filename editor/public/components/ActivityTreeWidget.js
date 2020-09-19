@@ -33,9 +33,9 @@ export const component = {
 		this.redraw();
 	},
 	methods: {
-		notifyValue(){
-			console.info( "[ActivityTree]", "updating current node", this.value );
-			this.$emit( 'input', this.value );
+		notifyValue( node ){
+			console.info( "[ActivityTree]", "updating current node", node );
+			this.$emit( 'input', node );
 		},
 		get_json( id = "#") {
 			let jsonNode = this.tree.get_json( id, {
@@ -75,13 +75,11 @@ export const component = {
 				this.tree = null;
 			}
 
-			this.value = null;
-			this.notifyValue();
 			if( !jsonData ){
+				this.notifyValue( null );
 				return;
 			}
 			// open root
-
 			$( e ).jstree({
 				"core": {
 					// so that create works
@@ -127,6 +125,12 @@ export const component = {
 			this.tree = $( e ).jstree(true);
 			$( e ).on( "select_node.jstree", this.onSelect );
 			$( e ).on( "create_node.jstree", this.onCreate );
+
+			// select root node
+			let nodeToSelect = this.tree.get_node( jsonData.id );
+			this.tree.select_node( nodeToSelect );
+			// since "select_node.jstree" seems to be trigghered only by user select, we will notify to parent manually
+			this.notifyValue( nodeToSelect );
 		},
 		// events
 		onCreate( event, data ) {
@@ -134,8 +138,7 @@ export const component = {
 		},
 		onSelect( event, data ) {
 			let node = data.instance.get_node(data.selected[0]);
-			this.value = node;
-			this.notifyValue();
+			this.notifyValue( node );
 		},
 		// Operations
 		add( id, type, nodeName, nodeData ) {

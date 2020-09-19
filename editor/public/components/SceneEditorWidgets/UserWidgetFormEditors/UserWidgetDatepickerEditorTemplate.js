@@ -44,7 +44,7 @@ export const template =
 							v-bind:max="props.max"
 							v-bind:locale="$i18n.locale"
 							v-bind:start-weekday="value.startWeekday"
-							reset-button="true"
+							v-bind:reset-button="true"
 						></b-form-datepicker>
 					</b-form-group>
 				</b-col>
@@ -59,7 +59,7 @@ export const template =
 							v-bind:min="props.min"
 							v-bind:locale="$i18n.locale"
 							v-bind:start-weekday="value.startWeekday"
-							reset-button="true"
+							v-bind:reset-button="true"
 						></b-form-datepicker>
 					</b-form-group>
 				</b-col>

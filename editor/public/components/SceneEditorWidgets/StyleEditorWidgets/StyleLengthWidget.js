@@ -51,9 +51,7 @@ export const component = {
 	watch: {
 		value: function (newVal, oldVal) {
 			if( newVal ){
-				console.info(  this.regExp["valid"], newVal );
 				if( this.regExp["valid"].test( newVal ) ) {
-					console.info( "valid", newVal );
 					let value = newVal.match( this.regExp["defaultValues"]);
 					let unit = null;
 					if( !value ){
@@ -65,15 +63,19 @@ export const component = {
 							}
 						}
 					}
-					if( value ) value = value[0];
-					if( unit ) unit = unit[0];
-
-					console.log( "unit:", unit, "value", value );
+					if( value ) this.unitValue = value[0];
+					if( unit ) this.unitName = unit[0];
 				}
-				else{
-					console.warn( "invalid", newVal );
+				else {
+					console.warn( "[StyleLength]", "invalid value received", newVal );
 				}
 			}
+		},
+		unitValue: function (newVal) {
+			this.notifyValue();
+		},
+		unitName: function (newVal) {
+			this.notifyValue();
 		}
 	},
 	beforeMount() {
@@ -83,6 +85,13 @@ export const component = {
 		let strRegexAbsolutes = this.units.absolutes.join("|")
 		this.regExp["absolutes"] = new RegExp( strRegexAbsolutes, "i" );
 
+		if( this.defaultValues ) {
+			this.defaultValues.forEach( (value, index) => {
+				if( !this.acceptedDefaultValues.includes( value ) ) {
+					this.acceptedDefaultValues.push( value )
+				}
+			});
+		}
 		let strRegexValues = this.acceptedDefaultValues.join("|")
 		this.regExp["defaultValues"] = new RegExp( strRegexValues, "i" );
 
@@ -91,29 +100,22 @@ export const component = {
 		let valid = `([0-9]* (${strRegexRelatives}|${strRegexAbsolutes}))|(${strRegexValues})`;
 		this.regExp["valid"] = new RegExp( valid, "i" );
 
-		console.log( valid, this.regExp );
-
-		if( this.defaultValues ) {
-			this.defaultValues.forEach( (value, index) => {
-				if( !this.acceptedDefaultValues.includes( value ) ) {
-					this.acceptedDefaultValues.push( value )
-				}
-			});
-		}
 	},
-	updated() {
-		let value = this.unitValue;
-		let parsedNumber = Number.parseFloat( value );
-		if( isNaN( parsedNumber ) ) {
-			this.isValueNumber = false;
-			if( this.acceptedDefaultValues.includes( value ) ) {
-				this.$emit( "input", value );
+	methods: {
+		notifyValue() {
+			let value = this.unitValue;
+			let parsedNumber = Number.parseFloat( value );
+			if( isNaN( parsedNumber ) ) {
+				this.isValueNumber = false;
+				if( this.acceptedDefaultValues.includes( value ) ) {
+					this.$emit( "input", value );
+				}
 			}
-		}
-		else{
-			this.isValueNumber = true;
-			if( this.unitName ) {
-				this.$emit( "input", value + " " + this.unitName );
+			else{
+				this.isValueNumber = true;
+				if( this.unitName ) {
+					this.$emit( "input", value + " " + this.unitName );
+				}
 			}
 		}
 	}

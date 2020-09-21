@@ -28,7 +28,7 @@ export const template =
     <button v-on:click="param.push(temp)"v-on:submit.prevent aria-describedby="adda">Add</button>
     <button v-on:click="rem()" v-on:submit.prevent aria-describedby="remov">Remove</button>
     </div>
-    <button v-on:click="$emit('value', param)">Save</button> 
+    <button v-on:click="$emit('value', param, type)">Save</button> 
     <div v-for="val in param">
         {{val}}
     </div>

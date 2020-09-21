@@ -92,7 +92,9 @@ export const template = `
         </div>
     </div>
     <div style="float:right">
-    <div v-for="val in val.param">
+    <p>Tag:{{val.tag}}</p>
+    <label for="valor">Valori:</label>
+    <div id="valor" v-for="val in val.param">
     {{val}}
     </div>
 </div>

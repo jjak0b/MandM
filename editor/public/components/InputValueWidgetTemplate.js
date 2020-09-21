@@ -25,8 +25,8 @@ export const template =
     {{comp}}
 </option>
 </select>
-    <button v-on:click="param.push(temp)"v-on:submit.prevent aria-describedby="adda">Add</button>
-    <button v-on:click="rem()" v-on:submit.prevent aria-describedby="remov">Remove</button>
+    <button v-on:click="param.push(temp)"v-on:submit.prevent>Add</button>
+    <button v-on:click="rem()" v-on:submit.prevent>Remove</button>
     </div>
     <button v-on:click="$emit('value', param, type)">Save</button> 
     <div v-for="val in param">

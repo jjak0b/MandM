@@ -86,6 +86,47 @@
 			"variable" : {
 				"label":"Variable"
 			}
+		},
+		"branch-editor": {
+			"button-confirmation": "Save",
+			"button-add": "Add",
+			"button-remove": "Remove",
+			"input-type-variable": {
+				"text":{
+					"select": "Text",
+					"desc": "Insert a text, pressing Remove will delete the last element chosen, Save confirms the value"
+				},
+				"number":{
+					"select": "Number",
+					"desc": "Insert a number, pressing Remove will delete the last element chosen, Save confirms the value"
+				},
+				"array":{
+					"select": "Array",
+					"desc": "Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list "
+				},
+				"time":{
+				"select": "Time",
+					"desc": "Insert a time condition"
+				}
+			},
+			"range-input":{
+				"desc": "Insert the minimum and maximum condition"
+			},
+			"function-input": {
+				"desc": "Select parameter and advanced type of condition",
+				"select-type-val": {
+					"array": "Array",
+					"single": "Single",
+					"variable": "Variable"
+				},
+				"select-type-func": {
+					"eq": "Equivalent",
+					"neq": "Not Equivalent",
+					"hasInside": "Has Value",
+					"isThere": "Is There",
+					"isInRange": "Is in Range"
+				}
+			}
 		}
 	}
 }

@@ -4,7 +4,6 @@ import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/componen
 import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";
 import {component as inputValidator} from "/shared/components/InputValidatorWidget.js";
-import {i18nContent} from "../Translations.js";
 import {component as imageAreaTabPanel} from "./MediaFormWidgets/MediaFormImageAreaTabPanel.js";
 
 export const component = {
@@ -76,7 +75,7 @@ export const component = {
 			this.updateSource();
 
 			if( this.value.tag == "image" ){
-				i18nContent.removeMessageAll( this.value.captions[0] );
+				this.$i18n.removeMessageAll( this.value.captions[0] );
 			}
 			this.$set( this.value, "tag", null );
 		},
@@ -173,7 +172,7 @@ export const component = {
 
 			if( 0 <= index && index < this.value.areas.length ) {
 				this.$refs.preview.unHighlightMapArea( index );
-				i18nContent.removeMessageAll( this.value.areas[ index ].alt );
+				this.$i18n.removeMessageAll( this.value.areas[ index ].alt );
 				this.value.areas.splice( index, 1 );
 			}
 

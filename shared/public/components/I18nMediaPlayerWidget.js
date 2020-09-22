@@ -1,11 +1,8 @@
 import {template} from "./I18nMediaPlayerWidgetTemplate.js";
-import {i18nContent} from "/edit/components/Translations.js"; // TODO: move this to a shared one
-
-let i18nList = {};
+import {I18nUtils} from "../js/I18nUtils.js";
 
 export const component = {
 	inheritAttrs: false,
-	i18n: i18nContent,
 	template: template,
 	props: {
 		value: Object,
@@ -17,7 +14,7 @@ export const component = {
 			map: {
 				coords:[]
 			},
-			i18nList: i18nList,
+			I18nUtils: I18nUtils,
 			captionContent: null,
 			indexOverArea: -1,
 			updateFlagToggle: false
@@ -158,19 +155,9 @@ export const component = {
 };
 
 export const asyncLoad = function ( resolve, reject ) {
-	if( i18nList != null ){
-		resolve( component );
-	}
-	else{
-		$.get("/shared/i18n/map")
-			.then(map => {
-				Object.keys(map)
-					.forEach( (key, index) => {
-						Vue.set( i18nList, key, map[ key ] );
-					});
-				console.log( "i18n list received:", i18nList );
-				resolve( component );
-			})
-			.catch( (error) => console.error( "Error getting i18n map" ) );
-	}
+	I18nUtils.fetchCodes()
+		.then( function (i18nCodes) {
+			resolve( component );
+		})
+		.catch( (error) => resolve( component ) );
 };

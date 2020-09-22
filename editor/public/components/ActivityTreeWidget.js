@@ -1,11 +1,9 @@
 import {template} from "./ActivityTreeWidgetTemplate.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
-import {i18n, i18nContent, I18nString } from "./Translations.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
 
 export const component = {
-	i18n: i18nContent,
 	template: template,
 	props: {
 		value: Object,
@@ -177,8 +175,8 @@ export const component = {
 					this._remove( child );
 				}
 			}
-			i18nContent.removeMessageAll( node.data.title );
-			i18nContent.removeMessageAll( node.data.description );
+			this.$i18n.removeMessageAll( node.data.title );
+			this.$i18n.removeMessageAll( node.data.description );
 			this.tree.delete_node( node );
 		},
 		createNewNode( id, newType, nodeName, nodeData, selectedNode ) {

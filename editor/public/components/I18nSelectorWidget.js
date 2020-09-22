@@ -1,5 +1,5 @@
 import {template} from "./I18nSelectorWidgetTemplate.js";
-import {I18nUtils} from "/shared/js/I18nUtils.js";
+import { I18nUtils } from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,

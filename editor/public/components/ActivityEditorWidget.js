@@ -5,7 +5,7 @@ import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.
 import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
-import {i18nContent, I18nString} from "./Translations.js";
+import { I18nString } from "/shared/js/I18nUtils.js";
 import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidget.js";
 import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
 import { component as sceneEditorComponent } from "./SceneEditorWidget.js ";
@@ -62,7 +62,7 @@ export const component = {
 				this.save( oldMission );
 			}
 			if( mission ) {
-				let tree = mission['tree'] || new JSTreeNode( undefined, new I18nString(i18nContent, mission.title ), NodeUtils.Types.Root, createEmptyData(), [] );
+				let tree = mission['tree'] || new JSTreeNode( undefined, new I18nString(this.$i18n, mission.title, this.locale), NodeUtils.Types.Root, createEmptyData(), [] );
 				console.info( "[ActivityEditor]", "changed mission tree", tree );
 				this.$nextTick( function () {
 					this.loadTree( tree ); // load tree into Tree component

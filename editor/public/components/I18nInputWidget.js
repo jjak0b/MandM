@@ -1,8 +1,8 @@
 import {template} from "./I18nInputWidgetTemplate.js";
-import {i18n, i18nContent, I18nString} from "./Translations.js";
-
+import { i18n } from "./Translations.js";
+import { I18nUtils } from "/shared/js/I18nUtils.js";
 export const component = {
-	i18n: i18nContent,
+	i18n: i18n,
 	template: template,
 	inheritAttrs: false,
 	props: {
@@ -38,7 +38,7 @@ export const component = {
 	},
 	methods: {
 		setContentOf( locale, label, value) {
-			let obj = I18nString.buildObjectFromLabel( label, value );
+			let obj = I18nUtils.buildObjectFromLabel( label, value );
 			this.$i18n.mergeLocaleMessage( locale, obj );
 			return obj;
 		},
@@ -52,15 +52,15 @@ export const component = {
 			if( this.isDisabled ){;
 				return this.placeholder;
 			}
-			else if( !this.$i18n.te( this.localeLabel ) ) {
+			else if( !this.$i18n.te( this.localeLabel, this.locale ) ) {
 				if( this.placeholder ) {
 					let obj = this.setContentOf(this.locale, this.localeLabel, this.placeholder );
 					console.warn("Register for new locale", this.locale, ", the label", this.localeLabel, ": ", obj);
 				}
 			}
 
-			if( this.$i18n.te( this.localeLabel ) )
-				return this.$i18n.t( this.localeLabel );
+			if( this.$i18n.te( this.localeLabel, this.locale) )
+				return this.$i18n.t( this.localeLabel, this.locale );
 			return ""
 		}
 	}
@@ -70,7 +70,7 @@ export const asyncLoad = function ( resolve, reject ) {
 	$.get( "locales/" ) // TODO: change this to other location
 		.then((data) => {
 			if( data ) {
-				Object.keys( data ).forEach( locale => i18nContent.mergeLocaleMessage( locale, data[ locale ] ) );
+				Object.keys( data ).forEach( locale => component.i18n.mergeLocaleMessage( locale, data[ locale ] ) );
 				console.log( "Locales data received:", data );
 				resolve( component );
 			}

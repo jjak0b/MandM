@@ -23,18 +23,24 @@ export const component = {
 				let self = this;
 				this.isLoading = true; // start loading spinner
 				this.validity = null; // while downloading reset it
-				this.getJSON( this.name )
+				let reqJSONStory = this.getJSON( this.name )
+				let reqJSONLocales = $.getJSON( `${this.name}/assets/locales/` )
+				Promise.all( [reqJSONStory, reqJSONLocales] )
 					// file has been downloaded so can be loaded
-					.done( (jsonData) => {
+					.then( (jsonData) => {
+						let story = jsonData[0];
+						let locales = jsonData[1];
 						self.validity = true;
-						self.$emit('import', jsonData);
+						self.$emit('import', story );
+						Object.keys( locales )
+							.forEach( locale => self.$i18n.mergeLocaleMessage( locale, locales[ locale ] ) );
 					})
 					// file can't be downloaded for some reason so report it
-					.fail( ( xhr, textStatus, error) => {
+					.catch( ( error) => {
 						self.validity = false;
 						console.error( "[StoryEditor]", `Error downloading story "${self.name}"`, "cause:", error );
 					})
-					.always( () => {
+					.finally( () => {
 						self.isLoading = false; // stop loading spinner
 					});
 			}

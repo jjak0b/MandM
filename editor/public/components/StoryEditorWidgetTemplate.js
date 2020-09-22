@@ -43,6 +43,7 @@ export const template =
 					<form-export-server
 						v-bind:names="remoteStories"
 						v-on:update-names="getRemoteStoryNames()"
+						v-bind:data-export="value"
 					></form-export-server>
 				</b-tab>
 			</b-tabs>

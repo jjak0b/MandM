@@ -3,6 +3,7 @@ import { template } from "./StoryFormExportServerTemplate.js";
 export const component = {
 	template: template,
 	props: {
+		dataExport: Object,
 		names: Array
 	},
 	data() {
@@ -39,20 +40,28 @@ export const component = {
 				return;
 			}
 			let self = this;
-			let data = this.value;
+			let data = {
+				story: self.story,
+				locales: {}
+			};
 			this.isLoading = true;
 			this.validityOperation = null;
+			self.$i18n.availableLocales.forEach( (locale) => {
+				if( self.$i18n.messages[ locale ] && self.$i18n.messages[ locale ].assets )
+					data.locales[ locale ] = self.$i18n.messages[ locale ].assets;
+			});
+			console.log( JSON.stringify( data ) );
 			$.ajax( `/stories/${self.name}`, {
 				method: "put",
 				contentType: 'application/json',
-				data: JSON.stringify( data )
+				data: JSON.stringify( self.dataExport )
 			})
 				.done( (data) => {
 					self.validityOperation = true;
 				})
 				.fail( ( xhr, textStatus, error) => {
 					self.validityOperation = false;
-					console.error("[StoryEditor]", `Failed to create new Story ${self.name}`, error );
+					console.error("[StoryEditor]", `Failed to create or replace the Story ${self.name}`, error );
 				})
 				.always( () => {
 					self.isLoading = false;

@@ -88,6 +88,23 @@ function getLocales( locale, pathDirName) {
 	return _getLocales( path.join( pathDirName, "locales" ).toString(), locale );
 }
 
+function setLocales( locale, data, pathDirName ) {
+	let localesDir = path.join( pathDirName, "locales");
+	return new Promise( function (resolve, reject) {
+		if ( !fs.existsSync( localesDir ) ){
+			fs.mkdirSync( localesDir );
+		}
+		fs.writeFile(path.join(localesDir, `${locale}.json`), JSON.stringify(data), 'utf8', function (err) {
+			if (err) {
+				reject( err );
+			}
+			else {
+				resolve( locale );
+			}
+		});
+	});
+}
+
 function setLocalesResponse( res, locale, pathDirName) {
 	getLocales( locale, pathDirName )
 	.then( function( data ) {
@@ -100,4 +117,9 @@ function setLocalesResponse( res, locale, pathDirName) {
 	});
 }
 
-module.exports = { getLocales: getLocales, setLocalesResponse: setLocalesResponse, i18n: require('langmap') };
+module.exports = {
+	setLocales: setLocales,
+	getLocales: getLocales,
+	setLocalesResponse: setLocalesResponse,
+	i18n: require('langmap')
+};

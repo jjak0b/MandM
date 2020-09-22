@@ -2,7 +2,7 @@ export const template = `
 <form ref="form" v-on:submit.prevent>
     <fieldset class="form-group">
     <!-- This is for saving the type of option the value the user is about to put is coming from --->
-    <legend>{{ $t( "ActivityEditorWidget.label-input-type" ) }}</legend>
+    <legend>{{ $t( 'ActivityEditorWidget.label-input-type' ) }}</legend>
         <div v-for="(keyType, valueType) in inputTypes" class="form-check">
             <input type="radio"
 	        class="form-check-input"
@@ -15,7 +15,7 @@ export const template = `
         <label
 	    class="form-check-label"
 	    v-bind:for="'input-type_' + keyType"
-        >{{ $t(keyType + '.label' ) }}</label>
+        >{{ $t(keyType ) }}</label>
         </div>
         <div v-if="val.tag == 'Atom' && val.tag">
             <input-val
@@ -26,7 +26,7 @@ export const template = `
             <!--            v-bind:type="val.type"-->
         </div>
         <div v-if="val.tag == 'Range'&& val.tag" aria-describedby="Ran">
-        <b-alert show id="Ran">Inserisci il valore minimo e massimo premendo aggiungi</b-alert>
+        <b-alert show id="Ran">{{ $t( 'ActivityEditorWidget.range-desc' ) }}</b-alert>
             <lable for="min">Min</lable>
             <input type="number" v-model.number="valmin" v-bind:max="this.valmax" id="min">
             <lable for="max">Max</lable>
@@ -34,59 +34,60 @@ export const template = `
             <button v-on:click="mimax()">Aggiungi</button>
         </div>
         <div v-if="val.tag == 'Function' && val.tag">
-        <b-alert>Crea una serie di oggetti con valori diversi e funzionalità diverse</b-alert>
+        <b-alert>{{ $t( 'ActivityEditorWidget.function-desc' ) }}</b-alert>
             <select v-model="valuef">
                 <option v-for="(functions, value) in functioVal" 
                 v-bind:id="functions"
-                v-bind:value="value"> {{ $t( functions + '.label'  ) }}
+                v-bind:value="value"> {{ $t( functions  ) }}
                 </option> 
             </select>
             <div v-if=" valuef === 'Array'">
                 <select v-model="valueTypeSel">
-                    <option v-for="func in functionsType">{{func.name}}</option>
+                    <option v-for="(functions, value) in functionsN"
+                    v-bind:id="functions"
+                v-bind:value="value">{{$t(functions)}}</option>
                 </select>
                 <div v-if="valueTypeSel === 'eq'">
-                    <text-area-input
-                    v-model="valueAr" v-on:agg="addA(functionsType.Match)"></text-area-input>
-                    <button @click="remA(functionsType.Match)">Togli ultimo
-                    </button>
-                    <!--FIXME: I want to save the value into the object param.value but it doesnt appear to happen --->
-                    <div v-if="functionsType.Match.param.value">
-                    <p>lol</p>
-                    </div>
+                   <input-val
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        
+        </input-val>
                 </div>
                 <div v-if="valueTypeSel === 'neq'">
-                    <text-area-input
-                    v-model="valueAr" v-on:agg="addA(functionsType.Different)"></text-area-input>
-                    <button @click="remA(functionsType.Different)">Togli ultimo
-                    </button>
+                    <input-val
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        </input-val>
                     <pre>{{ JSON.stringify(functionsType.Different.param, null, 2) }}</pre>
                 </div>
                 <div v-if="valueTypeSel === 'hasInside'">
-                    <text-area-input
-                    v-model="valueAr" v-on:agg="addA(functionsType.Contains)"></text-area-input>
-                    <button @click="remA(functionsType.Contains)">Togli ultimo
-                    </button>
+                    <input-val
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        </input-val>
                     <pre>{{ JSON.stringify(functionsType.Contains.param, null, 2) }}</pre>
                 </div>
                 <div v-if="valueTypeSel === 'isThere'">
-                    <text-area-input
-                    v-model="valueAr" v-on:agg="addA(functionsType.Any)"></text-area-input>
-                    <button @click="remA(functionsType.Any)">Togli ultimo
-                    </button>
+                  <input-val
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        </input-val>
                     <pre>{{ JSON.stringify(functionsType.Any.param, null, 2) }}</pre>
                 </div>
                 <div v-if="valueTypeSel === 'isInRange'">
-                    <text-area-input
-                    v-model="valueAr" v-on:agg="addA(functionsType.Between)"></text-area-input>
-                    <button @click="remA(functionsType.Between)">Togli ultimo
-                    </button>
+                    <input-val
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        </input-val>
                     <pre>{{ JSON.stringify(functionsType.Between.param, null, 2) }}</pre>
                 </div>
             </div>
             <div v-if=" valuef === 'Value'">
-            <text-area-input v-model="valueAr">
-            </text-area-input>
+            <input-val
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        </input-val>
         </div>
         <div v-if=" valuef === 'Variable'">
             <select> 
@@ -94,12 +95,23 @@ export const template = `
         </div>
     </div>
     <div style="float:right">
-    <p>Tag:{{val.tag}}</p><br>
-    <p>Type:{{val.type}}</p>
-    <label for="valor">Value/s:</label>
-    <div id="valor" v-for="val in val.param">
-    {{val}}
-    </div>
+    <th>
+    <td>{{$t( 'ActivityEditorWidget.label-tag' ) }}</td>
+    <td>{{$t( 'ActivityEditorWidget.label-type' ) }}</td>
+    <td>{{$t( 'ActivityEditorWidget.label-value' ) }}</td>
+    </th>
+    <tr>
+    <td>{{val.tag}}</td>
+    <td>{{val.type}}</td>
+    <td>{{val.param}}</td>
+    </tr>
+</table>
+<!--    :{{val.tag}} {{$t( 'ActivityEditorWidget.label-type' ) }}:{{val.type}} -->
+<!--    <p v-if="val.tag== 'Function'">Type of Condition:{{valuef}}</p>-->
+<!--    <label for="valor">{{$t( 'ActivityEditorWidget.label-value' ) }}:</label>-->
+<!--    <div id="valor" v-for="val in val.param">-->
+<!--    {{val}}-->
+  </div>
 </div>
     </fieldset>
 </form>

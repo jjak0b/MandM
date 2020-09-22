@@ -11,8 +11,12 @@
 		"label-mission": "Mission | Missions",
 		"label-missions": "No mission | {count} mission | {count} missions",
 		"label-activity": "Activity | Activities",
-		"label-story": "Story | Stories"
-  	},
+		"label-story": "Story | Stories",
+		"label-array": "Array",
+		"label-text": "Text",
+		"label-number": "Number",
+		"label-time": "Time"
+	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Select and add an internationalization to make it available",
 		"label-locale-select": "Select current internationalization to edit"
@@ -63,70 +67,30 @@
 			}
 		},
 		"input-type": {
-				"any": {
-					"label": "any"
-				},
-				"atom": {
-					"label": "atom"
-				},
-				"range":{
-				"label":"range"
-				},
-				"function": {
-					"label": "function"
-				}
+				"any": "Any",
+				"atom":"Atomical",
+				"range":"Range",
+				"function":"Function"
 			},
-		"input-func-value":{
-			"array" : {
-				"label":"Array"
-			},
-			"value" : {
-				"label":"Value"
-			},
-			"variable" : {
-				"label":"Variable"
-			}
+				"text-desc":"Insert a text, pressing Remove will delete the last element chosen, Save confirms the value",
+				"number-desc":"Insert a number, pressing Remove will delete the last element chosen, Save confirms the value",
+				"array-desc":"Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list ",
+				"time-desc":"Insert a time condition",
+				"range-desc": "Insert the minimum and maximum condition",
+				"function-desc":"Select parameter and advanced type of condition",
+				"label-single": "Single",
+				"label-variable": "Variable",
+		"select-type-func": {
+			"eq": "Equivalent",
+			"neq": "Not Equivalent",
+			"hasInside": "Has Value",
+			"isInThere": "Is There",
+			"isInRange": "Is in Range"
 		},
-		"branch-editor": {
-			"button-confirmation": "Save",
-			"button-add": "Add",
-			"button-remove": "Remove",
-			"input-type-variable": {
-				"text":{
-					"select": "Text",
-					"desc": "Insert a text, pressing Remove will delete the last element chosen, Save confirms the value"
-				},
-				"number":{
-					"select": "Number",
-					"desc": "Insert a number, pressing Remove will delete the last element chosen, Save confirms the value"
-				},
-				"array":{
-					"select": "Array",
-					"desc": "Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list "
-				},
-				"time":{
-				"select": "Time",
-					"desc": "Insert a time condition"
-				}
-			},
-			"range-input":{
-				"desc": "Insert the minimum and maximum condition"
-			},
-			"function-input": {
-				"desc": "Select parameter and advanced type of condition",
-				"select-type-val": {
-					"array": "Array",
-					"single": "Single",
-					"variable": "Variable"
-				},
-				"select-type-func": {
-					"eq": "Equivalent",
-					"neq": "Not Equivalent",
-					"hasInside": "Has Value",
-					"isThere": "Is There",
-					"isInRange": "Is in Range"
-				}
-			}
-		}
+		"label-tag": "Tag",
+		"label-type": "Type",
+		"label-type-func": "Function Type",
+		"label-value": "Values"
 	}
+
 }

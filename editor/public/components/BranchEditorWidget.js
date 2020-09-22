@@ -34,6 +34,13 @@ export const component = {
                 "Value": "ActivityEditorWidget.input-func-value.value",
                 "Variable": "ActivityEditorWidget.input-func-value.variable"
             },
+            functionsN:{
+              "eq": "ActivityEditorWidget.select-type-func.eq",
+                "neq": "ActivityEditorWidget.select-type-func.neq",
+                "hasInside": "ActivityEditorWidget.select-type-func.hasInside",
+                "isInThere": "ActivityEditorWidget.select-type-func.isThere",
+                "isInRange": "ActivityEditorWidget.select-type-func.isInRange",
+            },
             functionsType: {
                 Match: {
                     name: "eq",

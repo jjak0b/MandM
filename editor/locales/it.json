@@ -10,7 +10,11 @@
 		"label-mission": "Missione | Missioni",
 		"label-missions": "Nessuna missione | {count} missione | {count} missioni",
 		"label-activity": "Attività",
-		"label-story": "Storia | Storie"
+		"label-story": "Storia | Storie",
+		"label-array": "Lista",
+		"label-text": "Testo",
+		"label-number": "Numero",
+		"label-time": "Ora"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
@@ -63,72 +67,32 @@
 			}
 		},
 		"input-type": {
-			"any": {
-				"label": "Qualsiasi"
-			},
-			"atom": {
-				"label": "Singolo"
-			},
-			"range":{
-				"label":"Rateo"
-			},
-			"function": {
-				"label": "Funzione"
-			}
+			"any":"Qualsiasi",
+			"atom":"Unico",
+			"range":"Rateo",
+			"function":"Funzione"
 		},
-		"input-func-value":{
-			"array" : {
-				"label":"Lista"
-			},
-			"value" : {
-				"label":"Singolo"
-			},
-			"variable" : {
-				"label":"Variable"
-			}
-		}
-	},
-	"branch-editor": {
-		"button-confirmation": "Salva",
-		"button-add": "Aggiungi",
-		"button-remove": "Rimuovi",
-		"input-type-variable": {
-			"text":{
-				"select": "Testo",
-				"desc": "Inserisci un testo, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto"
-			},
-			"number":{
-				"select": "Numero",
-				"desc": "Inserisci un numero, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto"
-			},
-			"array":{
-				"select": "Lista",
-				"desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente"
-			},
-			"time":{
-				"select": "Orario",
-				"desc": "Inserisci condizione di tipo ora"
-			}
-		},
-		"range-input":{
-			"desc": "Inserisci il valore minimo e massimo"
-		},
-		"function-input": {
-			"desc": "Seleziona i parametri e le condizioni avanzate",
-			"select-type-val": {
-				"array": "Lista",
-				"single": "Singolo",
-				"variable": "Variabile"
-			},
+
+		"label-variable": "Variabile",
+		"text-desc":"Inserisci un testo, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
+		"number-desc": "Inserisci un numero, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
+		"array-desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente",
+		"time-desc":"Inserisci condizione di tipo ora",
+		"range-desc": "Inserisci il valore minimo e massimo",
+		"function-desc": "Seleziona i parametri e le condizioni avanzate",
 			"select-type-func": {
 				"eq": "Ugualianza",
 				"neq": "Non Ugulianza",
 				"hasInside": "Ha il valore",
-				"isThere": "È presente",
+				"isInThere": "È presente",
 				"isInRange": "È tra i valori"
-			}
-		}
+			},
+		"label-tag": "Sistema",
+		"label-type": "Tipo",
+		"label-type-func": "Tipo Condizione",
+		"label-value": "Valori"
 	},
+
 	"UserWidgets" : {
 		"Datepicker" : {
 			"label-prev-decade" : "Decennio precedente",

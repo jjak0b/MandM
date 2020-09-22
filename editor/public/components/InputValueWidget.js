@@ -9,8 +9,11 @@ export const component = {
             param: [],
             componentsType:{
                 time:"b-time",
-                date:"UserWidgetDatepicker"
+                text:"text",
+                number:"number",
+                array:"array"
             },
+            arrayType:'',
             temp:null
         }
     },
@@ -44,5 +47,4 @@ export const component = {
             }
         }
     }
-
 }

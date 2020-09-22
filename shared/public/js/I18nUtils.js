@@ -12,6 +12,18 @@ export class I18nUtils {
 		});
 		return obj;
 	}
+
+	static getRootMessages(i18n, rootField) {
+		let data = {};
+		i18n.availableLocales.forEach( (locale) => {
+			if( i18n.messages[ locale ] && i18n.messages[ locale ][ rootField ] ){
+				data[ locale ] = {};
+				data[ locale ][ rootField ] = i18n.messages[ locale ][ rootField ];
+			}
+		});
+		return data;
+	}
+
 	static fetchCodes() {
 		let self = this;
 		return new Promise( function ( resolve, reject ) {

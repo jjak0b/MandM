@@ -1,4 +1,5 @@
 import { template } from "./StoryFormExportServerTemplate.js";
+import { I18nUtils } from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -40,17 +41,12 @@ export const component = {
 				return;
 			}
 			let self = this;
-			let data = {
-				story: self.story,
-				locales: {}
-			};
 			this.isLoading = true;
 			this.validityOperation = null;
-			self.$i18n.availableLocales.forEach( (locale) => {
-				if( self.$i18n.messages[ locale ] && self.$i18n.messages[ locale ].assets )
-					data.locales[ locale ] = self.$i18n.messages[ locale ].assets;
-			});
-			console.log( JSON.stringify( data ) );
+
+			// Add i18n authored messages from vue-i18n instance
+			this.dataExport.assets.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+
 			$.ajax( `/stories/${self.name}`, {
 				method: "put",
 				contentType: 'application/json',

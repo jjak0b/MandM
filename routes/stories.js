@@ -60,6 +60,19 @@ router.get('/:name', ( req, res ) => {
 	}
 });
 
+router.get('/:name/locales/', ( req, res ) => {
+	if( req.params.name ) {
+		let storyDir = path.join( __basedir, dirNameStories, req.params.name);
+		Locales.setLocalesResponse(res, null, storyDir )
+	}
+});
+router.get('/:name/locales/:locale', ( req, res ) => {
+	if( req.params.name ) {
+		let storyDir = path.join( __basedir, dirNameStories, req.params.name);
+		Locales.setLocalesResponse(res, req.params.locale, storyDir )
+	}
+});
+
 router.put("/:name", ( req, res ) => {
 
 	let storyDir = path.join( __basedir, dirNameStories, req.params.name);
@@ -70,10 +83,20 @@ router.put("/:name", ( req, res ) => {
 	}
 
 	let requests = [];
-	if( req.body.story ) {
+
+	if( req.body.assets ) {
+		if( req.body.assets.locales ) {
+			Object.keys(req.body.assets.locales).forEach( (locale) => {
+				requests.push( Locales.setLocales( locale,req.body.assets.locales[ locale ], storyDir ) );
+			});
+			req.body.assets.locales = {};
+		}
+	}
+
+	if( req.body ) {
 		requests.push(
 			new Promise( function ( resolve, reject ) {
-				fs.writeFile(path.join(storyDir, "story.json"), JSON.stringify(req.body.story), 'utf8', function (err) {
+				fs.writeFile(path.join(storyDir, "story.json"), JSON.stringify(req.body), 'utf8', function (err) {
 					if (err) {
 						reject( err );
 					}
@@ -90,13 +113,6 @@ router.put("/:name", ( req, res ) => {
 				});
 			})
 		)
-	}
-
-	if( req.body.locales ) {
-		console.log( req.body );
-		Object.keys(req.body.locales).forEach( (locale) => {
-			requests.push( Locales.setLocales( locale,req.body.locales[ locale], storyDir ) );
-		});
 	}
 
 	Promise.all( requests )

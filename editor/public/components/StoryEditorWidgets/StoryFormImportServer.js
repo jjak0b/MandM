@@ -1,4 +1,5 @@
 import { template } from "./StoryFormImportServerTemplate.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -23,8 +24,8 @@ export const component = {
 				let self = this;
 				this.isLoading = true; // start loading spinner
 				this.validity = null; // while downloading reset it
-				let reqJSONStory = this.getJSON( this.name )
-				let reqJSONLocales = $.getJSON( `${this.name}/assets/locales/` )
+				let reqJSONStory = this.getJSON( this.name );
+				let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${this.name}` );
 				Promise.all( [reqJSONStory, reqJSONLocales] )
 					// file has been downloaded so can be loaded
 					.then( (jsonData) => {

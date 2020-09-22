@@ -7,7 +7,7 @@ import { component as activityEditorComponent } from "./ActivityEditorWidget.js"
 
 export const vm = new Vue( {
 	el: '#editor',
-	i18n,
+	i18n: Object.assign( i18n, {src: () => "locales" } ),
 	data() {
 		return {
 			locale: null,

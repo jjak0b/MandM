@@ -1,10 +1,11 @@
 export const template =
     `
 <div>
-    <select v-model="type">
+    <select id="selectType" v-model="type">
         <option value="Text">Text</option>
         <option value="Number">Number</option>
         <option value="Array">Array</option>
+        <option value="timepicker">Data</option>
     </select>
     <div v-if="type == 'Number'" aria-describedby="Num">
     <b-alert show id="Num">Inserisci un numero, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto</b-alert>
@@ -28,9 +29,15 @@ export const template =
     <button v-on:click="param.push(temp)"v-on:submit.prevent>Add</button>
     <button v-on:click="rem()" v-on:submit.prevent>Remove</button>
     </div>
+        <div v-else-if="type == 'timepicker'">
+<b-time v-model="temp" locale="it" >
+</b-time>
+<button v-on:click="check()" v-on:submit.prevent>Add</button>
+</div>
     <button v-on:click="$emit('value', param, type)">Save</button> 
     <div v-for="val in param">
         {{val}}
     </div>
+    
 </div>
 `;

@@ -121,6 +121,9 @@ export const component = {
              if(val.list.length != 0) {
                  val.list.pop();
              }
+         },
+         insert(val){
+           this.val.type=val;
          }
     },
     components:{

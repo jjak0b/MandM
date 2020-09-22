@@ -3,11 +3,9 @@ import {template} from "./InputValueWidgetTemplate.js";
 
 export const component = {
     template: template,
-    props:{
-            type: String
-    },
     data() {
         return {
+            type: '',
             param: [],
             componentsType:{
                 time:"b-time",
@@ -17,6 +15,9 @@ export const component = {
         }
     },
     watch:{
+        'selectType': function(){
+            $emit('taketype', type);
+        },
       'type': function(){
           this.wipe();
       }

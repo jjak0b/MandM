@@ -19,8 +19,10 @@ export const template = `
         </div>
         <div v-if="val.tag == 'Atom' && val.tag">
             <input-val
-        v-on:value="update($event)"
-        v-bind:type="val.type"></input-val>
+            v-on:taketype="val.type=$event"
+        v-on:value="update($event)">
+        
+</input-val>
             <!--            v-bind:type="val.type"-->
         </div>
         <div v-if="val.tag == 'Range'&& val.tag" aria-describedby="Ran">
@@ -92,8 +94,9 @@ export const template = `
         </div>
     </div>
     <div style="float:right">
-    <p>Tag:{{val.tag}}</p>
-    <label for="valor">Valori:</label>
+    <p>Tag:{{val.tag}}</p><br>
+    <p>Type:{{val.type}}</p>
+    <label for="valor">Value/s:</label>
     <div id="valor" v-for="val in val.param">
     {{val}}
     </div>

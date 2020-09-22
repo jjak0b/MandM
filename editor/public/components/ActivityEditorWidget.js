@@ -81,7 +81,7 @@ export const component = {
 					return this.currentNode.data.title;
 				}
 				else { // will register new label
-					return 'activity.title.' + this.currentNode.id
+					return 'assets.activity.title.' + this.currentNode.id
 				}
 			}
 			return null;
@@ -92,7 +92,7 @@ export const component = {
 					return this.currentNode.data.description;
 				}
 				else { // will register new label
-					return 'activity.description.' + this.currentNode.id
+					return 'assets.activity.description.' + this.currentNode.id
 				}
 			}
 			return null;

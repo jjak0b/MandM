@@ -1,59 +1,11 @@
 export const template =
 `<div>
-	<b-tabs>
-		<b-tab
-			v-bind:title="$t('StoryEditorWidget.label-import')"
-		>
-			<b-tabs
-				vertical
-			>
-				<b-tab
-					v-bind:title="$t('StoryEditorWidget.label-from-file')"	
-				>
-					<form-import-file
-						v-on:import="load"
-					></form-import-file>
-				</b-tab>
-				<b-tab
-					v-bind:title="$t('StoryEditorWidget.label-from-server')"	
-				>
-					<form-import-server
-						v-bind:names="remoteStories"
-						v-on:import="load"
-					></form-import-server>
-				</b-tab>
-			</b-tabs>
-		</b-tab>
-		<b-tab
-			v-bind:title="$t('StoryEditorWidget.label-export')"
-		>
-			<b-tabs
-				vertical
-			>
-				<b-tab
-					v-bind:title="$t('StoryEditorWidget.label-onto-file')"
-				>
-					<form-export-file
-						v-bind:data-export="value"
-					></form-export-file>
-				</b-tab>
-				<b-tab
-					v-bind:title="$t('StoryEditorWidget.label-onto-server')"
-				>
-					<form-export-server
-						v-bind:names="remoteStories"
-						v-on:update-names="getRemoteStoryNames()"
-						v-bind:data-export="value"
-					></form-export-server>
-				</b-tab>
-			</b-tabs>
-		</b-tab>
-	</b-tabs>
-	<hr>
 	<b-form
 		v-on:submit.prevent
 	>
-		<b-form-group>
+		<b-form-group
+			v-bind:label="$t('StoryEditorWidget.label-gamemode')"
+		>
 			<b-form-row>
 				<b-col>
 					<div v-for="(localeLabel, key) in gamemodes" >

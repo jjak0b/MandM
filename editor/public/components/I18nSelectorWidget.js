@@ -4,24 +4,24 @@ import { I18nUtils } from "/shared/js/I18nUtils.js";
 export const component = {
 	template: template,
 	props: {
+		localesList: Array,
 		"value": String
 	},
 	data(){
 		return {
-			localesList: {},
 			globalLocalesList: I18nUtils.i18nCodes,
 			globalLocaleSelected: navigator.language
 		}
 	},
 	beforeMount: function() {
 		let self = this;
-
 	},
 	methods: {
 		add: function() {
 			let code = this.globalLocaleSelected;
-			let lang = this.globalLocalesList[ code ];
-			this.$set( this.localesList, code, lang);
+			if( !this.localesList.includes( code ) ) {
+				this.localesList.push( code );
+			}
 		},
 		/* Notify to parent a value change */
 		notifyValue: function ( value ) {

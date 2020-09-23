@@ -18,6 +18,10 @@ export const component = {
 			this.validity = null;
 		}
 	},
+	computed: {
+		feedbackValid() { return this.validity === true ? this.$t('StoryEditorWidget.label-valid-downloaded-from-remote') : null; },
+		feedbackInvalid () { return this.validity === false? this.$t('StoryEditorWidget.label-invalid-unable-get-from-remote') : null; }
+	},
 	methods: {
 		onSubmit(event) {
 			if( this.name ) {
@@ -31,6 +35,7 @@ export const component = {
 					.then( (jsonData) => {
 						let story = jsonData[0];
 						let locales = jsonData[1];
+						story.assets.locales = locales;
 						self.validity = true;
 						self.$emit('import', story );
 						Object.keys( locales )

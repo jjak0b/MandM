@@ -10,7 +10,8 @@ export const template =
 			label-for="story-editor-widget-form-create-input-name"
 			v-bind:label="$t('StoryEditor.label-story-name')"
 			v-bind:state="validityName"
-			v-bind:valid-feedback="$t('StoryEditor.label-valid-name-available')"
+			v-bind:valid-feedback="feedbackValid"
+			v-bind:invalid-feedback="feedbackInvalid"
 			v-bind:description="$t('StoryEditor.label-create-new-story')"
 		>
 			<b-form-input
@@ -19,10 +20,6 @@ export const template =
 				v-model="name"
 				name="name"
 			></b-form-input>
-			<template v-slot:invalid-feedback
-			>
-				<span v-t="'StoryEditor.label-invalid-name-already-exists'"></span>
-			</template>
 		</b-form-group>
 		
 		<div class="form-group">
@@ -49,14 +46,18 @@ export const template =
 				label="Uploading ..."
 				class="m-3 align-self-center"
 			></b-spinner>
-			<div class="m-3 align-self-center"> 
+			<div class="m-3 align-self-center" aria-atomic="true" id="story-editor-widget-form-operation-feedback"> 
 				<span
 					v-if="validityOperation"
+					role="alert"
+					aria-live="assertive"
 					v-t="'shared.status.label-operation-completed-successfully'"
 					class="valid-feedback d-inline"
 				></span>
 				<span
 					v-else-if="validityOperation === false"
+					role="alert"
+					aria-live="assertive"
 					v-t="'shared.status.label-operation-failed'"
 					class="invalid-feedback d-inline"
 				></span>

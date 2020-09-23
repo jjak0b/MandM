@@ -8,8 +8,8 @@ export const template =
 		v-bind:label="$t('StoryEditor.label-import-story-from-file')"
 		label-for="story-editor-widget-form-import-input-file"
 		v-bind:state="validity"
-		v-bind:invalid-feedback="$t('StoryEditorWidget.label-invalid-json')"
-		v-bind:valid-feedback="$t('StoryEditorWidget.label-valid-json')"
+		v-bind:invalid-feedback="feedbackInvalid"
+		v-bind:valid-feedback="feedbackValid"
 	>
 		<div class="d-flex">
 			<div class="flex-grow-1 align-self-center" >

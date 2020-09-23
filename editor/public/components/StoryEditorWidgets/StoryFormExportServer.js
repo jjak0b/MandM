@@ -17,6 +17,8 @@ export const component = {
 		}
 	},
 	computed: {
+		feedbackValid() { return this.validityName === true ? this.$t('StoryEditor.label-valid-name-available') : ""; },
+		feedbackInvalid () { return this.validityName === false ? this.$t('StoryEditor.label-invalid-name-already-exists') : ""; },
 		canSubmit: function () {
 			return this.validityForm == null ? this.validityName : this.validityForm;
 		}

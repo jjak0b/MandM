@@ -5,7 +5,7 @@ export const template =
 	v-on:reset="onReset"
 >
 	<b-form-group
-		v-bind:label="$t('StoryEditor.label-import-story-from-file')"
+		v-bind:label="$t('StoryEditorWidget.label-select-story-file')"
 		label-for="story-editor-widget-form-import-input-file"
 		v-bind:state="validity"
 		v-bind:invalid-feedback="feedbackInvalid"

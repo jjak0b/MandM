@@ -19,8 +19,8 @@ export const component = {
 		}
 	},
 	computed: {
-		feedbackValid() { return this.validity === true ? this.$t('StoryEditorWidget.label-valid-downloaded-from-remote') : null; },
-		feedbackInvalid () { return this.validity === false? this.$t('StoryEditorWidget.label-invalid-unable-get-from-remote') : null; }
+		feedbackValid() { return this.validity === true ? this.$t('shared.status.label-operation-success') : null; },
+		feedbackInvalid () { return this.validity === false? this.$t('shared.status.label-operation-failed') : null; }
 	},
 	methods: {
 		onSubmit(event) {

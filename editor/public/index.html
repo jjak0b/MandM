@@ -25,15 +25,15 @@
 <div id="editor">
 	<b-navbar type="light" variant="light">
 		<b-navbar-nav>
-			<b-nav-item-dropdown v-bind:disabled="!canImport" v-bind:text="$t('StoryEditorWidget.label-import')">
+			<b-nav-item-dropdown v-bind:disabled="!canImport" v-bind:text="$t('shared.label-import')">
 				<b-dropdown-text>
 					<b-tabs vertical >
-						<b-tab v-bind:title="$t('StoryEditorWidget.label-from-file')" >
+						<b-tab v-bind:title="$t('shared.label-from-file')" >
 							<form-import-file
 								v-on:import="load"
 							></form-import-file>
 						</b-tab>
-						<b-tab v-bind:title="$t('StoryEditorWidget.label-from-server')" >
+						<b-tab v-bind:title="$t('shared.label-from-server')" >
 							<form-import-server
 								v-bind:names="remoteStories"
 								v-on:import="load"
@@ -42,15 +42,15 @@
 					</b-tabs>
 				</b-dropdown-text>
 			</b-nav-item-dropdown>
-			<b-nav-item-dropdown v-bind:disabled="!canExport" v-bind:text="$t('StoryEditorWidget.label-export')" >
+			<b-nav-item-dropdown v-bind:disabled="!canExport" v-bind:text="$t('shared.label-export')" >
 				<b-dropdown-text>
 					<b-tabs vertical >
-						<b-tab v-bind:title="$t('StoryEditorWidget.label-from-file')" >
+						<b-tab v-bind:title="$t('shared.label-as-file')" >
 							<form-export-file
 								v-bind:data-export="cache.story"
 							></form-export-file>
 						</b-tab>
-						<b-tab v-bind:title="$t('StoryEditorWidget.label-from-server')" >
+						<b-tab v-bind:title="$t('shared.label-onto-server')" >
 							<form-export-server
 								v-bind:names="remoteStories"
 								v-on:update-names="getRemoteStoryNames()"

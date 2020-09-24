@@ -4,15 +4,15 @@ export const template =
 	v-on:submit.prevent="onSubmit"
 >
 	<b-form-group
-		v-bind:label="$t('StoryEditor.label-upload-story-into-server')"
+		v-bind:label="$t('StoryEditorWidget.label-upload-story')"
 	>
 		<b-form-group
 			label-for="story-editor-widget-form-create-input-name"
-			v-bind:label="$t('StoryEditor.label-story-name')"
+			v-bind:label="$t('StoryEditorWidget.label-story-id-name')"
 			v-bind:state="validityName"
 			v-bind:valid-feedback="feedbackValid"
 			v-bind:invalid-feedback="feedbackInvalid"
-			v-bind:description="$t('StoryEditor.label-create-new-story')"
+			v-bind:description="$t('StoryEditorWidget.label-export-server-description')"
 		>
 			<b-form-input
 				id="story-editor-widget-form-create-input-name"
@@ -29,7 +29,7 @@ export const template =
 				name="replace"
 				v-bind:value="true"
 				v-bind:unchecked-value="false"
-			>{{ $t('StoryEditor.label-replace-existing') }}</b-form-checkbox>
+			>{{ $t('StoryEditorWidget.label-replace-existing') }}</b-form-checkbox>
 		</div>
 
 		<div class="d-flex">
@@ -51,7 +51,7 @@ export const template =
 					v-if="validityOperation"
 					role="alert"
 					aria-live="assertive"
-					v-t="'shared.status.label-operation-completed-successfully'"
+					v-t="'shared.status.label-operation-success'"
 					class="valid-feedback d-inline"
 				></span>
 				<span

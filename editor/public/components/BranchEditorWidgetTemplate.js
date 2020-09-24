@@ -20,7 +20,7 @@ export const template = `
         <div v-if="val.tag == 'Atom' && val.tag">
             <input-val
             v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
+        v-on:value="update($event, false)">
         
 </input-val>
             <!--            v-bind:type="val.type"-->
@@ -35,82 +35,67 @@ export const template = `
         </div>
         <div v-if="val.tag == 'Function' && val.tag">
         <b-alert>{{ $t( 'ActivityEditorWidget.function-desc' ) }}</b-alert>
-            <select v-model="valuef">
+            <select v-model="valuef" v-on:submit.prevent>
+<!--            <option selected value="">Please select one</option>-->
                 <option v-for="(functions, value) in functioVal" 
                 v-bind:id="functions"
                 v-bind:value="value"> {{ $t( functions  ) }}
                 </option> 
             </select>
-            <div v-if=" valuef === 'Array'">
-                <select v-model="valueTypeSel">
+            <select v-model="valueTypeSel">
                     <option v-for="(functions, value) in functionsN"
                     v-bind:id="functions"
                 v-bind:value="value">{{$t(functions)}}</option>
                 </select>
-                <div v-if="valueTypeSel === 'eq'">
-                   <input-val
-            v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
-        
-        </input-val>
-                </div>
-                <div v-if="valueTypeSel === 'neq'">
-                    <input-val
-            v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
-        </input-val>
-                    <pre>{{ JSON.stringify(functionsType.Different.param, null, 2) }}</pre>
-                </div>
-                <div v-if="valueTypeSel === 'hasInside'">
-                    <input-val
-            v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
-        </input-val>
-                    <pre>{{ JSON.stringify(functionsType.Contains.param, null, 2) }}</pre>
-                </div>
-                <div v-if="valueTypeSel === 'isThere'">
-                  <input-val
-            v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
-        </input-val>
-                    <pre>{{ JSON.stringify(functionsType.Any.param, null, 2) }}</pre>
-                </div>
-                <div v-if="valueTypeSel === 'isInRange'">
-                    <input-val
-            v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
-        </input-val>
-                    <pre>{{ JSON.stringify(functionsType.Between.param, null, 2) }}</pre>
-                </div>
-            </div>
             <div v-if=" valuef === 'Value'">
             <input-val
-            v-on:taketype="val.type=$event"
-        v-on:value="update($event)">
+            v-on:taketype="placeType($event)"
+        v-on:value="update($event, true)">
         </input-val>
-        </div>
-        <div v-if=" valuef === 'Variable'">
+<!--                <div v-if="valueTypeSel === 'Match'">-->
+<!--                  <text-area-input-->
+<!--                    v-model="valueAr" v-on:agg="addA(functionsType.Match)"></text-area-input>-->
+<!--                    <button @click="remA(functionsType.Match)">Togli ultimo-->
+<!--                    </button>-->
+<!--                    <pre>{{ JSON.stringify(functionsType.Match.list, null, 2) }}</pre>-->
+<!--                </div>-->
+<!--                <div v-if="valueTypeSel === 'neq'">-->
+<!--                    <pre>{{ JSON.stringify(functionsType.Different.list, null, 2) }}</pre>-->
+<!--                </div>-->
+<!--                <div v-if="valueTypeSel === 'hasInside'">-->
+<!--                    <text-area-input-->
+<!--                    v-model="valueAr" v-on:agg="addA(functionsType.Contains)"></text-area-input>-->
+<!--                    <button @click="remA(functionsType.Contains)">Togli ultimo-->
+<!--                    </button>-->
+<!--                    <pre>{{ JSON.stringify(functionsType.Contains.list, null, 2) }}</pre>-->
+<!--                </div>-->
+<!--                <div v-if="valueTypeSel === 'isThere'">-->
+<!--                   <text-area-input-->
+<!--                    v-model="valueAr" v-on:agg="addA(functionsType.Any)"></text-area-input>-->
+<!--                    <button @click="remA(functionsType.Any)">Togli ultimo-->
+<!--                    </button>-->
+<!--                    <pre>{{ JSON.stringify(functionsType.Any.list, null, 2) }}</pre>-->
+<!--                </div>-->
+<!--                <div v-if="valueTypeSel === 'isInRange'">-->
+<!--                     <text-area-input-->
+<!--                    v-model="valueAr" v-on:agg="addA(functionsType.Between)"></text-area-input>-->
+<!--                    <button @click="remA(functionsType.Between)">Togli ultimo-->
+<!--                    </button>-->
+<!--                    <pre>{{ JSON.stringify(functionsType.Between.param, null, 2) }}</pre>-->
+<!--                </div>-->
+            </div>
+        <div v-else-if=" valuef === 'Variable'">
             <select> 
             </select>
         </div>
     </div>
-    <div style="float:right">
-    <th>
-    <td>{{$t( 'ActivityEditorWidget.label-tag' ) }}</td>
-    <td>{{$t( 'ActivityEditorWidget.label-type' ) }}</td>
-    <td>{{$t( 'ActivityEditorWidget.label-value' ) }}</td>
-    </th>
-    <tr>
-    <td>{{val.tag}}</td>
-    <td>{{val.type}}</td>
-    <td>{{val.param}}</td>
-    </tr>
-</table>
-<!--    :{{val.tag}} {{$t( 'ActivityEditorWidget.label-type' ) }}:{{val.type}} -->
-<!--    <p v-if="val.tag== 'Function'">Type of Condition:{{valuef}}</p>-->
-<!--    <label for="valor">{{$t( 'ActivityEditorWidget.label-value' ) }}:</label>-->
-<!--    <div id="valor" v-for="val in val.param">-->
-<!--    {{val}}-->
+    <div style="float:right">   
+    {{$t( 'ActivityEditorWidget.label-tag' ) }}:{{val.tag}} <br>
+    {{$t( 'ActivityEditorWidget.label-type' ) }}: {{val.type}}<br>
+    <p v-if="val.tag== 'Function' && valueTypeSel !=''">{{$t('ActivityEditorWidget.label-type-func')}}:{{ $t('ActivityEditorWidget.select-type-func.' + valueTypeSel)}}</p>
+    <label for="valor">{{$t( 'ActivityEditorWidget.label-value' ) }}:</label>
+   <div id="valor" v-for="val in val.param">
+  {{val}}
   </div>
 </div>
     </fieldset>

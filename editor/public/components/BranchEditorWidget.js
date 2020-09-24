@@ -15,7 +15,7 @@ export const component = {
         return {
             valmin:Number,
             valmax:Number,
-            valueTypeSel:Object,
+            valueTypeSel:'',
             valuef: String,
             val:{
                 tag: '',
@@ -30,9 +30,8 @@ export const component = {
                 "Function": "ActivityEditorWidget.input-type.function"
             },
             functioVal: {
-                "Array": "ActivityEditorWidget.input-func-value.array",
-                "Value": "ActivityEditorWidget.input-func-value.value",
-                "Variable": "ActivityEditorWidget.input-func-value.variable"
+                "Value": "ActivityEditorWidget.label-value",
+                "Variable": "ActivityEditorWidget.label-variable"
             },
             functionsN:{
               "eq": "ActivityEditorWidget.select-type-func.eq",
@@ -42,36 +41,36 @@ export const component = {
                 "isInRange": "ActivityEditorWidget.select-type-func.isInRange",
             },
             functionsType: {
-                Match: {
-                    name: "eq",
+                eq: {
+                    name: "Match",
                     locale: String,
                     list: [],
                     self: Object,
                     param: Object
                 },
-                Different: {
-                    name: "neq",
+                neq: {
+                    name: "Different",
                     list: [],
                     locale: String,
                     self: Object,
                     param: Object
                 },
-                Contains: {
-                    name: "hasInside",
+                hasInside: {
+                    name: "Contains",
                     list: [],
                     locale: String,
                     self: Object,
                     param: Array
                 },
-                Any: {
-                    name: "isThere",
+                isInThere: {
+                    name: "Any",
                     list: [],
                     locale: String,
                     self: null,
                     param: Object
                 },
-                Between: {
-                    name: "isInRange",
+                isInRange: {
+                    name: "Between",
                     list: [],
                     locale: String,
                     self: Number,
@@ -81,11 +80,22 @@ export const component = {
         }
     },
      methods: {
-        update(arr){
-          var i=0;
-          var j=arr.length+1;
-          this.val.param=arr.slice(i,j);
+        update(arr, isFunction){
+            if((isFunction) && (this.valueTypeSel=='')){
+                alert("seleziona tipo condizione");
+            }else {
+                var i = 0;
+                var j = arr.length + 1;
+                this.val.param = arr.slice(i, j);
+            }
         },
+         updateFunc(val){
+            if(this.valueTypeSel){
+                var i=0;
+                var j=val.length+1;
+                this.val.param=val.slice(i,j);
+            }
+         },
          whipe(){
              var i=0;
              while(i<this.val.param.lenght){
@@ -130,6 +140,9 @@ export const component = {
              }
          },
          insert(val){
+           this.val.type=val;
+         },
+         placeType(val){
            this.val.type=val;
          }
     },

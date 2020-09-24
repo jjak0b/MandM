@@ -11,6 +11,8 @@
 		"label-upload": "Upload",
 		"label-download": "Download",
 		"label-add": "Add",
+		"label-add-before": "Add before",
+		"label-add-after": "Add after",
 		"label-add-name": "Add {name}",
 		"label-duplicate" : "Duplicate",
 		"label-i18n" : "Internationalize",
@@ -115,6 +117,18 @@
 			"variable" : {
 				"label":"Variable"
 			}
+		}
+	},
+	"SceneEditorWidget": {
+		"GridWidget": {
+			"label-add-row": "Add row",
+			"label-add-col": "Add columns",
+			"label-remove-cell": "remove selected cell",
+			"label-remove-row": "remove selected row",
+			"label-show-grid-border": "Show cell borders on the grid",
+			"label-edit-selected-cell": "Edit selected cell",
+			"label-edit-cell-size": "Edit the cell size",
+			"label-edit-cell-widget": "Set the widget to use inside the cell"
 		}
 	}
 }

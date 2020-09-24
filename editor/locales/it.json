@@ -11,6 +11,8 @@
 		"label-upload": "Carica",
 		"label-download": "Scarica",
 		"label-add": "Aggiungi",
+		"label-add-before": "Aggiungi prima",
+		"label-add-after": "Aggiungi dopo",
 		"label-add-name": "Aggiungi {name}",
 		"label-duplicate" : "Duplica",
 		"label-i18n" : "Internazionalizza",
@@ -115,6 +117,18 @@
 			"variable" : {
 				"label":"Variable"
 			}
+		}
+	},
+	"SceneEditorWidget": {
+		"GridWidget": {
+			"label-add-row": "Aggiungi riga",
+			"label-add-col": "Aggiungi colonna",
+			"label-remove-cell": "Rimuovi cella selezionata",
+			"label-remove-row": "Rimuovi riga selezionata",
+			"label-show-grid-border": "Mostra bordi delle celle sulla griglia",
+			"label-edit-selected-cell": "Modifica la cella selezionata",
+			"label-edit-cell-size": "Imposta la dimensione della cella",
+			"label-edit-cell-widget": "Imposta il widget contenuto nella cella"
 		}
 	},
 	"UserWidgets" : {

@@ -84,7 +84,7 @@ export const template =
 							>
 							<label
 								for="SceneEditor-input-edit-cell-component"
-							>{{ $t("SceneEditorWidget.GridWidget.label-edit-selected-cell") }}</label>
+							>{{ $t("SceneEditorWidget.GridWidget.label-edit-cell-widget") }}</label>
 							<select
 								id="SceneEditor-input-edit-cell-component"
 								v-bind:value="currentCellCache.component ? currentCellCache.component.name : null"

@@ -3,6 +3,13 @@
 		"label-new-element": "Nuovo elemento {name}",
 		"label-save": "Salva",
 		"label-remove": "Rimuovi",
+		"label-confirm": "Conferma",
+		"label-abort": "Annulla",
+		"label-reset": "Annulla",
+		"label-import": "Importa",
+		"label-export": "Esporta",
+		"label-upload": "Carica",
+		"label-download": "Scarica",
 		"label-add": "Aggiungi",
 		"label-add-name": "Aggiungi {name}",
 		"label-duplicate" : "Duplica",
@@ -10,7 +17,16 @@
 		"label-mission": "Missione | Missioni",
 		"label-missions": "Nessuna missione | {count} missione | {count} missioni",
 		"label-activity": "Attività",
-		"label-story": "Storia | Storie"
+		"label-story": "Storia | Storie",
+		"label-select-option": "Seleziona un'opzione",
+		"label-from-file": "Da file",
+		"label-from-server": "Da server",
+		"label-as-file": "Come file",
+		"label-onto-server": "Sul server",
+		"status": {
+			"label-operation-success": "Operazione completata con successo",
+			"label-operation-failed": "Operazione fallita"
+		}
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",

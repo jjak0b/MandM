@@ -3,15 +3,30 @@
 		"label-new-element": "New {name} item",
 		"label-save": "Save",
 		"label-remove": "Remove",
+		"label-confirm": "Confirm",
+		"label-abort": "Abort",
+		"label-reset": "Reset",
+		"label-import": "Import",
+		"label-export": "Export",
+		"label-upload": "Upload",
+		"label-download": "Download",
 		"label-add": "Add",
-	  	"label-reset": "Reset",
-	  "label-add-name": "Add {name}",
+		"label-add-name": "Add {name}",
 		"label-duplicate" : "Duplicate",
 		"label-i18n" : "Internationalize",
 		"label-mission": "Mission | Missions",
 		"label-missions": "No mission | {count} mission | {count} missions",
 		"label-activity": "Activity | Activities",
-		"label-story": "Story | Stories"
+		"label-story": "Story | Stories",
+		"label-select-option": "Select an option",
+		"label-from-file": "From file",
+		"label-from-server": "From server",
+		"label-as-file": "As file",
+		"label-onto-server": "Onto server",
+		"status": {
+			"label-operation-success": "Operation completed successfully",
+			"label-operation-failed": "Operation failed"
+		}
   	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Select and add an internationalization to make it available",

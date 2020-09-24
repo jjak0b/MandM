@@ -35,6 +35,19 @@
 	"StoryEditorWidget" : {
 		"label-story-title": "Titolo della storia",
 		"label-story-description" : "Descrizione della storia",
+		"label-gamemode": "Modalità di gioco",
+		"label-story-to-import": "Storia da importare",
+		"label-story-to-export": "Storia da esportare",
+		"label-export-server-description": "La storia attualmente presente nell'applicazione sarà caricata sul server con il nome fornito. Se sul server è già presente una storia con lo stesso nome, essa sarà sostituita con questa versione",
+		"label-upload-story": "Carica la storia",
+		"label-download-story": "Scarica la storia",
+		"label-select-story-file": "Seleziona il file della storia",
+		"label-story-id-name": "Nome identificativo della storia",
+		"label-replace-existing": "Sostituisci la storia esistente",
+		"label-invalid-name-already-exists": "Il nome esiste già",
+		"label-valid-name-available": "Il nome è disponibile",
+		"label-valid-json": "Il file selezionato è una storia valida",
+		"label-invalid-json": "Il file selezionato non è una storia valida. Riprova con una storia .json valida",
 		"gamemodes" : {
 			"solo" : {
 				"label" : "Modalità individuale",

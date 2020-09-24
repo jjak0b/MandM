@@ -35,6 +35,19 @@
 	"StoryEditorWidget" : {
 		"label-story-title": "Story title",
 		"label-story-description" : "Story description",
+		"label-gamemode": "Gamemode",
+		"label-story-to-import": "Story to import",
+		"label-story-to-export": "Story to export",
+		"label-export-server-description": "The current story loaded in the application will be uploaded to the server with the provided name. If a story with the same name already exists on the server, it will be replaced with this version",
+		"label-upload-story": "Upload the story",
+		"label-download-story": "Download the story",
+		"label-select-story-file": "Select a story file",
+		"label-story-id-name": "ID name of story",
+		"label-replace-existing": "Replace existing story",
+		"label-invalid-name-already-exists": "Name already exists",
+		"label-valid-name-available": "Name available",
+		"label-valid-json": "The provided file is a valid story",
+		"label-invalid-json": "The provided file is an invalid story. Retry providing .json valid story",
 		"gamemodes" : {
 			"solo" : {
 				"label" : "Solo mode",
@@ -51,6 +64,7 @@
 		}
 	},
 	"MissionEditorWidget" : {
+		"label-mission-no-title": "Untitled mission",
 		"label-mission-title": "Mission title",
 		"label-mission-description" : "Mission description",
 		"label-mission-list" : "Mission list"

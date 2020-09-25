@@ -1,4 +1,4 @@
-import {template} from "./UserWidgetMediaPlayerImageAreaTabPanelTemplate.js";
+import {template} from "./UserWidgetEditorMediaPlayerImageAreaTabPanelTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget} from "../../../I18nInputWidget.js";
 
 export const component = {

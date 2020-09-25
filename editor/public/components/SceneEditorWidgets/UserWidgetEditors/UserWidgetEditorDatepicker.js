@@ -1,4 +1,4 @@
-import {template} from "./UserWidgetDatepickerEditorTemplate.js";
+import {template} from "./UserWidgetEditorDatepickerTemplate.js";
 import {component as datepickerComponent} from "/shared/components/UserWidgetDatepicker.js";
 
 export const component = {

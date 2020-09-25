@@ -1,12 +1,12 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
-import { component as mediaFormComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetMediaPlayerEditor.js";
+import { component as mediaFormComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
 import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
 import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
 import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
-import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
+import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 
 export const component = {
 	template: template,
@@ -16,8 +16,8 @@ export const component = {
 		nextAssetId: Number
 	},
 	components : {
-		"user-widget-datepicker-editor": datepickerEditorComponent,
-		"user-widget-media-player-editor": mediaFormComponent,
+		"user-widget-editor-datepicker": datepickerEditorComponent,
+		"user-widget-editor-media-player": mediaFormComponent,
 		"grid-widget": gridComponent,
 		"attribute-editor-widget": attributeEditorComponent,
 		"style-editor-widget": styleEditorComponent
@@ -30,12 +30,12 @@ export const component = {
 			showCSSGrid: true,
 			widgetsTable: {
 				"user-widget-datepicker" : {
-					editor: "user-widget-datepicker-editor",
+					editor: "user-widget-editor-datepicker",
 					label: "UserWidgets.Datepicker.label-widget-name",
 					options: datepickerComponent
 				},
 				"user-widget-media-player": {
-					editor: "user-widget-media-player-editor",
+					editor: "user-widget-editor-media-player",
 					label: "UserWidgets.MediaPlayer.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}

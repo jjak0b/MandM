@@ -1,15 +1,15 @@
-import { template } from "./UserWidgetMediaPlayerEditorTemplate.js";
+import { template } from "./UserWidgetEditorMediaPlayerTemplate.js";
 import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../../I18nInputWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";
 import {component as inputValidator} from "/shared/components/InputValidatorWidget.js";
-import {component as imageAreaTabPanel} from "./UserWidgetMediaPlayer/UserWidgetMediaPlayerImageAreaTabPanel.js";
+import {component as imageAreaTabPanel} from "./UserWidgetEditorMediaPlayer/UserWidgetEditorMediaPlayerImageAreaTabPanel.js";
 
 export const component = {
 	template: template,
 	components: {
-		"user-widget-media-player-image-area-tabpanel": imageAreaTabPanel,
+		"user-widget-editor-media-player-image-area-tabpanel": imageAreaTabPanel,
 		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"user-widget-media-player" : asyncLoadComponentI18nMediaPlayer

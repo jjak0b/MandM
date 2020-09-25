@@ -5,11 +5,11 @@ export const template =
 	v-on:reset="onReset"
 >
 	<b-form-group
-		v-bind:label="$t('StoryEditor.label-import-story-from-server')"
+		v-bind:label="$t('StoryEditorWidget.label-story-to-import')"
 		label-for="story-editor-widget-form-import-select-story"
 		v-bind:state="validity"
-		v-bind:invalid-feedback="$t('StoryEditorWidget.label-invalid-unable-get-from-remote')"
-		v-bind:valid-feedback="$t('StoryEditorWidget.label-valid-downloaded-from-remote')"
+		v-bind:invalid-feedback="feedbackInvalid"
+		v-bind:valid-feedback="feedbackValid"
 	>
 		<div class="d-flex">
 			<div class="flex-grow-1 align-self-center" >
@@ -39,7 +39,7 @@ export const template =
 	<b-button-group>
 		<b-button
 			type="submit"
-			v-bind:disabled="isLoading || validity === false"
+			v-bind:disabled="isLoading"
 			variant="success"
 			v-t="'shared.label-import'"
 		></b-button>

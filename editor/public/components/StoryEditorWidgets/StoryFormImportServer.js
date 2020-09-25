@@ -1,4 +1,5 @@
 import { template } from "./StoryFormImportServerTemplate.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -17,24 +18,35 @@ export const component = {
 			this.validity = null;
 		}
 	},
+	computed: {
+		feedbackValid() { return this.validity === true ? this.$t('shared.status.label-operation-success') : null; },
+		feedbackInvalid () { return this.validity === false? this.$t('shared.status.label-operation-failed') : null; }
+	},
 	methods: {
 		onSubmit(event) {
 			if( this.name ) {
 				let self = this;
 				this.isLoading = true; // start loading spinner
 				this.validity = null; // while downloading reset it
-				this.getJSON( this.name )
+				let reqJSONStory = this.getJSON( this.name );
+				let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${this.name}` );
+				Promise.all( [reqJSONStory, reqJSONLocales] )
 					// file has been downloaded so can be loaded
-					.done( (jsonData) => {
+					.then( (jsonData) => {
+						let story = jsonData[0];
+						let locales = jsonData[1];
+						story.assets.locales = locales;
 						self.validity = true;
-						self.$emit('import', jsonData);
+						self.$emit('import', story );
+						Object.keys( locales )
+							.forEach( locale => self.$i18n.mergeLocaleMessage( locale, locales[ locale ] ) );
 					})
 					// file can't be downloaded for some reason so report it
-					.fail( ( xhr, textStatus, error) => {
+					.catch( ( error) => {
 						self.validity = false;
 						console.error( "[StoryEditor]", `Error downloading story "${self.name}"`, "cause:", error );
 					})
-					.always( () => {
+					.finally( () => {
 						self.isLoading = false; // stop loading spinner
 					});
 			}

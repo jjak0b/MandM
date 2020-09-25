@@ -1,8 +1,10 @@
 import { template } from "./StoryFormExportServerTemplate.js";
+import { I18nUtils } from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
 	props: {
+		dataExport: Object,
 		names: Array
 	},
 	data() {
@@ -15,6 +17,8 @@ export const component = {
 		}
 	},
 	computed: {
+		feedbackValid() { return this.validityName === true ? this.$t('StoryEditorWidget.label-valid-name-available') : ""; },
+		feedbackInvalid () { return this.validityName === false ? this.$t('StoryEditorWidget.label-invalid-name-already-exists') : ""; },
 		canSubmit: function () {
 			return this.validityForm == null ? this.validityName : this.validityForm;
 		}
@@ -39,20 +43,23 @@ export const component = {
 				return;
 			}
 			let self = this;
-			let data = this.value;
 			this.isLoading = true;
 			this.validityOperation = null;
+
+			// Add i18n authored messages from vue-i18n instance
+			this.dataExport.assets.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+
 			$.ajax( `/stories/${self.name}`, {
 				method: "put",
 				contentType: 'application/json',
-				data: JSON.stringify( data )
+				data: JSON.stringify( self.dataExport )
 			})
 				.done( (data) => {
 					self.validityOperation = true;
 				})
 				.fail( ( xhr, textStatus, error) => {
 					self.validityOperation = false;
-					console.error("[StoryEditor]", `Failed to create new Story ${self.name}`, error );
+					console.error("[StoryEditor]", `Failed to create or replace the Story ${self.name}`, error );
 				})
 				.always( () => {
 					self.isLoading = false;

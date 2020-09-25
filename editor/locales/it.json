@@ -3,14 +3,32 @@
 		"label-new-element": "Nuovo elemento {name}",
 		"label-save": "Salva",
 		"label-remove": "Rimuovi",
+		"label-confirm": "Conferma",
+		"label-abort": "Annulla",
+		"label-reset": "Annulla",
+		"label-import": "Importa",
+		"label-export": "Esporta",
+		"label-upload": "Carica",
+		"label-download": "Scarica",
 		"label-add": "Aggiungi",
+		"label-add-before": "Aggiungi prima",
+		"label-add-after": "Aggiungi dopo",
 		"label-add-name": "Aggiungi {name}",
 		"label-duplicate" : "Duplica",
 		"label-i18n" : "Internazionalizza",
 		"label-mission": "Missione | Missioni",
 		"label-missions": "Nessuna missione | {count} missione | {count} missioni",
 		"label-activity": "Attività",
-		"label-story": "Storia | Storie"
+		"label-story": "Storia | Storie",
+		"label-select-option": "Seleziona un'opzione",
+		"label-from-file": "Da file",
+		"label-from-server": "Da server",
+		"label-as-file": "Come file",
+		"label-onto-server": "Sul server",
+		"status": {
+			"label-operation-success": "Operazione completata con successo",
+			"label-operation-failed": "Operazione fallita"
+		}
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
@@ -19,6 +37,19 @@
 	"StoryEditorWidget" : {
 		"label-story-title": "Titolo della storia",
 		"label-story-description" : "Descrizione della storia",
+		"label-gamemode": "Modalità di gioco",
+		"label-story-to-import": "Storia da importare",
+		"label-story-to-export": "Storia da esportare",
+		"label-export-server-description": "La storia attualmente presente nell'applicazione sarà caricata sul server con il nome fornito. Se sul server è già presente una storia con lo stesso nome, essa sarà sostituita con questa versione",
+		"label-upload-story": "Carica la storia",
+		"label-download-story": "Scarica la storia",
+		"label-select-story-file": "Seleziona il file della storia",
+		"label-story-id-name": "Nome identificativo della storia",
+		"label-replace-existing": "Sostituisci la storia esistente",
+		"label-invalid-name-already-exists": "Il nome esiste già",
+		"label-valid-name-available": "Il nome è disponibile",
+		"label-valid-json": "Il file selezionato è una storia valida",
+		"label-invalid-json": "Il file selezionato non è una storia valida. Riprova con una storia .json valida",
 		"gamemodes" : {
 			"solo" : {
 				"label" : "Modalità individuale",
@@ -86,6 +117,18 @@
 			"variable" : {
 				"label":"Variable"
 			}
+		}
+	},
+	"SceneEditorWidget": {
+		"GridWidget": {
+			"label-add-row": "Aggiungi riga",
+			"label-add-col": "Aggiungi colonna",
+			"label-remove-cell": "Rimuovi cella selezionata",
+			"label-remove-row": "Rimuovi riga selezionata",
+			"label-show-grid-border": "Mostra bordi delle celle sulla griglia",
+			"label-edit-selected-cell": "Modifica la cella selezionata",
+			"label-edit-cell-size": "Imposta la dimensione della cella",
+			"label-edit-cell-widget": "Imposta il widget contenuto nella cella"
 		}
 	},
 	"UserWidgets" : {

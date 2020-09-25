@@ -46,7 +46,7 @@ export const template =
 			kind="captions"
 			v-bind:src="source"
 			v-bind:srclang="lang"
-			v-bind:label="lang"
+			v-bind:label="I18nUtils.i18nCodes[lang] ? I18nUtils.i18nCodes[lang].englishName : lang"
 		/>
 		<!-- Visile only if it's unsupported by browser-->
 		{{ $t( "shared.errors.video_tag-unsupported" ) }}

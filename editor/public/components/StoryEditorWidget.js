@@ -10,10 +10,7 @@ export const component = {
 		value: Object // story Cache
 	},
 	components: {
-		"form-import-file": formImportFile,
-		"form-import-server": formImportServer,
-		"form-export-file": formExportFile,
-		"form-export-server": formExportServer,
+
 	},
 	data() {
 		return {

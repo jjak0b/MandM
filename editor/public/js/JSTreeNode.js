@@ -1,4 +1,5 @@
-import {i18n, i18nContent, I18nString} from "../components/Translations.js";
+import {i18n} from "../components/Translations.js";
+import { I18nString } from "/shared/js/I18nUtils.js";
 import NodeUtils from "./NodeUtils.js";
 
 /* jsTree Node Object structure */

@@ -18,9 +18,65 @@
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script crossorigin="anonymous" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="/libs/datalist-polyfill/datalist-polyfill.min.js"></script>
+	<script src="/shared/js/VueI18nImporter.js"></script>
 	<script type="module" src="./js/init.js"></script>
 </head>
 <body>
+<div id="editor">
+	<b-navbar type="light" variant="light">
+		<b-navbar-nav>
+			<b-nav-item-dropdown v-bind:disabled="!canImport" v-bind:text="$t('shared.label-import')">
+				<b-dropdown-text>
+					<b-tabs vertical >
+						<b-tab v-bind:title="$t('shared.label-from-file')" >
+							<form-import-file
+								v-on:import="load"
+							></form-import-file>
+						</b-tab>
+						<b-tab v-bind:title="$t('shared.label-from-server')" >
+							<form-import-server
+								v-bind:names="remoteStories"
+								v-on:import="load"
+							></form-import-server>
+						</b-tab>
+					</b-tabs>
+				</b-dropdown-text>
+			</b-nav-item-dropdown>
+			<b-nav-item-dropdown v-bind:disabled="!canExport" v-bind:text="$t('shared.label-export')" >
+				<b-dropdown-text>
+					<b-tabs vertical >
+						<b-tab v-bind:title="$t('shared.label-as-file')" >
+							<form-export-file
+								v-bind:data-export="cache.story"
+							></form-export-file>
+						</b-tab>
+						<b-tab v-bind:title="$t('shared.label-onto-server')" >
+							<form-export-server
+								v-bind:names="remoteStories"
+								v-on:update-names="getRemoteStoryNames()"
+								v-bind:data-export="cache.story"
+							></form-export-server>
+						</b-tab>
+					</b-tabs>
+				</b-dropdown-text>
+			</b-nav-item-dropdown>
+		</b-navbar-nav>
+
+		<b-form-group class="ml-auto"
+			v-bind:label="$t( 'I18nSelectorWidget.label-locale-select')"
+			label-for="editor-content-locale"
+		>
+			<select
+				id="editor-content-locale"
+				v-bind:options="I18nUtils.i18nCodes"
+				v-model="locale"
+				class="form-control"
+			>
+				<option v-bind:value="null" disabled="disabled" selected="selected" v-t="'shared.label-select-option'"></option>
+				<option v-for="code in localesList" :key="code" v-bind:value="code" >{{ I18nUtils.i18nCodes[ code ].englishName }} [ {{code}} ]</option>
+			</select>
+		</b-form-group>
+	</b-navbar>
 	<nav>
 		<div class="nav nav-tabs" id="myTab" role="tablist">
 			<a
@@ -49,11 +105,12 @@
 			>Activities</a>
 		</div>
 	</nav>
-	<main id="editor" role="main">
+	<main role="main">
 		<section>
 			<i18n-selector-widget
 					id="i18n-selector-widget"
 					v-model="locale"
+					v-bind:locales-list="localesList"
 			></i18n-selector-widget>
 		</section>
 		<div class="tab-content">
@@ -102,5 +159,6 @@
 			</section>
 		</div>
 	</main>
+</div>
 </body>
 </html>

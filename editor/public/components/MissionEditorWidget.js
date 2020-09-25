@@ -1,6 +1,5 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
-import {i18nContent} from "./Translations.js";
 
 export const component = {
 	template: template,
@@ -25,16 +24,16 @@ export const component = {
 		add() {
 			let mission = {};
 			mission.id = this.nextId; this.$emit( "inc-id" );
-			mission.title = 'mission.' + mission.id + '.title';
-			mission.description = 'mission.' + mission.id + '.description';
+			mission.title = 'assets.mission.' + mission.id + '.title';
+			mission.description = 'assets.mission.' + mission.id + '.description';
 			console.log( "registered new mission: ", mission );
 			this.missions.push( mission );
 		},
 		remove( index ) {
 			let mission = this.missions[ index ];
 			if( mission ) {
-				i18nContent.removeMessageAll( mission.title );
-				i18nContent.removeMessageAll( mission.description );
+				this.$i18n.removeMessageAll( mission.title );
+				this.$i18n.removeMessageAll( mission.description );
 				this.missions.splice( index, 1);
 				this.setValue( null );
 			}

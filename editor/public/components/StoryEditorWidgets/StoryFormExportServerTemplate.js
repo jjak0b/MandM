@@ -4,14 +4,15 @@ export const template =
 	v-on:submit.prevent="onSubmit"
 >
 	<b-form-group
-		v-bind:label="$t('StoryEditor.label-upload-story-into-server')"
+		v-bind:label="$t('StoryEditorWidget.label-upload-story')"
 	>
 		<b-form-group
 			label-for="story-editor-widget-form-create-input-name"
-			v-bind:label="$t('StoryEditor.label-story-name')"
+			v-bind:label="$t('StoryEditorWidget.label-story-id-name')"
 			v-bind:state="validityName"
-			v-bind:valid-feedback="$t('StoryEditor.label-valid-name-available')"
-			v-bind:description="$t('StoryEditor.label-create-new-story')"
+			v-bind:valid-feedback="feedbackValid"
+			v-bind:invalid-feedback="feedbackInvalid"
+			v-bind:description="$t('StoryEditorWidget.label-export-server-description')"
 		>
 			<b-form-input
 				id="story-editor-widget-form-create-input-name"
@@ -19,10 +20,6 @@ export const template =
 				v-model="name"
 				name="name"
 			></b-form-input>
-			<template v-slot:invalid-feedback
-			>
-				<span v-t="'StoryEditor.label-invalid-name-already-exists'"></span>
-			</template>
 		</b-form-group>
 		
 		<div class="form-group">
@@ -32,7 +29,7 @@ export const template =
 				name="replace"
 				v-bind:value="true"
 				v-bind:unchecked-value="false"
-			>{{ $t('StoryEditor.label-replace-existing') }}</b-form-checkbox>
+			>{{ $t('StoryEditorWidget.label-replace-existing') }}</b-form-checkbox>
 		</div>
 
 		<div class="d-flex">
@@ -49,14 +46,18 @@ export const template =
 				label="Uploading ..."
 				class="m-3 align-self-center"
 			></b-spinner>
-			<div class="m-3 align-self-center"> 
+			<div class="m-3 align-self-center" aria-atomic="true" id="story-editor-widget-form-operation-feedback"> 
 				<span
 					v-if="validityOperation"
-					v-t="'shared.status.label-operation-completed-successfully'"
+					role="alert"
+					aria-live="assertive"
+					v-t="'shared.status.label-operation-success'"
 					class="valid-feedback d-inline"
 				></span>
 				<span
 					v-else-if="validityOperation === false"
+					role="alert"
+					aria-live="assertive"
 					v-t="'shared.status.label-operation-failed'"
 					class="invalid-feedback d-inline"
 				></span>

@@ -3,6 +3,7 @@ const path = require('path');
 const router = express.Router();
 const fs = require('fs');
 const StatusCodes = require("http-status-codes").StatusCodes;
+const Locales = require( '../shared/js/locales');
 const dirNameStories = "stories"
 const pathFolderStories = path.join( __basedir, dirNameStories );
 var storiesSaved = [];
@@ -59,29 +60,69 @@ router.get('/:name', ( req, res ) => {
 	}
 });
 
+router.get('/:name/locales/', ( req, res ) => {
+	if( req.params.name ) {
+		let storyDir = path.join( __basedir, dirNameStories, req.params.name);
+		Locales.setLocalesResponse(res, null, storyDir )
+	}
+});
+router.get('/:name/locales/:locale', ( req, res ) => {
+	if( req.params.name ) {
+		let storyDir = path.join( __basedir, dirNameStories, req.params.name);
+		Locales.setLocalesResponse(res, req.params.locale, storyDir )
+	}
+});
+
 router.put("/:name", ( req, res ) => {
 
 	let storyDir = path.join( __basedir, dirNameStories, req.params.name);
 
+	let status = StatusCodes.CREATED;
 	if ( !fs.existsSync( storyDir ) ){
 		fs.mkdirSync( storyDir );
 	}
 
-	fs.writeFile( path.join( storyDir, "story.json" ), JSON.stringify(req.body), 'utf8', function (err) {
-		if (err){
-			res.sendStatus( StatusCodes.CONFLICT );
+	let requests = [];
+
+	if( req.body.assets ) {
+		if( req.body.assets.locales ) {
+			Object.keys(req.body.assets.locales).forEach( (locale) => {
+				requests.push( Locales.setLocales( locale,req.body.assets.locales[ locale ], storyDir ) );
+			});
+			req.body.assets.locales = {};
 		}
-		else{
-			if( !storiesSaved.includes(req.params.name) ) {
-				storiesSaved.push(req.params.name);
-				console.log("Story added: ", req.params.name);
-			}
-			else{
-				console.log("Story replaced: ", req.params.name);
-			}
+	}
+
+	if( req.body ) {
+		requests.push(
+			new Promise( function ( resolve, reject ) {
+				fs.writeFile(path.join(storyDir, "story.json"), JSON.stringify(req.body), 'utf8', function (err) {
+					if (err) {
+						reject( err );
+					}
+					else {
+						if (!storiesSaved.includes(req.params.name)) {
+							storiesSaved.push(req.params.name);
+							console.log("Story added: ", req.params.name);
+						}
+						else {
+							console.log("Story replaced: ", req.params.name);
+						}
+						resolve( req.params.name );
+					}
+				});
+			})
+		)
+	}
+
+	Promise.all( requests )
+		.then( function (states) {
 			res.sendStatus( StatusCodes.CREATED );
-		}
-	});
+		})
+		.catch( function (errors) {
+			res.json( errors );
+			res.sendStatus( StatusCodes.CONFLICT );
+		})
 });
 
 module.exports = router;

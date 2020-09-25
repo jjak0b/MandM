@@ -7,8 +7,16 @@ export const component = {
 			file: null,
 			fileData: null,
 			validity: null,
-			isLoading:false
+			isLoading:false,
+			feedback: {
+				valid: "",
+				invalid: ""
+			}
 		}
+	},
+	computed: {
+		feedbackValid() { return this.validity === true ? this.$t('StoryEditorWidget.label-valid-json') : ""; },
+		feedbackInvalid () { return this.validity === false ? this.$t('StoryEditorWidget.label-invalid-json') : ""; }
 	},
 	watch: {
 		"file" : function (file) {

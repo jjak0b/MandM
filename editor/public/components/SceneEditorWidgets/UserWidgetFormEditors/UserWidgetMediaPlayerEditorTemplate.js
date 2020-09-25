@@ -9,7 +9,7 @@ export const template =
 				v-on:reset="reset()"
 			>
 				<fieldset class="form-group">
-					<legend>{{ $t( "MediaForm.label_mediatype" ) }}</legend>
+					<legend>{{ $t( "UserWidgets.MediaPlayer.label_mediatype" ) }}</legend>
 					<div v-for="(label, type) in labelMediaTypes" >
 						<input
 							type="radio"
@@ -27,7 +27,7 @@ export const template =
 				</fieldset>
 					<!-- Only file type is supported for now
 					<fieldset>
-						<legend>{{ $t( "MediaForm.label_mediaSource" ) }}</legend>
+						<legend>{{ $t( "UserWidgets.MediaPlayer.label_mediaSource" ) }}</legend>
 						<div v-for="(label, type) in labelMediaSourceTypes" >
 							<input
 								type="radio"
@@ -44,12 +44,12 @@ export const template =
 					</fieldset>
 					-->
 				<fieldset>
-					<legend>{{ $t( "MediaForm.label_upload_file" ) }}</legend>
+					<legend>{{ $t( "UserWidgets.MediaPlayer.label_upload_file" ) }}</legend>
 					<div v-if="value.tag && value.tag == 'image'">
 						<div class="form-group">
 							<label
 								for="mediaForm-input-file-image"
-							>{{ $t( "MediaForm.label-input-file.image" ) }}</label>
+							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.image" ) }}</label>
 							<input
 								type="file"
 								name="file"
@@ -63,7 +63,7 @@ export const template =
 						<div class="form-group">
 							<label
 								for="mediaForm-input-image-caption"
-							>{{ $t( "MediaForm.label-input-file.imageCaption" ) }}</label>
+							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.imageCaption" ) }}</label>
 							<i18n-input-widget
 								v-bind:tag="'textarea'"
 								id="mediaForm-input-image-caption"
@@ -86,7 +86,7 @@ export const template =
 								<label
 									for="mediaForm-input-image-useMap"
 									class="form-check-label"
-								>{{ $t( "MediaForm.label-input-useArea" ) }}</label>							
+								>{{ $t( "UserWidgets.MediaPlayer.label-input-useArea" ) }}</label>							
 							</div>
 							<div class="row" v-if="shouldUseMap">
 								<div class="col">
@@ -96,13 +96,13 @@ export const template =
 											v-on:submit.prevent="onAddArea"
 										>
 											<fieldset form="mediaForm-input-image-area-form">
-												<legend v-t="'MediaForm.label-add-image-area'"></legend>
+												<legend v-t="'UserWidgets.MediaPlayer.label-add-image-area'"></legend>
 												<div class="form-row">
 													<div class="col">
 														<div class="form-group">
 															<label
 																for="mediaForm-input-image-area-shape"
-																v-t="'MediaForm.label-select-shape-area'"
+																v-t="'UserWidgets.MediaPlayer.label-select-shape-area'"
 															></label>
 															<select
 																id="mediaForm-input-image-area-shape"
@@ -141,7 +141,7 @@ export const template =
 						<div class="form-group">
 							<label
 								for="mediaForm-input-file-video"
-							>{{ $t( "MediaForm.label-input-file.video") }}</label>
+							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.video") }}</label>
 							<input
 								type="file"
 								name="file"
@@ -157,7 +157,7 @@ export const template =
 						<div class="form-group">
 							<label
 								for="mediaForm-input-file-audio"
-							>{{ $t( "MediaForm.label-input-file.audio") }}</label>
+							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.audio") }}</label>
 							<input
 								type="file"
 								name="file"
@@ -173,7 +173,7 @@ export const template =
 						<div class="form-group">
 							<label
 								for="mediaForm-input-file-captions"
-							>{{ $t( "MediaForm.label-input-file.captions") }}</label>
+							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.captions") }}</label>
 							<input
 								type="file"
 								name="captions"
@@ -184,7 +184,7 @@ export const template =
 								class="form-control"
 							/>
 						</div>
-						<p id="mediaForm-input-file-captions-description">{{ $t( "MediaForm.label-input-file.captions_accessibility") }}</p>
+						<p id="mediaForm-input-file-captions-description">{{ $t( "UserWidgets.MediaPlayer.label-input-file.captions_accessibility") }}</p>
 					</div>
 				</fieldset>
 				<div class="btn-group" role="group">
@@ -215,13 +215,13 @@ export const template =
 	</div>
 	<div class="row">
 		<section class="col">
-			<i18n-media-player-widget
+			<user-widget-media-player
 				ref="preview"
 				v-if="shouldPreview()"
 				id="mediaForm-preview"
 				v-bind:value="value"
 				v-bind:locale="locale"
-			></i18n-media-player-widget>
+			></user-widget-media-player>
 		</section>
 	</div>
 </div>

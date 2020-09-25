@@ -31,7 +31,7 @@ export const template =
 					<label
 						v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-useHighlight'"
 						class="form-check-label"
-					>{{ $t( "MediaForm.areas.label-use-highlight" ) }}</label>
+					>{{ $t( "UserWidgets.MediaPlayer.areas.label-use-highlight" ) }}</label>
 				</div>
 			</div>
 		</div>
@@ -56,7 +56,7 @@ export const template =
 				<div class="form-group">
 					<label
 						v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
-						v-t="'MediaForm.label-select-link-interaction'"
+						v-t="'UserWidgets.MediaPlayer.label-select-link-interaction'"
 					></label>
 					<select
 						v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-link-interaction'"
@@ -71,11 +71,11 @@ export const template =
 						></option>
 						<option
 							value="anchor"
-							v-t="'MediaForm.areas.actions.label-navigate-to-page-element'"
+							v-t="'UserWidgets.MediaPlayer.areas.actions.label-navigate-to-page-element'"
 						></option>
 						<option
 							value="url"
-							v-t="'MediaForm.areas.actions.label-open-url-new-tab'"
+							v-t="'UserWidgets.MediaPlayer.areas.actions.label-open-url-new-tab'"
 						></option>
 					</select>
 				</div>
@@ -84,9 +84,9 @@ export const template =
 				<b-form-group
 					:key="'href-anchor-' + areaIndex"
 					v-if="area.hrefType == 'anchor'"
-					v-bind:label="$t('MediaForm.areas.label-add-anchor-to-scroll-onto-when-triggered')"
+					v-bind:label="$t('UserWidgets.MediaPlayer.areas.label-add-anchor-to-scroll-onto-when-triggered')"
 					v-bind:label-for="'mediaForm-input-image-area-' + areaIndex + '-action-anchor'"
-					v-bind:invalid-feedback="$t('MediaForm.areas.label-anchor-warning-no-element-found')"
+					v-bind:invalid-feedback="$t('UserWidgets.MediaPlayer.areas.label-anchor-warning-no-element-found')"
 					v-bind:valid-feedback="$t('shared.label-valid')"
 					v-bind:state="isValidAnchor"
 				>
@@ -102,7 +102,7 @@ export const template =
 				<b-form-group
 					:key="'href-url-' + areaIndex"
 					v-else-if="area.hrefType == 'url'"
-					v-bind:label="$t('MediaForm.areas.label-add-url-to-open-when-triggered')"
+					v-bind:label="$t('UserWidgets.MediaPlayer.areas.label-add-url-to-open-when-triggered')"
 					v-bind:label-for="'mediaForm-input-image-area-' + areaIndex + '-action-url'"
 					v-bind:state="isValidURL"
 					v-bind:valid-feedback="$t('shared.label-valid')"
@@ -116,8 +116,8 @@ export const template =
 						v-on:keydown.space.prevent
 					></b-form-input>
 					<template v-slot:invalid-feedback>
-						<h5 v-t="'MediaForm.areas.label-url-invalid'"></h5>
-						<p>{{ $t("MediaForm.areas.label-url-invalid-example", "https://www.google.it") }}</p>
+						<h5 v-t="'UserWidgets.MediaPlayer.areas.label-url-invalid'"></h5>
+						<p>{{ $t("UserWidgets.MediaPlayer.areas.label-url-invalid-example", "https://www.google.it") }}</p>
 					</template>
 				</b-form-group>
 			</div>
@@ -126,7 +126,7 @@ export const template =
 			<div class="col">
 				<!-- TODO: Temp; replace this with interactable form component for return value and event-->
 				<b-form-group
-					v-bind:label="$t('MediaForm.areas.label-set-value-to-return-as-player-input')"
+					v-bind:label="$t('UserWidgets.MediaPlayer.areas.label-set-value-to-return-as-player-input')"
 					v-bind:label-for="'mediaForm-input-image-area-' + areaIndex + '-action-returnValue'"
 				>
 					<b-form-input
@@ -138,9 +138,9 @@ export const template =
 						v-on:keydown.space.prevent
 					></b-form-input>
 					<template v-slot:invalid-feedback>
-						<h5 v-t="'MediaForm.areas.label-url-invalid'"></h5>
+						<h5 v-t="'UserWidgets.MediaPlayer.areas.label-url-invalid'"></h5>
 						<hr>
-						<p>{{ $t("MediaForm.areas.label-url-invalid-example", "https://www.google.it") }}</p>
+						<p>{{ $t("UserWidgets.MediaPlayer.areas.label-url-invalid-example", "https://www.google.it") }}</p>
 					</template>
 				</b-form-group>
 			</div>
@@ -151,7 +151,7 @@ export const template =
 					<caption>{{ $t( "shared.label-shape-TYPE" ) }}</caption>
 					<thead>
 						<tr>
-							<th>{{  $t( "MediaForm.areas.label-vertex-description" ) }}</th>
+							<th>{{  $t( "UserWidgets.MediaPlayer.areas.label-vertex-description" ) }}</th>
 							<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-0'"
 							>{{ $t( "shared.label_axis", "X" ) }}</th>
 							<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-1'"

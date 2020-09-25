@@ -1,7 +1,7 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
-import { component as mediaFormComponent } from "./SceneEditorWidgets/MediaFormWidget.js";
+import { component as mediaFormComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetMediaPlayerEditor.js";
 import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
-import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
+import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
 import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
 import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
@@ -34,9 +34,9 @@ export const component = {
 					label: "UserWidgets.Datepicker.label-widget-name",
 					options: datepickerComponent
 				},
-				"i18n-media-player-widget": {
+				"user-widget-media-player": {
 					editor: "media-form-widget",
-					label: "I18nMediaPlayerWidget.label-widget-name",
+					label: "UserWidgets.MediaPlayer.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}
 			},

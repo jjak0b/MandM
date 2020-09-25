@@ -198,7 +198,7 @@ export const template =
 		<section class="col" v-if="value.tag && value.tag == 'image' && value.areas">
 			<b-card no-body>
 				<b-tabs card vertical>
-					<media-form-image-area-tabpanel
+					<user-widget-media-player-image-area-tabpanel
 						v-for="(area, areaIndex) in value.areas"
 						:key="'imageArea-' + areaIndex"
 						v-bind:area="area"
@@ -208,7 +208,7 @@ export const template =
 						v-on:remove="onRemoveArea( areaIndex )"
 						v-on:highlight="$refs.preview.highlightMapArea( areaIndex )"
 						v-on:unhighlight="$refs.preview.unHighlightMapArea( areaIndex )"
-					></media-form-image-area-tabpanel>
+					></user-widget-media-player-image-area-tabpanel>
 				</b-tabs>
 			</b-card>
 		</section>

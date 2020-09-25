@@ -17,7 +17,7 @@ export const component = {
 	},
 	components : {
 		"user-widget-datepicker-editor": datepickerEditorComponent,
-		"media-form-widget": mediaFormComponent,
+		"user-widget-media-player-editor": mediaFormComponent,
 		"grid-widget": gridComponent,
 		"attribute-editor-widget": attributeEditorComponent,
 		"style-editor-widget": styleEditorComponent
@@ -35,7 +35,7 @@ export const component = {
 					options: datepickerComponent
 				},
 				"user-widget-media-player": {
-					editor: "media-form-widget",
+					editor: "user-widget-media-player-editor",
 					label: "UserWidgets.MediaPlayer.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}

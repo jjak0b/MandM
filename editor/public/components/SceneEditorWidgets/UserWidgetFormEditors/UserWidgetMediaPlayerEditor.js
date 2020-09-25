@@ -9,7 +9,7 @@ import {component as imageAreaTabPanel} from "./UserWidgetMediaPlayer/UserWidget
 export const component = {
 	template: template,
 	components: {
-		"media-form-image-area-tabpanel": imageAreaTabPanel,
+		"user-widget-media-player-image-area-tabpanel": imageAreaTabPanel,
 		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"user-widget-media-player" : asyncLoadComponentI18nMediaPlayer

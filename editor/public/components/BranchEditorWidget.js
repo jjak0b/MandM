@@ -24,10 +24,10 @@ export const component = {
         },
             valueAr: null,
             inputTypes: {
-                "Any": "ActivityEditorWidget.input-type.any",
-                "Atom": "ActivityEditorWidget.input-type.atom",
-                "Range": "ActivityEditorWidget.input-type.range",
-                "Function": "ActivityEditorWidget.input-type.function"
+                "any": "ActivityEditorWidget.input-type.any",
+                "atom": "ActivityEditorWidget.input-type.atom",
+                "range": "ActivityEditorWidget.input-type.range",
+                "function": "ActivityEditorWidget.input-type.function"
             },
             functioVal: {
                 "Value": "ActivityEditorWidget.label-value",
@@ -37,7 +37,7 @@ export const component = {
               "eq": "ActivityEditorWidget.select-type-func.eq",
                 "neq": "ActivityEditorWidget.select-type-func.neq",
                 "hasInside": "ActivityEditorWidget.select-type-func.hasInside",
-                "isInThere": "ActivityEditorWidget.select-type-func.isThere",
+                "isInThere": "ActivityEditorWidget.select-type-func.isInThere",
                 "isInRange": "ActivityEditorWidget.select-type-func.isInRange",
             },
             functionsType: {
@@ -79,6 +79,15 @@ export const component = {
             }
         }
     },
+    watch:{
+        'val.tag':function(){
+            if(this.val.tag == 'Range'){
+                this.val.type='Number';
+            }else {
+                this.val.type = '';
+            }
+        }
+    },
      methods: {
         update(arr, isFunction){
             if((isFunction) && (this.valueTypeSel=='')){
@@ -91,6 +100,7 @@ export const component = {
         },
          updateFunc(val){
             if(this.valueTypeSel){
+                this.whipe();
                 var i=0;
                 var j=val.length+1;
                 this.val.param=val.slice(i,j);
@@ -114,10 +124,11 @@ export const component = {
                 }
             },
          mimax(){
-             if(this.valmin && this.valmax) {
+             if((this.valmin) && (this.valmax)) {
                  this.whipe();
                  this.val.param.push(this.valmin);
                  this.val.param.push(this.valmax);
+                 this.val.type='Number';
              }else{
                  alert('Inserire min e max');
              }

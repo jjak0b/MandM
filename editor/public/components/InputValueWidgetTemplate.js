@@ -1,11 +1,11 @@
 export const template =
     `
 <div>
-    <select id="selectType" v-model="type">
-        <option value="Text">{{ $t('shared.label-text') }}</option>
-        <option value="Number">{{ $t('shared.label-number') }}</option>
-        <option value="Array">{{ $t('shared.label-array') }}</option>
-        <option value="timepicker">{{ $t('shared.label-time') }}</option>
+    <select id="selectType" v-model="type" v-on:change="$emit('taketype',type)">
+        <option value="Text">{{ $t('shared.label-Text') }}</option>
+        <option value="Number">{{ $t('shared.label-Number') }}</option>
+        <option value="Array">{{ $t('shared.label-Array') }}</option>
+        <option value="Time">{{ $t('shared.label-Time') }}</option>
     </select>
     <div v-if="type == 'Number'" aria-describedby="Num">
     <b-alert show id="Num">{{ $t('ActivityEditorWidget.number-desc') }}</b-alert>
@@ -28,12 +28,18 @@ export const template =
 </select>
     <button v-on:click="param.push(temp)"v-on:submit.prevent>{{ $t('shared.label-add') }}</button>
     <button v-on:click="rem()" v-on:submit.prevent>{{ $t('shared.label-remove') }}</button>
-    <component v-if="arrayType"
-    v-bind:is="componentsType[arrayType]"
-    v-model="temp">
-    </component>
+<!--    <component v-if="arrayType"-->
+<!--    v-bind:is="componentsType[arrayType]"-->
+<!--    v-model="temp">-->
+<!--    </component>-->
     </div> 
-    <button v-on:click="$emit('value', param, type)">{{ $t('shared.label-save') }}</button> 
+    <!--TODO: Need to add locale attribute for time, based on the value in 18 translations--> 
+    <div v-else-if="type == 'Time'" aria-describedby="Ti">
+    <b-alert show id="Ti">{{ $t('ActivityEditorWidget.time-desc') }}</b-alert>
+    <b-time v-model="temp"></b-time>
+     <button v-on:click="check()" v-on:submit.prevent>{{ $t('shared.label-add') }}</button>
+</div>
+    <button v-on:click="$emit('value', param)">{{ $t('shared.label-save') }}</button> 
     <div v-for="val in param">
         {{val}}
     </div>

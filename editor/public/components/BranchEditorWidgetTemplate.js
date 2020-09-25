@@ -17,23 +17,23 @@ export const template = `
 	    v-bind:for="'input-type_' + keyType"
         >{{ $t(keyType ) }}</label>
         </div>
-        <div v-if="val.tag == 'Atom' && val.tag">
+        <div v-if="val.tag == 'atom' && val.tag">
             <input-val
-            v-on:taketype="val.type=$event"
+            v-on:taketype="placeType($event)"
         v-on:value="update($event, false)">
         
 </input-val>
             <!--            v-bind:type="val.type"-->
         </div>
-        <div v-if="val.tag == 'Range'&& val.tag" aria-describedby="Ran">
+        <div v-if="val.tag == 'range'&& val.tag" aria-describedby="Ran">
         <b-alert show id="Ran">{{ $t( 'ActivityEditorWidget.range-desc' ) }}</b-alert>
             <lable for="min">Min</lable>
             <input type="number" v-model.number="valmin" v-bind:max="this.valmax" id="min">
             <lable for="max">Max</lable>
             <input type="number" v-model.number="valmax" v-bind:min="this.valmin" id="max">
-            <button v-on:click="mimax()">Aggiungi</button>
+            <button v-on:click="mimax()">{{ $t('shared.label-save') }}</button>
         </div>
-        <div v-if="val.tag == 'Function' && val.tag">
+        <div v-if="val.tag == 'function' && val.tag">
         <b-alert>{{ $t( 'ActivityEditorWidget.function-desc' ) }}</b-alert>
             <select v-model="valuef" v-on:submit.prevent>
 <!--            <option selected value="">Please select one</option>-->
@@ -89,11 +89,11 @@ export const template = `
             </select>
         </div>
     </div>
-    <div style="float:right">   
-    {{$t( 'ActivityEditorWidget.label-tag' ) }}:{{val.tag}} <br>
-    {{$t( 'ActivityEditorWidget.label-type' ) }}: {{val.type}}<br>
-    <p v-if="val.tag== 'Function' && valueTypeSel !=''">{{$t('ActivityEditorWidget.label-type-func')}}:{{ $t('ActivityEditorWidget.select-type-func.' + valueTypeSel)}}</p>
-    <label for="valor">{{$t( 'ActivityEditorWidget.label-value' ) }}:</label>
+    <div style="float:right" v-if="val.tag">   
+    {{$t( 'ActivityEditorWidget.label-tag' ) }}:{{$t('ActivityEditorWidget.input-type.'+ val.tag)}} <br>
+    <p v-if="val.tag != 'any' && val.type!=''">{{$t( 'ActivityEditorWidget.label-type' ) }}: {{$t('shared.label-' +  val.type)}}</p><br>
+    <p v-if="val.tag== 'function' && valueTypeSel !=''">{{$t('ActivityEditorWidget.label-type-func')}}:{{ $t('ActivityEditorWidget.select-type-func.' + valueTypeSel)}}</p>
+    <label v-if="val.tag != 'any'" for="valor">{{$t( 'ActivityEditorWidget.label-value' ) }}:</label>
    <div id="valor" v-for="val in val.param">
   {{val}}
   </div>

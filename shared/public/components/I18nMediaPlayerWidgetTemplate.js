@@ -10,7 +10,7 @@ export const template =
 			ref="img"
 			v-bind="$attrs"
 			v-bind:src="value.src"
-			v-bind:alt="value.captions ? $t(value.captions[0]) : ''"
+			v-bind:alt="value.captions && $te(value.captions[0]) ? $t(value.captions[0]) : ''"
 			v-bind:usemap="value.areas ? '#' + $attrs.id + '-map' : ''"
 			class="figure-img img-fluid rounded" 
 		/>
@@ -25,7 +25,7 @@ export const template =
 				ref="area"
 				v-bind:shape="area.shape"
 				v-bind:coords="getStringAreaCoords( i )"
-				v-bind:alt="$t( area.alt )"
+				v-bind:alt="area.alt && $te(area.alt) ? $t(area.alt) : ''"
 				v-bind:href="area.href"
 				v-bind:target="area.target"
 				v-on:click="areaOnClick( i, $event )"
@@ -63,7 +63,7 @@ export const template =
 			kind="captions"
 			v-bind:src="source"
 			v-bind:srclang="lang"
-			v-bind:label="lang"
+			v-bind:label="I18nUtils.i18nCodes[lang] ? I18nUtils.i18nCodes[lang].englishName : lang"
 			v-on:cuechange="onCueChange"
 		/>
 		<!-- Visile only if it's unsupported by browser-->

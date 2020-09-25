@@ -12,10 +12,10 @@
 		"label-missions": "No mission | {count} mission | {count} missions",
 		"label-activity": "Activity | Activities",
 		"label-story": "Story | Stories",
-		"label-array": "Array",
-		"label-text": "Text",
-		"label-number": "Number",
-		"label-time": "Time"
+		"label-Array": "Array",
+		"label-Text": "Text",
+		"label-Number": "Number",
+		"label-Time": "Time"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Select and add an internationalization to make it available",

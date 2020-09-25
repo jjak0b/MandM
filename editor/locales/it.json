@@ -11,10 +11,10 @@
 		"label-missions": "Nessuna missione | {count} missione | {count} missioni",
 		"label-activity": "Attività",
 		"label-story": "Storia | Storie",
-		"label-array": "Lista",
-		"label-text": "Testo",
-		"label-number": "Numero",
-		"label-time": "Ora"
+		"label-Array": "Lista",
+		"label-Text": "Testo",
+		"label-Number": "Numero",
+		"label-Time": "Ora"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",

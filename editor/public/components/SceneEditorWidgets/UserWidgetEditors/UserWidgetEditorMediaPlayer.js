@@ -1,18 +1,18 @@
-import { template } from "./MediaFormWidgetTemplate.js";
-import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../I18nInputWidget.js";
-import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
+import { template } from "./UserWidgetEditorMediaPlayerTemplate.js";
+import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../../I18nInputWidget.js";
+import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";
 import {component as inputValidator} from "/shared/components/InputValidatorWidget.js";
-import {component as imageAreaTabPanel} from "./MediaFormWidgets/MediaFormImageAreaTabPanel.js";
+import {component as imageAreaTabPanel} from "./UserWidgetEditorMediaPlayer/UserWidgetEditorMediaPlayerImageAreaTabPanel.js";
 
 export const component = {
 	template: template,
 	components: {
-		"media-form-image-area-tabpanel": imageAreaTabPanel,
+		"user-widget-editor-media-player-image-area-tabpanel": imageAreaTabPanel,
 		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-		"i18n-media-player-widget" : asyncLoadComponentI18nMediaPlayer
+		"user-widget-media-player" : asyncLoadComponentI18nMediaPlayer
 	},
 	props: {
 		value: {
@@ -32,14 +32,14 @@ export const component = {
 				"uri" : "SceneEditor.imgSourceTypes.label_uri"
 			},*/
 			labelMediaTypes : {
-				"audio" : "MediaForm.MediaType.label-audio",
-				"video" : "MediaForm.MediaType.label-video",
-				"image" : "MediaForm.MediaType.label-image"
+				"audio" : "UserWidgets.MediaPlayer.MediaType.label_audio",
+				"video" : "UserWidgets.MediaPlayer.MediaType.label_video",
+				"image" : "UserWidgets.MediaPlayer.MediaType.label_image"
 			},
 			labelShapeTypes: {
-				"default" : "MediaForm.areas.label-shape-full",
-				"rect" : "MediaForm.areas.label-shape-rectangle",
-				"circle" : "MediaForm.areas.label-shape-circle"
+				"default" : "UserWidgets.MediaPlayer.areas.label-shape-full",
+				"rect" : "UserWidgets.MediaPlayer.areas.label-shape-rectangle",
+				"circle" : "UserWidgets.MediaPlayer.areas.label-shape-circle"
 			},
 			sourceType: null,
 			files : {

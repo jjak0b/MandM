@@ -1,12 +1,12 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
-import { component as mediaFormComponent } from "./SceneEditorWidgets/MediaFormWidget.js";
+import { component as mediaFormComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
 import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
-import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/I18nMediaPlayerWidget.js";
+import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
 import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
 import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
-import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
+import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 import { component as selectComponent } from "/shared/components/UserWidgetSelect.js";
 import { component as selectEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetSelectEditor.js";
 import { component as checkboxComponent } from "/shared/components/UserWidgetCheckbox.js";
@@ -37,8 +37,8 @@ export const component = {
 		"user-widget-numberInput-editor": numberInputEditorComponent,
 		"user-widget-range-editor": rangeEditorComponent,
 		"user-widget-spinbutton-editor": spinbuttonEditorComponent,
-		"user-widget-datepicker-editor": datepickerEditorComponent,
-		"media-form-widget": mediaFormComponent,
+		"user-widget-editor-datepicker": datepickerEditorComponent,
+		"user-widget-editor-media-player": mediaFormComponent,
 		"grid-widget": gridComponent,
 		"attribute-editor-widget": attributeEditorComponent,
 		"style-editor-widget": styleEditorComponent
@@ -86,13 +86,13 @@ export const component = {
 					options: spinbuttonComponent
 				},
 				"user-widget-datepicker" : {
-					editor: "user-widget-datepicker-editor",
+					editor: "user-widget-editor-datepicker",
 					label: "UserWidgets.Datepicker.label-widget-name",
 					options: datepickerComponent
 				},
-				"i18n-media-player-widget": {
-					editor: "media-form-widget",
-					label: "I18nMediaPlayerWidget.label-widget-name",
+				"user-widget-media-player": {
+					editor: "user-widget-editor-media-player",
+					label: "UserWidgets.MediaPlayer.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}
 			},
@@ -178,6 +178,7 @@ export const component = {
 			// $set( currentCellCache, 'component', $event.target.value )
 		},
 		setCurrentCellComponent( name ) {
+			let self = this;
 			if( !this.currentCellCache ){
 				return;
 			}
@@ -188,12 +189,14 @@ export const component = {
 
 			this.$set( this.currentCellCache.component, "name",  name );
 			if( this.widgetsTable[ name ] )
-				this.$set( this.currentCellCache.component, "options", this.widgetsTable[ name ].options );
+				this.$set( this.currentCellCache.component, "getOptions", () => self.widgetsTable[ name ].options );
 			this.$set( this.currentCellCache.component, "props", {} );
 			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
 			if( !this.currentCellCache.component.style ) {
 				this.$set( this.currentCellCache.component, "style", {} );
 			}
+
+
 			console.log("[SceneEditor]", "Set component data", this.currentCellCache.component );
 		},
 		onAddElement(toAdd) {

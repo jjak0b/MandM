@@ -1,4 +1,4 @@
-import {template} from "./I18nMediaPlayerWidgetTemplate.js";
+import {template} from "./UserWidgetMediaPlayerTemplate.js";
 import {I18nUtils} from "../js/I18nUtils.js";
 
 export const component = {

@@ -1,5 +1,5 @@
-import {template} from "./MediaFormImageAreaTabPanelTemplate.js";
-import {asyncLoad as asyncLoadComponentI18nInputWidget} from "../../I18nInputWidget.js";
+import {template} from "./UserWidgetEditorMediaPlayerImageAreaTabPanelTemplate.js";
+import {asyncLoad as asyncLoadComponentI18nInputWidget} from "../../../I18nInputWidget.js";
 
 export const component = {
 	template: template,
@@ -57,15 +57,15 @@ export const component = {
 			switch ( this.area.shape ) {
 				case "rect":
 					if( vertexIndex == 0 )
-						return "MediaForm.areas.label-rectangle-top-left";
+						return "UserWidgets.MediaPlayer.areas.label-rectangle-top-left";
 					else
-						return "MediaForm.areas.label-rectangle-bottom-right";
+						return "UserWidgets.MediaPlayer.areas.label-rectangle-bottom-right";
 					break;
 				case "circle":
 					if( vertexIndex == 0 )
-						return "MediaForm.areas.label-circle-centre";
+						return "UserWidgets.MediaPlayer.areas.label-circle-centre";
 					else
-						return "MediaForm.areas.label-circle-radius";
+						return "UserWidgets.MediaPlayer.areas.label-circle-radius";
 					break;
 				default:
 					return "";

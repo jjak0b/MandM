@@ -157,9 +157,7 @@ export const component = {
 		},
 		edit( nodeData ) {
 			let selectedNode = this.tree.get_selected(true)[0];
-			if(selectedNode) {
-				selectedNode.data.noteInfo = nodeData.noteInfo;
-			}
+			selectedNode.text = this.$t(selectedNode.data.noteInfo.name);
 		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];

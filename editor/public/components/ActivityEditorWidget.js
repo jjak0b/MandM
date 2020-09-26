@@ -1,25 +1,13 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
-import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
-import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
+import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import { I18nString } from "/shared/js/I18nUtils.js";
-import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidget.js";
-import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
-import { component as sceneEditorComponent } from "./SceneEditorWidget.js ";
+import { component as addMenuComponent } from "./ActivityEditorAddMenuWidget.js ";
+import { component as editMenuComponent } from "./ActivityEditorEditMenuWidget.js ";
 
-function createEmptyData(){
-	return {
-		noteInfo: {
-			name: null,
-			description: null
-		},
-		title: null,
-		description: null
-	}
-}
 export const component = {
 	template: template,
 	props: {
@@ -29,31 +17,18 @@ export const component = {
 		mission : Object
 	},
 	components: {
-		'scene-editor-widget' :sceneEditorComponent,
-		'activity-tale-editor-widget': activityTaleEditorComponent,
-		'activity-quest-editor-widget': activityQuestEditorComponent,
-		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		'activity-tree-widget': activityTreeWidgetComponent,
 		'toolbar': activityToolbar,
-		'branch-editor-widget': conditionActivityOptionWidget
+		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
+		'add-menu-widget': addMenuComponent,
+		'edit-menu-widget': editMenuComponent
 	},
 	data() {
 		return {
-			shouldShowTree: false,
-			activityId: null,
-			refresh: false,
-			nodeTypes: {
-				[NodeUtils.Types.Tell]: "ActivityEditorWidget.treeNode-type.tell",
-				[NodeUtils.Types.Quest]: "ActivityEditorWidget.treeNode-type.quest",
-				[NodeUtils.Types.Branch]: "ActivityEditorWidget.treeNode-type.branch",
-			},
 			NodeUtils: NodeUtils,
 			currentNode: null /* object node used by jsTree */,
 			isAddFormVisible: false,
-			isEditFormVisible: false,
-			selectedType: null,
-			tmpNodeName: null,
-			tmpNodeNote: null
+			isEditFormVisible: false
 		}
 	},
 	watch: {
@@ -62,7 +37,7 @@ export const component = {
 				this.save( oldMission );
 			}
 			if( mission ) {
-				let tree = mission['tree'] || new JSTreeNode( undefined, new I18nString(this.$i18n, mission.title, this.locale), NodeUtils.Types.Root, createEmptyData(), [] );
+				let tree = mission['tree'] || new JSTreeNode( undefined, new I18nString(this.$i18n, mission.title, this.locale), NodeUtils.Types.Root, {}, [] );
 				console.info( "[ActivityEditor]", "changed mission tree", tree );
 				this.$nextTick( function () {
 					this.loadTree( tree ); // load tree into Tree component
@@ -75,27 +50,10 @@ export const component = {
 	},
 	computed: {
 		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) },
-		activityTitle: function () {
-			if( this.currentNode ) {
-				if( this.currentNode.data.title ) {
-					return this.currentNode.data.title;
-				}
-				else { // will register new label
-					return 'assets.activity.title.' + this.currentNode.id
-				}
-			}
-			return null;
-		},
-		activityDescription: function () {
-			if( this.currentNode ) {
-				if( this.currentNode.data.description ) {
-					return this.currentNode.data.description;
-				}
-				else { // will register new label
-					return 'assets.activity.description.' + this.currentNode.id
-				}
-			}
-			return null;
+		currentMenu: function() {
+			if (this.isAddFormVisible) return 'add-menu-widget'
+			else if (this.isEditFormVisible) return 'edit-menu-widget'
+			else return null
 		}
 	},
 	methods: {
@@ -114,99 +72,22 @@ export const component = {
 			console.info( "[ActivityEditor]", "Loading current activity", activity );
 			this.currentNode = node;
 		},
-
-		// events and utilities
-		shouldShowTypeInSelector( type ){
-			if( !this.currentNode || !type ){
-				return false;
-			}
-
-			switch( type ){
-				case NodeUtils.Types.Tell:
-				case NodeUtils.Types.Quest:
-					return [NodeUtils.Types.Root, NodeUtils.Types.Branch, NodeUtils.Types.Tell].includes( this.currentNode.type );
-					break;
-				case NodeUtils.Types.Branch:
-					return NodeUtils.Types.Quest == this.currentNode.type;
-					break;
-			}
-
-			return true;
+		// events
+		onAdd( data ) {
+			let text = this.$t(data.noteInfo.name);
+			if (data.noteInfo.name === text) text = this.$t('ActivityEditorWidget.label-no-activity-title');
+			let item = this.$refs.treeView.add(this.nextId, data.noteInfo.type, text, data);
+			this.isAddFormVisible = false;
+			this.$emit("inc-id");
 		},
-		isActivity( checkType ) {
-			if( checkType ){
-				return this.currentNode && this.currentNode.type == checkType;
-			}
-			else if( this.currentNode && (this.currentNode.type == NodeUtils.Types.Quest || this.currentNode.type == NodeUtils.Types.Tell) ) {
-				return true;
-			}
-			return false;
-		},
-		isSelected( checkType ) {
-			if( checkType ){
-				return this.selectedType == checkType;
-			}
-			else if( this.selectedType == NodeUtils.Types.Quest || this.selectedType == NodeUtils.Types.Tell ) {
-				return true;
-			}
-			return false;
-		},
-		checkType( type ) { return this.isAddFormVisible ? this.isSelected( type ) : this.isActivity( type ) },
-		onSubmit( event ) {
-			if (this.isAddFormVisible) this.onAdd( event )
-			else if (this.isEditFormVisible) this.onEdit( event )
+		onEdit() {
+			let item = this.$refs.treeView.edit();
+			this.isEditFormVisible = false;
 		},
 		onSelectedNode() {
-			this.selectedType = null;
-		},
-		onAdd( event ) {
-			let inputs = $(event.currentTarget).serializeArray();
-			let nodeInfo = {};
-			// set key and value as pair
-			for (let i = 0; i < inputs.length; i++) {
-				nodeInfo[inputs[i]["name"]] = inputs[i]["value"];
-			}
-
-			let id = this.nextId; this.$emit("inc-id");
-
-			// TODO: fill this field if adding components which edit node data
-			let data = createEmptyData();
-			data.noteInfo = {
-				name: nodeInfo["node-name"],
-				note: nodeInfo["node-note"]
-			};
-			data.title = 'activity.title.' + id;
-			data.description = 'activity.description.' + id;
-			data.scene = { grid: [] };
-			let item = this.$refs.treeView.add(id, nodeInfo["node-type"], data.noteInfo.name, data);
-
-			// clear form
-			if (item) {
-				$(event.currentTarget).trigger("reset");
-			}
 			this.isAddFormVisible = false;
-			this.selectedType = null;
-			this.tmpNodeName = null;
-			this.tmpNodeNote = null;
-		},
-		onEdit( event ) {
-			let inputs = $(event.currentTarget).serializeArray();
-			let nodeInfo = {};
-			// set key and value as pair
-			for (let i = 0; i < inputs.length; i++) {
-				nodeInfo[inputs[i]["name"]] = inputs[i]["value"];
-			}
-
-			let data = createEmptyData();
-			data.noteInfo = {
-				name: nodeInfo["node-name"],
-				note: nodeInfo["node-note"]
-			};
-
-			this.$refs.treeView.edit(data);
-
-			$(event.currentTarget).trigger("reset");
 			this.isEditFormVisible = false;
+			this.$emit("inc-id");
 		}
 	},
 	mounted() {
@@ -229,7 +110,6 @@ export const component = {
 		});
 		$(document).on("dropToolbar", () => {
 			this.$refs.treeView.drop();
-
 		});
 	}
 };

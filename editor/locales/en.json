@@ -14,8 +14,8 @@
 		"label-add-before": "Add before",
 		"label-add-after": "Add after",
 		"label-add-name": "Add {name}",
-		"label-duplicate" : "Duplicate",
-		"label-i18n" : "Internationalize",
+		"label-duplicate": "Duplicate",
+		"label-i18n": "Internationalize",
 		"label-mission": "Mission | Missions",
 		"label-missions": "No mission | {count} mission | {count} missions",
 		"label-activity": "Activity | Activities",
@@ -28,11 +28,7 @@
 		"status": {
 			"label-operation-success": "Operation completed successfully",
 			"label-operation-failed": "Operation failed"
-		},
-	  	"errors": {
-			"video-tag-unsupported": "Video tag unsupported",
-			"audio-tag-unsupported": "Audio tag unsupported"
-	  	}
+		}
   	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Select and add an internationalization to make it available",
@@ -71,19 +67,28 @@
 	},
 	"MissionEditorWidget" : {
 		"label-mission-no-title": "Untitled mission",
-		"label-mission-title": "Mission title",
+	  	"label-mission-title": "Mission title",
 		"label-mission-description" : "Mission description",
 		"label-mission-list" : "Mission list"
   	},
 	"ActivityEditorWidget" : {
-		"label-activity-title" : "Activity title",
-		"label-activity-description" : "Activity description",
+	  	"label-edit-menu-title": "Edit menu",
+	  	"label-add-menu-title": "Add menu",
+	  	"label-activity-title" : "Activity title",
+	  	"label-activity-no-title": "Untitled activity",
+	  "label-activity-description" : "Activity description",
 		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
 		"label-select-nodeType" : "Select a type of element to add to the tree",
 		"label-node-item-name" : "Tree item's name",
 		"label-input-type":"Select input type",
 		"label-node-item-description" : "Note about the tree item",
-		"treeNode-type" : {
+	  	"label-tree-tab": "Node",
+		"label-activity-tab": "Activity",
+		"label-scene-tab": "Scene",
+		"label-tale-tab": "Tale",
+		"label-quest-tab": "Quest",
+		"label-branch-tab": "Branch",
+	  "treeNode-type" : {
 			"quest" : {
 				"label" : "Quest",
 				"description" : "Create an interactive activity which will create a branch of possible results"
@@ -104,22 +109,22 @@
 				"atom": {
 					"label": "atom"
 				},
-				"range":{
-				"label":"range"
+				"range": {
+				"label": "range"
 				},
 				"function": {
 					"label": "function"
 				}
 			},
-		"input-func-value":{
-			"array" : {
-				"label":"Array"
+		"input-func-value": {
+			"array": {
+				"label": "Array"
 			},
-			"value" : {
-				"label":"Value"
+			"value": {
+				"label": "Value"
 			},
-			"variable" : {
-				"label":"Variable"
+			"variable": {
+				"label": "Variable"
 			}
 		}
 	},
@@ -132,33 +137,8 @@
 			"label-show-grid-border": "Show cell borders on the grid",
 			"label-edit-selected-cell": "Edit selected cell",
 			"label-edit-cell-size": "Edit the cell size",
-			"label-edit-cell-widget": "Set the widget to use inside the cell",
-			"label-max-col": "Max col"
-		},
-	  "StyleWidget": {
-		"label-width": "Width",
-		"label-width-percent-range": "Width percent range",
-		"label-width-percent-number": "Width percent number",
-		"label-height": "Height",
-		"label-height-percent-range": "Height percent range",
-		"label-height-percent-number": "Height percent number",
-		"label-angle": "Angle",
-		"label-angle-range-X": "Range X",
-		"label-angle-number-X": "Number X",
-		"label-angle-range-Y": "Range Y",
-		"label-angle-number-Y": "Number Y",
-		"label-angle-range-Z": "Range Z",
-		"label-angle-number-Z": "Number Z",
-		"label-position": "Position",
-		"label-position-range-left": "Range left",
-		"label-position-number-left": "Number left",
-		"label-position-range-right": "Range right",
-		"label-position-number-right": "Number right",
-		"label-position-range-bottom": "Range bottom",
-		"label-position-number-bottom": "Number bottom",
-		"label-position-range-top": "Range top",
-		"label-position-number-top": "Number top"
-	  }
+			"label-edit-cell-widget": "Set the widget to use inside the cell"
+		}
 	},
   "MediaForm": {
 	"media-type": "Media type",

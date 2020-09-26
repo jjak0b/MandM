@@ -1,5 +1,5 @@
-import {template} from "./UserWidgetSelectEditorTemplate.js";
-import {component as selectComponent} from "/shared/components/UserWidgetSelect.js";
+import {template} from "./UserWidgetEditorRadioTemplate.js";
+import {component as radioComponent} from "/shared/components/UserWidgetRadio.js";
 
 export const component = {
 	template: template,
@@ -8,7 +8,7 @@ export const component = {
 		locale: String
 	},
 	components: {
-		"user-widget-select": selectComponent
+		"user-widget-radio": radioComponent
 	},
 	data() {
 		return {

@@ -1,4 +1,4 @@
-import {template} from "./UserWidgetSpinbuttonEditorTemplate.js";
+import {template} from "./UserWidgetEditorSpinbuttonTemplate.js";
 import {component as spinbuttonComponent} from "/shared/components/UserWidgetSpinbutton.js";
 
 export const component = {

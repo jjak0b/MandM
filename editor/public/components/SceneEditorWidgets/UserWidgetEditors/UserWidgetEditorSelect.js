@@ -1,5 +1,5 @@
-import {template} from "./UserWidgetCheckboxEditorTemplate.js";
-import {component as checkboxComponent} from "/shared/components/UserWidgetCheckbox.js";
+import {template} from "./UserWidgetEditorSelectTemplate.js";
+import {component as selectComponent} from "/shared/components/UserWidgetSelect.js";
 
 export const component = {
 	template: template,
@@ -8,7 +8,7 @@ export const component = {
 		locale: String
 	},
 	components: {
-		"user-widget-checkbox": checkboxComponent
+		"user-widget-select": selectComponent
 	},
 	data() {
 		return {

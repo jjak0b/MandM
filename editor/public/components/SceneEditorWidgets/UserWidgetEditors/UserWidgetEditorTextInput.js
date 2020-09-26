@@ -1,4 +1,4 @@
-import {template} from "./UserWidgetTextInputEditorTemplate.js";
+import {template} from "./UserWidgetEditorTextInputTemplate.js";
 import {component as textInputComponent} from "/shared/components/UserWidgetTextInput.js";
 
 export const component = {

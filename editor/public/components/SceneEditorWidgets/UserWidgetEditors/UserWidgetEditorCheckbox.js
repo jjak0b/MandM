@@ -1,5 +1,5 @@
-import {template} from "./UserWidgetRadioEditorTemplate.js";
-import {component as radioComponent} from "/shared/components/UserWidgetRadio.js";
+import {template} from "./UserWidgetEditorCheckboxTemplate.js";
+import {component as checkboxComponent} from "/shared/components/UserWidgetCheckbox.js";
 
 export const component = {
 	template: template,
@@ -8,7 +8,7 @@ export const component = {
 		locale: String
 	},
 	components: {
-		"user-widget-radio": radioComponent
+		"user-widget-checkbox": checkboxComponent
 	},
 	data() {
 		return {

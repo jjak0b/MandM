@@ -8,19 +8,19 @@ import { component as attributeEditorComponent } from "./SceneEditorWidgets/Attr
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 import { component as selectComponent } from "/shared/components/UserWidgetSelect.js";
-import { component as selectEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetSelectEditor.js";
+import { component as selectEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSelect.js";
 import { component as checkboxComponent } from "/shared/components/UserWidgetCheckbox.js";
-import { component as checkboxEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetCheckboxEditor.js";
+import { component as checkboxEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorCheckbox.js";
 import { component as radioComponent } from "/shared/components/UserWidgetRadio.js";
-import { component as radioEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetRadioEditor.js";
+import { component as radioEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRadio.js";
 import { component as textInputComponent } from "/shared/components/UserWidgetTextInput.js";
-import { component as textInputEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetTextInputEditor.js";
+import { component as textInputEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
 import { component as numberInputComponent } from "/shared/components/UserWidgetNumberInput.js";
-import { component as numberInputEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetNumberInputEditor.js";
+import { component as numberInputEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
 import { component as rangeComponent } from "/shared/components/UserWidgetRange.js";
-import { component as rangeEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetRangeEditor.js";
+import { component as rangeEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
 import { component as spinbuttonComponent } from "/shared/components/UserWidgetSpinbutton.js";
-import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetSpinbuttonEditor.js";
+import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 
 export const component = {
 	template: template,
@@ -30,13 +30,13 @@ export const component = {
 		nextAssetId: Number
 	},
 	components : {
-		"user-widget-select-editor": selectEditorComponent,
-		"user-widget-checkbox-editor": checkboxEditorComponent,
-		"user-widget-radio-editor": radioEditorComponent,
-		"user-widget-textInput-editor": textInputEditorComponent,
-		"user-widget-numberInput-editor": numberInputEditorComponent,
-		"user-widget-range-editor": rangeEditorComponent,
-		"user-widget-spinbutton-editor": spinbuttonEditorComponent,
+		"user-widget-editor-select": selectEditorComponent,
+		"user-widget-editor-checkbox": checkboxEditorComponent,
+		"user-widget-editor-radio": radioEditorComponent,
+		"user-widget-editor-textInput": textInputEditorComponent,
+		"user-widget-editor-numberInput": numberInputEditorComponent,
+		"user-widget-editor-range": rangeEditorComponent,
+		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
 		"grid-widget": gridComponent,
@@ -51,37 +51,37 @@ export const component = {
 			showCSSGrid: true,
 			widgetsTable: {
 				"user-widget-checkbox" : {
-					editor: "user-widget-checkbox-editor",
+					editor: "user-widget-editor-checkbox",
 					label: "UserWidgets.Checkbox.label-widget-name",
 					options: checkboxComponent
 				},
 				"user-widget-select" : {
-					editor: "user-widget-select-editor",
+					editor: "user-widget-editor-select",
 					label: "UserWidgets.Select.label-widget-name",
 					options: selectComponent
 				},
 				"user-widget-radio" : {
-					editor: "user-widget-radio-editor",
+					editor: "user-widget-editor-radio",
 					label: "UserWidgets.Radio.label-widget-name",
 					options: radioComponent
 				},
 				"user-widget-textInput" : {
-					editor: "user-widget-textInput-editor",
+					editor: "user-widget-editor-textInput",
 					label: "UserWidgets.TextInput.label-widget-name",
 					options: textInputComponent
 				},
 				"user-widget-numberInput" : {
-					editor: "user-widget-numberInput-editor",
+					editor: "user-widget-editor-numberInput",
 					label: "UserWidgets.NumberInput.label-widget-name",
 					options: numberInputComponent
 				},
 				"user-widget-range" : {
-					editor: "user-widget-range-editor",
+					editor: "user-widget-editor-range",
 					label: "UserWidgets.Range.label-widget-name",
 					options: rangeComponent
 				},
 				"user-widget-spinbutton" : {
-					editor: "user-widget-spinbutton-editor",
+					editor: "user-widget-editor-spinbutton",
 					label: "UserWidgets.Spinbutton.label-widget-name",
 					options: spinbuttonComponent
 				},
@@ -178,7 +178,6 @@ export const component = {
 			// $set( currentCellCache, 'component', $event.target.value )
 		},
 		setCurrentCellComponent( name ) {
-			let self = this;
 			if( !this.currentCellCache ){
 				return;
 			}
@@ -189,8 +188,7 @@ export const component = {
 
 			this.$set( this.currentCellCache.component, "name",  name );
 			if( this.widgetsTable[ name ] )
-				this.$set( this.currentCellCache.component, "getOptions", () => self.widgetsTable[ name ].options );
-			this.$set( this.currentCellCache.component, "props", {} );
+				this.$set( this.currentCellCache.component, "options", this.widgetsTable[ name ].options );			this.$set( this.currentCellCache.component, "props", {} );
 			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
 			if( !this.currentCellCache.component.style ) {
 				this.$set( this.currentCellCache.component, "style", {} );

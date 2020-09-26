@@ -1,4 +1,4 @@
-import {template} from "./UserWidgetRangeEditorTemplate.js";
+import {template} from "./UserWidgetEditorRangeTemplate.js";
 import {component as rangeComponent} from "/shared/components/UserWidgetRange.js";
 
 export const component = {

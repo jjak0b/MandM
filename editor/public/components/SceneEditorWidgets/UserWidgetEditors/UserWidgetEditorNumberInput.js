@@ -1,4 +1,4 @@
-import {template} from "./UserWidgetNumberInputEditorTemplate.js";
+import {template} from "./UserWidgetEditorNumberInputTemplate.js";
 import {component as numberInputComponent} from "/shared/components/UserWidgetNumberInput.js";
 
 export const component = {

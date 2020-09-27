@@ -28,8 +28,20 @@
 		"status": {
 			"label-operation-success": "Operation completed successfully",
 			"label-operation-failed": "Operation failed"
+		},
+		"i18n": {
+			"label-no-locale": "No language",
+			"label-locale": "Language: {lang}"
 		}
   	},
+	"accessibility": {
+		"label": "Accessibility",
+		"label-alt": "@:accessibility.label: Label for element"
+	},
+	"i18n": {
+		"label": "Internationalization",
+		"label-description-region": "Dynamic content for current internationalization"
+	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Select and add an internationalization to make it available",
 		"label-locale-select": "Select current internationalization to edit"

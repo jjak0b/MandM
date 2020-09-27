@@ -72,10 +72,8 @@
 				"range":"Range",
 				"function":"Function"
 			},
-				"text-desc":"Insert a text, pressing Remove will delete the last element chosen, Save confirms the value",
-				"number-desc":"Insert a number, pressing Remove will delete the last element chosen, Save confirms the value",
+				"tnt-desc":"Insert a {value}, pressing Remove will delete the last element chosen, Save confirms the value",
 				"array-desc":"Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list ",
-				"time-desc":"Insert a time condition",
 				"range-desc": "Insert the minimum and maximum condition",
 				"function-desc":"Select parameter and advanced type of condition",
 				"label-single": "Single",

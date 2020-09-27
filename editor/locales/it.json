@@ -14,7 +14,7 @@
 		"label-Array": "Lista",
 		"label-Text": "Testo",
 		"label-Number": "Numero",
-		"label-Time": "Ora"
+		"label-Time": "Tempo"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
@@ -74,10 +74,8 @@
 		},
 
 		"label-variable": "Variabile",
-		"text-desc":"Inserisci un testo, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
-		"number-desc": "Inserisci un numero, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
+		"tnt-desc":"Inserisci un {value}, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
 		"array-desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente",
-		"time-desc":"Inserisci condizione di tipo ora",
 		"range-desc": "Inserisci il valore minimo e massimo",
 		"function-desc": "Seleziona i parametri e le condizioni avanzate",
 			"select-type-func": {

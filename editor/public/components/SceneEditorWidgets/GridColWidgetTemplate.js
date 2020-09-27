@@ -7,7 +7,7 @@ export const template =
 >
 	<div ref="styleEl">
 		<component
-			v-if="value.component && value.component.options"
+			v-if="value.component && value.component.getOptions"
 			v-bind:id="value.component.id"
 			v-bind:class="value.component.class"
 			:is="value.component.getOptions()"

@@ -12,14 +12,14 @@ export const component = {
 	},
 	data() {
 		return {
-			newElement: null,
+			newElement: "",
 			nextValue: 0
 		}
 	},
 	methods: {
 		addElement() {
 			this.$emit('addElement', { value: this.nextValue++, text: this.newElement });
-			this.newElement = null;
+			this.newElement = "";
 		},
 		removeElement(index) {
 			this.$emit('removeElement', index);

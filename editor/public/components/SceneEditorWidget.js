@@ -178,6 +178,7 @@ export const component = {
 			// $set( currentCellCache, 'component', $event.target.value )
 		},
 		setCurrentCellComponent( name ) {
+			let self = this;
 			if( !this.currentCellCache ){
 				return;
 			}
@@ -188,7 +189,7 @@ export const component = {
 
 			this.$set( this.currentCellCache.component, "name",  name );
 			if( this.widgetsTable[ name ] )
-				this.$set( this.currentCellCache.component, "options", this.widgetsTable[ name ].options );			this.$set( this.currentCellCache.component, "props", {} );
+				this.$set( this.currentCellCache.component, "getOptions", () => self.widgetsTable[ name ].options );			this.$set( this.currentCellCache.component, "props", {} );
 			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
 			if( !this.currentCellCache.component.style ) {
 				this.$set( this.currentCellCache.component, "style", {} );

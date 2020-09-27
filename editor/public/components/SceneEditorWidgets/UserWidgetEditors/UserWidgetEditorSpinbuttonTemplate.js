@@ -21,6 +21,7 @@ export const template =
 					<b-form-input
 						type="number"
 						id="user-widget-spinbutton-editor-step"
+						step="0.5"
 						v-model="props.step"
 					></b-form-input>
 					</b-form-group>

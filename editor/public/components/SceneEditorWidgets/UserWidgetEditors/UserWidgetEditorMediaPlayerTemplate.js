@@ -60,20 +60,15 @@ export const template =
 								class="form-control"
 							/>
 						</div>
-						<div class="form-group">
-							<label
-								for="mediaForm-input-image-caption"
-							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.imageCaption" ) }}</label>
-							<i18n-input-widget
-								v-bind:tag="'textarea'"
-								id="mediaForm-input-image-caption"
-								name="fileCaption"
-								rows="4"
-								v-bind:locale="locale"
-								v-bind:locale-label="localeImageCaptionLabel"
-								class="form-control"
-							></i18n-input-widget>
-						</div>
+						<i18n-input-widget
+							v-bind:label="$t('UserWidgets.MediaPlayer.label-input-file.imageCaption')"
+							v-bind:tag="'textarea'"
+							id="mediaForm-input-image-caption"
+							name="fileCaption"
+							rows="4"
+							v-bind:locale="locale"
+							v-bind:locale-label="localeImageCaptionLabel"
+						></i18n-input-widget>
 						<div class="form-group">
 							<div class="form-check">
 								<input

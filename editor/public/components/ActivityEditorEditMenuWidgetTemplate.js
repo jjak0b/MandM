@@ -7,28 +7,20 @@ export const template =
 			<b-tab v-bind:title="treeTab">
 				<b-form-row>
 					<b-col>
-						<b-form-group
+						<i18n-input-widget
 							v-bind:label="nodeNameLabel"
-							label-for="nodeNameInput">
-							<i18n-input-widget
-								tag="input"
-								id="nodeNameInput"
-								class="form-control"
-								v-bind:locale="locale"
-								v-bind:locale-label="nodeName">
-							</i18n-input-widget>
-						</b-form-group>
-						<b-form-group
+							tag="input"
+							id="nodeNameInput"
+							v-bind:locale="locale"
+							v-bind:locale-label="nodeName"
+						></i18n-input-widget>
+						<i18n-input-widget
 							v-bind:label="nodeNoteLabel"
-							label-for="nodeNoteInput">
-							<i18n-input-widget
-								tag="textarea"
-								id="nodeNoteInput"
-								class="form-control"
-								v-bind:locale="locale"
-								v-bind:locale-label="nodeNote">
-							</i18n-input-widget>
-						</b-form-group>
+							tag="textarea"
+							id="nodeNoteInput"
+							v-bind:locale="locale"
+							v-bind:locale-label="nodeNote"
+						></i18n-input-widget>
 					</b-col>
 				</b-form-row>
 				<b-form-row>
@@ -45,28 +37,20 @@ export const template =
 			<b-tab v-bind:title="activityTab">
 				<b-form-row>
 					<b-col>
-						<b-form-group
+						<i18n-input-widget
 							v-bind:label="activityTitleLabel"
-							label-for="activityTitleInput">
-							<i18n-input-widget
-								tag="input"
-								id="activityTitleInput"
-								class="form-control"
-								v-bind:locale="locale"
-								v-bind:locale-label="activityTitle">
-							</i18n-input-widget>
-						</b-form-group>
-						<b-form-group
+							tag="input"
+							id="activityTitleInput"
+							v-bind:locale="locale"
+							v-bind:locale-label="activityTitle"
+						></i18n-input-widget>
+						<i18n-input-widget
 							v-bind:label="activityDescriptionLabel"
-							label-for="activityDescriptionInput">
-							<i18n-input-widget
-								tag="textarea"
-								id="activityDescriptionInput"
-								class="form-control"
-								v-bind:locale="locale"
-								v-bind:locale-label="activityDescription">
-							</i18n-input-widget>
-						</b-form-group>
+							tag="textarea"
+							id="activityDescriptionInput"
+							v-bind:locale="locale"
+							v-bind:locale-label="activityDescription"
+						></i18n-input-widget>
 					</b-col>
 				</b-form-row>
 				<b-form-row>

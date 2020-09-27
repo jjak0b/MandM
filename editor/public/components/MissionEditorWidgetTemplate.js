@@ -10,12 +10,7 @@ export const template =
 				:key="'mission-' + index"
 			>
 				<template v-slot:title>
-					<i18n-input-widget
-						:key="'tab-mission-title' + index"
-						v-bind:tag="'label'"
-						v-bind:locale="locale"
-						v-bind:locale-label="mission.title"
-					></i18n-input-widget>
+					<span>{{ $t(mission.title, locale) }}</span>
 				</template>
 				<b-form
 					autocomplete="off"
@@ -28,32 +23,26 @@ export const template =
 						></b-button>
 					</div>
 					<hr>
-					<div class="form-group">
-						<label for="mission-title">{{ $t( 'MissionEditorWidget.label-mission-title' ) }}</label>
-						<i18n-input-widget
-							v-bind:tag="'input'"
-							id="mission-title"
-							name="missionTitle"
-							type="text"
-							required="required"
-							class="form-control"
-							v-bind:locale="locale"
-							v-bind:locale-label="mission.title"
-							v-bind:placeholder="missionPlaceholderTitle"
-						></i18n-input-widget>
-					</div>
-					<div class="form-group">
-						<label for="mission-description"">{{ $t( 'MissionEditorWidget.label-mission-description' ) }}</label>
-						<i18n-input-widget
-							v-bind:tag="'textarea'"
-							id="mission-description"
-							name="missionDescription"
-							class="form-control"
-							rows="4"
-							v-bind:locale="locale"
-							v-bind:locale-label="mission.description"
-						></i18n-input-widget>
-					</div>
+					<i18n-input-widget
+						v-bind:tag="'input'"
+						v-bind:label="$t( 'MissionEditorWidget.label-mission-title' )"
+						id="mission-title"
+						name="missionTitle"
+						type="text"
+						required="required"
+						v-bind:locale="locale"
+						v-bind:locale-label="mission.title"
+						v-bind:placeholder="missionPlaceholderTitle"
+					></i18n-input-widget>
+					<i18n-input-widget
+						v-bind:label="$t( 'MissionEditorWidget.label-mission-description' )"
+						v-bind:tag="'textarea'"
+						id="mission-description"
+						name="missionDescription"
+						rows="4"
+						v-bind:locale="locale"
+						v-bind:locale-label="mission.description"
+					></i18n-input-widget>
 				</b-form>
 			</b-tab>
 			

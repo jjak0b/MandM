@@ -18,11 +18,10 @@ export const template = `
         >{{ $t(keyType ) }}</label>
         </div>
         <div v-if="val.tag == 'atom' && val.tag">
-            <input-val
-            v-on:taketype="placeType($event)"
-        v-on:value="update($event, false)">
-        
-</input-val>
+            <single-input
+            v-on:changeT="placeType($event)"
+        v-on:agg="placeSingle($event)">
+        </single-input>
             <!--            v-bind:type="val.type"-->
         </div>
         <div v-if="val.tag == 'range'&& val.tag" aria-describedby="Ran">
@@ -94,9 +93,9 @@ export const template = `
     <p v-if="val.tag != 'any' && val.type!=''">{{$t( 'ActivityEditorWidget.label-type' ) }}: {{$t('shared.label-' +  val.type)}}</p><br>
     <p v-if="val.tag== 'function' && valueTypeSel !=''">{{$t('ActivityEditorWidget.label-type-func')}}:{{ $t('ActivityEditorWidget.select-type-func.' + valueTypeSel)}}</p>
     <label v-if="val.tag != 'any'" for="valor">{{$t( 'ActivityEditorWidget.label-value' ) }}:</label>
-   <div id="valor" v-for="val in val.param">
+   <b-list-group id="valor" v-for="val in val.param">
   {{val}}
-  </div>
+  </b-list-group>
 </div>
     </fieldset>
 </form>

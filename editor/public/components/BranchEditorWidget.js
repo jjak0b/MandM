@@ -2,14 +2,15 @@
 import {template} from "./BranchEditorWidgetTemplate.js";
 import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
-import {component as TextAreaIn} from "./InputAreaTypeWidget.js";
-import {component as test} from "./InputValueWidget.js";
+import {component as singleInput} from "./InputSingleTypeWidget.js";
+import {component as inputVal} from "./InputValueWidget.js";
 
 
 export const component = {
     template: template,
     props: {
         value: Object, //The node selected with type Branch
+        locale:String
         },
     data() {
         return {
@@ -155,10 +156,14 @@ export const component = {
          },
          placeType(val){
            this.val.type=val;
+         },
+         placeSingle(val){
+            this.whipe();
+            this.val.param.push(val);
          }
     },
     components:{
-        'input-val':test,
-        'text-area-input': TextAreaIn
+        'input-val':inputVal,
+        'single-input': singleInput
     }
 }

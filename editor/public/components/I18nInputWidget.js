@@ -15,11 +15,23 @@ export const component = {
 	},
 	data() {
 		return {
-			localeLabelKeys: null,
-			endTargetLabel: null
+			I18nUtils: I18nUtils
 		}
 	},
 	computed: {
+		componentName: function() {
+			switch( this.tag ) {
+				case "input":
+					return "b-form-input";
+					break;
+				case "textarea":
+					return "b-form-textarea";
+					break;
+				default :
+					return { props: { value: String }, template: "<label v-html='value'></label>" }
+					break;
+			}
+		},
 		isDisabled: function() { return this.disabled || !this.locale || !this.localeLabel }
 	},
 	watch: {

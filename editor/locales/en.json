@@ -15,7 +15,8 @@
 		"label-Array": "Array",
 		"label-Text": "Text",
 		"label-Number": "Number",
-		"label-Time": "Time"
+		"label-Time": "Time",
+		"label-Date": "Date"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Select and add an internationalization to make it available",

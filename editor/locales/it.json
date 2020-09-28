@@ -14,7 +14,8 @@
 		"label-Array": "Lista",
 		"label-Text": "Testo",
 		"label-Number": "Numero",
-		"label-Time": "Tempo"
+		"label-Time": "Tempo",
+		"label-Date": "Data"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",

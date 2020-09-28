@@ -1,18 +1,33 @@
 import {template} from "./InputValueWidgetTemplate.js";
-
+// import {component as datePickerEditorComponent} from "datePickerEditorComponent"
 
 export const component = {
     template: template,
+    components:{
+        // "user-widget-editor-datepicker": datePickerEditorComponent
+    },
     data() {
         return {
+            componentsTag: {
+                Time: {
+                    name:"b-time",
+                    attrs:"time"
+                },
+                Date: {
+                    name:"b-form-input",
+                    attrs:"date"
+                },
+                Text: {
+                   name: "b-form-input",
+                    attrs:"text"
+                },
+                Number:{
+                    name:"b-form-input",
+                attrs: "number"
+            }
+            },
             type: '',
             param: [],
-            componentsType:{
-                time:"b-time",
-                text:"text",
-                number:"number",
-                array:"array"
-            },
             arrayType:'',
             temp:null
         }

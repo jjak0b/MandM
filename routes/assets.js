@@ -4,56 +4,109 @@ const router = express.Router();
 const fs = require('fs');
 const StatusCodes = require("http-status-codes").StatusCodes;
 
-var storyHandler = require("./stories").handler;
+const storyHandler = require("./stories").handler;
 
-const assetsDir = path.join( __basedir, 'assets' );
-const assetsVideosDir = path.join( assetsDir, 'videos' );
-const assetsAudioDir = path.join( assetsDir, 'audio' );
-const assetsImagesDir = path.join( assetsDir, 'images' );
-const assetsCaptionsDir = path.join( assetsDir, 'captions' );
+class AssetsHandler {
+	constructor() {
+		this.assetsDirname = "assets";
+		this.pathAssets = path.join( __basedir, this.assetsDirname );
+		this.pathAssetsCategories = {
+			videos: path.join( this.pathAssets, 'videos' ),
+			audio: path.join( this.pathAssets, 'audio' ),
+			images: path.join( this.pathAssets, 'images' ),
+			captions: path.join( this.pathAssets, 'captions' )
+		};
 
-var cacheAssets = {
-	videos: [],
-	audio: [],
-	captions: [],
-	images: []
-}
+		this.cacheAssets = {
+			videos: [],
+			audio: [],
+			captions: [],
+			images: []
+		};
 
-initAssets();
-
-function initAssets() {
-
-	if ( !fs.existsSync( assetsDir ) ){
-		fs.mkdirSync( assetsDir );
+		this.updateAssetsList();
 	}
 
-	let paths = {
-		videos: assetsVideosDir,
-		audio: assetsAudioDir,
-		captions: assetsCaptionsDir,
-		images: assetsImagesDir,
-	};
-	let promises = [];
+	getCategories() {
+		return Object.keys( this.pathAssetsCategories );
+	}
 
-	Object.keys( paths ).forEach( (category) => {
-		if ( !fs.existsSync( paths[category] ) ) {
-			fs.mkdirSync( assetsVideosDir );
-		}
-		else{
-			promises.push(
-				getDirFileNames( paths[category] )
-					.then( (files) => cacheAssets[ category ] = files )
-					.catch( (error) => console.error("Error Reading \"%s\" -> \"%s\"", category, paths[category], error ) )
-			);
-		}
-	});
+	getPath() {
+		return this.pathAssets;
+	}
 
-	Promise.all( promises )
-		.finally( () => {
-			console.log( "[initAssets]", "Found: ", cacheAssets );
+	getPathCategory( category ) {
+		if( category )
+			return this.pathAssetsCategories[ category ];
+		return null;
+	}
+
+	getPathAsset( category, filename ) {
+		return path.join( this.getPathCategory( category ), filename );
+	}
+
+	getCategoryList( category ) {
+		if( category in this.cacheAssets ) {
+			return this.cacheAssets[ category ];
+		}
+		return null;
+	}
+
+	updateAssetsList() {
+
+		if ( !fs.existsSync( this.getPath() ) ){
+			fs.mkdirSync( this.getPath() );
+		}
+
+		let promises = [];
+
+		this.getCategories().forEach( (category) => {
+			if ( !fs.existsSync( this.getPathCategory( category ) ) ) {
+				fs.mkdirSync( this.getPathCategory( category ) );
+			}
+			else{
+				promises.push(
+					getDirFileNames( this.getPathCategory( category ) )
+						.then( (files) => this.cacheAssets[ category ] = files )
+						.catch( (error) => console.error("Error Reading \"%s\" -> \"%s\"", category, this.getPathCategory( category ), error ) )
+				);
+			}
 		});
 
+		Promise.all( promises )
+			.finally( () => {
+				console.log( "[AssetHandler]", "Found: ", this.cacheAssets );
+			});
+
+	}
+
+	addAsset( category, filename, data ) {
+		let self = this;
+		return new Promise( function ( resolve, reject ) {
+			fs.writeFile(
+				this.getPathAsset( category, filename ),
+				data,
+				function (err) {
+					if (err) {
+						reject( err );
+					}
+					else {
+						if ( !self.cacheAssets[ category ].includes( filename ) ) {
+							self.cacheAssets[ category ].push( filename );
+							console.log("Assets added: ", filename );
+						}
+						else {
+							console.log("Assets replaced: ", filename );
+						}
+						resolve( filename );
+					}
+				}
+			);
+		});
+	}
 }
+
+const handler = new AssetsHandler();
 
 function getDirFileNames( path ) {
 	return new Promise( function (resolve, reject) {
@@ -84,57 +137,62 @@ router.get('/', ( req, res ) => {
 });
 
 // GET /assets/* file
-router.get('/*', express.static( assetsDir ) );
+router.get('/*', express.static( handler.getPath() ) );
 
 // PUT /assets/:category/:filename
 router.put('/:category/:filename', (req, res) => {
-	if( ( req.params.category && req.params.category in cacheAssets )
-		&& ( req.params.filename && cacheAssets[ req.params.category ].includes( req.params.filename ) )
-	){
-		fs.writeFile(path.join(assetsDir, req.params.category, req.params.filename ), req.body, 'utf8', function (err) {
-			if (err) {
-				reject( err );
-			}
-			else {
-				if (!storiesSaved.includes(req.params.name)) {
-					storiesSaved.push(req.params.name);
-					console.log("Story added: ", req.params.name);
-				}
-				else {
-					console.log("Story replaced: ", req.params.name);
-				}
-				resolve( req.params.name );
-			}
-		});
+	let category = req.params.category;
+	let filename = req.params.filename;
+
+	if( filename && category && category in handler.getCategories() ) {
+		handler.addAsset( category, filename, req.body )
+			.then( (name) => {
+				res.sendStatus( StatusCodes.OK )
+			})
+			.catch( (err) => {
+				res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+			});
 	}
 	else{
-		res.sendStatus( StatusCodes.NOT_FOUND );
+		res.sendStatus( StatusCodes.NOT_ACCEPTABLE );
 	}
 });
 
 // DELETE /assets/:category/:filename
 router.delete( "/:category/:filename", (req, res) => {
-	if( ( req.params.category && req.params.category in cacheAssets )
-		&& ( req.params.filename && cacheAssets[ req.params.category ].includes( req.params.filename ) )
+	let category = req.params.category;
+	let filename = req.params.filename;
+	if( (category && category in handler.getCategories() )
+		&& ( filename && handler.getCategoryList(category).includes( filename ) )
 	){
-		let storiesToCheck = cacheStories;
-		let isDependent = null;
-		let pathRequested = path.join( assetsDir, req.params.category, req.params.filename);
-		let stories = getStoriesThatUse( pathRequested, storiesToCheck )
-			.then( (array) => {
-				array.forEach( (data) => {
+		let storiesToCheck = storyHandler.getList();
+		if( req.body && req.body.excludes ) {
+			let excludes = req.body.excludes;
+			storiesToCheck = storyHandler.getList().filter( (name) => !excludes.includes( name ) );
+		}
 
-				})
+		let isDependent = null;
+		let pathRequested = handler.getPathAsset( category, filename );
+		let stories = getStoriesThatUse( pathRequested, storiesToCheck )
+			.then( (storyNames) => {
+				if( stories && stories.length > 0 ) {
+					res.json( stories );
+					res.sendStatus( StatusCodes.FORBIDDEN );
+				}
+				else {
+					fs.unlink(pathRequested, (err) => {
+						if (err){
+							console.error( "Error", "[DELETE Asset]", "Unable to delete asset, \"%s\"; Cause:", pathRequested, err );
+							res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+						}
+					});
+				}
+			})
+			.catch( ( err ) => {
+				console.error( "Error", "[DELETE Asset]", "Unable to check stories assets, error:", err );
+				res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
 			});
-		if( stories && stories.length > 0 ) {
-			res.json( stories );
-			res.sendStatus( StatusCodes.FORBIDDEN );
-		}
-		else {
-			fs.unlink(pathRequested, (err) => {
-				if (err) throw err;
-			});
-		}
+
 	}
 	else{
 		res.sendStatus( StatusCodes.NOT_FOUND );
@@ -142,12 +200,27 @@ router.delete( "/:category/:filename", (req, res) => {
 });
 
 function getStoriesThatUse( pathResource, storiesNames ) {
-	let assocArray = storyHandler.getJSONArray();
-	let names = Object.keys( assocArray );
-	let array = [];
-	names.forEach( (name) => array.push( assocArray[ name ] ) );
 
-	return Promise.all( array );
+	let promises = new Array( storyNames.length );
+
+	storyHandler.getList().forEach( ( name, i ) => promises[ i ] = storyHandler.getStoryAssetsList( name ) );
+
+	return new Promise( function (resolve, reject) {
+		let storiesThatUseResource = [];
+		Promise.all( promises ).
+			then( (assetLists) => {
+				storyNames.forEach( (name, i ) => {
+					if( assetLists[ i ].includes( pathResource ) )
+						storiesThatUseResource.push( name )
+				});
+				resolve( storiesThatUseResource );
+			})
+			.catch( reject );
+	});
 }
 
-module.exports = router;
+module.exports = {
+	router: router,
+	handler: handler
+};
+

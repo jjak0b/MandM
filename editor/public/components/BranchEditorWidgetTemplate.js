@@ -49,7 +49,7 @@ export const template = `
             <div v-if=" valuef === 'Value'">
             <input-val
             v-on:taketype="placeType($event)"
-        v-on:value="update($event, true)">
+       		 v-on:input="update($event, true)">
         </input-val>
 <!--                <div v-if="valueTypeSel === 'Match'">-->
 <!--                  <text-area-input-->

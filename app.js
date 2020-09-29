@@ -19,4 +19,5 @@ app.use('/scan', require('./routes/qr-scanner'));
 app.use('/shared', require('./routes/shared'));
 app.use( '/stories', require('./routes/stories'));
 app.use( '/libs', require('./routes/libs'));
+app.use( '/assets', require('./routes/assets'));
 module.exports = app;

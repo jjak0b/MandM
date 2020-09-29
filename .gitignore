@@ -39,6 +39,7 @@ jspm_packages/
 
 # Authored
 stories/
+assets/
 
 ## Express rules
 build/Release

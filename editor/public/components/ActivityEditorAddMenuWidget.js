@@ -1,79 +1,73 @@
 import {template} from "./ActivityEditorAddMenuWidgetTemplate.js";
-import {component as asyncLoadComponentI18nInputWidget} from "./I18nInputWidget.js";
-import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidget.js";
-import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
-import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";
-import { component as sceneEditorComponent } from "./SceneEditorWidget.js ";
 import NodeUtils from "../js/NodeUtils.js";
+
 export const component = {
 	template: template,
 	props: {
 		locale: String,
 		currentNode: Object,
-		nextId: Number,
-		nextAssetId: Number
-	},
-	components: {
-		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-		'scene-editor-widget' :sceneEditorComponent,
-		'activity-tale-editor-widget': activityTaleEditorComponent,
-		'activity-quest-editor-widget': activityQuestEditorComponent,
-		'branch-editor-widget': conditionActivityOptionWidget
+		nextId: Number
 	},
 	data() {
 		return {
 			selectedType: null,
-			NodeUtils: NodeUtils,
-			tmpScene: { grid: [] }
+			state: null,
+			nameValue: "",
+			noteValue: "",
+			NodeUtils: NodeUtils
 		}
 	},
 	computed: {
 		menuTitle: function () { return this.$t('ActivityEditorWidget.label-add-menu-title') },
 		treeTab: function () { return this.$t('ActivityEditorWidget.label-tree-tab') },
-		activityTab: function () { return this.$t('ActivityEditorWidget.label-activity-tab') },
-		sceneTab: function () { return this.$t('ActivityEditorWidget.label-scene-tab') },
-		taleTab: function () { return this.$t('ActivityEditorWidget.label-tale-tab') },
-		questTab: function () { return this.$t('ActivityEditorWidget.label-quest-tab') },
-		branchTab: function () { return this.$t('ActivityEditorWidget.label-branch-tab') },
 		nodeTypeLabel: function () { return this.$t('ActivityEditorWidget.label-select-nodeType') },
 		typeTell: function () { return this.$t('ActivityEditorWidget.treeNode-type.tell.description') },
 		typeQuest: function () { return this.$t('ActivityEditorWidget.treeNode-type.quest.description') },
 		typeBranch: function () { return this.$t('ActivityEditorWidget.treeNode-type.branch.description') },
-		nodeName: function () { return 'node.name.' + this.nextId },
-		nodeNote: function () { return 'node.note.' + this.nextId },
-		activityTitle: function () { return 'activity.title.' + this.nextId },
-		activityDescription: function () { return 'activity.description.' + this.nextId },
 		nodeNameLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-name') },
 		nodeNoteLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-description') },
-		activityTitleLabel: function () { return this.$t('ActivityEditorWidget.label-activity-title') },
-		activityDescriptionLabel: function () { return this.$t('ActivityEditorWidget.label-activity-description') },
-		nodeNamePlaceholder: function () { return this.$t('ActivityEditorWidget.label-activity-no-title' ) }
+		nodeNamePlaceholder: function () { return this.$t('ActivityEditorWidget.label-activity-no-title' ) },
+		saveLabel: function () { return this.$t('shared.label-save') },
+		validFeedback: function () { return this.$t('ActivityEditorWidget.add-menu-valid-feedback' ) },
+		invalidFeedback: function () { return this.$t('ActivityEditorWidget.add-menu-invalid-feedback' ) },
 	},
 	methods: {
-		isType( checkType ) {
-			if( checkType ){
-				return this.selectedType == checkType;
-			}
-			else if( this.selectedType == 'quest' || this.selectedType == 'tell' ) {
-				return true;
-			}
-			return false;
+		checkFormValidity() {
+			const valid = this.$refs.form.checkValidity();
+			this.state = valid;
+			return valid
+		},
+		resetModal() {
+			this.nameValue = "";
+			this.noteValue = "";
+			this.selectedType = null;
+			this.state = null;
+		},
+		onSelect() {
+			if (this.state === false) this.state = true;
+		},
+		onOk(bvModalEvt) {
+			bvModalEvt.preventDefault();
+			this.onSubmit();
 		},
 		onSubmit() {
+			if (!this.checkFormValidity()) {
+				return
+			}
+
 			let id = this.nextId;
 
 			// TODO: fill this field if adding components which edit node data
 			let data = {};
 			data.noteInfo = {
-				name: 'node.name.' + id,
-				note: 'node.note.' + id,
+				name: this.nameValue,
+				note: this.noteValue,
 				type: this.selectedType
 			};
 			data.title = 'activity.title.' + id;
 			data.description = 'activity.description.' + id;
-			data.scene = this.tmpScene;
+			data.scene = { grid: [] };
 
-			this.tmpScene = null;
 			this.$emit('addActivity', data);
 		},
 		shouldShowTypeInSelector( type ){

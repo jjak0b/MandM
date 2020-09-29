@@ -27,7 +27,6 @@ export const component = {
 		return {
 			NodeUtils: NodeUtils,
 			currentNode: null /* object node used by jsTree */,
-			isAddFormVisible: false,
 			isEditFormVisible: false
 		}
 	},
@@ -49,12 +48,6 @@ export const component = {
 		}
 	},
 	computed: {
-		showActivityForm: function () { return this.isAddFormVisible || ( this.isEditFormVisible && !this.isActivity("#") ) },
-		currentMenu: function() {
-			if (this.isAddFormVisible) return 'add-menu-widget'
-			else if (this.isEditFormVisible) return 'edit-menu-widget'
-			else return null
-		}
 	},
 	methods: {
 		// serialize tree data and set it to parent mission
@@ -74,18 +67,18 @@ export const component = {
 		},
 		// events
 		onAdd( data ) {
-			let text = this.$t(data.noteInfo.name);
-			if (data.noteInfo.name === text) text = this.$t('ActivityEditorWidget.label-no-activity-title');
-			let item = this.$refs.treeView.add(this.nextId, data.noteInfo.type, text, data);
-			this.isAddFormVisible = false;
-			this.$emit("inc-id");
+			let item = this.$refs.treeView.add(this.nextId, data.noteInfo.type, data.noteInfo.name, data);
+
+			this.$nextTick(() => {
+				this.$refs.addMenu.$bvModal.hide('addMenu');
+				this.$emit("inc-id");
+			});
 		},
-		onEdit() {
-			let item = this.$refs.treeView.edit();
+		onEdit( noteInfo ) {
+			let item = this.$refs.treeView.edit( noteInfo );
 			this.isEditFormVisible = false;
 		},
 		onSelectedNode() {
-			this.isAddFormVisible = false;
 			this.isEditFormVisible = false;
 			this.$emit("inc-id");
 		}
@@ -93,10 +86,9 @@ export const component = {
 	mounted() {
 		$(document).on("addToolbar", () => {
 			this.isEditFormVisible = false;
-			this.isAddFormVisible = true;
+			this.$refs.addMenu.$bvModal.show('addMenu');
 		});
 		$(document).on("editToolbar", () => {
-			this.isAddFormVisible = false;
 			this.isEditFormVisible = true;
 		});
 		$(document).on("duplicateToolbar", () => {

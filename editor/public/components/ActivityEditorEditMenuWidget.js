@@ -23,8 +23,23 @@ export const component = {
 	},
 	data() {
 		return {
-			NodeUtils: NodeUtils
+			NodeUtils: NodeUtils,
+			nameValue: '',
+			noteValue: ''
 		}
+	},
+	watch: {
+		currentNode: {
+			immediate: true,
+			deep: true,
+			handler( newVal ) {
+				if(this.currentNode.data.noteInfo) {
+					this.nameValue = newVal.data.noteInfo.name;
+					this.noteValue = newVal.data.noteInfo.note;
+				}
+			}
+		}
+
 	},
 	computed: {
 		menuTitle: function () { return this.$t('ActivityEditorWidget.label-edit-menu-title') },
@@ -34,8 +49,6 @@ export const component = {
 		taleTab: function () { return this.$t('ActivityEditorWidget.label-tale-tab') },
 		questTab: function () { return this.$t('ActivityEditorWidget.label-quest-tab') },
 		branchTab: function () { return this.$t('ActivityEditorWidget.label-branch-tab') },
-		nodeName: function () { return 'node.name.' + this.currentNode.id },
-		nodeNote: function () { return 'node.note.' + this.currentNode.id },
 		activityTitle: function () { return 'activity.title.' + this.currentNode.id },
 		activityDescription: function () { return 'activity.description.' + this.currentNode.id },
 		nodeNameLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-name') },
@@ -54,7 +67,11 @@ export const component = {
 			return false;
 		},
 		onSubmit() {
-			this.$emit('editActivity');
+			let noteInfo = {
+				name: this.nameValue,
+				note: this.noteValue
+			}
+			this.$emit('editActivity', noteInfo);
 		}
 	}
 };

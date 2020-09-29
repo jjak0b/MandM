@@ -10,24 +10,19 @@ export const template =
 						<b-form-group
 							v-bind:label="nodeNameLabel"
 							label-for="nodeNameInput">
-							<i18n-input-widget
-								tag="input"
+							<b-form-input
 								id="nodeNameInput"
-								class="form-control"
-								v-bind:locale="locale"
-								v-bind:locale-label="nodeName">
-							</i18n-input-widget>
+								placeholder="nodeNamePlaceholder"
+								v-model="nameValue">
+							</b-form-input>
 						</b-form-group>
 						<b-form-group
 							v-bind:label="nodeNoteLabel"
 							label-for="nodeNoteInput">
-							<i18n-input-widget
-								tag="textarea"
+							<b-form-textarea
 								id="nodeNoteInput"
-								class="form-control"
-								v-bind:locale="locale"
-								v-bind:locale-label="nodeNote">
-							</i18n-input-widget>
+								v-model="noteValue">
+							</b-form-textarea>
 						</b-form-group>
 					</b-col>
 				</b-form-row>

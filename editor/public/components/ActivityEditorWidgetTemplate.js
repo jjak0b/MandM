@@ -13,15 +13,19 @@ export const template =
 				v-on:selectedNode="onSelectedNode"
 			></activity-tree-widget>
 	</b-card>
-	<component
-		v-bind:is="currentMenu"
-		v-bind:id="currentMenu"
+	<add-menu-widget
+		ref="addMenu"
+		v-bind:locale="locale"
+		v-bind:currentNode="currentNode"
+		v-bind:nextId="nextId"
+		v-on:addActivity="onAdd">
+	</add-menu-widget>
+	<edit-menu-widget v-if="isEditFormVisible"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
 		v-bind:nextId="nextId"
 		v-bind:nextAssetId="nextAssetId"
-		v-on:addActivity="onAdd"
 		v-on:editActivity="onEdit">	
-	</component>
+	</edit-menu-widget>
 </div>
 `;

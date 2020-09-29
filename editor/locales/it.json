@@ -28,7 +28,19 @@
 		"status": {
 			"label-operation-success": "Operazione completata con successo",
 			"label-operation-failed": "Operazione fallita"
+		},
+		"i18n": {
+			"label-no-locale": "Nessuna lingua",
+			"label-locale": "Lingua: {lang}"
 		}
+	},
+	"accessibility": {
+		"label": "Accessibilità",
+		"label-alt": "@:accessibility.label: Etichetta per l'elemento"
+	},
+	"i18n": {
+		"label": "Internazionalizzazione",
+		"label-description-region": "Contenuto dinamico per l'internazionalizzazione corrente"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",

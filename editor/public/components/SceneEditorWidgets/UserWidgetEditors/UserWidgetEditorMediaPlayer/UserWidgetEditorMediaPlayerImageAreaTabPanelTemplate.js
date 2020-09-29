@@ -37,18 +37,13 @@ export const template =
 		</div>
 		<div class="row">
 			<div class="col">
-				<div class="form-group">
-					<label
-						v-bind:for="'mediaForm-input-image-area-' + areaIndex + '-alt'"
-					>{{ $t( "shared.accessibility.label-alt" ) }}</label>
-					<i18n-input-widget
-						v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-alt'"
-						tag="input"
-						v-bind:locale="locale"
-						v-bind:locale-label="area.alt"
-						class="form-control"
-					></i18n-input-widget>
-				</div>
+				<i18n-input-widget
+					v-bind:label="$t( 'accessibility.label-alt' )"
+					v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-alt'"
+					tag="input"
+					v-bind:locale="locale"
+					v-bind:locale-label="area.alt"
+				></i18n-input-widget>
 			</div>
 		</div>
 		<div class="row">

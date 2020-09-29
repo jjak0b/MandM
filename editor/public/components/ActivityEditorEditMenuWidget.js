@@ -29,13 +29,13 @@ export const component = {
 		}
 	},
 	watch: {
-		currentNode: {
+		noteInfo: {
 			immediate: true,
 			deep: true,
-			handler( newVal ) {
-				if(this.currentNode.data.noteInfo) {
-					this.nameValue = newVal.data.noteInfo.name;
-					this.noteValue = newVal.data.noteInfo.note;
+			handler( newNoteInfo ) {
+				if( newNoteInfo ) {
+					this.nameValue = newNoteInfo.name;
+					this.noteValue = newNoteInfo.note;
 				}
 			}
 		}
@@ -54,7 +54,8 @@ export const component = {
 		nodeNameLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-name') },
 		nodeNoteLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-description') },
 		activityTitleLabel: function () { return this.$t('ActivityEditorWidget.label-activity-title') },
-		activityDescriptionLabel: function () { return this.$t('ActivityEditorWidget.label-activity-description') }
+		activityDescriptionLabel: function () { return this.$t('ActivityEditorWidget.label-activity-description') },
+		noteInfo: function () { return ( this.currentNode.data.noteInfo ? this.currentNode.data.noteInfo : null ) },
 	},
 	methods: {
 		isType( checkType ) {

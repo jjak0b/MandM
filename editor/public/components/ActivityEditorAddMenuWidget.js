@@ -26,7 +26,6 @@ export const component = {
 		typeBranch: function () { return this.$t('ActivityEditorWidget.treeNode-type.branch.description') },
 		nodeNameLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-name') },
 		nodeNoteLabel: function () { return this.$t('ActivityEditorWidget.label-node-item-description') },
-		nodeNamePlaceholder: function () { return this.$t('ActivityEditorWidget.label-activity-no-title' ) },
 		saveLabel: function () { return this.$t('shared.label-save') },
 		validFeedback: function () { return this.$t('ActivityEditorWidget.add-menu-valid-feedback' ) },
 		invalidFeedback: function () { return this.$t('ActivityEditorWidget.add-menu-invalid-feedback' ) },

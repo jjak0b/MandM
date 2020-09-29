@@ -4,20 +4,20 @@ export const template =
 	<li id="addToolbar">
 		<div>{{ $t( 'shared.label-add' ) }}</div>
 	</li>
-	<li id="editToolbar">
-		<div>Edit</div>
+	<li id="editToolbar" v-show="!isMission">
+		<div>{{ $t( 'shared.label-edit' ) }}</div>
 	</li>
-	<li id="duplicateToolbar">
+	<li id="duplicateToolbar" v-show="!isMission">
 		<div>{{ $t( 'shared.label-duplicate' ) }}</div>
 	</li>
-	<li id="removeToolbar">
+	<li id="removeToolbar" v-show="!isMission">
 		<div>{{ $t( 'shared.label-remove' ) }}</div>
 	</li>
-	<li id="grabToolbar" v-if="showGrab">
-		<div>Grab</div>
+	<li id="grabToolbar" v-show="showGrab && !isMission">
+		<div>{{ $t( 'shared.label-grab' ) }}</div>
 	</li>
-	<li id="dropToolbar" v-if="!showGrab">
-		<div>Drop</div>
+	<li id="dropToolbar" v-show="!showGrab && !isMission">
+		<div>{{ $t( 'shared.label-drop' ) }}</div>
 	</li>
 </ul>
 `;

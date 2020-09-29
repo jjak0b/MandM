@@ -47,7 +47,6 @@ export const template =
 					label-for="nodeNameInput">
 					<b-form-input
 						id="nodeNameInput"
-						v-bind:placeholder="nodeNamePlaceholder"
 						v-model="nameValue">
 					</b-form-input>
 				</b-form-group>

@@ -1,11 +1,18 @@
 import {template} from "./ActivityToolbarWidgetTemplate.js";
+import NodeUtils from "../js/NodeUtils.js";
 
 export const component = {
 	template: template,
+	props: {
+		type: String
+	},
 	data() {
 		return {
 			showGrab: true
 		}
+	},
+	computed: {
+		isMission: function() { return this.type === NodeUtils.Types.Root }
 	},
 	mounted() {
 		$( "#menu" ).menu({

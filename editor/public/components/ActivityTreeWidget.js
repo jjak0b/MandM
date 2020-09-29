@@ -15,7 +15,8 @@ export const component = {
 	data() {
 		return {
 			tree: null,
-			grabNode: null
+			grabNode: null,
+			selectedNode: null
 		}
 	},
 	watch: {
@@ -26,6 +27,9 @@ export const component = {
 		"value.text" : function ( newVal ) {
 			if( this.tree ) this.tree.rename_node(this.value, newVal);
 		}
+	},
+	computed: {
+		currentType: function() { return ( this.selectedNode ? this.selectedNode.type : null ) }
 	},
 	updated(){
 		this.redraw();
@@ -135,8 +139,8 @@ export const component = {
 			let node = data.node;
 		},
 		onSelect( event, data ) {
-			let node = data.instance.get_node(data.selected[0]);
-			this.notifyValue( node );
+			this.selectedNode = data.instance.get_node(data.selected[0]);
+			this.notifyValue( this.selectedNode );
 		},
 		// Operations
 		add( id, type, nodeName, nodeData ) {

@@ -40,7 +40,13 @@
 	},
 	"i18n": {
 		"label": "Internazionalizzazione",
-		"label-description-region": "Contenuto dinamico per l'internazionalizzazione corrente"
+		"label-description-region": "Contenuto dinamico per l'internazionalizzazione corrente",
+		"label-story": "Storia | Storie",
+		"label-Array": "Lista",
+		"label-Text": "Testo",
+		"label-Number": "Numero",
+		"label-Time": "Tempo",
+		"label-Date": "Data"
 	},
 	"I18nSelectorWidget" : {
 		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
@@ -106,30 +112,27 @@
 			}
 		},
 		"input-type": {
-			"any": {
-				"label": "Qualsiasi"
-			},
-			"atom": {
-				"label": "Singolo"
-			},
-			"range":{
-				"label":"Rateo"
-			},
-			"function": {
-				"label": "Funzione"
-			}
+			"any":"Qualsiasi",
+			"atom":"Unico",
+			"range":"Rateo",
+			"function":"Funzione"
 		},
-		"input-func-value":{
-			"array" : {
-				"label":"Lista"
+		"label-variable": "Variabile",
+		"tnt-desc":"Inserisci un {value}, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
+		"array-desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente",
+		"range-desc": "Inserisci il valore minimo e massimo",
+		"function-desc": "Seleziona i parametri e le condizioni avanzate",
+			"select-type-func": {
+				"eq": "Ugualianza",
+				"neq": "Non Ugulianza",
+				"hasInside": "Ha il valore",
+				"isInThere": "È presente",
+				"isInRange": "È tra i valori"
 			},
-			"value" : {
-				"label":"Singolo"
-			},
-			"variable" : {
-				"label":"Variable"
-			}
-		}
+		"label-tag": "Sistema",
+		"label-type": "Tipo",
+		"label-type-func": "Tipo Condizione",
+		"label-value": "Valori"
 	},
 	"SceneEditorWidget": {
 		"GridWidget": {
@@ -143,6 +146,7 @@
 			"label-edit-cell-widget": "Imposta il widget contenuto nella cella"
 		}
 	},
+
 	"UserWidgets" : {
 		"Datepicker" : {
 			"label-prev-decade" : "Decennio precedente",

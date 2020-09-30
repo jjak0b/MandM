@@ -5,12 +5,12 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.Checkbox.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-checkbox-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-checkbox-editor-add-element"
-						v-bind:label="$t('UserWidgets.Checkbox.label-add-element')"
+						v-bind:label="$t('shared.label-add-element')"
 					>
 					<b-form-input
 						id="user-widget-checkbox-editor-add-element"
@@ -22,7 +22,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-checkbox-editor-remove-element"
-						v-bind:label="$t('UserWidgets.Checkbox.label-remove-element')"
+						v-bind:label="$t('shared.label-remove-element')"
 					>
 						<b-list-group id="user-widget-checkbox-editor-remove-element"> 
 							<b-list-group-item 

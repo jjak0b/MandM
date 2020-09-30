@@ -5,12 +5,12 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.numberInput.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-number-input-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-numberInput-editor-placeholder"
-						v-bind:label="$t('UserWidgets.NumberInput.label-placeholder')"
+						v-bind:label="$t('shared.label-placeholder')"
 					>
 					<b-form-input
 						type="number"
@@ -22,7 +22,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-numberInput-editor-step"
-						v-bind:label="$t('UserWidgets.NumberInput.label-step')"
+						v-bind:label="$t('shared.label-step')"
 					>
 					<b-form-input
 						type="number"
@@ -37,7 +37,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-numberInput-editor-min"
-						v-bind:label="$t('UserWidgets.NumberInput.label-min')"
+						v-bind:label="$t('shared.label-min')"
 					>
 					<b-form-input
 						type="number"
@@ -49,7 +49,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-numberInput-editor-max"
-						v-bind:label="$t('UserWidgets.NumberInput.label-max')"
+						v-bind:label="$t('shared.label-max')"
 					>
 					<b-form-input
 						type="number"

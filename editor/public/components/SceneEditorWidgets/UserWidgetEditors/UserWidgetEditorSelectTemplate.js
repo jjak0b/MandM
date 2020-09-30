@@ -5,12 +5,12 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.Select.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-select-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-select-editor-add-element"
-						v-bind:label="$t('UserWidgets.Select.label-add-element')"
+						v-bind:label="$t('shared.label-add-element')"
 					>
 					<b-form-input
 						id="user-widget-select-editor-add-element"
@@ -22,7 +22,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-select-editor-remove-element"
-						v-bind:label="$t('UserWidgets.Select.label-remove-element')"
+						v-bind:label="$t('shared.label-remove-element')"
 					>
 						<b-list-group id="user-widget-select-editor-remove-element"> 
 							<b-list-group-item 

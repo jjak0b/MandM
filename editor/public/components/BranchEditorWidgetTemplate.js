@@ -16,14 +16,15 @@ export const template = `
         </select>
         </b-col>
         <b-col>
-        <select v-for="(element, section) in section" v-model="section.valueTypeSel">
+        <select v-for="(element, self) in section" v-model="element.type">
         <option v-for="(nameType, keyType) in functioVal"
         v-bind:value="keyType">{{$t(nameType)}}</option>
-        <component v-for="self in section"
-        v-if="self.valueTypeSel"
-        :is="functioValTag[self.valueTypeSel]"
-        ></component>
 </select>
+<component v-for="(element, index) in section"
+v-model="element.value"
+        v-if="element.type"
+        :is="functioValTag[element.type]"
+        ></component>
 </b-col>
 <!--        <div v-if="val.tag == 'atom' && val.tag">-->
 <!--            <single-input-->

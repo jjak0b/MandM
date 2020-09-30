@@ -16,6 +16,7 @@ export const component = {
         return {
             valmin:Number,
             valmax:Number,
+            prova:'',
             valuef: String,
             val:{
                 tag: '',
@@ -37,20 +38,24 @@ export const component = {
                 "Value":"input-val",
                 "Variable":"b-form-select"
             },
-            section:{
-                "1":{
-                    valueTypeSel:''
+            section:[
+                {
+                    type:String,
+                    value:''
                 },
-                "2":{
-                    valueTypeSel:''
+                {
+                    type:String,
+                    value:''
                 },
-                "3":{
-                    valueTypeSel:''
+                {
+                    value:'',
+                    type:String
                 },
-                "4":{
-                    valueTypeSel:''
+                {
+                    value:'',
+                    type:String
                 }
-            },
+            ],
             functionsN:{
               "eq": "ActivityEditorWidget.select-type-func.eq",
                 "neq": "ActivityEditorWidget.select-type-func.neq",

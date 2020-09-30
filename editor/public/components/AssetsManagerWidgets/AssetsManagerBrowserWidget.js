@@ -1,0 +1,89 @@
+import { template } from "./AssetsManagerBrowserWidgetTemplate.js";
+
+export const component = {
+	template: template,
+	components: {
+
+	},
+	props: {
+		// force categories
+		forceFilter: {
+			type: Array,
+			default: []
+		}
+	},
+	data() {
+		return {
+			categories: [
+				"videos",
+				"audio",
+				"images",
+				"captions"
+			],
+			localeStrings: {
+				videos: "shared.media.label-video",
+				audio: "shared.media.label-audio",
+				images: "shared.media.label-image",
+				captions: "shared.media.label-caption",
+			},
+			selectedItem: null,
+			filter: {
+				search: null,
+				categories: []
+			},
+			optionsCategories: [],
+			optionsAssets: [],
+			disabled: {}
+		}
+	},
+	beforeMount() {
+		this.setupFilters();
+		this.updateList();
+	},
+	methods: {
+		setupFilters() {
+			let isForced = this.forceFilter && this.forceFilter.length;
+			for (let i = 0; i < this.categories.length; i++) {
+
+				// check forced filters
+				if( isForced && this.forceFilter.includes( this.categories[ i ] ) ){
+					this.filter.categories.push( this.categories[ i ] );
+				}
+
+				// create options data
+				this.optionsCategories[ i ] = {
+					value:  this.categories[ i ],
+					text: this.$tc( this.localeStrings[ this.categories[ i ] ], 100 ),
+					disabled: isForced,
+				};
+			}
+		},
+		updateList() {
+			// if filter is set, then get only filtered, else get all
+			let categories = this.filter.categories.length ? this.filter.categories : this.categories;
+
+			let promisesNames = new Array( categories.length );
+			for (let i = 0; i < categories.length; i++) {
+				promisesNames[ i ] = $.get( `/assets/${categories[i]}/` );
+			}
+			let self = this;
+			Promise.all( promisesNames )
+				.then( (assetNames) => {
+					self.optionsAssets = [];
+					assetNames.forEach( (namesOfCategory, i) => {
+
+						let options = self.filter.search ? namesOfCategory.filter( (name) => name.includes( self.filter.search ) ) : namesOfCategory;
+						let group = {
+							label: self.$tc( self.localeStrings[ categories[ i ] ], 100 ),
+							options: options
+						}
+
+						self.optionsAssets.push( group );
+					});
+
+
+				})
+				.catch( (error) => console.error( "[Assets Manager Browser]", "Error getting names for", categories, "cause:", error) )
+		}
+	},
+};

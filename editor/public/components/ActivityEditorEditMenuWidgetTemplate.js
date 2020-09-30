@@ -12,7 +12,6 @@ export const template =
 							label-for="nodeNameInput">
 							<b-form-input
 								id="nodeNameInput"
-								placeholder="nodeNamePlaceholder"
 								v-model="nameValue">
 							</b-form-input>
 						</b-form-group>
@@ -25,16 +24,6 @@ export const template =
 							</b-form-textarea>
 						</b-form-group>
 					</b-col>
-				</b-form-row>
-				<b-form-row>
-					<b-button-toolbar>
-						<b-button class="mx-1" type="submit" variant="primary">
-							{{ $t('shared.label-save') }}
-						</b-button>
-						<b-button type="reset" variant="danger">
-							{{ $t('shared.label-reset') }}
-						</b-button>
-					</b-button-toolbar>
 				</b-form-row>
 			</b-tab>	
 			<b-tab v-bind:title="activityTab">
@@ -56,16 +45,6 @@ export const template =
 						</i18n-input-widget>
 					</b-col>
 				</b-form-row>
-				<b-form-row>
-					<b-button-toolbar>
-						<b-button class="mx-1" type="submit" variant="primary">
-							{{ $t('shared.label-save') }}
-						</b-button>
-						<b-button type="reset" variant="danger">
-							{{ $t('shared.label-reset') }}
-						</b-button>
-					</b-button-toolbar>
-				</b-form-row>
 			</b-tab>
 			<b-tab v-bind:title="sceneTab" v-if="isType()">
 				<scene-editor-widget
@@ -73,16 +52,6 @@ export const template =
 					v-bind:nextAssetId="nextAssetId"
 					v-bind:scene="currentNode.data.scene"
 				></scene-editor-widget>
-				<b-form-row>
-					<b-button-toolbar>
-						<b-button class="mx-1" type="submit" variant="primary">
-							{{ $t('shared.label-save') }}
-						</b-button>
-						<b-button type="reset" variant="danger">
-							{{ $t('shared.label-reset') }}
-						</b-button>
-					</b-button-toolbar>
-				</b-form-row>
 			</b-tab>
 			<b-tab v-bind:title="taleTab" v-if="isType(NodeUtils.Types.Tell)">
 				<activity-tale-editor-widget>
@@ -97,6 +66,16 @@ export const template =
 				</branch-editor-widget>
 			</b-tab>
 		</b-tabs>
+		<b-form-row class="mr-5 mb-3 float-right">
+				<b-button-toolbar>
+					<b-button class="mx-1" type="submit" variant="primary">
+						{{ $t('shared.label-save') }}
+					</b-button>
+					<b-button type="reset" variant="danger">
+						{{ $t('shared.label-reset') }}
+					</b-button>
+				</b-button-toolbar>
+		</b-form-row>
 	</b-form>
 </b-card>
 `

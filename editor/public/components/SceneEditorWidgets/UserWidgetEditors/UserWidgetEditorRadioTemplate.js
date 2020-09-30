@@ -5,12 +5,12 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.Radio.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-radio-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-radio-editor-add-element"
-						v-bind:label="$t('UserWidgets.Radio.label-add-element')"
+						v-bind:label="$t('shared.label-add-element')"
 					>
 					<b-form-input
 						id="user-widget-radio-editor-add-element"
@@ -22,7 +22,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-radio-editor-remove-element"
-						v-bind:label="$t('UserWidgets.Radio.label-remove-element')"
+						v-bind:label="$t('shared.label-remove-element')"
 					>
 						<b-list-group id="user-widget-radio-editor-remove-element"> 
 							<b-list-group-item 

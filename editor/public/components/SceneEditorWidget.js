@@ -52,47 +52,47 @@ export const component = {
 			widgetsTable: {
 				"user-widget-checkbox" : {
 					editor: "user-widget-editor-checkbox",
-					label: "UserWidgets.Checkbox.label-widget-name",
+					label: "UserWidgets.label-checkbox-widget-name",
 					options: checkboxComponent
 				},
 				"user-widget-select" : {
 					editor: "user-widget-editor-select",
-					label: "UserWidgets.Select.label-widget-name",
+					label: "UserWidgets.label-select-widget-name",
 					options: selectComponent
 				},
 				"user-widget-radio" : {
 					editor: "user-widget-editor-radio",
-					label: "UserWidgets.Radio.label-widget-name",
+					label: "UserWidgets.label-radio-widget-name",
 					options: radioComponent
 				},
 				"user-widget-textInput" : {
 					editor: "user-widget-editor-textInput",
-					label: "UserWidgets.TextInput.label-widget-name",
+					label: "UserWidgets.label-text-input-widget-name",
 					options: textInputComponent
 				},
 				"user-widget-numberInput" : {
 					editor: "user-widget-editor-numberInput",
-					label: "UserWidgets.NumberInput.label-widget-name",
+					label: "UserWidgets.label-number-input-widget-name",
 					options: numberInputComponent
 				},
 				"user-widget-range" : {
 					editor: "user-widget-editor-range",
-					label: "UserWidgets.Range.label-widget-name",
+					label: "UserWidgets.label-range-widget-name",
 					options: rangeComponent
 				},
 				"user-widget-spinbutton" : {
 					editor: "user-widget-editor-spinbutton",
-					label: "UserWidgets.Spinbutton.label-widget-name",
+					label: "UserWidgets.label-spinbutton-widget-name",
 					options: spinbuttonComponent
 				},
 				"user-widget-datepicker" : {
 					editor: "user-widget-editor-datepicker",
-					label: "UserWidgets.Datepicker.label-widget-name",
+					label: "UserWidgets.label-datepicker-widget-name",
 					options: datepickerComponent
 				},
 				"user-widget-media-player": {
 					editor: "user-widget-editor-media-player",
-					label: "UserWidgets.MediaPlayer.label-widget-name",
+					label: "UserWidgets.label-media-player-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
 				}
 			},

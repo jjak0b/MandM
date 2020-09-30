@@ -5,12 +5,12 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.Range.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-range-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-range-editor-step"
-						v-bind:label="$t('UserWidgets.Range.label-step')"
+						v-bind:label="$t('shared.label-step')"
 					>
 					<b-form-input
 						type="number"
@@ -23,7 +23,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-range-editor-min"
-						v-bind:label="$t('UserWidgets.Range.label-min')"
+						v-bind:label="$t('shared.label-min')"
 					>
 					<b-form-input
 						type="number"
@@ -33,7 +33,7 @@ export const template =
 					</b-form-group>
 					<b-form-group
 						label-for="user-widget-range-editor-max"
-						v-bind:label="$t('UserWidgets.Range.label-max')"
+						v-bind:label="$t('shared.label-max')"
 					>
 					<b-form-input
 						type="number"

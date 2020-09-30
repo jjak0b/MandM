@@ -8,6 +8,9 @@ export const template =
 	v-on:blur="redraw()"
 	v-on:contextmenu="contextMenuHandler($event)"
 ></div>
-<toolbar style="display: none;"></toolbar>
+<toolbar 
+	style="display: none;"
+	v-bind:type="currentType"
+></toolbar>
 </div>
 `;

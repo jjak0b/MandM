@@ -1,195 +1,321 @@
 {
-	"shared" : {
-		"label-new-element": "New {name} item",
-		"label-save": "Save",
-		"label-remove": "Remove",
-		"label-confirm": "Confirm",
-		"label-abort": "Abort",
-		"label-reset": "Reset",
-	  	"label-close": "Close",
-		"label-import": "Import",
-		"label-export": "Export",
-		"label-upload": "Upload",
-		"label-download": "Download",
-		"label-add": "Add",
-		"label-add-before": "Add before",
-		"label-add-after": "Add after",
-		"label-add-name": "Add {name}",
-		"label-duplicate": "Duplicate",
-		"label-i18n": "Internationalize",
-		"label-mission": "Mission | Missions",
-		"label-missions": "No mission | {count} mission | {count} missions",
-		"label-activity": "Activity | Activities",
-		"label-story": "Story | Stories",
-		"label-select-option": "Select an option",
-		"label-from-file": "From file",
-		"label-from-server": "From server",
-		"label-as-file": "As file",
-		"label-onto-server": "Onto server",
-		"status": {
-			"label-operation-success": "Operation completed successfully",
-			"label-operation-failed": "Operation failed"
-		},
-		"i18n": {
-			"label-no-locale": "No language",
-			"label-locale": "Language: {lang}"
-		}
-  	},
-	"accessibility": {
-		"label": "Accessibility",
-		"label-alt": "@:accessibility.label: Label for element"
+  "shared": {
+	"label-new-element": "New {name} item",
+	"label-save": "Save",
+	"label-remove": "Remove",
+	"label-confirm": "Confirm",
+	"label-abort": "Abort",
+	"label-reset": "Reset",
+	"label-close": "Close",
+	"label-import": "Import",
+	"label-export": "Export",
+	"label-upload": "Upload",
+	"label-download": "Download",
+	"label-edit": "Edit",
+	"label-add": "Add",
+	"label-add-before": "Add before",
+	"label-add-after": "Add after",
+	"label-add-name": "Add {name}",
+	"label-duplicate": "Duplicate",
+	"label-grab": "Grab",
+	"label-drop": "Drop",
+	"label-i18n": "Internationalize",
+	"label-mission": "Mission | Missions",
+	"label-missions": "No mission | {count} mission | {count} missions",
+	"label-activity": "Activity | Activities",
+	"label-story": "Story | Stories",
+	"label-select-option": "Select an option",
+	"label-from-file": "From file",
+	"label-from-server": "From server",
+	"label-as-file": "As file",
+	"label-onto-server": "Onto server",
+	"label-preview": "Preview",
+	"label-add-element": "Add Element",
+	"label-remove-element": "Remove Element",
+	"label-placeholder": "Placeholder",
+	"label-step": "Step",
+	"label-min": "Min",
+	"label-max": "Max",
+	"label-wrap": "Wrap",
+	"label-none": "None",
+	"label_axis": "Axis",
+	"label-shape-TYPE": "Shape type",
+	"status": {
+	  "label-operation-success": "Operation completed successfully",
+	  "label-operation-failed": "Operation failed"
 	},
 	"i18n": {
-		"label": "Internationalization",
-		"label-description-region": "Dynamic content for current internationalization"
+	  "label-no-locale": "No language",
+	  "label-locale": "Language: {lang}"
+	}
+  },
+  "accessibility": {
+	"label": "Accessibility",
+	"label-alt": "@:accessibility.label: Label for element"
+  },
+  "i18n": {
+	"label": "Internationalization",
+	"label-description-region": "Dynamic content for current internationalization"
+  },
+  "I18nSelectorWidget": {
+	"label-i18n-select": "Select and add an internationalization to make it available",
+	"label-locale-select": "Select current internationalization to edit"
+  },
+  "StoryEditorWidget": {
+	"label-story-title": "Story title",
+	"label-story-description": "Story description",
+	"label-gamemode": "Gamemode",
+	"label-story-to-import": "Story to import",
+	"label-story-to-export": "Story to export",
+	"label-export-server-description": "The current story loaded in the application will be uploaded to the server with the provided name. If a story with the same name already exists on the server, it will be replaced with this version",
+	"label-upload-story": "Upload the story",
+	"label-download-story": "Download the story",
+	"label-select-story-file": "Select a story file",
+	"label-story-id-name": "ID name of story",
+	"label-replace-existing": "Replace existing story",
+	"label-invalid-name-already-exists": "Name already exists",
+	"label-valid-name-available": "Name available",
+	"label-valid-json": "The provided file is a valid story",
+	"label-invalid-json": "The provided file is an invalid story. Retry providing .json valid story",
+	"gamemodes": {
+	  "solo": {
+		"label": "Solo mode",
+		"description": "The player plays individually"
+	  },
+	  "group": {
+		"label": "Group mode",
+		"description": "The players collaborate each to other in a group"
+	  },
+	  "class": {
+		"label": "Class mode",
+		"description": "The groups play independently and are in competitions"
+	  }
+	}
+  },
+  "MissionEditorWidget": {
+	"label-mission-no-title": "Untitled mission",
+	"label-mission-title": "Mission title",
+	"label-mission-description": "Mission description",
+	"label-mission-list": "Mission list"
+  },
+  "ActivityEditorWidget": {
+	"label-edit-menu-title": "Edit menu",
+	"label-add-menu-title": "Add menu",
+	"label-activity-title": "Activity title",
+	"label-activity-no-title": "Untitled activity",
+	"label-activity-description": "Activity description",
+	"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
+	"label-select-nodeType": "Select a type of element to add to the tree",
+	"add-menu-invalid-feedback": "Please select activity type",
+	"add-menu-valid-feedback": "Thank you",
+	"label-node-item-name": "Tree item's name",
+	"label-input-type": "Select input type",
+	"label-node-item-description": "Note about the tree item",
+	"label-tree-tab": "Node",
+	"label-activity-tab": "Activity",
+	"label-scene-tab": "Scene",
+	"label-tale-tab": "Tale",
+	"label-quest-tab": "Quest",
+	"label-branch-tab": "Branch",
+	"treeNode-type": {
+	  "quest": {
+		"label": "Quest",
+		"description": "Create an interactive activity which will create a branch of possible results"
+	  },
+	  "tell": {
+		"label": "Telltales",
+		"description": "Explain and tell a dialogue"
+	  },
+	  "branch": {
+		"label": "Branch",
+		"description": "Describes a possible path of the story"
+	  }
 	},
-	"I18nSelectorWidget" : {
-		"label-i18n-select": "Select and add an internationalization to make it available",
-		"label-locale-select": "Select current internationalization to edit"
-  	},
-	"StoryEditorWidget" : {
-		"label-story-title": "Story title",
-		"label-story-description" : "Story description",
-		"label-gamemode": "Gamemode",
-		"label-story-to-import": "Story to import",
-		"label-story-to-export": "Story to export",
-		"label-export-server-description": "The current story loaded in the application will be uploaded to the server with the provided name. If a story with the same name already exists on the server, it will be replaced with this version",
-		"label-upload-story": "Upload the story",
-		"label-download-story": "Download the story",
-		"label-select-story-file": "Select a story file",
-		"label-story-id-name": "ID name of story",
-		"label-replace-existing": "Replace existing story",
-		"label-invalid-name-already-exists": "Name already exists",
-		"label-valid-name-available": "Name available",
-		"label-valid-json": "The provided file is a valid story",
-		"label-invalid-json": "The provided file is an invalid story. Retry providing .json valid story",
-		"gamemodes" : {
-			"solo" : {
-				"label" : "Solo mode",
-				"description" : "The player plays individually"
-			},
-			"group" : {
-				"label" : "Group mode",
-				"description" : "The players collaborate each to other in a group"
-			},
-			"class" : {
-				"label" : "Class mode",
-				"description" : "The groups play independently and are in competitions"
-			}
+	"input-type": {
+	  "any": {
+		"label": "any"
+	  },
+	  "atom": {
+		"label": "atom"
+	  },
+	  "range": {
+		"label": "range"
+	  },
+	  "function": {
+		"label": "function"
+	  }
+	},
+	"input-func-value": {
+	  "array": {
+		"label": "Array"
+	  },
+	  "value": {
+		"label": "Value"
+	  },
+	  "variable": {
+		"label": "Variable"
+	  }
+	}
+  },
+  "SceneEditorWidget": {
+	"GridWidget": {
+	  "label-add-row": "Add row",
+	  "label-add-col": "Add columns",
+	  "label-remove-cell": "remove selected cell",
+	  "label-remove-row": "remove selected row",
+	  "label-show-grid-border": "Show cell borders on the grid",
+	  "label-edit-selected-cell": "Edit selected cell",
+	  "label-edit-cell-size": "Edit the cell size",
+	  "label-edit-cell-widget": "Set the widget to use inside the cell"
+	}
+  },
+  "StyleEditorWidget": {
+	"label-no-property": "No property",
+	"label-add-property-to-edit": "Add property to edit",
+	"label-no-CSS-rule": "No CSS rule",
+	"label-add-rule-to-edit": "Add rule to edit",
+	"label-property-value": "Property value",
+	"classes": {
+	  "label-utility": "Utility",
+	  "label-image": "Image",
+	  "label-text": "Text",
+	  "label-align": "Align",
+	  "label-color": "Color",
+	  "label-border": "Border",
+	  "label-margin": "Margin",
+	  "label-padding": "Padding",
+	  "label-position": "Position",
+	  "label-size": "Size",
+	  "label-button": "Button"
+	},
+	"bootstrap": {
+	  "label-bootstrap-classes": "Bootstrap classes",
+	  "label-visit-documentation-for-class-info": "Visit documentation for class info"
+	},
+	"rule": {
+	  "label-rule-list": "Rule list",
+	  "label-css-selector-editor": "CSS selector editor",
+	  "label-css-properties-editor": "CSS properties editor",
+	  "label-add-property-name": "Add property name",
+	  "label-css-preview": "CSS preview",
+	  "property": {
+		"label-parameter": "Parameter"
+	  }
+	},
+	"StyleLengthWidget": {
+	  "units": {
+		"label_relative": "Relative",
+		"label_absolute": "Absolute"
+	  }
+	},
+	"selector": {
+	  "label-class": "Class"
+	},
+	"StyleSelector": {
+	  "selector": {
+		"label-class": "Class",
+		"label-use-custom-selector": "Use custom selector",
+		"label-entity-selector": "Entity selector",
+		"label-warning-assuming-advanced-user": "Assuming advanced user",
+		"label-insert-custom-selector": "Insert custom selector",
+		"label-element": "Element",
+		"label-id": "Id",
+		"label-attribute-selector": "Attribute selector",
+		"label-attribute-name": "Attribute name",
+		"label-attribute-check-operator": "Attribute check operator",
+		"label-attribute-value": "Attribute value",
+		"label-match-case-insensitive": "Match case insensitive",
+		"label-pseudo-class": "Pseudo-class",
+		"label-pseudo-element": "Pseudo-element",
+		"attributeOp": {
+		  "label-equals": "Equals",
+		  "label-contains-word": "Contains word",
+		  "label-start-with": "Start with",
+		  "label-end-with": "End with",
+		  "label-contains": "Contains"
 		}
+	  }
+	}
+  },
+  "AttributeEditorWidget": {
+	"label-attributes": "Attributes",
+	"label-label-id": "Id",
+	"label-classes": "Classes"
+  },
+  "UserWidgets": {
+	"label-checkbox-widget-name": "Checkbox",
+	"label-select-widget-name": "Select",
+	"label-radio-widget-name": "Radio",
+	"label-text-input-widget-name": "Text Input",
+	"label-number-input-widget-name": "Number Input",
+	"label-range-widget-name": "Range",
+	"label-spinbutton-widget-name": "Spinbutton",
+	"label-datepicker-widget-name": "Datepicker",
+	"label-media-player-widget-name": "Media Player",
+	"label-checkbox-settings": "Checkbox Settings",
+	"label-radio-settings": "Radio Settings",
+	"label-select-settings": "Select Settings",
+	"label-text-input-settings": "Text Input Settings",
+	"label-number-input-settings": "Number Input Settings",
+	"label-range-settings": "Range Settings",
+	"label-spinbutton-settings": "Spinbutton Settings",
+	"Datepicker": {
+	  "label-settings": "Settings",
+	  "label-readonly": "Read-only",
+	  "label-start-weekday": "Start weekday",
+	  "label-constraints": "Constraints",
+	  "description-constraints": "Description Constraints",
+	  "label-date-min": "Date min",
+	  "label-date-max": "Date max",
+	  "label-variants-theme": "Theme variants",
+	  "label-variant-theme-selected": "Selected theme",
+	  "label-variant-theme-today": "Today theme"
 	},
-	"MissionEditorWidget" : {
-		"label-mission-no-title": "Untitled mission",
-	  	"label-mission-title": "Mission title",
-		"label-mission-description" : "Mission description",
-		"label-mission-list" : "Mission list"
-  	},
-	"ActivityEditorWidget" : {
-	  	"label-edit-menu-title": "Edit menu",
-	  	"label-add-menu-title": "Add menu",
-	  	"label-activity-title" : "Activity title",
-	  	"label-activity-no-title": "Untitled activity",
-	 	 "label-activity-description" : "Activity description",
-		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
-		"label-select-nodeType" : "Select a type of element to add to the tree",
-		"add-menu-invalid-feedback": "Please select activity type",
-		"add-menu-valid-feedback": "Thank you",
-	  	"label-node-item-name" : "Tree item's name",
-		"label-input-type":"Select input type",
-		"label-node-item-description" : "Note about the tree item",
-	  	"label-tree-tab": "Node",
-		"label-activity-tab": "Activity",
-		"label-scene-tab": "Scene",
-		"label-tale-tab": "Tale",
-		"label-quest-tab": "Quest",
-		"label-branch-tab": "Branch",
-	  "treeNode-type" : {
-			"quest" : {
-				"label" : "Quest",
-				"description" : "Create an interactive activity which will create a branch of possible results"
-			},
-			"tell" : {
-				"label" : "Telltales",
-				"description" : "Explain and tell a dialogue"
-			},
-			"branch" : {
-				"label": "Branch",
-				"description": "Describes a possible path of the story"
-			}
-		},
-		"input-type": {
-				"any": {
-					"label": "any"
-				},
-				"atom": {
-					"label": "atom"
-				},
-				"range": {
-				"label": "range"
-				},
-				"function": {
-					"label": "function"
-				}
-			},
-		"input-func-value": {
-			"array": {
-				"label": "Array"
-			},
-			"value": {
-				"label": "Value"
-			},
-			"variable": {
-				"label": "Variable"
-			}
+	"MediaPlayer": {
+	  "label_upload_file": "Upload file",
+	  "label_mediatype": "Media type",
+	  "label_mediaSource": "Media source",
+	  "label-add-image-area": "Add image",
+	  "label-input-useArea": "Use area",
+	  "label-select-shape-area": "Select shape",
+	  "label-select-link-interaction": "Select link interaction",
+	  "MediaType": {
+		"label_audio": "Audio",
+		"label_video": "Video",
+		"label_image": "Image"
+	  },
+	  "label-input-file": {
+		"audio": "Audio",
+		"video": "Video",
+		"image": "Image",
+		"captions": "Captions",
+		"captions_accessibility": "Captions Accessibility",
+		"imageCaption": "Image caption",
+		"useArea": "Use area"
+	  },
+	  "areas": {
+		"label-vertex-description": "Vertex description",
+		"label-use-highlight": "Use highlight",
+		"label-set-value-to-return-as-player-input": "Set value to return as player input",
+		"label-add-anchor-to-scroll-onto-when-triggered": "Add anchor to scroll onto when triggered",
+		"label-anchor-warning-no-element-found": "No element found",
+		"label-shape-full": "Full",
+		"label-shape-rectangle": "Rectangle",
+		"label-shape-circle": "Circle",
+		"label-rectangle-top-left": "Rectangle top left",
+		"label-rectangle-bottom-right": "Rectangle bottom right",
+		"label-circle-centre": "Circle centre",
+		"label-circle-radius": "Circle radius",
+		"label-select-shape-area": "Select shape area",
+		"label-select-interact-action": "Select interact action",
+		"label-add-url-to-open-when-triggered": "Add url to open when triggered",
+		"label-url-invalid": "Invalid url",
+		"label-url-invalid-example": "Invalid url example:",
+		"actions": {
+		  "label-open-url-new-tab": "Open url in a new tab",
+		  "label-navigate-to-page-element": "Navigate to page element",
+		  "label-return-a-value-to-activity": "Return a value to activity"
 		}
-	},
-	"SceneEditorWidget": {
-		"GridWidget": {
-			"label-add-row": "Add row",
-			"label-add-col": "Add columns",
-			"label-remove-cell": "remove selected cell",
-			"label-remove-row": "remove selected row",
-			"label-show-grid-border": "Show cell borders on the grid",
-			"label-edit-selected-cell": "Edit selected cell",
-			"label-edit-cell-size": "Edit the cell size",
-			"label-edit-cell-widget": "Set the widget to use inside the cell"
-		}
-	},
-  "MediaForm": {
-	"media-type": "Media type",
-	"label-upload-file": "Upload file",
-	"label-use-highlight": "Use highlight",
-	"label-vertex-description": "Vertex description",
-	"label-mediatype": "Media type",
-	"label-add-image-area": "Add image area",
-	"MediaType": {
-	  "label-audio": "Audio",
-	  "label-video": "Video",
-	  "label-image": "Image"
-	},
-	"label-input-file": {
-	  "audio": "Audio",
-	  "video": "Video",
-	  "image": "Image",
-	  "subtitles": "Subtitles",
-	  "subtitles-accessibility": "Subtitles Accessibility",
-	  "image-caption": "Image caption",
-	  "use-area": "Use area"
-	},
-	"areas": {
-	  "label-shape-full": "Full",
-	  "label-shape-rectangle": "Rectangle",
-	  "label-shape-circle": "Circle",
-	  "label-rectangle-top-left": "Rectangle top left",
-	  "label-rectangle-bottom-right": "Rectangle bottom right",
-	  "label-circle-centre": "Circle centre",
-	  "label-circle-radius": "Circle radius",
-	  "label-select-shape-area": "Select shape area",
-	  "label-select-interact-action": "Select interact action",
-	  "actions": {
-		"label-open-url-new-tab": "Open url in a new tab",
-		"label-navigate-to-page-element": "Navigate to page element",
-		"label-return-a-value-to-activity": "Return a value to activity"
 	  }
 	}
   }

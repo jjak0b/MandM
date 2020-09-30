@@ -5,12 +5,12 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.TextInput.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-text-input-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-textInput-editor-placeholder"
-						v-bind:label="$t('UserWidgets.TextInput.label-placeholder')"
+						v-bind:label="$t('shared.label-placeholder')"
 					>
 					<b-form-input
 						id="user-widget-textInput-editor-placeholder"

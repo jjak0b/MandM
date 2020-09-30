@@ -5,18 +5,18 @@ export const template =
 	<b-form>
 		<b-form-group>
 			<template v-slot:label
-			>{{ $t('UserWidgets.Spinbutton.label-settings') }}</template>
+			>{{ $t('UserWidgets.label-spinbutton-settings') }}</template>
 			<b-form-row>
 				<b-col>
 					<b-form-checkbox
 						id="user-widget-spinbutton-editor-wrap"
 						v-model="props.wrap"
-					>{{ $t('UserWidgets.Spinbutton.label-wrap') }}</b-form-checkbox>
+					>{{ $t('shared.label-wrap') }}</b-form-checkbox>
 				</b-col>
 				<b-col>
 					<b-form-group
 						label-for="user-widget-spinbutton-editor-step"
-						v-bind:label="$t('UserWidgets.Spinbutton.label-step')"
+						v-bind:label="$t('shared.label-step')"
 					>
 					<b-form-input
 						type="number"
@@ -31,7 +31,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-spinbutton-editor-min"
-						v-bind:label="$t('UserWidgets.Spinbutton.label-min')"
+						v-bind:label="$t('shared.label-min')"
 					>
 					<b-form-input
 						type="number"
@@ -43,7 +43,7 @@ export const template =
 				<b-col>
 					<b-form-group
 						label-for="user-widget-spinbutton-editor-max"
-						v-bind:label="$t('UserWidgets.Spinbutton.label-max')"
+						v-bind:label="$t('shared.label-max')"
 					>
 					<b-form-input
 						type="number"

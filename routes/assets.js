@@ -123,8 +123,13 @@ function getDirFileNames( path ) {
 
 // GET /assets/:category/  filelist
 router.get('/:category/', ( req, res ) => {
-	if( req.params.category && req.params.category in cacheAssets ) {
-		res.json( cacheAssets[req.params.category] );
+	let data = null;
+	if( req.params.category && req.params.category in handler.cacheAssets ) {
+		data = handler.getCategoryList( req.params.category );
+	}
+
+	if( data ) {
+		res.json( data );
 	}
 	else{
 		res.sendStatus( StatusCodes.NOT_FOUND );
@@ -133,7 +138,12 @@ router.get('/:category/', ( req, res ) => {
 
 // GET /assets/ all file names and structures
 router.get('/', ( req, res ) => {
-	res.json( cacheAssets );
+	let data = {};
+	handler.getCategories().forEach( (category) => {
+		let list = handler.getCategoryList( category );
+		if( list ) data[ category ] = list;
+	});
+	res.json( data );
 });
 
 // GET /assets/* file

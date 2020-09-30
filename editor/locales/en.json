@@ -259,6 +259,7 @@
 	"label-number-input-settings": "Number Input Settings",
 	"label-range-settings": "Range Settings",
 	"label-spinbutton-settings": "Spinbutton Settings",
+	"label-show-extremes": "Show range extremes",
 	"Datepicker": {
 	  "label-settings": "Settings",
 	  "label-readonly": "Read-only",

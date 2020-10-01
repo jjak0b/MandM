@@ -39,6 +39,7 @@ export const component = {
 	},
 	data() {
 		return {
+			branch:Object,
 			shouldShowTree: false,
 			activityId: null,
 			refresh: false,
@@ -141,6 +142,10 @@ export const component = {
 				return true;
 			}
 			return false;
+		},
+		getCondition(condition){
+			this.branch.conditions=condition.conditions;
+			this.branch.tag=condition.tag;
 		},
 		isSelected( checkType ) {
 			if( checkType ){

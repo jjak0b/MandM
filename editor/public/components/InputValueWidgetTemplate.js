@@ -1,6 +1,6 @@
 export const template =
 `
-<form
+<form v-on:submit.prevent="onSubmit"
 	v-bind:aria-labelledby="$attrs.id + '_data-editor-widget-legend'"
 >
 	<fieldset>

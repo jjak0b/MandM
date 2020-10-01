@@ -41,6 +41,7 @@
 	"label_axis": "Axis",
 	"label-shape-TYPE": "Shape type",
 	"label-Array": "Array",
+	"label-Array-info": "Array info",
 	"label-Text": "Text",
 	"label-Number": "Number",
 	"label-Time": "Time",
@@ -322,5 +323,10 @@
 		}
 	  }
 	}
+  },
+  "DataEditorWidget": {
+	"label-create-value-you-need": "Create the value you need",
+	"label-value-type": "Value type",
+	"label-values": "Values"
   }
 }

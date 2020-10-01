@@ -170,6 +170,10 @@ component = {
         wipe:function () {
             this.$set( this.typedValue, "value", null );
             this.$emit( 'input', this.typedValue );
+        },
+        onSubmit() {
+            console.log('inputValueSubmit');
+            this.$emit('inputValueSubmit');
         }
     }
 }

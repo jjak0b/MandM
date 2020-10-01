@@ -11,6 +11,7 @@ export const template =
 					<b-form-checkbox
 						id="user-widget-spinbutton-editor-wrap"
 						v-model="props.wrap"
+						switch inline
 					>{{ $t('shared.label-wrap') }}</b-form-checkbox>
 				</b-col>
 				<b-col>

@@ -40,6 +40,12 @@
 	"label-none": "None",
 	"label_axis": "Axis",
 	"label-shape-TYPE": "Shape type",
+	"label-Array": "Array",
+	"label-Array-info": "Array info",
+	"label-Text": "Text",
+	"label-Number": "Number",
+	"label-Time": "Time",
+	"label-Date": "Date",
 	"status": {
 	  "label-operation-success": "Operation completed successfully",
 	  "label-operation-failed": "Operation failed"
@@ -132,30 +138,28 @@
 	  }
 	},
 	"input-type": {
-	  "any": {
-		"label": "any"
-	  },
-	  "atom": {
-		"label": "atom"
-	  },
-	  "range": {
-		"label": "range"
-	  },
-	  "function": {
-		"label": "function"
-	  }
+	  "any": "Any",
+	  "atom": "Atomical",
+	  "range": "Range",
+	  "function": "Function"
 	},
-	"input-func-value": {
-	  "array": {
-		"label": "Array"
-	  },
-	  "value": {
-		"label": "Value"
-	  },
-	  "variable": {
-		"label": "Variable"
-	  }
-	}
+	"tnt-desc": "Insert a {value}, pressing Remove will delete the last element chosen, Save confirms the value",
+	"array-desc": "Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list ",
+	"range-desc": "Insert the minimum and maximum condition",
+	"function-desc": "Select parameter and advanced type of condition",
+	"label-single": "Single",
+	"label-variable": "Variable",
+	"select-type-func": {
+	  "eq": "Equivalent",
+	  "neq": "Not Equivalent",
+	  "hasInside": "Has Value",
+	  "isInThere": "Is There",
+	  "isInRange": "Is in Range"
+	},
+	"label-tag": "Tag",
+	"label-type": "Type",
+	"label-type-func": "Function Type",
+	"label-value": "Values"
   },
   "SceneEditorWidget": {
 	"GridWidget": {
@@ -259,6 +263,7 @@
 	"label-number-input-settings": "Number Input Settings",
 	"label-range-settings": "Range Settings",
 	"label-spinbutton-settings": "Spinbutton Settings",
+	"label-show-extremes": "Show range extremes",
 	"Datepicker": {
 	  "label-settings": "Settings",
 	  "label-readonly": "Read-only",
@@ -318,5 +323,10 @@
 		}
 	  }
 	}
+  },
+  "DataEditorWidget": {
+	"label-create-value-you-need": "Create the value you need",
+	"label-value-type": "Value type",
+	"label-values": "Values"
   }
 }

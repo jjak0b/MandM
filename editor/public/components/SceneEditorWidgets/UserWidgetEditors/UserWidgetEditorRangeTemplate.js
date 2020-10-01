@@ -19,6 +19,11 @@ export const template =
 						v-model="props.step"
 					></b-form-input>
 					</b-form-group>
+					<b-form-checkbox
+						id="user-widget-range-editor-show-extremes"
+						v-model="props.extremes"
+						switch inline
+					>{{ $t('UserWidgets.label-show-extremes') }}</b-form-checkbox>
 				</b-col>
 				<b-col>
 					<b-form-group

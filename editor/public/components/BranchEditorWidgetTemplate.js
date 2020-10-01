@@ -6,26 +6,34 @@ export const template = `
 			<b-form-row>
 				<b-col>
     <!-- This is for saving the type of option the value the user is about to put is coming from --->
-        <select class="form-check">
+        <select class="form-check" v-model="branch.tag">
             <option  v-for="(nameType, keyType) in functionsN" 
 	        class="form-check-input"
 	        v-bind:id="'input-type_' + nameType"
 	        v-bind:value="keyType"
-	        v-model="val.tag"
             >{{$t(nameType)}}</option>
         </select>
         </b-col>
         <b-col>
+        <b-row>
         <select v-for="(element, self) in section" v-model="element.type">
         <option v-for="(nameType, keyType) in functioVal"
         v-bind:value="keyType">{{$t(nameType)}}</option>
 </select>
+</b-row>
+<b-row v-for="(element, self) in section" v-if="element.value && element.value.type"> 
+{{element.order}}.{{$t('ActivityEditorWidget.label-type')}}:{{$t('shared.label-'+ element.value.type)}}<br>
+{{$t('ActivityEditorWidget.label-value')}}:{{element.value.value}}<br>
+</b-row>
+</b-col>
+<b-col>
 <component v-for="(element, index) in section"
 v-model="element.value"
         v-if="element.type"
         :is="functioValTag[element.type]"
         ></component>
 </b-col>
+
 <!--        <div v-if="val.tag == 'atom' && val.tag">-->
 <!--            <single-input-->
 <!--            v-on:changeT="placeType($event)"-->
@@ -107,5 +115,6 @@ v-model="element.value"
 <!--  </b-list-group>-->
 <!--</div>-->
 </b-form-group>
+<button v-on:input="push()">{{$t('shared.label-save')}}</button>
 </b-form>
 `;

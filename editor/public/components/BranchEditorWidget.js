@@ -9,14 +9,16 @@ import {component as inputVal} from "./InputValueWidget.js";
 export const component = {
     template: template,
     props: {
-        value: Object, //The node selected with type Branch
+        branch: {
+            tag:'',
+            conditions:[]
+        }, //The node selected with type Branch
         locale:String
         },
     data() {
         return {
             valmin:Number,
             valmax:Number,
-            prova:'',
             valuef: String,
             val:{
                 tag: '',
@@ -31,29 +33,33 @@ export const component = {
                 "function": "ActivityEditorWidget.input-type.function"
             },
             functioVal: {
-                "Value": "ActivityEditorWidget.label-value",
-                "Variable": "ActivityEditorWidget.label-variable"
+                "value": "ActivityEditorWidget.label-value",
+                "variable": "ActivityEditorWidget.label-variable"
             },
             functioValTag:{
-                "Value":"input-val",
-                "Variable":"b-form-select"
+                "value":"input-val",
+                "variable":"b-form-select"
             },
             section:[
                 {
+                    value:'',
                     type:String,
-                    value:''
-                },
-                {
-                    type:String,
-                    value:''
+                    order:1
                 },
                 {
                     value:'',
-                    type:String
+                    type:String,
+                    order:2
                 },
                 {
                     value:'',
-                    type:String
+                    type:String,
+                    order:3
+                },
+                {
+                    value:'',
+                    type:String,
+                    order:4
                 }
             ],
             functionsN:{
@@ -103,6 +109,9 @@ export const component = {
         }
     },
     watch:{
+        'branch':function(){
+            this.prova=false;
+        },
         'val.tag':function(){
             if(this.val.tag == 'Range'){
                 this.val.type='Number';
@@ -182,6 +191,14 @@ export const component = {
          placeSingle(val){
             this.whipe();
             this.val.param.push(val);
+         },
+         push(){
+            if(this.branch.tag!='') {
+                this.branch.conditions = this.section.slice(0,this.section.lenght);
+                this.$emit('conditions', this.branch);
+            }else{
+                alert("Inserisci condizione");
+            }
          }
     },
     components:{

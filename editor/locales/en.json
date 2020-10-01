@@ -40,6 +40,11 @@
 	"label-none": "None",
 	"label_axis": "Axis",
 	"label-shape-TYPE": "Shape type",
+	"label-Array": "Array",
+	"label-Text": "Text",
+	"label-Number": "Number",
+	"label-Time": "Time",
+	"label-Date": "Date",
 	"status": {
 	  "label-operation-success": "Operation completed successfully",
 	  "label-operation-failed": "Operation failed"
@@ -132,30 +137,28 @@
 	  }
 	},
 	"input-type": {
-	  "any": {
-		"label": "any"
-	  },
-	  "atom": {
-		"label": "atom"
-	  },
-	  "range": {
-		"label": "range"
-	  },
-	  "function": {
-		"label": "function"
-	  }
+	  "any": "Any",
+	  "atom": "Atomical",
+	  "range": "Range",
+	  "function": "Function"
 	},
-	"input-func-value": {
-	  "array": {
-		"label": "Array"
-	  },
-	  "value": {
-		"label": "Value"
-	  },
-	  "variable": {
-		"label": "Variable"
-	  }
-	}
+	"tnt-desc": "Insert a {value}, pressing Remove will delete the last element chosen, Save confirms the value",
+	"array-desc": "Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list ",
+	"range-desc": "Insert the minimum and maximum condition",
+	"function-desc": "Select parameter and advanced type of condition",
+	"label-single": "Single",
+	"label-variable": "Variable",
+	"select-type-func": {
+	  "eq": "Equivalent",
+	  "neq": "Not Equivalent",
+	  "hasInside": "Has Value",
+	  "isInThere": "Is There",
+	  "isInRange": "Is in Range"
+	},
+	"label-tag": "Tag",
+	"label-type": "Type",
+	"label-type-func": "Function Type",
+	"label-value": "Values"
   },
   "SceneEditorWidget": {
 	"GridWidget": {
@@ -166,98 +169,7 @@
 	  "label-show-grid-border": "Show cell borders on the grid",
 	  "label-edit-selected-cell": "Edit selected cell",
 	  "label-edit-cell-size": "Edit the cell size",
-	  "label-edit-cell-widget": "Set the widget to use inside the cell",
-	"shared" : {
-		"label-new-element": "New {name} item",
-		"label-save": "Save",
-		"label-remove": "Remove",
-		"label-add": "Add",
-	  	"label-reset": "Reset",
-	  "label-add-name": "Add {name}",
-		"label-duplicate" : "Duplicate",
-		"label-i18n" : "Internationalize",
-		"label-mission": "Mission | Missions",
-		"label-missions": "No mission | {count} mission | {count} missions",
-		"label-activity": "Activity | Activities",
-		"label-story": "Story | Stories",
-		"label-Array": "Array",
-		"label-Text": "Text",
-		"label-Number": "Number",
-		"label-Time": "Time",
-		"label-Date": "Date"
-	},
-	"I18nSelectorWidget" : {
-		"label-i18n-select": "Select and add an internationalization to make it available",
-		"label-locale-select": "Select current internationalization to edit"
-  	},
-	"StoryEditorWidget" : {
-		"label-story-title": "Story title",
-		"label-story-description" : "Story description",
-		"gamemodes" : {
-			"solo" : {
-				"label" : "Solo mode",
-				"description" : "The player plays individually"
-			},
-			"group" : {
-				"label" : "Group mode",
-				"description" : "The players collaborate each to other in a group"
-			},
-			"class" : {
-				"label" : "Class mode",
-				"description" : "The groups play independently and are in competitions"
-			}
-		}
-	},
-	"MissionEditorWidget" : {
-		"label-mission-title": "Mission title",
-		"label-mission-description" : "Mission description",
-		"label-mission-list" : "Mission list"
-  	},
-	"ActivityEditorWidget" : {
-		"label-activity-title" : "Activity title",
-		"label-activity-description" : "Activity description",
-		"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
-		"label-select-nodeType" : "Select a type of element to add to the tree",
-		"label-node-item-name" : "Tree item's name",
-		"label-input-type":"Select input type",
-		"label-node-item-description" : "Note about the tree item",
-		"treeNode-type" : {
-			"quest" : {
-				"label" : "Quest",
-				"description" : "Create an interactive activity which will create a branch of possible results"
-			},
-			"tell" : {
-				"label" : "Telltales",
-				"description" : "Explain and tell a dialogue"
-			},
-			"branch" : {
-				"label": "Branch",
-				"description": "Describes a possible path of the story"
-			}
-		},
-		"input-type": {
-				"any": "Any",
-				"atom":"Atomical",
-				"range":"Range",
-				"function":"Function"
-			},
-				"tnt-desc":"Insert a {value}, pressing Remove will delete the last element chosen, Save confirms the value",
-				"array-desc":"Insert elements in a list by pressing Add or press Remove to eliminate the value typed in the input text, Save confirms the list ",
-				"range-desc": "Insert the minimum and maximum condition",
-				"function-desc":"Select parameter and advanced type of condition",
-				"label-single": "Single",
-				"label-variable": "Variable",
-		"select-type-func": {
-			"eq": "Equivalent",
-			"neq": "Not Equivalent",
-			"hasInside": "Has Value",
-			"isInThere": "Is There",
-			"isInRange": "Is in Range"
-		},
-		"label-tag": "Tag",
-		"label-type": "Type",
-		"label-type-func": "Function Type",
-		"label-value": "Values"
+	  "label-edit-cell-widget": "Set the widget to use inside the cell"
 	}
   },
   "StyleEditorWidget": {
@@ -411,5 +323,4 @@
 	  }
 	}
   }
-}
 }

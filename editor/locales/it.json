@@ -1,167 +1,166 @@
 {
-	"shared" : {
-		"label-new-element": "Nuovo elemento {name}",
-		"label-save": "Salva",
-		"label-remove": "Rimuovi",
-		"label-confirm": "Conferma",
-		"label-abort": "Annulla",
-		"label-reset": "Annulla",
-		"label-import": "Importa",
-		"label-export": "Esporta",
-		"label-upload": "Carica",
-		"label-download": "Scarica",
-		"label-add": "Aggiungi",
-		"label-add-before": "Aggiungi prima",
-		"label-add-after": "Aggiungi dopo",
-		"label-add-name": "Aggiungi {name}",
-		"label-duplicate" : "Duplica",
-		"label-i18n" : "Internazionalizza",
-		"label-mission": "Missione | Missioni",
-		"label-missions": "Nessuna missione | {count} missione | {count} missioni",
-		"label-activity": "Attività",
-		"label-story": "Storia | Storie",
-		"label-select-option": "Seleziona un'opzione",
-		"label-from-file": "Da file",
-		"label-from-server": "Da server",
-		"label-as-file": "Come file",
-		"label-onto-server": "Sul server",
-		"status": {
-			"label-operation-success": "Operazione completata con successo",
-			"label-operation-failed": "Operazione fallita"
-		},
-		"i18n": {
-			"label-no-locale": "Nessuna lingua",
-			"label-locale": "Lingua: {lang}"
-		}
-	},
-	"accessibility": {
-		"label": "Accessibilità",
-		"label-alt": "@:accessibility.label: Etichetta per l'elemento"
+  "shared": {
+	"label-new-element": "Nuovo elemento {name}",
+	"label-save": "Salva",
+	"label-remove": "Rimuovi",
+	"label-confirm": "Conferma",
+	"label-abort": "Annulla",
+	"label-reset": "Annulla",
+	"label-import": "Importa",
+	"label-export": "Esporta",
+	"label-upload": "Carica",
+	"label-download": "Scarica",
+	"label-add": "Aggiungi",
+	"label-add-before": "Aggiungi prima",
+	"label-add-after": "Aggiungi dopo",
+	"label-add-name": "Aggiungi {name}",
+	"label-duplicate": "Duplica",
+	"label-i18n": "Internazionalizza",
+	"label-mission": "Missione | Missioni",
+	"label-missions": "Nessuna missione | {count} missione | {count} missioni",
+	"label-activity": "Attività",
+	"label-story": "Storia | Storie",
+	"label-select-option": "Seleziona un'opzione",
+	"label-from-file": "Da file",
+	"label-from-server": "Da server",
+	"label-as-file": "Come file",
+	"label-onto-server": "Sul server",
+	"status": {
+	  "label-operation-success": "Operazione completata con successo",
+	  "label-operation-failed": "Operazione fallita"
 	},
 	"i18n": {
-		"label": "Internazionalizzazione",
-		"label-description-region": "Contenuto dinamico per l'internazionalizzazione corrente",
-		"label-story": "Storia | Storie",
-		"label-Array": "Lista",
-		"label-Text": "Testo",
-		"label-Number": "Numero",
-		"label-Time": "Tempo",
-		"label-Date": "Data"
-	},
-	"I18nSelectorWidget" : {
-		"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
-		"label-locale-select": "Seleziona l'internazionalizzazione corrente da modificare"
-	},
-	"StoryEditorWidget" : {
-		"label-story-title": "Titolo della storia",
-		"label-story-description" : "Descrizione della storia",
-		"label-gamemode": "Modalità di gioco",
-		"label-story-to-import": "Storia da importare",
-		"label-story-to-export": "Storia da esportare",
-		"label-export-server-description": "La storia attualmente presente nell'applicazione sarà caricata sul server con il nome fornito. Se sul server è già presente una storia con lo stesso nome, essa sarà sostituita con questa versione",
-		"label-upload-story": "Carica la storia",
-		"label-download-story": "Scarica la storia",
-		"label-select-story-file": "Seleziona il file della storia",
-		"label-story-id-name": "Nome identificativo della storia",
-		"label-replace-existing": "Sostituisci la storia esistente",
-		"label-invalid-name-already-exists": "Il nome esiste già",
-		"label-valid-name-available": "Il nome è disponibile",
-		"label-valid-json": "Il file selezionato è una storia valida",
-		"label-invalid-json": "Il file selezionato non è una storia valida. Riprova con una storia .json valida",
-		"gamemodes" : {
-			"solo" : {
-				"label" : "Modalità individuale",
-				"description" : "Il giocatore gioca individualmente"
-			},
-			"group" : {
-				"label" : "Modalità gruppo",
-				"description" : "I giocatori collaborano in un gruppo"
-			},
-			"class" : {
-				"label" : "Modalità classe",
-				"description" : "I gruppi agiscono indipendentemente e sono in competizione"
-			}
-		}
-	},
-	"MissionEditorWidget" : {
-		"label-mission-no-title": "Missione senza titolo",
-		"label-mission-title": "Titolo della missione",
-		"label-mission-description" : "Descrizione della missione",
-		"label-mission-list" : "Lista missioni"
-	},
-	"ActivityEditorWidget" : {
-		"label-activity-title" : "Titolo dell'attività",
-		"label-activity-description" : "Descrizione dell'attività",
-		"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
-		"label-select-nodeType" : "Seleziona il tipo di elemento da aggiungere all'albero",
-		"label-node-item-name" : "Nome elemento dell'albero",
-		"label-input-type":"Seleziona tipo di input",
-		"label-node-item-description" : "Nota sull'elemento dell'albero",
-		"treeNode-type" : {
-			"quest" : {
-				"label" : "Sfida",
-			  	"description" : "Crea un'attività interattiva, che porterà a uno o più esiti possibili"
-			},
-		  	"tell" : {
-				"label" : "Racconto",
-				"description" : "Spiega e racconta un dialogo"
-			},
-			"branch" : {
-				"label": "Ramo",
-				"description": "Descrive un possibile percorso della storia"
-			}
-		},
-		"input-type": {
-			"any":"Qualsiasi",
-			"atom":"Unico",
-			"range":"Rateo",
-			"function":"Funzione"
-		},
-		"label-variable": "Variabile",
-		"tnt-desc":"Inserisci un {value}, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
-		"array-desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente",
-		"range-desc": "Inserisci il valore minimo e massimo",
-		"function-desc": "Seleziona i parametri e le condizioni avanzate",
-			"select-type-func": {
-				"eq": "Ugualianza",
-				"neq": "Non Ugulianza",
-				"hasInside": "Ha il valore",
-				"isInThere": "È presente",
-				"isInRange": "È tra i valori"
-			},
-		"label-tag": "Sistema",
-		"label-type": "Tipo",
-		"label-type-func": "Tipo Condizione",
-		"label-value": "Valori"
-	},
-	"SceneEditorWidget": {
-		"GridWidget": {
-			"label-add-row": "Aggiungi riga",
-			"label-add-col": "Aggiungi colonna",
-			"label-remove-cell": "Rimuovi cella selezionata",
-			"label-remove-row": "Rimuovi riga selezionata",
-			"label-show-grid-border": "Mostra bordi delle celle sulla griglia",
-			"label-edit-selected-cell": "Modifica la cella selezionata",
-			"label-edit-cell-size": "Imposta la dimensione della cella",
-			"label-edit-cell-widget": "Imposta il widget contenuto nella cella"
-		}
-	},
-
-	"UserWidgets" : {
-		"Datepicker" : {
-			"label-prev-decade" : "Decennio precedente",
-			"label-prev-year" : "Anno precedente",
-			"label-prev-month" : "Mese precedente",
-			"label-current-month" : "Mese corrente",
-			"label-next-month" : "Mese successivo",
-			"label-next-year" : "Anno successivo",
-			"label-next-decade" : "Decennio successivo",
-			"label-today" : "Oggi",
-			"label-selected" : "data selezionata",
-			"label-no-date-selected" : "Nessuna data selezionata",
-			"label-calendar" : "Calendario",
-			"label-nav" : "Navigazione calendario",
-			"label-help" : "Usa i tasti cursore per navigare tra le date del calendario"
-		}
+	  "label-no-locale": "Nessuna lingua",
+	  "label-locale": "Lingua: {lang}"
 	}
+  },
+  "accessibility": {
+	"label": "Accessibilità",
+	"label-alt": "@:accessibility.label: Etichetta per l'elemento"
+  },
+  "i18n": {
+	"label": "Internazionalizzazione",
+	"label-description-region": "Contenuto dinamico per l'internazionalizzazione corrente",
+	"label-story": "Storia | Storie",
+	"label-Array": "Lista",
+	"label-Text": "Testo",
+	"label-Number": "Numero",
+	"label-Time": "Tempo",
+	"label-Date": "Data"
+  },
+  "I18nSelectorWidget": {
+	"label-i18n-select": "Seleziona e aggiungi un'internazionalizzazione per renderla disponibile",
+	"label-locale-select": "Seleziona l'internazionalizzazione corrente da modificare"
+  },
+  "StoryEditorWidget": {
+	"label-story-title": "Titolo della storia",
+	"label-story-description": "Descrizione della storia",
+	"label-gamemode": "Modalità di gioco",
+	"label-story-to-import": "Storia da importare",
+	"label-story-to-export": "Storia da esportare",
+	"label-export-server-description": "La storia attualmente presente nell'applicazione sarà caricata sul server con il nome fornito. Se sul server è già presente una storia con lo stesso nome, essa sarà sostituita con questa versione",
+	"label-upload-story": "Carica la storia",
+	"label-download-story": "Scarica la storia",
+	"label-select-story-file": "Seleziona il file della storia",
+	"label-story-id-name": "Nome identificativo della storia",
+	"label-replace-existing": "Sostituisci la storia esistente",
+	"label-invalid-name-already-exists": "Il nome esiste già",
+	"label-valid-name-available": "Il nome è disponibile",
+	"label-valid-json": "Il file selezionato è una storia valida",
+	"label-invalid-json": "Il file selezionato non è una storia valida. Riprova con una storia .json valida",
+	"gamemodes": {
+	  "solo": {
+		"label": "Modalità individuale",
+		"description": "Il giocatore gioca individualmente"
+	  },
+	  "group": {
+		"label": "Modalità gruppo",
+		"description": "I giocatori collaborano in un gruppo"
+	  },
+	  "class": {
+		"label": "Modalità classe",
+		"description": "I gruppi agiscono indipendentemente e sono in competizione"
+	  }
+	}
+  },
+  "MissionEditorWidget": {
+	"label-mission-no-title": "Missione senza titolo",
+	"label-mission-title": "Titolo della missione",
+	"label-mission-description": "Descrizione della missione",
+	"label-mission-list": "Lista missioni"
+  },
+  "ActivityEditorWidget": {
+	"label-activity-title": "Titolo dell'attività",
+	"label-activity-description": "Descrizione dell'attività",
+	"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
+	"label-select-nodeType": "Seleziona il tipo di elemento da aggiungere all'albero",
+	"label-node-item-name": "Nome elemento dell'albero",
+	"label-input-type": "Seleziona tipo di input",
+	"label-node-item-description": "Nota sull'elemento dell'albero",
+	"treeNode-type": {
+	  "quest": {
+		"label": "Sfida",
+		"description": "Crea un'attività interattiva, che porterà a uno o più esiti possibili"
+	  },
+	  "tell": {
+		"label": "Racconto",
+		"description": "Spiega e racconta un dialogo"
+	  },
+	  "branch": {
+		"label": "Ramo",
+		"description": "Descrive un possibile percorso della storia"
+	  }
+	},
+	"input-type": {
+	  "any": "Qualsiasi",
+	  "atom": "Unico",
+	  "range": "Rateo",
+	  "function": "Funzione"
+	},
+	"label-variable": "Variabile",
+	"tnt-desc": "Inserisci un {value}, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
+	"array-desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente",
+	"range-desc": "Inserisci il valore minimo e massimo",
+	"function-desc": "Seleziona i parametri e le condizioni avanzate",
+	"select-type-func": {
+	  "eq": "Ugualianza",
+	  "neq": "Non Ugulianza",
+	  "hasInside": "Ha il valore",
+	  "isInThere": "È presente",
+	  "isInRange": "È tra i valori"
+	},
+	"label-tag": "Sistema",
+	"label-type": "Tipo",
+	"label-type-func": "Tipo Condizione",
+	"label-value": "Valori"
+  },
+  "SceneEditorWidget": {
+	"GridWidget": {
+	  "label-add-row": "Aggiungi riga",
+	  "label-add-col": "Aggiungi colonna",
+	  "label-remove-cell": "Rimuovi cella selezionata",
+	  "label-remove-row": "Rimuovi riga selezionata",
+	  "label-show-grid-border": "Mostra bordi delle celle sulla griglia",
+	  "label-edit-selected-cell": "Modifica la cella selezionata",
+	  "label-edit-cell-size": "Imposta la dimensione della cella",
+	  "label-edit-cell-widget": "Imposta il widget contenuto nella cella"
+	}
+  },
+  "UserWidgets": {
+	"Datepicker": {
+	  "label-prev-decade": "Decennio precedente",
+	  "label-prev-year": "Anno precedente",
+	  "label-prev-month": "Mese precedente",
+	  "label-current-month": "Mese corrente",
+	  "label-next-month": "Mese successivo",
+	  "label-next-year": "Anno successivo",
+	  "label-next-decade": "Decennio successivo",
+	  "label-today": "Oggi",
+	  "label-selected": "data selezionata",
+	  "label-no-date-selected": "Nessuna data selezionata",
+	  "label-calendar": "Calendario",
+	  "label-nav": "Navigazione calendario",
+	  "label-help": "Usa i tasti cursore per navigare tra le date del calendario"
+	}
+  }
 }

@@ -14,6 +14,8 @@ export const component = {
 	},
 	data() {
 		return {
+			focused: false,
+			value: null,
 			categories: [
 				"videos",
 				"audio",
@@ -33,12 +35,28 @@ export const component = {
 			},
 			optionsCategories: [],
 			optionsAssets: [],
-			disabled: {}
+			disabled: {},
+			visible: false
+		}
+	},
+	computed: {
+		labelContent: function () {
+			return this.value || this.$t('AssetManager.label-select-asset');
 		}
 	},
 	beforeMount() {
 		this.setupFilters();
 		this.updateList();
+	},
+	watch: {
+		visible: function ( isVisible ) {
+			if( isVisible ) {
+				this.openDialog()
+			}
+			else{
+				this.closeDialog();
+			}
+		}
 	},
 	methods: {
 		setupFilters() {
@@ -73,17 +91,43 @@ export const component = {
 					assetNames.forEach( (namesOfCategory, i) => {
 
 						let options = self.filter.search ? namesOfCategory.filter( (name) => name.includes( self.filter.search ) ) : namesOfCategory;
-						let group = {
-							label: self.$tc( self.localeStrings[ categories[ i ] ], 100 ),
-							options: options
-						}
+						if( options && options.length > 0) {
+							let group = {
+								label: self.$tc( self.localeStrings[ categories[ i ] ], 100 ),
+								options: options
+							}
 
-						self.optionsAssets.push( group );
+							self.optionsAssets.push( group );
+						}
 					});
 
 
 				})
 				.catch( (error) => console.error( "[Assets Manager Browser]", "Error getting names for", categories, "cause:", error) )
+		},
+		setFocusOnDialog() {
+			if( this.$refs.dialogContent )
+				this.$refs.dialogContent.focus();
+		},
+		onSubmit( event ) {
+			this.value = this.selectedItem;
+			this.visible = false;
+		},
+		openDialog() {
+			this.focused = true;
+			this.visible = true;
+		},
+		closeDialog() {
+			this.focused = false;
+			this.visible = false;
+		},
+		onFocus(event) {
+			this.focused = true;
+			console.log("onFocus")
+		},
+		onBlur(event) {
+			console.log("onBlur")
+			this.closeDialog();
 		}
-	},
+	}
 };

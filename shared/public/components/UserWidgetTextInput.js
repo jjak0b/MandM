@@ -1,5 +1,8 @@
 import {template} from "./UserWidgetTextInputTemplate.js";
 
 export const component = {
-	template: template
+	template: template,
+	props: {
+		placeholder: String
+	}
 };

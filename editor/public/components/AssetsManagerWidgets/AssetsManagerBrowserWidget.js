@@ -6,7 +6,12 @@ export const component = {
 
 	},
 	props: {
+		value: String,
 		// force categories
+		buttonOnly: {
+			type: Boolean,
+			default: false
+		},
 		forceFilter: {
 			type: Array,
 			default: []
@@ -15,7 +20,7 @@ export const component = {
 	data() {
 		return {
 			focused: false,
-			value: null,
+			valueCurrent: null,
 			categories: [
 				"videos",
 				"audio",
@@ -41,7 +46,7 @@ export const component = {
 	},
 	computed: {
 		labelContent: function () {
-			return this.value || this.$t('AssetManager.label-select-asset');
+			return this.valueCurrent || this.$t('AssetManager.label-select-asset');
 		}
 	},
 	beforeMount() {
@@ -49,6 +54,37 @@ export const component = {
 		this.updateList();
 	},
 	watch: {
+		value: function( newVal ) {
+			if( newVal && newVal.length ) {
+				let self = this;
+				console.log("Hello", newVal);
+				this.updateList()
+					.then( (categoriesAssetsNames) => {
+						let found = false;
+						for (let i = 0; i < categoriesAssetsNames.length; i++) {
+							if( categoriesAssetsNames[ i ].includes( newVal ) ) {
+								found = true;
+								break;
+							}
+						}
+						console.log("for", newVal);
+						if( found ) {
+							console.log("found", newVal);
+							self.valueCurrent = newVal;
+							self.selectedItem = newVal;
+						}
+					})
+					.catch( () => {
+						self.valueCurrent = null;
+						self.selectedItem = null;
+
+					});
+			}
+			else{
+				this.valueCurrent = null;
+				this.selectedItem = null;
+			}
+		},
 		visible: function ( isVisible ) {
 			if( isVisible ) {
 				this.openDialog()
@@ -85,6 +121,7 @@ export const component = {
 				promisesNames[ i ] = $.get( `/assets/${categories[i]}/` );
 			}
 			let self = this;
+			return new Promise( function (resolve, reject) {
 			Promise.all( promisesNames )
 				.then( (assetNames) => {
 					self.optionsAssets = [];
@@ -100,18 +137,22 @@ export const component = {
 							self.optionsAssets.push( group );
 						}
 					});
-
-
+					resolve( assetNames );
 				})
-				.catch( (error) => console.error( "[Assets Manager Browser]", "Error getting names for", categories, "cause:", error) )
+				.catch( (error) => {
+					console.error( "[Assets Manager Browser]", "Error getting names for", categories, "cause:", error)
+					reject( error );
+				});
+			});
 		},
 		setFocusOnDialog() {
 			if( this.$refs.dialogContent )
 				this.$refs.dialogContent.focus();
 		},
 		onSubmit( event ) {
-			this.value = this.selectedItem;
+			this.valueCurrent = this.selectedItem;
 			this.visible = false;
+			this.$emit('input', this.valueCurrent );
 		},
 		openDialog() {
 			this.focused = true;

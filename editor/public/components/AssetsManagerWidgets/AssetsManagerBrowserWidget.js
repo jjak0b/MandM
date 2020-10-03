@@ -15,7 +15,8 @@ export const component = {
 		forceFilter: {
 			type: Array,
 			default: []
-		}
+		},
+		onTimeout:  null,
 	},
 	data() {
 		return {
@@ -162,13 +163,24 @@ export const component = {
 			this.focused = false;
 			this.visible = false;
 		},
-		onFocus(event) {
+
+		// when focus change, first is fired focusout event and will bubble to parents,
+		// and then focusin event will be fired on new focused element and will bubble to parents
+		// onFocusIn and onFocusOut handle when the dialog should close
+
+		onFocusIn(event) {
 			this.focused = true;
-			console.log("onFocus")
+			if( this.onTimeout ) {
+				clearTimeout( this.onTimeout );
+				this.onTimeout = null;
+			}
 		},
-		onBlur(event) {
-			console.log("onBlur")
-			this.closeDialog();
-		}
+		onFocusOut(event) {
+			// if onFocusIn will be triggered on next tick, then "focused" will be true and won't close
+			this.onTimeout = setTimeout(
+				() => this.closeDialog(),
+				50
+			);
+		},
 	}
 };

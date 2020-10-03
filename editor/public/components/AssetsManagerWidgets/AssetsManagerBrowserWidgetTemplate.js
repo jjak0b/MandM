@@ -4,12 +4,13 @@ export const template =
 	role="group"
 	v-bind:aria-labelledby="'asset-manager-browser-label-value_' + $attrs.id"
 	v-bind:class="buttonOnly ? [ 'b-form-btn-label-control', 'btn-group' ] : null"
+	v-on:focusin="onFocusIn"
+	v-on:focusout="onFocusOut"
 > 
 	<div
 		class="b-form-btn-label-control form-control d-flex h-auto align-items-stretch"
-		tabindex="-1"
 	>
-		<button
+		<b-button
 			ref="button"
 			type="button"
 			aria-haspopup="dialog"
@@ -24,7 +25,7 @@ export const template =
 				v-bind:icon="focused ? 'collection-play-fill' : 'collection-play'"
 				aria-hidden="true"
 			></b-icon>
-		</button>
+		</b-button>
 		<label
 			v-bind:id="'asset-manager-browser-label-value_' + $attrs.id"
 			v-bind:for="'asset-manager-browser-button_' + $attrs.id"
@@ -35,25 +36,26 @@ export const template =
 	</div>
 	
 	<div class="position-relative"
+		v-bind:aria-hidden="!visible"
 	>
 		<b-collapse
 			ref="dialog"
 			role="dialog"
 			v-model="visible"
-			tabindex="-1"
 			aria-modal="false"
 			v-bind:aria-labelledby="'asset-manager-browser-label-value_' + $attrs.id"
 			v-on:show="setFocusOnDialog"
 			class="position-absolute m-2"
 		>
 			<b-form
+				role="search"
 				ref="dialogContent"
 				tabindex="-1"
+				autocomplete="off"
 				v-on:submit.prevent="onSubmit"
 			>
 				<b-card
 					bg-variant="light"
-					text-variant="light"
 				>
 					<b-card-header>
 						<b-form-row>
@@ -110,6 +112,7 @@ export const template =
 						<b-form-row>
 							<b-col md>
 								<b-button
+									v-bind:disabled="!selectedItem"
 									type="submit"
 									variant="secondary"
 									v-t="'shared.label-select'"

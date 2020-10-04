@@ -4,7 +4,7 @@ import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18n
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
 import { component as storyEditorComponent } from "./StoryEditorWidget.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
-import { component as activityEditorComponent } from "./ActivityEditorWidget.js";
+import { component as activityEditorComponent } from "./ActivityEditorWidgets/ActivityEditorWidget.js";
 import {component as formImportFile} from "./StoryEditorWidgets/StoryFormImportFile.js";
 import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImportServer.js";
 import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportFile.js";
@@ -29,6 +29,10 @@ const component = {
 						videos: [],
 						images: []
 					},
+					name: "",
+					description: "",
+					age: "",
+					gamemode: "",
 					missionNextId: 0,
 					activityNextId: 0,
 					missions: [],

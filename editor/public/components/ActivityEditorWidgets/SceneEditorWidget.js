@@ -1,26 +1,26 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
-import { component as mediaFormComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
-import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
+import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
+import { component as gridComponent } from "../SceneEditorWidgets/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
-import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
-import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
+import { component as styleEditorComponent } from "../SceneEditorWidgets/StyleEditorWidget.js";
+import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
-import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
+import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 import { component as selectComponent } from "/shared/components/UserWidgetSelect.js";
-import { component as selectEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSelect.js";
+import { component as selectEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSelect.js";
 import { component as checkboxComponent } from "/shared/components/UserWidgetCheckbox.js";
-import { component as checkboxEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorCheckbox.js";
+import { component as checkboxEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorCheckbox.js";
 import { component as radioComponent } from "/shared/components/UserWidgetRadio.js";
-import { component as radioEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRadio.js";
+import { component as radioEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRadio.js";
 import { component as textInputComponent } from "/shared/components/UserWidgetTextInput.js";
-import { component as textInputEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
+import { component as textInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
 import { component as numberInputComponent } from "/shared/components/UserWidgetNumberInput.js";
-import { component as numberInputEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
+import { component as numberInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
 import { component as rangeComponent } from "/shared/components/UserWidgetRange.js";
-import { component as rangeEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
+import { component as rangeEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
 import { component as spinbuttonComponent } from "/shared/components/UserWidgetSpinbutton.js";
-import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
+import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 
 export const component = {
 	template: template,

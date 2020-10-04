@@ -7,6 +7,8 @@ import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEdi
 import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
+import { component as inventoryComponent } from "/shared/components/UserWidgetInventory.js";
+import { component as inventoryEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetInventoryEditor.js";
 
 export const component = {
 	template: template,
@@ -16,6 +18,7 @@ export const component = {
 		nextAssetId: Number
 	},
 	components : {
+		"user-widget-inventory-editor": inventoryEditorComponent,
 		"user-widget-datepicker-editor": datepickerEditorComponent,
 		"media-form-widget": mediaFormComponent,
 		"grid-widget": gridComponent,
@@ -38,6 +41,11 @@ export const component = {
 					editor: "media-form-widget",
 					label: "I18nMediaPlayerWidget.label-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
+				},
+				"user-inventory-widget":{
+					editor: "user-widget-inventory-editor",
+					label: "UserWidgets.Inventory.label-name",
+					options: inventoryComponent
 				}
 			},
 			currentCellCache: null

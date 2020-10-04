@@ -13,7 +13,7 @@ export const template =
 					</div>
 					<input
 						id="attributeEditor-input-id"
-						tyoe="text"
+						type="text"
 						class="form-control"
 						v-model.trim="value.id"
 						v-on:keydown.space.prevent

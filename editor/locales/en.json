@@ -68,9 +68,11 @@
 	"label-locale-select": "Select current internationalization to edit"
   },
   "StoryEditorWidget": {
-	"label-story-title": "Story title",
+	"label-story-editor": "Story editor",
+	"label-story-name": "Story name",
 	"label-story-description": "Story description",
 	"label-gamemode": "Gamemode",
+	"label-age": "Age",
 	"label-story-to-import": "Story to import",
 	"label-story-to-export": "Story to export",
 	"label-export-server-description": "The current story loaded in the application will be uploaded to the server with the provided name. If a story with the same name already exists on the server, it will be replaced with this version",
@@ -83,6 +85,9 @@
 	"label-valid-name-available": "Name available",
 	"label-valid-json": "The provided file is a valid story",
 	"label-invalid-json": "The provided file is an invalid story. Retry providing .json valid story",
+	"label-empty-tabs-up": "There are no stories",
+	"label-empty-tabs-down": "Create a new story using the Add button.",
+	"label-add-new-story": "Add new story",
 	"gamemodes": {
 	  "solo": {
 		"label": "Solo mode",
@@ -90,11 +95,22 @@
 	  },
 	  "group": {
 		"label": "Group mode",
-		"description": "The players collaborate each to other in a group"
+		"description": "The players collaborate with each other"
 	  },
 	  "class": {
 		"label": "Class mode",
-		"description": "The groups play independently and are in competitions"
+		"description": "The groups play one against each other"
+	  }
+	},
+	"ages": {
+	  "7_to_10": {
+		"label": "7 to 10 years old"
+	  },
+	  "11_to_14": {
+		"label": "11 to 14 years old"
+	  },
+	  "15_to_18": {
+		"label": "15 to 18 years old"
 	  }
 	}
   },

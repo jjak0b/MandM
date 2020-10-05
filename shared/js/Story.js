@@ -7,7 +7,10 @@ export default class Story {
 	) {
 		let self = this;
 		this.missions = [];
+		this.name = data.name;
+		this.description = data.description;
 		this.gamemode = data.gamemode; /*  */
+		this.age = data.age;
 
 		if( data.missions ) {
 			data.missions.forEach((data_mission) => {

@@ -69,11 +69,30 @@ export class I18nUtils {
 }
 
 export class I18nString {
-	constructor( i18n, label = "", locale ) {
+	constructor( i18n, label = "", i18nConfig = { method: "t", params: [ undefined, undefined ] } ) {
 		if( !i18n )
 			console.error("not valid i18n for label:", label );
 		// if we export this object, then i18n would be a complex object and it's not needed. Just get it from a function
-		this.getI18n = () => i18n.tc( label, locale );
+		this.getI18n = () => {
+			let method = "t";
+			let params = [ undefined, undefined ];
+
+			if( i18nConfig.params ) {
+				if( Array.isArray( i18nConfig.params ) ) {
+					params = i18nConfig.params;
+				}
+				else if( "function" === typeof i18nConfig.params ) {
+					params = i18nConfig.params();
+				}
+			}
+
+			if( i18nConfig.method && i18nConfig.method in i18n ) {
+				method = i18nConfig.method;
+			}
+
+			let translation = i18n[ method ]( label, params[ 0 ], params[ 1 ] ); //;method(label, params[ 0 ], params[ 1 ] );
+			return translation;
+		}
 		this.label = label;
 	}
 

@@ -33,7 +33,7 @@ export default class JSTreeNode {
 			"aria-grabbed": false
 		}
 		this.a_attr = {
-			"aria-roledescription": new I18nString( i18n, roleLabelDescription )
+			"aria-roledescription": new I18nString( i18n, roleLabelDescription, { method: 'tc' } )
 		}
 		this.children = [];
 		if( children ){

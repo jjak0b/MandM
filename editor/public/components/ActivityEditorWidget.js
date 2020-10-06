@@ -36,7 +36,30 @@ export const component = {
 				this.save( oldMission );
 			}
 			if( mission ) {
-				let tree = mission['tree'] || new JSTreeNode( undefined, new I18nString(this.$i18n, mission.title, this.locale), NodeUtils.Types.Root, {}, [] );
+				let tree = null;
+				let self = this;
+				let i18nConfig = {
+					method: "t",
+					params: () => [ self.locale, undefined ]
+				}
+				if( mission['tree'] ) {
+					tree = mission['tree'];
+
+					// if true then this means that we are loading a just imported, but not parsed tree
+					if( tree.text && !( tree.text instanceof I18nString ) ) {
+
+						tree = new JSTreeNode(
+							tree.id,
+							new I18nString( this.$i18n, tree.text.label, i18nConfig ),
+							tree.type,
+							tree.data,
+							tree.children
+						);
+					}
+				}
+				else{
+					tree = new JSTreeNode( undefined, new I18nString(this.$i18n, mission.title, i18nConfig ), NodeUtils.Types.Root, {}, [] );
+				}
 				console.info( "[ActivityEditor]", "changed mission tree", tree );
 				this.$nextTick( function () {
 					this.loadTree( tree ); // load tree into Tree component

@@ -19,5 +19,8 @@ export const template =
 			</b-form-row>
 		</b-form-group>
 	</b-form>
+	<assets-manager
+		v-bind:current-story="value"
+	></assets-manager>
 </div>`
 ;

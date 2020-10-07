@@ -4,13 +4,16 @@ import { component as formImportFile } from "./StoryEditorWidgets/StoryFormImpor
 import { component as formImportServer } from "./StoryEditorWidgets/StoryFormImportServer.js";
 import { component as formExportFile } from "./StoryEditorWidgets/StoryFormExportFile.js";
 import { component as formExportServer } from "./StoryEditorWidgets/StoryFormExportServer.js";
+
+import { component as assetsManager} from "./AssetsManagerWidget.js";
+
 export const component = {
 	template: template,
 	props: {
 		value: Object // story Cache
 	},
 	components: {
-
+		"assets-manager" : assetsManager
 	},
 	data() {
 		return {

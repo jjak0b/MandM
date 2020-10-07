@@ -7,21 +7,18 @@ export const template =
 		<b-tab
 			v-bind:title="$t('AssetsManager.label-locale')"
 		>
-			
+			<section>
+				<assets-manager-locale
+					v-bind:story="currentStory"
+				></assets-manager-locale>
+			</section>
 		</b-tab>
 		<b-tab
 			v-bind:title="$t('AssetsManager.label-server')"
-		>
-		
+		>		
 			<section>
-				<assets-manager-operation>
-				</assets-manager-operation>
-			</section>
-			<section>
-				<assets-manager-browser
-					force-filter="['audio', 'captions']"
-				>
-				</assets-manager-browser>
+				<assets-manager-remote
+				></assets-manager-remote>
 			</section>
 		</b-tab>
 	</b-tabs>

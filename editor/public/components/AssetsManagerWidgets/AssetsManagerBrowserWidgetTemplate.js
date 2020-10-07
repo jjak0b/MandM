@@ -65,10 +65,10 @@ export const template =
 									type="search"
 									name="searchAsset"
 									v-model="filter.search"
+									v-on:input="updateList()"
 									v-bind:placeholder="$t('AssetManager.label-search-asset')"
 									v-bind:aria-label="$t('AssetManager.label-search-asset')"
 									class="m-auto"
-									v-on:input="updateList()"
 									aria-controls="asset-manager-browser-select-filter-list"
 								>
 								</b-form-input>
@@ -78,7 +78,7 @@ export const template =
 									id="asset-manager-browser-checkbox-categories"
 									v-model="filter.categories"
 									v-bind:options="optionsCategories"
-									v-on:checked="updateList()"
+									v-on:input="updateList()"
 									name="categories"
 									aria-controls="asset-manager-browser-select-filter-list"
 									switches

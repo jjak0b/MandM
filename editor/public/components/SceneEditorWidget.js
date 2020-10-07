@@ -44,7 +44,7 @@ export const component = {
 				},
 				"user-inventory-widget":{
 					editor: "user-widget-inventory-editor",
-					label: "UserWidgets.Inventory.label-name",
+					label: "UserWidgets.Inventory.label-widget-name",
 					options: inventoryComponent
 				}
 			},

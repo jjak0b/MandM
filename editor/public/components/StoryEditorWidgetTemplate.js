@@ -57,6 +57,57 @@ export const template =
 				</b-col>
 			</b-form-row>
 		</b-form-group>
+		<b-form-group>
+		    <b-form-row>
+		        <b-col>
+		            <label for="storyEditor-inventory-id"> 
+                    {{ $t("StoryEditor.label-id-inventory") }}</label>
+                    <input
+						id="storyEditor-inventory-id"
+						class="form-control"
+						v-model="inv.id"
+						v-on:keydown.space.prevent
+					/>
+                </b-col>
+                <b-col>
+                    <div>
+                        <label for="storyEditor-inventory-name"> 
+                        {{ $t("StoryEditor.label-name-inventory") }}</label>
+                        <input
+                        type="text"                        
+						id="storyEditor-inventory-id"
+						class="form-control"
+						v-model="inv.name"
+					    />
+					</div>
+					<div>
+                    <label for="storyEditor-inventory-desc"> 
+                    {{ $t("StoryEditor.label-desc-inventory") }}</label>
+                        <input
+						id="storyEditor-inventory-id"
+						class="form-control"
+						height="30%"
+						v-model="inv.desc"
+					    />
+					</div>
+                </b-col>
+                <b-col>
+                <div>
+                <label for="storyEditor-inventory-image">
+                {{ $t("StoryEditor.label-image-inventory") }}</label>
+                 <b-form-file
+		                    v-model="inv.image"
+						    id="storyEditor-inventory-image"
+							required="required"
+							accept="image/*"
+							class="form-control">
+</b-form-file>
+</div>
+<b-button v-on:click="pushObject(inv)">Aggiungi</b-button>
+</b-col>
+            </b-form-row>
+        </b-form-group>
 	</b-form>
-</div>`
+</div>
+`
 ;

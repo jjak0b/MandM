@@ -1,13 +1,27 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
 import {FormUtils} from "/shared//js/FormUtils.js";
+import { component as inventoryComponent } from "/shared/components/UserWidgetInventory.js";
+import { component as inventoryEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetInventoryEditor.js";
+
 
 export const component = {
 	template: template,
 	props: {
 		value: Object // story Cache
 	},
+	components:{
+		"initial-inventory-widget":inventoryComponent,
+		"initial-inventory-widget-editor":inventoryEditorComponent
+	},
 	data() {
 		return {
+			initInv:[],
+			inv:{
+			id:'',
+				name:'',
+			desc:'',
+			image:Image,
+			},
 			remoteStories: null, // names
 			delayForNextRemoteRequest: 5000,
 			tmpStory: {
@@ -50,6 +64,9 @@ export const component = {
 		keepFetch();
 	},
 	methods: {
+		pushObject(object){
+			this.initInv.unshift(object);
+		},
 		addStoryRemote( event ) {
 			if( this.stateNewStory === false ){
 				event.stopPropagation();

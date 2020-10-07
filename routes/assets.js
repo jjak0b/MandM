@@ -124,8 +124,16 @@ function getDirFileNames( path ) {
 // GET /assets/:category/  filelist
 router.get('/:category/', ( req, res ) => {
 	let data = null;
+	let list = null;
 	if( req.params.category && req.params.category in handler.cacheAssets ) {
-		data = handler.getCategoryList( req.params.category );
+		list = handler.getCategoryList( req.params.category );
+		if( list && req.query.search ) {
+			let filterRegExp = new RegExp(req.query.search, "i" );
+			data = list.filter( (name) => name.match( filterRegExp ) );
+		}
+		else{
+			data = list;
+		}
 	}
 
 	if( data ) {

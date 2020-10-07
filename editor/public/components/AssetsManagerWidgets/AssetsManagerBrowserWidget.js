@@ -1,4 +1,5 @@
 import { template } from "./AssetsManagerBrowserWidgetTemplate.js";
+import {Asset} from "/shared/js/Asset.js";
 
 export const component = {
 	template: template,
@@ -37,8 +38,9 @@ export const component = {
 			selectedItem: null,
 			filter: {
 				search: null,
-				categories: []
+				categories: [],
 			},
+			assets: null,
 			optionsCategories: [],
 			optionsAssets: [],
 			disabled: {},
@@ -118,27 +120,67 @@ export const component = {
 			let categories = this.filter.categories.length ? this.filter.categories : this.categories;
 
 			let promisesNames = new Array( categories.length );
-			for (let i = 0; i < categories.length; i++) {
-				promisesNames[ i ] = $.get( `/assets/${categories[i]}/` );
+			let query = null;
+			if( this.filter.search && this.filter.search.length ) {
+				query = `search=${ encodeURIComponent( this.filter.search ) }`;
 			}
+
+			for (let i = 0; i < categories.length; i++) {
+				let url = `/assets/${categories[i]}/`;
+				if( query ) url += `?${query}`;
+				promisesNames[ i ] = $.get( url );
+			}
+
 			let self = this;
 			return new Promise( function (resolve, reject) {
 			Promise.all( promisesNames )
 				.then( (assetNames) => {
+					self.assets = {};
 					self.optionsAssets = [];
-					assetNames.forEach( (namesOfCategory, i) => {
 
-						let options = self.filter.search ? namesOfCategory.filter( (name) => name.includes( self.filter.search ) ) : namesOfCategory;
-						if( options && options.length > 0) {
-							let group = {
-								label: self.$tc( self.localeStrings[ categories[ i ] ], 100 ),
-								options: options
+					for (let categoryIndex = 0; categoryIndex < categories.length; categoryIndex++) {
+
+						let optionGroup = null;
+
+						let assetsCount = assetNames[ categoryIndex ].length;
+						if( assetsCount > 0 ) {
+							if( !( categories[categoryIndex] in self.assets ) ) {
+								self.$set(
+									self.assets,
+									categories[ categoryIndex ],
+									new Array( assetsCount )
+								);
 							}
 
-							self.optionsAssets.push( group );
+							// init option group for categories[ categoryIndex ]
+							optionGroup = {
+								label: self.$tc( self.localeStrings[ categories[ categoryIndex ] ], 100 ),
+								options: new Array( assetsCount )
+							};
+							// end  option group
 						}
-					});
-					resolve( assetNames );
+
+						for (let i = 0; i < assetsCount; i++) {
+							let asset = new Asset(
+								assetNames[ categoryIndex ][ i ],
+								categories[ categoryIndex ]
+							);
+							self.assets[ categories[ categoryIndex ] ].splice(i, 0, asset );
+
+							// init options for option group
+							optionGroup.options[ i ] = {
+								value: asset,
+								text: asset.toString()
+							};
+							// end init options
+						}
+
+						if( optionGroup ) {
+							self.optionsAssets.push( optionGroup );
+						}
+					}
+
+					resolve( self.assets );
 				})
 				.catch( (error) => {
 					console.error( "[Assets Manager Browser]", "Error getting names for", categories, "cause:", error)

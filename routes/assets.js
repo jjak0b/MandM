@@ -104,6 +104,26 @@ class AssetsHandler {
 			);
 		});
 	}
+
+	canDelete( category, filename, excludes ) {
+		let storiesToCheck = storyHandler.getList();
+		if( excludes ) {
+			storiesToCheck = storiesToCheck.filter( (name) => !excludes.includes( name ) );
+		}
+
+		let isDependent = null;
+		let pathRequested = handler.getPathAsset( category, filename );
+		return new Promise( function (resolve, reject) {
+			getStoriesThatUse( pathRequested, storiesToCheck )
+				.then( (storyNames) => {
+					resolve( [ !( storyNames && storyNames.length > 0 ), storyNames ] );
+				})
+				.catch( ( err ) => {
+					console.error( "Error", "[Asset.canDelete]", "Unable to check stories assets", filename, "error:", err );
+					reject( err );
+				});
+		});
+	}
 }
 
 const handler = new AssetsHandler();
@@ -158,11 +178,44 @@ router.get('/', ( req, res ) => {
 router.get('/*', express.static( handler.getPath() ) );
 
 // PUT /assets/:category/:filename
+router.options('/:category/:filename', (req, res) => {
+	let category = req.params.category;
+	let filename = req.params.filename;
+
+	let allow = ["PUT"];
+	let promise = null;
+	if( filename && category && handler.getCategories().includes( category ) ) {
+		allow.push( "GET", "HEAD" );
+
+		promise = handler.canDelete( category, filename, [] )
+			.then( (result) => {
+
+				let canDelete = result[0];
+				let storiesThatUseAsset = result[1];
+				if( canDelete ) {
+					allow.push( "DELETE" );
+				}
+			})
+			.catch( ( err ) => {
+				console.error( "Error", "[OPTIONS Asset]", "Unable to check stories assets", filename, "error:", err );
+			})
+			.finally( () => {
+				res.header( "Allow", allow.join() );
+				res.end();
+			});
+	}
+	else{
+		res.header( "Allow", allow.join() );
+		res.end();
+	}
+});
+
+// PUT /assets/:category/:filename
 router.put('/:category/:filename', (req, res) => {
 	let category = req.params.category;
 	let filename = req.params.filename;
 
-	if( filename && category && category in handler.getCategories() ) {
+	if( filename && category && handler.getCategories().includes( category ) ) {
 		handler.addAsset( category, filename, req.body )
 			.then( (name) => {
 				res.sendStatus( StatusCodes.OK )
@@ -183,18 +236,13 @@ router.delete( "/:category/:filename", (req, res) => {
 	if( (category && category in handler.getCategories() )
 		&& ( filename && handler.getCategoryList(category).includes( filename ) )
 	){
-		let storiesToCheck = storyHandler.getList();
-		if( req.body && req.body.excludes ) {
-			let excludes = req.body.excludes;
-			storiesToCheck = storyHandler.getList().filter( (name) => !excludes.includes( name ) );
-		}
 
-		let isDependent = null;
-		let pathRequested = handler.getPathAsset( category, filename );
-		let stories = getStoriesThatUse( pathRequested, storiesToCheck )
-			.then( (storyNames) => {
-				if( stories && stories.length > 0 ) {
-					res.json( stories );
+		handler.canDelete( category, filename, req.body.excludes )
+			.then( (result) => {
+				let canDelete = result[0];
+				let storiesThatUseAsset = result[1];
+				if( !canDelete ) {
+					res.json( storiesThatUseAsset );
 					res.sendStatus( StatusCodes.FORBIDDEN );
 				}
 				else {
@@ -202,6 +250,9 @@ router.delete( "/:category/:filename", (req, res) => {
 						if (err){
 							console.error( "Error", "[DELETE Asset]", "Unable to delete asset, \"%s\"; Cause:", pathRequested, err );
 							res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+						}
+						else{
+							res.end();
 						}
 					});
 				}
@@ -217,11 +268,11 @@ router.delete( "/:category/:filename", (req, res) => {
 	}
 });
 
-function getStoriesThatUse( pathResource, storiesNames ) {
+function getStoriesThatUse( pathResource, storyNames ) {
 
 	let promises = new Array( storyNames.length );
 
-	storyHandler.getList().forEach( ( name, i ) => promises[ i ] = storyHandler.getStoryAssetsList( name ) );
+	storyNames.forEach( ( name, i ) => promises[ i ] = storyHandler.getStoryAssetsList( name ) );
 
 	return new Promise( function (resolve, reject) {
 		let storiesThatUseResource = [];

@@ -115,8 +115,9 @@ class StoryHandler {
 	}
 
 	getStoryAssetsList( name ) {
+		let self = this;
 		return new Promise( function (resolve, reject) {
-			this.getJSON( name )
+			self.getJSON( name )
 				.then( (data) => {
 					resolve( data && data.assets ? data.assets : [] );
 				})

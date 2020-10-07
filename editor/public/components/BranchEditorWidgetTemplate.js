@@ -6,7 +6,7 @@ export const template = `
 			<b-form-row>
 				<b-col>
     <!-- This is for saving the type of option the value the user is about to put is coming from --->
-        <select class="form-check" v-model="branch.tag">
+        <select class="form-check" v-model="data.condition">
             <option  v-for="(nameType, keyType) in functionsN" 
 	        class="form-check-input"
 	        v-bind:id="'input-type_' + nameType"

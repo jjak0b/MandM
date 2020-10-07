@@ -96,6 +96,7 @@ export const template =
                 <label for="storyEditor-inventory-image">
                 {{ $t("StoryEditor.label-image-inventory") }}</label>
                  <b-form-file
+                           
 		                    v-model="inv.image"
 						    id="storyEditor-inventory-image"
 							required="required"
@@ -103,11 +104,22 @@ export const template =
 							class="form-control">
 </b-form-file>
 </div>
-<b-button v-on:click="pushObject(inv)">Aggiungi</b-button>
+<b-button v-on:click="pushObject()">Aggiungi</b-button>
 </b-col>
             </b-form-row>
         </b-form-group>
 	</b-form>
+	<div v-for="(elements, index) in initInv">
+	<b-card
+	v-bind:title="elements.name"
+	v-bind:img-src="elements.image"
+	img-top
+	>
+	<b-card-text>
+	{{elements.desc}}
+</b-card-text>
+</b-card>
+</div>
 </div>
 `
 ;

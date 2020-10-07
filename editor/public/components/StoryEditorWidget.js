@@ -16,12 +16,15 @@ export const component = {
 	data() {
 		return {
 			initInv:[],
+			tmpvalue:Object,
 			inv:{
+				num:'',
 			id:'',
 				name:'',
 			desc:'',
 			image:Image,
 			},
+			i:0,
 			remoteStories: null, // names
 			delayForNextRemoteRequest: 5000,
 			tmpStory: {
@@ -64,8 +67,11 @@ export const component = {
 		keepFetch();
 	},
 	methods: {
-		pushObject(object){
-			this.initInv.unshift(object);
+		pushObject(){
+			this.tmpvalue = this.inv;
+			this.initInv.unshift(this.tmpvalue);
+			this.i++;
+			alert('complete');
 		},
 		addStoryRemote( event ) {
 			if( this.stateNewStory === false ){

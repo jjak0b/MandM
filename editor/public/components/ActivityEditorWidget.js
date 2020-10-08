@@ -144,8 +144,8 @@ export const component = {
 			return false;
 		},
 		getCondition(condition){
-			this.branch.conditions=condition.conditions;
-			this.branch.tag=condition.tag;
+			this.branch.condition=condition.condition;
+			this.branch.params=condition.params.slice(0, condition.params.length);
 		},
 		isSelected( checkType ) {
 			if( checkType ){

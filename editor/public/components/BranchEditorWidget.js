@@ -94,16 +94,18 @@ export const component = {
                         i++;
                     }
                 },
+                //Push is used to implement the array into the data objects, wich contains the type of condition and the array
+                //to contain the params of said condition
                 push() {
-                    var array = [];
                     if (this.data.condition !== '') {
                         var i=0;
                         while ( i < this.section.length){
                             this.data.params.push(this.section[i]);
                             i++;
                         }
-                        if(this.data.params) {
+                        if(this.data.params && this.branch.params !== this.data.params) {
                             this.$emit('conditions', this.data);
+                            alert("parameters overided");
                         }
                     } else {
                         alert("Inserisci condizione");

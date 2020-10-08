@@ -16,7 +16,8 @@ const component = {
 	i18n: i18n,
 	data() {
 		return {
-			remoteStories: null, // names
+			localStories: [],
+			remoteStories: [], // names
 			delayForNextRemoteRequest: 5000,
 			I18nUtils: I18nUtils,
 			locale: null,
@@ -98,6 +99,22 @@ const component = {
 					if( names ) self.remoteStories = names;
 				});
 		},
+		addToLocalStories( story ) {
+			this.localStories.push(story);
+		},
+		deleteFromLocalStories( name ) {
+			this.localStories = this.localStories.filter(function( story ) {
+				return story.name !== name;
+			});
+		},
+		changeSelectedStory( name ) {
+			let story = this.localStories.find(function( story ) {
+				return story.name === name;
+			});
+			if (story) {
+				this.cache.story = story;
+			}
+		}
 	}
 }
 

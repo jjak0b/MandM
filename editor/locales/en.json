@@ -1,12 +1,14 @@
 {
   "shared": {
 	"label-new-element": "New {name} item",
+	"label-update": "Update",
 	"label-save": "Save",
 	"label-remove": "Remove",
 	"label-confirm": "Confirm",
 	"label-abort": "Abort",
 	"label-reset": "Reset",
 	"label-close": "Close",
+	"label-delete": "Delete",
 	"label-import": "Import",
 	"label-export": "Export",
 	"label-upload": "Upload",
@@ -68,6 +70,10 @@
 	"label-locale-select": "Select current internationalization to edit"
   },
   "StoryEditorWidget": {
+	"label-local-story": "Local",
+	"label-select-internationalization": "Please select an internationalization",
+	"label-reload-from-server": "Reload",
+	"label-add-new-story": "Add new story",
 	"label-story-editor": "Story editor",
 	"label-story-name": "Story name",
 	"label-story-description": "Story description",

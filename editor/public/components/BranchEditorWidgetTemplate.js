@@ -115,6 +115,6 @@ v-model="element.value"
 <!--  </b-list-group>-->
 <!--</div>-->
 </b-form-group>
-<button v-on:input="push()">{{$t('shared.label-save')}}</button>
+<button v-on:click="push()">{{$t('shared.label-save')}}</button>
 </b-form>
 `;

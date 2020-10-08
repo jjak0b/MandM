@@ -16,7 +16,6 @@ export const component = {
         return {
             data: {
                 condition: '',
-
                 params: [],
             },
             functioVal: {
@@ -29,23 +28,23 @@ export const component = {
             },
             section: [
                 {
-                    value: "$userInput",
-                    type: "$userInput",
+                    value: "notDefined",
+                    type: "notDefined",
                     order: 1
                 },
                 {
-                    value: "$userInput",
-                    type: "$userInput",
+                    value: "notDefined",
+                    type: "notDefined",
                     order: 2
                 },
                 {
-                    value: "$userInput",
-                    type: "$userInput",
+                    value: "notDefined",
+                    type: "notDefined",
                     order: 3
                 },
                 {
-                    value: "$userInput",
-                    type: "$userInput",
+                    value: "notDefined",
+                    type: "notDefined",
                     order: 4
                 }
             ],
@@ -96,9 +95,16 @@ export const component = {
                     }
                 },
                 push() {
-                    if (this.branch.data.condition != '') {
-                        this.branch.data.params = this.section.slice(0, this.section.lenght);
-                        this.$emit('conditions', this.branch);
+                    var array = [];
+                    if (this.data.condition !== '') {
+                        var i=0;
+                        while ( i < this.section.length){
+                            this.data.params.push(this.section[i]);
+                            i++;
+                        }
+                        if(this.data.params) {
+                            this.$emit('conditions', this.data);
+                        }
                     } else {
                         alert("Inserisci condizione");
                     }

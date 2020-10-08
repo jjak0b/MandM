@@ -3,7 +3,6 @@ import {FormUtils} from "/shared//js/FormUtils.js";
 import { component as inventoryComponent } from "/shared/components/UserWidgetInventory.js";
 import { component as inventoryEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetInventoryEditor.js";
 
-
 export const component = {
 	template: template,
 	props: {
@@ -15,16 +14,7 @@ export const component = {
 	},
 	data() {
 		return {
-			initInv:[],
-			tmpvalue:Object,
-			inv:{
-				num:'',
-			id:'',
-				name:'',
-			desc:'',
-			image:Image,
-			},
-			i:0,
+
 			remoteStories: null, // names
 			delayForNextRemoteRequest: 5000,
 			tmpStory: {
@@ -67,12 +57,7 @@ export const component = {
 		keepFetch();
 	},
 	methods: {
-		pushObject(){
-			this.tmpvalue = this.inv;
-			this.initInv.unshift(this.tmpvalue);
-			this.i++;
-			alert('complete');
-		},
+
 		addStoryRemote( event ) {
 			if( this.stateNewStory === false ){
 				event.stopPropagation();
@@ -147,6 +132,7 @@ export const component = {
 				}
 			};
 			reader.readAsText( file );
-		}
+		},
+
 	}
 }

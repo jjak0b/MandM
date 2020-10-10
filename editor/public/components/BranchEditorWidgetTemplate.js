@@ -5,6 +5,7 @@ export const template = `
 			>{{ $t( 'ActivityEditorWidget.label-input-type' ) }}</template>
 			<b-form-row>
 				<b-col>
+				<b-row>
     <!-- This is for saving the type of option the value the user is about to put is coming from --->
         <select class="form-check" v-model="data.condition">
             <option  v-for="(nameType, keyType) in functionsN" 
@@ -13,10 +14,15 @@ export const template = `
 	        v-bind:value="keyType"
             >{{$t(nameType)}}</option>
         </select>
+        </b-row>
+        <b-row>
+        <select class="form-check" 
+</b-row>
         </b-col>
         <b-col>
-        <b-row>
-        <select v-for="(element, self) in section" v-model="element.type">
+        <b-row> <!--function.argument contiene il numero di argomenti che accetta la funzione-->
+        <select v-for="n in funs.argument" v-on:input="pushType(self, $input)">
+<!--        -->
         <option v-for="(nameType, keyType) in functioVal"
         v-bind:value="keyType">{{$t(nameType)}}</option>
 </select>
@@ -31,6 +37,7 @@ export const template = `
 v-model="element.value"
         v-if="element.type"
         :is="functioValTag[element.type]"
+        v-bind:acceptTypes="data.acceptTypes"
         ></component>
 </b-col>
 

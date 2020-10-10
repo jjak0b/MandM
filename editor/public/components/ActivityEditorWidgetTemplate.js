@@ -172,6 +172,7 @@ export const template =
 		<section v-if="checkType(NodeUtils.Types.Branch)">
 			<branch-editor-widget
 			v-bind:branch="branch"
+			v-bind:funs="funz"
 			v-on:condition="getCondition($event)"
 			v-bind:locale="locale"
 			></branch-editor-widget>

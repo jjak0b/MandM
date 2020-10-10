@@ -39,6 +39,10 @@ export const component = {
 	},
 	data() {
 		return {
+			funz: {
+				name:"lol",
+				arguments:4
+			},
 			branch:Object,
 			shouldShowTree: false,
 			activityId: null,

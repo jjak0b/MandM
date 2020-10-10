@@ -10,13 +10,20 @@ export const component = {
     template: template,
     props: {
         branch: Object,
-        }, //The node selected with type Branch
+        funs:Object,
+         //The node selected with type Branch
         locale: String,
+    },
     data() {
         return {
             data: {
                 condition: '',
                 params: [],
+                acceptTypes:[]
+            },
+            funz:{
+                type:'',
+                val:''
             },
             functioVal: {
                 "value": "ActivityEditorWidget.label-value",
@@ -86,6 +93,11 @@ export const component = {
                         var j = val.length + 1;
                         this.val.param = val.slice(i, j);
                     }
+                },
+                pushType(i, element){
+                    let object=this.funz;
+                    this.funz.type=element;
+                    this.data.params[i]=object;
                 },
                 whipe() {
                     var i = 0;

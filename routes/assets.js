@@ -3,6 +3,7 @@ const path = require('path');
 const router = express.Router();
 const fs = require('fs');
 const StatusCodes = require("http-status-codes").StatusCodes;
+const multer = require('multer');
 
 const storyHandler = require("./stories").handler;
 
@@ -12,14 +13,14 @@ class AssetsHandler {
 		this.pathAssets = path.join( __basedir, this.assetsDirname );
 		this.pathAssetsCategories = {
 			videos: path.join( this.pathAssets, 'videos' ),
-			audio: path.join( this.pathAssets, 'audio' ),
+			audios: path.join( this.pathAssets, 'audios' ),
 			images: path.join( this.pathAssets, 'images' ),
 			captions: path.join( this.pathAssets, 'captions' )
 		};
 
 		this.cacheAssets = {
 			videos: [],
-			audio: [],
+			audios: [],
 			captions: [],
 			images: []
 		};
@@ -80,12 +81,12 @@ class AssetsHandler {
 
 	}
 
-	addAsset( category, filename, data ) {
+	addAsset( category, filename, fileFormData ) {
 		let self = this;
 		return new Promise( function ( resolve, reject ) {
 			fs.writeFile(
-				this.getPathAsset( category, filename ),
-				data,
+				self.getPathAsset( category, filename ),
+				fileFormData.buffer,
 				function (err) {
 					if (err) {
 						reject( err );
@@ -211,16 +212,17 @@ router.options('/:category/:filename', (req, res) => {
 });
 
 // PUT /assets/:category/:filename
-router.put('/:category/:filename', (req, res) => {
+router.put('/:category/:filename', multer().single('upload'),(req, res) => {
 	let category = req.params.category;
 	let filename = req.params.filename;
 
 	if( filename && category && handler.getCategories().includes( category ) ) {
-		handler.addAsset( category, filename, req.body )
+		handler.addAsset( category, filename, req.file )
 			.then( (name) => {
 				res.sendStatus( StatusCodes.OK )
 			})
 			.catch( (err) => {
+				console.error("[Assets]", "Unable to serve PUT of", req.params, req.body, "cause", err );
 				res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
 			});
 	}

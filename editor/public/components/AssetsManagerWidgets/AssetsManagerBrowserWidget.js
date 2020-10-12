@@ -25,13 +25,13 @@ export const component = {
 			valueCurrent: null,
 			categories: [
 				"videos",
-				"audio",
+				"audios",
 				"images",
 				"captions"
 			],
 			localeStrings: {
 				videos: "shared.media.label-video",
-				audio: "shared.media.label-audio",
+				audios: "shared.media.label-audio",
 				images: "shared.media.label-image",
 				captions: "shared.media.label-caption",
 			},

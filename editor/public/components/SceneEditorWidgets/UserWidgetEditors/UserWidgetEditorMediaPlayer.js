@@ -5,13 +5,17 @@ import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";
 import {component as inputValidator} from "/shared/components/InputValidatorWidget.js";
 import {component as imageAreaTabPanel} from "./UserWidgetEditorMediaPlayer/UserWidgetEditorMediaPlayerImageAreaTabPanel.js";
+import {component as assetsManagerBrowser} from "../../AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
+import {component as i18nRegion } from "../../i18nWidgets/I18nRegion.js";
 
 export const component = {
 	template: template,
 	components: {
+		"assets-manager-browser-widget": assetsManagerBrowser,
 		"user-widget-editor-media-player-image-area-tabpanel": imageAreaTabPanel,
 		"list-item-widget": listComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
+		'i18n-region': i18nRegion,
 		"user-widget-media-player" : asyncLoadComponentI18nMediaPlayer
 	},
 	props: {
@@ -31,10 +35,15 @@ export const component = {
 				"file" : "SceneEditor.imgSourceTypes.label_file",
 				"uri" : "SceneEditor.imgSourceTypes.label_uri"
 			},*/
+			mediaCategories: [
+				"videos",
+				"audios",
+				"images"
+			],
 			labelMediaTypes : {
-				"audio" : "UserWidgets.MediaPlayer.MediaType.label_audio",
-				"video" : "UserWidgets.MediaPlayer.MediaType.label_video",
-				"image" : "UserWidgets.MediaPlayer.MediaType.label_image"
+				"audios" : "UserWidgets.MediaPlayer.MediaType.label_audio",
+				"videos" : "UserWidgets.MediaPlayer.MediaType.label_video",
+				"images" : "UserWidgets.MediaPlayer.MediaType.label_image"
 			},
 			labelShapeTypes: {
 				"default" : "UserWidgets.MediaPlayer.areas.label-shape-full",
@@ -47,7 +56,38 @@ export const component = {
 				captions: {}
 			},
 			shouldUseMap: false,
-			nextAreaId: 0
+			nextAreaId: 0,
+			form: {
+				asset: null,
+				captions: {}
+			}
+		}
+	},
+	watch: {
+		"form.asset" : function (asset, prevAsset ) {
+
+			console.log( asset, prevAsset );
+
+			if( asset != prevAsset ) {
+				if( prevAsset ) {
+					this.resetCaptions();
+					if( prevAsset.category == "images") {
+						this.resetAreas();
+					}
+				}
+
+				this.$set(this.value, "asset", asset );
+				if( this.value.captions ) {
+					this.$set(this.value, "captions", {});
+				}
+
+				if( this.value.asset && this.value.asset.category == "images" ) {
+					this.$set(this.value.captions, 0, this.localeImageCaptionLabel );
+				}
+			}
+		},
+		"value.captions" : function () {
+			console.log( this.value.captions );
 		}
 	},
 	computed: {
@@ -61,84 +101,40 @@ export const component = {
 	},
 	methods: {
 		shouldPreview() {
-			return this.value && this.value.src;
+			return this.value && this.value.asset;
 		},
 		reset() {
 			console.log("[MediaFormWidget]", "resetData" );
-			let self = this;
-			this.files.main = null;
-			Object.keys( this.files.captions )
-				.forEach( (lang) => {
-					if( self.files.captions[lang ] ) delete self.files.captions[ lang ] } );
 
-			this.updateCaptions();
-			this.updateSource();
+			this.resetCaptions();
+			this.resetAreas();
 
-			if( this.value.tag == "image" ){
-				this.$i18n.removeMessageAll( this.value.captions[0] );
-			}
-			this.$set( this.value, "tag", null );
+			this.form.asset = null;
+			this.$set( this.value, "asset", null );
 		},
-		updateSource() {
-			if( this.value.src ){
-				URL.revokeObjectURL( this.value.src );
-			}
-
-			this.$set(
-				this.value,
-				"src",
-				this.files.main ? URL.createObjectURL(this.files.main) : null
-			);
-		},
-		updateCaptions() {
+		resetCaptions() {
 			let self = this;
-
-			if( !this.value ) return;
-
-			if( !this.value.captions) this.$set( this.value, "captions", {} );
-
-			if( this.value.tag == "image" ) {
-				this.$set(
-					this.value.captions,
-					0,
-					this.localeImageCaptionLabel
-				);
-			}
-			else {
-				// revoke and dealloc urls
-				if( this.value.captions ){
-					Object.keys( this.value.captions ).forEach( ( lang) => {
-						if( this.value.captions[ lang ] )
-							URL.revokeObjectURL( this.value.captions[ lang ] );
-						this.$delete( this.value.captions, lang );
-					});
+			if( this.value.captions ) {
+				if (this.value.captions[0]) {
+					this.$i18n.removeMessageAll(this.value.captions[0]);
+					this.$delete(this.value.captions, 0);
 				}
-				// alloc new urls for also new files
-				Object.keys( this.files.captions ).forEach( (locale) => {
-					let file = this.files.captions[ locale ];
-					if( file ){
-						self.$set(
-							self.value.captions,
-							locale,
-							URL.createObjectURL( new Blob( [ file ], {type: "text/vtt" } ) )
-						);
-					}
-				});
+				else {
+					Object.keys(this.value.captions)
+						.forEach((lang) => {
+							if (self.value.captions[lang])
+								delete self.value.captions[lang];
+						});
+				}
 			}
+			this.$set(this.value, "captions", null);
+			this.form.captions = null;
 		},
-		onFileload(event, fileCategory) {
-			let file = event.target.files[0];
-
-			if( fileCategory == "main" ) {
-				this.files.main = file;
+		resetAreas() {
+			while( this.value && this.value.areas && this.value.areas.length > 0) {
+				this.value.areas.pop();
 			}
-			else if( fileCategory == "captions") {
-				this.files.captions[ this.locale ] = file;
-			}
-			else{
-				console.error( "[MediaForm]", "unknown fileCategory",  fileCategory );
-				return;
-			}
+			this.$delete( this.value, "areas" );
 		},
 		onAddArea( event ) {
 			let data = FormUtils.getAssociativeArray($(event.target).serializeArray());

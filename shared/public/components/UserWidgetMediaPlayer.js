@@ -21,7 +21,7 @@ export const component = {
 		}
 	},
 	mounted(){
-		if( this.value.tag == "image" ){
+		if( this.value.asset && this.value.asset.category == "images" ){
 			window.addEventListener( "resize", this.onResize );
 		}
 	},
@@ -34,7 +34,7 @@ export const component = {
 		}
 	},
 	beforeUpdate() {
-		if( this.value.tag == "image" ) {
+		if( this.value.asset && this.value.asset.category == "images" ) {
 			// here image size may have been changed, resized, and the highlight plugin may be buggy so refresh it
 			this.setupHighlight();
 
@@ -43,7 +43,7 @@ export const component = {
 		}
 	},
 	updated(){
-		if( this.value.tag == "image" ) {
+		if( this.value.asset && this.value.asset.category == "images" ) {
 			// into before update we let the view to update the map areas coords, so update the highlight plugin with new DOM
 			this.setupHighlight();
 
@@ -53,7 +53,7 @@ export const component = {
 		}
 	},
 	beforeDestroy(){
-		if( this.value.tag == "image" ) {
+		if( this.value.asset && this.value.asset.category == "images" ) {
 			window.removeEventListener("resize", this.onResize);
 		}
 	},
@@ -77,7 +77,7 @@ export const component = {
 				this.captionContent = "";
 		},
 		onResize( event ){
-			if( this.value.tag == "image" ){
+			if( this.value.asset && this.value.asset.category == "images" ){
 				// trigger vue cicle to update
 				this.updateMapAreas();
 			}

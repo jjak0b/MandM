@@ -1,15 +1,15 @@
 export const template =
 `
-<div class="w-100">
+<div class="w-100" v-if="value.asset">
 	<figure
-		v-if="value.tag == 'image'"
+		v-if="value.asset.category == 'images'"
 		class="figure"
 	>
 		<img	
-			v-if="value.src"
+			v-if="value.asset"
 			ref="img"
 			v-bind="$attrs"
-			v-bind:src="value.src"
+			v-bind:src="value.asset.getURL()"
 			v-bind:alt="value.captions && $te(value.captions[0]) ? $t(value.captions[0]) : ''"
 			v-bind:usemap="value.areas ? '#' + $attrs.id + '-map' : ''"
 			class="figure-img img-fluid rounded" 
@@ -36,15 +36,15 @@ export const template =
 		>{{ value.captions && value.captions[0] ? $t(value.captions[0]) : '' }}</figcaption>
 	</figure>
 	<video
-		v-if="value.tag == 'video'"
+		v-if="value.asset.category == 'videos'"
 		controls="controls"
 		v-bind="$attrs"
-		v-bind:src="value.src"
+		v-bind:src="value.asset.getURL()"
 		class="w-100"
 	>
 		<track v-for="(source, lang) in value.captions"
 			kind="captions"
-			v-bind:src="source"
+			v-bind:src="source.getURL()"
 			v-bind:srclang="lang"
 			v-bind:label="I18nUtils.i18nCodes[lang] ? I18nUtils.i18nCodes[lang].englishName : lang"
 		/>
@@ -52,16 +52,16 @@ export const template =
 		{{ $t( "shared.errors.video_tag-unsupported" ) }}
 	</video>
 	<audio 
-		v-if="value.tag == 'audio'"
+		v-if="value.asset.category == 'audios'"
 		controls="controls"
 		v-bind="$attrs"
-		v-bind:src="value.src"
+		v-bind:src="value.asset.getURL()"
 		v-bind:aria-describedby="$attrs.id + '-lyrics'"
 		class="w-100"
 	>
 		<track v-for="(source, lang) in value.captions"
 			kind="captions"
-			v-bind:src="source"
+			v-bind:src="source.getURL()"
 			v-bind:srclang="lang"
 			v-bind:label="I18nUtils.i18nCodes[lang] ? I18nUtils.i18nCodes[lang].englishName : lang"
 			v-on:cuechange="onCueChange"
@@ -70,7 +70,7 @@ export const template =
 		{{ $t( "shared.errors.audio_tag-unsupported" ) }}
 	</audio>
 	<pre
-		v-if="value.tag == 'audio'"
+		v-if="value.asset.category == 'audios'"
 		v-bind:id="$attrs.id + '-lyrics'"
 		v-html="captionContent"
 		aria-live="polite"

@@ -8,23 +8,30 @@ export const template =
 				v-on:submit.prevent
 				v-on:reset="reset()"
 			>
-				<fieldset class="form-group">
-					<legend>{{ $t( "UserWidgets.MediaPlayer.label_mediatype" ) }}</legend>
-					<div v-for="(label, type) in labelMediaTypes" >
-						<input
-							type="radio"
-							name="mediaType"
-							v-bind:id="'mediaForm-media-type_' + type "
+				<b-form-group
+					v-bind:label="$t('UserWidgets.MediaPlayer.label-select-media-asset')"
+					label-for="assets-manager-widget-input-asset"
+				>
+					<b-input-group class="mt-3">
+						<b-input-group-prepend>
+							<assets-manager-browser-widget
+								id="assets-manager-widget-browser-delete"
+								v-bind:value="value.asset"
+								v-on:input="form.asset = $event"
+								button-only="true"
+								v-bind:force-filter="mediaCategories"
+							>
+							</assets-manager-browser-widget>
+						</b-input-group-prepend>
+						<b-form-input
+							id="assets-manager-widget-input-asset"
+							v-bind:value="value.asset"
+							v-on:keydown.prevent
 							required="required"
-							v-bind:value="type"
-							v-model="value.tag"
-							v-bind:disabled="value.tag && value.tag != type"
-						/>
-						<label
-							v-bind:for="'mediaForm-media-type_' + type "
-						>{{ $t( label ) }}</label>
-					</div>
-				</fieldset>
+							readonly
+						></b-form-input>
+					</b-input-group>
+				</b-form-group>
 					<!-- Only file type is supported for now
 					<fieldset>
 						<legend>{{ $t( "UserWidgets.MediaPlayer.label_mediaSource" ) }}</legend>
@@ -44,22 +51,8 @@ export const template =
 					</fieldset>
 					-->
 				<fieldset>
-					<legend>{{ $t( "UserWidgets.MediaPlayer.label_upload_file" ) }}</legend>
-					<div v-if="value.tag && value.tag == 'image'">
-						<div class="form-group">
-							<label
-								for="mediaForm-input-file-image"
-							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.image" ) }}</label>
-							<input
-								type="file"
-								name="file"
-								id="mediaForm-input-file-image"
-								required="required"
-								accept="image/*"
-								v-on:change="(event) => { onFileload(event, 'main'); updateSource(); updateCaptions(); }"
-								class="form-control"
-							/>
-						</div>
+					<legend>{{ $t( "UserWidgets.MediaPlayer.label-options" ) }}</legend>
+					<div v-if="value.asset && value.asset.category && value.asset.category == 'images'">
 						<i18n-input-widget
 							v-bind:label="$t('UserWidgets.MediaPlayer.label-input-file.imageCaption')"
 							v-bind:tag="'textarea'"
@@ -67,7 +60,7 @@ export const template =
 							name="fileCaption"
 							rows="4"
 							v-bind:locale="locale"
-							v-bind:locale-label="localeImageCaptionLabel"
+							v-bind:locale-label="value.captions[0]"
 						></i18n-input-widget>
 						<div class="form-group">
 							<div class="form-check">
@@ -75,7 +68,7 @@ export const template =
 									id="mediaForm-input-image-useMap"
 									type="checkbox"
 									v-model="shouldUseMap"
-									v-bind:disabled="!value.src"
+									v-bind:disabled="!value.asset"
 									class="form-check-input"
 								>
 								<label
@@ -132,54 +125,33 @@ export const template =
 							</div>
 						</div>
 					</div>
-					<div v-if="value.tag && value.tag == 'video' ">
-						<div class="form-group">
-							<label
-								for="mediaForm-input-file-video"
-							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.video") }}</label>
-							<input
-								type="file"
-								name="file"
-								id="mediaForm-input-file-video"
-								required="required"
-								accept="video/*"
-								v-on:change="(event) => { onFileload(event, 'main'); updateSource(); }"
-								class="form-control"
-							/>
-						</div>
-					</div>
-					<div v-if="value.tag && value.tag == 'audio' ">
-						<div class="form-group">
-							<label
-								for="mediaForm-input-file-audio"
-							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.audio") }}</label>
-							<input
-								type="file"
-								name="file"
-								id="mediaForm-input-file-audio"
-								required="required"
-								accept="audio/*"
-								v-on:change="(event) => { onFileload(event, 'main'); updateSource(); }"
-								class="form-control"
-							/>
-						</div>
-					</div>
-					<div v-if="value.tag && ( value.tag == 'audio' || value.tag == 'video' )" >
-						<div class="form-group">
-							<label
-								for="mediaForm-input-file-captions"
-							>{{ $t( "UserWidgets.MediaPlayer.label-input-file.captions") }}</label>
-							<input
-								type="file"
-								name="captions"
-								id="mediaForm-input-file-captions"
-								aria-describedby="mediaForm-input-file-captions-description"
-								accept="text/vtt, .vtt"
-								v-on:change="(event) =>{ onFileload(event, 'captions'); updateCaptions(); updateSource(); }"
-								class="form-control"
-							/>
-						</div>
-						<p id="mediaForm-input-file-captions-description">{{ $t( "UserWidgets.MediaPlayer.label-input-file.captions_accessibility") }}</p>
+					<div v-if="value.asset && value.asset.category && ( value.asset.category == 'audios' || value.asset.category == 'videos' )" >
+						<i18n-region
+							v-bind:label="$t('UserWidgets.MediaPlayer.label-input-file.captions')"
+							label-for="user-widget-editor-media-player-asset-caption-input"
+							v-bind:description="$t('UserWidgets.MediaPlayer.label-input-file.captions_accessibility')"
+							v-bind:locale="locale"
+						>
+							<b-input-group class="mt-3">
+								<b-input-group-prepend>
+									<assets-manager-browser-widget
+										id="user-widget-editor-media-player-asset-caption"
+										v-bind:force-filter="['captions']"
+										v-model="value.captions[ locale ]"
+										button-only="true"
+										v-bind:disabled="!locale"
+									>
+									</assets-manager-browser-widget>
+								</b-input-group-prepend>
+								<b-form-input
+									id="user-widget-editor-media-player-asset-caption-input"
+									v-bind:value="locale ? value.captions[ locale ] : null"
+									v-on:keydown.prevent
+									readonly
+									v-bind:disabled="!locale"
+								></b-form-input>
+							</b-input-group>
+						</i18n-region>
 					</div>
 				</fieldset>
 				<div class="btn-group" role="group">
@@ -190,7 +162,7 @@ export const template =
 		</section>
 	</div>
 	<div class="row">
-		<section class="col" v-if="value.tag && value.tag == 'image' && value.areas">
+		<section class="col" v-if="value.asset && value.asset.category && value.asset.category == 'images' && value.areas">
 			<b-card no-body>
 				<b-tabs card vertical>
 					<user-widget-editor-media-player-image-area-tabpanel

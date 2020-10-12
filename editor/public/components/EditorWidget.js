@@ -1,7 +1,7 @@
 import { i18n } from "./Translations.js";
 import { I18nUtils } from "/shared/js/I18nUtils.js";
-import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./I18nSelectorWidget.js";
-import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
+import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./i18nWidgets/I18nSelectorWidget.js";
+import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import { component as storyEditorComponent } from "./StoryEditorWidget.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as activityEditorComponent } from "./ActivityEditorWidget.js";

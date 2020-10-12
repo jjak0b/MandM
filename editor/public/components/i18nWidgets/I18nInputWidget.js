@@ -1,5 +1,5 @@
 import {template} from "./I18nInputWidgetTemplate.js";
-import { i18n } from "./Translations.js";
+import { i18n } from "../Translations.js";
 import { I18nUtils } from "/shared/js/I18nUtils.js";
 export const component = {
 	i18n: i18n,

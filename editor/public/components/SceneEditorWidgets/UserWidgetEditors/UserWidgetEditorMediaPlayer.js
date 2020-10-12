@@ -1,5 +1,5 @@
 import { template } from "./UserWidgetEditorMediaPlayerTemplate.js";
-import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../../I18nInputWidget.js";
+import { asyncLoad as asyncLoadComponentI18nInputWidget} from "../../i18nWidgets/I18nInputWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import {FormUtils} from "/shared/js/FormUtils.js";
 import {component as listComponent } from "/shared/components/ListWidget.js";

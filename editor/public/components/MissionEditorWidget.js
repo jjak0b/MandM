@@ -1,5 +1,5 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
-import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./I18nInputWidget.js";
+import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 
 export const component = {
 	template: template,

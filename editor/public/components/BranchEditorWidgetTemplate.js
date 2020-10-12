@@ -21,8 +21,8 @@ export const template = `
         </b-col>
         <b-col>
         <b-row> <!--function.argument contiene il numero di argomenti che accetta la funzione-->
-        <select v-for="n in funs.argument" v-on:input="pushType(self, $input)">
-<!--        -->
+        <select v-for="(elements,index) in funs.argument.lenght" v-on:input="pushType(self, $input)">
+<!-- Adding n Select for how many arguments the function accept-->
         <option v-for="(nameType, keyType) in functioVal"
         v-bind:value="keyType">{{$t(nameType)}}</option>
 </select>
@@ -33,12 +33,13 @@ export const template = `
 </b-row>
 </b-col>
 <b-col>
-<component v-for="(element, index) in section"
+<component v-for="(element, index) in funs.argument.lenght"
 v-model="element.value"
         v-if="element.type"
         :is="functioValTag[element.type]"
-        v-bind:acceptTypes="data.acceptTypes"
+        v-bind:acceptTypes="funs.argument[element.acceptType]"
         ></component>
+       <!-- In acceptTypes i use the prop funs, wich comes from activityEditor, i bind the array --->
 </b-col>
 
 <!--        <div v-if="val.tag == 'atom' && val.tag">-->

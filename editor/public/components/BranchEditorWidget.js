@@ -76,6 +76,9 @@ export const component = {
                     }
                 }
             },
+    computed:{
+
+    },
             methods: {
                 // update(arr, isFunction) {
                 //     if ((isFunction) && (this.valueTypeSel == '')) {

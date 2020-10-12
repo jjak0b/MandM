@@ -41,7 +41,10 @@ export const component = {
 		return {
 			funz: {
 				name:"lol",
-				arguments:4
+				arguments:[{
+					accetps:["time","text"],
+					value:''
+				}]
 			},
 			branch:Object,
 			shouldShowTree: false,

@@ -3,12 +3,12 @@ export const template =
 <div
 	role="group"
 	v-bind:aria-labelledby="'asset-manager-browser-label-value_' + $attrs.id"
-	v-bind:class="buttonOnly ? [ 'b-form-btn-label-control', 'btn-group' ] : null"
+	v-bind:class="buttonOnly ? [ 'b-form-btn-label-control' ] : null"
 	v-on:focusin="onFocusIn"
 	v-on:focusout="onFocusOut"
 > 
 	<div
-		class="b-form-btn-label-control form-control d-flex h-auto align-items-stretch"
+		class="b-form-btn-label-control d-flex h-auto align-items-stretch"
 	>
 		<b-button
 			ref="button"
@@ -18,7 +18,7 @@ export const template =
 			v-bind:aria-expanded="visible ? 'true' : 'false'"
 			v-on:click="visible = !visible"
 	
-			class="btn h-auto"
+			class="h-auto"
 			v-bind:class="visible ? null : 'collapsed'"
 		>
 			<b-icon
@@ -45,8 +45,13 @@ export const template =
 			aria-modal="false"
 			v-bind:aria-labelledby="'asset-manager-browser-label-value_' + $attrs.id"
 			v-on:show="setFocusOnDialog"
-			class="position-absolute m-2"
+			class="position-absolute"
+			style="z-index: 3"
 		>
+			<!--
+				if this component is inside a pre/append for b-form-input
+				b-collapse must be z-index:3 to not overlap with dialog's button (z-index: 2) because of bootstrap button rule
+			-->
 			<b-form
 				role="search"
 				ref="dialogContent"

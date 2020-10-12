@@ -60,7 +60,7 @@ export const component = {
 		value: function( newVal ) {
 			if( newVal && newVal.length ) {
 				let self = this;
-				console.log("Hello", newVal);
+
 				this.updateList()
 					.then( (categoriesAssetsNames) => {
 						let found = false;
@@ -70,9 +70,9 @@ export const component = {
 								break;
 							}
 						}
-						console.log("for", newVal);
+
 						if( found ) {
-							console.log("found", newVal);
+
 							self.valueCurrent = newVal;
 							self.selectedItem = newVal;
 						}
@@ -211,18 +211,18 @@ export const component = {
 		// onFocusIn and onFocusOut handle when the dialog should close
 
 		onFocusIn(event) {
-			this.focused = true;
-			if( this.onTimeout ) {
+			// this.focused = true;
+			/*if( this.onTimeout ) {
 				clearTimeout( this.onTimeout );
 				this.onTimeout = null;
-			}
+			}*/
 		},
 		onFocusOut(event) {
 			// if onFocusIn will be triggered on next tick, then "focused" will be true and won't close
-			this.onTimeout = setTimeout(
+			/*this.onTimeout = setTimeout(
 				() => this.closeDialog(),
 				50
-			);
+			);*/
 		},
 	}
 };

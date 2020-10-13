@@ -7,7 +7,7 @@ export const component = {
 
 	},
 	props: {
-		value: String,
+		value: Object,
 		// force categories
 		buttonOnly: {
 			type: Boolean,
@@ -57,24 +57,25 @@ export const component = {
 		this.updateList();
 	},
 	watch: {
-		value: function( newVal ) {
-			if( newVal && newVal.length ) {
+		value: function( asset ) {
+			if( asset ) {
 				let self = this;
 
 				this.updateList()
-					.then( (categoriesAssetsNames) => {
+					.then( (categoriesAssets) => {
 						let found = false;
-						for (let i = 0; i < categoriesAssetsNames.length; i++) {
-							if( categoriesAssetsNames[ i ].includes( newVal ) ) {
+						let assets = asset.category in categoriesAssets ? categoriesAssets[ asset.category ] : [];
+						let i = 0;
+						for (; i < assets.length; i++) {
+							if( assets[ i ].name == asset.name ) {
 								found = true;
 								break;
 							}
 						}
 
 						if( found ) {
-
-							self.valueCurrent = newVal;
-							self.selectedItem = newVal;
+							self.valueCurrent = assets[ i ];
+							self.selectedItem = assets[ i ];
 						}
 					})
 					.catch( () => {

@@ -33,7 +33,7 @@ export const template =
 		</map>
 		<figcaption
 			class="figure-caption text-right"
-		>{{ value.captions && value.captions[0] ? $t(value.captions[0]) : '' }}</figcaption>
+		>{{ value.captions && value.captions[0] && $te( value.captions[0], locale ) ? $t(value.captions[0], locale) : '' }}</figcaption>
 	</figure>
 	<video
 		v-if="value.asset.category == 'videos'"

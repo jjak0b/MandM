@@ -7,6 +7,7 @@ import {component as inputValidator} from "/shared/components/InputValidatorWidg
 import {component as imageAreaTabPanel} from "./UserWidgetEditorMediaPlayer/UserWidgetEditorMediaPlayerImageAreaTabPanel.js";
 import {component as assetsManagerBrowser} from "../../AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
 import {component as i18nRegion } from "../../i18nWidgets/I18nRegion.js";
+import {Asset} from "/shared/js/Asset.js";
 
 export const component = {
 	template: template,
@@ -59,33 +60,62 @@ export const component = {
 			nextAreaId: 0,
 			form: {
 				asset: null,
-				captions: {}
+				caption: null,
 			}
 		}
 	},
 	watch: {
 		"form.asset" : function (asset, prevAsset ) {
 
-			console.log( asset, prevAsset );
+			console.log( "asset", asset, prevAsset );
 
-			if( asset != prevAsset ) {
-				if( prevAsset ) {
+			let shouldAddAsset = !!asset;
+
+			if( this.value.asset ) {
+				if( !shouldAddAsset || !asset.equals( this.value.asset ) ) {
 					this.resetCaptions();
 					if( prevAsset.category == "images") {
 						this.resetAreas();
 					}
+
+					this.$root.$emit( "remove-dependency", this.value.asset  );
+					this.$delete( this.value, "asset" );
 				}
+				else {
+					shouldAddAsset = false;
+				}
+			}
 
-				this.$set(this.value, "asset", asset );
-				this.$set(this.value, "captions", {});
+			if( shouldAddAsset ) {
+				this.$set( this.value, "asset", asset );
+				this.$root.$emit( "add-dependency", this.value.asset );
 
-				if( this.value.asset && this.value.asset.category == "images" ) {
+				this.$set( this.value, "captions", {} );
+				if( this.value.asset.category == "images" ) {
 					this.$set(this.value.captions, 0, this.localeImageCaptionLabel );
 				}
 			}
 		},
-		"value.captions" : function () {
-			console.log( this.value.captions );
+		"form.caption" : function ( caption, prevCaption) {
+			console.log( "caption", caption, prevCaption );
+			let shouldAddCaption = !!caption;
+			let isCaptionSetForLocale = this.locale in this.value.captions;
+
+			if( isCaptionSetForLocale ) {
+				if( !shouldAddCaption || !caption.equals(this.value.captions[ this.locale ] )  ) {
+					this.$root.$emit( "remove-dependency", this.value.captions[ this.locale ] );
+					if( isCaptionSetForLocale )
+						this.$delete( this.value.captions, this.locale );
+				}
+				else {
+					shouldAddCaption = false;
+				}
+			}
+
+			if( shouldAddCaption ) {
+				this.$set( this.value.captions, this.locale, caption );
+				this.$root.$emit( "add-dependency", this.value.captions[ this.locale ] );
+			}
 		}
 	},
 	computed: {
@@ -120,13 +150,15 @@ export const component = {
 				else {
 					Object.keys(this.value.captions)
 						.forEach((lang) => {
-							if (self.value.captions[lang])
-								delete self.value.captions[lang];
+							if (self.value.captions[lang]) {
+								this.$root.$emit("remove-dependency", this.value.captions[lang] );
+								this.$delete( self.value.captions, lang );
+							}
 						});
 				}
 			}
 			this.$delete(this.value, "captions" );
-			this.form.captions = null;
+			this.form.caption = null;
 		},
 		resetAreas() {
 			while( this.value && this.value.areas && this.value.areas.length > 0) {

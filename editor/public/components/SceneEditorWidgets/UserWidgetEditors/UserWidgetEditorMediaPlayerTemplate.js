@@ -137,7 +137,8 @@ export const template =
 									<assets-manager-browser-widget
 										id="user-widget-editor-media-player-asset-caption"
 										v-bind:force-filter="['captions']"
-										v-model="value.captions[ locale ]"
+										v-bind:value="locale && value.captions ? value.captions[locale] : null"
+										v-on:input="form.caption = $event"
 										button-only="true"
 										v-bind:disabled="!locale"
 									>

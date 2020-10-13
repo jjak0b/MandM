@@ -77,9 +77,7 @@ export const component = {
 				}
 
 				this.$set(this.value, "asset", asset );
-				if( this.value.captions ) {
-					this.$set(this.value, "captions", {});
-				}
+				this.$set(this.value, "captions", {});
 
 				if( this.value.asset && this.value.asset.category == "images" ) {
 					this.$set(this.value.captions, 0, this.localeImageCaptionLabel );
@@ -110,12 +108,12 @@ export const component = {
 			this.resetAreas();
 
 			this.form.asset = null;
-			this.$set( this.value, "asset", null );
+			this.$delete( this.value, "asset");
 		},
 		resetCaptions() {
 			let self = this;
 			if( this.value.captions ) {
-				if (this.value.captions[0]) {
+				if (0 in this.value.captions) {
 					this.$i18n.removeMessageAll(this.value.captions[0]);
 					this.$delete(this.value.captions, 0);
 				}
@@ -127,7 +125,7 @@ export const component = {
 						});
 				}
 			}
-			this.$set(this.value, "captions", null);
+			this.$delete(this.value, "captions" );
 			this.form.captions = null;
 		},
 		resetAreas() {

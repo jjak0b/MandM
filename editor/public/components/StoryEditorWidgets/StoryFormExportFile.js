@@ -20,7 +20,7 @@ export const component = {
 			if( !this.dataExport ) return event.preventDefault();
 
 			// Add i18n authored messages from vue-i18n instance
-			this.dataExport.assets.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+			this.dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 
 			a.type = 'text/json'
 			let data = a.type + ";charset=utf-8," + encodeURIComponent( JSON.stringify( this.dataExport ) );

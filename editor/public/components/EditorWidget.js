@@ -93,7 +93,7 @@ const component = {
 			for( let i = 0; i < keys.length; i++ ){
 				this.$set( value, keys[i], data[ keys[i]] );
 			}
-			this.localesList = data.assets && data.assets.locales ? Object.keys( data.assets.locales ) : [];
+			this.localesList = data.dependencies && data.dependencies.locales ? Object.keys( data.dependencies.locales ) : [];
 		},
 		getRemoteStoryNames() {
 			let self = this;

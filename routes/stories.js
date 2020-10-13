@@ -119,7 +119,7 @@ class StoryHandler {
 		return new Promise( function (resolve, reject) {
 			self.getJSON( name )
 				.then( (data) => {
-					resolve( data && data.assets ? data.assets : [] );
+					resolve( data && data.dependencies ? data.dependencies : [] );
 				})
 				.catch( reject )
 		});
@@ -173,12 +173,12 @@ router.put("/:name", ( req, res ) => {
 
 	let requests = [];
 
-	if( req.body.assets ) {
-		if( req.body.assets.locales ) {
-			Object.keys(req.body.assets.locales).forEach( (locale) => {
-				requests.push( Locales.setLocales( locale,req.body.assets.locales[ locale ], storyDir ) );
+	if( req.body.dependencies ) {
+		if( req.body.dependencies.locales ) {
+			Object.keys(req.body.dependencies.locales).forEach( (locale) => {
+				requests.push( Locales.setLocales( locale,req.body.dependencies.locales[ locale ], storyDir ) );
 			});
-			req.body.assets.locales = {};
+			req.body.dependencies.locales = {};
 		}
 	}
 

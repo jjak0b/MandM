@@ -47,7 +47,7 @@ export const component = {
 			this.validityOperation = null;
 
 			// Add i18n authored messages from vue-i18n instance
-			this.dataExport.assets.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+			this.dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 
 			$.ajax( `/stories/${self.name}`, {
 				method: "put",

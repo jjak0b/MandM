@@ -35,7 +35,7 @@ export const component = {
 					.then( (jsonData) => {
 						let story = jsonData[0];
 						let locales = jsonData[1];
-						story.assets.locales = locales;
+						story.dependencies.locales = locales;
 						self.validity = true;
 						self.$emit('import', story );
 						Object.keys( locales )

@@ -14,6 +14,19 @@ export class Asset {
 		return this.name;
 	}
 
+	equals( asset ) {
+		if( asset ) {
+			if( this.name == asset.name
+				&& this.category == asset.category
+				&& this.url == asset.url ) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	delete() {
 		return $.ajax(
 			this.getURL(),

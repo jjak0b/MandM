@@ -9,7 +9,7 @@ export const template =
 		>
 			<section>
 				<assets-manager-locale
-					v-bind:story="currentStory"
+					v-bind:data-story="currentStory"
 				></assets-manager-locale>
 			</section>
 		</b-tab>

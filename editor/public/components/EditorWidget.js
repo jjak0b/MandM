@@ -23,10 +23,18 @@ const component = {
 			localesList: [],
 			cache: {
 				story: { // data to export
-					assets: {
+					/* each category have a dependency object as follows:
+					{
+						asset: Asset | object 	-> (not) parsed asset object
+						count: Number 			-> count of stuffs that use this dependency (should be removed from category if <= 0)
+					}
+					 */
+					dependencies: {
+						// locales dependencies have i18n code as key and a dependency object as value
 						locales: {},
 						captions: [],
 						videos: [],
+						audios: [],
 						images: []
 					},
 					missionNextId: 0,

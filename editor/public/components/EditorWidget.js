@@ -97,13 +97,23 @@ const component = {
 	}
 }
 
-I18nUtils.fetchLocales( "./", i18n.locale )
-	.then((data) => {
-		if( data ) {
-			Object.keys( data ).forEach( locale => component.i18n.mergeLocaleMessage( locale, data[ locale ] ) );
+export function main() {
+
+	let promiseNativeLocale = I18nUtils.fetchLocales( "./", i18n.locale );
+	let promiseFallbackLocale = I18nUtils.fetchLocales( "./", i18n.fallbackLocale );
+
+	Promise.all( [ promiseNativeLocale, promiseFallbackLocale] )
+	.then((localesMessages) => {
+		for (let i = 0; i < localesMessages.length; i++) {
+			let data = localesMessages[ i ];
+			if( data ) {
+				Object.keys( data ).forEach( locale => component.i18n.mergeLocaleMessage( locale, data[ locale ] ) );
+			}
 		}
 	})
-	.catch( error => { console.error( "Error while getting localesData, continue offline ..."); })
+	.catch( error => { console.error( "Error while getting localesData, continue offline ...", error ); })
 	.finally( function () {
 		vm = new Vue( component );
 	});
+
+}

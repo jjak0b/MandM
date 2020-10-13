@@ -1,3 +1,5 @@
 'use strict';
-import { vm as editorWidget } from "../components/EditorWidget.js"
+import { vm as editorWidget, main } from "../components/EditorWidget.js"
 // Vue.use(VueI18nImporter);
+
+main();

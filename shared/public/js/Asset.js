@@ -1,9 +1,17 @@
 export class Asset {
-	constructor( name, category, data = null ) {
-		this.name = name;
-		this.category = category;
-		this.url = `/assets/${this.category}/${this.name}`;
-		this.data = data;
+	constructor( /*Object|String*/assetObjectOrName, category, data = null ) {
+		if( assetObjectOrName instanceof String) {
+			this.name = assetObjectOrName;
+			this.category = category;
+			this.url = `/assets/${this.category}/${this.name}`;
+			this.data = data;
+		}
+		else { // parse an unparsed Asset object using construct
+			this.name = assetObjectOrName.name;
+			this.category = assetObjectOrName.category;
+			this.url = `/assets/${this.category}/${this.name}`;
+			this.data = assetObjectOrName.data;
+		}
 	}
 
 	getURL() {

@@ -96,10 +96,22 @@ export const component = {
 					options:  asyncLoadComponentI18nMediaPlayer
 				}
 			},
+			cursor: null,
 			currentCellCache: null
 		}
 	},
 	watch: {
+		"cursor": function ( coords ) {
+			if( coords
+				&& coords[0] < this.scene.grid.length
+				&& coords[1] < this.scene.grid[ coords[0] ].length ) {
+				console.log( "new coords", coords );
+				this.currentCellCache = this.scene.grid[ coords[ 0 ] ] [ coords[ 1 ] ];
+			}
+			else {
+				this.currentCellCache = null;
+			}
+		},
 		"currentCellCache": {
 			deep: true,
 			handler: function (newVal) {
@@ -145,9 +157,19 @@ export const component = {
 			this.$refs.grid.AddColumn( formData.get( "position" ) == "after", cellData );
 		},
 		removeRow() {
+			if( this.cursor ) {
+				let columns = this.scene.grid[ this.cursor[ 0 ] ];
+				for (let i = 0; i < columns.length; i++) {
+					if( columns[ i ].component ) {
+						columns[ i ].component.dispose();
+					}
+				}
+			}
 			return this.$refs.grid.removeRow();
 		},
 		removeCell() {
+			if( this.currentCellCache.component )
+				this.currentCellCache.component.dispose();
 			return this.$refs.grid.removeCell();
 		},
 		getMaxRowsForGrid(){
@@ -182,19 +204,19 @@ export const component = {
 			if( !this.currentCellCache ){
 				return;
 			}
-
-			if(!this.currentCellCache.component ) {
-				this.$set( this.currentCellCache, "component", {} );
+			if( this.currentCellCache.component ) {
+				this.currentCellCache.component.dispose();
 			}
 
-			this.$set( this.currentCellCache.component, "name",  name );
-			if( this.widgetsTable[ name ] )
-				this.$set( this.currentCellCache.component, "getOptions", () => self.widgetsTable[ name ].options );			this.$set( this.currentCellCache.component, "props", {} );
-			this.$set( this.currentCellCache.component, "value", {} ); // even if value should be a prop, will be treated as separate prop
-			if( !this.currentCellCache.component.style ) {
-				this.$set( this.currentCellCache.component, "style", {} );
-			}
-
+			let componentData = new UserWidgetItem(
+				name,
+				this.widgetsTable[ name ] ? () => self.widgetsTable[ name ].options : null,
+				null,
+				{},
+				{},
+				{}
+			);
+			this.$set( this.currentCellCache, "component", componentData );
 
 			console.log("[SceneEditor]", "Set component data", this.currentCellCache.component );
 		},

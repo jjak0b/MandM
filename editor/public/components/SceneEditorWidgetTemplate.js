@@ -29,6 +29,7 @@ export const template =
 			<component
 				v-bind:is="widgetsTable[ currentCellCache.component.name ].editor"
 				v-bind:props="currentCellCache.component.props"
+				v-bind:component="currentCellCache.component"
 				v-model="currentCellCache.component.value"
 				v-bind:assetId="nextAssetId"
 				v-bind:locale="locale"
@@ -230,7 +231,7 @@ export const template =
 		v-bind:maxRows="maxRows"
 		v-bind:maxColumns="maxColumns"
 		v-bind:showCSSGrid="showCSSGrid"
-		v-model="currentCellCache"
+		v-model="cursor"
 	></grid-widget>
 </section>
 </div>

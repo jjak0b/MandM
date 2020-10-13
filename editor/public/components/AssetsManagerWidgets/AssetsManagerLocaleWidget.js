@@ -23,9 +23,9 @@ export const component = {
 				}
 
 				if( this.dataStory ) {
-					let dependencies = this.dataStory.dependencies[ asset.category ];
-
-					console.log("[AssetsManagerLocal]", "request of adding", asset, "to dependencies", this.dataStory.dependencies );
+					let fullDependencies = this.dataStory.dependencies;
+					let dependencies = fullDependencies[ asset.category ];
+					console.log( "[AssetsManagerLocal]", "request of adding", asset, "to dependencies", dependencies );
 					let shouldBeAdded = true;
 					// check if asset is already in dependencies
 					for (let i = 0; i < dependencies.length; i++) {
@@ -43,7 +43,7 @@ export const component = {
 						}
 						dependencies.push( assetDependency );
 					}
-					console.log( dependencies );
+					console.log( "[AssetsManagerLocal]", "result", dependencies );
 				}
 				else{
 					console.error( "[AssetsManagerLocal]", "Unable to add \"%s\" to dependencies because story is not set" );

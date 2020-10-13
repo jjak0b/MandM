@@ -23,10 +23,11 @@ export const component = {
 		value: {
 			type: Object,
 			default: {
-				src: null,
-				captions: {}
+				asset: null,
+				captions: null
 			}
 		},
+		component: Object,
 		assetId : Number,
 		locale : String
 	},
@@ -64,6 +65,11 @@ export const component = {
 			}
 		}
 	},
+	created() {
+		if( this.component ) {
+			this.component.onDispose = (componentData) => this.resetValue( componentData.value );
+		}
+	},
 	watch: {
 		"form.asset" : function (asset, prevAsset ) {
 
@@ -73,9 +79,9 @@ export const component = {
 
 			if( this.value.asset ) {
 				if( !shouldAddAsset || !asset.equals( this.value.asset ) ) {
-					this.resetCaptions();
+					this.resetCaptions( this.value );
 					if( prevAsset.category == "images") {
-						this.resetAreas();
+						this.resetAreas( this.value );
 					}
 
 					this.$root.$emit( "remove-dependency", this.value.asset  );
@@ -99,7 +105,7 @@ export const component = {
 		"form.caption" : function ( caption, prevCaption) {
 			console.log( "caption", caption, prevCaption );
 			let shouldAddCaption = !!caption;
-			let isCaptionSetForLocale = this.locale in this.value.captions;
+			let isCaptionSetForLocale =  this.value.captions && this.locale in this.value.captions;
 
 			if( isCaptionSetForLocale ) {
 				if( !shouldAddCaption || !caption.equals(this.value.captions[ this.locale ] )  ) {
@@ -131,40 +137,47 @@ export const component = {
 		shouldPreview() {
 			return this.value && this.value.asset;
 		},
-		reset() {
-			console.log("[MediaFormWidget]", "resetData" );
-
-			this.resetCaptions();
-			this.resetAreas();
+		resetValue( value ) {
+			console.warn("free captions");
+			this.resetCaptions( value );
+			console.warn("free areas");
+			this.resetAreas( value );
+			console.warn("free asset");
+			this.$root.$emit( "remove-dependency", value.asset );
+			console.warn("delete ref asset");
+			this.$delete(value, "asset");
 
 			this.form.asset = null;
-			this.$delete( this.value, "asset");
+			this.form.caption = null;
 		},
-		resetCaptions() {
-			let self = this;
-			if( this.value.captions ) {
-				if (0 in this.value.captions) {
-					this.$i18n.removeMessageAll(this.value.captions[0]);
-					this.$delete(this.value.captions, 0);
+		reset() {
+			console.log("[MediaFormWidget]", "resetData" );
+			this.resetValue( this.value );
+		},
+		resetCaptions( value ) {
+			if( value.captions ) {
+				if (0 in value.captions) {
+					this.$i18n.removeMessageAll(value.captions[0]);
+					this.$delete(value.captions, 0);
 				}
 				else {
-					Object.keys(this.value.captions)
+					Object.keys(value.captions)
 						.forEach((lang) => {
-							if (self.value.captions[lang]) {
-								this.$root.$emit("remove-dependency", this.value.captions[lang] );
-								this.$delete( self.value.captions, lang );
+							if (value.captions[lang]) {
+								this.$root.$emit("remove-dependency", value.captions[lang] );
+								this.$delete( value.captions, lang );
 							}
 						});
 				}
 			}
-			this.$delete(this.value, "captions" );
+			this.$delete(value, "captions" );
 			this.form.caption = null;
 		},
-		resetAreas() {
-			while( this.value && this.value.areas && this.value.areas.length > 0) {
-				this.value.areas.pop();
+		resetAreas( value ) {
+			while( value && value.areas && value.areas.length > 0) {
+				value.areas.pop();
 			}
-			this.$delete( this.value, "areas" );
+			this.$delete( value, "areas" );
 		},
 		onAddArea( event ) {
 			let data = FormUtils.getAssociativeArray($(event.target).serializeArray());

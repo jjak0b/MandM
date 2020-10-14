@@ -66,7 +66,7 @@ export const template =
 						<b-form-row>
 							<b-col md class="d-flex">
 								<b-form-input
-									id="asset-manager-browser-input-search"
+									v-bind:id="'asset-manager-browser-input-search_' + $attrs.id"
 									type="search"
 									name="searchAsset"
 									v-model="filter.search"
@@ -79,8 +79,11 @@ export const template =
 								</b-form-input>
 							</b-col>
 							<b-col md >
+								<b-form-group
+									v-bind:label="$t('AssetManager.label-filter-categories')"
+								>
 								<b-form-checkbox-group
-									id="asset-manager-browser-checkbox-categories"
+									v-bind:id="'asset-manager-browser-checkbox-categories_' + $attrs.id"
 									v-model="filter.categories"
 									v-bind:options="optionsCategories"
 									v-on:input="updateList()"
@@ -89,6 +92,7 @@ export const template =
 									switches
 								>
 								</b-form-checkbox-group>
+								</b-form-group>
 							</b-col>
 						</b-form-row>
 					</b-card-header>
@@ -96,13 +100,13 @@ export const template =
 						<b-form-row>
 							<b-col md>
 								<b-form-group
-									label-for="asset-manager-browser-select-filter-list"
+									v-bind:label-for="'asset-manager-browser-select-filter-list_' + $attrs.id"
 									v-bind:label="$t('AssetManager.label-result-list')"
 								>
 									<b-form-select
 										v-bind:value="valueCurrent"
 										aria-live="polite"
-										id="asset-manager-browser-select-filter-list"
+										v-bind:id="'asset-manager-browser-select-filter-list_' + $attrs.id"
 										select-size="6"
 										v-model="selectedItem"
 										required="required"

@@ -66,28 +66,10 @@ export const component = {
 		}
 	},
 	created() {
-		if( this.component ) {
-			this.component.onDispose = (componentData) => this.resetValue( componentData.value );
-		}
+		this.init( this.component );
 	},
 	watch: {
-		"value" : function ( value ) {
-			// try to parse the assets when we have an unparsed asset
-			if( value && value.asset && !(value.asset instanceof Asset) ) {
-				console.log( "[UserWidgetEditorMediaPlayer]", "Parsing assets" );
-				value.asset = new Asset( value.asset );
-				if( value.captions ) {
-					Object.keys( value.captions )
-						.forEach( (key) => {
-							if( typeof value.captions[ key ] != "string" )
-								value.captions[ key ] = new Asset( value.captions[ key ] );
-						});
-				}
-			}
-		},
 		"form.asset" : function (asset, prevAsset ) {
-
-			console.log( "asset", asset, prevAsset );
 
 			let shouldAddAsset = !!asset;
 
@@ -148,17 +130,18 @@ export const component = {
 		}
 	},
 	methods: {
+		init( component ) {
+			if( component ) {
+				component.onDispose = (componentData) => this.resetValue( componentData.value );
+			}
+		},
 		shouldPreview() {
 			return this.value && this.value.asset;
 		},
 		resetValue( value ) {
-			console.warn("free captions");
 			this.resetCaptions( value );
-			console.warn("free areas");
 			this.resetAreas( value );
-			console.warn("free asset");
 			this.$root.$emit( "remove-dependency", value.asset );
-			console.warn("delete ref asset");
 			this.$delete(value, "asset");
 
 			this.form.asset = null;

@@ -26,7 +26,7 @@ export const template =
 					<i18n-input-widget
 						v-bind:tag="'input'"
 						v-bind:label="$t( 'MissionEditorWidget.label-mission-title' )"
-						id="mission-title"
+						v-bind:id="'mission-editor-mission-title-' + index"
 						name="missionTitle"
 						type="text"
 						required="required"
@@ -37,7 +37,7 @@ export const template =
 					<i18n-input-widget
 						v-bind:label="$t( 'MissionEditorWidget.label-mission-description' )"
 						v-bind:tag="'textarea'"
-						id="mission-description"
+						v-bind:id="'mission-editor-mission-description-' + index"
 						name="missionDescription"
 						rows="4"
 						v-bind:locale="locale"

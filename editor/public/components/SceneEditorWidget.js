@@ -129,13 +129,40 @@ export const component = {
 			return this.getMaxColumnsForGrid() + (this.currentCellCache ? this.currentCellCache.colSize : 0);
 		}
 	},
-	beforeMount(){
-		this.scene.style = {};
+	created() {
+		this.init( this.scene );
 	},
 	mounted(){
 		this.isFormGridEnabled = this.$refs.grid;
 	},
 	methods: {
+		init( newScene ) {
+			if( newScene ) {
+				if( newScene.grid ) {
+					// if there is at least 1 column
+					if( newScene.grid.length > 0 && newScene.grid[ 0 ].length > 0 ) {
+						// check if the first is unparsed and if so then all must be parsed
+						console.log("[SceneEditor]", "checking if all cell's component must be parsed");
+						let testCell = newScene.grid[ 0 ][ 0 ];
+						if( testCell.component && !( testCell.component instanceof UserWidgetItem) ){
+							console.log("[SceneEditor]","parsing grid");
+							for (let i = 0; i < newScene.grid.length; i++) {
+								let columns = newScene.grid[ i ];
+								for (let j = 0; j < columns.length; j++) {
+									if( columns[ j ].component ) {
+										this.initCellComponent( columns[ j ], columns[ j ].component.name );
+									}
+								}
+							}
+						}
+					}
+				}
+				else {
+					this.$set( newScene, "grid", [] );
+				}
+				newScene.style = {};
+			}
+		},
 		onAddGridRows( event ){
 			// we perform manual submit so check form validity first
 			let valid = $( event.target).closest( "form" )[0].checkValidity();
@@ -161,16 +188,13 @@ export const component = {
 			if( this.cursor ) {
 				let columns = this.scene.grid[ this.cursor[ 0 ] ];
 				for (let i = 0; i < columns.length; i++) {
-					if( columns[ i ].component ) {
-						columns[ i ].component.dispose();
-					}
+					this.removeCellComponent( columns[ i ] );
 				}
 			}
 			return this.$refs.grid.removeRow();
 		},
 		removeCell() {
-			if( this.currentCellCache.component )
-				this.currentCellCache.component.dispose();
+			this.removeCellComponent( this.currentCellCache );
 			return this.$refs.grid.removeCell();
 		},
 		getMaxRowsForGrid(){
@@ -196,30 +220,60 @@ export const component = {
 				return this.$refs.grid.getColumnsCount();
 			return -1;
 		},
-		setCurrentCell( event ) {
-			console.log( event );
-			// $set( currentCellCache, 'component', $event.target.value )
-		},
-		setCurrentCellComponent( name ) {
+		initCellComponent( cell, name ) {
 			let self = this;
-			if( !this.currentCellCache ){
+			if( !cell || !name ){
 				return;
 			}
-			if( this.currentCellCache.component ) {
-				this.currentCellCache.component.dispose();
+
+			if( cell.component ) {
+				// parse the object into UserWidgetItem
+				if( !(cell.component instanceof UserWidgetItem )
+					&& ( name in this.widgetsTable )
+				) {
+					this.$set(
+						cell,
+						"component",
+						new UserWidgetItem(
+							cell.component,
+							this.widgetsTable[ name ] ? () => this.widgetsTable[ name ].options : null
+						)
+					);
+					console.log("[SceneEditor]", "Parsed component data", cell.component );
+				}
 			}
+			else {
+				let componentData = new UserWidgetItem(
+					name,
+					this.widgetsTable[ name ] ? () => self.widgetsTable[ name ].options : null,
+					null,
+					{},
+					{},
+					{}
+				);
+				this.$set( cell, "component", componentData );
+				console.log("[SceneEditor]", "Set component data", cell.component );
+			}
+		},
+		setCurrentCellComponent( name ) {
+			if( this.currentCellCache ) {
+				this.removeCellComponent( this.currentCellCache );
 
-			let componentData = new UserWidgetItem(
-				name,
-				this.widgetsTable[ name ] ? () => self.widgetsTable[ name ].options : null,
-				null,
-				{},
-				{},
-				{}
-			);
-			this.$set( this.currentCellCache, "component", componentData );
-
-			console.log("[SceneEditor]", "Set component data", this.currentCellCache.component );
+				// reinit on new component name
+				this.initCellComponent( this.currentCellCache, name );
+			}
+		},
+		removeCellComponent( cell ) {
+			console.log("[SceneEditor]", "removing cell", (() => cell)() );
+			if( cell ) {
+				if( cell.component ) {
+					if( cell.component.dispose ){
+						console.log("[SceneEditor]", "dispose method detected for component" );
+						cell.component.dispose();
+					}
+					this.$delete( cell, "component" );
+				}
+			}
 		},
 		onAddElement(toAdd) {
 			if (! ('options' in this.currentCellCache.component.props)) {

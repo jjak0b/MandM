@@ -1,11 +1,20 @@
 export default class UserWidgetItem {
-	constructor( name, getOptionsCallback, onDisposeCallback, value = {}, props = {}, style= {} ) {
-		this.name = name;
+	constructor( nameOrObj, getOptionsCallback, onDisposeCallback, value = {}, props = {}, style= {} ) {
 		this.getOptions = getOptionsCallback;
 		this.onDispose = onDisposeCallback;
-		this.value = value;
-		this.props = props;
-		this.style = style;
+		if( "string" == typeof nameOrObj ) {
+			this.name = nameOrObj;
+			this.value = value;
+			this.props = props;
+			this.style = style;
+		}
+		else { // parse an unparsed  object using construct
+			this.name = nameOrObj.name;
+			this.value = nameOrObj.value;
+			this.props = nameOrObj.props;
+			this.style = nameOrObj.style;
+		}
+
 	}
 
 	dispose() {

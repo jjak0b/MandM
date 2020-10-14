@@ -65,7 +65,7 @@ export const component = {
 			};
 			data.title = 'activity.title.' + id;
 			data.description = 'activity.description.' + id;
-			data.scene = { grid: [] };
+			data.scene = { };
 
 			this.$emit('addActivity', data);
 		},

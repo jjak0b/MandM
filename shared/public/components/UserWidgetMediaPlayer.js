@@ -23,10 +23,18 @@ export const component = {
 	},
 	created() {
 		this.init( this.value );
+
+		if( this.value.asset && this.value.asset.category == "images" ) {
+			window.addEventListener("resize", this.onResize);
+		}
 	},
 	mounted(){
-		if( this.value.asset && this.value.asset.category == "images" ){
-			window.addEventListener( "resize", this.onResize );
+		if( this.value.asset && this.value.asset.category == "images" ) {
+
+			// trigger the update lifecycle after the DOM is rendered to set the highlight if needed
+			setTimeout( () => {
+				this.updateFlagToggle = !this.updateFlagToggle;
+			}, 0 );
 		}
 	},
 	watch: {

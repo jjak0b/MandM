@@ -1,6 +1,6 @@
 export class Asset {
 	constructor( /*Object|String*/assetObjectOrName, category, data = null ) {
-		if( assetObjectOrName instanceof String) {
+		if( "string" == typeof assetObjectOrName ) {
 			this.name = assetObjectOrName;
 			this.category = category;
 			this.url = `/assets/${this.category}/${this.name}`;

@@ -281,8 +281,13 @@ function getStoriesThatUse( pathResource, storyNames ) {
 		Promise.all( promises ).
 			then( (assetLists) => {
 				storyNames.forEach( (name, i ) => {
-					if( assetLists[ i ].includes( pathResource ) )
-						storiesThatUseResource.push( name )
+					for ( let category in assetLists[ i ] ) {
+						// check only for media assets
+						if( Array.isArray( assetLists[ i ][ category ] ) ) {
+							if ( assetLists[i][category].url && assetLists[i][category].url.includes(pathResource))
+								storiesThatUseResource.push(name);
+						}
+					}
 				});
 				resolve( storiesThatUseResource );
 			})

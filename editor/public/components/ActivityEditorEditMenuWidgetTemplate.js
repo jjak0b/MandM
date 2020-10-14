@@ -3,7 +3,7 @@ export const template =
 <b-card no-body
 	v-bind:header="menuTitle">
 	<b-form v-on:submit.prevent="onSubmit">
-		<b-tabs pills card vertical>
+		<b-tabs pills card vertical lazy>
 			<b-tab v-bind:title="treeTab">
 				<b-form-row>
 					<b-col>
@@ -51,6 +51,7 @@ export const template =
 					v-bind:locale="locale"
 					v-bind:nextAssetId="nextAssetId"
 					v-bind:scene="currentNode.data.scene"
+					v-bind:key="currentNode.data.scene"
 				></scene-editor-widget>
 			</b-tab>
 			<b-tab v-bind:title="taleTab" v-if="isType(NodeUtils.Types.Tell)">

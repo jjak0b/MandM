@@ -21,6 +21,7 @@ import { component as rangeComponent } from "/shared/components/UserWidgetRange.
 import { component as rangeEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
 import { component as spinbuttonComponent } from "/shared/components/UserWidgetSpinbutton.js";
 import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
+import UserWidgetItem from "/shared/js/UserWidgetItem.js";
 
 export const component = {
 	template: template,

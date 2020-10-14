@@ -71,6 +71,20 @@ export const component = {
 		}
 	},
 	watch: {
+		"value" : function ( value ) {
+			// try to parse the assets when we have an unparsed asset
+			if( value && value.asset && !(value.asset instanceof Asset) ) {
+				console.log( "[UserWidgetEditorMediaPlayer]", "Parsing assets" );
+				value.asset = new Asset( value.asset );
+				if( value.captions ) {
+					Object.keys( value.captions )
+						.forEach( (key) => {
+							if( typeof value.captions[ key ] != "string" )
+								value.captions[ key ] = new Asset( value.captions[ key ] );
+						});
+				}
+			}
+		},
 		"form.asset" : function (asset, prevAsset ) {
 
 			console.log( "asset", asset, prevAsset );

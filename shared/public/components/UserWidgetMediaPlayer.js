@@ -1,5 +1,6 @@
 import {template} from "./UserWidgetMediaPlayerTemplate.js";
 import {I18nUtils} from "../js/I18nUtils.js";
+import {Asset} from "../js/Asset.js";
 
 export const component = {
 	inheritAttrs: false,
@@ -19,6 +20,9 @@ export const component = {
 			indexOverArea: -1,
 			updateFlagToggle: false
 		}
+	},
+	created() {
+		this.init( this.value );
 	},
 	mounted(){
 		if( this.value.asset && this.value.asset.category == "images" ){
@@ -58,6 +62,20 @@ export const component = {
 		}
 	},
 	methods: {
+		init( value ) {
+			// try to parse the assets when we have an unparsed asset
+			if( value && value.asset && !(value.asset instanceof Asset) ) {
+				console.log( "[UserWidgetEditorMediaPlayer]", "Parsing assets", value );
+				value.asset = new Asset( value.asset, null, null );
+				if( value.captions ) {
+					Object.keys( value.captions )
+						.forEach( (key) => {
+							if( typeof value.captions[ key ] != "string" )
+								value.captions[ key ] = new Asset( value.captions[ key ], null, null );
+						});
+				}
+			}
+		},
 		areaOnClick( indexArea, event ) {
 			if( !this.value || !this.value.areas ) return;
 			let area = this.value.areas[ indexArea ];

@@ -3,10 +3,12 @@ import {template} from "./GridColWidgetTemplate.js";
 export const component = {
 	template: template,
 	props: {
+		locale: String,
 		value: Object,
 		target: Array,
 		coords: Array,
-		showCSSGrid: Boolean
+		showCSSGrid: Boolean,
+		nextAssetId: Number
 	},
 	data() {
 		return {

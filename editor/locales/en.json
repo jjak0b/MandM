@@ -286,6 +286,21 @@
 	"label-range-settings": "Range Settings",
 	"label-spinbutton-settings": "Spinbutton Settings",
 	"label-show-extremes": "Show range extremes",
+	"TextContent": {
+	  "initial-editor-content": "Add your text",
+	  "label-text-content": "Text content",
+	  "label-text-content-editor": "Text content editor",
+	  "label-heading1": "Heading 1",
+	  "label-heading2": "Heading 2",
+	  "label-heading3": "Heading 3",
+	  "label-bold": "Bold",
+	  "label-italic": "Italic",
+	  "label-underline": "Underline",
+	  "label-strike": "Strike",
+	  "label-code_block": "Code block",
+	  "label-bullet_list": "Bullet list",
+	  "label-ordered_list": "Ordered list"
+	},
 	"Datepicker": {
 	  "label-settings": "Settings",
 	  "label-readonly": "Read-only",

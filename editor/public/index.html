@@ -17,9 +17,21 @@
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/maphilight@1.4.0/jquery.maphilight.min.js"></script>
 	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 	<script crossorigin="anonymous" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+	<script src="/bundles/tiptap.js"></script>
 	<script src="/libs/datalist-polyfill/datalist-polyfill.min.js"></script>
 	<script src="/shared/js/VueI18nImporter.js"></script>
 	<script type="module" src="./js/init.js"></script>
+	<style>
+		.is-active {color:blue;}
+		#editor-section {
+			border: 0.1em solid black;
+			padding: 1em;
+		}
+		#editor-content {
+			outline: 0.1em solid black;
+		}
+	</style>
 </head>
 <body>
 <div id="editor">
@@ -161,7 +173,7 @@
 					v-bind:next-id="cache.story.activityNextId"
 					v-on:inc-id="++cache.story.activityNextId"
 					v-bind:next-asset-id="cache.story.assetNextId"
-					v-on:inc-assetId="++cache.story.assetNextId"
+					v-on:inc-asset-id="++cache.story.assetNextId"
 					v-model="cache.activity"
 				></activity-editor-widget>
 			</section>

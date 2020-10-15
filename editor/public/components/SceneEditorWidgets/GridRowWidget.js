@@ -7,10 +7,12 @@ export const component = {
 		"column" : colComponent
 	},
 	props: {
+		locale: String,
 		value: Array,
 		target: Array,
 		rowIndex: Number,
-		showCSSGrid: Boolean
+		showCSSGrid: Boolean,
+		nextAssetId: Number
 	},
 	data() {
 		return {

@@ -8,11 +8,13 @@ export const component = {
 		"row" : rowComponent
 	},
 	props: {
+		locale: String,
 		gridData: Array,
 		value: Object,
 		maxRows: Number,
 		maxColumns: Number,
-		showCSSGrid: Boolean
+		showCSSGrid: Boolean,
+		nextAssetId: Number
 	},
 	data(){
 		return {

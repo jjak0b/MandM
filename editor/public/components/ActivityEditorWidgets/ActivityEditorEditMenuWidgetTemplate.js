@@ -51,6 +51,7 @@ export const template =
 					v-bind:locale="locale"
 					v-bind:nextAssetId="nextAssetId"
 					v-bind:scene="currentNode.data.scene"
+					v-on:inc-asset-id="$emit('inc-asset-id')"
 				></scene-editor-widget>
 			</b-tab>
 			<b-tab v-bind:title="taleTab" v-if="isType(NodeUtils.Types.Tell)">

@@ -103,6 +103,16 @@ class StoryHandler {
 		});
 	}
 
+	deleteJSON( name ) {
+		let self = this;
+		let storyFilename = path.join( this.getPathStory( name ) );
+		return new Promise( function (resolve, reject) {
+			fs.rmdirSync(storyFilename, {recursive: true});
+			self.getList().splice(self.getList().indexOf(name), 1);
+			resolve(name);
+		});
+	}
+
 	getJSONArray() {
 		let request = {};
 		let list = this.getList();
@@ -129,6 +139,7 @@ class StoryHandler {
 const handler = new StoryHandler();
 
 router.get('/', ( req, res ) => {
+	console.log("GETLIST",handler.getList());
 	res.json( handler.getList() );
 });
 
@@ -196,6 +207,24 @@ router.put("/:name", ( req, res ) => {
 			res.json( errors );
 			res.sendStatus( StatusCodes.CONFLICT );
 		})
+});
+
+router.delete('/:name', ( req, res ) => {
+	if( req.params.name ) {
+
+		if( !handler.getList().includes( req.params.name ) ) {
+			res.sendStatus( StatusCodes.NOT_FOUND );
+		}
+		else {
+			handler.deleteJSON( req.params.name )
+			.then( (data) => {
+				res.sendStatus( StatusCodes.OK );
+			})
+			.catch( (err)=> {
+				res.sendStatus( StatusCodes.CONFLICT );
+			});
+		}
+	}
 });
 
 module.exports = {

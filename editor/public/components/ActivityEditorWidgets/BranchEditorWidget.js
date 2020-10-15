@@ -1,10 +1,9 @@
 
 import {template} from "./BranchEditorWidgetTemplate.js";
-import {component as asyncLoadComponentI18nInputWidget} from "./i18nWidgets/I18nInputWidget.js";
-import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
-import {component as singleInput} from "./InputSingleTypeWidget.js";
-import {component as inputVal} from "./InputValueWidget.js";
-
+import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
+import {component as activityTreeWidgetComponent} from "../ActivityTreeWidget.js";
+import {component as singleInput} from "../InputSingleTypeWidget.js";
+import {component as inputVal} from "../InputValueWidget.js";
 
 export const component = {
     template: template,

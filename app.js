@@ -20,4 +20,5 @@ app.use('/shared', require('./routes/shared'));
 app.use( '/stories', require('./routes/stories').router);
 app.use( '/libs', require('./routes/libs'));
 app.use( '/assets', require('./routes/assets').router);
+app.use('/bundles', express.static(path.join(__basedir, '/bundles' )));
 module.exports = app;

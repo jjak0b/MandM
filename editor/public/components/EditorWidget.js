@@ -4,7 +4,7 @@ import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18n
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import { component as storyEditorComponent } from "./StoryEditorWidget.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
-import { component as activityEditorComponent } from "./ActivityEditorWidget.js";
+import { component as activityEditorComponent } from "./ActivityEditorWidgets/ActivityEditorWidget.js";
 import {component as formImportFile} from "./StoryEditorWidgets/StoryFormImportFile.js";
 import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImportServer.js";
 import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportFile.js";
@@ -16,7 +16,8 @@ const component = {
 	i18n: i18n,
 	data() {
 		return {
-			remoteStories: null, // names
+			localStories: [],
+			remoteStories: [], // names
 			delayForNextRemoteRequest: 5000,
 			I18nUtils: I18nUtils,
 			locale: null,
@@ -37,6 +38,10 @@ const component = {
 						audios: [],
 						images: []
 					},
+					name: "",
+					description: "",
+					age: "",
+					gamemode: "",
 					missionNextId: 0,
 					activityNextId: 0,
 					missions: [],
@@ -102,6 +107,22 @@ const component = {
 					if( names ) self.remoteStories = names;
 				});
 		},
+		addToLocalStories( story ) {
+			this.localStories.push(story);
+		},
+		deleteFromLocalStories( name ) {
+			this.localStories = this.localStories.filter(function( story ) {
+				return story.name !== name;
+			});
+		},
+		changeSelectedStory( name ) {
+			let story = this.localStories.find(function( story ) {
+				return story.name === name;
+			});
+			if (story) {
+				this.cache.story = story;
+			}
+		}
 	}
 }
 

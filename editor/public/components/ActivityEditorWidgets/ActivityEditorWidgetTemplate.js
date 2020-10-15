@@ -25,7 +25,8 @@ export const template =
 		v-bind:currentNode="currentNode"
 		v-bind:nextId="nextId"
 		v-bind:nextAssetId="nextAssetId"
-		v-on:editActivity="onEdit">	
+		v-on:editActivity="onEdit"
+		v-on:inc-asset-id="$emit('inc-asset-id')">	
 	</edit-menu-widget>
 </div>
 `;

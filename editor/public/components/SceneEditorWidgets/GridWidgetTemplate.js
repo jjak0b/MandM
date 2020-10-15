@@ -7,11 +7,13 @@ export const template =
 >
 	<row
 		v-for="(columns, index) in gridData"
+		v-bind:locale="locale"
 		v-bind:value="columns"
 		v-bind:target="cursor"
 		v-bind:rowIndex="index"
 		v-bind:showCSSGrid="showCSSGrid"
 		v-on:setCursor="onSetCursor"
+		v-bind:nextAssetId="nextAssetId"
 	></row>
 </div>
 `;

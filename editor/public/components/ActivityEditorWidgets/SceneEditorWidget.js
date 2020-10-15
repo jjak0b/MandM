@@ -1,25 +1,28 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
-import { component as mediaFormComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
-import { component as gridComponent } from "./SceneEditorWidgets/GridWidget.js";
+import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
+import { component as gridComponent } from "../SceneEditorWidgets/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "/shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "/shared//js/FormUtils.js";
-import { component as styleEditorComponent } from "./SceneEditorWidgets/StyleEditorWidget.js";
-import { component as attributeEditorComponent } from "./SceneEditorWidgets/AttributeEditorWidget.js";
+import { component as styleEditorComponent } from "../SceneEditorWidgets/StyleEditorWidget.js";
+import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "/shared/components/UserWidgetDatepicker.js";
-import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
+import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 import { component as selectComponent } from "/shared/components/UserWidgetSelect.js";
-import { component as selectEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSelect.js";
+import { component as selectEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSelect.js";
 import { component as checkboxComponent } from "/shared/components/UserWidgetCheckbox.js";
-import { component as checkboxEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorCheckbox.js";
+import { component as checkboxEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorCheckbox.js";
 import { component as radioComponent } from "/shared/components/UserWidgetRadio.js";
-import { component as radioEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRadio.js";
+import { component as radioEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRadio.js";
 import { component as textInputComponent } from "/shared/components/UserWidgetTextInput.js";
-import { component as textInputEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
+import { component as textInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
 import { component as numberInputComponent } from "/shared/components/UserWidgetNumberInput.js";
-import { component as numberInputEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
+import { component as numberInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
 import { component as rangeComponent } from "/shared/components/UserWidgetRange.js";
-import { component as rangeEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
+import { component as rangeEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
 import { component as spinbuttonComponent } from "/shared/components/UserWidgetSpinbutton.js";
+import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
+import { component as textContentComponent } from "/shared/components/UserWidgetTextContent.js";
+import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
 import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import UserWidgetItem from "/shared/js/UserWidgetItem.js";
 
@@ -31,11 +34,12 @@ export const component = {
 		nextAssetId: Number
 	},
 	components : {
+		"user-widget-editor-text-content": textContentEditorComponent,
 		"user-widget-editor-select": selectEditorComponent,
 		"user-widget-editor-checkbox": checkboxEditorComponent,
 		"user-widget-editor-radio": radioEditorComponent,
-		"user-widget-editor-textInput": textInputEditorComponent,
-		"user-widget-editor-numberInput": numberInputEditorComponent,
+		"user-widget-editor-text-input": textInputEditorComponent,
+		"user-widget-editor-number-input": numberInputEditorComponent,
 		"user-widget-editor-range": rangeEditorComponent,
 		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
@@ -66,13 +70,13 @@ export const component = {
 					label: "UserWidgets.label-radio-widget-name",
 					options: radioComponent
 				},
-				"user-widget-textInput" : {
-					editor: "user-widget-editor-textInput",
+				"user-widget-text-input" : {
+					editor: "user-widget-editor-text-input",
 					label: "UserWidgets.label-text-input-widget-name",
 					options: textInputComponent
 				},
-				"user-widget-numberInput" : {
-					editor: "user-widget-editor-numberInput",
+				"user-widget-number-input" : {
+					editor: "user-widget-editor-number-input",
 					label: "UserWidgets.label-number-input-widget-name",
 					options: numberInputComponent
 				},
@@ -95,7 +99,12 @@ export const component = {
 					editor: "user-widget-editor-media-player",
 					label: "UserWidgets.label-media-player-widget-name",
 					options:  asyncLoadComponentI18nMediaPlayer
-				}
+				},
+				"user-widget-text-content" : {
+					editor: "user-widget-editor-text-content",
+					label: "UserWidgets.TextContent.label-text-content",
+					options: textContentComponent
+				},
 			},
 			cursor: null,
 			currentCellCache: null
@@ -164,6 +173,7 @@ export const component = {
 			}
 		},
 		onAddGridRows( event ){
+			this.$emit('inc-asset-id');
 			// we perform manual submit so check form validity first
 			let valid = $( event.target).closest( "form" )[0].checkValidity();
 			if( !valid ) return;
@@ -172,6 +182,7 @@ export const component = {
 			this.$refs.grid.AddRow( formData.get( "position" ) == "after" );
 		},
 		onAddGridColumn( event ) {
+			this.$emit('inc-asset-id');
 			// we perform manual submit so check form validity first
 			let valid = $( event.target).closest( "form" )[0].checkValidity();
 			if( !valid ) return;
@@ -283,6 +294,12 @@ export const component = {
 		},
 		onRemoveElement(index) {
 			this.currentCellCache.component.props.options.splice( index, 1 );
+		},
+		onInputLocalHTML(localHTML) {
+			if (! ('localHTML' in this.currentCellCache.component.props)) {
+				this.$set( this.currentCellCache.component.props, 'localHTML', "" );
+			}
+			this.$set( this.currentCellCache.component.props, 'localHTML', localHTML );
 		}
 	}
 };

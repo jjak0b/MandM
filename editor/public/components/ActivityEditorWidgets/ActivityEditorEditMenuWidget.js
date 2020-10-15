@@ -4,7 +4,7 @@ import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidg
 import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
 import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";
 import { component as sceneEditorComponent } from "./SceneEditorWidget.js ";
-import NodeUtils from "../js/NodeUtils.js";
+import NodeUtils from "../../js/NodeUtils.js";
 
 export const component = {
 	template: template,

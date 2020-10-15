@@ -1,9 +1,9 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
-import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
-import {component as activityToolbar} from "./ActivityToolbarWidget.js";
-import JSTreeNode from "../js/JSTreeNode.js";
-import NodeUtils from "../js/NodeUtils.js";
-import {component as asyncLoadComponentI18nInputWidget} from "./i18nWidgets/I18nInputWidget.js";
+import {component as activityTreeWidgetComponent} from "../ActivityTreeWidget.js";
+import {component as activityToolbar} from "../ActivityToolbarWidget.js";
+import JSTreeNode from "../../js/JSTreeNode.js";
+import NodeUtils from "../../js/NodeUtils.js";
+import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
 import { I18nString } from "/shared/js/I18nUtils.js";
 import { component as addMenuComponent } from "./ActivityEditorAddMenuWidget.js ";
 import { component as editMenuComponent } from "./ActivityEditorEditMenuWidget.js ";

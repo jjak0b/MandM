@@ -10,7 +10,7 @@ export const component = {
 	props: {
 		locale: String,
 		gridData: Array,
-		value: Object,
+		value: Array,
 		maxRows: Number,
 		maxColumns: Number,
 		showCSSGrid: Boolean,

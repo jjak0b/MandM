@@ -1,5 +1,5 @@
 import {template} from "./ActivityEditorEditMenuWidgetTemplate.js";
-import {component as asyncLoadComponentI18nInputWidget} from "./i18nWidgets/I18nInputWidget.js";
+import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
 import {component as activityTaleEditorComponent} from "./ActivityTaleEditorWidget.js";
 import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWidget.js";
 import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";

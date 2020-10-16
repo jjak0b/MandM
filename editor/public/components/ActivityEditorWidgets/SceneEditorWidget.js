@@ -23,7 +23,6 @@ import { component as spinbuttonComponent } from "/shared/components/UserWidgetS
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "/shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
-import { component as spinbuttonEditorComponent } from "./SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import UserWidgetItem from "/shared/js/UserWidgetItem.js";
 
 export const component = {
@@ -50,6 +49,7 @@ export const component = {
 	},
 	data() {
 		return {
+			newId: 0,
 			maxRows: 12,
 			maxColumns: 12,
 			isFormGridEnabled: false,
@@ -262,7 +262,10 @@ export const component = {
 					{},
 					{}
 				);
+
+				let id = 'component' + this.getNewId();
 				this.$set( cell, "component", componentData );
+				this.$set( cell.component, "id", id );
 				console.log("[SceneEditor]", "Set component data", cell.component );
 			}
 		},
@@ -285,6 +288,10 @@ export const component = {
 					this.$delete( cell, "component" );
 				}
 			}
+		},
+		getNewId() {
+			this.newId++;
+			return this.newId
 		},
 		onAddElement(toAdd) {
 			if (! ('options' in this.currentCellCache.component.props)) {

@@ -27,7 +27,6 @@ export const component = {
 	},
 	data(){
 		let data = {
-			value: null,
 			selector: null,
 			rules: [],
 			properties: {

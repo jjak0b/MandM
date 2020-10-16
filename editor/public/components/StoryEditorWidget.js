@@ -4,10 +4,11 @@ import { component as assetsManager} from "./AssetsManagerWidget.js";
 
 function getNewStory() {
 	return {
-		assets: {
+		dependencies: {
 			locales: {},
 			captions: [],
 			videos: [],
+			audios: [],
 			images: []
 		},
 		name: "",
@@ -31,7 +32,8 @@ export const component = {
 		locale: String
 	},
 	components: {
-		"assets-manager" : assetsManager
+		"assets-manager": assetsManager
+	},
 	watch: {
 		tabValue: function(newVal) {
 		},
@@ -150,7 +152,7 @@ export const component = {
 			.then( (jsonData) => {
 				let story = jsonData[0];
 				let locales = jsonData[1];
-				story.assets.locales = locales;
+				story.dependencies.locales = locales;
 				self.$emit('import', story );
 				self.$emit('add-local-story', story);
 				Object.keys( locales )
@@ -178,7 +180,11 @@ export const component = {
 				return
 			}
 			let assets = {};
-			dataExport.assets.locales[this.locale] = assets;
+
+			//this.dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+			//story.dependencies.locales = locales;
+
+			dataExport.dependencies.locales[this.locale] = assets;
 
 			$.ajax( `/stories/${dataExport.name}`, {
 				method: "put",

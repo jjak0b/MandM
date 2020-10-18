@@ -9,6 +9,9 @@ import { component as datepickerComponent } from "/shared/components/UserWidgetD
 import { component as datepickerEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetDatepickerEditor.js";
 import { component as inventoryComponent } from "/shared/components/UserWidgetInventory.js";
 import { component as inventoryEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetInventoryEditor.js";
+import { component as puzzleComponent } from "/shared/components/UserWidgetPuzzle.js";
+import { component as puzzleEditorComponent } from "./SceneEditorWidgets/UserWidgetFormEditors/UserWidgetPuzzleEditor.js";
+
 
 export const component = {
 	template: template,
@@ -20,6 +23,7 @@ export const component = {
 	components : {
 		"user-widget-inventory-editor": inventoryEditorComponent,
 		"user-widget-datepicker-editor": datepickerEditorComponent,
+		"user-widget-puzzle-editor": puzzleEditorComponent,
 		"media-form-widget": mediaFormComponent,
 		"grid-widget": gridComponent,
 		"attribute-editor-widget": attributeEditorComponent,
@@ -46,6 +50,11 @@ export const component = {
 					editor: "user-widget-inventory-editor",
 					label: "UserWidgets.Inventory.label-widget-name",
 					options: inventoryComponent
+				},
+				"user-widget-puzzle":{
+					editor:"user-widget-puzzle-editor",
+					label:"UserWidgets.Puzzle.label-widget-name",
+					options: puzzleComponent
 				}
 			},
 			currentCellCache: null

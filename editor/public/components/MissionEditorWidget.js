@@ -57,7 +57,7 @@ export const component = {
 				this.$i18n.removeMessageAll( mission.title );
 				this.$i18n.removeMessageAll( mission.description );
 				this.missions.splice( index, 1);
-				this.setValue( null );
+				this.$emit('save-story');
 			}
 		},
 		onAdd() {

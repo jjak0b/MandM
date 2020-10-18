@@ -33,9 +33,6 @@ export const component = {
 	},
 	watch: {
 		'mission' : function( mission, oldMission ) {
-			if( oldMission ){
-				this.save( oldMission );
-			}
 			if( mission ) {
 				let tree = null;
 				let self = this;
@@ -66,9 +63,6 @@ export const component = {
 					this.loadTree( tree ); // load tree into Tree component
 				})
 			}
-			else{
-				this.loadTree( null );
-			}
 		}
 	},
 	computed: {
@@ -78,6 +72,7 @@ export const component = {
 		save( mission ){
 			let tree = this.$refs.treeView.get_json();
 			Vue.set( mission, "tree", tree );
+			this.$emit("save-story");
 			console.log( "[ActivityEditor]", "Saving tree data", tree, "into mission", mission );
 		},
 		// load the tree on TreeWidget
@@ -99,15 +94,18 @@ export const component = {
 			data.scene = {};
 
 			let item = this.$refs.treeView.add(id, data.noteInfo.type, data.noteInfo.name, data);
+			this.$emit('add-activity', data);
 
 			this.$nextTick(() => {
 				this.$refs.addMenu.$bvModal.hide('addMenu');
 				this.$emit("inc-id");
 			});
+			this.save(this.mission);
 		},
 		onEdit( noteInfo ) {
 			let item = this.$refs.treeView.edit( noteInfo );
 			this.isEditFormVisible = false;
+			this.save(this.mission);
 		},
 		onSelectedNode() {
 			this.isEditFormVisible = false;

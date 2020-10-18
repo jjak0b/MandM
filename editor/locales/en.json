@@ -1,5 +1,10 @@
 {
   "shared": {
+	"label-empty-list": "The list is empty",
+	"label-copy": "Copy",
+	"label-paste": "Paste",
+	"label-move-down": "Move down",
+	"label-move-up": "Move up",
 	"label-new-element": "New {name} item",
 	"label-update": "Update",
 	"label-save": "Save",
@@ -70,6 +75,7 @@
 	"label-locale-select": "Select current internationalization to edit"
   },
   "StoryEditorWidget": {
+	"label-edit-story": "Edit story",
 	"label-local-story": "Local",
 	"label-select-internationalization": "Please select an internationalization",
 	"label-reload-from-server": "Reload",
@@ -124,7 +130,9 @@
 	"label-mission-no-title": "Untitled mission",
 	"label-mission-title": "Mission title",
 	"label-mission-description": "Mission description",
-	"label-mission-list": "Mission list"
+	"label-mission-list": "Mission list",
+	"label-add-new-mission": "Add new mission",
+	"label-selected-mission": "Edit selected mission"
   },
   "ActivityEditorWidget": {
 	"label-edit-menu-title": "Edit menu",

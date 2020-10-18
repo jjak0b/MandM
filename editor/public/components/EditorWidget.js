@@ -3,7 +3,6 @@ import { I18nUtils } from "/shared/js/I18nUtils.js";
 import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./i18nWidgets/I18nSelectorWidget.js";
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import { component as storyEditorComponent } from "./StoryEditorWidget.js";
-import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as activityEditorComponent } from "./ActivityEditorWidgets/ActivityEditorWidget.js";
 import {component as formImportFile} from "./StoryEditorWidgets/StoryFormImportFile.js";
 import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImportServer.js";
@@ -16,11 +15,12 @@ const component = {
 	i18n: i18n,
 	data() {
 		return {
+			saveStory: false,
 			localStories: [],
 			remoteStories: [], // names
 			delayForNextRemoteRequest: 5000,
 			I18nUtils: I18nUtils,
-			locale: null,
+			locale: 'en-US',
 			localesList: [],
 			cache: {
 				story: { // data to export
@@ -57,7 +57,6 @@ const component = {
 		'i18n-selector-widget': asyncLoadComponentI18nSelectorWidget,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		'story-editor-widget': storyEditorComponent,
-		'mission-editor-widget': missionEditorComponent,
 		'activity-editor-widget': activityEditorComponent,
 
 		"form-import-file": formImportFile,
@@ -121,8 +120,26 @@ const component = {
 			});
 			if (story) {
 				this.cache.story = story;
+
+				let getlocale;
+				Object.keys( this.cache.story.dependencies.locales ).forEach( locale => {
+					getlocale = self.$i18n.getLocaleMessage( locale );
+					getlocale.assets = {};
+					self.$i18n.setLocaleMessage( locale, getlocale );
+					self.$i18n.mergeLocaleMessage( locale, this.cache.story.dependencies.locales[locale] );
+				});
 			}
+		},
+		selectMission( index ) {
+			this.cache.mission = this.cache.story.missions[index];
+		},
+		onMissionInc() {
+			this.cache.story.missionNextId++;
 		}
+	},
+	updated() {
+		console.log("I18N", i18n.messages);
+		console.log("CACHE", this.cache);
 	}
 }
 

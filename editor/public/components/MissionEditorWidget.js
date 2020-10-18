@@ -1,6 +1,7 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
+import { component as listComponent } from "/shared/components/AccessibleListWidget.js";
 
 export const component = {
 	template: template,
@@ -10,16 +11,30 @@ export const component = {
 		missions: Array,
 		locale: String
 	},
-	data : function () {
-		return {
-
+	components: {
+		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
+		'list-widget': listComponent
+	},
+	watch: {
+		selectedIndex: function (index) {
+			this.$emit('select-mission', index);
 		}
 	},
-	components: {
-		'i18n-input-widget': asyncLoadComponentI18nInputWidget
+	data : function () {
+		return {
+			selectedIndex: null
+		}
 	},
 	computed: {
-		missionPlaceholderTitle: function () { return this.$t('MissionEditorWidget.label-mission-no-title' ) }
+		missionPlaceholderTitle: function () { return this.$t('MissionEditorWidget.label-mission-no-title' ) },
+		selectedId: function () { return this.value ? this.value.id : null },
+		missionNames: function () {
+			let names = [];
+			for (const mission of this.missions) {
+				names.push(this.$t(mission.title));
+			}
+			return names
+		}
 	},
 	methods: {
 		add() {
@@ -34,6 +49,7 @@ export const component = {
 			console.log( "registered new mission: ", mission );
 
 			this.missions.push( mission );
+			this.$emit('save-story');
 		},
 		remove( index ) {
 			let mission = this.missions[ index ];
@@ -44,14 +60,34 @@ export const component = {
 				this.setValue( null );
 			}
 		},
-		load( index ) {
-			let mission = this.missions[ index ];
-			if( mission ) {
-				this.setValue(mission);
+		onAdd() {
+			this.$emit( "inc-id" );
+			this.$bvModal.show('addMissionModal');
+		},
+		onSelect( index ) {
+			this.selectedIndex = index;
+		},
+		onMoveUp( index ) {
+			if ( this.missions.splice(index-1, 0, this.missions.splice(index, 1)[0]) ) {
+				if (this.selectedIndex === index) this.selectedIndex = index-1;
+				else if (this.selectedIndex === index-1) this.selectedIndex = index;
 			}
 		},
-		setValue( value ) {
-			this.$emit( 'input', value );
+		onMoveDown( index ) {
+			if ( this.missions.splice(index+1, 0, this.missions.splice(index, 1)[0]) ) {
+				if (this.selectedIndex === index) this.selectedIndex = index+1;
+				else if (this.selectedIndex === index+1) this.selectedIndex = index;
+			}
+		},
+		onCopy( index ) {
+
+		},
+		onPaste( index ) {
+
+		},
+		onDelete( index ) {
+			this.selectedIndex = null;
+			this.remove(index);
 		}
 	}
 };

@@ -13,39 +13,54 @@ export const template =
 				<b-tab v-bind:title="name" v-bind:key="name">
 					<div v-if="loading" style="padding-bottom: 25em;"></div>
 					<template v-else>
-						<h3>{{ value.name }}</h3><hr>
+						<b-form-row>
+							<h2>{{ value.name }}</h2><hr>
+						</b-form-row>
 						<b-form-row>
 							<b-col cols="4">
-							<b-form-group
-									v-bind:label="$t('StoryEditorWidget.label-story-description')"
-									label-for="storyDescriptionInput">
-								<b-form-textarea
-										id="storyDescriptionInput"
-										v-model="value.description">
-								</b-form-textarea>
-							</b-form-group>
-							<b-form-group v-bind:label="$t('StoryEditorWidget.label-gamemode')">
-								<b-form-radio-group v-model="value.gamemode">
-									<template v-for="(localeLabel, key) in gamemodes">
-										<b-form-group v-bind:label-for="'gamemode_' + key" v-bind:description="$t(localeLabel + '.description' )">
+								<h3>{{ $t('StoryEditorWidget.label-edit-story') }}</h3>
+								<b-form-group
+										v-bind:label="$t('StoryEditorWidget.label-story-description')"
+										label-for="storyDescriptionInput">
+									<b-form-textarea
+											id="storyDescriptionInput"
+											v-model="value.description">
+									</b-form-textarea>
+								</b-form-group>
+								<b-form-group v-bind:label="$t('StoryEditorWidget.label-gamemode')">
+									<b-form-radio-group v-model="value.gamemode">
+										<template v-for="(localeLabel, key) in gamemodes">
+											<b-form-group v-bind:label-for="'gamemode_' + key" v-bind:description="$t(localeLabel + '.description' )">
+												<b-form-radio
+														name="gamemode"
+														v-bind:value="key">
+													{{ $t(localeLabel + '.label' ) }}</b-form-radio>
+											</b-form-group>
+										</template>
+									</b-form-radio-group>
+								</b-form-group>
+								<b-form-group v-bind:label="$t('StoryEditorWidget.label-age')">
+									<b-form-radio-group stacked v-model="value.age">
+										<template v-for="(localeLabel, key) in ages">
 											<b-form-radio
-													name="gamemode"
+													name="age"
 													v-bind:value="key">
 												{{ $t(localeLabel + '.label' ) }}</b-form-radio>
-										</b-form-group>
-									</template>
-								</b-form-radio-group>
-							</b-form-group>
-							<b-form-group v-bind:label="$t('StoryEditorWidget.label-age')">
-								<b-form-radio-group stacked v-model="value.age">
-									<template v-for="(localeLabel, key) in ages">
-										<b-form-radio
-												name="age"
-												v-bind:value="key">
-											{{ $t(localeLabel + '.label' ) }}</b-form-radio>
-									</template>
-								</b-form-radio-group>
-							</b-form-group>
+										</template>
+									</b-form-radio-group>
+								</b-form-group>
+							</b-col>
+							<b-col offset="1" cols="5">
+								<mission-editor-widget
+									id="mission-editor-widget"
+									v-bind:missions="missions"
+									v-bind:locale="locale"
+									v-model="selectedmission"
+									v-bind:next-id="value.missionNextId"
+									v-on:inc-id="$emit('inc-id')"
+									v-on:select-mission="selectMission"
+									v-on:save-story="onUpdate"
+								></mission-editor-widget>
 							</b-col>
 						</b-form-row>
 						<b-form-row class="mr-5 mb-3 float-right">
@@ -126,8 +141,5 @@ export const template =
 		</b-form-group>
 	</b-form>
 </b-modal>
-<assets-manager
-	v-bind:current-story="value"
-></assets-manager>
 </div>`
 ;

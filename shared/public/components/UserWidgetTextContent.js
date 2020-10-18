@@ -23,12 +23,16 @@ export const component = {
 	},
 	methods: {
 		setContentOf( locale, label, value) {
-			let obj = I18nUtils.buildObjectFromLabel( label, value );
-			this.$i18n.mergeLocaleMessage( locale, obj );
+			if(this.locale) {
+				let obj = I18nUtils.buildObjectFromLabel(label, value);
+				this.$i18n.mergeLocaleMessage(locale, obj);
+			}
 		},
 		getContent(){
-			if( this.$i18n.te( this.localeLabel, this.locale) )
-				return this.$i18n.t( this.localeLabel, this.locale );
+			if(this.locale) {
+				if (this.$i18n.te(this.localeLabel, this.locale))
+					return this.$i18n.t(this.localeLabel, this.locale);
+			}
 			return ""
 		}
 	}

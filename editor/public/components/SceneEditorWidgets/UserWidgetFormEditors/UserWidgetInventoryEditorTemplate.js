@@ -1,6 +1,7 @@
 export const template =
     `
     <div>
+    <b-form>
         <b-form-group>
 <b-form-row v-on:submit.prevent>
 		        <b-col>
@@ -54,17 +55,22 @@ export const template =
             </b-form-row>
         </b-form-group>
 	</b-form>
-	<div v-for="(self, index) in initInv" style="height:30%; width:30%;">
-	<b-card
-	v-bind:title="self.name"
-	v-bind:img-src="self.image"
-	img-top
-	>
-	<b-card-text width="20px" height="10px">
-	{{self.desc}}
-</b-card-text>
-<b-button v-on:click="removeInv(self)">{{$t('shared.label-delete')}}</b-button>
-</b-card>
+<!--	<div v-for="(self, index) in initInv" style="height:30%; width:30%;">-->
+<!--	<b-card-->
+<!--	v-bind:title="self.name"-->
+<!--	v-bind:img-src="self.image"-->
+<!--	img-top-->
+<!--	>-->
+<!--	<b-card-text width="20px" height="10px">-->
+<!--	{{self.desc}}-->
+<!--</b-card-text>-->
+<!--<b-button v-on:click="removeInv(self)">{{$t('shared.label-delete')}}</b-button>-->
+<!--</b-card>-->
+</div>
+<div>
+<inventory-widget>
+
+</inventory-widget>
 </div>
 <!--		<b-form-group>-->
 <!--			<template v-slot:label-->

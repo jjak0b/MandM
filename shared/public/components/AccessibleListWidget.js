@@ -3,6 +3,7 @@ import {template} from "./AccessibleListWidgetTemplate.js";
 export const component = {
 	template: template,
 	props: {
+		locale: String,
 		items: Array,
 		selected: Number
 	},

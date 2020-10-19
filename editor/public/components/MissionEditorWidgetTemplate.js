@@ -30,7 +30,8 @@ export const template =
 	
 	<div class="mb-5 pb-5">
 		<h3 v-t="'MissionEditorWidget.label-mission-list'" ></h3>
-		<list-widget 
+		<list-widget
+			v-bind:locale="locale"
 			v-bind:items="missionNames"
 			v-bind:selected="selectedIndex"
 			v-on:move-up="onMoveUp"

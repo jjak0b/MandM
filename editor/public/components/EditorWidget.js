@@ -20,7 +20,7 @@ const component = {
 			remoteStories: [], // names
 			delayForNextRemoteRequest: 5000,
 			I18nUtils: I18nUtils,
-			locale: 'en-US',
+			locale: '',
 			localesList: [],
 			cache: {
 				story: { // data to export

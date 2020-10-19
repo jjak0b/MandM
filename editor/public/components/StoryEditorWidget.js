@@ -131,11 +131,10 @@ export const component = {
 			this.hasReloaded = true;
 
 			let name = this.value.name;
-			this.getFromServer(this.value.name);
 			if ( this.stories.some( story => story.name === name ) ) {
 				this.$emit('delete-local-story', name);
 			}
-			this.$emit('add-local-story', this.value);
+			this.getFromServer(this.value.name);
 		},
 		onDelete() {
 			self = this;

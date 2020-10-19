@@ -1,6 +1,11 @@
 export const template =
 		`<div>
-<b-card no-body>
+<b-card no-body v-if="!locale">
+	<div class="text-center text-muted my-5">
+		{{ $t('StoryEditorWidget.label-select-internationalization') }}
+	</div>
+</b-card>
+<b-card no-body v-else>
 	<b-card-header id="story-editor-label-tablist">
 	 <b-spinner variant="primary" v-if="loading" class="mr-2"></b-spinner>
 	{{ $t('StoryEditorWidget.label-story-editor') }}</b-card-header>

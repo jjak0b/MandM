@@ -31,7 +31,7 @@ export const component = {
 		missionNames: function () {
 			let names = [];
 			for (const mission of this.missions) {
-				names.push(this.$t(mission.title));
+				names.push(mission.title);
 			}
 			return names
 		}

@@ -7,7 +7,7 @@ export const template =
 	button
 	v-on:click="$emit('select', index)" 
 	v-bind:active="isActive(index)">
-	{{ item }}
+	{{ $t(item, locale) }}
 		<div class="float-right">
 			<b-link v-b-tooltip.hover v-bind:title="$t('shared.label-move-up')" v-on:click.stop="$emit('move-up', index)">
 				<b-icon-arrow-up-short v-bind:variant="getVariant(index)"></b-icon-arrow-up-short>

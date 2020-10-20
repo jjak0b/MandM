@@ -32,7 +32,8 @@ export const component = {
 		activity: Object,
 		scene: Object,
 		locale: String,
-		nextAssetId: Number
+		nextAssetId: Number,
+		localesList: Array
 	},
 	components : {
 		"user-widget-editor-text-content": textContentEditorComponent,
@@ -305,11 +306,11 @@ export const component = {
 		onRemoveElement(index) {
 			this.currentCellCache.component.props.options.splice( index, 1 );
 		},
-		onInputLocalHTML(localHTML) {
-			if (! ('localHTML' in this.currentCellCache.component.props)) {
-				this.$set( this.currentCellCache.component.props, 'localHTML', "" );
+		onAddLabel(localeLabel) {
+			if (! ('localeLabel' in this.currentCellCache.component.props)) {
+				this.$set( this.currentCellCache.component.props, 'localeLabel', "" );
 			}
-			this.$set( this.currentCellCache.component.props, 'localHTML', localHTML );
+			this.$set( this.currentCellCache.component.props, 'localeLabel', localeLabel );
 		}
 	}
 };

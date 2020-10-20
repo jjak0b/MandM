@@ -53,6 +53,7 @@ export const template =
 					v-bind:scene="currentNode.data.scene"
 					v-bind:activity="currentNode"
 					v-bind:key="currentNode.id"
+					v-bind:locales-list="localesList"
 					v-on:inc-asset-id="$emit('inc-asset-id')"
 				></scene-editor-widget>
 			</b-tab>

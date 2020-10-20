@@ -136,10 +136,6 @@ const component = {
 		onMissionInc() {
 			this.cache.story.missionNextId++;
 		}
-	},
-	updated() {
-		console.log("I18N", i18n.messages);
-		console.log("CACHE", this.cache);
 	}
 }
 

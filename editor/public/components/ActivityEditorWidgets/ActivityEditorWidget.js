@@ -15,7 +15,8 @@ export const component = {
 		nextAssetId: Number,
 		nextId: Number,
 		locale: String,
-		mission : Object
+		mission : Object,
+		localesList: Array
 	},
 	components: {
 		'activity-tree-widget': activityTreeWidgetComponent,

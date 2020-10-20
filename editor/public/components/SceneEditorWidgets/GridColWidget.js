@@ -8,7 +8,8 @@ export const component = {
 		target: Array,
 		coords: Array,
 		showCSSGrid: Boolean,
-		nextAssetId: Number
+		nextAssetId: Number,
+		localesList: Array
 	},
 	data() {
 		return {

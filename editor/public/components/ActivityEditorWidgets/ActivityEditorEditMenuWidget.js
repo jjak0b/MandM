@@ -12,7 +12,8 @@ export const component = {
 		locale: String,
 		currentNode: Object,
 		nextId: Number,
-		nextAssetId: Number
+		nextAssetId: Number,
+		localesList: Array
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,

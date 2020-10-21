@@ -60,6 +60,7 @@ export const template =
 									id="mission-editor-widget"
 									v-bind:missions="missions"
 									v-bind:locale="locale"
+									v-bind:localesList="localesList"
 									v-model="selectedmission"
 									v-bind:next-id="value.missionNextId"
 									v-on:inc-id="$emit('inc-id')"

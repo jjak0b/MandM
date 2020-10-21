@@ -2,6 +2,8 @@ import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
 import { component as listComponent } from "/shared/components/AccessibleListWidget.js";
+import { component as borderlessInput } from "./i18nWidgets/I18nBorderlessInputWidget.js";
+
 
 export const component = {
 	template: template,
@@ -9,11 +11,13 @@ export const component = {
 		nextId: Number,
 		value: Object, // mission cache
 		missions: Array,
-		locale: String
+		locale: String,
+		localesList: Array
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-		'list-widget': listComponent
+		'list-widget': listComponent,
+		'borderless-input': borderlessInput
 	},
 	watch: {
 		selectedIndex: function (index) {
@@ -26,7 +30,6 @@ export const component = {
 		}
 	},
 	computed: {
-		missionPlaceholderTitle: function () { return this.$t('MissionEditorWidget.label-mission-no-title' ) },
 		selectedId: function () { return this.value ? this.value.id : null },
 		missionNames: function () {
 			let names = [];

@@ -25,7 +25,9 @@
 	<script src="/shared/js/VueI18nImporter.js"></script>
 	<script type="module" src="./js/init.js"></script>
 	<style>
-		.is-active {color:blue;}
+		.list-group-item.active {
+			background-color: transparent;
+		}
 		#editor-section {
 			border: 0.1em solid black;
 			padding: 1em;
@@ -133,6 +135,7 @@
 					v-bind:missions="cache.story.missions"
 					v-bind:selectedmission="cache.mission"
 					v-bind:locale="locale"
+					v-bind:locales-list="localesList"
 					v-model="cache.story"
 					v-on:update-names="getRemoteStoryNames()"
 					v-on:import="load"

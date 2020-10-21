@@ -28,6 +28,7 @@ export const component = {
 	template: template,
 	props: {
 		locale: String,
+		localesList: Array,
 		value: Object, // story Cache
 		stories: Array,
 		names: Array,

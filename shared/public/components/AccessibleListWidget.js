@@ -1,15 +1,16 @@
 import {template} from "./AccessibleListWidgetTemplate.js";
+import { component as borderlessInput } from "/edit/components/i18nWidgets/I18nBorderlessInputWidget.js"
 
 export const component = {
 	template: template,
 	props: {
 		locale: String,
+		localesList: Array,
 		items: Array,
 		selected: Number
 	},
-	data() {
-		return {
-		}
+	components: {
+		'borderless-input': borderlessInput
 	},
 	methods: {
 		select( index ) {
@@ -17,9 +18,6 @@ export const component = {
 		},
 		isActive( index ) {
 			return this.selected === index
-		},
-		getVariant( index ) {
-			return this.isActive(index) ? 'light' : 'primary'
 		}
 	}
 };

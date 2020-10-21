@@ -8,6 +8,7 @@ import {component as imageAreaTabPanel} from "./UserWidgetEditorMediaPlayer/User
 import {component as assetsManagerBrowser} from "../../AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
 import {component as i18nRegion } from "../../i18nWidgets/I18nRegion.js";
 import {Asset} from "/shared/js/Asset.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -58,7 +59,6 @@ export const component = {
 				captions: {}
 			},
 			shouldUseMap: false,
-			nextAreaId: 0,
 			form: {
 				asset: null,
 				caption: null,
@@ -94,7 +94,12 @@ export const component = {
 
 				this.$set( this.value, "captions", {} );
 				if( this.value.asset.category == "images" ) {
-					this.$set(this.value.captions, 0, this.localeImageCaptionLabel );
+
+					this.$set(
+						this.value.captions,
+						0,
+						`${this.component.i18nCategory}.image.caption`
+					);
 				}
 			}
 		},
@@ -121,13 +126,7 @@ export const component = {
 		}
 	},
 	computed: {
-		localeLabelAssetPrefix: function() { return (this.assetId != null && this.assetId != undefined) ? 'assets.' + this.assetId : null },
-		localeImageCaptionLabel: function () {
-			let prefix = this.localeLabelAssetPrefix;
-			if (prefix)
-				return prefix + ".caption";
-			return null;
-		}
+
 	},
 	methods: {
 		init( component ) {
@@ -178,11 +177,11 @@ export const component = {
 		},
 		onAddArea( event ) {
 			let data = FormUtils.getAssociativeArray($(event.target).serializeArray());
+			let id = I18nUtils.getUniqueID();
 
-			let id = this.nextAreaId++;
 			let area = {
 				id: id,
-				alt: this.localeLabelAssetPrefix + '.areaAlt.'+ id,
+				alt: `${this.component.i18nCategory}.image.area.${id}.label-alt`,
 				shape: data["shape"],
 				action: null, // TODO: eventAction built into an interaction editor component
 				href: "javascript:void(0)",

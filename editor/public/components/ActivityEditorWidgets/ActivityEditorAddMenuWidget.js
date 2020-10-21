@@ -54,8 +54,6 @@ export const component = {
 				return
 			}
 
-			let id = this.nextId;
-
 			// TODO: fill this field if adding components which edit node data
 			let data = {};
 			data.noteInfo = {
@@ -63,9 +61,6 @@ export const component = {
 				note: this.noteValue,
 				type: this.selectedType
 			};
-			data.title = 'activity.title.' + id;
-			data.description = 'activity.description.' + id;
-			data.scene = { };
 
 			this.$emit('addActivity', data);
 		},

@@ -1,5 +1,6 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -23,10 +24,15 @@ export const component = {
 	methods: {
 		add() {
 			let mission = {};
-			mission.id = this.nextId; this.$emit( "inc-id" );
-			mission.title = 'assets.mission.' + mission.id + '.title';
-			mission.description = 'assets.mission.' + mission.id + '.description';
+			let id = I18nUtils.getUniqueID();
+			let prefix = `assets.mission.${ id }`;
+
+			mission.i18nCategory = prefix;
+			mission.id = id
+			mission.title = prefix + ".title";
+			mission.description =  prefix + ".description";
 			console.log( "registered new mission: ", mission );
+
 			this.missions.push( mission );
 		},
 		remove( index ) {

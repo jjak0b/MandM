@@ -4,6 +4,11 @@ export class I18nUtils {
 	constructor() {
 
 	}
+
+	static getUniqueID() {
+		return Date.now();
+	}
+
 	static buildObjectFromLabel( localeLabel, value ){
 		let obj = {};
 		let ref = obj;

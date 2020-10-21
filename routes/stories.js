@@ -59,7 +59,7 @@ class StoryHandler {
 		return new Promise( function ( resolve, reject ) {
 			fs.writeFile(
 				storyFilename,
-				JSON.stringify(data),
+				JSON.stringify(data, null, 4 ),
 				self.encoding,
 				function (err) {
 					if (err) {

@@ -24,10 +24,12 @@ import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/Us
 import { component as textContentComponent } from "/shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
 import UserWidgetItem from "/shared/js/UserWidgetItem.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
 	props: {
+		activity: Object,
 		scene: Object,
 		locale: String,
 		nextAssetId: Number
@@ -263,9 +265,14 @@ export const component = {
 					{}
 				);
 
-				let id = 'component' + this.getNewId();
+				let id = I18nUtils.getUniqueID();
+				let category = `${this.activity.data.i18nCategory}.component.${id}`;
+
 				this.$set( cell, "component", componentData );
 				this.$set( cell.component, "id", id );
+
+				cell.component.i18nCategory = category;
+
 				console.log("[SceneEditor]", "Set component data", cell.component );
 			}
 		},
@@ -288,10 +295,6 @@ export const component = {
 					this.$delete( cell, "component" );
 				}
 			}
-		},
-		getNewId() {
-			this.newId++;
-			return this.newId
 		},
 		onAddElement(toAdd) {
 			if (! ('options' in this.currentCellCache.component.props)) {

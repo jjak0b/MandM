@@ -7,6 +7,7 @@ import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18
 import { I18nString } from "/shared/js/I18nUtils.js";
 import { component as addMenuComponent } from "./ActivityEditorAddMenuWidget.js ";
 import { component as editMenuComponent } from "./ActivityEditorEditMenuWidget.js ";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -90,7 +91,14 @@ export const component = {
 		},
 		// events
 		onAdd( data ) {
-			let item = this.$refs.treeView.add(this.nextId, data.noteInfo.type, data.noteInfo.name, data);
+			let id = I18nUtils.getUniqueID();
+			let prefix = `${this.mission.i18nCategory}.activity.${id}`;
+			data.i18nCategory = prefix;
+			data.title = prefix + ".title";
+			data.description = prefix + ".description";
+			data.scene = {};
+
+			let item = this.$refs.treeView.add(id, data.noteInfo.type, data.noteInfo.name, data);
 
 			this.$nextTick(() => {
 				this.$refs.addMenu.$bvModal.hide('addMenu');

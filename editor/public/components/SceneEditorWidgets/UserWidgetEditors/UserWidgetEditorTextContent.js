@@ -16,10 +16,11 @@ export const component = {
 	},
 	data() {
 		return {
-			localeLabel: "assets.textcontent." + this.nextAssetId
+			assetId: this.nextAssetId,
+			localeLabel: "assets.textcontent." + this.assetId
 		}
 	},
 	mounted() {
-		this.$emit('add-label', this.localeLabel);
+		this.$emit('set-prop','localeLabel', this.localeLabel);
 	}
 }

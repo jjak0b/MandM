@@ -1,5 +1,4 @@
 import {template} from "./I18nEditorWidgetTemplate.js";
-import {component as textContentComponent} from "/shared/components/UserWidgetTextContent.js";
 import { i18n } from "/edit/components/Translations.js";
 import { I18nUtils } from "/shared/js/I18nUtils.js";
 

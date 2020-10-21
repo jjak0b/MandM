@@ -32,13 +32,17 @@ export const template =
 				v-bind:props="currentCellCache.component.props"
 				v-bind:component="currentCellCache.component"
 				v-model="currentCellCache.component.value"
-				v-bind:assetId="nextAssetId"
+				v-bind:nextAssetId="nextAssetId"
 				v-bind:locale="locale"
 				v-bind:locales-list="localesList"
 				v-on:addElement="onAddElement"
 				v-on:removeElement="onRemoveElement"
-				v-on:add-label="onAddLabel"
-				v-bind:nextAssetId="nextAssetId"
+				v-on:move-up="onMoveUp"
+				v-on:move-down="onMoveDown"
+				v-on:copy="onCopy"
+				v-on:paste="onPaste"	
+				v-on:delete="onDelete"
+				v-on:set-prop="setComponentProp"
 			></component>
 		</div>
 	</div>

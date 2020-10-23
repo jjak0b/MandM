@@ -46,7 +46,6 @@ export class Asset {
 
 	put( onProgress ) {
 		let self = this;
-		return new Promise( function(resolve, reject) {
 			if( self.data ) {
 
 				let formData = new FormData();
@@ -74,18 +73,13 @@ export class Asset {
 				if( xmlHttpRequestGetter )
 					requestOptions.xhr = xmlHttpRequestGetter;
 
-				$.ajax(
+				return $.ajax(
 					self.getURL(),
 					requestOptions
-				)
-					.then( resolve )
-					.catch( ( xhr, textStatus, error) => {
-						reject( error );
-					});
+				);
 			}
 			else {
-				reject( null );
+				return Promise.reject( null );
 			}
-		});
 	}
 }

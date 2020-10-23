@@ -139,7 +139,6 @@ class StoryHandler {
 const handler = new StoryHandler();
 
 router.get('/', ( req, res ) => {
-	console.log("GETLIST",handler.getList());
 	res.json( handler.getList() );
 });
 

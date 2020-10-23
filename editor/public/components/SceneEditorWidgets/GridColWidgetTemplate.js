@@ -16,6 +16,7 @@ export const template =
 			v-bind:value="value.component.value"
 			v-bind:tabindex="isSelected ? 0 : -1"
 			v-bind:nextAssetId="nextAssetId"
+			v-bind:locales-list="localesList"
 		></component>
 		<span v-else>&nbsp;</span>
 	</div>

@@ -1,6 +1,9 @@
 import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
+import { component as listComponent } from "/shared/components/AccessibleListWidget.js";
+import { component as borderlessInput } from "./i18nWidgets/I18nBorderlessInputWidget.js";
+
 
 export const component = {
 	template: template,
@@ -8,32 +11,41 @@ export const component = {
 		nextId: Number,
 		value: Object, // mission cache
 		missions: Array,
-		locale: String
+		locale: String,
+		localesList: Array
+	},
+	components: {
+		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
+		'list-widget': listComponent,
+		'borderless-input': borderlessInput
+	},
+	watch: {
+		selectedIndex: function (index) {
+			this.$emit('select-mission', index);
+		}
 	},
 	data : function () {
 		return {
-
+			newMission: {},
+			selectedIndex: null
 		}
 	},
-	components: {
-		'i18n-input-widget': asyncLoadComponentI18nInputWidget
-	},
 	computed: {
-		missionPlaceholderTitle: function () { return this.$t('MissionEditorWidget.label-mission-no-title' ) }
+		selectedId: function () { return this.value ? this.value.id : null },
+		missionNames: function () {
+			let names = [];
+			for (const mission of this.missions) {
+				names.push(mission.title);
+			}
+			return names
+		}
 	},
 	methods: {
 		add() {
-			let mission = {};
-			let id = I18nUtils.getUniqueID();
-			let prefix = `assets.mission.${ id }`;
+			console.log( "registered new mission: ", this.newMission );
+			this.missions.push( this.newMission );
 
-			mission.i18nCategory = prefix;
-			mission.id = id
-			mission.title = prefix + ".title";
-			mission.description =  prefix + ".description";
-			console.log( "registered new mission: ", mission );
-
-			this.missions.push( mission );
+			this.$emit('save-story');
 		},
 		remove( index ) {
 			let mission = this.missions[ index ];
@@ -41,17 +53,47 @@ export const component = {
 				this.$i18n.removeMessageAll( mission.title );
 				this.$i18n.removeMessageAll( mission.description );
 				this.missions.splice( index, 1);
-				this.setValue( null );
+				this.$emit('save-story');
 			}
 		},
-		load( index ) {
-			let mission = this.missions[ index ];
-			if( mission ) {
-				this.setValue(mission);
+		onAdd() {
+			this.$emit( "inc-id" );
+
+			this.newMission = {};
+			let id = I18nUtils.getUniqueID();
+
+			let prefix = `assets.mission.${ id }`;
+			this.newMission.i18nCategory = prefix;
+			this.newMission.id = id
+			this.newMission.title = prefix + ".title";
+			this.newMission.description =  prefix + ".description";
+
+			this.$bvModal.show('addMissionModal');
+		},
+		onSelect( index ) {
+			this.selectedIndex = index;
+		},
+		onMoveUp( index ) {
+			if ( this.missions.splice(index-1, 0, this.missions.splice(index, 1)[0]) ) {
+				if (this.selectedIndex === index) this.selectedIndex = index-1;
+				else if (this.selectedIndex === index-1) this.selectedIndex = index;
 			}
 		},
-		setValue( value ) {
-			this.$emit( 'input', value );
+		onMoveDown( index ) {
+			if ( this.missions.splice(index+1, 0, this.missions.splice(index, 1)[0]) ) {
+				if (this.selectedIndex === index) this.selectedIndex = index+1;
+				else if (this.selectedIndex === index+1) this.selectedIndex = index;
+			}
+		},
+		onCopy( index ) {
+
+		},
+		onPaste( index ) {
+
+		},
+		onDelete( index ) {
+			this.selectedIndex = null;
+			this.remove(index);
 		}
 	}
 };

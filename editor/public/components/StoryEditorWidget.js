@@ -1,6 +1,7 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
 import { I18nUtils } from "/shared/js/I18nUtils.js";
 import { component as assetsManager} from "./AssetsManagerWidget.js";
+import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 
 function getNewStory() {
 	return {
@@ -26,13 +27,18 @@ function getNewStory() {
 export const component = {
 	template: template,
 	props: {
+		locale: String,
+		localesList: Array,
 		value: Object, // story Cache
 		stories: Array,
 		names: Array,
-		locale: String
+		selectedmission: Object,
+		missions: Array,
+		savestory: Boolean
 	},
 	components: {
-		"assets-manager": assetsManager
+		"assets-manager": assetsManager,
+		'mission-editor-widget': missionEditorComponent
 	},
 	watch: {
 		tabValue: function(newVal) {
@@ -57,6 +63,7 @@ export const component = {
 		selectedName: function ( newVal ) {
 			if (this.selectedName) {
 				this.canUpdate = false;
+				this.selectMission(null);
 
 				if ( this.stories.some( story => story.name === this.selectedName ) ) {
 					this.$emit('change-story', this.selectedName);
@@ -64,6 +71,15 @@ export const component = {
 				else {
 					this.getFromServer( this.selectedName );
 				}
+			}
+		},
+		savestory: function (newVal) {
+			if(newVal) {
+				this.onUpdate();
+				this.$nextTick(() => {
+					this.$emit('saved');
+				});
+
 			}
 		}
 	},
@@ -99,7 +115,7 @@ export const component = {
 			this.canUpdate = false;
 			this.canReload = false;
 			let dataExport = this.value;
-			let assets = I18nUtils.getRootMessages(this.$i18n, "assets" );
+			dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 			$.ajax( `/stories/${dataExport.name}`, {
 				method: "put",
 				contentType: 'application/json',
@@ -116,11 +132,10 @@ export const component = {
 			this.hasReloaded = true;
 
 			let name = this.value.name;
-			this.getFromServer(this.value.name);
 			if ( this.stories.some( story => story.name === name ) ) {
 				this.$emit('delete-local-story', name);
 			}
-			this.$emit('add-local-story', this.value);
+			this.getFromServer(this.value.name);
 		},
 		onDelete() {
 			self = this;
@@ -152,11 +167,18 @@ export const component = {
 			.then( (jsonData) => {
 				let story = jsonData[0];
 				let locales = jsonData[1];
+
+				let getlocale;
+				Object.keys( locales ).forEach( locale => {
+					getlocale = self.$i18n.getLocaleMessage( locale );
+					getlocale.assets = {};
+					self.$i18n.setLocaleMessage( locale, getlocale );
+					self.$i18n.mergeLocaleMessage( locale, locales[locale] );
+				});
+
 				story.dependencies.locales = locales;
 				self.$emit('import', story );
 				self.$emit('add-local-story', story);
-				Object.keys( locales )
-				.forEach( locale => self.$i18n.mergeLocaleMessage( locale, locales[ locale ] ) );
 			})
 			// file can't be downloaded for some reason so report it
 			.catch( ( error) => {
@@ -180,10 +202,6 @@ export const component = {
 				return
 			}
 			let assets = {};
-
-			//this.dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
-			//story.dependencies.locales = locales;
-
 			dataExport.dependencies.locales[this.locale] = assets;
 
 			$.ajax( `/stories/${dataExport.name}`, {
@@ -202,6 +220,9 @@ export const component = {
 				self.newStory = getNewStory();
 				self.$emit("update-names");
 			});
+		},
+		selectMission( index ) {
+			this.$emit('select-mission', index);
 		}
 	},
 }

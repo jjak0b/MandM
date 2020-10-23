@@ -32,7 +32,8 @@ export const component = {
 		activity: Object,
 		scene: Object,
 		locale: String,
-		nextAssetId: Number
+		nextAssetId: Number,
+		localesList: Array
 	},
 	components : {
 		"user-widget-editor-text-content": textContentEditorComponent,
@@ -51,6 +52,7 @@ export const component = {
 	},
 	data() {
 		return {
+			copiedItem: null,
 			newId: 0,
 			maxRows: 12,
 			maxColumns: 12,
@@ -296,7 +298,14 @@ export const component = {
 				}
 			}
 		},
-		onAddElement(toAdd) {
+		getNewId() {
+			this.newId++;
+			return this.newId
+		},
+		onAddElement(toAdd, assetId) {
+			if (! ('assetId' in this.currentCellCache.component.props)) {
+				this.$set( this.currentCellCache.component.props, 'assetId', assetId );
+			}
 			if (! ('options' in this.currentCellCache.component.props)) {
 				this.$set( this.currentCellCache.component.props, 'options', [] );
 			}
@@ -305,11 +314,28 @@ export const component = {
 		onRemoveElement(index) {
 			this.currentCellCache.component.props.options.splice( index, 1 );
 		},
-		onInputLocalHTML(localHTML) {
-			if (! ('localHTML' in this.currentCellCache.component.props)) {
-				this.$set( this.currentCellCache.component.props, 'localHTML', "" );
+		onMoveUp( index ) {
+			this.currentCellCache.component.props.options.splice(
+					index-1, 0, this.currentCellCache.component.props.options.splice(index, 1)[0])
+		}
+		,
+		onMoveDown( index ) {
+			this.currentCellCache.component.props.options.splice(index+1, 0, this.currentCellCache.component.props.options.splice(index, 1)[0])
+		},
+		onCopy( index ) {
+
+		},
+		onPaste( index ) {
+
+		},
+		onDelete( index ) {
+			this.currentCellCache.component.props.options.splice( index, 1);
+		},
+		setComponentProp(name, value) {
+			if (! (name in this.currentCellCache.component.props)) {
+				this.$set( this.currentCellCache.component.props, name, "" );
 			}
-			this.$set( this.currentCellCache.component.props, 'localHTML', localHTML );
+			this.$set( this.currentCellCache.component.props, name, value );
 		}
 	}
 };

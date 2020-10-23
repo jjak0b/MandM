@@ -1,6 +1,6 @@
 export const template =
 `<div>
-	<b-modal 
+	<b-modal
 		id="addMissionModal"
 		v-bind:title="$t('MissionEditorWidget.label-add-new-mission')"
 		v-bind:ok-title="$t('shared.label-save')"
@@ -14,7 +14,7 @@ export const template =
 			type="text"
 			required="required"
 			v-bind:locale="locale"
-			v-bind:locale-label="'assets.mission.' + nextId + '.title'"
+			v-bind:locale-label="newMission.title"
 		></i18n-input-widget>
 		<i18n-input-widget
 			v-bind:tag="'textarea'"
@@ -23,7 +23,7 @@ export const template =
 			name="missionDescription"
 			rows="4"
 			v-bind:locale="locale"
-			v-bind:locale-label="'assets.mission.' + nextId + '.description'"
+			v-bind:locale-label="newMission.description"
 		></i18n-input-widget>
 	</b-modal>
 	

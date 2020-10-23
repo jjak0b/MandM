@@ -110,6 +110,7 @@
 				href="#activity-editor-widget-section"
 				aria-controls="activity-editor-widget-section"
 				aria-selected="false"
+				v-on:click="redrawTree()"
 			>Activities</a>
 		</div>
 	</nav>
@@ -133,7 +134,6 @@
 					v-bind:names="remoteStories"
 					v-bind:stories="localStories"
 					v-bind:missions="cache.story.missions"
-					v-bind:selectedmission="cache.mission"
 					v-bind:locale="locale"
 					v-bind:locales-list="localesList"
 					v-model="cache.story"
@@ -156,6 +156,7 @@
 			>
 				<activity-editor-widget
 					id="activity-editor-widget"
+					ref="activity"
 					v-bind:mission="cache.mission"
 					v-bind:locale="locale"
 					v-bind:locales-list="localesList"

@@ -26,6 +26,7 @@ export const component = {
 	},
 	data : function () {
 		return {
+			newMission: {},
 			selectedIndex: null
 		}
 	},
@@ -41,17 +42,9 @@ export const component = {
 	},
 	methods: {
 		add() {
-			let mission = {};
-			let id = I18nUtils.getUniqueID();
-			let prefix = `assets.mission.${ id }`;
+			console.log( "registered new mission: ", this.newMission );
+			this.missions.push( this.newMission );
 
-			mission.i18nCategory = prefix;
-			mission.id = id
-			mission.title = prefix + ".title";
-			mission.description =  prefix + ".description";
-			console.log( "registered new mission: ", mission );
-
-			this.missions.push( mission );
 			this.$emit('save-story');
 		},
 		remove( index ) {
@@ -65,6 +58,16 @@ export const component = {
 		},
 		onAdd() {
 			this.$emit( "inc-id" );
+
+			this.newMission = {};
+			let id = I18nUtils.getUniqueID();
+
+			let prefix = `assets.mission.${ id }`;
+			this.newMission.i18nCategory = prefix;
+			this.newMission.id = id
+			this.newMission.title = prefix + ".title";
+			this.newMission.description =  prefix + ".description";
+
 			this.$bvModal.show('addMissionModal');
 		},
 		onSelect( index ) {

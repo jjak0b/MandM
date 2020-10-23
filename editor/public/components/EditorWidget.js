@@ -135,6 +135,11 @@ const component = {
 		},
 		onMissionInc() {
 			this.cache.story.missionNextId++;
+		},
+		redrawTree() {
+			if(this.$refs.activity.$refs.treeView) {
+				this.$refs.activity.$refs.treeView.redraw();
+			}
 		}
 	}
 }

@@ -49,6 +49,7 @@ export const component = {
 					self.operationAlert.operationResult = this.$t("shared.label-operation-success");
 					self.operationAlert.isError = false;
 					self.operationAlert.isVisible = true;
+					this.$emit( "fetch" );
 				})
 				.catch( (xhr, textStatus, error) => {
 					console.error( "[AssetManagerRemoteEdit]", "Unable to delete asset", self.selectedAsset, "cause: ", error );

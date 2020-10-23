@@ -181,12 +181,6 @@ export const component = {
 				this.validity.name.state = null;
 			}
 		},
-		updateValidityForm() {
-
-		},
-		updateValidityOperation() {
-
-		},
 		isFileOfCategory( file, category ) {
 			let searchMIME = null
 			if( file.type && file.type.length > 0 ) {
@@ -273,7 +267,7 @@ export const component = {
 						self.validity.operation.state = false;
 						console.error( "[Asset Manager Upload Form]", "Unable to upload asset",  this.asset, "because:", error);
 					})
-					.finally( function () {
+					.always( function () {
 						self.isLoading = false;
 						self.loadingPercentage = 100;
 					});

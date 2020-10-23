@@ -35,7 +35,7 @@ export const template =
 		<!-- Should we add a preview here ? -->
 	</div>
 	
-	<div class="position-relative"
+	<div
 		v-bind:aria-hidden="!visible"
 	>
 		<b-collapse
@@ -45,13 +45,7 @@ export const template =
 			aria-modal="false"
 			v-bind:aria-labelledby="'asset-manager-browser-label-value_' + $attrs.id"
 			v-on:show="setFocusOnDialog"
-			class="position-absolute"
-			style="z-index: 3"
 		>
-			<!--
-				if this component is inside a pre/append for b-form-input
-				b-collapse must be z-index:3 to not overlap with dialog's button (z-index: 2) because of bootstrap button rule
-			-->
 			<b-form
 				role="search"
 				ref="dialogContent"

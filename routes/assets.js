@@ -42,6 +42,10 @@ class AssetsHandler {
 		return null;
 	}
 
+	getURLAsset( category, filename ) {
+		return `/${this.assetsDirname}/${category}/${filename}`;
+	}
+
 	getPathAsset( category, filename ) {
 		return path.join( this.getPathCategory( category ), filename );
 	}
@@ -108,14 +112,15 @@ class AssetsHandler {
 
 	canDelete( category, filename, excludes ) {
 		let storiesToCheck = storyHandler.getList();
-		if( excludes ) {
+		if( excludes && excludes.length > 0) {
 			storiesToCheck = storiesToCheck.filter( (name) => !excludes.includes( name ) );
 		}
 
 		let isDependent = null;
-		let pathRequested = handler.getPathAsset( category, filename );
+		let urlRequested = handler.getURLAsset( category, filename );
+		console.log("path", urlRequested );
 		return new Promise( function (resolve, reject) {
-			getStoriesThatUse( pathRequested, storiesToCheck )
+			getStoriesThatUse( urlRequested, storiesToCheck )
 				.then( (storyNames) => {
 					resolve( [ !( storyNames && storyNames.length > 0 ), storyNames ] );
 				})
@@ -231,29 +236,58 @@ router.put('/:category/:filename', multer().single('upload'),(req, res) => {
 	}
 });
 
-// DELETE /assets/:category/:filename
-router.delete( "/:category/:filename", (req, res) => {
+router.delete( "/:category/:filename", API_delete );
+/**
+ * @API DELETE /assets/:category/:filename
+ * @return
+ * ## Status codes:
+ * 	 - StatusCodes.OK 						if resource has been deleted
+ * 	 - StatusCodes.NOT_FOUND 				if resource can't be found
+ * 	 - StatusCodes.INTERNAL_SERVER_ERROR		if error happen while processing request
+ * 	 - StatusCodes.FORBIDDEN					if the resource is a dependency of any story
+ *
+ * ## Body resposnse:
+ * 	 - case StatusCodes.FORBIDDEN
+ * 		the array contains the following Object: {
+ * 		 	story : String // story name
+ * 		 	count : Integer // count of dependency of the requested assets into the story
+ * 		}
+ * 	 - default:
+ * 			No response
+ */
+function API_delete(req, res) {
 	let category = req.params.category;
 	let filename = req.params.filename;
-	if( (category && category in handler.getCategories() )
+	if( (category && handler.getCategories().includes( category ) )
 		&& ( filename && handler.getCategoryList(category).includes( filename ) )
 	){
-
 		handler.canDelete( category, filename, req.body.excludes )
 			.then( (result) => {
 				let canDelete = result[0];
 				let storiesThatUseAsset = result[1];
 				if( !canDelete ) {
-					res.json( storiesThatUseAsset );
-					res.sendStatus( StatusCodes.FORBIDDEN );
+					res.status( StatusCodes.FORBIDDEN ).json( storiesThatUseAsset );
 				}
 				else {
+					let pathRequested = handler.getPathAsset( category, filename );
 					fs.unlink(pathRequested, (err) => {
 						if (err){
 							console.error( "Error", "[DELETE Asset]", "Unable to delete asset, \"%s\"; Cause:", pathRequested, err );
-							res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+							switch( err.code ) {
+								case 'ENOENT':
+									res.sendStatus( StatusCodes.NOT_FOUND );
+									break;
+								default :
+									res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+									break;
+							}
 						}
 						else{
+							let list = handler.getCategoryList( category );
+							let assetIndex = list.indexOf( filename );
+							if( assetIndex >= 0 ){
+								list.splice( assetIndex, 1 );
+							}
 							res.end();
 						}
 					});
@@ -268,9 +302,10 @@ router.delete( "/:category/:filename", (req, res) => {
 	else{
 		res.sendStatus( StatusCodes.NOT_FOUND );
 	}
-});
+}
 
-function getStoriesThatUse( pathResource, storyNames ) {
+
+function getStoriesThatUse( urlResource, storyNames ) {
 
 	let promises = new Array( storyNames.length );
 
@@ -284,8 +319,15 @@ function getStoriesThatUse( pathResource, storyNames ) {
 					for ( let category in assetLists[ i ] ) {
 						// check only for media assets
 						if( Array.isArray( assetLists[ i ][ category ] ) ) {
-							if ( assetLists[i][category].url && assetLists[i][category].url.includes(pathResource))
-								storiesThatUseResource.push(name);
+							assetLists[ i ][ category ].forEach( (assetDependency) => {
+								let asset = assetDependency.asset;
+								let count = assetDependency.count;
+								if ( count > 0 && asset.url && asset.url == urlResource )
+									storiesThatUseResource.push({
+										story: name,
+										count: count
+									});
+							});
 						}
 					}
 				});

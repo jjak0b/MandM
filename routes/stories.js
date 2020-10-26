@@ -8,9 +8,11 @@ var storiesSaved = [];
 
 class StoryHandler {
 	constructor() {
+		this.debug = true; // used to store formatted JSON
 		this.encoding = "utf8";
 		this.storyDirname = "stories"
 		this.storyFilename = "story.json"
+		this.storyDependeciesFilename = "dependencies.json"
 		this.cacheList = [];
 		this.pathStories = path.join( __basedir, this.storyDirname );
 		this.updateNameList();
@@ -41,6 +43,10 @@ class StoryHandler {
 		return this.storyFilename;
 	}
 
+	getDependenciesFileName() {
+		return this.storyDependeciesFilename;
+	}
+
 	getPathStory( name ) {
 		return path.join( this.getPath(), name);
 	}
@@ -53,17 +59,92 @@ class StoryHandler {
 		return this.cacheList;
 	}
 
-	addJSON( name, data ) {
-		let storyFilename = path.join( this.getPathStory( name ), this.getStoryFileName() );
+	addDependencies( name, data ) {
+		let dependenciesFilename = path.join( this.getPathStory( name ), this.getDependenciesFileName() );
 		let self = this;
+
 		return new Promise( function ( resolve, reject ) {
 			fs.writeFile(
-				storyFilename,
-				JSON.stringify(data, null, 4 ),
+				dependenciesFilename,
+				JSON.stringify(data, null, self.debug ? 4 : 0 ),
 				self.encoding,
 				function (err) {
 					if (err) {
-						reject( err );
+						let statusCode = null;
+						switch( err.code ) {
+							case 'ENOSPC':
+								statusCode = StatusCodes.INSUFFICIENT_STORAGE;
+								break;
+							default :
+								statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+								break;
+						}
+						reject( { error: err, statusCode: statusCode } );
+					}
+					else {
+						resolve( null );
+					}
+				});
+		});
+	}
+
+	getDependencies( name ) {
+		let dependenciesFilename = path.join( this.getPathStory( name ), this.getDependenciesFileName() );
+		let self = this;
+		return new Promise( function (resolve, reject) {
+			fs.readFile(
+				dependenciesFilename,
+				self.encoding,
+				function (err, data) {
+					if (err) {
+						let statusCode = null;
+						switch( err.code ) {
+							case 'ENOENT':
+								statusCode = StatusCodes.NOT_FOUND;
+								break;
+							default :
+								statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+								break;
+						}
+						reject( { error: err, statusCode: statusCode } );
+					}
+					else {
+						try {
+							resolve( JSON.parse( data ) );
+						}
+						catch( e ) {
+							reject( e );
+						}
+					}
+				}
+			);
+		});
+	}
+
+	addJSON( name, data ) {
+		let storyFilename = path.join( this.getPathStory( name ), this.getStoryFileName() );
+		let self = this;
+
+		let dependencies = data.dependencies;
+		data.dependencies = null; // unlink from story structure
+		let promiseJSONDependencies = this.addDependencies( name, dependencies );
+		let promiseJSON = new Promise( function ( resolve, reject ) {
+			fs.writeFile(
+				storyFilename,
+				JSON.stringify(data, null, self.debug ? 4 : 0 ),
+				self.encoding,
+				function (err) {
+					if (err) {
+						let statusCode = null;
+						switch( err.code ) {
+							case 'ENOSPC':
+								statusCode = StatusCodes.INSUFFICIENT_STORAGE;
+								break;
+							default :
+								statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+								break;
+						}
+						reject( { error: err, statusCode: statusCode } );
 					}
 					else {
 						if ( !self.getList().includes( name ) ) {
@@ -76,30 +157,55 @@ class StoryHandler {
 						resolve( name );
 					}
 				});
-		})
+		});
+
+		return Promise.all( [ promiseJSON, promiseJSONDependencies ] );
 	}
 
 	getJSON( name ) {
 		let self = this;
 		let storyFilename = path.join( this.getPathStory( name ), this.getStoryFileName() );
-		return new Promise( function (resolve, reject) {
+		let promiseGetDependencies = this.getDependencies( name );
+		let promiseGetJSON = new Promise( function (resolve, reject) {
 			fs.readFile(
 				storyFilename,
 				self.encoding,
 				function (err, data) {
 					if (err) {
-						reject( err );
+						let statusCode = null;
+						switch( err.code ) {
+							case 'ENOENT':
+								statusCode = StatusCodes.NOT_FOUND;
+								break;
+							default :
+								statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+								break;
+						}
+						reject( { error: err, statusCode: statusCode } );
 					}
 					else {
 						try {
 							resolve( JSON.parse( data ) );
 						}
 						catch( e ) {
-							reject( e )
+							reject( e );
 						}
 					}
 				}
 			);
+		});
+
+		return new Promise( function (resolve, reject) {
+			Promise.all( [ promiseGetJSON, promiseGetDependencies ] )
+				.then( (JsonArrayData) => {
+
+					let story = JsonArrayData[0];
+					let dependencies = JsonArrayData[1];
+					story.dependencies = dependencies;
+
+					resolve( story );
+				})
+				.catch( reject );
 		});
 	}
 
@@ -127,10 +233,8 @@ class StoryHandler {
 	getStoryAssetsList( name ) {
 		let self = this;
 		return new Promise( function (resolve, reject) {
-			self.getJSON( name )
-				.then( (data) => {
-					resolve( data && data.dependencies ? data.dependencies : [] );
-				})
+			self.getDependencies( name )
+				.then( (data) => resolve( data || {} ) )
 				.catch( reject )
 		});
 	}
@@ -153,8 +257,9 @@ router.get('/:name', ( req, res ) => {
 				.then( (data) => {
 					res.json( data );
 				})
-				.catch( (err)=> {
-					res.sendStatus( StatusCodes.CONFLICT );
+				.catch( (objError)=> {
+					console.error(`[ GET stories/${req.params.name}]`, "Error getting JSON of story", "cause", objError.error );
+					res.sendStatus( objError.statusCode );
 				});
 		}
 	}
@@ -203,8 +308,8 @@ router.put("/:name", ( req, res ) => {
 			res.sendStatus( StatusCodes.CREATED );
 		})
 		.catch( function (errors) {
-			res.json( errors );
-			res.sendStatus( StatusCodes.CONFLICT );
+			console.error( errors );
+			res.status( StatusCodes.CONFLICT ).json( errors );
 		})
 });
 

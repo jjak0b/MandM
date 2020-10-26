@@ -21,7 +21,6 @@ export const template =
 			<b-form-input
 				id="assets-manager-widget-input-asset"
 				v-bind:value="selectedAsset"
-				v-on:keydown.prevent
 				readonly
 			></b-form-input>
 		</b-input-group>

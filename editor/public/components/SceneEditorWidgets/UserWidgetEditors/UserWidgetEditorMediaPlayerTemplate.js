@@ -26,7 +26,6 @@ export const template =
 						<b-form-input
 							id="assets-manager-widget-input-asset"
 							v-bind:value="value.asset"
-							v-on:keydown.prevent
 							required="required"
 							readonly
 						></b-form-input>
@@ -147,7 +146,6 @@ export const template =
 								<b-form-input
 									id="user-widget-editor-media-player-asset-caption-input"
 									v-bind:value="locale ? value.captions[ locale ] : null"
-									v-on:keydown.prevent
 									readonly
 									v-bind:disabled="!locale"
 								></b-form-input>

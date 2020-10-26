@@ -124,12 +124,16 @@ export const component = {
 		}
 	},
 	watch: {
+		"assetNames": function () {
+			this.updateValidityName( this.form.name, null );
+		},
 		"form.category": function (category, previous ) {
+			this.$emit('fetch' );
 			this.updateValidityCategory(category, previous);
 			this.onReset( null );
-			this.form.category = category;
 		},
 		"form.file" : function (file, previous) {
+			this.$emit('fetch' );
 			this.updateValidityFile( file, previous );
 		},
 		"form.name" : function (name, previous ) {
@@ -154,9 +158,7 @@ export const component = {
 					if( this.validity.file.state ) {
 
 						// override name
-						if( !this.form.name ) {
-							this.form.name = filename.substring(0, filename.lastIndexOf('.') ) || filename;
-						}
+						this.form.name = filename.substring(0, filename.lastIndexOf('.') ) || filename;
 					}
 				}
 				else{
@@ -164,7 +166,7 @@ export const component = {
 				}
 			}
 
-			if( !this.validity.file.state && previous && previous.name == this.form.name ) {
+			if( !this.validity.file.state ) {
 				this.form.name = null;
 			}
 		},

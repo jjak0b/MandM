@@ -112,6 +112,14 @@
 				aria-selected="false"
 				v-on:click="redrawTree()"
 			>Activities</a>
+			<a
+				role="tab"
+				class="nav-item nav-link"
+				data-toggle="tab"
+				href="#assets-manager-widget-section"
+				aria-controls="assets-manager-widget-section"
+				aria-selected="false"
+			>Assets Manager</a>
 		</div>
 	</nav>
 	<main role="main">
@@ -167,6 +175,16 @@
 					v-on:save-story="saveStory = true"
 					v-model="cache.activity"
 				></activity-editor-widget>
+			</section>
+			<section
+				id="assets-manager-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="asset-manager-tab"
+			>
+				<assets-manager
+					v-bind:current-story="cache.story"
+				></assets-manager>
 			</section>
 		</div>
 	</main>

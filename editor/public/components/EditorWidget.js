@@ -8,6 +8,7 @@ import {component as formImportFile} from "./StoryEditorWidgets/StoryFormImportF
 import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImportServer.js";
 import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportFile.js";
 import {component as formExportServer} from "./StoryEditorWidgets/StoryFormExportServer.js";
+import {component as assetsManager} from "./AssetsManagerWidget.js";
 
 export var vm = null;
 const component = {
@@ -58,6 +59,7 @@ const component = {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		'story-editor-widget': storyEditorComponent,
 		'activity-editor-widget': activityEditorComponent,
+		"assets-manager": assetsManager,
 
 		"form-import-file": formImportFile,
 		"form-import-server": formImportServer,

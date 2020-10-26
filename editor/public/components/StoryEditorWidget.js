@@ -1,6 +1,5 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
 import { I18nUtils } from "/shared/js/I18nUtils.js";
-import { component as assetsManager} from "./AssetsManagerWidget.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 
 function getNewStory() {
@@ -37,7 +36,6 @@ export const component = {
 		savestory: Boolean
 	},
 	components: {
-		"assets-manager": assetsManager,
 		'mission-editor-widget': missionEditorComponent
 	},
 	watch: {

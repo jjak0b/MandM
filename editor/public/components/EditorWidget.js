@@ -17,6 +17,7 @@ const component = {
 	i18n: i18n,
 	data() {
 		return {
+			copiedMission: null,
 			saveStory: false,
 			localStories: [],
 			remoteStories: [], // names
@@ -145,6 +146,20 @@ const component = {
 		redrawTree() {
 			if(this.$refs.activity.$refs.treeView) {
 				this.$refs.activity.$refs.treeView.redraw();
+			}
+		},
+		copyMission( mission ) {
+			this.copiedMission = mission;
+			this.copiedMission.locales = {};
+
+			let missionLocales;
+			for (const locale of this.localesList){
+				if (this.cache.story.dependencies.locales[locale]) {
+					missionLocales = this.cache.story.dependencies.locales[locale].assets.mission;
+					if (missionLocales[this.copiedMission.id]) {
+						this.copiedMission.locales[locale] = missionLocales[this.copiedMission.id];
+					}
+				}
 			}
 		}
 	}

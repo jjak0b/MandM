@@ -33,7 +33,8 @@ export const component = {
 		names: Array,
 		selectedmission: Object,
 		missions: Array,
-		savestory: Boolean
+		savestory: Boolean,
+		copiedMission: Object
 	},
 	components: {
 		'mission-editor-widget': missionEditorComponent
@@ -221,6 +222,9 @@ export const component = {
 		},
 		selectMission( index ) {
 			this.$emit('select-mission', index);
+		},
+		copyMission( mission ) {
+			this.$emit('copy-mission', mission);
 		}
 	},
 }

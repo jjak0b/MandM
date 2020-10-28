@@ -66,6 +66,8 @@ export const template =
 									v-on:inc-id="$emit('inc-id')"
 									v-on:select-mission="selectMission"
 									v-on:save-story="onUpdate"
+									v-on:copy-mission="copyMission"
+									v-bind:copied-mission="copiedMission"
 								></mission-editor-widget>
 							</b-col>
 						</b-form-row>

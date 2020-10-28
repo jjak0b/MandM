@@ -6,7 +6,7 @@ export class I18nUtils {
 	}
 
 	static getUniqueID() {
-		return Date.now();
+		return Date.now().toString();
 	}
 
 	static buildObjectFromLabel( localeLabel, value ){

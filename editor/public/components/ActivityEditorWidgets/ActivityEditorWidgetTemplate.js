@@ -17,17 +17,13 @@ export const template =
 		ref="addMenu"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
-		v-bind:nextId="nextId"
-		v-on:addActivity="onAdd">
-	</add-menu-widget>
+		v-on:addActivity="onAdd"
+	></add-menu-widget>
 	<edit-menu-widget v-if="isEditFormVisible"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
-		v-bind:nextId="nextId"
-		v-bind:nextAssetId="nextAssetId"
 		v-bind:locales-list="localesList"
 		v-on:editActivity="onEdit"
-		v-on:inc-asset-id="$emit('inc-asset-id')">	
-	</edit-menu-widget>
+	></edit-menu-widget>
 </div>
 `;

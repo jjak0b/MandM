@@ -39,7 +39,6 @@ export const component = {
 		activity: ActivityNode,
 		scene: Scene,
 		locale: String,
-		nextAssetId: Number,
 		localesList: Array
 	},
 	components : {
@@ -182,7 +181,6 @@ export const component = {
 			}
 		},
 		onAddGridRows( event ){
-			this.$emit('inc-asset-id');
 			// we perform manual submit so check form validity first
 			let valid = $( event.target).closest( "form" )[0].checkValidity();
 			if( !valid ) return;
@@ -191,7 +189,6 @@ export const component = {
 			this.$refs.grid.AddRow( formData.get( "position" ) == "after" );
 		},
 		onAddGridColumn( event ) {
-			this.$emit('inc-asset-id');
 			// we perform manual submit so check form validity first
 			let valid = $( event.target).closest( "form" )[0].checkValidity();
 			if( !valid ) return;

@@ -10,7 +10,6 @@ export const template =
 		v-bind:target="target"
 		v-bind:coords="[rowIndex, index]"
 		v-bind:showCSSGrid="showCSSGrid"
-		v-bind:nextAssetId="nextAssetId"
 		v-bind:locales-list="localesList"
 		v-on:setCursor="$emit('setCursor', $event)"
 	></column>

@@ -11,8 +11,6 @@ export const component = {
 	props: {
 		locale: String,
 		currentNode: Object,
-		nextId: Number,
-		nextAssetId: Number,
 		localesList: Array
 	},
 	components: {

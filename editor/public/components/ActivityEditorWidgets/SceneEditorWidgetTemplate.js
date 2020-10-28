@@ -32,7 +32,6 @@ export const template =
 				v-bind:props="currentCellCache.component.props"
 				v-bind:component="currentCellCache.component"
 				v-model="currentCellCache.component.value"
-				v-bind:nextAssetId="nextAssetId"
 				v-bind:locale="locale"
 				v-bind:locales-list="localesList"
 				v-on:addElement="onAddElement"
@@ -240,7 +239,6 @@ export const template =
 		v-bind:maxRows="maxRows"
 		v-bind:maxColumns="maxColumns"
 		v-bind:showCSSGrid="showCSSGrid"
-		v-bind:nextAssetId="nextAssetId"
 		v-bind:locales-list="localesList"
 		v-model="cursor"
 	></grid-widget>

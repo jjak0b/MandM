@@ -7,7 +7,6 @@ export const component = {
 	props: {
 		props: Object,
 		locale: String,
-		nextAssetId: Number,
 		localesList: Array
 	},
 	components: {
@@ -16,7 +15,6 @@ export const component = {
 	},
 	data() {
 		return {
-			assetId: this.nextAssetId,
 			localeLabel: "assets.textinput.placeholder." + this.assetId
 		}
 	},

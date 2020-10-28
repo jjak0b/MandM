@@ -27,7 +27,6 @@ export const template =
 								v-bind="props"
 								v-bind:locale="locale"
 								v-bind:localesList="localesList"
-								v-bind:assetId="assetId"
 							></user-widget-checkbox>
 						</b-form-group>
 					</b-col>

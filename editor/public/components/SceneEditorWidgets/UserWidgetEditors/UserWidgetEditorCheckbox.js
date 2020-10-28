@@ -10,7 +10,6 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
-		nextAssetId: Number
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,

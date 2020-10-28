@@ -29,7 +29,6 @@ export const component = {
 			}
 		},
 		component: Object,
-		assetId : Number,
 		locale : String
 	},
 	data() {

@@ -15,7 +15,6 @@ export const component = {
 		maxRows: Number,
 		maxColumns: Number,
 		showCSSGrid: Boolean,
-		nextAssetId: Number,
 		localesList: Array
 	},
 	data(){

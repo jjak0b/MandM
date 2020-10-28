@@ -7,7 +7,6 @@ export const component = {
 	props: {
 		props: Object,
 		locale: String,
-		nextAssetId: Number,
 		localesList: Array
 	},
 	components: {

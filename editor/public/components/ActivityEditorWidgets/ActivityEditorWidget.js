@@ -15,8 +15,6 @@ import NodeParser from "../../js/NodeParser.js";
 export const component = {
 	template: template,
 	props: {
-		nextAssetId: Number,
-		nextId: Number,
 		locale: String,
 		mission : Object,
 		localesList: Array
@@ -113,7 +111,6 @@ export const component = {
 
 			this.$nextTick(() => {
 				this.$refs.addMenu.$bvModal.hide('addMenu');
-				this.$emit("inc-id");
 			});
 			this.save(this.mission);
 		},

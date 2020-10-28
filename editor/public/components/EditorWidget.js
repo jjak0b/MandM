@@ -45,11 +45,8 @@ const component = {
 					description: "",
 					age: "",
 					gamemode: "",
-					missionNextId: 0,
-					activityNextId: 0,
 					missions: [],
 					activities: [],
-					assetNextId: 0
 				},
 				mission: null,
 				activity: null
@@ -139,9 +136,6 @@ const component = {
 		},
 		selectMission( index ) {
 			this.cache.mission = this.cache.story.missions[index];
-		},
-		onMissionInc() {
-			this.cache.story.missionNextId++;
 		},
 		redrawTree() {
 			if(this.$refs.activity.$refs.treeView) {

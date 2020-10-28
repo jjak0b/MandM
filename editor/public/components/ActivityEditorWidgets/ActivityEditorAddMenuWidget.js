@@ -5,8 +5,7 @@ export const component = {
 	template: template,
 	props: {
 		locale: String,
-		currentNode: Object,
-		nextId: Number
+		currentNode: Object
 	},
 	data() {
 		return {

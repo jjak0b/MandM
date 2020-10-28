@@ -150,7 +150,6 @@
 					v-on:add-local-story="addToLocalStories"
 					v-on:delete-local-story="deleteFromLocalStories"
 					v-on:change-story="changeSelectedStory"
-					v-on:inc-id="onMissionInc"
 					v-on:select-mission="selectMission"
 					v-bind:savestory="saveStory"
 					v-on:saved="saveStory = false"
@@ -170,10 +169,6 @@
 					v-bind:mission="cache.mission"
 					v-bind:locale="locale"
 					v-bind:locales-list="localesList"
-					v-bind:next-id="cache.story.activityNextId"
-					v-on:inc-id="++cache.story.activityNextId"
-					v-bind:next-asset-id="cache.story.assetNextId"
-					v-on:inc-asset-id="++cache.story.assetNextId"
 					v-on:save-story="saveStory = true"
 					v-model="cache.activity"
 				></activity-editor-widget>

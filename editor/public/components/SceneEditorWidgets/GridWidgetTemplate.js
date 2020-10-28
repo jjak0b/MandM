@@ -13,7 +13,6 @@ export const template =
 		v-bind:rowIndex="index"
 		v-bind:showCSSGrid="showCSSGrid"
 		v-on:setCursor="onSetCursor"
-		v-bind:nextAssetId="nextAssetId"
 		v-bind:locales-list="localesList"
 	></row>
 </div>

@@ -12,7 +12,6 @@ import Mission from "../js/Mission.js";
 export const component = {
 	template: template,
 	props: {
-		nextId: Number,
 		value: Object, // mission cache
 		missions: Array,
 		locale: String,
@@ -72,9 +71,7 @@ export const component = {
 			}
 		},
 		onAdd() {
-			this.$emit( "inc-id" );
-
-			let newMission = {};
+			this.newMission = {};
 			let id = I18nUtils.getUniqueID();
 
 			let prefix = `assets.mission.${ id }`;

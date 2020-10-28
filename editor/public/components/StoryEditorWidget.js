@@ -15,11 +15,8 @@ function getNewStory() {
 		description: "",
 		age: "",
 		gamemode: "",
-		missionNextId: 0,
-		activityNextId: 0,
 		missions: [],
-		activities: [],
-		assetNextId: 0
+		activities: []
 	}
 }
 

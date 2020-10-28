@@ -9,7 +9,7 @@ export const template =
 		<i18n-input-widget
 			v-bind:tag="'input'"
 			v-bind:label="$t( 'MissionEditorWidget.label-mission-title' )"
-			v-bind:id="'mission-editor-mission-title-' + nextId"
+			id="mission-editor-mission-title"
 			name="missionTitle"
 			type="text"
 			required="required"
@@ -19,7 +19,7 @@ export const template =
 		<i18n-input-widget
 			v-bind:tag="'textarea'"
 			v-bind:label="$t( 'MissionEditorWidget.label-mission-description' )"
-			v-bind:id="'mission-editor-mission-description-' + nextId"
+			id="mission-editor-mission-description"
 			name="missionDescription"
 			rows="4"
 			v-bind:locale="locale"

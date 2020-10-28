@@ -1,9 +1,10 @@
 import {i18n} from "../components/Translations.js";
 import { I18nString } from "/shared/js/I18nUtils.js";
 import NodeUtils from "./NodeUtils.js";
+import Disposable from "./Disposable.js";
 
 /* jsTree Node Object structure */
-export default class JSTreeNode {
+export default class JSTreeNode extends Disposable{
 
 	static DEFAULT = {
 		id: "-1"
@@ -17,12 +18,23 @@ export default class JSTreeNode {
 	 * @param children array of children nodes (will be parsed to be a JSTreeNode's Object )
 	 */
 	constructor(
-		/*Number|String*/		id = JSTreeNode.DEFAULT.id,
+		/*Number|String*/		unparsedNodeORid = JSTreeNode.DEFAULT.id,
 		/*String|I18nString*/ 	tagName,
 		/*NodeUtils.Types*/ 	type,
 		/*Object*/ 				data,
 		/*Array*/				children,
 	) {
+		super( unparsedNodeORid );
+		let id = unparsedNodeORid;
+		let unparsed = unparsedNodeORid;
+		if( "object" === typeof unparsedNodeORid ) {
+			id = "" + unparsed.id;
+			tagName = unparsed.text;
+			type = unparsed.type;
+			data = unparsed.data;
+			children = unparsed.children;
+		}
+
 		this.id = "" + id;
 		this.text = tagName;
 		this.type = type;
@@ -59,4 +71,11 @@ export default class JSTreeNode {
 		return new JSTreeNode( jsonNode.id, jsonNode.text, jsonNode.type, jsonNode.data, jsonNode.children );
 	}
 
+	dispose( params ) {
+		for (let i = 0; i < this.children.length; i++) {
+			if( this.children[ i ].dispose )
+				this.children[ i ].dispose( params );
+		}
+		super.dispose( params );
+	}
 }

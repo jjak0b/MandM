@@ -7,7 +7,8 @@ export const component = {
 		locale: String,
 		localesList: Array,
 		items: Array,
-		selected: Number
+		selected: Number,
+		title: String
 	},
 	components: {
 		'borderless-input': borderlessInput

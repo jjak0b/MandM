@@ -31,6 +31,7 @@ export const template =
 			</b-col>
 			<b-col>	
 				<list-widget
+					title="shared.label-elements-list"
 					v-bind:locale="locale"
 					v-bind:localesList="localesList"
 					v-bind:items="props.options"

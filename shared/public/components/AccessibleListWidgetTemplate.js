@@ -1,7 +1,10 @@
 export const template =
 		`
 <div>
-<b-list-group>
+<b-list-group class="border border-info rounded">
+	<b-list-group-item variant="info" class="font-weight-bold text-info">
+		{{ $t(title) }}
+	</b-list-group-item>
 	<b-list-group-item
 		v-for="(item, index) in items"
 		v-on:click="$emit('select', index)" 
@@ -35,10 +38,16 @@ export const template =
 			</b-row>
 		</b-container>
 	</b-list-group-item>
-	<b-list-group-item><b-link
-	class="float-right font-weight-bold mr-3 text-decoration-none"
-	v-on:click="$emit('add')">
-	{{$t('shared.label-add')}}</b-link></b-list-group-item>
+		<b-list-group-item variant="info">
+		<div class="float-right">
+			<b-link v-b-tooltip.hover v-bind:title="$t('shared.label-paste')" v-on:click.stop="$emit('paste', items.length-1)">
+				<b-icon-clipboard-check></b-icon-clipboard-check>
+			</b-link>
+			<b-link v-b-tooltip.hover v-bind:title="$t('shared.label-add')" v-on:click.stop="$emit('add')">
+				<b-icon-plus></b-icon-plus>
+			</b-link>
+		</div>
+		</b-list-group-item>
 </b-list-group>
 </div>
 `

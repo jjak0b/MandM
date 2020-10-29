@@ -28,8 +28,8 @@ export const template =
 	</b-modal>
 	
 	<div>
-		<h3 v-t="'MissionEditorWidget.label-mission-list'" ></h3>
 		<list-widget
+			title="MissionEditorWidget.label-mission-list"
 			v-bind:locale="locale"
 			v-bind:localesList="localesList"
 			v-bind:items="missionNames"

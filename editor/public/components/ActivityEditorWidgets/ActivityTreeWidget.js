@@ -1,7 +1,7 @@
 import {template} from "./ActivityTreeWidgetTemplate.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
-import JSTreeNode from "../js/JSTreeNode.js";
-import NodeUtils from "../js/NodeUtils.js";
+import JSTreeNode from "../../js/JSTreeNode.js";
+import NodeUtils from "../../js/NodeUtils.js";
 
 export const component = {
 	template: template,

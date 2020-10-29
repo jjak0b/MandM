@@ -5,8 +5,7 @@ export const component = {
 	props: {
 		options: Array,
 		locale: String,
-		localesList: Array,
-		assetId: Number
+		localesList: Array
 	},
 	methods: {
 		getContent( localeLabel ){

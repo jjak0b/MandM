@@ -15,7 +15,8 @@ export const component = {
 		maxRows: Number,
 		maxColumns: Number,
 		showCSSGrid: Boolean,
-		localesList: Array
+		localesList: Array,
+		i18nCategory: String
 	},
 	data(){
 		return {

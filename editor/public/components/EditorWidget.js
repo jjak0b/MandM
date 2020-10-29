@@ -137,9 +137,12 @@ const component = {
 		selectMission( index ) {
 			this.cache.mission = this.cache.story.missions[index];
 		},
-		redrawTree() {
-			if(this.$refs.activity.$refs.treeView) {
-				this.$refs.activity.$refs.treeView.redraw();
+		onActivitesTab() {
+			if(this.$refs.activity) {
+				this.$refs.activity.isEditFormVisible = false;
+				if(this.$refs.treeView) {
+					this.$refs.activity.$refs.treeView.redraw();
+				}
 			}
 		},
 		copyMission( mission ) {

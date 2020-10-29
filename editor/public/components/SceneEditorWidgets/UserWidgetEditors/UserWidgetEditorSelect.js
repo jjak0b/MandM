@@ -1,37 +1,61 @@
 import {template} from "./UserWidgetEditorSelectTemplate.js";
 import {component as selectComponent} from "/shared/components/UserWidgetSelect.js";
 import {component as inputVal} from "../../InputValueWidget.js";
+import {component as asyncLoadComponentI18nInputWidget} from "../../i18nWidgets/I18nInputWidget.js";
+import {component as listWidget} from "/shared/components/AccessibleListWidget.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
 	props: {
 		props: Object,
-		locale: String
+		locale: String,
+		localesList: Array,
+		i18nCategory: String
 	},
 	components: {
+		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"user-widget-select": selectComponent,
-		'input-val':inputVal
+		'input-val':inputVal,
+		'list-widget': listWidget
+	},
+	computed: {
+		localeLabel: function () { return this.i18nCategory + '.select.' + this.id + '.element.' + this.elementId }
 	},
 	data() {
 		return {
-			newElement: "",
-			nextValue: 0
+			id: I18nUtils.getUniqueID(),
+			elementId: I18nUtils.getUniqueID()
 		}
 	},
 	methods: {
+		onAdd() {
+			this.elementId = I18nUtils.getUniqueID();
+			this.$bvModal.show('addSelectModal');
+		},
 		addElement() {
-			this.newElement.value = this.newElement.value;
-			if (this.newElement.type === 'Array') {
-				this.newElement.value = this.newElement.value.join(", ");
-			}
-			this.$emit('addElement', { value: this.nextValue++, text: this.newElement.value });
-			this.newElement = "";
+			this.$emit('addElement', this.localeLabel, this.assetId);
 		},
 		removeElement(index) {
 			this.$emit('removeElement', index);
 		},
-		onInput( event ) {
-			this.newElement = event;
+		getContent(localeLabel) {
+			if (this.locale) {
+				if (!this.$i18n.te(localeLabel, this.locale)) {
+					if (this.$i18n.te(localeLabel, 'en-US')) {
+						return this.$i18n.t(localeLabel, 'en-US');
+					} else {
+						for (const locale of this.localesList) {
+							if (this.$i18n.te(localeLabel, locale)) {
+								return this.$i18n.t(localeLabel, locale);
+							}
+						}
+					}
+				}
+				if (this.$i18n.te(localeLabel, this.locale))
+					return this.$i18n.t(localeLabel, this.locale);
+			}
+			return ""
 		}
 	}
 }

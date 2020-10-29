@@ -2,57 +2,47 @@ export const template =
 		`
 <div>
 <section>
-	<b-form>
-		<b-form-group>
-			<template v-slot:label
-			>{{ $t('UserWidgets.label-radio-settings') }}</template>
-			<b-form-row>
+	<h4>{{ $t('UserWidgets.label-radio-settings') }}</h4>			
+	<b-modal
+		id="addRadioModal"
+		v-bind:title="$t('shared.label-add-new-element')"
+		v-bind:ok-title="$t('shared.label-save')"
+		centered
+		v-on:ok="addElement()">
+		<i18n-input-widget
+			tag="input"
+			v-bind:label="$t('shared.label-add-element')"
+			v-bind:locale="locale"
+			v-bind:locale-label="localeLabel">
+		</i18n-input-widget>
+	</b-modal>				
+		<b-row>
+			<b-col>
 				<b-form-group
-					label-for="user-widget-radio-editor-add-element"
-					v-bind:label="$t('shared.label-add-element')"
+					label-for="user-widget-radio-editor-preview"
+					v-bind:label="$t('shared.label-preview')"
 				>
-				<input-val
-					v-on:inputValueSubmit="addElement"
-					v-on:input="onInput">
-				</input-val>
-				<b-button 
-				class="m-3 float-right"
-				v-on:click="addElement()">
-				{{ $t('shared.label-add') }}</b-button>
+					<user-widget-radio
+						v-bind="props"
+						v-bind:locale="locale"
+						v-bind:localesList="localesList"
+					></user-widget-radio>
 				</b-form-group>
-			</b-form-row>
-			<b-form-row>
-					<b-col>
-						<b-form-group
-							label-for="user-widget-radio-editor-preview"
-							v-bind:label="$t('shared.label-preview')"
-						>
-							<user-widget-radio
-								id="user-widget-radio-editor-preview"
-								v-bind="props"
-							></user-widget-radio>
-						</b-form-group>
-					</b-col>
-					<b-col>
-						<b-form-group
-							label-for="user-widget-radio-editor-remove-element"
-							v-bind:label="$t('shared.label-remove-element')"
-						>
-							<b-list-group id="user-widget-radio-editor-remove-element"> 
-								<b-list-group-item 
-									v-for="(option, index) in props.options" v-bind:key="option.value"
-								>
-									{{ option.text }}
-									<b-button class="float-right" v-on:click="removeElement(index)">
-										{{ $t('shared.label-remove') }}
-									</b-button>
-								</b-list-group-item>
-							</b-list-group>
-						</b-form-group>
-					</b-col>
-			</b-form-row>
-		</b-form-group>
-	</b-form>
+			</b-col>
+			<b-col>	
+				<list-widget
+					v-bind:locale="locale"
+					v-bind:localesList="localesList"
+					v-bind:items="props.options"
+					v-on:move-up="$emit('move-up', $event)"
+					v-on:move-down="$emit('move-down', $event)"
+					v-on:copy="$emit('copy', $event)"
+					v-on:paste="$emit('paste', $event)"
+					v-on:delete="$emit('delete', $event)"
+					v-on:add="onAdd"
+				></list-widget>
+			</b-col>
+		</b-row>
 </section>
 </div>
 `

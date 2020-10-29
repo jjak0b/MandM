@@ -301,17 +301,36 @@ export const component = {
 		},
 		onMoveUp( index ) {
 			this.currentCellCache.component.props.options.splice(
-					index-1, 0, this.currentCellCache.component.props.options.splice(index, 1)[0])
+					index-1,
+					0,
+					this.currentCellCache.component.props.options.splice(index, 1)[0]
+			)
 		}
 		,
 		onMoveDown( index ) {
-			this.currentCellCache.component.props.options.splice(index+1, 0, this.currentCellCache.component.props.options.splice(index, 1)[0])
+			this.currentCellCache.component.props.options.splice(
+					index+1,
+					0,
+					this.currentCellCache.component.props.options.splice(index, 1)[0]
+			)
 		},
 		onCopy( index ) {
-
+			this.copiedItem = JSON.parse(JSON.stringify(this.currentCellCache.component.props.options[index]))
 		},
 		onPaste( index ) {
-
+			if ( this.copiedItem ) {
+				let obj;
+				let value;
+				let labelArray = this.copiedItem.split('.');
+				labelArray[labelArray.length - 1] = I18nUtils.getUniqueID();
+				let label = labelArray.join('.');
+				for (const locale of this.localesList) {
+					value = this.$t(this.copiedItem, locale);
+					obj = I18nUtils.buildObjectFromLabel(label, value);
+					this.$i18n.mergeLocaleMessage(locale, obj);
+				}
+				this.currentCellCache.component.props.options.splice(index, 0, label)
+			}
 		},
 		onDelete( index ) {
 			this.currentCellCache.component.props.options.splice( index, 1);

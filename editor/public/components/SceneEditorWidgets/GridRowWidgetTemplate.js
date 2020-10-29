@@ -12,6 +12,7 @@ export const template =
 		v-bind:showCSSGrid="showCSSGrid"
 		v-bind:locales-list="localesList"
 		v-on:setCursor="$emit('setCursor', $event)"
+		v-bind:i18nCategory="i18nCategory"
 	></column>
 </div>
 `;

@@ -8,7 +8,8 @@ export const component = {
 		target: Array,
 		coords: Array,
 		showCSSGrid: Boolean,
-		localesList: Array
+		localesList: Array,
+		i18nCategory: String
 	},
 	data() {
 		return {

@@ -1,5 +1,6 @@
 {
   "shared": {
+	"label-add-new-element": "Add new element",
 	"label-empty-list": "The list is empty",
 	"label-copy": "Copy",
 	"label-paste": "Paste",

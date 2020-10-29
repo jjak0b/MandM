@@ -1,13 +1,15 @@
 import {template} from "./UserWidgetEditorTextContentTemplate.js";
 import {component as textContentEditor} from "../../i18nWidgets/I18nEditorWidget.js";
 import {component as textContentComponent} from "/shared/components/UserWidgetTextContent.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
 	props: {
 		props: Object,
 		locale: String,
-		localesList: Array
+		localesList: Array,
+		i18nCategory: String
 	},
 	components: {
 		"text-editor": textContentEditor,
@@ -15,8 +17,7 @@ export const component = {
 	},
 	data() {
 		return {
-			assetId: this.nextAssetId,
-			localeLabel: "assets.textcontent." + this.assetId
+			localeLabel: this.i18nCategory + '.text-content.' + I18nUtils.getUniqueID()
 		}
 	},
 	mounted() {

@@ -110,6 +110,7 @@ export const component = {
 			if (!this.copiedMission) {
 				return
 			}
+			this.selectedIndex = null;
 			let self = this;
 			let i18nConfig = {
 				method: "t",

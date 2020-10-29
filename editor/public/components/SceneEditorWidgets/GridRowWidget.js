@@ -12,7 +12,8 @@ export const component = {
 		target: Array,
 		rowIndex: Number,
 		showCSSGrid: Boolean,
-		localesList: Array
+		localesList: Array,
+		i18nCategory: String
 	},
 	data() {
 		return {

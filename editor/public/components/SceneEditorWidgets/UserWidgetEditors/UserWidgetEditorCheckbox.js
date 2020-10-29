@@ -3,6 +3,7 @@ import {component as checkboxComponent} from "/shared/components/UserWidgetCheck
 import {component as inputVal} from "../../InputValueWidget.js";
 import {component as asyncLoadComponentI18nInputWidget} from "../../i18nWidgets/I18nInputWidget.js";
 import {component as listWidget} from "/shared/components/AccessibleListWidget.js";
+import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 export const component = {
 	template: template,
@@ -10,6 +11,7 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
+		i18nCategory: String
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
@@ -18,19 +20,21 @@ export const component = {
 		'list-widget': listWidget
 	},
 	computed: {
-		localeLabel: function () { return 'assets.checkbox.' + this.assetId + '.' + this.nextValue }
+		localeLabel: function () { return this.i18nCategory + '.checkbox.' + this.id + '.element.' + this.elementId }
 	},
 	data() {
 		return {
-			assetId: this.nextAssetId,
-			newElement: "",
-			nextValue: 0
+			id: I18nUtils.getUniqueID(),
+			elementId: I18nUtils.getUniqueID()
 		}
 	},
 	methods: {
+		onAdd() {
+			this.elementId = I18nUtils.getUniqueID();
+			this.$bvModal.show('addCheckboxModal');
+		},
 		addElement() {
 			this.$emit('addElement', this.localeLabel, this.assetId);
-			this.nextValue++;
 		},
 		removeElement(index) {
 			this.$emit('removeElement', index);

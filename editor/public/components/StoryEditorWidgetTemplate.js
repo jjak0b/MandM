@@ -58,7 +58,7 @@ export const template =
 							<b-col offset="1" cols="5">
 								<mission-editor-widget
 									id="mission-editor-widget"
-									v-model="selectedmission"
+									v-model="mission"
 									v-bind:missions="value.missions"
 									v-bind:locale="locale"
 									v-bind:localesList="localesList"

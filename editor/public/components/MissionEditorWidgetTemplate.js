@@ -28,20 +28,39 @@ export const template =
 	</b-modal>
 	
 	<div>
-		<list-widget
-			v-bind:title="$t('MissionEditorWidget.label-mission-list')"
-			v-bind:locale="locale"
-			v-bind:localesList="localesList"
-			v-bind:items="missionNames"
-			v-bind:selected="selectedIndex"
-			v-on:move-up="onMoveUp"
-			v-on:move-down="onMoveDown"
-			v-on:copy="onCopy"
-			v-on:paste="onPaste"	
-			v-on:delete="onDelete"
-			v-on:select="onSelect"
-			v-on:add="onAdd"
-		></list-widget>
+		<b-row v-if="value" class="mb-3">
+			<b-col>
+				<b-row>
+					<b-col>
+						<i18n-input-widget
+							v-bind:label="$t('MissionEditorWidget.label-mission-description')"
+							id="selected-mission-description"
+							tag="textarea"
+							v-bind:locale="locale"
+							v-bind:locale-label="value.description">
+						></i18n-input-widget>
+					</b-col>
+				</b-row>
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col>
+				<list-widget
+					v-bind:title="$t('MissionEditorWidget.label-mission-list')"
+					v-bind:locale="locale"
+					v-bind:localesList="localesList"
+					v-bind:items="missionNames"
+					v-bind:selected="selectedIndex"
+					v-on:move-up="onMoveUp"
+					v-on:move-down="onMoveDown"
+					v-on:copy="onCopy"
+					v-on:paste="onPaste"	
+					v-on:delete="onDelete"
+					v-on:select="onSelect"
+					v-on:add="onAdd"
+				></list-widget>
+			</b-col>
+		</b-row>
 	</div>
 </div>`
 ;

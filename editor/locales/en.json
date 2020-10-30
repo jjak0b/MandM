@@ -135,7 +135,8 @@
   "MissionEditorWidget": {
 	"label-mission-no-title": "Untitled mission",
 	"label-mission-title": "Mission title",
-	"label-mission-description": "Mission description",
+	"label-add-mission-description": "Add mission description",
+	"label-mission-description": "Selected mission description",
 	"label-mission-list": "Mission list",
 	"label-add-new-mission": "Add new mission",
 	"label-selected-mission": "Edit selected mission"

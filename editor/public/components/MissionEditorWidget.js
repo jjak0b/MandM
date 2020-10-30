@@ -2,7 +2,6 @@ import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
 import { component as listComponent } from "/shared/components/AccessibleListWidget.js";
-import { component as borderlessInput } from "./i18nWidgets/I18nBorderlessInputWidget.js";
 import JSTreeNode from "../js/JSTreeNode.js";
 import NodeUtils from "../js/NodeUtils.js";
 import { I18nString } from "/shared/js/I18nUtils.js";
@@ -20,8 +19,7 @@ export const component = {
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
-		'list-widget': listComponent,
-		'borderless-input': borderlessInput
+		'list-widget': listComponent
 	},
 	watch: {
 		selectedIndex: function (index) {

@@ -30,7 +30,7 @@ export const component = {
 		value: Object, // story Cache
 		stories: Array,
 		names: Array,
-		selectedmission: Object,
+		mission: Object,
 		savestory: Boolean,
 		copiedMission: Object
 	},

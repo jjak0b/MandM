@@ -140,6 +140,7 @@
 				<story-editor-widget
 					id="story-editor-widget"
 					v-model="cache.story"
+					v-bind:mission="cache.mission"
 					v-bind:names="remoteStories"
 					v-bind:stories="localStories"
 					v-bind:locale="locale"

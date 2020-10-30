@@ -301,17 +301,17 @@ export const component = {
 		},
 		onMoveUp( index ) {
 			this.currentCellCache.component.props.options.splice(
-					index-1,
-					0,
-					this.currentCellCache.component.props.options.splice(index, 1)[0]
+				index-1,
+				0,
+				this.currentCellCache.component.props.options.splice(index, 1)[0]
 			)
 		}
 		,
 		onMoveDown( index ) {
 			this.currentCellCache.component.props.options.splice(
-					index+1,
-					0,
-					this.currentCellCache.component.props.options.splice(index, 1)[0]
+				index+1,
+				0,
+				this.currentCellCache.component.props.options.splice(index, 1)[0]
 			)
 		},
 		onCopy( index ) {

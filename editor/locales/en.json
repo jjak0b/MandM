@@ -77,6 +77,10 @@
 	"label-locale-select": "Select current internationalization to edit"
   },
   "StoryEditorWidget": {
+	"label-remove-group": "Remove group",
+	"label-add-new-group": "Add new group",
+	"label-group": "Group",
+	"label-groups": "Groups",
 	"label-edit-story": "Edit story",
 	"label-local-story": "Local",
 	"label-select-internationalization": "Please select an internationalization",

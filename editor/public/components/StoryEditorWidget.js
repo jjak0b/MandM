@@ -1,6 +1,7 @@
 import {template} from "./StoryEditorWidgetTemplate.js";
 import { I18nUtils } from "/shared/js/I18nUtils.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
+import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
 
 function getNewStory() {
 	return {
@@ -15,6 +16,7 @@ function getNewStory() {
 		description: "",
 		age: "",
 		gamemode: "",
+		groups: [],
 		missions: [],
 		activities: []
 	}
@@ -29,16 +31,18 @@ export const component = {
 		stories: Array,
 		names: Array,
 		selectedmission: Object,
-		missions: Array,
 		savestory: Boolean,
 		copiedMission: Object
 	},
 	components: {
-		'mission-editor-widget': missionEditorComponent
+		"assets-manager": assetsManager,
+		'mission-editor-widget': missionEditorComponent,
+		'story-groups-widget': storyGroupsComponent
 	},
 	watch: {
 		tabValue: function(newVal) {
 		},
+		/* BUTTONS
 		value: {
 			deep: true,
 			handler( newStoryValue ) {
@@ -56,9 +60,10 @@ export const component = {
 				}
 			}
 		},
+		*/
 		selectedName: function ( newVal ) {
 			if (this.selectedName) {
-				this.canUpdate = false;
+				//this.canUpdate = false;
 				this.selectMission(null);
 
 				if ( this.stories.some( story => story.name === this.selectedName ) ) {
@@ -85,9 +90,9 @@ export const component = {
 	data() {
 		return {
 			hasReloaded: false,
-			canReload: false,
-			canUpdate: false,
-			oldName: "",
+			canReload: true,
+			canUpdate: true,
+			//oldName: "",
 			loading: false,
 			tabValue: -1,
 			newStory: getNewStory(),
@@ -108,8 +113,8 @@ export const component = {
 			this.$bvModal.show('addModal');
 		},
 		onUpdate() {
-			this.canUpdate = false;
-			this.canReload = false;
+			//this.canUpdate = false;
+			//this.canReload = false;
 			let dataExport = this.value;
 			dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 			$.ajax( `/stories/${dataExport.name}`, {

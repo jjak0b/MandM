@@ -45,6 +45,7 @@ const component = {
 					description: "",
 					age: "",
 					gamemode: "",
+					groups: [],
 					missions: [],
 					activities: [],
 				},

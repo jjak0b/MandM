@@ -58,15 +58,26 @@ export const template =
 							<b-col offset="1" cols="5">
 								<mission-editor-widget
 									id="mission-editor-widget"
-									v-bind:missions="missions"
+									v-model="selectedmission"
+									v-bind:missions="value.missions"
 									v-bind:locale="locale"
 									v-bind:localesList="localesList"
-									v-model="selectedmission"
+									v-bind:copied-mission="copiedMission"
 									v-on:select-mission="selectMission"
 									v-on:save-story="onUpdate"
 									v-on:copy-mission="copyMission"
-									v-bind:copied-mission="copiedMission"
 								></mission-editor-widget>
+							</b-col>
+						</b-form-row>
+						<b-form-row v-if="value.gamemode === '2'">
+							<b-col>
+							<story-groups-widget
+								class="mt-3"
+								v-bind:locale="locale"
+								v-bind:localesList="localesList"
+								v-bind:missions="value.missions"
+								v-bind:groups="value.groups"
+							></story-groups-widget>
 							</b-col>
 						</b-form-row>
 						<b-form-row class="mr-5 mb-3 float-right">
@@ -97,6 +108,7 @@ export const template =
 		</b-tabs>
 	</b-form>
 </b-card>
+
 <b-modal 
 	id="addModal"
 	v-bind:title="$t('StoryEditorWidget.label-add-new-story')"

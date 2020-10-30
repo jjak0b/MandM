@@ -139,12 +139,11 @@
 			>
 				<story-editor-widget
 					id="story-editor-widget"
+					v-model="cache.story"
 					v-bind:names="remoteStories"
 					v-bind:stories="localStories"
-					v-bind:missions="cache.story.missions"
 					v-bind:locale="locale"
 					v-bind:locales-list="localesList"
-					v-model="cache.story"
 					v-on:update-names="getRemoteStoryNames()"
 					v-on:import="load"
 					v-on:add-local-story="addToLocalStories"

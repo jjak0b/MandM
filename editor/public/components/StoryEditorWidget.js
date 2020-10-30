@@ -35,7 +35,6 @@ export const component = {
 		copiedMission: Object
 	},
 	components: {
-		"assets-manager": assetsManager,
 		'mission-editor-widget': missionEditorComponent,
 		'story-groups-widget': storyGroupsComponent
 	},

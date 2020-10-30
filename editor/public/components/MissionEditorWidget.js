@@ -69,7 +69,7 @@ export const component = {
 			}
 		},
 		onAdd() {
-			this.newMission = {};
+			let newMission = {};
 			let id = I18nUtils.getUniqueID();
 
 			let prefix = `assets.mission.${ id }`;

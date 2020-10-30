@@ -65,9 +65,6 @@ export const component = {
 			}
 		}
 	},
-	created() {
-		this.init( this.component );
-	},
 	watch: {
 		"form.asset" : function (asset, prevAsset ) {
 
@@ -129,11 +126,6 @@ export const component = {
 
 	},
 	methods: {
-		init( component ) {
-			if( component ) {
-				component.onDispose = (componentData) => this.resetValue( componentData.value );
-			}
-		},
 		shouldPreview() {
 			return this.value && this.value.asset;
 		},

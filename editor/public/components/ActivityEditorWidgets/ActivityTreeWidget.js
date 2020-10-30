@@ -1,7 +1,7 @@
 import {template} from "./ActivityTreeWidgetTemplate.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
-import JSTreeNode from "../../js/JSTreeNode.js";
 import NodeUtils from "../../js/NodeUtils.js";
+import NodeParser from "../../js/NodeParser.js";
 
 export const component = {
 	template: template,
@@ -36,18 +36,15 @@ export const component = {
 	},
 	methods: {
 		notifyValue( node ){
-			console.info( "[ActivityTree]", "updating current node", node );
-			this.$emit( 'input', node );
+			let parsed = NodeParser.parse( node );
+			console.info( "[ActivityTree]", "updating current node", node, "aka -> parsed", parsed);
+			this.$emit( 'input', parsed );
 		},
 		get_json( id = "#") {
-			let jsonNode = this.tree.get_json( id, {
-				no_state: true,
-				no_li_attr: true,
-				no_a_attr: true,
-				flat: false
-			});
+			let jsonNode = this.tree.get_json( id );
 			jsonNode = id == "#" ? jsonNode[0] : jsonNode;
-			return jsonNode;
+
+			return NodeParser.parse( jsonNode );
 		},
 		redraw(){
 			/*
@@ -143,13 +140,11 @@ export const component = {
 			this.notifyValue( this.selectedNode );
 		},
 		// Operations
-		add( id, type, nodeName, nodeData ) {
-			if (!nodeData )
-				return null;
+		add( activityNode ) {
 			let node = null;
 			let selectedNode = this.tree.get_selected(true)[0];
 
-			id = this.createNewNode( id, type, nodeName, nodeData, selectedNode );
+			let id = this.createNewNode( activityNode, selectedNode );
 
 			if( id ) {
 				if (selectedNode)
@@ -159,35 +154,14 @@ export const component = {
 			}
 			return node;
 		},
-		edit( nodeData ) {
-			let selectedNode = this.tree.get_selected(true)[0];
-
-			selectedNode.text = nodeData.name;
-			selectedNode.data.noteInfo.name = nodeData.name;
-			selectedNode.data.noteInfo.note = nodeData.note;
-		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];
 			let nextSelectNode = this.tree.get_prev_dom( selectedNode );
-
-			this._remove( selectedNode );
 			this.tree.select_node( nextSelectNode );
+			this.tree.delete_node( selectedNode );
 		},
-		_remove( node ) {
-			if( node.children ) {
-				for (let i = 0; i < node.children; i++) {
-					let child = this.tree.get_node( node.children[i] );
-					this._remove( child );
-				}
-			}
-			this.$i18n.removeMessageAll( node.data.title );
-			this.$i18n.removeMessageAll( node.data.description );
-			this.tree.delete_node( node );
-		},
-		createNewNode( id, newType, nodeName, nodeData, selectedNode ) {
-			// this.$i18n.t( 'shared.label-new-element', { 'name': this.$i18n.tc( NodeUtils.getRoleDescriptionLabelByType( item.type ) ) } )
+		createNewNode( item, selectedNode ) {
 			let selectedtype = this.tree.get_type( selectedNode );
-			let item = null;
 			let nodeId = null;
 
 			let parentNode = null;
@@ -212,13 +186,6 @@ export const component = {
 
 					break;
 			}
-			item = new JSTreeNode(
-				id,
-				nodeName,
-				newType,
-				nodeData,
-				[]
-			);
 			console.log( "creating new Node:", "parent:", parentNode, "item:", item, "pos:", position );
 			nodeId = this.tree.create_node( parentNode, item, position );
 

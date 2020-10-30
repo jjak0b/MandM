@@ -1,5 +1,8 @@
-export class Asset {
+import Disposable from "/edit/js/Disposable.js";
+
+export class Asset extends Disposable {
 	constructor( /*Object|String*/assetObjectOrName, category, data = null ) {
+		super( null );
 		if( "string" == typeof assetObjectOrName ) {
 			this.name = assetObjectOrName;
 			this.category = category;

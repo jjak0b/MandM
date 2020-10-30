@@ -5,5 +5,10 @@ export default class ActivityData extends I18nCategorized {
 
 	constructor(unparsed) {
 		super(unparsed);
+		if( unparsed ) {
+			if( unparsed.noteInfo ) {
+				this.noteInfo = unparsed.noteInfo;
+			}
+		}
 	}
 }

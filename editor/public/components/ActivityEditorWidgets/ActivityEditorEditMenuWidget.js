@@ -73,7 +73,8 @@ export const component = {
 				name: this.nameValue,
 				note: this.noteValue
 			}
-			this.$emit('editActivity', noteInfo);
+			this.currentNode.data.noteInfo = noteInfo;
+			this.$emit('editActivity' );
 		}
 	}
 };

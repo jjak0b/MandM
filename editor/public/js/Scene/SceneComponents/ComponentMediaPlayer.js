@@ -1,9 +1,20 @@
 import SceneComponent from "../SceneComponent.js";
-import SceneComponentParser from "../SceneComponentParser.js";
+import {Asset} from "/shared/js/Asset.js";
 
 export default class ComponentMediaPlayer extends SceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
+		if(unparsed.value.asset && !(unparsed.value.asset instanceof Asset) ) {
+			unparsed.value.asset = new Asset( unparsed.value.asset );
+			switch (unparsed.value.asset.category) {
+				case "images":
+					break;
+				default:
+					Object.keys( unparsed.value.captions )
+						.forEach( (lang) => unparsed.value.captions[ lang ] = new Asset( unparsed.value.captions[ lang ] ) );
+					break;
+			}
+		}
 	}
 
 	dispose(params) {
@@ -32,5 +43,3 @@ export default class ComponentMediaPlayer extends SceneComponent {
 		}
 	}
 }
-
-SceneComponentParser.register("user-widget-media-player", ComponentMediaPlayer );

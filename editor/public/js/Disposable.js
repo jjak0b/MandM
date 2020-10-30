@@ -1,6 +1,9 @@
 export default class Disposable {
+	static disposeCallbacks = {};
+
 	constructor( unparsedObj ) {
-		this.setDisposeCallback( unparsedObj.disposeCallback );
+		if( unparsedObj )
+			this.setDisposeCallback( unparsedObj.disposeCallback );
 	}
 
 	setDisposeCallback( func ) {
@@ -11,8 +14,27 @@ export default class Disposable {
 		return this.disposeCallback;
 	}
 
+	static setDisposeCallback( classname, func ) {
+		Disposable.disposeCallbacks[ classname ] = func;
+	}
+
+	static getDisposeCallback( classname ) {
+		if( classname in Disposable.disposeCallbacks ) {
+			return Disposable.disposeCallbacks[ classname ];
+		}
+		return null;
+	}
+
+
 	dispose( params ) {
-		if( this.disposeCallback )
-			this.disposeCallback( params );
+		// first callback associated to instance
+		let callback = this.getDisposeCallback();
+		if( callback )
+			callback( this, params );
+
+		// after callback associated to class
+		callback = Disposable.getDisposeCallback( this.constructor.name );
+		if( callback )
+			callback( this, params );
 	}
 }

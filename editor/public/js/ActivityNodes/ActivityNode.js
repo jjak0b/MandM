@@ -5,9 +5,12 @@ export default class ActivityNode extends JSTreeNode{
 
 	constructor(unparsedNode) {
 		super(unparsedNode);
-		if( !(unparsedNode instanceof ActivityNode ) ){
+		if( unparsedNode && typeof unparsedNode == "object" && !(unparsedNode instanceof ActivityNode ) ){
 			for (let i = 0; i < this.children.length; i++) {
-				this.children[ i ] = NodeParser.parse( this.children[ i ] );
+				let child = this.children[i];
+				if( child && typeof child == "object" && !(child instanceof ActivityNode ) ){
+					this.children[ i ] = NodeParser.parse( child );
+				}
 			}
 		}
 	}
@@ -17,6 +20,11 @@ export default class ActivityNode extends JSTreeNode{
 			if( this.data.dispose ) {
 				this.data.dispose( params );
 			}
+		}
+		console.log( this, this.children );
+		for (let i = 0; i < this.children.length; i++) {
+			if( this.children[ i ].dispose )
+				this.children[ i ].dispose( params );
 		}
 		super.dispose( params );
 	}

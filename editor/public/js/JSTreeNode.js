@@ -1,4 +1,5 @@
 import {i18n} from "../components/Translations.js";
+// let i18n = {};
 import { I18nString } from "/shared/js/I18nUtils.js";
 import NodeUtils from "./NodeUtils.js";
 import Disposable from "./Disposable.js";
@@ -32,7 +33,7 @@ export default class JSTreeNode extends Disposable{
 			tagName = unparsed.text;
 			type = unparsed.type;
 			data = unparsed.data;
-			children = unparsed.children;
+			children = unparsed.children || [];
 		}
 
 		this.id = "" + id;
@@ -47,19 +48,8 @@ export default class JSTreeNode extends Disposable{
 		this.a_attr = {
 			"aria-roledescription": new I18nString( i18n, roleLabelDescription, { method: 'tc' } )
 		}
-		this.children = [];
-		if( children ){
-			for( let i = 0; i < children.length; i++ ) {
-				let c = children[i];
-				this.children[ i ] = new JSTreeNode(
-					c.id,
-					c.text,
-					c.type,
-					c.data,
-					c.children
-				);
-			}
-		}
+		this.children = children;
+
 	}
 
 	/**
@@ -71,11 +61,4 @@ export default class JSTreeNode extends Disposable{
 		return new JSTreeNode( jsonNode.id, jsonNode.text, jsonNode.type, jsonNode.data, jsonNode.children );
 	}
 
-	dispose( params ) {
-		for (let i = 0; i < this.children.length; i++) {
-			if( this.children[ i ].dispose )
-				this.children[ i ].dispose( params );
-		}
-		super.dispose( params );
-	}
 }

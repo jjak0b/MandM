@@ -1,6 +1,7 @@
 import {template} from "./GridWidgetTemplate.js";
 import {component as rowComponent } from "./GridRowWidget.js";
 import {KeyboardUtils} from "/shared//js/KeyboardUtils.js";
+import SceneCell from "../../js/Scene/SceneCell.js";
 
 export const component = {
 	template: template,
@@ -173,7 +174,7 @@ export const component = {
 
 			this.gridData.splice(index, 0, [  ] );
 			this.onSetCursor( [ index, 0 ] );
-			this.AddColumn( false,{ colSize: 1, component: null } )
+			this.AddColumn( false, new SceneCell( { colSize: 1, component: null } ) );
 		},
 		removeRow() {
 			let indexRow = this.cursor[0];

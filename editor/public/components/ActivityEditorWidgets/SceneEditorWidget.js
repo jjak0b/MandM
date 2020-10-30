@@ -23,14 +23,21 @@ import { component as spinbuttonComponent } from "/shared/components/UserWidgetS
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "/shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
-import UserWidgetItem from "/shared/js/UserWidgetItem.js";
+// import UserWidgetItem from "/shared/js/UserWidgetItem.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
+import SceneComponentParser from "../../js/Scene/SceneComponentParser.js";
+import SceneCell from "../../js/Scene/SceneCell.js";
+import Scene from "../../js/Scene/Scene.js";
+import ActivityNode from "../../js/ActivityNodes/ActivityNode.js";
+import ComponentMediaPlayer from "../../js/Scene/SceneComponents/ComponentMediaPlayer.js";
+
+SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 
 export const component = {
 	template: template,
 	props: {
-		activity: Object,
-		scene: Object,
+		activity: ActivityNode,
+		scene: Scene,
 		locale: String,
 		nextAssetId: Number,
 		localesList: Array
@@ -143,6 +150,19 @@ export const component = {
 		}
 	},
 	created() {
+		ComponentMediaPlayer.setDisposeCallback(
+			ComponentMediaPlayer.name,
+			(that, params) => {
+				if( that.value && that.value.asset && that.value.asset.category == "images" ) {
+					if( that.value.areas.captions ) {
+						this.$i18n.removeMessageAll( that.value.captions[ 0 ] );
+					}
+					if( that.value.areas ) {
+						that.value.areas.forEach( (area) => this.$i18n.removeMessageAll( area.alt ) );
+					}
+				}
+			}
+		);
 		this.init( this.scene );
 	},
 	mounted(){
@@ -150,30 +170,15 @@ export const component = {
 	},
 	methods: {
 		init( newScene ) {
-			if( newScene ) {
-				if( newScene.grid ) {
-					// if there is at least 1 column
-					if( newScene.grid.length > 0 && newScene.grid[ 0 ].length > 0 ) {
-						// check if the first is unparsed and if so then all must be parsed
-						console.log("[SceneEditor]", "checking if all cell's component must be parsed");
-						let testCell = newScene.grid[ 0 ][ 0 ];
-						if( testCell.component && !( testCell.component instanceof UserWidgetItem) ){
-							console.log("[SceneEditor]","parsing grid");
-							for (let i = 0; i < newScene.grid.length; i++) {
-								let columns = newScene.grid[ i ];
-								for (let j = 0; j < columns.length; j++) {
-									if( columns[ j ].component ) {
-										this.initCellComponent( columns[ j ], columns[ j ].component.name );
-									}
-								}
-							}
+			if( newScene && newScene.grid) {
+				for (let i = 0; i < newScene.grid.length; i++) {
+					let columns = newScene.grid[ i ];
+					for (let j = 0; j < columns.length; j++) {
+						if( columns[ j ].component ) {
+							this.initCellComponent( columns[ j ], columns[ j ].component.name );
 						}
 					}
 				}
-				else {
-					this.$set( newScene, "grid", [] );
-				}
-				newScene.style = {};
 			}
 		},
 		onAddGridRows( event ){
@@ -196,8 +201,9 @@ export const component = {
 				colSize: Number.parseInt( formData.get( "size" ) ),
 				component: null
 			}
+			let cell = new SceneCell( cellData );
 
-			this.$refs.grid.AddColumn( formData.get( "position" ) == "after", cellData );
+			this.$refs.grid.AddColumn( formData.get( "position" ) == "after", cell );
 		},
 		removeRow() {
 			if( this.cursor ) {
@@ -241,41 +247,26 @@ export const component = {
 				return;
 			}
 
-			if( cell.component ) {
-				// parse the object into UserWidgetItem
-				if( !(cell.component instanceof UserWidgetItem )
-					&& ( name in this.widgetsTable )
-				) {
+			if( name in this.widgetsTable ) {
+				if( !cell.component ) {
+					// parse the object into UserWidgetItem
+					let id =  I18nUtils.getUniqueID();
 					this.$set(
 						cell,
 						"component",
-						new UserWidgetItem(
-							cell.component,
-							this.widgetsTable[ name ] ? () => this.widgetsTable[ name ].options : null
+						SceneComponentParser.parse(
+							{
+								id: id ,
+								i18nCategory: `${this.activity.data.i18nCategory}.component.${id}`,
+								name: name,
+								value: {},
+								props: {},
+							}
 						)
 					);
-					console.log("[SceneEditor]", "Parsed component data", cell.component );
+					console.log("[SceneEditor]", "Set component data", cell.component );
 				}
-			}
-			else {
-				let componentData = new UserWidgetItem(
-					name,
-					this.widgetsTable[ name ] ? () => self.widgetsTable[ name ].options : null,
-					null,
-					{},
-					{},
-					{}
-				);
-
-				let id = I18nUtils.getUniqueID();
-				let category = `${this.activity.data.i18nCategory}.component.${id}`;
-
-				this.$set( cell, "component", componentData );
-				this.$set( cell.component, "id", id );
-
-				cell.component.i18nCategory = category;
-
-				console.log("[SceneEditor]", "Set component data", cell.component );
+				cell.component.options = this.widgetsTable[ name ].options || null;
 			}
 		},
 		setCurrentCellComponent( name ) {
@@ -287,15 +278,12 @@ export const component = {
 			}
 		},
 		removeCellComponent( cell ) {
-			console.log("[SceneEditor]", "removing cell", (() => cell)() );
-			if( cell ) {
-				if( cell.component ) {
-					if( cell.component.dispose ){
-						console.log("[SceneEditor]", "dispose method detected for component" );
-						cell.component.dispose();
-					}
-					this.$delete( cell, "component" );
+			console.log("[SceneEditor]", "removing cell", cell );
+			if( cell && cell.component) {
+				if( cell.component.dispose ){
+					cell.component.dispose();
 				}
+				this.$delete( cell, "component" );
 			}
 		},
 		getNewId() {

@@ -9,6 +9,7 @@ import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImpor
 import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportFile.js";
 import {component as formExportServer} from "./StoryEditorWidgets/StoryFormExportServer.js";
 import {component as assetsManager} from "./AssetsManagerWidget.js";
+import Mission from "../js/Mission.js";
 
 export var vm = null;
 const component = {
@@ -96,6 +97,9 @@ const component = {
 		load( data ) {
 			let value = this.cache.story;
 			let keys = Object.keys(data);
+			for (let i = 0; i < data.missions.length; i++) {
+				data.missions[ i ] = new Mission( data.missions[ i ] );
+			}
 			for( let i = 0; i < keys.length; i++ ){
 				this.$set( value, keys[i], data[ keys[i]] );
 			}

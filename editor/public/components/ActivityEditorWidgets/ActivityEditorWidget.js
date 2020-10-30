@@ -1,13 +1,16 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
-import {component as activityTreeWidgetComponent} from "../ActivityTreeWidget.js";
-import {component as activityToolbar} from "../ActivityToolbarWidget.js";
-import JSTreeNode from "../../js/JSTreeNode.js";
+import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
+import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import NodeUtils from "../../js/NodeUtils.js";
 import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
-import { I18nString } from "/shared/js/I18nUtils.js";
+import { I18nString, I18nUtils } from "/shared/js/I18nUtils.js";
 import { component as addMenuComponent } from "./ActivityEditorAddMenuWidget.js ";
 import { component as editMenuComponent } from "./ActivityEditorEditMenuWidget.js ";
-import {I18nUtils} from "/shared/js/I18nUtils.js";
+import ActivityNode from "../../js/ActivityNodes/ActivityNode.js";
+// Adding these will register them as parsable Nodes
+import ActivityNodeTell from "../../js/ActivityNodes/ActivityNodeTell.js";
+import ActivityNodeQuest from "../../js/ActivityNodes/ActivityNodeQuest.js";
+import NodeParser from "../../js/NodeParser.js";
 
 export const component = {
 	template: template,
@@ -43,21 +46,17 @@ export const component = {
 				}
 				if( mission['tree'] ) {
 					tree = mission['tree'];
-
-					// if true then this means that we are loading a just imported, but not parsed tree
-					if( tree.text && !( tree.text instanceof I18nString ) ) {
-
-						tree = new JSTreeNode(
-							tree.id,
-							new I18nString( this.$i18n, tree.text.label, i18nConfig ),
-							tree.type,
-							tree.data,
-							tree.children
-						);
-					}
+					tree.text = new I18nString(this.$i18n, mission.title, i18nConfig );
 				}
 				else{
-					tree = new JSTreeNode( undefined, new I18nString(this.$i18n, mission.title, i18nConfig ), NodeUtils.Types.Root, {}, [] );
+					let unparsedNode = {
+						id: mission.id,
+						text: new I18nString(this.$i18n, mission.title, i18nConfig ),
+						type: NodeUtils.Types.Root,
+						data: null,
+						children: []
+					};
+					tree = NodeParser.parse( unparsedNode );
 				}
 				console.info( "[ActivityEditor]", "changed mission tree", tree );
 				this.$nextTick( function () {
@@ -68,11 +67,22 @@ export const component = {
 	},
 	computed: {
 	},
+	created() {
+		ActivityNode.setDisposeCallback( ActivityNode.name, this.disposeActivityNode )
+		ActivityNodeTell.setDisposeCallback( ActivityNodeTell.name, this.disposeActivityNode )
+		ActivityNodeQuest.setDisposeCallback( ActivityNodeQuest.name, this.disposeActivityNode )
+	},
 	methods: {
+		disposeActivityNode( node ) {
+			if( node.data ) {
+				if( node.data.title ) this.$i18n.removeMessageAll( node.data.title );
+				if( node.data.description ) this.$i18n.removeMessageAll( node.data.description );
+			}
+		},
 		// serialize tree data and set it to parent mission
 		save( mission ){
 			let tree = this.$refs.treeView.get_json();
-			Vue.set( mission, "tree", tree );
+			this.$set( mission, "tree", tree );
 			this.$emit("save-story");
 			console.log( "[ActivityEditor]", "Saving tree data", tree, "into mission", mission );
 		},
@@ -86,16 +96,20 @@ export const component = {
 			this.currentNode = node;
 		},
 		// events
-		onAdd( data ) {
+		onAdd( unparsedNode ) {
 			let id = I18nUtils.getUniqueID();
 			let prefix = `${this.mission.i18nCategory}.activity.${id}`;
+
+			let data = unparsedNode.data;
+			unparsedNode.id = id;
 			data.i18nCategory = prefix;
 			data.title = prefix + ".title";
 			data.description = prefix + ".description";
-			data.scene = {};
 
-			let item = this.$refs.treeView.add(id, data.noteInfo.type, data.noteInfo.name, data);
-			this.$emit('add-activity', data);
+			let activityNode = NodeParser.parse( unparsedNode );
+			let item = this.$refs.treeView.add( activityNode );
+
+			// this.$emit('add-activity', data);
 
 			this.$nextTick(() => {
 				this.$refs.addMenu.$bvModal.hide('addMenu');
@@ -103,14 +117,46 @@ export const component = {
 			});
 			this.save(this.mission);
 		},
-		onEdit( noteInfo ) {
-			let item = this.$refs.treeView.edit( noteInfo );
+		onRemove() {
+			// save the full updated and parsed tree from jstree's structure to be able to parse it and after dispose from the current node
+			this.$nextTick( () => {
+				/* 	this will parse all subtree
+					we couldn't use the saved currentNode directly because the subtree isn't parsed so we couldn't dispose them
+				 */
+				let subtree = this.$refs.treeView.get_json( this.currentNode.id );
+
+				if( subtree ) {
+					if( subtree.dispose ) {
+						subtree.dispose();
+					}
+					else {
+						// just for debugging
+						console.warn("[ActivityEditor]","Trying to dispose subtree withput dispose", subtree );
+					}
+				}
+				this.$refs.treeView.remove();
+				this.save(this.mission);
+			});
+
+		},
+		onEdit() {
+			let node = this.currentNode;
+			this.$set( node, "text", node.data.noteInfo.name );
 			this.isEditFormVisible = false;
 			this.save(this.mission);
 		},
 		onSelectedNode() {
 			this.isEditFormVisible = false;
 			this.$emit("inc-id");
+		},
+		onGrab() {
+			this.$refs.treeView.grab();
+		},
+		onDrop() {
+			this.$refs.treeView.drop();
+		},
+		onCopy() {
+			this.$refs.treeView.duplicate();
 		}
 	},
 	mounted() {
@@ -122,16 +168,16 @@ export const component = {
 			this.isEditFormVisible = true;
 		});
 		$(document).on("duplicateToolbar", () => {
-			this.$refs.treeView.duplicate();
+			this.onCopy();
 		});
 		$(document).on("removeToolbar", () => {
-			this.$refs.treeView.remove();
+			this.onRemove();
 		});
 		$(document).on("grabToolbar", () => {
-			this.$refs.treeView.grab();
+			this.onGrab();
 		});
 		$(document).on("dropToolbar", () => {
-			this.$refs.treeView.drop();
+			this.onDrop();
 		});
 	}
 };

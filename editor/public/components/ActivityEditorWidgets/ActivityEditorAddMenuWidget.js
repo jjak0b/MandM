@@ -54,15 +54,18 @@ export const component = {
 				return
 			}
 
-			// TODO: fill this field if adding components which edit node data
-			let data = {};
-			data.noteInfo = {
-				name: this.nameValue,
-				note: this.noteValue,
-				type: this.selectedType
+			let unparsedNode = {
+				type: this.selectedType,
+				text: this.nameValue,
+				data: {
+					noteInfo : {
+						name: this.nameValue,
+						note: this.noteValue
+					}
+				}
 			};
 
-			this.$emit('addActivity', data);
+			this.$emit('addActivity', unparsedNode );
 		},
 		shouldShowTypeInSelector( type ){
 			if( !this.currentNode || !type ){

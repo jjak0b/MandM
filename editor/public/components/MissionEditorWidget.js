@@ -3,6 +3,7 @@ import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18
 import {I18nUtils} from "/shared/js/I18nUtils.js";
 import { component as listComponent } from "/shared/components/AccessibleListWidget.js";
 import { component as borderlessInput } from "./i18nWidgets/I18nBorderlessInputWidget.js";
+import Mission from "../js/Mission.js";
 
 
 export const component = {
@@ -30,6 +31,7 @@ export const component = {
 			selectedIndex: null
 		}
 	},
+
 	computed: {
 		selectedId: function () { return this.value ? this.value.id : null },
 		missionNames: function () {
@@ -40,7 +42,15 @@ export const component = {
 			return names
 		}
 	},
+	created() {
+		Mission.setDisposeCallback(Mission.name, this.disposeMissionCallback );
+	},
 	methods: {
+		disposeMissionCallback(mission) {
+			console.warn( "callback ", mission );
+			this.$i18n.removeMessageAll( mission.title );
+			this.$i18n.removeMessageAll( mission.description );
+		},
 		add() {
 			console.log( "registered new mission: ", this.newMission );
 			this.missions.push( this.newMission );
@@ -49,9 +59,10 @@ export const component = {
 		},
 		remove( index ) {
 			let mission = this.missions[ index ];
+
 			if( mission ) {
-				this.$i18n.removeMessageAll( mission.title );
-				this.$i18n.removeMessageAll( mission.description );
+				console.log( "REMOVING", mission);
+				mission.dispose();
 				this.missions.splice( index, 1);
 				this.$emit('save-story');
 			}
@@ -59,14 +70,15 @@ export const component = {
 		onAdd() {
 			this.$emit( "inc-id" );
 
-			this.newMission = {};
+			let newMission = {};
 			let id = I18nUtils.getUniqueID();
 
 			let prefix = `assets.mission.${ id }`;
-			this.newMission.i18nCategory = prefix;
-			this.newMission.id = id
-			this.newMission.title = prefix + ".title";
-			this.newMission.description =  prefix + ".description";
+			newMission.i18nCategory = prefix;
+			newMission.id = id
+			newMission.title = prefix + ".title";
+			newMission.description =  prefix + ".description";
+			this.newMission = new Mission( newMission );
 
 			this.$bvModal.show('addMissionModal');
 		},

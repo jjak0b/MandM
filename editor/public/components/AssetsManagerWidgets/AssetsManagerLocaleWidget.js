@@ -14,6 +14,7 @@ export const component = {
 	created() {
 		this.$root.$on( "add-dependency", this.addToDependencies );
 		this.$root.$on( "remove-dependency", this.removeFromDependencies );
+		Asset.setDisposeCallback( Asset.name, this.removeFromDependencies );
 	},
 	methods: {
 		addToDependencies( /*Asset*/asset ) {

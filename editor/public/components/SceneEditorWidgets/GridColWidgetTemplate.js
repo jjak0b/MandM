@@ -7,11 +7,11 @@ export const template =
 >
 	<div ref="styleEl">
 		<component
-			v-if="value.component && value.component.getOptions"
+			v-if="value.component && value.component.options"
 			v-bind:locale="locale"
 			v-bind:id="value.component.id"
 			v-bind:class="value.component.class"
-			:is="value.component.getOptions()"
+			:is="value.component.options"
 			v-bind="value.component.props"
 			v-bind:value="value.component.value"
 			v-bind:tabindex="isSelected ? 0 : -1"

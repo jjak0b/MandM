@@ -8,7 +8,19 @@ export const component = {
 		localesList: Array,
 		items: Array,
 		selected: Number,
-		title: String
+		title: String,
+		copyPaste: {
+			type: Boolean,
+			default: true
+		},
+		editable: {
+			type: Boolean,
+			default: true
+		},
+		variant: {
+			type: String,
+			default: 'info'
+		}
 	},
 	components: {
 		'borderless-input': borderlessInput

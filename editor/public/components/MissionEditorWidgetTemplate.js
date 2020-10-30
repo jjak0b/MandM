@@ -29,7 +29,7 @@ export const template =
 	
 	<div>
 		<list-widget
-			title="MissionEditorWidget.label-mission-list"
+			v-bind:title="$t('MissionEditorWidget.label-mission-list')"
 			v-bind:locale="locale"
 			v-bind:localesList="localesList"
 			v-bind:items="missionNames"

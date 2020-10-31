@@ -6,7 +6,6 @@ export default class SceneComponentParser {
 
 	static register(type, _constructor) {
 		SceneComponentParser.constructors[ type ] = _constructor;
-		console.log( "type", type, "cons", _constructor );
 	}
 
 	static parse( unparsedComponent ) {

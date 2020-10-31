@@ -60,7 +60,7 @@ export const component = {
 
 				if( this.dataStory ) {
 					let dependencies = this.dataStory.dependencies[ asset.category ];
-					console.log("[AssetsManagerLocal]", "request of removing", asset, "from dependencies", this.dataStory.dependencies );
+					console.warn("[AssetsManagerLocal]", "request of removing", asset, "from dependencies", this.dataStory.dependencies );
 					for (let i = 0; i < dependencies.length; i++) {
 						// the asset to check can be also be a not parsed asset (plain Object), so use a specific method
 						if( asset.equals( dependencies[ i ].asset ) ) {
@@ -71,10 +71,9 @@ export const component = {
 							break;
 						}
 					}
-					console.log( dependencies );
 				}
 				else{
-					console.error( "[AssetsManagerLocal]", "Unable to add \"%s\" to dependencies because story is not set" );
+					console.error( "[AssetsManagerLocal]", "Unable to remove \"%s\" to dependencies because story is not set" );
 				}
 			}
 		},

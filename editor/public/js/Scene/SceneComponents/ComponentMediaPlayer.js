@@ -18,13 +18,8 @@ export default class ComponentMediaPlayer extends SceneComponent {
 	}
 
 	dispose(params) {
-		super.dispose(params);
 		let value = this.getValue();
 		if( value ) {
-			// TODO: extend asset as Disposable
-			if( value.asset && value.asset.dispose ) {
-				value.asset.dispose( params );
-			}
 			if( value.asset ) {
 				switch (value.asset.category) {
 					case "images":
@@ -41,5 +36,6 @@ export default class ComponentMediaPlayer extends SceneComponent {
 					value.asset.dispose( params );
 			}
 		}
+		super.dispose(params);
 	}
 }

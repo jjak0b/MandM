@@ -9,6 +9,7 @@ import {component as assetsManagerBrowser} from "../../AssetsManagerWidgets/Asse
 import {component as i18nRegion } from "../../i18nWidgets/I18nRegion.js";
 import {Asset} from "/shared/js/Asset.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
+import ComponentMediaPlayer from "../../../js/Scene/SceneComponents/ComponentMediaPlayer.js";
 
 export const component = {
 	template: template,
@@ -28,7 +29,7 @@ export const component = {
 				captions: null
 			}
 		},
-		component: Object,
+		component: ComponentMediaPlayer,
 		locale : String
 	},
 	data() {
@@ -71,13 +72,7 @@ export const component = {
 
 			if( this.value.asset ) {
 				if( !shouldAddAsset || !asset.equals( this.value.asset ) ) {
-					this.resetCaptions( this.value );
-					if( prevAsset.category == "images") {
-						this.resetAreas( this.value );
-					}
-
-					this.$root.$emit( "remove-dependency", this.value.asset  );
-					this.$delete( this.value, "asset" );
+					this.resetValue( this.value );
 				}
 				else {
 					shouldAddAsset = false;
@@ -86,7 +81,7 @@ export const component = {
 
 			if( shouldAddAsset ) {
 				this.$set( this.value, "asset", asset );
-				this.$root.$emit( "add-dependency", this.value.asset );
+				this.$root.$emit( "add-dependency", asset );
 
 				this.$set( this.value, "captions", {} );
 				if( this.value.asset.category == "images" ) {
@@ -100,15 +95,13 @@ export const component = {
 			}
 		},
 		"form.caption" : function ( caption, prevCaption) {
-			console.log( "caption", caption, prevCaption );
 			let shouldAddCaption = !!caption;
 			let isCaptionSetForLocale =  this.value.captions && this.locale in this.value.captions;
 
 			if( isCaptionSetForLocale ) {
 				if( !shouldAddCaption || !caption.equals(this.value.captions[ this.locale ] )  ) {
-					this.$root.$emit( "remove-dependency", this.value.captions[ this.locale ] );
-					if( isCaptionSetForLocale )
-						this.$delete( this.value.captions, this.locale );
+					this.value.captions[ this.locale ].dispose();
+					this.$delete( this.value.captions, this.locale );
 				}
 				else {
 					shouldAddCaption = false;
@@ -129,17 +122,20 @@ export const component = {
 			return this.value && this.value.asset;
 		},
 		resetValue( value ) {
+			console.log( value );
+
 			this.resetCaptions( value );
 			this.resetAreas( value );
-			this.$root.$emit( "remove-dependency", value.asset );
-			this.$delete(value, "asset");
+			if( value.asset && value.asset.dispose )
+				value.asset.dispose();
 
-			this.form.asset = null;
-			this.form.caption = null;
+			this.$delete(value, "asset");
 		},
 		reset() {
 			console.log("[MediaFormWidget]", "resetData" );
 			this.resetValue( this.value );
+			this.form.asset = null;
+			this.form.caption = null;
 		},
 		resetCaptions( value ) {
 			if( value.captions ) {
@@ -151,7 +147,8 @@ export const component = {
 					Object.keys(value.captions)
 						.forEach((lang) => {
 							if (value.captions[lang]) {
-								this.$root.$emit("remove-dependency", value.captions[lang] );
+								if( value.captions[lang] )
+									value.captions[lang].dispose();
 								this.$delete( value.captions, lang );
 							}
 						});
@@ -162,7 +159,8 @@ export const component = {
 		},
 		resetAreas( value ) {
 			while( value && value.areas && value.areas.length > 0) {
-				value.areas.pop();
+				let area = value.areas.pop();
+				this.$i18n.removeMessageAll( area.alt );
 			}
 			this.$delete( value, "areas" );
 		},

@@ -22,7 +22,6 @@ export const component = {
 		}
 	},
 	created() {
-		this.init( this.value );
 
 		if( this.value.asset && this.value.asset.category == "images" ) {
 			window.addEventListener("resize", this.onResize);
@@ -70,20 +69,6 @@ export const component = {
 		}
 	},
 	methods: {
-		init( value ) {
-			// try to parse the assets when we have an unparsed asset
-			if( value && value.asset && !(value.asset instanceof Asset) ) {
-				console.log( "[UserWidgetEditorMediaPlayer]", "Parsing assets", value );
-				value.asset = new Asset( value.asset, null, null );
-				if( value.captions ) {
-					Object.keys( value.captions )
-						.forEach( (key) => {
-							if( typeof value.captions[ key ] != "string" )
-								value.captions[ key ] = new Asset( value.captions[ key ], null, null );
-						});
-				}
-			}
-		},
 		areaOnClick( indexArea, event ) {
 			if( !this.value || !this.value.areas ) return;
 			let area = this.value.areas[ indexArea ];

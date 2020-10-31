@@ -1,9 +1,11 @@
 export const template =
 `
 <div class="w-100" v-if="value.asset">
+	<!-- Force image to re-render and delete maphilight extra tags using :key as image url when changed in editor -->
 	<figure
 		v-if="value.asset.category == 'images'"
 		class="figure"
+		v-bind:key="value.asset.getURL()"
 	>
 		<img	
 			v-if="value.asset"

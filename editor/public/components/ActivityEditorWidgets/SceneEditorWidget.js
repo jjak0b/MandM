@@ -23,7 +23,6 @@ import { component as spinbuttonComponent } from "/shared/components/UserWidgetS
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "/shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
-// import UserWidgetItem from "/shared/js/UserWidgetItem.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
 import SceneComponentParser from "../../js/Scene/SceneComponentParser.js";
 import SceneCell from "../../js/Scene/SceneCell.js";
@@ -246,7 +245,7 @@ export const component = {
 
 			if( name in this.widgetsTable ) {
 				if( !cell.component ) {
-					// parse the object into UserWidgetItem
+					// parse the object
 					let id =  I18nUtils.getUniqueID();
 					this.$set(
 						cell,

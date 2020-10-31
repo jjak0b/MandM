@@ -2,6 +2,29 @@ const path = require( 'path' );
 const fs = require( 'fs' );
 const Promise = require( 'promise');
 
+
+class I18nHandler {
+	constructor( basePath ) {
+		this.localesDirname = "locales";
+		this.pathLocales = path.join( basePath, this.localesDirname );
+	}
+
+	getI18nCodeList() {
+
+	}
+
+	getJSON( langCode ) {
+		return new Promise( (resolve, reject) => {
+
+		});
+	}
+
+	addJSON( langCode, data ) {
+
+	}
+
+};
+
 /***
  * @Brief filter all locales array and return the locales as more detailed as possible for the requested locale
  * @param locales
@@ -122,4 +145,8 @@ module.exports = {
 	getLocales: getLocales,
 	setLocalesResponse: setLocalesResponse,
 	i18n: require('langmap')
+};
+
+module.exports = {
+	I18nHandler
 };

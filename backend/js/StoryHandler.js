@@ -1,10 +1,7 @@
-const express = require('express');
-const path = require('path');
-const router = express.Router();
-const fs = require('fs');
+const path = require( 'path' );
+const fs = require( 'fs' );
+const Promise = require( 'promise');
 const StatusCodes = require("http-status-codes").StatusCodes;
-const Locales = require( '../shared/js/locales');
-var storiesSaved = [];
 
 class StoryHandler {
 	constructor() {
@@ -15,10 +12,11 @@ class StoryHandler {
 		this.storyDependeciesFilename = "dependencies.json"
 		this.cacheList = [];
 		this.pathStories = path.join( __basedir, this.storyDirname );
-		this.updateNameList();
 	}
 
 	updateNameList() {
+		return new Promise( (resolve, reject ) => {
+
 		let self = this;
 		if ( !fs.existsSync( this.pathStories ) ){
 			fs.mkdirSync( this.pathStories );
@@ -28,15 +26,18 @@ class StoryHandler {
 			fs.readdir( this.pathStories, (err, filenames ) => {
 				if( err ){
 					console.error("Error on reading folder: ", `"${self.pathStories}"`, err);
+					reject( err );
 				}
 				else{
 					filenames.forEach( (name) => {
 						if( !self.cacheList.includes( name ) ) self.cacheList.push( name );
 					});
 					console.log("Stories detected: ", self.cacheList );
+					resolve( self.cacheList );
 				}
 			});
 		}
+		});
 	}
 
 	getStoryFileName() {
@@ -240,98 +241,9 @@ class StoryHandler {
 	}
 }
 
-const handler = new StoryHandler();
-
-router.get('/', ( req, res ) => {
-	res.json( handler.getList() );
-});
-
-router.get('/:name', ( req, res ) => {
-	if( req.params.name ) {
-
-		if( !handler.getList().includes( req.params.name ) ) {
-			res.sendStatus( StatusCodes.NOT_FOUND );
-		}
-		else {
-			handler.getJSON( req.params.name )
-				.then( (data) => {
-					res.json( data );
-				})
-				.catch( (objError)=> {
-					console.error(`[ GET stories/${req.params.name}]`, "Error getting JSON of story", "cause", objError.error );
-					res.sendStatus( objError.statusCode );
-				});
-		}
-	}
-});
-
-router.get('/:name/locales/', ( req, res ) => {
-	if( req.params.name ) {
-		Locales.setLocalesResponse(res, null, handler.getPathStory( req.params.name ) )
-	}
-});
-
-router.get('/:name/locales/:locale', ( req, res ) => {
-	if( req.params.name ) {
-		Locales.setLocalesResponse(res, req.params.locale, handler.getPathStory( req.params.name ) )
-	}
-});
-
-router.put("/:name", ( req, res ) => {
-
-	let storyDir = handler.getPathStory( req.params.name );
-
-	let status = StatusCodes.CREATED;
-	if ( !fs.existsSync( storyDir ) ){
-		fs.mkdirSync( storyDir );
-	}
-
-	let requests = [];
-
-	if( req.body.dependencies ) {
-		if( req.body.dependencies.locales ) {
-			Object.keys(req.body.dependencies.locales).forEach( (locale) => {
-				requests.push( Locales.setLocales( locale,req.body.dependencies.locales[ locale ], storyDir ) );
-			});
-			req.body.dependencies.locales = {};
-		}
-	}
-
-	if( req.body ) {
-		requests.push(
-			handler.addJSON( req.params.name, req.body )
-		)
-	}
-
-	Promise.all( requests )
-		.then( function (states) {
-			res.sendStatus( StatusCodes.CREATED );
-		})
-		.catch( function (errors) {
-			console.error( errors );
-			res.status( StatusCodes.CONFLICT ).json( errors );
-		})
-});
-
-router.delete('/:name', ( req, res ) => {
-	if( req.params.name ) {
-
-		if( !handler.getList().includes( req.params.name ) ) {
-			res.sendStatus( StatusCodes.NOT_FOUND );
-		}
-		else {
-			handler.deleteJSON( req.params.name )
-			.then( (data) => {
-				res.sendStatus( StatusCodes.OK );
-			})
-			.catch( (err)=> {
-				res.sendStatus( StatusCodes.CONFLICT );
-			});
-		}
-	}
-});
+const instance = new StoryHandler();
 
 module.exports = {
-	handler: handler,
-	router: router
-};
+	StoryHandler,
+	instance
+}

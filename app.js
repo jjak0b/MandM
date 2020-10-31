@@ -13,12 +13,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 /* Dedicate a router to each top-level base path. */
-app.use('/play', require('./routes/player'));
-app.use('/edit', require('./routes/editor'));
-app.use('/scan', require('./routes/qr-scanner'));
-app.use('/shared', require('./routes/shared'));
-app.use( '/stories', require('./routes/stories').router);
-app.use( '/libs', require('./routes/libs'));
-app.use( '/assets', require('./routes/assets').router);
+app.use('/play', require('./backend/routes/player'));
+app.use('/edit', require('./backend/routes/editor'));
+app.use('/scan', require('./backend/routes/qr-scanner'));
+app.use('/shared', express.static( path.join(__basedir, '/shared/public')) );
+app.use( '/stories', require('./backend/api/stories').router);
+app.use( '/libs', require('./backend/routes/libs'));
+app.use( '/assets', require('./backend/api/assets').router);
 app.use('/bundles', express.static(path.join(__basedir, '/bundles' )));
 module.exports = app;

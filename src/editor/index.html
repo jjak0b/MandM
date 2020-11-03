@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Editor</title>
+	<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
+	<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.17.3/dist/bootstrap-vue.css"/>
+	<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/jstree@3.3.10/dist/themes/default/style.min.css" />
+	<link rel="stylesheet" crossorigin="anonymous" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="css/bootstrap-override.css" />
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/vue-i18n/dist/vue-i18n.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.16.0/dist/bootstrap-vue.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.16.0/dist/bootstrap-vue-icons.min.js"></script>
+	<script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script crossorigin="anonymous" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/jstree@3.3.10/dist/jstree.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/maphilight@1.4.0/jquery.maphilight.min.js"></script>
+	<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script crossorigin="anonymous" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
+	<script src="/bundles/tiptap.js"></script>
+	<script src="/libs/datalist-polyfill/datalist-polyfill.min.js"></script>
+	<script type="module" src="js/init.js"></script>
+	<style>
+		.list-group-item.active {
+			background-color: transparent;
+		}
+		#editor-section {
+			border: 0.1em solid black;
+			padding: 1em;
+		}
+		#editor-content {
+			outline: 0.1em solid black;
+		}
+	</style>
+</head>
+<body>
+<div id="editor">
+	<b-navbar type="light" variant="light">
+		<b-navbar-nav>
+			<b-nav-item-dropdown v-bind:disabled="!canImport" v-bind:text="$t('shared.label-import')">
+				<b-dropdown-text>
+					<b-tabs vertical >
+						<b-tab v-bind:title="$t('shared.label-from-file')" >
+							<form-import-file
+								v-on:import="load"
+							></form-import-file>
+						</b-tab>
+						<b-tab v-bind:title="$t('shared.label-from-server')" >
+							<form-import-server
+								v-bind:names="remoteStories"
+								v-on:import="load"
+							></form-import-server>
+						</b-tab>
+					</b-tabs>
+				</b-dropdown-text>
+			</b-nav-item-dropdown>
+			<b-nav-item-dropdown v-bind:disabled="!canExport" v-bind:text="$t('shared.label-export')" >
+				<b-dropdown-text>
+					<b-tabs vertical >
+						<b-tab v-bind:title="$t('shared.label-as-file')" >
+							<form-export-file
+								v-bind:data-export="cache.story"
+							></form-export-file>
+						</b-tab>
+						<b-tab v-bind:title="$t('shared.label-onto-server')" >
+							<form-export-server
+								v-bind:names="remoteStories"
+								v-on:update-names="getRemoteStoryNames()"
+								v-bind:data-export="cache.story"
+							></form-export-server>
+						</b-tab>
+					</b-tabs>
+				</b-dropdown-text>
+			</b-nav-item-dropdown>
+		</b-navbar-nav>
+
+		<b-form-group class="ml-auto"
+			v-bind:label="$t( 'I18nSelectorWidget.label-locale-select')"
+			label-for="editor-content-locale"
+		>
+			<select
+				id="editor-content-locale"
+				v-bind:options="I18nUtils.i18nCodes"
+				v-model="locale"
+				class="form-control"
+			>
+				<option v-bind:value="null" disabled="disabled" selected="selected" v-t="'shared.label-select-option'"></option>
+				<option v-for="code in localesList" :key="code" v-bind:value="code" >{{ I18nUtils.i18nCodes[ code ].englishName }} [ {{code}} ]</option>
+			</select>
+		</b-form-group>
+	</b-navbar>
+	<nav>
+		<div class="nav nav-tabs" id="myTab" role="tablist">
+			<a
+				role="tab"
+				class="nav-item nav-link active"
+				data-toggle="tab"
+				href="#story-editor-widget-section"
+				aria-controls="story-editor-widget-section"
+				aria-selected="true"
+			>Story</a>
+			<a
+				role="tab"
+				class="nav-item nav-link"
+				data-toggle="tab"
+				href="#activity-editor-widget-section"
+				aria-controls="activity-editor-widget-section"
+				aria-selected="false"
+				v-on:click="onActivitesTab"
+			>Activities</a>
+			<a
+				role="tab"
+				class="nav-item nav-link"
+				data-toggle="tab"
+				href="#assets-manager-widget-section"
+				aria-controls="assets-manager-widget-section"
+				aria-selected="false"
+			>Assets Manager</a>
+		</div>
+	</nav>
+	<main role="main">
+		<section>
+			<i18n-selector-widget
+					id="i18n-selector-widget"
+					v-model="locale"
+					v-bind:locales-list="localesList"
+			></i18n-selector-widget>
+		</section>
+		<div class="tab-content">
+			<section
+				id="story-editor-widget-section"
+				class="tab-pane fade show active container-fluid"
+				role="tabpanel"
+				aria-labelledby="story-tab"
+			>
+				<story-editor-widget
+					id="story-editor-widget"
+					v-model="cache.story"
+					v-bind:mission="cache.mission"
+					v-bind:names="remoteStories"
+					v-bind:stories="localStories"
+					v-bind:locale="locale"
+					v-bind:locales-list="localesList"
+					v-on:update-names="getRemoteStoryNames()"
+					v-on:import="load"
+					v-on:add-local-story="addToLocalStories"
+					v-on:delete-local-story="deleteFromLocalStories"
+					v-on:change-story="changeSelectedStory"
+					v-on:select-mission="selectMission"
+					v-bind:savestory="saveStory"
+					v-on:saved="saveStory = false"
+					v-bind:copied-mission="copiedMission"
+					v-on:copy-mission="copyMission"
+				></story-editor-widget>
+			</section>
+			<section
+				id="activity-editor-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="activities-tab"
+			>
+				<activity-editor-widget
+					id="activity-editor-widget"
+					ref="activity"
+					v-bind:mission="cache.mission"
+					v-bind:locale="locale"
+					v-bind:locales-list="localesList"
+					v-on:save-story="saveStory = true"
+					v-model="cache.activity"
+				></activity-editor-widget>
+			</section>
+			<section
+				id="assets-manager-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="asset-manager-tab"
+			>
+				<assets-manager
+					v-bind:current-story="cache.story"
+				></assets-manager>
+			</section>
+		</div>
+	</main>
+</div>
+</body>
+</html>

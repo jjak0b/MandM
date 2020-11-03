@@ -2035,7 +2035,7 @@ const HLJS = function(hljs) {
       var new_mode = match.rule;
 
       const resp = new Response(new_mode);
-      // first internal before callbacks, then the public ones
+      // first internal before callbacks, then the static ones
       const beforeCallbacks = [new_mode.__beforeBegin, new_mode["on:begin"]];
       for (const cb of beforeCallbacks) {
         if (!cb) continue;
@@ -5214,7 +5214,7 @@ Fragment.prototype.findDiffEnd = function findDiffEnd$1 (other, pos, otherPos) {
 // : (number, ?number) → {index: number, offset: number}
 // Find the index and inner offset corresponding to a given relative
 // position in this fragment. The result object will be reused
-// (overwritten) the next time the function is called. (Not public.)
+// (overwritten) the next time the function is called. (Not static.)
 Fragment.prototype.findIndex = function findIndex (pos, round) {
     if ( round === void 0 ) round = -1;
 
@@ -29311,7 +29311,7 @@ function initRender (vm) {
   // args order: tag, data, children, normalizationType, alwaysNormalize
   // internal version is used by render functions compiled from templates
   vm._c = function (a, b, c, d) { return createElement(vm, a, b, c, d, false); };
-  // normalization is always applied for the public version, used in
+  // normalization is always applied for the static version, used in
   // user-written render functions.
   vm.$createElement = function (a, b, c, d) { return createElement(vm, a, b, c, d, true); };
 
@@ -31205,7 +31205,7 @@ function initGlobalAPI (Vue) {
   Object.defineProperty(Vue, 'config', configDef);
 
   // exposed util methods.
-  // NOTE: these are not considered part of the public API - avoid relying on
+  // NOTE: these are not considered part of the static API - avoid relying on
   // them unless you are aware of the risk.
   Vue.util = {
     warn: warn,
@@ -34212,7 +34212,7 @@ extend(Vue.options.components, platformComponents);
 // install platform patch function
 Vue.prototype.__patch__ = inBrowser ? patch : noop;
 
-// public mount method
+// static mount method
 Vue.prototype.$mount = function (
   el,
   hydrating

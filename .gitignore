@@ -38,8 +38,8 @@ node_modules/
 jspm_packages/
 
 # Authored
-stories/
-assets/
+/stories/
+/assets/
 
 ## Express rules
 build/Release

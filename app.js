@@ -13,10 +13,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 /* Dedicate a router to each top-level base path. */
-app.use('/play', require('./backend/routes/player'));
-app.use('/edit', require('./backend/routes/editor'));
+app.use('/player', require('./backend/routes/player'));
+app.use('/editor', require('./backend/routes/editor'));
 app.use('/scan', require('./backend/routes/qr-scanner'));
-app.use('/shared', express.static( path.join(__basedir, '/shared/public')) );
+app.use('/shared', require( './backend/routes/shared' ));
 app.use( '/stories', require('./backend/api/stories').router);
 app.use( '/libs', require('./backend/routes/libs'));
 app.use( '/assets', require('./backend/api/assets').router);

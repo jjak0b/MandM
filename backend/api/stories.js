@@ -38,7 +38,7 @@ router.use(
 		}
 	},
 	// and then use middlewware
-	require("../api/locales")
+	require("../api/locales")()
 );
 
 
@@ -103,15 +103,6 @@ function API_PUT_story( req, res ) {
 
 	let requests = [];
 
-	if( req.body.dependencies ) {
-		if( req.body.dependencies.locales ) {
-			Object.keys(req.body.dependencies.locales).forEach( (locale) => {
-				requests.push( Locales.setLocales( locale,req.body.dependencies.locales[ locale ], storyDir ) );
-			});
-			req.body.dependencies.locales = {};
-		}
-	}
-
 	if( req.body ) {
 		requests.push(
 			handler.addJSON( storyName, req.body )
@@ -120,7 +111,6 @@ function API_PUT_story( req, res ) {
 
 	Promise.all( requests )
 		.then( function (states) {
-			registerAPIForStory( storyName );
 			res.sendStatus( StatusCodes.CREATED );
 		})
 		.catch( function (errors) {
@@ -129,7 +119,7 @@ function API_PUT_story( req, res ) {
 		})
 }
 // router.delete('/:name',API_DELETE_story );
-function API_DELETE_story(res, req) {
+function API_DELETE_story( req, res ) {
 	let storyName = res.locals.storyName;
 	if( !storyName ) {
 		res.sendStatus( StatusCodes.BAD_REQUEST );

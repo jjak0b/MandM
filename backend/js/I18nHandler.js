@@ -1,26 +1,91 @@
 const path = require( 'path' );
 const fs = require( 'fs' );
 const Promise = require( 'promise');
-
+const i18next = require("i18next");
+const i18nextFs = require( "i18next-fs-backend");
 
 class I18nHandler {
 	constructor( basePath ) {
 		this.localesDirname = "locales";
 		this.pathLocales = path.join( basePath, this.localesDirname );
+
+		const filenameExtension = ".json";
+		let localesFilenames = [];
+
+		let supportedLngs = [];
+		if ( !fs.existsSync( this.pathLocales ) ){
+			fs.mkdirSync( this.pathLocales );
+		}
+		else {
+			localesFilenames = fs.readdirSync( this.pathLocales );
+			if( localesFilenames ) {
+				localesFilenames.filter((filename) => filename.endsWith(filenameExtension));
+				supportedLngs = new Array(localesFilenames.length);
+				localesFilenames.forEach(
+					(filename, i) => supportedLngs[i] = filename.substring(0, filename.length - filenameExtension.length));
+			}
+		}
+		console.log( "Detected languages in", this.pathLocales, supportedLngs );
+		this.locales = supportedLngs;
+		this.i18next = i18next.createInstance();
+		this.i18next.use( i18nextFs );
+		this.i18next.init({
+			// debug: true,
+			lng: 'en',
+			// fallbackLng: ["en"], // frontend handle localization codes
+			backend: {
+				loadPath: path.join( this.pathLocales, "{{lng}}.json" )
+			}
+		});
+
 	}
 
-	getI18nCodeList() {
 
+	getI18nCodeList() {
+		return this.locales;
 	}
 
 	getJSON( langCode ) {
 		return new Promise( (resolve, reject) => {
-
+			this.i18next.changeLanguage( langCode )
+				.finally( () => {
+					let data = null;
+					for (let i = 0; i < this.i18next.languages.length; i++) {
+						data = this.i18next.getResourceBundle( this.i18next.languages[i] );
+						if( data ) break;
+					}
+					if( data ) {
+						resolve( data );
+					}
+					else {
+						console.error("[I18nHandler]", "Unable to find any locales for", langCode, "in path:", this.pathLocales );
+						reject( null );
+					}
+				});
 		});
 	}
 
 	addJSON( langCode, data ) {
+		console.log( langCode, data );
+		return new Promise( (resolve, reject) => {
+			fs.writeFile(
+				path.join(this.pathLocales, `${langCode}.json`),
+				JSON.stringify(data),
+				'utf8',
+				(err) => {
+					if (err) {
+						reject( err );
+					}
+					else {
+						if( !this.locales.includes( langCode ) ) {
+							this.locales.push( langCode );
+						}
+						this.i18next.reloadResources('langCode');
 
+						resolve();
+					}
+				});
+		});
 	}
 
 };
@@ -103,6 +168,8 @@ function _getLocales( localesPath, requestlang= "" ) {
 					if( itemsProcessed == locales.length ) resolve( translations );
 				})
 			);
+
+			new i18nextFs
 		})
 	);
 }

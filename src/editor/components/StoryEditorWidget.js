@@ -115,16 +115,12 @@ export const component = {
 			//this.canUpdate = false;
 			//this.canReload = false;
 			let dataExport = this.value;
-			dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
-			$.ajax( `/stories/${dataExport.name}`, {
-				method: "put",
-				contentType: 'application/json',
-				data: JSON.stringify( dataExport )
-			})
-			.done( (data) => {
+			// dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+			this.putToServer( dataExport )
+			.then( (data) => {
 				console.log("[StoryEditor]", `Updated the Story ${dataExport.name}`);
 			})
-			.fail( ( xhr, textStatus, error) => {
+			.catch( (error) => {
 				console.log("[StoryEditor]", `Failed to update the Story ${dataExport.name}`, error );
 			})
 		},
@@ -138,33 +134,59 @@ export const component = {
 			this.getFromServer(this.value.name);
 		},
 		onDelete() {
-			self = this;
 			let name = this.value.name;
 			if ( this.stories.some( story => story.name === name ) ) {
-				this.$emit('delete-local-story', name);
+				$.ajax( `/stories/${name}`, {
+					method: "DELETE"
+				})
+					.then ( (data) => {
+						this.$emit('delete-local-story', name);
+						console.log("[StoryEditor]", `Deleted the Story ${name}`);
+					})
+					.catch( ( error) => {
+						console.log("[StoryEditor]", `Failed to delete the Story ${name}`, error );
+					})
+					.always( () => {
+						this.$emit("update-names");
+					});
 			}
+		},
+		putToServer( storyData ) {
+			return new Promise( (resolve, reject) => {
 
-			$.ajax( `/stories/${name}`, {
-				method: "DELETE"
-			})
-			.done( (data) => {
-				console.log("[StoryEditor]", `Deleted the Story ${name}`);
-			})
-			.fail( ( xhr, textStatus, error) => {
-				console.log("[StoryEditor]", `Failed to delete the Story ${name}`, error );
-			})
-			.always( () => {
-				self.$emit("update-names");
+				let storyUrl = `/stories/${storyData.name}`
+				let promiseStory = $.ajax( storyUrl, {
+					method: "put",
+					contentType: 'application/json',
+					data: JSON.stringify( storyData )
+				});
+				let locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
+				let promisesLocales = Object.keys( locales )
+										.map( (lang) => {
+											return $.ajax( storyUrl + `/locales/${lang}`, {
+												method: "put",
+												contentType: 'application/json',
+												data: JSON.stringify( locales[ lang ] )
+											})
+										});
+
+				Promise.all( [ promiseStory ].concat( promisesLocales ) )
+					.then( ( responses ) => {
+						resolve( responses[ 0 ] );
+					})
+					.catch( reject );
 			});
 		},
 		getFromServer( name ) {
 			self = this;
 			this.loading = true;
 			let reqJSONStory = $.get( `/stories/${name}` );
-			let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${name}` );
+			let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${name}`, "*" );
+
 			Promise.all( [reqJSONStory, reqJSONLocales] )
 			// file has been downloaded so can be loaded
 			.then( (jsonData) => {
+
 				let story = jsonData[0];
 				let locales = jsonData[1];
 
@@ -195,28 +217,24 @@ export const component = {
 			this.newStory.age = ""
 		},
 		saveModal(){
-			self = this;
+			let self = this;
 			let dataExport = this.newStory;
 			if (this.names.includes(dataExport.name)) {
 				console.log(dataExport.name," already exists");
 				return
 			}
 			let assets = {};
-			dataExport.dependencies.locales[this.locale] = assets;
+			// dataExport.dependencies.locales[this.locale] = assets;
 
-			$.ajax( `/stories/${dataExport.name}`, {
-				method: "put",
-				contentType: 'application/json',
-				data: JSON.stringify( dataExport )
-			})
-			.done( (data) => {
+			this.putToServer( dataExport )
+			.then( (data) => {
 				self.$emit('add-local-story', dataExport);
 				console.log("[StoryEditor]", `Created the Story ${dataExport.name}`);
 			})
-			.fail( ( xhr, textStatus, error) => {
+			.catch( (error) => {
 				console.log("[StoryEditor]", `Failed to create or replace the Story ${dataExport.name}`, error );
 			})
-			.always( () => {
+			.finally( () => {
 				self.newStory = getNewStory();
 				self.$emit("update-names");
 			});

@@ -165,17 +165,12 @@ const component = {
 
 export function main() {
 
-	let promiseNativeLocale = I18nUtils.fetchLocales( "./", i18n.locale );
-	let promiseFallbackLocale = I18nUtils.fetchLocales( "./", i18n.fallbackLocale );
+	let promiselocales = I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] );
 
-	Promise.all( [ promiseNativeLocale, promiseFallbackLocale] )
+	promiselocales
 	.then((localesMessages) => {
-		for (let i = 0; i < localesMessages.length; i++) {
-			let data = localesMessages[ i ];
-			if( data ) {
-				Object.keys( data ).forEach( locale => component.i18n.mergeLocaleMessage( locale, data[ locale ] ) );
-			}
-		}
+		component.i18n.mergeLocaleMessage( i18n.locale, localesMessages[ i18n.locale ] );
+		component.i18n.mergeLocaleMessage( i18n.fallbackLocale, localesMessages[ i18n.fallbackLocale ] );
 	})
 	.catch( error => { console.error( "Error while getting localesData, continue offline ...", error ); })
 	.finally( function () {

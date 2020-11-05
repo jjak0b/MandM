@@ -1,5 +1,5 @@
 export class I18nUtils {
-	static i18nCodes = {};
+	static i18nCodes = languageMappingList;
 
 	constructor() {
 
@@ -30,45 +30,64 @@ export class I18nUtils {
 	}
 
 	static fetchCodes() {
-		let self = this;
 		return new Promise( function ( resolve, reject ) {
-			if( Object.keys( self.i18nCodes ).length > 0 ) {
-				resolve( self.i18nCodes );
-			}
-			else {
-				$.get("/shared/i18n/map")
-					.done(map => {
-						Object.keys(map)
-							.forEach( (key, index) => {
-								Vue.set( self.i18nCodes, key, map[ key ] );
-							});
-						console.log( "i18n list received:", self.i18nCodes );
-						resolve( self.i18nCodes );
-					})
-					.fail( (error) =>{
-						console.error( "Error getting i18n map" )
-						reject(error);
-					});
-			}
+			resolve( I18nUtils.i18nCodes );
 		});
 	}
 
-	static fetchLocales( rootPath = "./", locale ) {
+	static fetchLocales( rootPath = "./", requestedLangOrLanguages ) {
 		let self = this;
 		if( !rootPath.endsWith("/") ) rootPath += "/";
 
+		let shouldGetOnlyList = !requestedLangOrLanguages;
+		let promiseListLanguages = null;
+
+		if( !shouldGetOnlyList ) {
+			if( Array.isArray( requestedLangOrLanguages ) ) {
+				promiseListLanguages = Promise.resolve( requestedLangOrLanguages );
+			}
+			else if( requestedLangOrLanguages == "*" ) {
+				promiseListLanguages = $.get( rootPath + "locales/" );
+			}
+			else {
+				promiseListLanguages = Promise.resolve( [ requestedLangOrLanguages ] );
+			}
+		}
+		else {
+			promiseListLanguages = $.get( rootPath + "locales/" );
+		}
+
 		return new Promise( function (resolve, reject) {
-			$.get( rootPath + "locales/" + (locale || "") )
+
+			let promisesLocales = {};
+			console.log( "Getting languages for locales in", rootPath );
+			promiseListLanguages
+			.then( languages => {
+				languages.forEach( (lang) => promisesLocales[ lang ] = $.get( `${rootPath}locales/${lang}` ) );
+				console.log( "Received language list for locales in", rootPath, languages );
+				let promisesList = languages.map( (lang) => promisesLocales[ lang ] );
+				if( shouldGetOnlyList ) {
+					resolve( languages );
+					return;
+				}
+				Promise.all( promisesList )
 				.then((data) => {
 					if( data ) {
-						console.log( "Locales data received:", data );
-						resolve( data );
+						let locales = {};
+						languages.forEach( (lang, i) => locales[ lang ] = data[ i ] )
+						console.log( "Locales data received from", rootPath, locales );
+						resolve( locales );
 					}
 				})
 				.catch( error => {
-					console.error( "Error while getting localesData, continue offline ...");
-					reject();
+					console.error( "Error while getting locales data, continue offline ...");
+					reject( error);
 				});
+			})
+			.catch( (error) => {
+				console.error( "Error while getting list of locales, continue offline ...");
+				reject( error );
+			});
 		});
 	}
 }

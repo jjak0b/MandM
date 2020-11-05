@@ -79,14 +79,6 @@ export const component = {
 };
 
 export const asyncLoad = function ( resolve, reject ) {
-	$.get( "locales/" ) // TODO: change this to other location
-		.then((data) => {
-			if( data ) {
-				Object.keys( data ).forEach( locale => component.i18n.mergeLocaleMessage( locale, data[ locale ] ) );
-				console.log( "Locales data received:", data );
-				resolve( component );
-			}
-		})
-		.catch( error => { console.error( "Error while getting localesData, continue offline ..."); resolve( component ) });
+	resolve( component );
 };
 

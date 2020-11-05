@@ -51,7 +51,6 @@ function API_GET_storyList ( req, res ) {
 function API_GET_story(req, res) {
 
 	let storyName = res.locals.storyName;
-	console.log( "get name", storyName );
 
 	if( !storyName ) {
 		res.sendStatus( StatusCodes.BAD_REQUEST );
@@ -72,19 +71,6 @@ function API_GET_story(req, res) {
 		}
 	}
 }
-/*
-router.get('/:name/locales/', ( req, res ) => {
-	if( req.params.name ) {
-		Locales.setLocalesResponse(res, null, handler.getPathStory( req.params.name ) )
-	}
-});*/
-
-/*
-router.get('/:name/locales/:locale', ( req, res ) => {
-	if( req.params.name ) {
-		Locales.setLocalesResponse(res, req.params.locale, handler.getPathStory( req.params.name ) )
-	}
-});*/
 
 // router.put("/:name", API_PUT_story );
 function API_PUT_story( req, res ) {

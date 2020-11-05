@@ -66,7 +66,6 @@ class I18nHandler {
 	}
 
 	addJSON( langCode, data ) {
-		console.log( langCode, data );
 		return new Promise( (resolve, reject) => {
 			fs.writeFile(
 				path.join(this.pathLocales, `${langCode}.json`),
@@ -78,9 +77,13 @@ class I18nHandler {
 					}
 					else {
 						if( !this.locales.includes( langCode ) ) {
+							console.log( "[I18nHandler]", "Register new locales for", langCode );
 							this.locales.push( langCode );
 						}
-						this.i18next.reloadResources('langCode');
+						else {
+							console.log( "[I18nHandler]", "Update locales for", langCode );
+						}
+						this.i18next.reloadResources( langCode );
 
 						resolve();
 					}
@@ -133,86 +136,6 @@ function filterLocale( locales, localeReq ) {
 	}
 	return localesFiltered;
 }
-
-/**@Brief get a JSON parsed object with all locales found as keys and with value the data content of the requested locales
- * @param localesPath
- * @param requestlang
- * @return Promise that will return the JSON locales content
- */
-function _getLocales( localesPath, requestlang= "" ) {
-	return new Promise( (resolve, reject ) =>
-		fs.readdir( localesPath, (err, filenames ) => {
-
-			let locales = [];
-			// removing extensios
-			const extensionLength = '.json'.length;
-			for( let i = 0; i < filenames.length; i++ )
-				locales[i] = filenames[i].substring(0, filenames[i].length - extensionLength );
-
-			// filter if a locale is specified
-			if( requestlang && requestlang.length > 0 )
-				locales = filterLocale( locales, requestlang );
-
-			let translations = {};
-			let itemsProcessed = 0; // i use async callbacks so i use this as counter to know when the foreach is ended
-			locales.forEach (
-				locale => fs.readFile( path.join(localesPath, locale + ".json" ), {encoding: "utf-8"}, (error, data ) => {
-					if( error ) {
-						reject( error );
-						return;
-					}
-
-					translations[ locale ] = JSON.parse( data );
-
-					itemsProcessed ++;
-					if( itemsProcessed == locales.length ) resolve( translations );
-				})
-			);
-
-			new i18nextFs
-		})
-	);
-}
-
-function getLocales( locale, pathDirName) {
-	return _getLocales( path.join( pathDirName, "locales" ).toString(), locale );
-}
-
-function setLocales( locale, data, pathDirName ) {
-	let localesDir = path.join( pathDirName, "locales");
-	return new Promise( function (resolve, reject) {
-		if ( !fs.existsSync( localesDir ) ){
-			fs.mkdirSync( localesDir );
-		}
-		fs.writeFile(path.join(localesDir, `${locale}.json`), JSON.stringify(data), 'utf8', function (err) {
-			if (err) {
-				reject( err );
-			}
-			else {
-				resolve( locale );
-			}
-		});
-	});
-}
-
-function setLocalesResponse( res, locale, pathDirName) {
-	getLocales( locale, pathDirName )
-	.then( function( data ) {
-		console.log( "sending locales " + (locale ? locale : "") + " data:", data );
-		res.json( data );
-	})
-	.catch( function (error) {
-		console.error( "unexcepted error on getting Locales" + (locale ? locale : "") + " data:", error );
-		res.end();
-	});
-}
-
-module.exports = {
-	setLocales: setLocales,
-	getLocales: getLocales,
-	setLocalesResponse: setLocalesResponse,
-	i18n: require('langmap')
-};
 
 module.exports = {
 	I18nHandler

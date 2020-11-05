@@ -167,39 +167,6 @@ function API_delete(req, res) {
 	}
 }
 
-
-function getStoriesThatUse( urlResource, storyNames ) {
-
-	let promises = new Array( storyNames.length );
-
-	storyNames.forEach( ( name, i ) => promises[ i ] = storyHandler.getStoryAssetsList( name ) );
-
-	return new Promise( function (resolve, reject) {
-		let storiesThatUseResource = [];
-		Promise.all( promises ).
-			then( (assetLists) => {
-				storyNames.forEach( (name, i ) => {
-					for ( let category in assetLists[ i ] ) {
-						// check only for media assets
-						if( Array.isArray( assetLists[ i ][ category ] ) ) {
-							assetLists[ i ][ category ].forEach( (assetDependency) => {
-								let asset = assetDependency.asset;
-								let count = assetDependency.count;
-								if ( count > 0 && asset.url && asset.url == urlResource )
-									storiesThatUseResource.push({
-										story: name,
-										count: count
-									});
-							});
-						}
-					}
-				});
-				resolve( storiesThatUseResource );
-			})
-			.catch( reject );
-	});
-}
-
 module.exports = {
 	router: router,
 	handler: handler

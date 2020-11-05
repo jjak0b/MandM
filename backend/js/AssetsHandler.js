@@ -1,6 +1,7 @@
 const path = require( 'path' );
 const fs = require( 'fs' );
 const Promise = require( 'promise');
+const storyHandler = require("./StoryHandler").instance;
 
 class AssetsHandler {
 	constructor() {
@@ -112,8 +113,8 @@ class AssetsHandler {
 		}
 
 		let isDependent = null;
-		let urlRequested = handler.getURLAsset( category, filename );
-		console.log("path", urlRequested );
+		let urlRequested = this.getURLAsset( category, filename );
+
 		return new Promise( function (resolve, reject) {
 			getStoriesThatUse( urlRequested, storiesToCheck )
 				.then( (storyNames) => {
@@ -125,6 +126,38 @@ class AssetsHandler {
 				});
 		});
 	}
+}
+
+function getStoriesThatUse( urlResource, storyNames ) {
+
+	let promises = new Array( storyNames.length );
+
+	storyNames.forEach( ( name, i ) => promises[ i ] = storyHandler.getStoryAssetsList( name ) );
+
+	return new Promise( function (resolve, reject) {
+		let storiesThatUseResource = [];
+		Promise.all( promises ).
+		then( (assetLists) => {
+			storyNames.forEach( (name, i ) => {
+				for ( let category in assetLists[ i ] ) {
+					// check only for media assets
+					if( Array.isArray( assetLists[ i ][ category ] ) ) {
+						assetLists[ i ][ category ].forEach( (assetDependency) => {
+							let asset = assetDependency.asset;
+							let count = assetDependency.count;
+							if ( count > 0 && asset.url && asset.url == urlResource )
+								storiesThatUseResource.push({
+									story: name,
+									count: count
+								});
+						});
+					}
+				}
+			});
+			resolve( storiesThatUseResource );
+		})
+			.catch( reject );
+	});
 }
 
 function getDirFileNames( path ) {

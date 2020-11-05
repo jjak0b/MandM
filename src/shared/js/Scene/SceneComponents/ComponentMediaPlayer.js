@@ -1,5 +1,5 @@
 import SceneComponent from "../SceneComponent.js";
-import {Asset} from "../../../../shared/js/Asset.js";
+import {Asset} from "../../Asset.js";
 
 export default class ComponentMediaPlayer extends SceneComponent {
 	constructor(unparsed) {

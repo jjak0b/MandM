@@ -1,21 +1,22 @@
-export default class Mission {
+import I18nCategorized from "./I18nCategorized.js";
+import ActivityNode from "./ActivityNodes/ActivityNode.js";
+import NodeParser from "./NodeParser.js";
+import NodeUtils from "./NodeUtils.js";
 
-	constructor(
-	/* Story */		story,
-	/* Object */	mission_data
-	) {
+NodeParser.register( NodeUtils.Types.Root, ActivityNode );
 
-		this.story_owner = story;
+export default class Mission extends I18nCategorized {
+	constructor( unparsedMission ) {
+		super( unparsedMission );
 
-		this.actions = null;
-		this.quest_name = mission_data.quest_name;
-		this.objective_name = mission_data.objective_name;
-		this.objective_progress_perc = mission_data.objective_progress_perc;
-		this.objective_message_redeem_reward = mission_data.objective_message_redeem_reward;
-		this.objective_description = mission_data.objective_description;
-		this.objective_hint= mission_data.objective_hint;
-		this.objective_hint_label= mission_data.objective_hint_label;
+		this.title = unparsedMission ? unparsedMission.title : null;
+		this.description = unparsedMission ? unparsedMission.description : null;
+		this.tree = unparsedMission && unparsedMission.tree ? new ActivityNode( unparsedMission.tree ) : null;
 	}
 
-	getActions() { return this.actions; }
+	dispose(params) {
+		if( this.tree )
+			this.tree.dispose(params);
+		super.dispose(params);
+	}
 }

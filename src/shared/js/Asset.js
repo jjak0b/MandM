@@ -1,4 +1,4 @@
-import Disposable from "../../editor/js/Disposable.js";
+import Disposable from "./Disposable.js";
 
 export class Asset extends Disposable {
 	constructor( /*Object|String*/assetObjectOrName, category, data = null ) {

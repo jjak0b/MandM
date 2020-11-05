@@ -2,10 +2,10 @@ import {template} from "./MissionEditorWidgetTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import { component as listComponent } from "../../shared/components/AccessibleListWidget.js";
-import JSTreeNode from "../js/JSTreeNode.js";
-import NodeUtils from "../js/NodeUtils.js";
+import JSTreeNode from "../../shared/js/JSTreeNode.js";
+import NodeUtils from "../../shared/js/NodeUtils.js";
 import { I18nString } from "../../shared/js/I18nUtils.js";
-import Mission from "../js/Mission.js";
+import Mission from "../../shared/js/Mission.js";
 
 
 export const component = {

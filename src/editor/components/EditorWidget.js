@@ -1,4 +1,4 @@
-import { i18n } from "./Translations.js";
+import { i18n } from "../../shared/js/i18n.js";
 import { I18nUtils } from "../../shared/js/I18nUtils.js";
 import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./i18nWidgets/I18nSelectorWidget.js";
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
@@ -9,7 +9,7 @@ import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImpor
 import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportFile.js";
 import {component as formExportServer} from "./StoryEditorWidgets/StoryFormExportServer.js";
 import {component as assetsManager} from "./AssetsManagerWidget.js";
-import Mission from "../js/Mission.js";
+import Mission from "../../shared/js/Mission.js";
 
 export var vm = null;
 const component = {

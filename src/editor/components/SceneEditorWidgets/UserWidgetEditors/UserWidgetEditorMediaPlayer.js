@@ -9,7 +9,7 @@ import {component as assetsManagerBrowser} from "../../AssetsManagerWidgets/Asse
 import {component as i18nRegion } from "../../i18nWidgets/I18nRegion.js";
 import {Asset} from "../../../../shared/js/Asset.js";
 import {I18nUtils} from "../../../../shared/js/I18nUtils.js";
-import ComponentMediaPlayer from "../../../js/Scene/SceneComponents/ComponentMediaPlayer.js";
+import ComponentMediaPlayer from "../../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 
 export const component = {
 	template: template,

@@ -1,7 +1,7 @@
 import {template} from "./GridWidgetTemplate.js";
 import {component as rowComponent } from "./GridRowWidget.js";
 import {KeyboardUtils} from "../../../shared/js/KeyboardUtils.js";
-import SceneCell from "../../js/Scene/SceneCell.js";
+import SceneCell from "../../../shared/js/Scene/SceneCell.js";
 
 export const component = {
 	template: template,

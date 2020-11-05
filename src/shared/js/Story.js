@@ -1,4 +1,4 @@
-import Mission from './Mission.js';
+import Mission from './_Mission.js';
 
 export default class Story {
 

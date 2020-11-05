@@ -1,16 +1,16 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
-import NodeUtils from "../../js/NodeUtils.js";
+import NodeUtils from "../../../shared/js/NodeUtils.js";
 import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
 import { I18nString, I18nUtils } from "../../../shared/js/I18nUtils.js";
 import { component as addMenuComponent } from "./ActivityEditorAddMenuWidget.js ";
 import { component as editMenuComponent } from "./ActivityEditorEditMenuWidget.js ";
-import ActivityNode from "../../js/ActivityNodes/ActivityNode.js";
+import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 // Adding these will register them as parsable Nodes
-import ActivityNodeTell from "../../js/ActivityNodes/ActivityNodeTell.js";
-import ActivityNodeQuest from "../../js/ActivityNodes/ActivityNodeQuest.js";
-import NodeParser from "../../js/NodeParser.js";
+import ActivityNodeTell from "../../../shared/js/ActivityNodes/ActivityNodeTell.js";
+import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQuest.js";
+import NodeParser from "../../../shared/js/NodeParser.js";
 
 export const component = {
 	template: template,

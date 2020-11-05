@@ -1,5 +1,5 @@
 // this instance translate editor's specific locale labels
-import { I18nUtils } from "../../shared/js/I18nUtils.js";
+import { I18nUtils } from "./I18nUtils.js";
 
 export const i18n = new VueI18n({
 	locale: navigator.language,

@@ -1,6 +1,6 @@
-import {i18n} from "../components/Translations.js";
+import {i18n} from "./i18n.js";
 // let i18n = {};
-import { I18nString } from "../../shared/js/I18nUtils.js";
+import { I18nString } from "./I18nUtils.js";
 import NodeUtils from "./NodeUtils.js";
 import Disposable from "./Disposable.js";
 

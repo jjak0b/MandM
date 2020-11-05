@@ -1,5 +1,5 @@
 import {template} from "./ActivityToolbarWidgetTemplate.js";
-import NodeUtils from "../../js/NodeUtils.js";
+import NodeUtils from "../../../shared/js/NodeUtils.js";
 
 export const component = {
 	template: template,

@@ -4,17 +4,6 @@ export const template =
 <section>
 	<div class="row">
 		<div class="col">
-			<style-editor-widget
-				v-if="currentCellCache && currentCellCache.component"
-				v-bind:value="scene.style"
-			></style-editor-widget>
-		</div>
-	</div>
-</section>
-<hr>
-<section>
-	<div class="row">
-		<div class="col">
 			<attribute-editor-widget
 				v-if="currentCellCache && currentCellCache.component"
 				v-model="currentCellCache.component"

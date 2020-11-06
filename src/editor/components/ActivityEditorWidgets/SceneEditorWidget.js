@@ -3,7 +3,6 @@ import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidge
 import { component as gridComponent } from "../SceneEditorWidgets/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "../../../shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "../../../shared/js/FormUtils.js";
-import { component as styleEditorComponent } from "../SceneEditorWidgets/StyleEditorWidget.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "../../../shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
@@ -52,8 +51,7 @@ export const component = {
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
 		"grid-widget": gridComponent,
-		"attribute-editor-widget": attributeEditorComponent,
-		"style-editor-widget": styleEditorComponent
+		"attribute-editor-widget": attributeEditorComponent
 	},
 	data() {
 		return {

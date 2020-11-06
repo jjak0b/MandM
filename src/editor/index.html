@@ -120,6 +120,14 @@
 				aria-controls="assets-manager-widget-section"
 				aria-selected="false"
 			>Assets Manager</a>
+			<a
+				role="tab"
+				class="nav-item nav-link"
+				data-toggle="tab"
+				href="#style-editor-widget-section"
+				aria-controls="style-editor-widget-section"
+				aria-selected="false"
+			>Style Editor</a>
 		</div>
 	</nav>
 	<main role="main">
@@ -182,6 +190,16 @@
 				<assets-manager
 					v-bind:current-story="cache.story"
 				></assets-manager>
+			</section>
+			<section
+				id="style-editor-widget-section"
+				class="tab-pane fade container"
+				role="tabpanel"
+				aria-labelledby="style-editor-tab"
+			>
+				<style-editor-widget
+					v-bind:value="cache.story.style"
+				></style-editor-widget>
 			</section>
 		</div>
 	</main>

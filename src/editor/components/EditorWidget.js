@@ -10,6 +10,7 @@ import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportF
 import {component as formExportServer} from "./StoryEditorWidgets/StoryFormExportServer.js";
 import {component as assetsManager} from "./AssetsManagerWidget.js";
 import Mission from "../../shared/js/Mission.js";
+import Story from "../../shared/js/Story.js";
 
 export var vm = null;
 const component = {
@@ -26,29 +27,7 @@ const component = {
 			locale: '',
 			localesList: [],
 			cache: {
-				story: { // data to export
-					/* each category have a dependency object as follows:
-					{
-						asset: Asset | object 	-> (not) parsed asset object
-						count: Number 			-> count of stuffs that use this dependency (should be removed from category if <= 0)
-					}
-					 */
-					dependencies: {
-						// locales dependencies have i18n code as key and a dependency object as value
-						locales: {},
-						captions: [],
-						videos: [],
-						audios: [],
-						images: []
-					},
-					name: "",
-					description: "",
-					age: "",
-					gamemode: "",
-					groups: [],
-					missions: [],
-					activities: [],
-				},
+				story: new Story( null ),
 				mission: null,
 				activity: null
 			}
@@ -94,15 +73,10 @@ const component = {
 	},
 	methods: {
 		load( data ) {
-			let value = this.cache.story;
-			let keys = Object.keys(data);
-			for (let i = 0; i < data.missions.length; i++) {
-				data.missions[ i ] = new Mission( data.missions[ i ] );
-			}
-			for( let i = 0; i < keys.length; i++ ){
-				this.$set( value, keys[i], data[ keys[i]] );
-			}
-			this.localesList = data.dependencies && data.dependencies.locales ? Object.keys( data.dependencies.locales ) : [];
+			this.localesList = data && data.dependencies && data.dependencies.locales ? Object.keys( data.dependencies.locales ) : [];
+			this.$set( this.cache, "story", new Story( data ) );
+			console.log("[EditorWidget]", "Loaded story", this.cache.story );
+			return this.cache.story;
 		},
 		getRemoteStoryNames() {
 			let self = this;

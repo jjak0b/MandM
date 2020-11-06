@@ -1,37 +1,32 @@
-import Mission from './_Mission.js';
+import Mission from './Mission.js';
 
 export default class Story {
 
 	constructor(
-	/* Object */ data
+	/* Object */ unparsed
 	) {
-		let self = this;
-		this.missions = [];
-		this.name = data.name;
-		this.description = data.description;
-		this.gamemode = data.gamemode; /*  */
-		this.age = data.age;
 
-		if( data.missions ) {
-			data.missions.forEach((data_mission) => {
-				self.addMission(self, data_mission);
-			});
-		}
-	}
+		this.dependencies = unparsed && unparsed.dependencies ? unparsed.dependencies : {
+			locales: {},
+			captions: [],
+			videos: [],
+			audios: [],
+			images: []
+		};
 
-	addMission(
-	/*Object */ data,
-	/*int*/ 	index
-	) {
-		let mission = new Mission( this, data );
-		if( Number.isInteger( index ) ) {
-			this.missions.splice( index, 0, mission );
-		}
-		else {
-			this.missions.push( mission );
+		this.name =  unparsed ? unparsed.name : "";
+		this.description = unparsed ? unparsed.description : "";
+		this.age = unparsed ? unparsed.age : "";
+		this.gamemode = unparsed ? unparsed.gamemode : "";
+		this.groups = unparsed ? unparsed.groups : [];
+
+		this.missions = unparsed ? unparsed.missions : [];
+		for (let i = 0; i < this.missions.length; i++) {
+			this.missions[ i ] = new Mission( this.missions[ i ] );
 		}
 	}
 }
+
 Story.ENUM_GAMEMODE = Object.freeze({
 	"SOLO":1, 		/* 1 player */
 	"GROUPS":2, 	/* 2-5 players */

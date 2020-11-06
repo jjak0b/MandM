@@ -2,32 +2,15 @@ import {template} from "./StoryEditorWidgetTemplate.js";
 import { I18nUtils } from "../../shared/js/I18nUtils.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
+import Story from "../../shared/js/Story.js";
 
-function getNewStory() {
-	return {
-		dependencies: {
-			locales: {},
-			captions: [],
-			videos: [],
-			audios: [],
-			images: []
-		},
-		name: "",
-		description: "",
-		age: "",
-		gamemode: "",
-		groups: [],
-		missions: [],
-		activities: []
-	}
-}
 
 export const component = {
 	template: template,
 	props: {
 		locale: String,
 		localesList: Array,
-		value: Object, // story Cache
+		value: Story, // story Cache
 		stories: Array,
 		names: Array,
 		mission: Object,
@@ -94,7 +77,7 @@ export const component = {
 			//oldName: "",
 			loading: false,
 			tabValue: -1,
-			newStory: getNewStory(),
+			newStory: new Story( null ),
 			gamemodes: {
 				0 : "StoryEditorWidget.gamemodes.solo",
 				1 : "StoryEditorWidget.gamemodes.group",
@@ -235,7 +218,7 @@ export const component = {
 				console.log("[StoryEditor]", `Failed to create or replace the Story ${dataExport.name}`, error );
 			})
 			.finally( () => {
-				self.newStory = getNewStory();
+				self.newStory = new Story( null );
 				self.$emit("update-names");
 			});
 		},

@@ -29,9 +29,9 @@ export default class StyleProperty extends Disposable {
 					values[i] = wrapper + values[i] + wrapper;
 				}
 			}
-			return values.join( separator );
+			string += values.join( separator );
 		}
 
-		return ""
+		return string;
 	}
 }

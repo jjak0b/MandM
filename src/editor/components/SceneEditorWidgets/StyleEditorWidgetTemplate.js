@@ -5,7 +5,7 @@ export const template =
 	<b-tabs card vertical
 	>
 		<b-tab
-			v-for="(rule, ruleIndex) in rules"
+			v-for="(rule, ruleIndex) in value.rules"
 			:key="'rule-' + ruleIndex"
 		>
 			<template v-slot:title>

@@ -1,4 +1,5 @@
 import Mission from './Mission.js';
+import StyleData from "./StyleData/StyleData.js";
 
 export default class Story {
 
@@ -24,6 +25,8 @@ export default class Story {
 		for (let i = 0; i < this.missions.length; i++) {
 			this.missions[ i ] = new Mission( this.missions[ i ] );
 		}
+
+		this.style = new StyleData( unparsed && unparsed.style ? unparsed.style : null );
 	}
 }
 

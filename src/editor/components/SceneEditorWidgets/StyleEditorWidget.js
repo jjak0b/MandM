@@ -7,6 +7,9 @@ import {component as styleURIComponent } from "./StyleEditorWidgets/StyleURIWidg
 import {component as styleSelectorComponent } from "./StyleEditorWidgets/StyleSelectorFieldset.js";
 import {component as listWidgetComponent } from "../../../shared/components/ListWidget.js";
 import {FormUtils} from "../../../shared/js/FormUtils.js";
+import StyleRule from "../../../shared/js/StyleData/StyleRule.js";
+import StyleProperty from "../../../shared/js/StyleData/StyleProperty.js";
+import StyleData from "../../../shared/js/StyleData/StyleData.js";
 
 export const component = {
 	template: template,
@@ -20,10 +23,7 @@ export const component = {
 		"input-range-number-widget" : inputRangeNumberComponent
 	},
 	props: {
-		value: {
-			type: Object,
-			default: {}
-		}
+		value: StyleData
 	},
 	data(){
 		let data = {
@@ -412,47 +412,44 @@ export const component = {
 
 		return data;
 	},
+	created() {
+
+	},
 	methods: {
 		addRule() {
 			let rule = {
 				selector: {},
 				body: {
 					properties: [],
-					toString() {
-						let body = "";
-						this.properties.forEach( ( property, index ) => body += `\t${property};\n` );
-						return body;
-					}
-				},
-				toString() {
-					return `${ this.selector } {\n${this.body}}`
 				}
 			};
+			rule = new StyleRule( rule );
 
-			if( !this.value.rules ){
-				this.$set( this.value, 'rules', this.rules );
-			}
-			this.rules.push( rule );
+			this.value.rules.push( rule );
 		},
 		removeRule( index ) {
-			this.rules.splice( index, 1 );
+			let removed = this.value.rules.splice( index, 1 )[0];
+			if( removed ) removed.dispose();
 		},
 		addProperty( rule, event ) {
 			let serializedArray = $( event.target ).serializeArray();
 			let self = this;
+			let name = serializedArray[0].value;
 			let property = {
-				name: serializedArray[0].value,
+				name: name,
 				values: [],
-				toString() {
-					return this.name + ": " + self.getPropertyValue( property );
+				config: {
+					separator: name in this.properties ? this.properties[ name ].separator : null,
+					wrapper: name in this.properties ? this.properties[ name ].wrapper : null,
 				}
 			};
-
 
 			if( this.properties[ property.name ] && this.properties[ property.name ].parameters ) {
 				for( let i = 0; i < this.properties[ property.name ].parameters.length; i++ )
 					property.values[ i ] = null;
 			}
+
+			property = new StyleProperty( property );
 
 			$( event.target ).trigger('reset');
 			rule.body.properties.push( property );
@@ -460,32 +457,9 @@ export const component = {
 		removeProperty( rule, index ) {
 			if( !rule.body || !rule.body.properties ) return;
 
-			rule.body.properties.splice( index, 1 );
-		},
-		getPropertyValue( property ) {
-			if( !property ) return null;
 
-			let propertyData = this.properties[ property.name ];
-
-			let separator = " ";
-			let wrapper = null;
-			if( propertyData ) {
-				separator = propertyData.separator || separator;
-				wrapper = propertyData.wrapper || wrapper;
-			}
-
-			let values = property.values.filter( ( val ) => val ); // get only truthy, not undefined or null values
-
-			if( values.length > 0 ) {
-				if( wrapper ) {
-					for( let i = 0; i < values.length; i++ ) {
-						values[i] = wrapper + values[i] + wrapper;
-					}
-				}
-				return values.join( separator );
-			}
-
-			return ""
+			let removed = rule.body.properties.splice( index, 1 )[0];
+			if( removed ) removed.dispose();
 		}
 	}
 };

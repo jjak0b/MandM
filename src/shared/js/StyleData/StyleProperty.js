@@ -34,4 +34,13 @@ export default class StyleProperty extends Disposable {
 
 		return string;
 	}
+
+	dispose(params) {
+		for (let i = 0; i < this.values.length; i++) {
+			if( this.values[ i ] && this.values[ i ] instanceof Disposable ) {
+				this.values[ i ].dispose(params);
+			}
+		}
+		super.dispose(params);
+	}
 }

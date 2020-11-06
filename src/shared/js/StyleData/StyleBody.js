@@ -16,4 +16,11 @@ export default class StyleBody extends Disposable {
 		this.properties.forEach( ( property, index ) => body += `\t${property};\n` );
 		return body;
 	}
+
+	dispose(params) {
+		for (let i = 0; i < this.properties.length; i++) {
+			this.properties[ i ].dispose( params );
+		}
+		super.dispose(params);
+	}
 }

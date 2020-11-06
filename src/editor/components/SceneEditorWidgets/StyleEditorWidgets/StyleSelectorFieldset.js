@@ -1,9 +1,10 @@
 import {template} from "./StyleSelectorFieldsetTemplate.js";
+import StyleSelector from "../../../../shared/js/StyleData/StyleSelector.js";
 
 export const component = {
 	template: template,
 	props: {
-		selector: Object
+		selector: StyleSelector
 	},
 	data() {
 		let data = {
@@ -55,52 +56,10 @@ export const component = {
 			handler: function (newVal) {
 				this.$emit( "input", this.toSelector() );
 			}
+		},
+		shouldUseCustomSelector : function (useCustom) {
+
 		}
-	},
-	beforeMount() {
-		this.$set(this.selector, 'custom', null );
-		this.$set(this.selector, 'tag', "*" );
-		this.$set(this.selector, 'class', null );
-		this.$set(this.selector, 'id', null );
-		this.$set(this.selector, 'attrName', null );
-		this.$set(this.selector, 'attrOp', null );
-		this.$set(this.selector, 'attrValue', null );
-		this.$set(this.selector, 'case', [] );
-		this.$set(this.selector, 'pseudoClass', null );
-		this.$set(this.selector, 'pseudoElement', null );
-		this.$set(this.selector, 'toString',
-			function (){
-				let value = "";
-				if( this.custom && this.custom.length > 0) {
-					value = this.custom;
-				}
-				else{
-					if( this.tag && this.tag.length > 0 )
-						value += this.tag;
-
-					if( this.class && this.class.length > 0 )
-						value += `.${this.class}`;
-
-					if( this.id && this.id.length > 0 )
-						value += `#${this.id}`;
-
-					if( (this.attrName && this.attrName.length > 0)
-						&& ( this.attrOp && this.attrOp.length > 0 )
-						&& ( this.attrValue && this.attrValue.length > 0 ) ) {
-						let caseInsensitive = this.case || "";
-						value += `[ ${this.attrName} ${this.attrOp} "${this.attrValue}" ${caseInsensitive}]`;
-					}
-
-					if( this.pseudoClass && this.pseudoClass.length > 0 )
-						value += `:${this.pseudoClass}`;
-
-					if( this.pseudoElement && this.pseudoElement.length > 0 )
-						value += `::${this.pseudoElement}`;
-
-				}
-				return value.length > 0 ? value : null;
-			}.bind( this.selector )
-		);
 	},
 	methods: {
 		toSelector() {

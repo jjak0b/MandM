@@ -8,7 +8,7 @@ export const template =
 				<input
 					id="style-selector-input-use-custom"
 					type="checkbox"
-					v-model="shouldUseCustomSelector"
+					v-model="selector.useCustom"
 					class="form-check-input"
 					v-bind:aria-controls="$attrs['aria-controls']"
 				/>
@@ -19,7 +19,7 @@ export const template =
 			</div>
 		</div>
 	</div>
-	<div v-if="shouldUseCustomSelector"
+	<div v-if="selector.useCustom"
 		class="row"
 	>
 		<div class="col">

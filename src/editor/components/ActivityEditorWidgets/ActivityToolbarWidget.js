@@ -12,7 +12,7 @@ export const component = {
 		}
 	},
 	computed: {
-		isMission: function() { return this.type === NodeUtils.Types.Root }
+		isMission: function() { return this.type === NodeUtils.Types.Mission }
 	},
 	mounted() {
 		$( "#menu" ).menu({

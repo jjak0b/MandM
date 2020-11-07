@@ -73,7 +73,7 @@ export const component = {
 			switch( type ){
 				case NodeUtils.Types.Tell:
 				case NodeUtils.Types.Quest:
-					return [NodeUtils.Types.Root, NodeUtils.Types.Branch, NodeUtils.Types.Tell].includes( this.currentNode.type );
+					return [NodeUtils.Types.Mission, NodeUtils.Types.Branch, NodeUtils.Types.Tell].includes( this.currentNode.type );
 					break;
 				case NodeUtils.Types.Branch:
 					return NodeUtils.Types.Quest == this.currentNode.type;

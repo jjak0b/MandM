@@ -139,7 +139,7 @@ export const component = {
 			copiedData.mission.tree = new JSTreeNode(
 					copiedData.id,
 					new I18nString(this.$i18n, copiedData.mission.title, i18nConfig ),
-					NodeUtils.Types.Root,
+					NodeUtils.Types.Mission,
 					data,
 					children
 			);

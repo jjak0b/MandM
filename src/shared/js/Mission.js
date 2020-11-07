@@ -3,7 +3,7 @@ import ActivityNode from "./ActivityNodes/ActivityNode.js";
 import NodeParser from "./NodeParser.js";
 import NodeUtils from "./NodeUtils.js";
 
-NodeParser.register( NodeUtils.Types.Root, ActivityNode );
+NodeParser.register( NodeUtils.Types.Mission, ActivityNode );
 
 export default class Mission extends I18nCategorized {
 	constructor( unparsedMission ) {

@@ -50,7 +50,7 @@ export const component = {
 					let unparsedNode = {
 						id: mission.id,
 						text: new I18nString(this.$i18n, mission.title, i18nConfig ),
-						type: NodeUtils.Types.Root,
+						type: NodeUtils.Types.Mission,
 						data: null,
 						children: []
 					};

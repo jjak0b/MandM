@@ -40,9 +40,9 @@ export const component = {
 			console.info( "[ActivityTree]", "updating current node", node, "aka -> parsed", parsed);
 			this.$emit( 'input', parsed );
 		},
-		get_json( id = "#") {
+		get_json( id = NodeUtils.Types.Root) {
 			let jsonNode = this.tree.get_json( id );
-			jsonNode = id == "#" ? jsonNode[0] : jsonNode;
+			jsonNode = id == NodeUtils.Types.Root ? jsonNode[0] : jsonNode;
 
 			return NodeParser.parse( jsonNode );
 		},
@@ -91,7 +91,12 @@ export const component = {
 					"dnd"
 				],
 				"types":{
-					[NodeUtils.Types.Root]: {
+					[NodeUtils.Types.Root ] : {
+						"valid_children": [
+							NodeUtils.Types.Mission,
+						],
+					},
+					[NodeUtils.Types.Mission]: {
 						"valid_children": [
 							NodeUtils.Types.Quest,
 							NodeUtils.Types.Tell
@@ -170,7 +175,7 @@ export const component = {
 			switch( selectedtype ) {
 
 				// roots
-				case NodeUtils.Types.Root:
+				case NodeUtils.Types.Mission:
 				case NodeUtils.Types.Branch:
 				case NodeUtils.Types.Quest:
 
@@ -204,7 +209,7 @@ export const component = {
 				let position = $.inArray(selectedNode.id, parentNode.children);
 				let type = this.tree.get_type(selectedNode);
 				let moved = false;
-				if (type !== '#') {
+				if (type !== NodeUtils.Types.Mission ) {
 					//viene spostato nella posizione del nodo selezionato se possibile
 					moved = this.tree.move_node(this.grabNode, parentNode, position);
 				}

@@ -1,4 +1,7 @@
 import Disposable from "../Disposable.js";
+import {Asset} from "../Asset.js";
+import StylePropertyURI from "./StyleProperties/StylePropertyURI.js";
+
 
 export default class StyleProperty extends Disposable {
 
@@ -6,6 +9,11 @@ export default class StyleProperty extends Disposable {
 		super(unparsed);
 		this.name = unparsed.name;
 		this.values = unparsed.values || [];
+		for (let i = 0; i < this.values.length; i++) {
+			if( this.values[i] && typeof this.values[i] !== "string" ) {
+				this.values[i] = new StylePropertyURI( this.values[i] );
+			}
+		}
 		this.config = unparsed.config;
 	}
 
@@ -37,7 +45,7 @@ export default class StyleProperty extends Disposable {
 
 	dispose(params) {
 		for (let i = 0; i < this.values.length; i++) {
-			if( this.values[ i ] && this.values[ i ] instanceof Disposable ) {
+			if( this.values[ i ] && this.values[ i ] instanceof Asset ) {
 				this.values[ i ].dispose(params);
 			}
 		}

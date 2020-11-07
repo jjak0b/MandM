@@ -52,7 +52,6 @@ export default class Disposable {
 		let callback = this.getDisposeCallback();
 		if( callback )
 			callback( this, params );
-		console.log( "check",  this.constructor.name  );
 		// after callback associated to class
 		callback = Disposable.getDisposeCallback( this.constructor.name );
 		if( callback )

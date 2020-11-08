@@ -1,5 +1,4 @@
 import {i18n} from "./i18n.js";
-// let i18n = {};
 import { I18nString } from "./I18nUtils.js";
 import NodeUtils from "./NodeUtils.js";
 import Disposable from "./Disposable.js";
@@ -50,6 +49,23 @@ export default class JSTreeNode extends Disposable{
 		}
 		this.children = children;
 
+	}
+
+	toJSTreeObject() {
+
+		let children = this.children.map( (child) => {
+			return child.toJSTreeObject();
+		});
+
+		return {
+			id: this.id,
+			type: this.type,
+			text: this.text,
+			data: this.data,
+			li_attr: this.li_attr,
+			a_attr: this.a_attr,
+			children: children
+		}
 	}
 
 	/**

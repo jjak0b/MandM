@@ -62,8 +62,18 @@ export const component = {
 
 			console.info("[ActivityTree]", "loading new", "activity tree", jsonData );
 
-			if( jsonData )
-				jsonData[ 'state'] = { opened: true, selected: true };
+			if( jsonData ) {
+				/*
+					Because of a JSTree bug we need to convert all the nodes of the tree into "basic" object and not
+					class instances.
+					Without this, after a long debugging session, we discover that the "children" field would be detached
+					by JSTree for some reason.
+				 */
+				jsonData = jsonData.toJSTreeObject();
+
+				// just set it as open
+				jsonData['state'] = {opened: true, selected: true};
+			}
 
 			let data = [];
 			if( jsonData )
@@ -168,6 +178,10 @@ export const component = {
 		createNewNode( item, selectedNode ) {
 			let selectedtype = this.tree.get_type( selectedNode );
 			let nodeId = null;
+
+			if( item ) {
+				item = item.toJSTreeObject();
+			}
 
 			let parentNode = null;
 			let position = 0;

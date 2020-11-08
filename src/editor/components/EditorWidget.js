@@ -9,7 +9,7 @@ import {component as formImportServer} from "./StoryEditorWidgets/StoryFormImpor
 import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportFile.js";
 import {component as formExportServer} from "./StoryEditorWidgets/StoryFormExportServer.js";
 import {component as assetsManager} from "./AssetsManagerWidget.js";
-import { component as styleEditor } from "./SceneEditorWidgets/StyleEditorWidget.js";
+import { component as styleEditor } from "./StyleEditorWidget.js";
 import Mission from "../../shared/js/Mission.js";
 import Story from "../../shared/js/Story.js";
 

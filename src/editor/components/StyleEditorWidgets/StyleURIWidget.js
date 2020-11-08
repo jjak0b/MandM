@@ -1,7 +1,7 @@
 import {template} from "./StyleURIWidgetTemplate.js";
-import {Asset} from "../../../../shared/js/Asset.js";
-import {component as assetManagerBrowser} from "../../AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
-import StylePropertyURI from "../../../../shared/js/StyleData/StyleProperties/StylePropertyURI.js";
+import {Asset} from "../../../shared/js/Asset.js";
+import {component as assetManagerBrowser} from "../AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
+import StylePropertyURI from "../../../shared/js/StyleData/StyleProperties/StylePropertyURI.js";
 
 export const component = {
 	template: template,

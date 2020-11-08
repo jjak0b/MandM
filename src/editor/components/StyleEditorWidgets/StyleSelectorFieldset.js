@@ -1,5 +1,5 @@
 import {template} from "./StyleSelectorFieldsetTemplate.js";
-import StyleSelector from "../../../../shared/js/StyleData/StyleSelector.js";
+import StyleSelector from "../../../shared/js/StyleData/StyleSelector.js";
 
 export const component = {
 	template: template,

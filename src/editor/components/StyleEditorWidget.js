@@ -1,15 +1,15 @@
 import {template} from "./StyleEditorWidgetTemplate.js";
-import {component as inputRangeNumberComponent} from "./InputRangeNumberWidget.js";
+import {component as inputRangeNumberComponent} from "./SceneEditorWidgets/InputRangeNumberWidget.js";
 import {component as styleLengthComponent } from "./StyleEditorWidgets/StyleLengthWidget.js";
 import {component as styleColorComponent } from "./StyleEditorWidgets/StyleColorWidget.js";
 import {component as styleStringComponent } from "./StyleEditorWidgets/StyleStringWidget.js";
 import {component as styleURIComponent } from "./StyleEditorWidgets/StyleURIWidget.js";
 import {component as styleSelectorComponent } from "./StyleEditorWidgets/StyleSelectorFieldset.js";
-import {component as listWidgetComponent } from "../../../shared/components/ListWidget.js";
-import {FormUtils} from "../../../shared/js/FormUtils.js";
-import StyleRule from "../../../shared/js/StyleData/StyleRule.js";
-import StyleProperty from "../../../shared/js/StyleData/StyleProperty.js";
-import StyleData from "../../../shared/js/StyleData/StyleData.js";
+import {component as listWidgetComponent } from "../../shared/components/ListWidget.js";
+import {FormUtils} from "../../shared/js/FormUtils.js";
+import StyleRule from "../../shared/js/StyleData/StyleRule.js";
+import StyleProperty from "../../shared/js/StyleData/StyleProperty.js";
+import StyleData from "../../shared/js/StyleData/StyleData.js";
 
 export const component = {
 	template: template,

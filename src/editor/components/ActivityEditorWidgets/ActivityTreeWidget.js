@@ -2,6 +2,7 @@ import {template} from "./ActivityTreeWidgetTemplate.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import NodeUtils from "../../../shared/js/NodeUtils.js";
 import NodeParser from "../../../shared/js/NodeParser.js";
+import {KeyboardUtils} from "../../../shared/js/KeyboardUtils.js";
 
 export const component = {
 	template: template,
@@ -264,7 +265,9 @@ export const component = {
 				menu.css({display: 'none'});
 			});
 			$(document).on("keydown", function (event) {
-				if (event.which === 13 || event.which === 27) {
+
+				if ( KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.Enter )
+					|| KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.Escape ) ) {
 					menu.css({display: 'none'});
 				}
 			});

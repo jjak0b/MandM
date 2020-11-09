@@ -12,7 +12,8 @@ export default class Story {
 			captions: [],
 			videos: [],
 			audios: [],
-			images: []
+			images: [],
+			stylesheets: []
 		};
 
 		this.name =  unparsed ? unparsed.name : "";

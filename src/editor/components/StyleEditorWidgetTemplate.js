@@ -1,5 +1,45 @@
 export const template =
 `
+<div>
+<b-form class="clearfix"
+	v-on:reset="value.asset=null"
+>
+	<b-form-group
+		v-bind:label="$t('StyleEditor.label-select-custom-stylesheet')"
+		v-bind:label-for="'style-editor-widget-stylesheet-input-asset'"
+		v-bind:description="$t('StyleEditor.label-custom-stylesheet-description')"
+	>
+		<b-input-group
+			aria-atomic="true"
+			class="my-3"
+		>
+			<b-input-group-prepend>
+				<assets-manager-browser
+					aria-controls="style-editor-widget-stylesheet-input-asset"
+					ref="assetsBrowser"
+					id="style-editor-widget-stylesheets-browser"
+					v-model="value.asset"
+					button-only="true"
+					v-bind:force-filter="['stylesheets']"
+				>
+				</assets-manager-browser>
+			</b-input-group-prepend>
+			<b-form-input
+				id="style-editor-widget-stylesheet-input-asset"
+				v-bind:value="value.asset"
+				readonly
+			></b-form-input>
+		</b-input-group>
+	</b-form-group>
+	<b-button
+		class="float-right"
+		size="sm"
+		type="reset"
+		variant="warning"
+		v-t="'shared.label-reset'"
+	></b-button>
+</b-form>
+<hr>
 <b-card no-body aria-labelledby="style-editor-widget-rule-tablist">
 	<b-card-header id="style-editor-widget-rule-tablist">{{ $t('StyleEditorWidget.rule.label-rule-list') }}</b-card-header>
 	<b-tabs card vertical
@@ -172,4 +212,5 @@ export const template =
 		</template>
 	</b-tabs>
 </b-card>
+</div>
 `;

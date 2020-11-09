@@ -52,6 +52,16 @@ export const component = {
 						/^text\/vtt$/im,
 						/^.vtt$/im
 					]
+				},
+				"stylesheets": {
+					accept: [
+						"text/css",
+						".css"
+					],
+					regExp: [
+						/^text\/css$/im,
+						/^.css$/im
+					]
 				}
 			},
 			// will be filled after definition

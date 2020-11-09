@@ -11,14 +11,16 @@ class AssetsHandler {
 			videos: path.join( this.pathAssets, 'videos' ),
 			audios: path.join( this.pathAssets, 'audios' ),
 			images: path.join( this.pathAssets, 'images' ),
-			captions: path.join( this.pathAssets, 'captions' )
+			captions: path.join( this.pathAssets, 'captions' ),
+			stylesheets: path.join( this.pathAssets, 'stylesheets' ),
 		};
 
 		this.cacheAssets = {
 			videos: [],
 			audios: [],
 			captions: [],
-			images: []
+			images: [],
+			stylesheets: []
 		};
 
 		this.updateAssetsList();

@@ -10,10 +10,12 @@ import {FormUtils} from "../../shared/js/FormUtils.js";
 import StyleRule from "../../shared/js/StyleData/StyleRule.js";
 import StyleProperty from "../../shared/js/StyleData/StyleProperty.js";
 import StyleData from "../../shared/js/StyleData/StyleData.js";
+import {component as assetManagerBrowser} from "./AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
 
 export const component = {
 	template: template,
 	components: {
+		"assets-manager-browser": assetManagerBrowser,
 		"style-string-widget": styleStringComponent,
 		"style-uri-widget": styleURIComponent,
 		"style-length-widget": styleLengthComponent,
@@ -414,6 +416,17 @@ export const component = {
 	},
 	created() {
 
+	},
+	watch: {
+		"value.asset": function (newStyleSheet, oldStyleSheet) {
+			if( oldStyleSheet ) {
+				oldStyleSheet.dispose();
+			}
+
+			if( newStyleSheet ) {
+				this.$root.$emit( "add-dependency", newStyleSheet );
+			}
+		}
 	},
 	methods: {
 		addRule() {

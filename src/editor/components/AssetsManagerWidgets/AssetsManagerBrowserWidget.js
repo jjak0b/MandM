@@ -27,13 +27,15 @@ export const component = {
 				"videos",
 				"audios",
 				"images",
-				"captions"
+				"captions",
+				"stylesheets"
 			],
 			localeStrings: {
 				videos: "shared.media.label-video",
 				audios: "shared.media.label-audio",
 				images: "shared.media.label-image",
 				captions: "shared.media.label-caption",
+				stylesheets: "shared.media.label-stylesheet"
 			},
 			selectedItem: null,
 			filter: {

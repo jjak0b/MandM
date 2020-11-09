@@ -13,6 +13,7 @@ export const template =
 				<assets-manager-browser
 					ref="assetsBrowser"
 					id="assets-manager-widget-browser-delete"
+					aria-controls="assets-manager-widget-input-asset"
 					v-model="selectedAsset"
 					button-only="true"
 				>

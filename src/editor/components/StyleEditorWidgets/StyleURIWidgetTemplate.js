@@ -14,7 +14,8 @@ export const template =
 				<b-input-group-prepend>
 					<assets-manager-browser
 						v-bind:force-filter="['images']"
-						id="assets-manager-widget-browser-delete"
+						v-bind:id="'StyleURI-asset-value-' + $attrs.id"
+						v-bind:aria-controls="'StyleURI-value-' + $attrs.id"
 						v-bind:value="selectedAsset"
 						v-on:input="onInputAsset"
 						button-only="true"

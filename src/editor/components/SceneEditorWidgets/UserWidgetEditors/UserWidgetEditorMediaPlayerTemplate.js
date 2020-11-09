@@ -16,6 +16,7 @@ export const template =
 						<b-input-group-prepend>
 							<assets-manager-browser-widget
 								id="assets-manager-widget-browser-delete"
+								aria-controls="assets-manager-widget-input-asset"
 								v-bind:value="value.asset"
 								v-on:input="form.asset = $event"
 								button-only="true"
@@ -135,6 +136,7 @@ export const template =
 								<b-input-group-prepend>
 									<assets-manager-browser-widget
 										id="user-widget-editor-media-player-asset-caption"
+										aria-controls="user-widget-editor-media-player-asset-caption-input"
 										v-bind:force-filter="['captions']"
 										v-bind:value="locale && value.captions ? value.captions[locale] : null"
 										v-on:input="form.caption = $event"

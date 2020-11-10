@@ -64,7 +64,9 @@ export const template =
 				</activity-quest-editor-widget>
 			</b-tab>
 			<b-tab v-bind:title="branchTab" v-if="isType(NodeUtils.Types.Branch)">
-				<branch-editor-widget>
+				<branch-editor-widget
+					v-bind:branch="currentNode.data"
+				>
 				</branch-editor-widget>
 			</b-tab>
 		</b-tabs>

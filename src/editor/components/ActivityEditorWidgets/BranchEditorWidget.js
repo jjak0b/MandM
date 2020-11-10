@@ -4,11 +4,12 @@ import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18
 
 import {component as singleInput} from "../InputSingleTypeWidget.js";
 import {component as inputVal} from "../InputValueWidget.js";
+import ActivityDataBranch from "../../../shared/js/ActivityNodes/ActivityDataTypes/ActivityDataBranch.js";
 
 export const component = {
     template: template,
     props: {
-        branch: Object,
+        branch: ActivityDataBranch,
         funs:Object,
          //The node selected with type Branch
         locale: String,

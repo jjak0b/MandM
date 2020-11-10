@@ -7,9 +7,6 @@ export const template =
 	<li id="editToolbar" v-show="!isMission">
 		<div>{{ $t( 'shared.label-edit' ) }}</div>
 	</li>
-	<li id="duplicateToolbar" v-show="!isMission">
-		<div>{{ $t( 'shared.label-duplicate' ) }}</div>
-	</li>
 	<li id="removeToolbar" v-show="!isMission">
 		<div>{{ $t( 'shared.label-remove' ) }}</div>
 	</li>
@@ -18,6 +15,12 @@ export const template =
 	</li>
 	<li id="dropToolbar" v-show="!showGrab && !isMission">
 		<div>{{ $t( 'shared.label-drop' ) }}</div>
+	</li>
+	<li id="copyToolbar" v-show="!isMission">
+		<div>{{ $t( 'shared.label-copy' ) }}</div>
+	</li>
+	<li id="pasteToolbar">
+		<div>{{ $t( 'shared.label-paste' ) }}</div>
 	</li>
 </ul>
 `;

@@ -9,18 +9,10 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
-		i18nCategory: String
+		localeLabel: String
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		"user-widget-text-input": textInputComponent
-	},
-	data() {
-		return {
-			localeLabel: this.i18nCategory + '.text-input.' + I18nUtils.getUniqueID()
-		}
-	},
-	mounted() {
-		this.$emit('set-prop', 'localeLabel', this.localeLabel);
 	}
 }

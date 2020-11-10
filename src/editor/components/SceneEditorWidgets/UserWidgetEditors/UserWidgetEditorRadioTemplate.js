@@ -13,7 +13,7 @@ export const template =
 			tag="input"
 			v-bind:label="$t('shared.label-add-element')"
 			v-bind:locale="locale"
-			v-bind:locale-label="localeLabel">
+			v-bind:locale-label="label">
 		</i18n-input-widget>
 	</b-modal>				
 		<b-row>

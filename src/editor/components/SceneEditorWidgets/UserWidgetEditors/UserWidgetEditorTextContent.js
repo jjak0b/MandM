@@ -9,18 +9,10 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
-		i18nCategory: String
+		localeLabel: String
 	},
 	components: {
 		"text-editor": textContentEditor,
 		"text-content": textContentComponent
-	},
-	data() {
-		return {
-			localeLabel: this.i18nCategory + '.text-content.' + I18nUtils.getUniqueID()
-		}
-	},
-	mounted() {
-		this.$emit('set-prop','localeLabel', this.localeLabel);
 	}
 }

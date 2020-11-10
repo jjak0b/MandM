@@ -18,7 +18,8 @@ export const component = {
 	props: {
 		locale: String,
 		mission : Object,
-		localesList: Array
+		localesList: Array,
+		copiedActivity: Object
 	},
 	components: {
 		'activity-tree-widget': activityTreeWidgetComponent,
@@ -64,8 +65,6 @@ export const component = {
 			}
 		}
 	},
-	computed: {
-	},
 	created() {
 		ActivityNode.setDisposeCallback( ActivityNode.name, this.disposeActivityNode )
 		ActivityNodeTell.setDisposeCallback( ActivityNodeTell.name, this.disposeActivityNode )
@@ -107,8 +106,6 @@ export const component = {
 
 			let activityNode = NodeParser.parse( unparsedNode );
 			let item = this.$refs.treeView.add( activityNode );
-
-			// this.$emit('add-activity', data);
 
 			this.$nextTick(() => {
 				this.$refs.addMenu.$bvModal.hide('addMenu');
@@ -153,8 +150,34 @@ export const component = {
 		onDrop() {
 			this.$refs.treeView.drop();
 		},
+		getActivityById( id, children ) {
+			if (children) {
+				let copiedActivity = children.find((child) => child.id === id);
+				if (copiedActivity) return copiedActivity
+				for ( let child of children ) {
+					if ( child.children ) {
+						copiedActivity = this.getActivityById(id, child.children);
+						if (copiedActivity) return copiedActivity
+					}
+				}
+				return null
+			}
+		},
 		onCopy() {
-			this.$refs.treeView.duplicate();
+			let copiedId = this.$refs.treeView.tree.get_selected(true)[0].id;
+			let copiedActivity = this.getActivityById( copiedId, this.mission.tree.children);
+			if (copiedActivity) {
+				console.log("Copied activity", copiedActivity);
+				this.$emit('copy-activity', copiedActivity);
+			}
+		},
+		onPaste() {
+			if (!this.copiedActivity) {
+				return
+			}
+			let newActivity = this.copiedActivity.duplicate(this.copiedActivity.locales);
+			console.log("Pasted activity", newActivity);
+			this.$refs.treeView.add(newActivity);
 		}
 	},
 	mounted() {
@@ -165,9 +188,6 @@ export const component = {
 		$(document).on("editToolbar", () => {
 			this.isEditFormVisible = true;
 		});
-		$(document).on("duplicateToolbar", () => {
-			this.onCopy();
-		});
 		$(document).on("removeToolbar", () => {
 			this.onRemove();
 		});
@@ -176,6 +196,12 @@ export const component = {
 		});
 		$(document).on("dropToolbar", () => {
 			this.onDrop();
+		});
+		$(document).on("copyToolbar", () => {
+			this.onCopy();
+		});
+		$(document).on("pasteToolbar", () => {
+			this.onPaste();
 		});
 	}
 };

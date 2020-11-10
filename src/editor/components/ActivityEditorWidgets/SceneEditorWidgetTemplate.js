@@ -30,8 +30,7 @@ export const template =
 				v-on:copy="onCopy"
 				v-on:paste="onPaste"	
 				v-on:delete="onDelete"
-				v-on:set-prop="setComponentProp"
-				v-bind:i18nCategory="activity.data.i18nCategory"
+				v-bind:localeLabel="currentCellCache.component.i18nCategory"
 			></component>
 		</div>
 	</div>
@@ -230,7 +229,6 @@ export const template =
 		v-bind:maxColumns="maxColumns"
 		v-bind:showCSSGrid="showCSSGrid"
 		v-bind:locales-list="localesList"
-		v-bind:i18nCategory="activity.data.i18nCategory"
 		v-model="cursor"
 	></grid-widget>
 </section>

@@ -28,8 +28,16 @@ import SceneCell from "../../../shared/js/Scene/SceneCell.js";
 import Scene from "../../../shared/js/Scene/Scene.js";
 import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
+import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
+import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
+SceneComponentParser.register( "user-widget-text-content", ComponentText );
+SceneComponentParser.register( "user-widget-text-input", ComponentText );
+SceneComponentParser.register( "user-widget-checkbox", ComponentList );
+SceneComponentParser.register( "user-widget-radio", ComponentList );
+SceneComponentParser.register( "user-widget-select", ComponentList );
+
 
 export const component = {
 	template: template,
@@ -284,10 +292,7 @@ export const component = {
 			this.newId++;
 			return this.newId
 		},
-		onAddElement(toAdd, assetId) {
-			if (! ('assetId' in this.currentCellCache.component.props)) {
-				this.$set( this.currentCellCache.component.props, 'assetId', assetId );
-			}
+		onAddElement(toAdd) {
 			if (! ('options' in this.currentCellCache.component.props)) {
 				this.$set( this.currentCellCache.component.props, 'options', [] );
 			}

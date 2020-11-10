@@ -19,6 +19,7 @@ const component = {
 	i18n: i18n,
 	data() {
 		return {
+			copiedActivity: null,
 			copiedMission: null,
 			saveStory: false,
 			localStories: [],
@@ -124,17 +125,11 @@ const component = {
 		},
 		copyMission( mission ) {
 			this.copiedMission = mission;
-			this.copiedMission.locales = {};
-
-			let missionLocales;
-			for (const locale of this.localesList){
-				if (this.cache.story.dependencies.locales[locale]) {
-					missionLocales = this.cache.story.dependencies.locales[locale].assets.mission;
-					if (missionLocales[this.copiedMission.id]) {
-						this.copiedMission.locales[locale] = missionLocales[this.copiedMission.id];
-					}
-				}
-			}
+			this.copiedMission.locales = i18n.messages;
+		},
+		copyActivity( activity ) {
+			this.copiedActivity = activity;
+			this.copiedActivity.locales = i18n.messages;
 		}
 	}
 }

@@ -14,7 +14,6 @@ export const template =
 		v-bind:showCSSGrid="showCSSGrid"
 		v-on:setCursor="onSetCursor"
 		v-bind:locales-list="localesList"
-		v-bind:i18nCategory="i18nCategory"
 	></row>
 </div>
 `;

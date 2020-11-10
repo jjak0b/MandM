@@ -6,7 +6,7 @@ export class I18nUtils {
 	}
 
 	static getUniqueID() {
-		return Date.now().toString();
+		return performance.now().toString().replace('.', '');
 	}
 
 	static buildObjectFromLabel( localeLabel, value ){
@@ -89,6 +89,31 @@ export class I18nUtils {
 				reject( error );
 			});
 		});
+	}
+
+	static getValueFromLabel( messages, locale, label ) {
+		let labelArray = label.split('.');
+		let value = messages[locale];
+		if (value) {
+			for (const item of labelArray) {
+				if (!value[item]) {
+					return null
+				}
+				value = value[item]
+			}
+			return value
+		}
+	}
+
+	static setValueFromLabel( fromLocales, i18n, toLabel, fromLabel ) {
+		let value;
+		for (const locale in fromLocales) {
+			value = I18nUtils.getValueFromLabel(fromLocales, locale, fromLabel);
+			if (value) {
+				let obj = I18nUtils.buildObjectFromLabel(toLabel, value);
+				i18n.mergeLocaleMessage(locale, obj);
+			}
+		}
 	}
 }
 

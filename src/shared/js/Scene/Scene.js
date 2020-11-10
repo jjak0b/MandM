@@ -28,4 +28,15 @@ export default class Scene extends Disposable{
 
 	}
 
+	duplicate( locales, activityCategory ) {
+		let duplicateScene = new Scene(JSON.parse(JSON.stringify(this)));
+		for( let i = 0; i < duplicateScene.grid.length; i++ ) {
+			for( let j = 0; j < duplicateScene.grid[ i ].length; j++ ) {
+				duplicateScene.grid[ i ][ j ] = this.grid[ i ][ j ].duplicate( locales, activityCategory );
+			}
+		}
+
+		return duplicateScene;
+	}
+
 }

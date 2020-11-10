@@ -2,7 +2,13 @@ import {template} from "./ActivityTreeWidgetTemplate.js";
 import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import NodeUtils from "../../../shared/js/NodeUtils.js";
 import NodeParser from "../../../shared/js/NodeParser.js";
+import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import {KeyboardUtils} from "../../../shared/js/KeyboardUtils.js";
+// Adding these will register them as parsable Nodes
+import ActivityNodeTell from "../../../shared/js/ActivityNodes/ActivityNodeTell.js";
+import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQuest.js";
+import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBranch.js";
+import JSTreeNode from "../../../shared/js/JSTreeNode.js";
 
 export const component = {
 	template: template,
@@ -147,6 +153,9 @@ export const component = {
 			// since "select_node.jstree" seems to be trigghered only by user select, we will notify to parent manually
 			this.notifyValue( nodeToSelect );
 		},
+		select( node ) {
+			this.tree.select_node(node);
+		},
 		// events
 		onCreate( event, data ) {
 			let node = data.node;
@@ -272,10 +281,5 @@ export const component = {
 				}
 			});
 		}
-	},
-	mounted() {
-		$("#treeView").on("select_node.jstree", () => {
-			this.$emit("selectedNode");
-		});
 	}
 };

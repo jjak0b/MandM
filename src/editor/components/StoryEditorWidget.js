@@ -10,7 +10,7 @@ export const component = {
 	props: {
 		locale: String,
 		localesList: Array,
-		value: Story, // story Cache
+		value: Object, // story Cache
 		stories: Array,
 		names: Array,
 		mission: Object,

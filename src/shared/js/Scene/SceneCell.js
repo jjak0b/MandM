@@ -14,4 +14,13 @@ export default class SceneCell extends Disposable {
 			this.component.dispose( params );
 		super.dispose( params );
 	}
+
+	duplicate( locales, activityCategory ) {
+		let duplicateCell = new SceneCell( JSON.parse(JSON.stringify(this)) );
+		if( duplicateCell.component && duplicateCell.component.duplicate )
+			duplicateCell.component = this.component.duplicate( locales, activityCategory );
+
+
+		return duplicateCell;
+	}
 }

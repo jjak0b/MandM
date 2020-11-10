@@ -14,7 +14,8 @@ export const component = {
 	template: template,
 	props: {
 		value: Object,
-		locale: String
+		locale: String,
+		copiedActivity: Object
 	},
 	components: {
 		'toolbar': activityToolbar

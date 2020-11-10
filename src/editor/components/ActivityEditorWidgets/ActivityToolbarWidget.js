@@ -4,7 +4,8 @@ import NodeUtils from "../../../shared/js/NodeUtils.js";
 export const component = {
 	template: template,
 	props: {
-		type: String
+		type: String,
+		copiedActivity: Object
 	},
 	data() {
 		return {

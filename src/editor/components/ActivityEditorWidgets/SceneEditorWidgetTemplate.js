@@ -30,7 +30,6 @@ export const template =
 				v-on:copy="onCopy"
 				v-on:paste="onPaste"	
 				v-on:delete="onDelete"
-				v-bind:localeLabel="currentCellCache.component.i18nCategory"
 			></component>
 		</div>
 	</div>

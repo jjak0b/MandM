@@ -9,7 +9,7 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
-		localeLabel: String
+		component: Object
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,

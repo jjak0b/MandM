@@ -10,6 +10,7 @@ export const template =
 				ref="treeView"
 				v-model="currentNode"
 				v-bind:locale="locale"
+				v-bind:copiedActivity="copiedActivity"
 				v-on:selectedNode="onSelectedNode"
 			></activity-tree-widget>
 	</b-card>

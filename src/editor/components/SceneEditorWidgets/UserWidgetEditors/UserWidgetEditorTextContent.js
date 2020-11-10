@@ -9,7 +9,7 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
-		localeLabel: String
+		component: Object
 	},
 	components: {
 		"text-editor": textContentEditor,

@@ -1,6 +1,5 @@
 import {template} from "./ActivityEditorWidgetTemplate.js";
 import {component as activityTreeWidgetComponent} from "./ActivityTreeWidget.js";
-import {component as activityToolbar} from "./ActivityToolbarWidget.js";
 import NodeUtils from "../../../shared/js/NodeUtils.js";
 import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
 import { I18nString, I18nUtils } from "../../../shared/js/I18nUtils.js";
@@ -23,7 +22,6 @@ export const component = {
 	},
 	components: {
 		'activity-tree-widget': activityTreeWidgetComponent,
-		'toolbar': activityToolbar,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		'add-menu-widget': addMenuComponent,
 		'edit-menu-widget': editMenuComponent

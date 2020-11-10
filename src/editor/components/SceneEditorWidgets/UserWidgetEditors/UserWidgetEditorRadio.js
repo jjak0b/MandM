@@ -11,7 +11,7 @@ export const component = {
 		props: Object,
 		locale: String,
 		localesList: Array,
-		localeLabel: String
+		component: Object
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
@@ -25,7 +25,7 @@ export const component = {
 	},
 	methods: {
 		onAdd() {
-			this.label = this.localeLabel + '.element.' + I18nUtils.getUniqueID();
+			this.label = this.component.i18nCategory + '.element.' + I18nUtils.getUniqueID();
 			this.$bvModal.show('addRadioModal');
 		},
 		addElement() {

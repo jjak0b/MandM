@@ -147,6 +147,7 @@
 			>
 				<story-editor-widget
 					id="story-editor-widget"
+					ref="story"
 					v-model="cache.story"
 					v-bind:mission="cache.mission"
 					v-bind:names="remoteStories"
@@ -159,8 +160,6 @@
 					v-on:delete-local-story="deleteFromLocalStories"
 					v-on:change-story="changeSelectedStory"
 					v-on:select-mission="selectMission"
-					v-bind:savestory="saveStory"
-					v-on:saved="saveStory = false"
 					v-bind:copied-mission="copiedMission"
 					v-on:copy-mission="copyMission"
 				></story-editor-widget>
@@ -177,7 +176,7 @@
 					v-bind:mission="cache.mission"
 					v-bind:locale="locale"
 					v-bind:locales-list="localesList"
-					v-on:save-story="saveStory = true"
+					v-on:save-story="saveStory"
 					v-bind:copied-activity="copiedActivity"
 					v-on:copy-activity="copyActivity"
 					v-model="cache.activity"

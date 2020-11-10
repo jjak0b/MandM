@@ -12,7 +12,7 @@ export const template =
 	<div class="text-center text-muted my-5" v-if="locale === null">
 		{{ $t('StoryEditorWidget.label-select-internationalization') }}
 	</div>
-	<b-form v-on:submit.stop.prevent="onUpdate" v-else>
+	<b-form v-on:submit.stop.prevent="updateStoryOnServer" v-else>
 		<b-tabs pills card vertical lazy v-model="tabValue" ref="tabs">
 			<template v-for="name in names">
 				<b-tab v-bind:title="name" v-bind:key="name">
@@ -64,7 +64,7 @@ export const template =
 									v-bind:localesList="localesList"
 									v-bind:copied-mission="copiedMission"
 									v-on:select-mission="selectMission"
-									v-on:save-story="onUpdate"
+									v-on:save-story="updateStoryOnServer"
 									v-on:copy-mission="copyMission"
 								></mission-editor-widget>
 							</b-col>
@@ -82,13 +82,13 @@ export const template =
 						</b-form-row>
 						<b-form-row class="mr-5 mb-3 float-right">
 							<b-button-toolbar>
-								<b-button type="submit" variant="primary" v-bind:disabled="!canUpdate">
+								<b-button type="submit" variant="primary">
 									{{ $t('shared.label-save') }}
 								</b-button>
-								<b-button class="mx-1" variant="secondary" v-on:click="onReload" v-bind:disabled="!canReload">
+								<b-button class="mx-1" variant="secondary" v-on:click="reloadStoryFromServer">
 									{{ $t('StoryEditorWidget.label-reload-from-server') }}
 								</b-button>
-								<b-button variant="danger" v-on:click="onDelete">
+								<b-button variant="danger" v-on:click="deleteStory">
 									{{ $t('shared.label-delete') }}
 								</b-button>
 							</b-button-toolbar>
@@ -97,7 +97,7 @@ export const template =
 				</b-tab>
 			</template>
 			<template v-slot:tabs-end>
-			  <b-nav-item role="presentation" v-on:click.stop.prevent="onAdd"><b>{{ $t('StoryEditorWidget.label-add-new-story') }}</b></b-nav-item>
+			  <b-nav-item role="presentation" v-on:click.stop.prevent="$bvModal.show('addModal')"><b>{{ $t('StoryEditorWidget.label-add-new-story') }}</b></b-nav-item>
 			</template>	
 			<template v-slot:empty>
 			  <div class="text-center text-muted">

@@ -4,7 +4,6 @@ import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
 import Story from "../../shared/js/Story.js";
 
-
 export const component = {
 	template: template,
 	props: {
@@ -14,7 +13,6 @@ export const component = {
 		stories: Array,
 		names: Array,
 		mission: Object,
-		savestory: Boolean,
 		copiedMission: Object
 	},
 	components: {
@@ -22,47 +20,19 @@ export const component = {
 		'story-groups-widget': storyGroupsComponent
 	},
 	watch: {
-		tabValue: function(newVal) {
-		},
-		/* BUTTONS
-		value: {
-			deep: true,
-			handler( newStoryValue ) {
-				if( newStoryValue ) {
-					this.canReload = true;
-					if( newStoryValue.name === this.oldName ) {
-						this.canUpdate = true;
-					}
-					if( this.hasReloaded ) {
-						this.canUpdate = false;
-						this.canReload = false;
-					}
-					this.oldName = newStoryValue.name;
-					this.hasReloaded = false;
-				}
-			}
-		},
-		*/
 		selectedName: function ( newVal ) {
+			// when the selected story changes, load the story from the local change if present,
+			// else load the story from server
 			if (this.selectedName) {
-				//this.canUpdate = false;
 				this.selectMission(null);
 
 				if ( this.stories.some( story => story.name === this.selectedName ) ) {
+					console.log("[StoryEditor]", `Loaded the Story ${this.selectedName} from local cache`);
 					this.$emit('change-story', this.selectedName);
 				}
 				else {
-					this.getFromServer( this.selectedName );
+					this.getStoryFromServer( this.selectedName );
 				}
-			}
-		},
-		savestory: function (newVal) {
-			if(newVal) {
-				this.onUpdate();
-				this.$nextTick(() => {
-					this.$emit('saved');
-				});
-
 			}
 		}
 	},
@@ -71,10 +41,6 @@ export const component = {
 	},
 	data() {
 		return {
-			hasReloaded: false,
-			canReload: true,
-			canUpdate: true,
-			//oldName: "",
 			loading: false,
 			tabValue: -1,
 			newStory: new Story( null ),
@@ -91,32 +57,20 @@ export const component = {
 		}
 	},
 	methods: {
-		onAdd() {
-			this.$bvModal.show('addModal');
+		updateStoryOnServer() {
+			// load to the server the instance of the story present in the local cache
+			this.putStoryOnServer( this.value );
 		},
-		onUpdate() {
-			//this.canUpdate = false;
-			//this.canReload = false;
-			let dataExport = this.value;
-			// dataExport.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
-			this.putToServer( dataExport )
-			.then( (data) => {
-				console.log("[StoryEditor]", `Updated the Story ${dataExport.name}`);
-			})
-			.catch( (error) => {
-				console.log("[StoryEditor]", `Failed to update the Story ${dataExport.name}`, error );
-			})
-		},
-		onReload() {
-			this.hasReloaded = true;
-
+		reloadStoryFromServer() {
+			// delete story instance from local cache and reload the instance on the server
 			let name = this.value.name;
 			if ( this.stories.some( story => story.name === name ) ) {
 				this.$emit('delete-local-story', name);
 			}
-			this.getFromServer(this.value.name);
+			this.getStoryFromServer(this.value.name);
 		},
-		onDelete() {
+		deleteStory() {
+			// delete story from server and from local cache
 			let name = this.value.name;
 			if ( this.stories.some( story => story.name === name ) ) {
 				$.ajax( `/stories/${name}`, {
@@ -134,7 +88,7 @@ export const component = {
 					});
 			}
 		},
-		putToServer( storyData ) {
+		putStoryOnServer( storyData ) {
 			return new Promise( (resolve, reject) => {
 
 				let storyUrl = `/stories/${storyData.name}`
@@ -155,12 +109,16 @@ export const component = {
 
 				Promise.all( [ promiseStory ].concat( promisesLocales ) )
 					.then( ( responses ) => {
+						self.$emit('add-local-story', storyData);
+						console.log("[StoryEditor]", `Added (or updated) the Story ${storyData.name} to server`);
 						resolve( responses[ 0 ] );
 					})
-					.catch( reject );
+					.catch( (reject) => {
+							console.log("[StoryEditor]", `Failed to add or update the Story ${storyData.name}`, reject );
+					});
 			});
 		},
-		getFromServer( name ) {
+		getStoryFromServer( name ) {
 			self = this;
 			this.loading = true;
 			let reqJSONStory = $.get( `/stories/${name}` );
@@ -184,10 +142,11 @@ export const component = {
 				story.dependencies.locales = locales;
 				self.$emit('import', story );
 				self.$emit('add-local-story', story);
+				console.log("[StoryEditor]", `Loaded the Story ${name} from server`);
 			})
 			// file can't be downloaded for some reason so report it
 			.catch( ( error) => {
-				console.error( "[StoryEditor]", `Error downloading story "${name}"`, "cause:", error );
+				console.error( "[StoryEditor]", `Error loading the Story "${name}" from server`, "cause:", error );
 			})
 			.finally(() => {
 				self.loading = false;
@@ -200,23 +159,17 @@ export const component = {
 			this.newStory.age = ""
 		},
 		saveModal(){
+			// Save the new story on server and local cache if a story
+			// with the same name doesn't already exists
 			let self = this;
 			let dataExport = this.newStory;
+
 			if (this.names.includes(dataExport.name)) {
 				console.log(dataExport.name," already exists");
 				return
 			}
-			let assets = {};
-			// dataExport.dependencies.locales[this.locale] = assets;
 
-			this.putToServer( dataExport )
-			.then( (data) => {
-				self.$emit('add-local-story', dataExport);
-				console.log("[StoryEditor]", `Created the Story ${dataExport.name}`);
-			})
-			.catch( (error) => {
-				console.log("[StoryEditor]", `Failed to create or replace the Story ${dataExport.name}`, error );
-			})
+			this.putStoryOnServer( dataExport )
 			.finally( () => {
 				self.newStory = new Story( null );
 				self.$emit("update-names");

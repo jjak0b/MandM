@@ -21,7 +21,6 @@ const component = {
 		return {
 			copiedActivity: null,
 			copiedMission: null,
-			saveStory: false,
 			localStories: [],
 			remoteStories: [], // names
 			delayForNextRemoteRequest: 5000,
@@ -89,9 +88,11 @@ const component = {
 				});
 		},
 		addToLocalStories( story ) {
+			console.log("[StoryEditor]", `Added (or updated) the Story ${story.name} to local cache`);
 			this.localStories.push(story);
 		},
 		deleteFromLocalStories( name ) {
+			console.log("[StoryEditor]", `Deleted the Story ${name} from local cache`);
 			this.localStories = this.localStories.filter(function( story ) {
 				return story.name !== name;
 			});
@@ -130,6 +131,9 @@ const component = {
 		copyActivity( activity ) {
 			this.copiedActivity = activity;
 			this.copiedActivity.locales = i18n.messages;
+		},
+		saveStory() {
+			this.$refs.story.updateStoryOnServer();
 		}
 	}
 }

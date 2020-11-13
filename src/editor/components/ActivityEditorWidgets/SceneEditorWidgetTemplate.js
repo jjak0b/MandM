@@ -23,13 +23,13 @@ export const template =
 				v-model="currentCellCache.component.value"
 				v-bind:locale="locale"
 				v-bind:locales-list="localesList"
-				v-on:addElement="onAddElement"
-				v-on:removeElement="onRemoveElement"
-				v-on:move-up="onMoveUp"
-				v-on:move-down="onMoveDown"
-				v-on:copy="onCopy"
-				v-on:paste="onPaste"	
-				v-on:delete="onDelete"
+				v-on:addElement="addListElement"
+				v-on:removeElement="removeListElement"
+				v-on:move-up="moveUpListElement"
+				v-on:move-down="moveDownListElement"
+				v-on:copy="copyListElement"
+				v-on:paste="pasteListElement"	
+				v-on:delete="removeListElement"
 			></component>
 		</div>
 	</div>

@@ -5,7 +5,8 @@ export const component = {
 	template: template,
 	props: {
 		type: String,
-		copiedActivity: Object
+		copiedActivity: Object,
+		active: Boolean
 	},
 	data() {
 		return {

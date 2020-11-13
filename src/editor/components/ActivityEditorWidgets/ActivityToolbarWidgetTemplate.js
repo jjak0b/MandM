@@ -22,5 +22,11 @@ export const template =
 	<li id="pasteToolbar" v-show="copiedActivity">
 		<div>{{ $t( 'shared.label-paste' ) }}</div>
 	</li>
+	<li id="enableToolbar" v-show="!isMission && !active">
+		<div>{{ $t( 'shared.label-enable' ) }}</div>
+	</li>
+	<li id="disableToolbar" v-show="!isMission && active">
+		<div>{{ $t( 'shared.label-disable' ) }}</div>
+	</li>
 </ul>
 `;

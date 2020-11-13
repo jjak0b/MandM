@@ -75,6 +75,19 @@ export const component = {
 				if( node.data.description ) this.$i18n.removeMessageAll( node.data.description );
 			}
 		},
+		getActivityById( id, children ) {
+			if (children) {
+				let copiedActivity = children.find((child) => child.id === id);
+				if (copiedActivity) return copiedActivity
+				for ( let child of children ) {
+					if ( child.children ) {
+						copiedActivity = this.getActivityById(id, child.children);
+						if (copiedActivity) return copiedActivity
+					}
+				}
+				return null
+			}
+		},
 		// serialize tree data and set it to parent mission
 		save( mission ){
 			let tree = this.$refs.treeView.get_json();
@@ -86,13 +99,8 @@ export const component = {
 		loadTree( tree ) {
 			this.$refs.treeView.load( tree );
 		},
-		// callback which load the node to the editor
-		loadNode( node ) {
-			console.info( "[ActivityEditor]", "Loading current activity", activity );
-			this.currentNode = node;
-		},
 		// events
-		onAdd( unparsedNode ) {
+		onAddActivity( unparsedNode ) {
 			let id = I18nUtils.getUniqueID();
 			let prefix = `${this.mission.i18nCategory}.activity.${id}`;
 
@@ -101,6 +109,7 @@ export const component = {
 			data.i18nCategory = prefix;
 			data.title = prefix + ".title";
 			data.description = prefix + ".description";
+			data.active = true;
 
 			let activityNode = NodeParser.parse( unparsedNode );
 			let item = this.$refs.treeView.add( activityNode );
@@ -110,7 +119,7 @@ export const component = {
 			});
 			this.save(this.mission);
 		},
-		onRemove() {
+		onRemoveActivity() {
 			// save the full updated and parsed tree from jstree's structure to be able to parse it and after dispose from the current node
 			this.$nextTick( () => {
 				/* 	this will parse all subtree
@@ -132,36 +141,20 @@ export const component = {
 			});
 
 		},
-		onEdit() {
+		onEditActivity() {
 			let node = this.currentNode;
 			this.$set( node, "text", node.data.noteInfo.name );
 			this.isEditFormVisible = false;
 			this.save(this.mission);
 		},
-		onSelectedNode() {
-			this.isEditFormVisible = false;
-			this.$emit("inc-id");
-		},
-		onGrab() {
+
+		onGrabActivity() {
 			this.$refs.treeView.grab();
 		},
-		onDrop() {
+		onDropActivity() {
 			this.$refs.treeView.drop();
 		},
-		getActivityById( id, children ) {
-			if (children) {
-				let copiedActivity = children.find((child) => child.id === id);
-				if (copiedActivity) return copiedActivity
-				for ( let child of children ) {
-					if ( child.children ) {
-						copiedActivity = this.getActivityById(id, child.children);
-						if (copiedActivity) return copiedActivity
-					}
-				}
-				return null
-			}
-		},
-		onCopy() {
+		onCopyActivity() {
 			let copiedId = this.$refs.treeView.tree.get_selected(true)[0].id;
 			let copiedActivity = this.getActivityById( copiedId, this.mission.tree.children);
 			if (copiedActivity) {
@@ -169,13 +162,21 @@ export const component = {
 				this.$emit('copy-activity', copiedActivity);
 			}
 		},
-		onPaste() {
+		onPasteActivity() {
 			if (!this.copiedActivity) {
 				return
 			}
 			let newActivity = this.copiedActivity.duplicate(this.copiedActivity.locales);
 			console.log("Pasted activity", newActivity);
 			this.$refs.treeView.add(newActivity);
+			this.save(this.mission);
+		},
+		onDisableActivity() {
+			this.$refs.treeView.disable();
+			this.save(this.mission);
+		},
+		onSelectedNode() {
+			this.isEditFormVisible = false;
 		}
 	},
 	mounted() {
@@ -187,19 +188,25 @@ export const component = {
 			this.isEditFormVisible = true;
 		});
 		$(document).on("removeToolbar", () => {
-			this.onRemove();
+			this.onRemoveActivity();
 		});
 		$(document).on("grabToolbar", () => {
-			this.onGrab();
+			this.onGrabActivity();
 		});
 		$(document).on("dropToolbar", () => {
-			this.onDrop();
+			this.onDropActivity();
 		});
 		$(document).on("copyToolbar", () => {
-			this.onCopy();
+			this.onCopyActivity();
 		});
 		$(document).on("pasteToolbar", () => {
-			this.onPaste();
+			this.onPasteActivity();
+		});
+		$(document).on("enableToolbar", () => {
+			this.onDisableActivity();
+		});
+		$(document).on("disableToolbar", () => {
+			this.onDisableActivity();
 		});
 	}
 };

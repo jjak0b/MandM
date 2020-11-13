@@ -14,8 +14,8 @@ export default class ComponentList extends SceneComponent {
 		if (this.props.options) {
 			for (const index in this.props.options) {
 				localeLabel = activityCategory + '.component.' + I18nUtils.getUniqueID() + '.element.' + I18nUtils.getUniqueID();
-				duplicateComponent.props.options[index] = localeLabel;
-				Mission.duplicateCallback( locales, duplicateComponent.props.options[index], this.props.options[index] );
+				duplicateComponent.props.options[index].title = localeLabel;
+				Mission.duplicateCallback( locales, duplicateComponent.props.options[index].title, this.props.options[index].title );
 			}
 		}
 		return duplicateComponent;

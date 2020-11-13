@@ -1,4 +1,4 @@
-import {template} from "./StoryEditorGroupsWidgetTemplate.js";
+ import {template} from "./StoryEditorGroupsWidgetTemplate.js";
 import { component as listComponent } from "../../shared/components/AccessibleListWidget.js";
 
 export const component = {
@@ -12,16 +12,12 @@ export const component = {
 	components: {
 		"list-widget": listComponent
 	},
-	watch: {
-		missions: function () { this.getMissionNames() }
-	},
 	computed: {
 	},
 	data() {
 		return {
-			missionNames: [],
 			currentGroupIndex: null,
-			selected: ""
+			selected: null
 		}
 	},
 	methods: {
@@ -31,39 +27,42 @@ export const component = {
 		removeGroup( groupIndex ) {
 			this.groups.splice( groupIndex, 1);
 		},
-		add() {
-			this.groups[this.currentGroupIndex].push(this.selected);
+		addGroupMission() {
+			this.groups[this.currentGroupIndex].push({
+				title: this.missions[this.selected].title,
+				id: this.missions[this.selected].id,
+				active: this.missions[this.selected].active
+			});
 		},
-		deleteName( groupIndex, missionIndex ) {
+		deleteGroupMission( groupIndex, missionIndex ) {
 			this.groups[groupIndex].splice( missionIndex, 1);
 		},
-		moveUp( groupIndex, missionIndex ) {
-			this.groups[groupIndex].splice(
-				missionIndex-1,
-				0,
-				this.groups[groupIndex].splice(missionIndex, 1)[0]
-			)
-		}
-		,
-		moveDown( groupIndex, missionIndex ) {
-			this.groups[groupIndex].splice(
-				missionIndex+1,
-				0,
-				this.groups[groupIndex].splice(missionIndex, 1)[0]
-			)
+		moveUpGroupMission( groupIndex, missionIndex ) {
+			if (missionIndex !== 0) {
+				this.groups[groupIndex].splice(
+						missionIndex - 1,
+						0,
+						this.groups[groupIndex].splice(missionIndex, 1)[0]
+				)
+			}
+		},
+		moveDownGroupMission( groupIndex, missionIndex ) {
+			if (missionIndex !== this.groups[groupIndex].length-1) {
+				this.groups[groupIndex].splice(
+						missionIndex + 1,
+						0,
+						this.groups[groupIndex].splice(missionIndex, 1)[0]
+				)
+			}
+		},
+		enableGroupMission( groupIndex, missionIndex ) {
+			let value = !this.groups[groupIndex][missionIndex].active;
+			this.$set(this.groups[groupIndex][missionIndex], 'active', value);
 		},
 		showModal( index ) {
+			this.selected = null;
 			this.currentGroupIndex = index;
 			this.$bvModal.show('groupsModal');
 		},
-		getMissionNames() {
-			this.missionNames = [];
-			for (const mission of this.missions) {
-				this.missionNames.push(mission.title);
-			}
-		}
-	},
-	mounted() {
-		this.getMissionNames();
 	}
 }

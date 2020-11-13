@@ -29,7 +29,7 @@ export const component = {
 			this.$bvModal.show('addSelectModal');
 		},
 		addElement() {
-			this.$emit('addElement', this.label );
+			this.$emit('addElement', {title: this.label} );
 		},
 		removeElement(index) {
 			this.$emit('removeElement', index);

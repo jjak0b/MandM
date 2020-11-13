@@ -136,15 +136,7 @@ export const component = {
 			else {
 				this.currentCellCache = null;
 			}
-		},
-		"currentCellCache": {
-			deep: true,
-			handler: function (newVal) {
-				// DEBUG
-				// console.log( "updated", "currentCellCache", this.currentCellCache );
-			}
 		}
-
 	},
 	computed: {
 		canAddRow: function () { let rc = this.getRowsCount(); return rc >= 0 && rc < this.maxRows },
@@ -288,20 +280,16 @@ export const component = {
 				this.$delete( cell, "component" );
 			}
 		},
-		getNewId() {
-			this.newId++;
-			return this.newId
-		},
-		onAddElement(toAdd) {
+		addListElement(toAdd) {
 			if (! ('options' in this.currentCellCache.component.props)) {
 				this.$set( this.currentCellCache.component.props, 'options', [] );
 			}
 			this.currentCellCache.component.props.options.push( toAdd );
 		},
-		onRemoveElement(index) {
+		removeListElement(index) {
 			this.currentCellCache.component.props.options.splice( index, 1 );
 		},
-		onMoveUp( index ) {
+		moveUpListElement( index ) {
 			this.currentCellCache.component.props.options.splice(
 				index-1,
 				0,
@@ -309,39 +297,30 @@ export const component = {
 			)
 		}
 		,
-		onMoveDown( index ) {
+		moveDownListElement( index ) {
 			this.currentCellCache.component.props.options.splice(
 				index+1,
 				0,
 				this.currentCellCache.component.props.options.splice(index, 1)[0]
 			)
 		},
-		onCopy( index ) {
+		copyListElement( index ) {
 			this.copiedItem = JSON.parse(JSON.stringify(this.currentCellCache.component.props.options[index]))
 		},
-		onPaste( index ) {
+		pasteListElement( index ) {
 			if ( this.copiedItem ) {
 				let obj;
 				let value;
-				let labelArray = this.copiedItem.split('.');
+				let labelArray = this.copiedItem.title.split('.');
 				labelArray[labelArray.length - 1] = I18nUtils.getUniqueID();
 				let label = labelArray.join('.');
 				for (const locale of this.localesList) {
-					value = this.$t(this.copiedItem, locale);
+					value = this.$t(this.copiedItem.title, locale);
 					obj = I18nUtils.buildObjectFromLabel(label, value);
 					this.$i18n.mergeLocaleMessage(locale, obj);
 				}
-				this.currentCellCache.component.props.options.splice(index, 0, label)
+				this.currentCellCache.component.props.options.splice(index, 0, {title: label})
 			}
-		},
-		onDelete( index ) {
-			this.currentCellCache.component.props.options.splice( index, 1);
-		},
-		setComponentProp(name, value) {
-			if (! (name in this.currentCellCache.component.props)) {
-				this.$set( this.currentCellCache.component.props, name, "" );
-			}
-			this.$set( this.currentCellCache.component.props, name, value );
 		}
 	}
 };

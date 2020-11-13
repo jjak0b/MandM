@@ -32,16 +32,8 @@ export const component = {
 			selectedIndex: null
 		}
 	},
-
 	computed: {
-		selectedId: function () { return this.value ? this.value.id : null },
-		missionNames: function () {
-			let names = [];
-			for (const mission of this.missions) {
-				names.push(mission.title);
-			}
-			return names
-		}
+		selectedId: function () { return this.value ? this.value.id : null }
 	},
 	created() {
 		Mission.setDisposeCallback(Mission.name, this.disposeMissionCallback );
@@ -57,23 +49,13 @@ export const component = {
 			let self = this;
 			I18nUtils.setValueFromLabel( locales, self.$i18n, toLabel, fromLabel )
 		},
-		add() {
-			console.log( "registered new mission: ", this.newMission );
+		addMission() {
+			console.log( "Added mission: ", this.newMission );
 			this.missions.push( this.newMission );
 
 			this.$emit('save-story');
 		},
-		remove( index ) {
-			let mission = this.missions[ index ];
-
-			if( mission ) {
-				console.log( "REMOVING", mission);
-				mission.dispose();
-				this.missions.splice( index, 1);
-				this.$emit('save-story');
-			}
-		},
-		onAdd() {
+		onAddMission() {
 			let newMission = {};
 			let id = I18nUtils.getUniqueID();
 
@@ -86,37 +68,55 @@ export const component = {
 
 			this.$bvModal.show('addMissionModal');
 		},
-		onSelect( index ) {
+		onSelectMission( index ) {
 			this.selectedIndex = index;
+			console.log("Selected mission", this.missions[index])
 		},
-		onMoveUp( index ) {
-			if ( this.missions.splice(index-1, 0, this.missions.splice(index, 1)[0]) ) {
-				if (this.selectedIndex === index) this.selectedIndex = index-1;
-				else if (this.selectedIndex === index-1) this.selectedIndex = index;
+		onMoveUpMission( index ) {
+			if (index !== 0) {
+				if (this.missions.splice(index - 1, 0, this.missions.splice(index, 1)[0])) {
+					if (this.selectedIndex === index) this.selectedIndex = index - 1;
+					else if (this.selectedIndex === index - 1) this.selectedIndex = index;
+				}
 			}
 		},
-		onMoveDown( index ) {
-			if ( this.missions.splice(index+1, 0, this.missions.splice(index, 1)[0]) ) {
-				if (this.selectedIndex === index) this.selectedIndex = index+1;
-				else if (this.selectedIndex === index+1) this.selectedIndex = index;
+		onMoveDownMission( index ) {
+			if (index !== this.missions.length-1) {
+				if (this.missions.splice(index + 1, 0, this.missions.splice(index, 1)[0])) {
+					if (this.selectedIndex === index) this.selectedIndex = index + 1;
+					else if (this.selectedIndex === index + 1) this.selectedIndex = index;
+				}
 			}
 		},
-		onDelete( index ) {
+		onDeleteMission( index ) {
 			this.selectedIndex = null;
-			this.remove(index);
+			let mission = this.missions[ index ];
+
+			if( mission ) {
+				console.log( "Removed mission", mission);
+				mission.dispose();
+				this.missions.splice( index, 1);
+				this.$emit('save-story');
+			}
 		},
-		onCopy( index ) {
+		onCopyMission( index ) {
 			console.log("Copied mission", this.missions[index]);
 			this.$emit('copy-mission', new Mission(this.missions[index]));
 			this.$emit('save-story');
 		},
-		onPaste( index ) {
+		onPasteMission( index ) {
 			if (!this.copiedMission) {
 				return
 			}
 			console.log("Pasted mission", this.copiedMission);
 			let newMission = this.copiedMission.duplicate(this.copiedMission.locales);
 			this.missions.splice(index, 0, newMission);
+		},
+		onEnableMission( index ) {
+			let value = !this.missions[index].active;
+			this.$set(this.missions[index], 'active', value);
+			if (value) console.log("Enabled mission", this.missions[index])
+			else console.log("Disabled mission", this.missions[index])
 		}
 	}
 };

@@ -24,6 +24,13 @@ export const template =
 						<b-form-row>
 							<b-col cols="4">
 								<h3>{{ $t('StoryEditorWidget.label-edit-story') }}</h3>
+									<b-form-checkbox switch
+										class="my-3"
+										size="lg"
+										id="publicStory"
+										v-model="value.public">
+										{{ $t('StoryEditorWidget.label-story-public') }}
+									</b-form-checkbox>
 								<b-form-group
 										v-bind:label="$t('StoryEditorWidget.label-story-description')"
 										label-for="storyDescriptionInput">

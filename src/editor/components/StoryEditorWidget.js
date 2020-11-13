@@ -153,10 +153,7 @@ export const component = {
 			})
 		},
 		resetModal(){
-			this.newStory.name = "";
-			this.newStory.description = "";
-			this.newStory.gamemode = "";
-			this.newStory.age = ""
+			this.newStory = new Story(null)
 		},
 		saveModal(){
 			// Save the new story on server and local cache if a story
@@ -171,7 +168,7 @@ export const component = {
 
 			this.putStoryOnServer( dataExport )
 			.finally( () => {
-				self.newStory = new Story( null );
+				this.resetModal();
 				self.$emit("update-names");
 			});
 		},

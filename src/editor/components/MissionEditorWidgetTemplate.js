@@ -5,7 +5,7 @@ export const template =
 		v-bind:title="$t('MissionEditorWidget.label-add-new-mission')"
 		v-bind:ok-title="$t('shared.label-save')"
 		centered
-		v-on:ok="add">
+		v-on:ok="addMission">
 		<i18n-input-widget
 			v-bind:tag="'input'"
 			v-bind:label="$t( 'MissionEditorWidget.label-mission-title' )"
@@ -49,15 +49,17 @@ export const template =
 					v-bind:title="$t('MissionEditorWidget.label-mission-list')"
 					v-bind:locale="locale"
 					v-bind:localesList="localesList"
-					v-bind:items="missionNames"
+					v-bind:items="missions"
 					v-bind:selected="selectedIndex"
-					v-on:move-up="onMoveUp"
-					v-on:move-down="onMoveDown"
-					v-on:copy="onCopy"
-					v-on:paste="onPaste"	
-					v-on:delete="onDelete"
-					v-on:select="onSelect"
-					v-on:add="onAdd"
+					v-bind:disable="true"
+					v-on:move-up="onMoveUpMission"
+					v-on:move-down="onMoveDownMission"
+					v-on:copy="onCopyMission"
+					v-on:paste="onPasteMission"	
+					v-on:delete="onDeleteMission"
+					v-on:select="onSelectMission"
+					v-on:add="onAddMission"
+					v-on:enable="onEnableMission"
 				></list-widget>
 			</b-col>
 		</b-row>

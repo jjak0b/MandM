@@ -32,17 +32,39 @@ export const component = {
 			if( this.tree )
 				this.redraw();
 		},
-		"value.text" : function ( newVal ) {
+		'value.text' : function ( newVal ) {
 			if( this.tree ) this.tree.rename_node(this.value, newVal);
 		}
 	},
 	computed: {
-		currentType: function() { return ( this.selectedNode ? this.selectedNode.type : null ) }
+		currentType: function() { return ( this.selectedNode ? this.selectedNode.type : null ) },
+		computedActive: function() { return (this.value && this.value.data) ? this.value.data.active : null }
 	},
 	updated(){
 		this.redraw();
 	},
 	methods: {
+		disable() {
+			console.log("ON DISABLE");
+			if (this.value.type === 'mission') {
+				return
+			}
+			let currentNode = this.tree.get_selected(true)[0];
+			let activeValue = !currentNode.data.active;
+			let textValue = currentNode.text;
+			this.$set( currentNode.data, "active", activeValue );
+			console.log(textValue);
+
+			if (activeValue) {
+				textValue = textValue.replace(" (DISABLED)", "")
+				this.$set(currentNode, "text", textValue);
+				this.tree.rename_node(currentNode, textValue);
+			} else {
+				textValue = textValue + ' (DISABLED)';
+				this.$set(currentNode, 'text', textValue);
+				this.tree.rename_node(currentNode, textValue);
+			}
+		},
 		notifyValue( node ){
 			let parsed = NodeParser.parse( node );
 			console.info( "[ActivityTree]", "updating current node", node, "aka -> parsed", parsed);

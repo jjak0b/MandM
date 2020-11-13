@@ -23,11 +23,13 @@ export const template =
 				v-bind:items="group"
 				v-bind:copyPaste="false"
 				v-bind:editable="false"
+				v-bind:disable="true"
 				variant="secondary"
-				v-on:move-up="moveUp(index, $event)"
-				v-on:move-down="moveDown(index, $event)"
-				v-on:delete="deleteName(index, $event)"
+				v-on:move-up="moveUpGroupMission(index, $event)"
+				v-on:move-down="moveDownGroupMission(index, $event)"
+				v-on:delete="deleteGroupMission(index, $event)"
 				v-on:add="showModal(index)"
+				v-on:enable="enableGroupMission(index, $event)"
 			></list-widget>	
 			<b-link 
 				class="float-right font-weight-bold text-decoration-none text-danger mr-2 mt-1 mb-3"
@@ -38,17 +40,17 @@ export const template =
 		</div>
 	</b-form-row>
 
-	
-	
 	<b-modal
 		id="groupsModal"
 		v-bind:title="$t('MissionEditorWidget.label-add-new-mission')"
 		v-bind:ok-title="$t('shared.label-save')"
 		centered
-		v-on:ok="add">
+		v-on:ok="addGroupMission">
 		<b-form-select v-model="selected">
-			<b-form-select-option v-for="name in missionNames" v-bind:value="name">
-				{{ $t(name) }}
+			<b-form-select-option 
+				v-for="(mission, index) in missions" 
+				v-bind:value="index">
+				{{ $t(mission.title) }}
 			</b-form-select-option>
 		</b-form-select>
 	</b-modal>		

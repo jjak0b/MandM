@@ -10,6 +10,7 @@ export const template =
 		centered
 		v-on:ok="addElement()">
 		<i18n-input-widget
+			id="addListElement"
 			tag="input"
 			v-bind:label="$t('shared.label-add-element')"
 			v-bind:locale="locale"

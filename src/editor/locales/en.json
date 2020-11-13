@@ -1,5 +1,8 @@
 {
   "shared": {
+	"label-enable": "Enable",
+	"label-disable": "Disable",
+	"label-enable-or-disable": "Enable / disable",
 	"label-elements-list": "Elements added",
 	"label-add-new-element": "Add new element",
 	"label-empty-list": "The list is empty",
@@ -77,6 +80,7 @@
 	"label-locale-select": "Select current internationalization to edit"
   },
   "StoryEditorWidget": {
+	"label-story-public": "Public story",
 	"label-remove-group": "Remove group",
 	"label-add-new-group": "Add new group",
 	"label-group": "Group",

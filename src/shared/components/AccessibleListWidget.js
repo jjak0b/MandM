@@ -13,6 +13,10 @@ export const component = {
 			type: Boolean,
 			default: true
 		},
+		disable: {
+			type: Boolean,
+			default: false
+		},
 		editable: {
 			type: Boolean,
 			default: true
@@ -31,6 +35,12 @@ export const component = {
 		},
 		isActive( index ) {
 			return this.selected === index
+		},
+		getVariant(index) {
+			if (this.disable && !this.items[index].active) {
+				return 'secondary'
+			}
+			return null
 		}
 	}
 };

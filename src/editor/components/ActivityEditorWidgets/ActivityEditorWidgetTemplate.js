@@ -18,13 +18,13 @@ export const template =
 		ref="addMenu"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
-		v-on:addActivity="onAdd"
+		v-on:addActivity="onAddActivity"
 	></add-menu-widget>
 	<edit-menu-widget v-if="isEditFormVisible"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
 		v-bind:locales-list="localesList"
-		v-on:editActivity="onEdit"
+		v-on:editActivity="onEditActivity"
 	></edit-menu-widget>
 </div>
 `;

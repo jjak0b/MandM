@@ -1,134 +1,131 @@
-
 import {template} from "./BranchEditorWidgetTemplate.js";
-import {component as asyncLoadComponentI18nInputWidget} from "../i18nWidgets/I18nInputWidget.js";
-
-import {component as singleInput} from "../InputSingleTypeWidget.js";
-import {component as inputVal} from "../InputValueWidget.js";
 import ActivityDataBranch from "../../../shared/js/ActivityNodes/ActivityDataTypes/ActivityDataBranch.js";
+import {ConditionParameter} from "../../../shared/js/Branch/ConditionParameter.js";
+import {component as conditionParameterComponent} from "./BranchEditor/BranchEditorParameterWidget.js";
 
 export const component = {
     template: template,
     props: {
         branch: ActivityDataBranch,
-        funs:Object,
-         //The node selected with type Branch
         locale: String,
     },
+    components: {
+        'condition-parameter': conditionParameterComponent,
+    },
     data() {
-        return {
-            data: {
-                condition: '',
-                params: [],
-                acceptTypes:[]
+        let data = {
+            form: {
+                validity: false,
             },
-            funz:{
-                type:'',
-                val:''
-            },
-            functioVal: {
-                "value": "ActivityEditorWidget.label-value",
-                "variable": "ActivityEditorWidget.label-variable"
-            },
-            functioValTag: {
-                "value": "input-val",
-                "variable": "b-form-select"
-            },
-            section: [
-                {
-                    value: "notDefined",
-                    type: "notDefined",
-                    order: 1
-                },
-                {
-                    value: "notDefined",
-                    type: "notDefined",
-                    order: 2
-                },
-                {
-                    value: "notDefined",
-                    type: "notDefined",
-                    order: 3
-                },
-                {
-                    value: "notDefined",
-                    type: "notDefined",
-                    order: 4
-                }
-            ],
-            functionsN: {
-                "eq": "ActivityEditorWidget.select-type-func.eq",
-                "neq": "ActivityEditorWidget.select-type-func.neq",
-                "hasInside": "ActivityEditorWidget.select-type-func.hasInside",
-                "isInThere": "ActivityEditorWidget.select-type-func.isInThere",
+
+            functionPrototypes: ActivityDataBranch._functions,
+            envVariableNames: ActivityDataBranch._variables,
+            functionLocaleLabels: {
+                "equals": "ActivityEditorWidget.select-type-func.eq",
+                "isAny": "ActivityEditorWidget.select-type-func.isInThere",
                 "isInRange": "ActivityEditorWidget.select-type-func.isInRange",
-            }
+            },
+            parametersLocaleLabels: {
+                "this":"ActivityEditorWidget.parameters.label-element-to-check",
+                "that":"ActivityEditorWidget.parameters.label-that-element-to-compare",
+                "elements":"ActivityEditorWidget.parameters.label-elements-to-check",
+                "min":"ActivityEditorWidget.parameters.label-min-value",
+                "max":"ActivityEditorWidget.parameters.label-max-value",
+                "parameter": "ActivityEditorWidget.parameters.label-parameter",
+            },
+            variableLocaleLabels: {
+                "userInput": "ActivityEditorWidget.select-type-var.label-user-input",
+            },
+            sourceTypeLocaleLabels: {
+                value: "ActivityEditorWidget.label-value",
+                variable: "ActivityEditorWidget.label-variable"
+            },
+            sourceTypeOptions: [
+                // {
+                //    text: "localized",
+                //    value: "paramSourceType"
+                // }
+            ],
+            functionOptions: [
+                // {
+                //    text: "localized",
+                //    value: "functionKey"
+                // }
+            ],
+            variableOptions: [
+                // {
+                //    text: "localized",
+                //    value: "variableName"
+                // }
+            ]
+        };
+
+        console.log( "functions", data.functionPrototypes );
+        // build options for the select
+        for (const functionsKey in data.functionPrototypes) {
+            console.log( "func", functionsKey );
+            data.functionOptions.push({
+                text: functionsKey in data.functionLocaleLabels ? this.$t(data.functionLocaleLabels[ functionsKey ]) : `unlocalized function ${functionsKey}`,
+                value: functionsKey
+            });
+        }
+
+        for (const sourceType in data.sourceTypeLocaleLabels) {
+            data.sourceTypeOptions.push({
+                text: sourceType in data.sourceTypeLocaleLabels ? this.$t(data.sourceTypeLocaleLabels[ sourceType ]) : `unlocalized source type ${sourceType}`,
+                value: sourceType
+            });
+        }
+
+        data.envVariableNames.forEach( (varName, index) => {
+            data.variableOptions.push({
+                text: varName in data.variableLocaleLabels ? this.$t(data.variableLocaleLabels[ varName ]) : `unlocalized variable ${varName}`,
+                value: varName
+            });
+        });
+
+        return data;
+    },
+    watch: {
+        "branch.condition.function": function (value) {
+            let params = new Array( this.functionPrototypes[ value ].arguments.length );
+            for (let i = 0; i < params.length; i++) params[ i ] = new ConditionParameter();
+
+            this.$set(
+                this.branch.condition,
+                "params",
+                params
+            );
+            console.log("update function parameters",this.branch.condition, params );
         }
     },
-            watch: {
-                'branch': function () {
-                    this.prova = false;
-                },
-                'val.tag': function () {
-                    if (this.val.tag == 'Range') {
-                        this.val.type = 'Number';
-                    } else {
-                        this.val.type = '';
-                    }
-                }
-            },
     computed:{
-
+        selfParameter() {
+            return this.branch.condition.params[0];
+        },
+        parameters() {
+            if( this.branch && this.branch.condition && this.branch.condition.params )
+                return this.branch.condition.params.filter( (param) => param.name !== "this" );
+            return [];
+        }
     },
-            methods: {
-                // update(arr, isFunction) {
-                //     if ((isFunction) && (this.valueTypeSel == '')) {
-                //         alert("seleziona tipo condizione");
-                //     } else {
-                //         var i = 0;
-                //         var j = arr.length + 1;
-                //         this.val.param = arr.slice(i, j);
-                //     }
-                // },
-                updateFunc(val) {
-                    if (this.valueTypeSel) {
-                        this.whipe();
-                        var i = 0;
-                        var j = val.length + 1;
-                        this.val.param = val.slice(i, j);
-                    }
-                },
-                pushType(i, element){
-                    let object=this.funz;
-                    this.funz.type=element;
-                    this.data.params[i]=object;
-                },
-                whipe() {
-                    var i = 0;
-                    while (i < this.val.param.lenght) {
-                        this.val.param.pop();
-                        i++;
-                    }
-                },
-                //Push is used to implement the array into the data objects, wich contains the type of condition and the array
-                //to contain the params of said condition
-                push() {
-                    if (this.data.condition !== '') {
-                        var i=0;
-                        while ( i < this.section.length){
-                            this.data.params.push(this.section[i]);
-                            i++;
-                        }
-                        if(this.data.params && this.branch.params !== this.data.params) {
-                            this.$emit('conditions', this.data);
-                            alert("parameters overided");
-                        }
-                    } else {
-                        alert("Inserisci condizione");
-                    }
-                }
-            },
-            components: {
-                'input-val': inputVal,
-                'single-input': singleInput
+    methods: {
+        getParameterI18n( name ) {
+            if( !(name in this.parametersLocaleLabels) ) {
+                name = "parameter";
             }
+            return this.$t( this.parametersLocaleLabels[ name ] );
+        },
+        onSubmit(event) {
+            let valid = false;
+            if( this.branch.condition.function in this.functionPrototypes ) {
+                let funcArguments = this.functionPrototypes[this.branch.condition].arguments;
+                for (let i = 0; i < funcArguments.length; i++) {
+                    funcArguments[ i ].accepts.includes( this.branch.condition.params[ i ].type )
+                }
+            }
+            return valid;
+        }
+
+    }
 }

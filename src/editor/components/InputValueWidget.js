@@ -1,4 +1,5 @@
 import {template, templateArray} from "./InputValueWidgetTemplate.js";
+import {TypedValue} from "../../shared/js/Types/TypedValue.js";
 
 export var  component = null,
             componentArray = null;
@@ -68,13 +69,13 @@ component = {
     components:{
     },
     props: {
-        value: Object,
+        value: TypedValue,
         acceptTypes: {
             type: Array,
             default: [
                 "Time",
                 "Date",
-                "Text",
+                "String",
                 "Number",
                 "Array"
             ]
@@ -104,10 +105,10 @@ component = {
                         description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
-                Text: {
+                String: {
                     component: "b-form-input",
                     attrs: {
-                        type: "text"
+                        type: "String"
                     },
                     i18n: {
                         type: "shared.label-Text",

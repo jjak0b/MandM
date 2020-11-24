@@ -105,7 +105,7 @@ export const component = {
         },
         parameters() {
             if( this.branch && this.branch.condition && this.branch.condition.params )
-                return this.branch.condition.params.filter( (param) => param.name !== "this" );
+                return this.branch.condition.params;
             return [];
         }
     },

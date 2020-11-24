@@ -10,10 +10,10 @@ export const template =
 	<li id="removeToolbar" v-show="!isMission">
 		<div>{{ $t( 'shared.label-remove' ) }}</div>
 	</li>
-	<li id="grabToolbar" v-show="showGrab && !isMission">
+	<li id="grabToolbar" v-show="!isMission">
 		<div>{{ $t( 'shared.label-grab' ) }}</div>
 	</li>
-	<li id="dropToolbar" v-show="!showGrab && !isMission">
+	<li id="dropToolbar" v-show="grabbedActivity">
 		<div>{{ $t( 'shared.label-drop' ) }}</div>
 	</li>
 	<li id="copyToolbar" v-show="!isMission">

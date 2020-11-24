@@ -6,28 +6,19 @@ export const component = {
 	props: {
 		type: String,
 		copiedActivity: Object,
+		grabbedActivity: Object,
 		active: Boolean
-	},
-	data() {
-		return {
-			showGrab: true
-		}
 	},
 	computed: {
 		isMission: function() { return this.type === NodeUtils.Types.Mission }
 	},
 	mounted() {
 		$( "#menu" ).menu({
-					select: (e, ui) => {
-						if( ui.item.attr('id') == "grabToolbar"
-							|| ui.item.attr('id') == "dropToolbar" ) {
-							this.showGrab = !this.showGrab;
-						}
-						const event = jQuery.Event( ui.item.attr('id') );
-						$( "#menu" ).trigger(event);
-				}
+			select: (e, ui) => {
+				const event = jQuery.Event( ui.item.attr('id') );
+				$( "#menu" ).trigger(event);
 			}
-		);
+		});
 	}
 };
 

@@ -20,6 +20,7 @@ const component = {
 	data() {
 		return {
 			copiedActivity: null,
+			grabbedActivity: null,
 			copiedMission: null,
 			localStories: [],
 			remoteStories: [], // names
@@ -127,6 +128,12 @@ const component = {
 		copyMission( mission ) {
 			this.copiedMission = mission;
 			this.copiedMission.locales = i18n.messages;
+		},
+		grabActivity( activity ) {
+			this.grabbedActivity = activity;
+			if ( this.grabbedActivity ) {
+				this.grabbedActivity.locales = i18n.messages;
+			}
 		},
 		copyActivity( activity ) {
 			this.copiedActivity = activity;

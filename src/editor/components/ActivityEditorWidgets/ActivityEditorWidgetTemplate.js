@@ -11,6 +11,7 @@ export const template =
 				v-model="currentNode"
 				v-bind:locale="locale"
 				v-bind:copiedActivity="copiedActivity"
+				v-bind:grabbedActivity="grabbedActivity"
 				v-on:selectedNode="onSelectedNode"
 			></activity-tree-widget>
 	</b-card>

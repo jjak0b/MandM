@@ -12,6 +12,7 @@ export const template =
 	style="display: none;"
 	v-bind:type="currentType"
 	v-bind:copiedActivity="copiedActivity"
+	v-bind:grabbedActivity="grabbedActivity"
 	v-bind:active="computedActive"
 ></toolbar>
 </div>

@@ -1,22 +1,14 @@
 export const template =
-		`<div>
-<b-card no-body v-if="!locale">
-	<div class="text-center text-muted my-5">
-		{{ $t('StoryEditorWidget.label-select-internationalization') }}
-	</div>
-</b-card>
-<b-card no-body v-else>
-	<b-card-header id="story-editor-label-tablist">
-	 <b-spinner variant="primary" v-if="loading" class="mr-2"></b-spinner>
-	{{ $t('StoryEditorWidget.label-story-editor') }}</b-card-header>
-	<div class="text-center text-muted my-5" v-if="locale === null">
-		{{ $t('StoryEditorWidget.label-select-internationalization') }}
-	</div>
-	<b-form v-on:submit.stop.prevent="updateStoryOnServer" v-else>
+		`
+<div>
+<div>
+	<b-form v-on:submit.stop.prevent="updateStoryOnServer">
 		<b-tabs pills card vertical lazy v-model="tabValue" ref="tabs">
 			<template v-for="name in names">
 				<b-tab v-bind:title="name" v-bind:key="name">
-					<div v-if="loading" style="padding-bottom: 25em;"></div>
+					<div v-if="loading" style="padding-bottom: 25em;">
+						<b-spinner variant="primary" v-if="loading" class="mr-2"></b-spinner>
+					</div>
 					<template v-else>
 						<b-form-row>
 							<h2>{{ value.name }}</h2><hr>
@@ -95,6 +87,9 @@ export const template =
 								<b-button class="mx-1" variant="secondary" v-on:click="reloadStoryFromServer">
 									{{ $t('StoryEditorWidget.label-reload-from-server') }}
 								</b-button>
+								<b-button class="mx-1" variant="secondary" v-on:click="duplicateStory">
+									{{ $t('shared.label-duplicate') }}
+								</b-button>
 								<b-button variant="danger" v-on:click="deleteStory">
 									{{ $t('shared.label-delete') }}
 								</b-button>
@@ -114,7 +109,7 @@ export const template =
 			</template>
 		</b-tabs>
 	</b-form>
-</b-card>
+</div>
 
 <b-modal 
 	id="addModal"

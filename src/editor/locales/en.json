@@ -1,5 +1,7 @@
 {
   "shared": {
+	"label-asset-manager": "Asset Manager",
+	"label-style-editor": "Style Editor",
 	"label-enable": "Enable",
 	"label-disable": "Disable",
 	"label-enable-or-disable": "Enable / disable",
@@ -34,8 +36,8 @@
 	"label-i18n": "Internationalize",
 	"label-mission": "Mission | Missions",
 	"label-missions": "No mission | {count} mission | {count} missions",
-	"label-activity": "Activity | Activities",
-	"label-story": "Story | Stories",
+	"label-activity": "Activity",
+	"label-story": "Story",
 	"label-select-option": "Select an option",
 	"label-from-file": "From file",
 	"label-from-server": "From server",

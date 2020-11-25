@@ -19,7 +19,7 @@ export const template =
 					ref="assetsBrowser"
 					id="style-editor-widget-stylesheets-browser"
 					v-model="value.asset"
-					button-only="true"
+					v-bind:button-only="true"
 					v-bind:force-filter="['stylesheets']"
 				>
 				</assets-manager-browser>

@@ -15,7 +15,7 @@ export const template =
 					id="assets-manager-widget-browser-delete"
 					aria-controls="assets-manager-widget-input-asset"
 					v-model="selectedAsset"
-					button-only="true"
+					v-bind:button-only="true"
 				>
 				</assets-manager-browser>
 			</b-input-group-prepend>

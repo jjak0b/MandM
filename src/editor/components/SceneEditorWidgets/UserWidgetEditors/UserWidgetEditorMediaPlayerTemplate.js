@@ -19,7 +19,7 @@ export const template =
 								aria-controls="assets-manager-widget-input-asset"
 								v-bind:value="value.asset"
 								v-on:input="form.asset = $event"
-								button-only="true"
+								v-bind:button-only="true"
 								v-bind:force-filter="mediaCategories"
 							>
 							</assets-manager-browser-widget>
@@ -140,7 +140,7 @@ export const template =
 										v-bind:force-filter="['captions']"
 										v-bind:value="locale && value.captions ? value.captions[locale] : null"
 										v-on:input="form.caption = $event"
-										button-only="true"
+										v-bind:button-only="true"
 										v-bind:disabled="!locale"
 									>
 									</assets-manager-browser-widget>

@@ -25,7 +25,7 @@ export const component = {
 		"input-range-number-widget" : inputRangeNumberComponent
 	},
 	props: {
-		value: StyleData
+		value: Object
 	},
 	data(){
 		let data = {

@@ -78,7 +78,7 @@ export const templateArray =
 							v-bind:aria-describedby="$attrs.id + '_data-editor-widget-array-values'"
 							v-model="selectedIndex"
 							v-bind:options="bufferOptions"
-							select-size="6"
+							v-bind:select-size="6"
 						></b-form-select>
 					</b-col>
 					<b-col class="align-self-center">

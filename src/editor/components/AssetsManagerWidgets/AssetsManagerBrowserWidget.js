@@ -15,7 +15,7 @@ export const component = {
 		},
 		forceFilter: {
 			type: Array,
-			default: []
+			default() { return [] }
 		},
 		onTimeout:  null,
 	},

@@ -1,8 +1,14 @@
 import {TypedValue} from "../Types/TypedValue.js";
 
 export class ConditionParameter {
-	constructor(unparsed) {
+	constructor(unparsed = { sourceType: null, sourceValue: null }) {
 		this.sourceType = unparsed ? unparsed.sourceType : null;
-		this.sourceValue = unparsed && unparsed.sourceValue ? new TypedValue( unparsed.sourceValue ): null;
+
+		if( unparsed && unparsed.sourceValue ) {
+			this.sourceValue = "string" === typeof unparsed.sourceValue ? unparsed.sourceValue : new TypedValue( unparsed.sourceValue );
+		}
+		else {
+			this.sourceValue = null;
+		}
 	}
 }

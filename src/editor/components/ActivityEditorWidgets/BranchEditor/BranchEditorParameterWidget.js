@@ -19,5 +19,12 @@ export const component = {
 		return {
 
 		}
+	},
+	watch: {
+		"value.sourceType": function (newVal, oldVal) {
+			if( newVal != oldVal ) {
+				this.$set( this.value, "sourceValue",  null );
+			}
+		}
 	}
 }

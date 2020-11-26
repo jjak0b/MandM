@@ -9,7 +9,7 @@ export const template = `
 ></p>
 
 <condition-parameter v-if="branch.condition.function"
-	v-bind:value="selfParameter"
+	v-bind:value="branch.condition.params[0]"
 	id="activity-editor-branch-parameter-this"
 	v-bind:valueAcceptTypes="functionPrototypes[ branch.condition.function ].arguments[ 0 ].accepts"
 	v-bind:variableOptions="variableOptions"
@@ -68,5 +68,6 @@ export const template = `
 	</b-list-group>
 </b-card>
 
+<b-btn type="submit"></b-btn>
 </b-form>
 `;

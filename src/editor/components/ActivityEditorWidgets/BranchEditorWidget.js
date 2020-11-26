@@ -60,10 +60,8 @@ export const component = {
             ]
         };
 
-        console.log( "functions", data.functionPrototypes );
         // build options for the select
         for (const functionsKey in data.functionPrototypes) {
-            console.log( "func", functionsKey );
             data.functionOptions.push({
                 text: functionsKey in data.functionLocaleLabels ? this.$t(data.functionLocaleLabels[ functionsKey ]) : `unlocalized function ${functionsKey}`,
                 value: functionsKey
@@ -87,6 +85,12 @@ export const component = {
         return data;
     },
     watch: {
+        "branch" : {
+            deep: true,
+            handler: function () {
+                console.log( "changed", this.branch );
+            }
+        },
         "branch.condition.function": function (value) {
             let params = new Array( this.functionPrototypes[ value ].arguments.length );
             for (let i = 0; i < params.length; i++) params[ i ] = new ConditionParameter();

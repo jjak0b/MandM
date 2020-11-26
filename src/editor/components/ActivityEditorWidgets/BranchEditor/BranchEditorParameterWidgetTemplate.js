@@ -16,18 +16,25 @@ export const template =
 				v-bind:options="sourceTypeOptions"
 				required
 			>
-				<b-form-select-option v-bind:value="null" disabled v-t="'shared.label-select-option'"></b-form-select-option>
+				<template #first>
+					<b-form-select-option v-bind:value="null" disabled v-t="'shared.label-select-option'"
+					></b-form-select-option>
+				</template>
 			</b-form-select>
 		</b-form-group>
 	</b-col>
 	<b-col>
 		<div v-if="value.sourceType == 'value'"
 		>
-			<typed-value
-				v-bind:acceptTypes="valueAcceptTypes"
-				v-model="value.sourceValue"
-				required
-			></typed-value>
+			<b-form-group
+				v-bind:label="$t('DataEditorWidget.label-create-value-you-need')"
+			>
+				<typed-value
+					v-bind:id="$attrs.id + '-field-value'"
+					v-bind:acceptTypes="valueAcceptTypes"
+					v-model="value.sourceValue"
+				></typed-value>
+			</b-form-group>
 		</div>
 		<div v-else-if="value.sourceType == 'variable'"
 		>
@@ -40,7 +47,12 @@ export const template =
 					v-bind:options="variableOptions"
 					v-model="value.sourceValue"
 					required
-				></b-form-select>
+				>
+					<template #first>
+						<b-form-select-option v-bind:value="null" disabled v-t="'shared.label-select-option'"
+						></b-form-select-option>
+					</template>
+				</b-form-select>
 			</b-form-group>
 		</div>
 	</b-col>

@@ -1,22 +1,14 @@
 export const template =
-		`<div>
-<b-card no-body v-if="!locale">
-	<div class="text-center text-muted my-5">
-		{{ $t('StoryEditorWidget.label-select-internationalization') }}
-	</div>
-</b-card>
-<b-card no-body v-else>
-	<b-card-header id="story-editor-label-tablist">
-	 <b-spinner variant="primary" v-if="loading" class="mr-2"></b-spinner>
-	{{ $t('StoryEditorWidget.label-story-editor') }}</b-card-header>
-	<div class="text-center text-muted my-5" v-if="locale === null">
-		{{ $t('StoryEditorWidget.label-select-internationalization') }}
-	</div>
-	<b-form v-on:submit.stop.prevent="updateStoryOnServer" v-else>
+		`
+<div>
+<div>
+	<b-form v-on:submit.stop.prevent="updateStoryOnServer">
 		<b-tabs pills card vertical lazy v-model="tabValue" ref="tabs">
 			<template v-for="name in names">
 				<b-tab v-bind:title="name" v-bind:key="name">
-					<div v-if="loading" style="padding-bottom: 25em;"></div>
+					<div v-if="loading" style="padding-bottom: 25em;">
+						<b-spinner variant="primary" v-if="loading" class="mr-2"></b-spinner>
+					</div>
 					<template v-else>
 						<b-form-row>
 							<h2>{{ value.name }}</h2><hr>
@@ -25,12 +17,16 @@ export const template =
 							<b-col cols="4">
 								<h3>{{ $t('StoryEditorWidget.label-edit-story') }}</h3>
 									<b-form-checkbox switch
-										class="my-3"
+										class="mt-3"
 										size="lg"
 										id="publicStory"
 										v-model="value.public">
 										{{ $t('StoryEditorWidget.label-story-public') }}
 									</b-form-checkbox>
+									<qrcode
+										v-bind:value="'/player?story=' + value.name"
+										v-if="value.public"
+									></qrcode>
 								<b-form-group
 										v-bind:label="$t('StoryEditorWidget.label-story-description')"
 										label-for="storyDescriptionInput">
@@ -92,6 +88,9 @@ export const template =
 								<b-button type="submit" variant="primary">
 									{{ $t('shared.label-save') }}
 								</b-button>
+								<b-button class="mx-1" variant="info" v-on:click="showDupModal">
+									{{ $t('shared.label-duplicate') }}
+								</b-button>
 								<b-button class="mx-1" variant="secondary" v-on:click="reloadStoryFromServer">
 									{{ $t('StoryEditorWidget.label-reload-from-server') }}
 								</b-button>
@@ -114,7 +113,26 @@ export const template =
 			</template>
 		</b-tabs>
 	</b-form>
-</b-card>
+</div>
+
+<b-modal 
+	id="duplicateModal"
+	v-bind:title="$t('StoryEditorWidget.label-add-new-story')"
+	v-bind:ok-title="$t('shared.label-save')"
+	centered
+	v-on:show="resetModal"
+	v-on:ok="saveDupModal">
+	<b-form v-on:submit.stop.prevent>
+		<b-form-group
+				v-bind:label="$t('StoryEditorWidget.label-story-name')"
+				label-for="storyNameInput">
+			<b-form-input
+					id="storyNameInput"
+					v-model="newStory.name">
+			</b-form-input>
+		</b-form-group>
+	</b-form>
+</b-modal>
 
 <b-modal 
 	id="addModal"

@@ -5,10 +5,11 @@ export const component = {
 	template: template,
 	props: {
 		localesList: Array,
-		"value": String
+		locale: String
 	},
 	data(){
 		return {
+			I18nUtils: I18nUtils,
 			globalLocalesList: I18nUtils.i18nCodes,
 			globalLocaleSelected: navigator.language
 		}

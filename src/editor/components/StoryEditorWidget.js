@@ -3,6 +3,9 @@ import { I18nUtils } from "../../shared/js/I18nUtils.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
 import Story from "../../shared/js/Story.js";
+import VueQrcode from '/libs/vue-qrcode/vue-qrcode.esm.js';
+
+Vue.component(VueQrcode.name, VueQrcode);
 
 export const component = {
 	template: template,
@@ -109,7 +112,8 @@ export const component = {
 
 				Promise.all( [ promiseStory ].concat( promisesLocales ) )
 					.then( ( responses ) => {
-						self.$emit('add-local-story', storyData);
+						storyData.dependencies.locales = locales;
+						this.$emit('add-local-story', storyData);
 						console.log("[StoryEditor]", `Added (or updated) the Story ${storyData.name} to server`);
 						resolve( responses[ 0 ] );
 					})
@@ -119,7 +123,6 @@ export const component = {
 			});
 		},
 		getStoryFromServer( name ) {
-			self = this;
 			this.loading = true;
 			let reqJSONStory = $.get( `/stories/${name}` );
 			let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${name}`, "*" );
@@ -133,15 +136,15 @@ export const component = {
 
 				let getlocale;
 				Object.keys( locales ).forEach( locale => {
-					getlocale = self.$i18n.getLocaleMessage( locale );
+					getlocale = this.$i18n.getLocaleMessage( locale );
 					getlocale.assets = {};
-					self.$i18n.setLocaleMessage( locale, getlocale );
-					self.$i18n.mergeLocaleMessage( locale, locales[locale] );
+					this.$i18n.setLocaleMessage( locale, getlocale );
+					this.$i18n.mergeLocaleMessage( locale, locales[locale] );
 				});
 
 				story.dependencies.locales = locales;
-				self.$emit('import', story );
-				self.$emit('add-local-story', story);
+				this.$emit('import', story );
+				this.$emit('add-local-story', story);
 				console.log("[StoryEditor]", `Loaded the Story ${name} from server`);
 			})
 			// file can't be downloaded for some reason so report it
@@ -149,7 +152,7 @@ export const component = {
 				console.error( "[StoryEditor]", `Error loading the Story "${name}" from server`, "cause:", error );
 			})
 			.finally(() => {
-				self.loading = false;
+				this.loading = false;
 			})
 		},
 		resetModal(){
@@ -158,7 +161,6 @@ export const component = {
 		saveModal(){
 			// Save the new story on server and local cache if a story
 			// with the same name doesn't already exists
-			let self = this;
 			let dataExport = this.newStory;
 
 			if (this.names.includes(dataExport.name)) {
@@ -169,7 +171,26 @@ export const component = {
 			this.putStoryOnServer( dataExport )
 			.finally( () => {
 				this.resetModal();
-				self.$emit("update-names");
+				this.$emit("update-names");
+			});
+		},
+		showDupModal() {
+			this.$bvModal.show('duplicateModal');
+		},
+		saveDupModal(){
+			let dataExport = new Story( this.value );
+			dataExport = dataExport.duplicate(this.$i18n.messages);
+			dataExport.name = this.newStory.name;
+
+			if (this.names.includes(dataExport.name)) {
+				console.log(dataExport.name," already exists");
+				return
+			}
+
+			this.putStoryOnServer( dataExport )
+			.finally( () => {
+				this.resetModal();
+				this.$emit("update-names");
 			});
 		},
 		selectMission( index ) {

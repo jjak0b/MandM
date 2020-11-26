@@ -30,6 +30,32 @@ export default class Story {
 
 		this.style = new StyleData( unparsed && unparsed.style ? unparsed.style : null );
 	}
+
+	duplicate( locales ) {
+		let duplicateStory = new Story(JSON.parse(JSON.stringify(this)));
+		duplicateStory.name = "";
+
+		if (this.missions) {
+			for (let i = 0; i < this.missions.length; i++) {
+				duplicateStory.missions[i] = new Mission( this.missions[i].duplicate(locales) );
+				duplicateStory.replaceMissionInGroups(this.missions[i].id, duplicateStory.missions[i].id);
+			}
+		}
+		return duplicateStory
+	}
+
+	replaceMissionInGroups( oldId, newId ) {
+		if (this.groups) {
+			for ( const groupIndex in this.groups ) {
+				for ( const missionIndex in this.groups[groupIndex] ) {
+					if ( this.groups[groupIndex][missionIndex].id === oldId ) {
+						this.groups[groupIndex][missionIndex].id = newId;
+						this.groups[groupIndex][missionIndex].title = 'assets.mission.' + newId + '.title';
+					}
+				}
+			}
+		}
+	}
 }
 
 Story.ENUM_GAMEMODE = Object.freeze({

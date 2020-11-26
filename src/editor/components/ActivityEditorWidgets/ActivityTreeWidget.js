@@ -15,7 +15,8 @@ export const component = {
 	props: {
 		value: Object,
 		locale: String,
-		copiedActivity: Object
+		copiedActivity: Object,
+		grabbedActivity: Object
 	},
 	components: {
 		'toolbar': activityToolbar
@@ -45,7 +46,6 @@ export const component = {
 	},
 	methods: {
 		disable() {
-			console.log("ON DISABLE");
 			if (this.value.type === 'mission') {
 				return
 			}
@@ -53,7 +53,6 @@ export const component = {
 			let activeValue = !currentNode.data.active;
 			let textValue = currentNode.text;
 			this.$set( currentNode.data, "active", activeValue );
-			console.log(textValue);
 
 			if (activeValue) {
 				textValue = textValue.replace(" (DISABLED)", "")
@@ -238,10 +237,10 @@ export const component = {
 
 					break;
 			}
-			console.log( "creating new Node:", "parent:", parentNode, "item:", item, "pos:", position );
+			console.log( "[ActivityTree]", "creating new Node:", "parent:", parentNode, "item:", item, "pos:", position );
 			nodeId = this.tree.create_node( parentNode, item, position );
 
-			console.log("created node with id", nodeId);
+			console.log("[ActivityTree]", "created node with id", nodeId);
 			return nodeId;
 		},
 		grab() {

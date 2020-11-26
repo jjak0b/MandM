@@ -18,7 +18,8 @@ export const component = {
 		locale: String,
 		mission : Object,
 		localesList: Array,
-		copiedActivity: Object
+		copiedActivity: Object,
+		grabbedActivity: Object
 	},
 	components: {
 		'activity-tree-widget': activityTreeWidgetComponent,
@@ -149,16 +150,29 @@ export const component = {
 		},
 
 		onGrabActivity() {
-			this.$refs.treeView.grab();
+			let copiedId = this.$refs.treeView.tree.get_selected(true)[0].id;
+			let copiedActivity = this.getActivityById( copiedId, this.mission.tree.children);
+			if (copiedActivity) {
+				console.log("[ActivityEditor]", "Grabbed activity", copiedActivity);
+				this.$emit('grab-activity', copiedActivity);
+				this.onRemoveActivity();
+			}
 		},
 		onDropActivity() {
-			this.$refs.treeView.drop();
+			if (!this.grabbedActivity) {
+				return
+			}
+			let newActivity = this.grabbedActivity.duplicate(this.grabbedActivity.locales);
+			console.log("[ActivityEditor]", "Dropped activity", newActivity);
+			this.$refs.treeView.add(newActivity);
+			this.$emit('grab-activity', null);
+			this.save(this.mission);
 		},
 		onCopyActivity() {
 			let copiedId = this.$refs.treeView.tree.get_selected(true)[0].id;
 			let copiedActivity = this.getActivityById( copiedId, this.mission.tree.children);
 			if (copiedActivity) {
-				console.log("Copied activity", copiedActivity);
+				console.log("[ActivityEditor]", "Copied activity", copiedActivity);
 				this.$emit('copy-activity', copiedActivity);
 			}
 		},
@@ -167,7 +181,7 @@ export const component = {
 				return
 			}
 			let newActivity = this.copiedActivity.duplicate(this.copiedActivity.locales);
-			console.log("Pasted activity", newActivity);
+			console.log("[ActivityEditor]", "Pasted activity", newActivity);
 			this.$refs.treeView.add(newActivity);
 			this.save(this.mission);
 		},

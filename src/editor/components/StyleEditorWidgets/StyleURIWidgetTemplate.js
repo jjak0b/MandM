@@ -18,7 +18,7 @@ export const template =
 						v-bind:aria-controls="'StyleURI-value-' + $attrs.id"
 						v-bind:value="selectedAsset"
 						v-on:input="onInputAsset"
-						button-only="true"
+						v-bind:button-only="true"
 					>
 					</assets-manager-browser>
 				</b-input-group-prepend>

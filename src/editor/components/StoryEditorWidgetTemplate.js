@@ -84,11 +84,11 @@ export const template =
 								<b-button type="submit" variant="primary">
 									{{ $t('shared.label-save') }}
 								</b-button>
+								<b-button class="mx-1" variant="info" v-on:click="showDupModal">
+									{{ $t('shared.label-duplicate') }}
+								</b-button>
 								<b-button class="mx-1" variant="secondary" v-on:click="reloadStoryFromServer">
 									{{ $t('StoryEditorWidget.label-reload-from-server') }}
-								</b-button>
-								<b-button class="mx-1" variant="secondary" v-on:click="duplicateStory">
-									{{ $t('shared.label-duplicate') }}
 								</b-button>
 								<b-button variant="danger" v-on:click="deleteStory">
 									{{ $t('shared.label-delete') }}
@@ -110,6 +110,25 @@ export const template =
 		</b-tabs>
 	</b-form>
 </div>
+
+<b-modal 
+	id="duplicateModal"
+	v-bind:title="$t('StoryEditorWidget.label-add-new-story')"
+	v-bind:ok-title="$t('shared.label-save')"
+	centered
+	v-on:show="resetModal"
+	v-on:ok="saveDupModal">
+	<b-form v-on:submit.stop.prevent>
+		<b-form-group
+				v-bind:label="$t('StoryEditorWidget.label-story-name')"
+				label-for="storyNameInput">
+			<b-form-input
+					id="storyNameInput"
+					v-model="newStory.name">
+			</b-form-input>
+		</b-form-group>
+	</b-form>
+</b-modal>
 
 <b-modal 
 	id="addModal"

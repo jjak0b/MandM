@@ -104,7 +104,7 @@ const component = {
 			});
 			if (story) {
 				this.cache.story = story;
-
+				let self = this;
 				let getlocale;
 				Object.keys( this.cache.story.dependencies.locales ).forEach( locale => {
 					getlocale = self.$i18n.getLocaleMessage( locale );
@@ -117,10 +117,12 @@ const component = {
 		selectMission( index ) {
 			this.cache.mission = this.cache.story.missions[index];
 		},
-		onActivitesTab() {
+		onTabClick( tabIndex ) {
 			if(this.$refs.activity) {
-				this.$refs.activity.isEditFormVisible = false;
-				if(this.$refs.treeView) {
+				if (tabIndex === 0) {
+					this.$refs.activity.isEditFormVisible = false;
+				}
+				if (tabIndex === 1) {
 					this.$refs.activity.$refs.treeView.redraw();
 				}
 			}

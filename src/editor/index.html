@@ -54,7 +54,7 @@
 	</b-card>
 
 	<b-card no-body v-else>
-		<b-tabs>
+		<b-tabs v-on:input="onTabClick">
 			<b-tab v-bind:title="$t('shared.label-story')">
 				<story-editor-widget
 						id="story-editor-widget"
@@ -66,10 +66,10 @@
 						v-bind:locale="locale"
 						v-bind:locales-list="localesList"
 						v-on:update-names="getRemoteStoryNames()"
-						v-on:loadStory="loadStory"
+						v-on:import="load"
 						v-on:add-local-story="addToLocalStories"
 						v-on:delete-local-story="deleteFromLocalStories"
-						v-on:select-story="selectStory"
+						v-on:change-story="changeSelectedStory"
 						v-on:select-mission="selectMission"
 						v-bind:copied-mission="copiedMission"
 						v-on:copy-mission="copyMission"

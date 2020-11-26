@@ -1,5 +1,6 @@
 import {template, templateArray} from "./InputValueWidgetTemplate.js";
 import {TypedValue} from "../../shared/js/Types/TypedValue.js";
+import Time from "../../shared/js/Types/Time.js";
 
 export var  component = null,
             componentArray = null;
@@ -73,11 +74,11 @@ component = {
         acceptTypes: {
             type: Array,
             default: [
-                "Time",
-                "Date",
-                "String",
-                "Number",
-                "Array"
+                Time.name,
+                Date.name,
+                String.name,
+                Number.name,
+                Array.name
             ]
         },
         context: Object
@@ -85,37 +86,37 @@ component = {
     data() {
         return {
             componentContext: {
-                Time: {
+                [Time.name]: {
                     component :"b-time",
                     attrs: {
-                        type: "time"
+                        // type: "time"
                     },
                     i18n: {
                         type: 'shared.label-Time',
                         description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
-                Date: {
+                [Date.name]: {
                     component: "b-datepicker",
                     attrs: {
-                        type: "date"
+                        // type: "date"
                     },
                     i18n: {
                         type: 'shared.label-Date',
                         description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
-                String: {
+                [String.name]: {
                     component: "b-form-input",
                     attrs: {
-                        type: "String"
+                        type: "text"
                     },
                     i18n: {
                         type: "shared.label-Text",
                         description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
-                Number:{
+                [Number.name]:{
                     component:"b-form-input",
                     attrs: {
                         type: "number"
@@ -125,7 +126,7 @@ component = {
                         description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
-                Array: {
+                [Array.name]: {
                     component: "input-array",
                     i18n: {
                         type: "shared.label-Array",
@@ -133,10 +134,7 @@ component = {
                     }
                 }
             },
-            typedValue: {
-                type: null,
-                value: null
-            }
+            typedValue: new TypedValue()
         }
     },
     created() {
@@ -145,6 +143,9 @@ component = {
             this.componentContext = Object.assign( this.componentContext, this.context );
         }
     },
+    mounted() {
+        this.assign( this.value );
+    },
     computed: {
         componentDataForType: function () {
             return ( this.typedValue.type && this.componentContext[ this.typedValue.type ] ) ? this.componentContext[ this.typedValue.type ] : null;
@@ -152,29 +153,49 @@ component = {
     },
     watch: {
         'typedValue.type': function(newVal, oldVal){
-            if( newVal != oldVal ){
-                this.$emit('taketype', newVal);
-                this.wipe();
+            if( newVal != oldVal && oldVal || !newVal ){
+                console.log("[InputTypedValueWidget]", "changing value type -> reset value");
+                this.$set(this.typedValue, "value", null); // clear value data incompatible with type
             }
         },
         'typedValue.value': function(newVal, oldVal){
-            console.log("emitting", this.typedValue );
-            this.$emit( 'input', this.typedValue );
+            let areEquals = this.typedValue.equals( this.value );
+            let isValid = this.isValid(this.typedValue);
+            if( !areEquals && isValid ) {
+                this.$emit( 'input', new TypedValue( this.typedValue ) );
+            }
+            else if( areEquals && !isValid ) {
+                console.log("[InputTypedValueWidget]", "value type unset -> notify null TypedValue");
+                this.$emit('input', null); // invalid data so set null on parent
+            }
+            // else they are equals and valid, so we don't notify anything
         },
         "value": function (newVal) {
-            this.$set( this.typedValue, "type", newVal.type );
-            this.$set( this.typedValue, "value", newVal.value );
+            this.assign( newVal );
         }
     },
     methods:{
-
-        wipe:function () {
-            this.$set( this.typedValue, "value", null );
-            this.$emit( 'input', this.typedValue );
+        isValid(typedValue) {
+            return typedValue && typedValue.type && typedValue.value;
         },
-        onSubmit() {
-            console.log('inputValueSubmit');
-            this.$emit('inputValueSubmit');
+        assign( value ) {
+            if( this.typedValue.equals( value ) ) return;
+
+            if( value && value instanceof TypedValue ) {
+                console.log("assign", value );
+                this.$set(this.typedValue, "type", value.type);
+                this.$set(this.typedValue, "value", value.value);
+            }
+            else {
+                console.log("[InputTypedValueWidget]", "invalid TypedValue data -> resetting TypedValue");
+                // invalidate data
+                this.$set(this.typedValue, "value", null );
+            }
+        },
+        reset() {
+            console.log("[InputTypedValueWidget]", "resetting TypedValue");
+            this.typedValue = new TypedValue();
+            this.$emit( 'input',  null );
         }
     }
 }

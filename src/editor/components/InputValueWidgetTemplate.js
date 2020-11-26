@@ -1,31 +1,26 @@
 export const template =
 `
-<form v-on:submit.prevent="onSubmit"
-	v-bind:aria-labelledby="$attrs.id + '_data-editor-widget-legend'"
->
-	<fieldset>
-		<legend
-			v-bind:id="$attrs.id + '_data-editor-widget-legend'"
-			v-t="'DataEditorWidget.label-create-value-you-need'"
-		></legend>
-		
+<div v-on:reset="reset">
 		<b-form-group
 			v-bind:label="$t('DataEditorWidget.label-value-type')"
 			v-bind:label-for="$attrs.id + '_data-editor-widget-select-type'"
 		>
-			<select
+			<b-form-select
 				v-bind:id="$attrs.id + '_data-editor-widget-select-type'"
 				v-model="typedValue.type"
-				class="form-group"
+				required
 			>
-				<option
+				<template #first>
+					<b-form-select-option v-bind:value="null" disabled v-t="'shared.label-select-option'"
+					></b-form-select-option>
+				</template>
+				<b-form-select-option
 					v-for="type in acceptTypes"
+					v-bind:key="type"
 					v-bind:value="type"
-					v-t="componentContext[ type ].i18n.type"
-				></option>
-			</select>
+				>{{ $t(componentContext[ type ].i18n.type) }}</b-form-select-option>
+			</b-form-select>
 		</b-form-group>
-		
 		<b-form-group
 			v-if="typedValue.type"
 			v-bind:label="componentDataForType.i18n ? $t( componentDataForType.i18n.type ) : typedValue.type"
@@ -39,10 +34,10 @@ export const template =
 				v-bind:is="componentDataForType.component"
 				v-bind="componentDataForType.attrs"
 				v-model="typedValue.value"
+				required
 			></component>
 		</b-form-group>
-	</fieldset>
-</form>
+</div>
 `;
 
 export const templateArray =

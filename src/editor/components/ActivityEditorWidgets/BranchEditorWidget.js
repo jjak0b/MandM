@@ -1,7 +1,8 @@
 import {template} from "./BranchEditorWidgetTemplate.js";
+import {component as conditionParameterComponent} from "./BranchEditor/BranchEditorParameterWidget.js";
 import ActivityDataBranch from "../../../shared/js/ActivityNodes/ActivityDataTypes/ActivityDataBranch.js";
 import {ConditionParameter} from "../../../shared/js/Branch/ConditionParameter.js";
-import {component as conditionParameterComponent} from "./BranchEditor/BranchEditorParameterWidget.js";
+import {BranchCondition} from "../../../shared/js/Branch/BranchCondition.js";
 
 export const component = {
     template: template,
@@ -15,9 +16,9 @@ export const component = {
     data() {
         let data = {
             form: {
-                validity: false,
+                assign: false
             },
-
+            condition: new BranchCondition(null),
             functionPrototypes: ActivityDataBranch._functions,
             envVariableNames: ActivityDataBranch._variables,
             functionLocaleLabels: {
@@ -84,36 +85,59 @@ export const component = {
 
         return data;
     },
+    mounted() {
+        this.onReset();
+    },
     watch: {
-        "branch" : {
-            deep: true,
-            handler: function () {
-                console.log( "changed", this.branch );
-            }
+        "branch": function (newVal, oldVal) {
+            this.onReset();
         },
-        "branch.condition.function": function (value) {
-            let params = new Array( this.functionPrototypes[ value ].arguments.length );
-            for (let i = 0; i < params.length; i++) params[ i ] = new ConditionParameter();
+        "condition.function": function (value, oldVal) {
 
-            this.$set(
-                this.branch.condition,
-                "params",
-                params
-            );
-            console.log("update function parameters",this.branch.condition, params );
+            if( this.form.assign ) {
+                console.log("skipping for assign");
+                return;
+            }
+
+
+            if( value && value != oldVal ) {
+                let params = new Array( this.functionPrototypes[ value ].arguments.length );
+                for (let i = 0; i < params.length; i++) params[ i ] = new ConditionParameter();
+
+                this.$set(
+                    this.condition,
+                    "params",
+                    params
+                );
+                console.log("update function parameters",this.condition, params );
+            }
+            else {
+                this.$set(
+                    this.condition,
+                    "params",
+                    []
+                );
+                console.log("clear function parameters",this.condition );
+            }
         }
     },
     computed:{
         selfParameter() {
-            return this.branch.condition.params[0];
+            return this.condition.params[0];
         },
         parameters() {
-            if( this.branch && this.branch.condition && this.branch.condition.params )
-                return this.branch.condition.params;
+            if( this.branch && this.condition && this.condition.params )
+                return this.condition.params;
             return [];
         }
     },
     methods: {
+        assign( dataBranch ) {
+            this.form.assign = true;
+            let copy = JSON.parse( JSON.stringify( dataBranch.condition ) );
+            this.condition = new BranchCondition( copy );
+            this.$nextTick( () => this.form.assign = false );
+        },
         getParameterI18n( name ) {
             if( !(name in this.parametersLocaleLabels) ) {
                 name = "parameter";
@@ -121,15 +145,14 @@ export const component = {
             return this.$t( this.parametersLocaleLabels[ name ] );
         },
         onSubmit(event) {
-            let valid = false;
-            if( this.branch.condition.function in this.functionPrototypes ) {
-                let funcArguments = this.functionPrototypes[this.branch.condition].arguments;
-                for (let i = 0; i < funcArguments.length; i++) {
-                    funcArguments[ i ].accepts.includes( this.branch.condition.params[ i ].type )
-                }
-            }
-            return valid;
+            console.log("a");
+            this.$set( this.branch, "condition", this.condition );
+            this.onReset( event );
+        },
+        onReset( event ) {
+            this.form.assign = true;
+            this.condition = new BranchCondition({function:null, params: [] } );
+            this.$nextTick( () => this.assign( this.branch ) );
         }
-
     }
 }

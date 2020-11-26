@@ -17,12 +17,16 @@ export const template =
 							<b-col cols="4">
 								<h3>{{ $t('StoryEditorWidget.label-edit-story') }}</h3>
 									<b-form-checkbox switch
-										class="my-3"
+										class="mt-3"
 										size="lg"
 										id="publicStory"
 										v-model="value.public">
 										{{ $t('StoryEditorWidget.label-story-public') }}
 									</b-form-checkbox>
+									<qrcode
+										v-bind:value="'/player?story=' + value.name"
+										v-if="value.public"
+									></qrcode>
 								<b-form-group
 										v-bind:label="$t('StoryEditorWidget.label-story-description')"
 										label-for="storyDescriptionInput">

@@ -1,7 +1,7 @@
 
 import {template} from "../BranchEditor/BranchEditorParameterWidgetTemplate.js";
 import {ConditionParameter} from "../../../../shared/js/Branch/ConditionParameter.js";
-import {component as typedValueComponent} from "../../InputValueWidget.js";
+import {component as typedValueComponent} from "../../InputTypedValueWidget.js";
 
 export const component = {
 	template: template,

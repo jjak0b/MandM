@@ -1,6 +1,6 @@
 import {template} from "./UserWidgetEditorCheckboxTemplate.js";
 import {component as checkboxComponent} from "../../../../shared/components/UserWidgetCheckbox.js";
-import {component as inputVal} from "../../InputValueWidget.js";
+import {component as inputVal} from "../../InputTypedValueWidget.js";
 import {component as asyncLoadComponentI18nInputWidget} from "../../i18nWidgets/I18nInputWidget.js";
 import {component as listWidget} from "../../../../shared/components/AccessibleListWidget.js";
 import {I18nUtils} from "../../../../shared/js/I18nUtils.js";

@@ -1,4 +1,4 @@
-import {template, templateArray} from "./InputValueWidgetTemplate.js";
+import {template, templateArray} from "./InputTypedValueWidgetTemplate.js";
 import {TypedValue} from "../../shared/js/Types/TypedValue.js";
 import Time from "../../shared/js/Types/Time.js";
 

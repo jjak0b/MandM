@@ -49,9 +49,7 @@ function API_GET_storyList ( req, res ) {
 
 // router.get('/:name', API_GET_story );
 function API_GET_story(req, res) {
-
 	let storyName = res.locals.storyName;
-
 	if( !storyName ) {
 		res.sendStatus( StatusCodes.BAD_REQUEST );
 	}
@@ -62,7 +60,11 @@ function API_GET_story(req, res) {
 		else {
 			handler.getJSON( storyName )
 				.then( (data) => {
-					res.json( data );
+					if ( req.query.source !== 'editor' && !data.public ) {
+						console.error(`[ GET stories/${storyName}]`, "Error getting JSON of story", "cause", "The story is not public" );
+						res.sendStatus(StatusCodes.FORBIDDEN);
+					}
+					else res.json( data );
 				})
 				.catch( (objError)=> {
 					console.error(`[ GET stories/${storyName}]`, "Error getting JSON of story", "cause", objError.error );

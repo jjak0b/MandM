@@ -16,7 +16,7 @@ export default class Story {
 			stylesheets: []
 		};
 
-		this.public = unparsed ? unparsed.public : true;
+		this.public = unparsed ? unparsed.public : false;
 		this.name =  unparsed ? unparsed.name : "";
 		this.description = unparsed ? unparsed.description : "";
 		this.age = unparsed ? unparsed.age : "";

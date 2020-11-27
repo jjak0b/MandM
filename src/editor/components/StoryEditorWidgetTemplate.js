@@ -24,7 +24,7 @@ export const template =
 										{{ $t('StoryEditorWidget.label-story-public') }}
 									</b-form-checkbox>
 									<qrcode
-										v-bind:value="'/player?story=' + value.name"
+										v-bind:value="'/stories/' + value.name"
 										v-if="value.public"
 									></qrcode>
 								<b-form-group

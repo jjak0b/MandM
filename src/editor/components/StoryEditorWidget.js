@@ -124,7 +124,7 @@ export const component = {
 		},
 		getStoryFromServer( name ) {
 			this.loading = true;
-			let reqJSONStory = $.get( `/stories/${name}` );
+			let reqJSONStory = $.get( `/stories/${name}?source=editor` );
 			let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${name}`, "*" );
 
 			Promise.all( [reqJSONStory, reqJSONLocales] )

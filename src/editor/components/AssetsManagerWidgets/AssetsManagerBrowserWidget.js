@@ -31,11 +31,11 @@ export const component = {
 				"stylesheets"
 			],
 			localeStrings: {
-				videos: "shared.media.label-video",
-				audios: "shared.media.label-audio",
-				images: "shared.media.label-image",
-				captions: "shared.media.label-caption",
-				stylesheets: "shared.media.label-stylesheet"
+				videos: "shared.media.label-videos",
+				audios: "shared.media.label-audios",
+				images: "shared.media.label-images",
+				captions: "shared.media.label-captions",
+				stylesheets: "shared.media.label-stylesheets"
 			},
 			selectedItem: null,
 			filter: {
@@ -51,7 +51,7 @@ export const component = {
 	},
 	computed: {
 		labelContent: function () {
-			return this.valueCurrent || this.$t('AssetManager.label-select-asset');
+			return this.valueCurrent || this.$t('AssetsManager.label-select-asset');
 		}
 	},
 	beforeMount() {

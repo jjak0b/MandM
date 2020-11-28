@@ -1,5 +1,6 @@
 {
   "shared": {
+	"label-select": "Select",
 	"label-asset-manager": "Asset Manager",
 	"label-style-editor": "Style Editor",
 	"label-enable": "Enable",
@@ -67,6 +68,13 @@
 	"i18n": {
 	  "label-no-locale": "No language",
 	  "label-locale": "Language: {lang}"
+	},
+	"media": {
+	  "label-videos": "Video",
+	  "label-images": "Image",
+	  "label-captions": "Caption",
+	  "label-stylesheets": "Stylesheet",
+	  "label-audios": "Audio"
 	}
   },
   "accessibility": {
@@ -217,6 +225,8 @@
 	}
   },
   "StyleEditorWidget": {
+	"label-custom-stylesheet-description": "Custom stylesheet description",
+	"label-select-custom-stylesheet": "Select custom stylesheet",
 	"label-no-property": "No property",
 	"label-add-property-to-edit": "Add property to edit",
 	"label-no-CSS-rule": "No CSS rule",
@@ -386,5 +396,28 @@
 	"label-create-value-you-need": "Create the value you need",
 	"label-value-type": "Value type",
 	"label-values": "Values"
+  },
+  "AssetsManager": {
+	"label-invalid-file-unsupported": "File unsupported",
+	"label-invalid-name-already-exists": "Name already exists",
+	"label-valid-name-available": "Name available",
+	"label-asset-name-description": "Asset name description",
+	"label-asset-name": "Asset name",
+	"label-valid-file": "Valid file",
+	"label-server": "Sever",
+	"label-locale": "Locale",
+	"label-select-and-upload": "Select and upload",
+	"label-select-media-file": "Select media file",
+	"label-replace-existing": "Replace existing",
+	"label-search-asset": "Search asset",
+	"label-filter-categories": "Filter categories",
+	"label-result-list": "Result list",
+	"label-select-asset": "Select asset",
+	"label-stories-that-depend-by-asset": "Stories that depend by asset",
+	"error": {
+	  "label-asset-is-dependency": "Asset is dependency",
+	  "label-unable-to-delete-asset": "Unable to delete asset",
+	  "label-asset-already-deleted": "Asset already deleted"
+	}
   }
 }

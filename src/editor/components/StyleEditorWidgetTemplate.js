@@ -5,9 +5,9 @@ export const template =
 	v-on:reset="value.asset=null"
 >
 	<b-form-group
-		v-bind:label="$t('StyleEditor.label-select-custom-stylesheet')"
+		v-bind:label="$t('StyleEditorWidget.label-select-custom-stylesheet')"
 		v-bind:label-for="'style-editor-widget-stylesheet-input-asset'"
-		v-bind:description="$t('StyleEditor.label-custom-stylesheet-description')"
+		v-bind:description="$t('StyleEditorWidget.label-custom-stylesheet-description')"
 	>
 		<b-input-group
 			aria-atomic="true"

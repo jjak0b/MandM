@@ -65,8 +65,8 @@ export const template =
 									name="searchAsset"
 									v-model="filter.search"
 									v-on:input="updateList()"
-									v-bind:placeholder="$t('AssetManager.label-search-asset')"
-									v-bind:aria-label="$t('AssetManager.label-search-asset')"
+									v-bind:placeholder="$t('AssetsManager.label-search-asset')"
+									v-bind:aria-label="$t('AssetsManager.label-search-asset')"
 									class="m-auto"
 									aria-controls="asset-manager-browser-select-filter-list"
 								>
@@ -74,7 +74,7 @@ export const template =
 							</b-col>
 							<b-col md >
 								<b-form-group
-									v-bind:label="$t('AssetManager.label-filter-categories')"
+									v-bind:label="$t('AssetsManager.label-filter-categories')"
 								>
 								<b-form-checkbox-group
 									v-bind:id="'asset-manager-browser-checkbox-categories_' + $attrs.id"
@@ -95,7 +95,7 @@ export const template =
 							<b-col md>
 								<b-form-group
 									v-bind:label-for="'asset-manager-browser-select-filter-list_' + $attrs.id"
-									v-bind:label="$t('AssetManager.label-result-list')"
+									v-bind:label="$t('AssetsManager.label-result-list')"
 								>
 									<b-form-select
 										v-bind:value="valueCurrent"

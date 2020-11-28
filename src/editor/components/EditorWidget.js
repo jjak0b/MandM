@@ -122,7 +122,7 @@ const component = {
 				if (tabIndex === 0) {
 					this.$refs.activity.isEditFormVisible = false;
 				}
-				if (tabIndex === 1) {
+				if (tabIndex === 1 && this.$refs.activity.$refs.treeView) {
 					this.$refs.activity.$refs.treeView.redraw();
 				}
 			}

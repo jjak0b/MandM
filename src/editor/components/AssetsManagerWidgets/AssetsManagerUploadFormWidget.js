@@ -10,19 +10,18 @@ export const component = {
 		let data = {
 			acceptMIMETypes: {
 				"images": {
-					accept: [
+					accept:
 						"image/*"
-					],
+					,
 					regExp: [
 						/^image\/[-\w.]+$/im
 					]
 				},
 				"audios": {
-					accept: [
-						"audio/mpeg",
+					accept:
+						"audio/mpeg,audio/wav"
 						// "audio/ogg", // maybe no Edge and Safari support
-						"audio/wav"
-					],
+					,
 					regExp: [
 						/^audio\/mpeg$/im,
 						// /^audio\/ogg$/igm, // maybe no Edge and Safari support
@@ -30,12 +29,10 @@ export const component = {
 					]
 				},
 				"videos": {
-					accept: [
-						"video/mp4",
+					accept:
+						"video/mp4,video/webm"
 						// "video/ogg", // maybe no Edge and Safari support
-						"video/webm",
-
-					],
+					,
 					regExp: [
 						/^video\/mp4$/im,
 						// /^video\/ogg$/igm, // maybe no Edge and Safari support
@@ -44,20 +41,18 @@ export const component = {
 
 				},
 				"captions": {
-					accept: [
-						"text/vtt",
-						".vtt"
-					],
+					accept:
+						"text/vtt,.vtt"
+					,
 					regExp: [
 						/^text\/vtt$/im,
 						/^.vtt$/im
 					]
 				},
 				"stylesheets": {
-					accept: [
-						"text/css",
-						".css"
-					],
+					accept:
+						"text/css,.css"
+					,
 					regExp: [
 						/^text\/css$/im,
 						/^.css$/im
@@ -113,7 +108,7 @@ export const component = {
 			data.optionsCategories.push(
 				{
 					value: category,
-					text: this.$t( `shared.media.categories.${category}.label` )
+					text: this.$t( `shared.media.label-${category}` )
 				}
 			);
 		});

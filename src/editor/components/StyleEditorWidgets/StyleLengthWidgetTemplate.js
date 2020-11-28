@@ -55,7 +55,7 @@ export const template =
 						v-bind:value="unit"
 					>{{ unit }}</option>
 				</optgroup>
-			</option>
+			</select>
 		</div>
 	</div>
 </div>

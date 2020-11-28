@@ -57,8 +57,8 @@ export const component = {
 					let cause = null;
 					switch( xhr.status ) {
 						case 403: // forbidden
-							self.operationAlert.operationResultCause = this.$t("AssetManager.error.label-asset-is-dependency");
-							self.operationAlert.operationMessage = this.$tc("AssetManager.label-stories-that-depend-by-asset", this.selectedAsset );
+							self.operationAlert.operationResultCause = this.$t("AssetsManager.error.label-asset-is-dependency");
+							self.operationAlert.operationMessage = this.$tc("AssetsManager.label-stories-that-depend-by-asset", this.selectedAsset );
 							let dependencies = xhr.responseJSON;
 							self.operationAlert.operationList = [];
 							dependencies.forEach( (dependency) => {
@@ -71,10 +71,10 @@ export const component = {
 							});
 							break;
 						case 404: // not found (shouldn't happen)
-							self.operationAlert.operationResultCause = this.$t("AssetManager.error.label-asset-already-deleted");
+							self.operationAlert.operationResultCause = this.$t("AssetsManager.error.label-asset-already-deleted");
 							break;
 						default:
-							self.operationAlert.operationResultCause = this.$tc("AssetManager.error.label-unable-to-delete-asset", this.selectedAsset );
+							self.operationAlert.operationResultCause = this.$tc("AssetsManager.error.label-unable-to-delete-asset", this.selectedAsset );
 							break;
 					}
 					self.operationAlert.operationResult = this.$t("shared.label-operation-failed");

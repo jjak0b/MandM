@@ -78,7 +78,7 @@ export const template =
 					name="replace"
 					v-bind:value="true"
 					v-bind:unchecked-value="false"
-				>{{ $t('AssetManager.label-replace-existing') }}</b-form-checkbox>
+				>{{ $t('AssetsManager.label-replace-existing') }}</b-form-checkbox>
 			</div>
 		</div>
 	</fieldset>

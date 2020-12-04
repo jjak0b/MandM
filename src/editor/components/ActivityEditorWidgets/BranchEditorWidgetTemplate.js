@@ -3,28 +3,50 @@ export const template = `
 	v-on:submit.prevent="onSubmit"
 	v-on:reset.prevent="onReset"
 >
-<h3
-	v-t="'ActivityEditorWidget.label-setup-your-condition'"
-></h3>
-<p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
-></p>
+    <h3
+	    v-t="'ActivityEditorWidget.label-setup-your-condition'"
+    ></h3>
+    <p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
+    ></p>
 
-<condition-parameter v-if="condition && condition.function"
-	:key="condition.function + '_0'"
-	v-bind:value="selfParameter"
-	id="activity-editor-branch-parameter-this"
-	v-bind:valueAcceptTypes="functionPrototypes[ condition.function ].arguments[ 0 ].accepts"
-	v-bind:variableOptions="variableOptions"
-	v-bind:sourceTypeOptions="sourceTypeOptions"
-	v-bind:function="condition.function"
-	v-bind:label="getParameterI18n( 'this' )"
->
-</condition-parameter>
-<b-form-group v-if="condition"
-	v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
-	label-for="activity-editor-branch-select-function"
-	v-bind:description="$t('ActivityEditorWidget.label-branch-condition-example')"
->
+    <condition-parameter v-if="condition && condition.function"
+	    :key="condition.function + '_0'"
+	    v-bind:value="selfParameter"
+	    id="activity-editor-branch-parameter-this"
+	    v-bind:valueAcceptTypes="functionPrototypes[ condition.function ].arguments[ 0 ].accepts"
+	    v-bind:variableOptions="variableOptions"
+	    v-bind:sourceTypeOptions="sourceTypeOptions"
+	    v-bind:function="condition.function"
+	    v-bind:label="getParameterI18n( 'this' )"
+    >
+    </condition-parameter>
+		<b-form-group
+			v-bind:label="$t('ActivityEditorWidget.label-points-assignment')"
+			label-for="activity-editor-branch-points-assignment"
+		>
+		    <b-form-row>
+		        <b-col>
+		            <b-form-checkbox
+		                id="points-check"
+		                v-model="statusPoints"
+		                name="points-check"
+		            >
+		                {{ $t('ActivityEditorWidget.label-points-accept') }}
+                    </b-form-checkbox>
+                </b-col>
+                <b-col>
+                    <b-form-input v-if="statusPoints"
+                    v-model.number="pointsAssigned"
+                    >
+                    </b-form-input>
+                </b-col>
+		    </b-form-row>
+		</b-form-group>
+    <b-form-group v-if="condition"
+	    v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
+	    label-for="activity-editor-branch-select-function"
+	    v-bind:description="$t('ActivityEditorWidget.label-branch-condition-example')"
+    >
 	<b-form-select
 		id="activity-editor-branch-select-function"
 		v-bind:options="functionOptions"

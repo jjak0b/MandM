@@ -50,7 +50,7 @@ export const template =
 			<b-form-select-option 
 				v-for="(mission, index) in missions" 
 				v-bind:value="index">
-				{{ $t(mission.title) }}
+				{{ $t(mission.title, locale) }}
 			</b-form-select-option>
 		</b-form-select>
 	</b-modal>		

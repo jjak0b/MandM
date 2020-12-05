@@ -19,7 +19,7 @@ export const template =
 						v-bind:localesList="localesList"
 						v-bind:locale-label="item.title"
 					></borderless-input>
-					<p v-else>{{ $t(item.title) }}</p>
+					<p v-else>{{ $t(item.title, locale) }}</p>
 				</b-col>
 				<div class="float-right">
 					<b-link

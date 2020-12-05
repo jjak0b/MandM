@@ -57,9 +57,18 @@ export const template =
 						></b-icon-clipboard-check>
 					</b-link>
 					<b-link
-						v-if="disable"
+						v-if="disable && !items[index].active"
 						v-b-tooltip.hover
-						v-bind:title="$t('shared.label-enable-or-disable')"
+						v-bind:title="$t('shared.label-enable')"
+						v-on:click.stop="$emit('enable', index)">
+						<b-icon-power
+							v-bind:variant="getVariant(index)"
+						></b-icon-power>
+					</b-link>
+					<b-link
+						v-if="disable && items[index].active"
+						v-b-tooltip.hover
+						v-bind:title="$t('shared.label-disable')"
 						v-on:click.stop="$emit('enable', index)">
 						<b-icon-power
 							v-bind:variant="getVariant(index)"

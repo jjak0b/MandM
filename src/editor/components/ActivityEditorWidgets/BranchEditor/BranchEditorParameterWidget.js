@@ -17,7 +17,7 @@ export const component = {
 	},
 	data() {
 		return {
-
+		statusPoints:false
 		}
 	},
 	watch: {

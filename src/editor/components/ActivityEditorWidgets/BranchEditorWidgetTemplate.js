@@ -20,28 +20,7 @@ export const template = `
 	    v-bind:label="getParameterI18n( 'this' )"
     >
     </condition-parameter>
-		<b-form-group
-			v-bind:label="$t('ActivityEditorWidget.label-points-assignment')"
-			label-for="activity-editor-branch-points-assignment"
-		>
-		    <b-form-row>
-		        <b-col>
-		            <b-form-checkbox
-		                id="points-check"
-		                v-model="statusPoints"
-		                name="points-check"
-		            >
-		                {{ $t('ActivityEditorWidget.label-points-accept') }}
-                    </b-form-checkbox>
-                </b-col>
-                <b-col>
-                    <b-form-input v-if="statusPoints"
-                    v-model.number="pointsAssigned"
-                    >
-                    </b-form-input>
-                </b-col>
-		    </b-form-row>
-		</b-form-group>
+		
     <b-form-group v-if="condition"
 	    v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
 	    label-for="activity-editor-branch-select-function"

@@ -54,8 +54,25 @@ export const template =
 					</template>
 				</b-form-select>
 			</b-form-group>
+		    
 		</div>
 	</b-col>
 </b-form-row>
+<b-form-row>
+		        <b-col>
+		            <b-form-checkbox
+		                id="points-check"
+		                v-model="statusPoints"
+		                name="points-check"
+		            >
+		                {{ $t('ActivityEditorWidget.label-points-accept') }}
+                    </b-form-checkbox>
+                    <b-form-input v-if="statusPoints"
+                    type="number"
+                    v-model.number="value.sourcePoints"
+                    >
+                    </b-form-input>
+                </b-col>
+		    </b-form-row>
 </b-form-group>
 `;

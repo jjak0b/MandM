@@ -18,8 +18,6 @@ export const component = {
             form: {
                 assign: false
             },
-            pointsAssigned:-1,
-            statusPoints:false,
             condition: new BranchCondition(null),
             functionPrototypes: ActivityDataBranch._functions,
             envVariableNames: ActivityDataBranch._variables,

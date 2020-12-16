@@ -1,5 +1,6 @@
 import Mission from './Mission.js';
 import StyleData from "./StyleData/StyleData.js";
+import {Asset} from "./Asset.js";
 
 export default class Story {
 
@@ -9,10 +10,25 @@ export default class Story {
 
 		this.dependencies = unparsed && unparsed.dependencies ? unparsed.dependencies : {
 			locales: {},
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
 			captions: [],
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
 			videos: [],
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
 			audios: [],
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
 			images: [],
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
 			stylesheets: []
 		};
 
@@ -23,6 +39,14 @@ export default class Story {
 		this.gamemode = unparsed ? unparsed.gamemode : "";
 		this.groups = unparsed ? unparsed.groups : [];
 
+		for (const category in this.dependencies) {
+			if (category === "locales") continue;
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
+			let assetsEntries = this.dependencies[category];
+			assetsEntries.forEach((entry) => Object.setPrototypeOf(entry.asset, Asset.prototype));
+		}
 		this.missions = unparsed ? unparsed.missions : [];
 		for (let i = 0; i < this.missions.length; i++) {
 			this.missions[ i ] = new Mission( this.missions[ i ] );

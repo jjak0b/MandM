@@ -15,10 +15,24 @@ export class Asset extends Disposable {
 			this.url = `/assets/${this.category}/${this.name}`;
 			this.data = assetObjectOrName.data;
 		}
+		/**
+		 *
+		 * @type {String}
+		 */
+		this.blobURL = null;
+	}
+
+	toJSON() {
+		return {
+			name: this.name,
+			category: this.category,
+			url: this.url,
+			data :this.data,
+		}
 	}
 
 	getURL() {
-		return this.url;
+		return this.blobURL || this.url;
 	}
 
 	toString() {
@@ -77,12 +91,27 @@ export class Asset extends Disposable {
 					requestOptions.xhr = xmlHttpRequestGetter;
 
 				return $.ajax(
-					self.getURL(),
+					self.url,
 					requestOptions
 				);
 			}
 			else {
 				return Promise.reject( null );
 			}
+	}
+
+	/**
+	 *
+	 * @returns {Promise<Response>}
+	 */
+	fetch() {
+		return window.fetch( this.url )
+			.then( (response) => {
+				response.blob()
+					.then( (blobData) => {
+						this.blobURL = URL.createObjectURL( blobData );
+					});
+				return response;
+			})
 	}
 }

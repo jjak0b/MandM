@@ -25,6 +25,8 @@ export default class Player {
 	 * @returns {Player}
 	 */
 	static getInstance() {
+		if( !this.instance )
+			this.instance = new Player();
 		return this.instance;
 	}
 
@@ -64,6 +66,7 @@ export default class Player {
 						assetsRequests.push( asset.fetch() );
 					}
 				}
+				return assetsRequests;
 			});
 	}
 

@@ -3,6 +3,7 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
 		<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 		<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.17.3/dist/bootstrap-vue.css"/>
@@ -25,27 +26,58 @@
 		<script type="module" src="./js/init.js"></script>
 	</head>
 	<body>
-		<div id="main">
-			<header
-			></header>
-			<main>
-				<div
-					v-if="player.loadingProgress < 1 "
-				>
-					<b-progress
-							class="w-100"
-							:value="player.loadingProgress * 100"
-							:max="100"
-							show-progress animated
-							class="mx-6"
-					></b-progress>
-				</div>
-				<div v-else>
+		<div id="main" >
+			<b-tabs
+				pills card end
+				nav-wrapper-class="fixed-bottom"
+			>
+				<b-tab title="Main" active>
+					<main>
+						<div
+							v-if="isLoading"
+							id="loading-container"
+							class="d-flex align-items-center"
+						>
+							<div
+								class="mx-auto w-75"
+							>
+								<div class="text-center">
+									<h4
+											id="player-loading-progressbar"
+											v-t="'Player.label-loading-progress'"
+									></h4>
+								</div>
+								<b-progress
+										:max="100"
+										show-progress animated
+										height="5vh"
+								>
+									<b-progress-bar
+											:value="loadingProgress"
+											aria-labelledby="player-loading-progressbar"
+									>
+										<span>{{ loadingProgress }} %</span>
+									</b-progress-bar>
+								</b-progress>
+							</div>
+						</div>
+						<div v-else>
 
-				</div>
-			</main>
-			<footer>
-			</footer>
+						</div>
+					</main>
+				</b-tab>
+				<b-tab title="Missions">
+					<main>
+						<h4>Missions</h4>
+					</main>
+
+				</b-tab>
+				<b-tab title="Chat">
+					<main>
+						<h4>Chat</h4>
+					</main>
+				</b-tab>
+			</b-tabs>
 		</div>
 	</body>
 </html>

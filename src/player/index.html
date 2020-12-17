@@ -4,6 +4,7 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8">
+		<title>App Player</title>
 		<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<link rel="stylesheet" crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" />
 		<link rel="stylesheet" crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap-vue@2.17.3/dist/bootstrap-vue.css"/>
@@ -26,7 +27,8 @@
 		<script type="module" src="./js/init.js"></script>
 	</head>
 	<body>
-		<div id="main" >
+		<!-- hide page content using standard css -->
+		<div id="main" style="display: none" v-show="true">
 			<b-tabs
 				pills card end
 				nav-wrapper-class="fixed-bottom"
@@ -43,20 +45,20 @@
 							>
 								<div class="text-center">
 									<h4
-											id="player-loading-progressbar"
-											v-t="'Player.label-loading-progress'"
+										id="player-loading-progressbar"
+										v-t="loadingInfoLocaleLabel"
 									></h4>
 								</div>
 								<b-progress
-										:max="100"
-										show-progress animated
-										height="5vh"
+									:max="100"
+									show-progress animated
+									height="5vh"
 								>
 									<b-progress-bar
-											:value="loadingProgress"
-											aria-labelledby="player-loading-progressbar"
+										:value="loadingProgress"
+										aria-labelledby="player-loading-progressbar"
 									>
-										<span>{{ loadingProgress }} %</span>
+										<span>{{ loadingProgress.toFixed( 1 ) }} %</span>
 									</b-progress-bar>
 								</b-progress>
 							</div>

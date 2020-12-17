@@ -1,19 +1,22 @@
 import {component as playerComponent} from "../components/Player.js";
 import {i18n} from "../../shared/js/i18n.js";
-import {I18nUtils} from "../../shared/js/I18nUtils.js";
 
+// minimal offline locales
+i18n.mergeLocaleMessage( i18n.fallbackLocale,
+
+	{
+		"shared": {
+			"label-loading": "Loading"
+		},
+		"Player" : {
+			"errors": {
+				"label-generic": "Error",
+				"label-unable-to-load-resources": "Ops, we can't load resources, please refresh"
+			}
+		}
+	}
+);
 function main() {
-
-	let promiseLocales = I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] );
-
-	promiseLocales
-		.then((localesMessages) => {
-			playerComponent.i18n.mergeLocaleMessage( i18n.locale, localesMessages[ i18n.locale ] );
-			playerComponent.i18n.mergeLocaleMessage( i18n.fallbackLocale, localesMessages[ i18n.fallbackLocale ] );
-		})
-		.catch( error => { console.error( "Error while getting localesData, continue offline ...", error ); })
-		.finally( function () {
-			new Vue( playerComponent );
-		});
+	new Vue( playerComponent );
 }
 main();

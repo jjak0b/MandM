@@ -2,6 +2,7 @@ import {i18n} from "../../shared/js/i18n.js";
 import Player from	"../js/Player.js"
 import Story from "../../shared/js/Story.js";
 import {CacheSystem} from "../../shared/js/CacheSystem.js";
+import {I18nUtils} from "../../shared/js/I18nUtils.js";
 
 export const component = {
 	el: '#main',
@@ -14,26 +15,54 @@ export const component = {
 			player: Player.getInstance(),
 			cacheSystem: new CacheSystem(),
 			loadingProgress: 0,
+			loadingInfoLocaleLabel: "shared.label-loading",
 			isLoading: false
 		}
 	},
 	created() {
 		this.isLoading = true;
+		this.loadingInfoLocaleLabel = "shared.label-loading";
+
 		console.log( "[PlayerVM]", "Start downloading story" );
 		let promsInit = [
 			this.cacheSystem.init(),
-			this.player.init()
+			this.player.init(),
+			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] )
 		];
 		this.loadingProgress = 0;
 		let updateProgress = (percentage) => {
 			this.loadingProgress = percentage;
 		}
 		allProgress( promsInit, updateProgress )
+			.catch( (error) => {
+				console.error( "[PlayerVM]", "Unable to init Player required stuff", error );
+				return error;
+			})
 			.then( (responses) => {
+				let assetsProms = responses[ 1 ];
+				let localesMessages = responses[ 2 ];
 				console.log( "[PlayerVM]", "Story downloading complete" );
 				console.log( "[PlayerVM]", "Start downloading story assets" );
+
+				i18n.mergeLocaleMessage( i18n.locale, localesMessages[ i18n.locale ] );
+				i18n.mergeLocaleMessage( i18n.fallbackLocale, localesMessages[ i18n.fallbackLocale ] );
+
 				this.loadingProgress = 0;
-				return allProgress( responses[ 1 ], updateProgress );
+				this.loadingInfoLocaleLabel = "Player.label-loading-resources";
+				return allProgress( assetsProms, updateProgress );
+			})
+			.catch( (error) => {
+				this.$bvToast.toast(
+					this.$t("Player.errors.label-unable-to-load-resources"),
+					{
+						title: this.$t("Player.errors.label-error"),
+						appendToast: true,
+						noAutoHide: true,
+						variant: "danger"
+					}
+				)
+				console.error( "[PlayerVM]", "Unable to fetch assets", error );
+				return error;
 			})
 			.then( () => {
 				setTimeout( () => this.$nextTick( () => {
@@ -41,7 +70,7 @@ export const component = {
 					console.log( "[PlayerVM]", "story assets download complete" );
 					// just let finish the loading animation
 				}),1000 );
-			});
+			})
 	},
 	methods: {
 

@@ -4,5 +4,15 @@
 			"front": "Fotocamera frontale",
 		  	"back": "Fotocamera posteriore"
 		}
+	},
+	"shared": {
+		"label-loading": "Caricamento"
+	},
+	"Player" : {
+		"label-loading-resources": "Caricamento delle risorse",
+		"errors": {
+			"label-generic": "Errore",
+			"label-unable-to-load-resources": "Ops, non possiamo caricare le risorse necessarie, ricarica l'applicazine per piacere"
+		}
 	}
 }

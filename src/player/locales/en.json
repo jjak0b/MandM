@@ -4,5 +4,15 @@
 			"front": "Front-facing camera",
 			"back": "Back camera"
 		}
+	},
+	"shared": {
+		"label-loading": "Loading"
+	},
+	"Player" : {
+		"label-loading-resources": "Loading resources",
+		"errors": {
+			"label-generic": "Error",
+			"label-unable-to-load-resources": "Ops, we can't load resources, please refresh the app"
+		}
 	}
 }

@@ -1,5 +1,10 @@
 import Story from "../../shared/js/Story.js";
 import {Asset} from "../../shared/js/Asset.js";
+// Adding these will register them as parsable Nodes
+import ActivityNodeTell from "../../../shared/js/ActivityNodes/ActivityNodeTell.js";
+import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQuest.js";
+import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBranch.js";
+import NodeParser from "../../../shared/js/NodeParser.js";
 
 export default class Player {
 	constructor() {

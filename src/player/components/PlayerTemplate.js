@@ -35,9 +35,8 @@ export const template =
 					</b-progress>
 				</div>
 			</div>
-			<div v-else>
-
-			</div>
+			<player-viewport v-else>
+			</player-viewport>
 		</main>
 	</b-tab>
 	<b-tab title="Missions">

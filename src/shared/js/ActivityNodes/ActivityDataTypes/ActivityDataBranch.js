@@ -138,7 +138,8 @@ export default class ActivityDataBranch extends ActivityData {
 	}
 
 	static _variables = [
-		"userInput"
+		"userInput",
+		"score"
 	]
 
 	constructor(unparsed) {

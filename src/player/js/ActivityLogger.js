@@ -1,4 +1,4 @@
-import ActivityLoggedEvent from "../../shared/js/ActivityLoggedEvent";
+import ActivityLoggedEvent from "../../shared/js/ActivityLoggedEvent.js";
 
 export default class ActivityLogger {
 

@@ -4,20 +4,71 @@ import {Asset} from "../../shared/js/Asset.js";
 import ActivityNodeTell from "../../../shared/js/ActivityNodes/ActivityNodeTell.js";
 import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQuest.js";
 import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBranch.js";
-import NodeParser from "../../../shared/js/NodeParser.js";
+import ActivityDataBranch from "../../shared/js/ActivityNodes/ActivityDataTypes/ActivityDataBranch.js";
+import ActivityLogger from "./ActivityLogger.js";
 
 export default class Player {
 	constructor() {
+
+		let url = new URL( window.location.href );
+
+		/**
+		 *
+		 * @type {string|null}
+		 */
+		this.storyName = url.searchParams.get( "story" );
 		/**
 		 * @type {Story}
 		 */
 		this.story = null;
-		this.loadingProgress = 0;
-		/**
-		 *
-		 * @type {ServiceWorkerRegistration}
-		 */
-		this.cacheWorker = null;
+		this.current = {
+			parentNodes : [],
+			/**
+			 * @type {Mission}
+			 */
+			mission: null,
+			missionIndex: -1,
+			/**
+			 * @type {ActivityNode}
+			 */
+			activity: null,
+			activityParents: [],
+			activityIndex: -1
+		};
+
+		this.logger = new ActivityLogger(`./log?story=${this.storyName}`);
+
+		this.envVars = {
+			userInput: undefined,
+			score: 0
+		}
+	}
+
+	/**
+	 *
+	 * @param activityBranchNodes {ActivityNodeBranch[]}
+	 * @return number
+	 */
+	checkConditions( activityBranchNodes ) {
+		for (let i = 0; i < activityBranchNodes.length; i++) {
+			let branchNode = activityBranchNodes[ i ];
+
+			if( branchNode.data.active ){
+				let functionName = branchNode.data.condition.function;
+				let functionParameters = branchNode.data.condition.params;
+				if( !(functionName in ActivityDataBranch._functions) ) {
+					console.error( `[${this.constructor.name}]`, "BranchNodeCondition of node", branchNode, `contains unknown function name named "${functionName}" with parameters`, functionParameters );
+					continue;
+				}
+				let result = branchNode.data.check( this.envVars );
+				if( result ) {
+					return i;
+				}
+			}
+		}
+
+		// No Condition occurred
+		return -1;
 	}
 
 	/**
@@ -38,10 +89,7 @@ export default class Player {
 	init() {
 		console.log(`[${this.constructor.name}]`, "Init");
 		let cachedStoryName = Cookies.get("storyNameInCache");
-		let url = new URL( window.location.href );
-		let storyName = url.searchParams.get( "story" );
-		return this.downloadStory( storyName );
-
+		return this.downloadStory( this.storyName );
 	}
 
 	downloadStory( storyName ) {
@@ -76,7 +124,156 @@ export default class Player {
 	}
 
 	main() {
-
+		this.startStory();
 	}
 
+	handleActivityBehavior() {
+		if( this.current.activity ) {
+			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
+			if (this.current.activity instanceof ActivityNodeTell) {
+				// nothing special
+
+				// log end activity
+				this.logger.log(
+					this.current.mission.id,
+					this.current.activity.id,
+					{
+						input: null,
+					}
+				);
+			}
+			else if (this.current.activity instanceof ActivityNodeQuest) {
+				let indexBranch = this.checkConditions(this.current.activity.children);
+
+				// select branchNode as parent Node
+				if (indexBranch >= 0) {
+					let branchNode = this.current.activity.children[indexBranch];
+					this.current.parentNodes.push(branchNode);
+					this.current.activityIndex = -1;
+				}
+				// else continue on following sibling activities as "else" branch
+			}
+
+			// log end activity
+			this.logger.log(
+				this.current.mission.id,
+				this.current.activity.id,
+				{
+					input: this.envVars.userInput,
+				}
+			);
+		}
+
+		console.log(`[${this.constructor.name}]`, "Selecting Next Activity" );
+		// go to next activity
+		// if has no siblings then go to next mission and set next activity
+		// continue while there are mission and there is no next activity
+		let nextActivity, nextMission = this.current.mission;
+		do {
+			nextActivity = this.nextActivity();
+			if( nextActivity ) {
+				console.log(`[${this.constructor.name}]`, "Next Activity found", nextActivity );
+			}
+			else {
+				console.warn(`[${this.constructor.name}]`, "No next Activity found in sequence, selecting next Mission" );
+				nextMission = this.nextMission();
+				if( nextMission ) {
+					console.log(`[${this.constructor.name}]`, "next Mission found, selecting first activity in sequence", nextMission );
+					this.current.activityIndex = -1;
+					this.current.activityParents.push( nextMission.tree );
+					nextActivity = this.nextActivity();
+				}
+				else {
+					console.log(`[${this.constructor.name}]`, "No next mission found" );
+				}
+			}
+		}while( !nextActivity && nextMission );
+
+		// no activity left -> end the story
+		if( !nextActivity ) {
+			console.log(`[${this.constructor.name}]`, "No Activity to handle -> end story" );
+			this.endStory();
+		}
+		else {
+			// log new activity
+			this.logger.log(
+				this.current.mission.id,
+				this.current.activity.id,
+				null
+			);
+		}
+	}
+
+	nextActivity() {
+		// to fix and refactor
+		let next = null;
+
+		/**
+		 * @type {ActivityNode}
+		 */
+		let parentNode = this.current.parentNodes.length ? this.current.parentNodes[ this.current.parentNodes.length-1 ] : null;
+
+		if( parentNode ) {
+			let activities = parentNode.children;
+			if( this.current.activityIndex < 0 ) {
+				if( activities.length > 0 ) {
+					this.current.activityIndex = 0;
+				}
+			}
+			else {
+				this.current.activityIndex ++;
+				if( this.current.activityIndex >= activities.length ) {
+					this.current.activityIndex = -1;
+				}
+			}
+
+			if( 0 <= this.current.activityIndex && this.current.activityIndex < activities.length ) {
+				this.current.activity = activities[ this.current.activityIndex ];
+				return this.current.activity;
+			}
+		}
+
+		return null;
+	}
+
+	nextMission() {
+		let next = null;
+		if( this.current.missionIndex < 0 ) {
+			if( this.story.missions.length > 0 ) {
+				this.current.missionIndex = 0;
+			}
+		}
+		else {
+			this.current.missionIndex ++;
+			if( this.current.missionIndex >= this.story.missions.length ) {
+				this.current.missionIndex = -1;
+			}
+		}
+
+		if( 0 <= this.current.missionIndex && this.current.missionIndex <= this.story.missions.length ) {
+			this.current.mission =  this.story.missions[ this.current.missionIndex ];
+			return this.current.mission;
+		}
+		else {
+			this.current.mission = null;
+			this.current.missionIndex = -1;
+			return this.current.mission;
+		}
+	}
+
+	startStory() {
+		console.log( `"[${this.constructor.name}]`,"start Story");
+		if( this.nextMission() ) {
+			console.log( `"[${this.constructor.name}]`,"start Story Life cycle");
+			this.handleActivityBehavior();
+		}
+		else {
+			console.log( `"[${this.constructor.name}]`,"end Story");
+			this.endStory();
+		}
+	}
+
+	endStory() {
+
+	}
 }

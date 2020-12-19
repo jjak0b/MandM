@@ -19,7 +19,11 @@ export const component = {
 			cacheSystem: new CacheSystem(),
 			loadingProgress: 0,
 			loadingInfoLocaleLabel: "shared.label-loading",
-			isLoading: false
+			isLoading: false,
+			/**
+			 * @type Promise
+			 */
+			readyPromise: null,
 		}
 	},
 	created() {
@@ -36,7 +40,7 @@ export const component = {
 		let updateProgress = (percentage) => {
 			this.loadingProgress = percentage;
 		}
-		allProgress( promsInit, updateProgress )
+		this.readyPromise = allProgress( promsInit, updateProgress )
 			.catch( (error) => {
 				console.error( "[PlayerVM]", "Unable to init Player required stuff", error );
 				return error;
@@ -75,8 +79,16 @@ export const component = {
 				}),1000 );
 			})
 	},
+	mounted() {
+		this.readyPromise
+			.then( ()=> {
+				this.start();
+			})
+	},
 	methods: {
-
+		start() {
+			this.player.main();
+		}
 	}
 }
 

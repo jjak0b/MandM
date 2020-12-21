@@ -72,11 +72,14 @@ export const component = {
 				return error;
 			})
 			.then( () => {
-				setTimeout( () => this.$nextTick( () => {
-					this.isLoading = false;
-					console.log( "[PlayerVM]", "story assets download complete" );
-					// just let finish the loading animation
-				}),1000 );
+				return new Promise( (resolve) => {
+					setTimeout( () => this.$nextTick( () => {
+						this.isLoading = false;
+						console.log( "[PlayerVM]", "story assets download complete" );
+						// just let finish the loading animation
+						resolve();
+					}),1000 );
+				})
 			})
 	},
 	mounted() {

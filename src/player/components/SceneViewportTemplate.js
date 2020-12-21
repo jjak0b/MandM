@@ -1,20 +1,20 @@
 export const template =
 `
-<section class="container">
-<div
-	class="row"
-	v-for="(row, i) in value.grid"
+<b-container
 >
-	<div
-		class="col"
-		v-for="(cell, j) in row"
+	<b-row
+		v-for="(row, i) in value.grid"
 	>
-		<user-widget-viewport
-			v-bind:locale="$root.locale"
-			v-bind:value="cell.component"
+		<b-col
+			v-for="(cell, j) in row"
+			:sm="cell.colSize"
 		>
-		</user-widget-viewport>
-	</div>
-</div>
-</section>
+			<user-widget-viewport
+				v-bind:locale="$root.locale"
+				v-bind:value="cell.component"
+			>
+			</user-widget-viewport>
+		</b-col>
+	</b-row>
+</b-container>
 `

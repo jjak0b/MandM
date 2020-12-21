@@ -35,7 +35,9 @@ export const template =
 					</b-progress>
 				</div>
 			</div>
-			<player-viewport v-else>
+			<player-viewport v-else
+				:activity="player.current.activity"
+			>
 			</player-viewport>
 		</main>
 	</b-tab>

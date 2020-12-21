@@ -81,7 +81,6 @@ export class I18nUtils {
 				.then( results => {
 					let languageResponses = {};
 
-					console.log( results );
 					let successResponsesCount = 0;
 					let jsonPromises = results.map( (promise, i ) => {
 						if( promise.status === "fulfilled" && promise.value.ok ){
@@ -103,7 +102,7 @@ export class I18nUtils {
 					}
 				})
 				.then((results) => {
-					console.log( results );
+
 					if( results ) {
 						let locales = {};
 						languages.forEach( (lang, i) => {

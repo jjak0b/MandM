@@ -17,6 +17,9 @@ export default class Player {
 		 * @type {string|null}
 		 */
 		this.storyName = url.searchParams.get( "story" );
+
+		this.storyURL = `/stories/${this.storyName}`;
+
 		/**
 		 * @type {Story}
 		 */
@@ -95,8 +98,7 @@ export default class Player {
 
 		if( !storyName )
 			throw new Error("No story defined in URL");
-		// let _reqJSONStory = fetch( `/player/js/init.js` );
-		let reqJSONStory = fetch( `/stories/${storyName}?source=player` );
+		let reqJSONStory = fetch( `${this.storyURL}?source=player` );
 		return reqJSONStory
 			.catch( (e) => {
 				throw e;

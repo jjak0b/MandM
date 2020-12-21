@@ -24,6 +24,7 @@ export const component = {
 			 * @type Promise
 			 */
 			readyPromise: null,
+			locale: i18n.locale
 		}
 	},
 	created() {
@@ -34,7 +35,8 @@ export const component = {
 		let promsInit = [
 			this.cacheSystem.init(),
 			this.player.init(),
-			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] )
+			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
+			I18nUtils.fetchLocales( this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] )
 		];
 		this.loadingProgress = 0;
 		let updateProgress = (percentage) => {
@@ -47,12 +49,17 @@ export const component = {
 			})
 			.then( (responses) => {
 				let assetsProms = responses[ 1 ];
-				let localesMessages = responses[ 2 ];
+				let localesMessagesPlayer = responses[ 2 ];
+				let localesMessagesAuthored = responses[ 3 ];
 				console.log( "[PlayerVM]", "Story downloading complete" );
 				console.log( "[PlayerVM]", "Start downloading story assets" );
 
-				i18n.mergeLocaleMessage( i18n.locale, localesMessages[ i18n.locale ] );
-				i18n.mergeLocaleMessage( i18n.fallbackLocale, localesMessages[ i18n.fallbackLocale ] );
+				for (const locale in localesMessagesPlayer) {
+					i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
+				}
+				for (const locale in localesMessagesAuthored) {
+					i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
+				}
 
 				this.loadingProgress = 0;
 				this.loadingInfoLocaleLabel = "Player.label-loading-resources";

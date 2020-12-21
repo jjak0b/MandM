@@ -28,7 +28,8 @@ export default class ActivityLogger {
 				method: "POST",
 				url: this.endPoint,
 				contentType: "application/json",
-				data: this.history
+				data: JSON.stringify( this.history ),
+				dataType:'json'
 		})
 			.done( () => {
 				this.history.splice(0, this.history.length );

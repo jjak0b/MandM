@@ -36,6 +36,12 @@ export class I18nUtils {
 	}
 
 	static fetchLocales( rootPath = "./", requestedLangOrLanguages ) {
+
+		function reflect(promise){
+			return promise.then(function(v){ return {v:v, status: "fulfilled" }},
+				function(e){ return {e:e, status: "rejected" }});
+		}
+
 		let self = this;
 		if( !rootPath.endsWith("/") ) rootPath += "/";
 
@@ -63,29 +69,59 @@ export class I18nUtils {
 			console.log( "Getting languages for locales in", rootPath );
 			promiseListLanguages
 			.then( languages => {
-				languages.forEach( (lang) => promisesLocales[ lang ] = $.get( `${rootPath}locales/${lang}` ) );
+				languages.forEach( (lang) => promisesLocales[ lang ] = fetch( `${rootPath}locales/${lang}` ) );
 				console.log( "Received language list for locales in", rootPath, languages );
 				let promisesList = languages.map( (lang) => promisesLocales[ lang ] );
 				if( shouldGetOnlyList ) {
 					resolve( languages );
 					return;
 				}
-				Promise.all( promisesList )
-				.then((data) => {
-					if( data ) {
+				// dont't throw exceptions but resolve empty instead
+				Promise.allSettled( promisesList )
+				.then( results => {
+					let languageResponses = {};
+
+					console.log( results );
+					let successResponsesCount = 0;
+					let jsonPromises = results.map( (promise, i ) => {
+						if( promise.status === "fulfilled" && promise.value.ok ){
+							successResponsesCount++;
+							return promise.value.json();
+						}
+						else {
+							return Promise.reject( promise.value );
+						}
+					});
+
+
+					if( successResponsesCount > 0 ){
+						return Promise.allSettled( jsonPromises );
+					}
+					else{
+						let rejected = results.map( result => result.status === "rejected" ? result.reason : result.value );
+						return Promise.reject( rejected.length > 0 ? rejected[ 0 ].json() : null );
+					}
+				})
+				.then((results) => {
+					console.log( results );
+					if( results ) {
 						let locales = {};
-						languages.forEach( (lang, i) => locales[ lang ] = data[ i ] )
+						languages.forEach( (lang, i) => {
+							if( results[ i ].status === "fulfilled" && results[ i ].value ) {
+								locales[ lang ] = results[ i ].value
+							}
+						});
 						console.log( "Locales data received from", rootPath, locales );
 						resolve( locales );
 					}
 				})
 				.catch( error => {
-					console.error( "Error while getting locales data, continue offline ...");
+					console.error( "Error while getting locales data", error );
 					reject( error);
 				});
 			})
 			.catch( (error) => {
-				console.error( "Error while getting list of locales, continue offline ...");
+				console.error( "Error while getting list of locales", error);
 				reject( error );
 			});
 		});

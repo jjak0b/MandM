@@ -32,7 +32,6 @@ export default class Player {
 			 * @type {ActivityNode}
 			 */
 			activity: null,
-			activityParents: [],
 			activityIndex: -1
 		};
 
@@ -164,33 +163,41 @@ export default class Player {
 			);
 		}
 
-		console.log(`[${this.constructor.name}]`, "Selecting Next Activity" );
 		// go to next activity
 		// if has no siblings then go to next mission and set next activity
 		// continue while there are mission and there is no next activity
 		let nextActivity, nextMission = this.current.mission;
 		do {
+
+			console.log(`[${this.constructor.name}]`, "Selecting Next Activity" );
 			nextActivity = this.nextActivity();
+
 			if( nextActivity ) {
 				console.log(`[${this.constructor.name}]`, "Next Activity found", nextActivity );
 			}
 			else {
 				console.warn(`[${this.constructor.name}]`, "No next Activity found in sequence, selecting next Mission" );
+				nextMission = null;
+			}
+
+			if( !nextMission ) {
+				console.warn(`[${this.constructor.name}]`, "No mission Detected, selecting new Mission" );
 				nextMission = this.nextMission();
 				if( nextMission ) {
-					console.log(`[${this.constructor.name}]`, "next Mission found, selecting first activity in sequence", nextMission );
+					console.log(`[${this.constructor.name}]`, "next Mission found", nextMission );
 					this.current.activityIndex = -1;
-					this.current.activityParents.push( nextMission.tree );
-					nextActivity = this.nextActivity();
+					this.current.parentNodes.push( nextMission.tree );
+					console.log(`[${this.constructor.name}]`, "selecting first activity in sequence");
 				}
 				else {
 					console.log(`[${this.constructor.name}]`, "No next mission found" );
 				}
 			}
+
 		}while( !nextActivity && nextMission );
 
 		// no activity left -> end the story
-		if( !nextActivity ) {
+		if( !nextMission && !nextActivity ) {
 			console.log(`[${this.constructor.name}]`, "No Activity to handle -> end story" );
 			this.endStory();
 		}
@@ -205,7 +212,7 @@ export default class Player {
 	}
 
 	nextActivity() {
-		// to fix and refactor
+
 		let next = null;
 
 		/**
@@ -246,31 +253,24 @@ export default class Player {
 		else {
 			this.current.missionIndex ++;
 			if( this.current.missionIndex >= this.story.missions.length ) {
-				this.current.missionIndex = -1;
+				// this.current.missionIndex = -1;
 			}
 		}
 
-		if( 0 <= this.current.missionIndex && this.current.missionIndex <= this.story.missions.length ) {
+		if( 0 <= this.current.missionIndex && this.current.missionIndex < this.story.missions.length ) {
 			this.current.mission =  this.story.missions[ this.current.missionIndex ];
 			return this.current.mission;
 		}
 		else {
 			this.current.mission = null;
-			this.current.missionIndex = -1;
+			// this.current.missionIndex = -1;
 			return this.current.mission;
 		}
 	}
 
 	startStory() {
-		console.log( `"[${this.constructor.name}]`,"start Story");
-		if( this.nextMission() ) {
-			console.log( `"[${this.constructor.name}]`,"start Story Life cycle");
-			this.handleActivityBehavior();
-		}
-		else {
-			console.log( `"[${this.constructor.name}]`,"end Story");
-			this.endStory();
-		}
+		console.log( `[${this.constructor.name}]`,"start Story Life cycle");
+		this.handleActivityBehavior();
 	}
 
 	endStory() {

@@ -1,6 +1,8 @@
 import Disposable from "./Disposable.js";
 
 export class Asset extends Disposable {
+	static shouldReuseCache = false;
+	static cache = [];
 	constructor( /*Object|String*/assetObjectOrName, category, data = null ) {
 		super( null );
 		if( "string" == typeof assetObjectOrName ) {
@@ -20,7 +22,19 @@ export class Asset extends Disposable {
 		 * @type {String}
 		 */
 		this.blobURL = null;
+
+		if( Asset.shouldReuseCache ) {
+			let matches = Asset.cache.filter( (asset) => this.equals( asset ) );
+			if( matches.length > 0 ) {
+				return matches[ 0 ];
+			}
+			else {
+				Asset.cache.push( this );
+			}
+		}
 	}
+
+
 
 	toJSON() {
 		return {

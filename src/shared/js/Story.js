@@ -45,7 +45,7 @@ export default class Story {
 			 * @type { {asset: Asset, count: Number}[] }
 			 */
 			let assetsEntries = this.dependencies[category];
-			assetsEntries.forEach((entry) => Object.setPrototypeOf(entry.asset, Asset.prototype));
+			assetsEntries.forEach((entry) => entry.asset = new Asset( entry.asset, null, null ) );
 		}
 		this.missions = unparsed ? unparsed.missions : [];
 		for (let i = 0; i < this.missions.length; i++) {

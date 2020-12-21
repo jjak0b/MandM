@@ -59,7 +59,8 @@ export class CacheSystem {
 											.catch( reject );
 									}
 									else {
-										return response;
+										// resolve to caller
+										resolve( response );
 									}
 								})
 								.catch( reject );

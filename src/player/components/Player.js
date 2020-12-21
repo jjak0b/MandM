@@ -55,10 +55,11 @@ export const component = {
 				console.log( "[PlayerVM]", "Start downloading story assets" );
 
 				for (const locale in localesMessagesPlayer) {
-					i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
+					this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
 				}
+
 				for (const locale in localesMessagesAuthored) {
-					i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
+					this.$i18n.mergeLocaleMessage( locale, localesMessagesAuthored[ locale ] );
 				}
 
 				this.loadingProgress = 0;

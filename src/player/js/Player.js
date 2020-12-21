@@ -10,6 +10,9 @@ import ActivityLogger from "./ActivityLogger.js";
 export default class Player {
 	constructor() {
 
+		// reuse already created references in dependencies fetch when Asset constructor will be called
+		Asset.shouldReuseCache = true;
+
 		let url = new URL( window.location.href );
 
 		/**

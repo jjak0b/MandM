@@ -8,5 +8,6 @@ export const template =
 	v-bind="value.props"
 	:locale="locale"
 	:localeLabel="value.i18nCategory"
+	v-on:input="$emit('input', $event )"
 ></component>
 `;

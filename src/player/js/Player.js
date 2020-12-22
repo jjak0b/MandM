@@ -201,6 +201,8 @@ export default class Player {
 
 		}while( !nextActivity && nextMission );
 
+		this.envVars.userInput = null;
+
 		// no activity left -> end the story
 		if( !nextMission && !nextActivity ) {
 			console.log(`[${this.constructor.name}]`, "No Activity to handle -> end story" );

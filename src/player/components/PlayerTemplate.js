@@ -37,6 +37,7 @@ export const template =
 			</div>
 			<player-viewport v-else
 				:activity="player.current.activity"
+				:player="player"
 			>
 			</player-viewport>
 		</main>

@@ -21,8 +21,16 @@ export const component = {
 		}
 	},
 	computed : {
+		shouldClickToContinue() { return this.activity instanceof ActivityNodeTell },
 		isSceneable() { return this.activity && this.activity.data && this.activity.data instanceof ActivityDataSceneable },
 		scene() { return this.isSceneable ? this.activity.data.scene : null }
+	},
+
+	watch: {
+		scene() {
+			this.$nextTick( () => this.$el.focus() );
+		}
+
 	},
 	methods : {
 		onInput( type, event ) {

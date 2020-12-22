@@ -15,7 +15,7 @@ export const template =
 				<div
 					class="mx-auto w-75"
 				>
-					<div class="text-center">
+					<div class="text-center" role="status" aria-live="polite">
 						<h4
 							id="player-loading-progressbar"
 							v-t="loadingInfoLocaleLabel"

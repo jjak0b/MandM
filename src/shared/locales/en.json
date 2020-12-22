@@ -1,0 +1,91 @@
+{
+	"shared": {
+		"label-select" : "Select",
+		"label-asset-manager" : "Asset Manager",
+		"label-style-editor" : "Style Editor",
+		"label-enable" : "Enable",
+		"label-disable" : "Disable",
+		"label-enable-or-disable" : "Enable / disable",
+		"label-elements-list" : "Elements added",
+		"label-add-new-element" : "Add new element",
+		"label-empty-list" : "The list is empty",
+		"label-copy" : "Copy",
+		"label-paste" : "Paste",
+		"label-move-down" : "Move down",
+		"label-move-up" : "Move up",
+		"label-new-element" : "New {name} item",
+		"label-update" : "Update",
+		"label-save" : "Save",
+		"label-remove" : "Remove",
+		"label-confirm" : "Confirm",
+		"label-abort" : "Abort",
+		"label-reset" : "Reset",
+		"label-close" : "Close",
+		"label-delete" : "Delete",
+		"label-import" : "Import",
+		"label-export" : "Export",
+		"label-upload" : "Upload",
+		"label-download" : "Download",
+		"label-edit" : "Edit",
+		"label-add" : "Add",
+		"label-add-before" : "Add before",
+		"label-add-after" : "Add after",
+		"label-add-name" : "Add {name}",
+		"label-duplicate" : "Duplicate",
+		"label-grab" : "Grab",
+		"label-drop" : "Drop",
+		"label-i18n" : "Internationalize",
+		"label-mission" : "Mission | Missions",
+		"label-missions" : "No mission | {count} mission | {count} missions",
+		"label-activity" : "Activity",
+		"label-story" : "Story",
+		"label-select-option" : "Select an option",
+		"label-from-file" : "From file",
+		"label-from-server" : "From server",
+		"label-as-file" : "As file",
+		"label-onto-server" : "Onto server",
+		"label-preview" : "Preview",
+		"label-add-element" : "Add Element",
+		"label-remove-element" : "Remove Element",
+		"label-placeholder" : "Placeholder",
+		"label-step" : "Step",
+		"label-min" : "Min",
+		"label-max" : "Max",
+		"label-wrap" : "Wrap",
+		"label-none" : "None",
+		"label_axis" : "Axis",
+		"label-shape-TYPE" : "Shape type",
+		"label-Array" : "Array",
+		"label-Array-info" : "Array info",
+		"label-Text" : "Text",
+		"label-Number" : "Number",
+		"label-Time" : "Time",
+		"label-Date" : "Date",
+		"status" : {
+			"label-operation-success" : "Operation completed successfully",
+			"label-operation-failed" : "Operation failed"
+		},
+		"i18n" : {
+			"label-no-locale" : "No language",
+			"label-locale" : "Language: {lang}"
+		}
+	},
+	"media": {
+		"label-videos": "Video",
+		"label-images": "Image",
+		"label-captions": "Caption",
+		"label-stylesheets": "Stylesheet",
+		"label-audios": "Audio"
+	},
+	"accessibility": {
+		"label": "Accessibility",
+		"label-alt": "@:accessibility.label: Label for element"
+	},
+	"i18n": {
+		"label": "Internationalization",
+		"label-description-region": "Dynamic content for current internationalization"
+	},
+	"UserWidgets": {
+
+	}
+}

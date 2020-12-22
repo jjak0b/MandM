@@ -6,7 +6,14 @@ export default class StyleData extends Disposable {
 	constructor( unparsed ) {
 		super(unparsed);
 
+		/**
+		 * @type {Asset}
+		 */
 		this.asset = unparsed && unparsed.asset ? new Asset( unparsed.asset, null, null ) : null;
+		/**
+		 *
+		 * @type {StyleRule[]}
+		 */
 		this.rules = unparsed && unparsed.rules ? new Array( unparsed.rules.length ) : [];
 		for (let i = 0; i < this.rules.length; i++) {
 			this.rules[ i ] = new StyleRule(unparsed.rules[ i ]);

@@ -54,6 +54,7 @@ export const component = {
 				console.log( "[PlayerVM]", "Story downloading complete" );
 				console.log( "[PlayerVM]", "Start downloading story assets" );
 
+				console.log( "[PlayerVM]", "Init i18n messages for current locale and fallback" );
 				for (const locale in localesMessagesPlayer) {
 					this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
 				}
@@ -80,6 +81,37 @@ export const component = {
 				return error;
 			})
 			.then( () => {
+				// From here we have all stuffs we need to run the story
+
+				// Init custom stylesheet for the story
+				if( this.player.story.style ) {
+					let head = document.getElementsByTagName('head')[0];
+
+					// add stylesheet URL
+					if( this.player.story.style.asset ) {
+						console.log( "[PlayerVM]", "Init custom file stylesheet" );
+						let link = document.createElement('link');
+						link.setAttribute( "id", "author-stylesheet");
+						link.setAttribute('rel', 'stylesheet');
+						link.setAttribute('type', 'text/css');
+						link.setAttribute('href', this.player.story.style.asset.getURL() );
+						head.appendChild(link);
+					}
+
+					// write into style tag the custom CSS rules
+					if( this.player.story.style.rules && this.player.story.style.rules.length > 0 ) {
+						console.log( "[PlayerVM]", "Init custom stylesheet content" );
+						let styleElement = document.createElement( "style");
+						styleElement.setAttribute( "id", "author-style");
+						let content = "\n";
+						for (const styleRule of this.player.story.style.rules ) {
+							content += styleRule.toString() + "\n";
+						}
+						styleElement.innerHTML = content;
+						head.appendChild(styleElement);
+					}
+				}
+
 				return new Promise( (resolve) => {
 					setTimeout( () => this.$nextTick( () => {
 						this.isLoading = false;

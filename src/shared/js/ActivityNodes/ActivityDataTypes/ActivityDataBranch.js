@@ -302,6 +302,7 @@ export default class ActivityDataBranch extends ActivityData {
 	 */
 	check( envVariable ) {
 		if( this.condition.function in ActivityDataBranch._functions ) {
+			console.log( `[${this.constructor.name}]`, "running condition function", this.condition.function, "in", this.condition );
 			let funcData = ActivityDataBranch._functions[ this.condition.function ];
 			if( funcData.implementation ) {
 				return this.condition.run( funcData.implementation, envVariable );

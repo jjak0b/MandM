@@ -22,8 +22,8 @@ import { component as spinbuttonComponent } from "../../../shared/components/Use
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "../../../shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
-import { component as photoComponent } from "../../../shared/components/UserPhotoWidget.js";
-import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserPhotoEditorWidget.js";
+import { component as photoComponent } from "../../../shared/components/UserWidgetPhoto.js";
+import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorPhoto.js";
 import {I18nUtils} from "../../../shared/js/I18nUtils.js";
 import SceneComponentParser from "../../../shared/js/Scene/SceneComponentParser.js";
 import SceneCell from "../../../shared/js/Scene/SceneCell.js";

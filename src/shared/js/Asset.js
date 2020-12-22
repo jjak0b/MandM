@@ -2,7 +2,11 @@ import Disposable from "./Disposable.js";
 
 export class Asset extends Disposable {
 	static shouldReuseCache = false;
-	static cache = [];
+	/**
+	 *
+	 * @type {Map<String, Asset>}
+	 */
+	static cache = new Map();
 	constructor( /*Object|String*/assetObjectOrName, category, data = null ) {
 		super( null );
 		if( "string" == typeof assetObjectOrName ) {
@@ -24,17 +28,23 @@ export class Asset extends Disposable {
 		this.blobURL = null;
 
 		if( Asset.shouldReuseCache ) {
-			let matches = Asset.cache.filter( (asset) => this.equals( asset ) );
-			if( matches.length > 0 ) {
-				return matches[ 0 ];
-			}
-			else {
-				Asset.cache.push( this );
+			if( !Asset.cache.has( this.url ) ) {
+				Asset.cache.set( this.url, this );
 			}
 		}
 	}
 
-
+	/**
+	 *
+	 * @param reference {Asset}
+	 */
+	copyTo( reference ) {
+		reference.name = this.name;
+		reference.category =this.category;
+		reference.url = this.url;
+		reference.data = this.data;
+		reference.blobURL = this.blobURL;
+	}
 
 	toJSON() {
 		return {
@@ -46,7 +56,7 @@ export class Asset extends Disposable {
 	}
 
 	getURL() {
-		return this.blobURL || this.url;
+		return Asset.cache.get( this.url ).blobURL || this.url;
 	}
 
 	toString() {
@@ -121,11 +131,11 @@ export class Asset extends Disposable {
 	fetch() {
 		return window.fetch( this.url )
 			.then( (response) => {
-				response.blob()
+				return response.blob()
 					.then( (blobData) => {
 						this.blobURL = URL.createObjectURL( blobData );
+						return response;
 					});
-				return response;
 			})
 	}
 }

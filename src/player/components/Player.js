@@ -35,6 +35,7 @@ export const component = {
 		let promsInit = [
 			this.cacheSystem.init(),
 			this.player.init(),
+			I18nUtils.fetchLocales( "/shared/", [ i18n.locale, i18n.fallbackLocale ] ),
 			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
 			I18nUtils.fetchLocales( this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] )
 		];
@@ -49,12 +50,17 @@ export const component = {
 			})
 			.then( (responses) => {
 				let assetsProms = responses[ 1 ];
-				let localesMessagesPlayer = responses[ 2 ];
-				let localesMessagesAuthored = responses[ 3 ];
+				let localesMessagesShared = responses[ 2 ];
+				let localesMessagesPlayer = responses[ 3 ];
+				let localesMessagesAuthored = responses[ 4 ];
 				console.log( "[PlayerVM]", "Story downloading complete" );
 				console.log( "[PlayerVM]", "Start downloading story assets" );
 
 				console.log( "[PlayerVM]", "Init i18n messages for current locale and fallback" );
+				for (const locale in localesMessagesShared) {
+					this.$i18n.mergeLocaleMessage( locale, localesMessagesShared[ locale ] );
+				}
+
 				for (const locale in localesMessagesPlayer) {
 					this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
 				}

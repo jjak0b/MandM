@@ -149,12 +149,18 @@ const component = {
 
 export function main() {
 
-	let promiselocales = I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] );
+	let promiseLocales = [
+		I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
+		I18nUtils.fetchLocales( "/shared/", "*" )
+	];
 
-	promiselocales
-	.then((localesMessages) => {
-		component.i18n.mergeLocaleMessage( i18n.locale, localesMessages[ i18n.locale ] );
-		component.i18n.mergeLocaleMessage( i18n.fallbackLocale, localesMessages[ i18n.fallbackLocale ] );
+	Promise.all( promiseLocales )
+	.then((messagesData) => {
+		for (const messages of messagesData) {
+			for (const locale in messages) {
+				component.i18n.mergeLocaleMessage( locale, messages[ locale ] );
+			}
+		}
 	})
 	.catch( error => { console.error( "Error while getting localesData, continue offline ...", error ); })
 	.finally( function () {

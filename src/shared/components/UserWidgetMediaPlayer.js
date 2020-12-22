@@ -161,6 +161,28 @@ export const component = {
 			if( indexArea >= 0)
 				$( this.$refs.area[ indexArea ] ).mouseout();
 			this.indexOverArea = -1;
+		},
+		getImgAlt() {
+			let localeLabel = this.value.captions[0];
+			let translation = this.$t( localeLabel );
+
+			if( translation && translation !== localeLabel ) {
+				return translation;
+			}
+			else {
+				return "";
+			}
+		},
+		getAreaAlt( area ) {
+			let localeLabel = area.alt;
+			let translation = this.$t( localeLabel );
+
+			if( translation && translation !== localeLabel ) {
+				return translation;
+			}
+			else {
+				return "";
+			}
 		}
 	}
 };

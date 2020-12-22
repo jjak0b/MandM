@@ -6,6 +6,8 @@ import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQues
 import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBranch.js";
 import ActivityDataBranch from "../../shared/js/ActivityNodes/ActivityDataTypes/ActivityDataBranch.js";
 import ActivityLogger from "./ActivityLogger.js";
+import {TypedValue} from "../../shared/js/Types/TypedValue.js";
+import Time from "../../shared/js/Types/Time.js";
 
 export default class Player {
 	constructor() {
@@ -147,6 +149,7 @@ export default class Player {
 				);
 			}
 			else if (this.current.activity instanceof ActivityNodeQuest) {
+				this.envVars.userInput = this.guessAndParseToTypedValue( this.envVars.userInput );
 				let indexBranch = this.checkConditions(this.current.activity.children);
 
 				// select branchNode as parent Node
@@ -215,6 +218,41 @@ export default class Player {
 				this.current.activity.id,
 				null
 			);
+		}
+	}
+
+	/**
+	 *
+	 * @param value
+	 * @return TypedValue
+	 */
+	guessAndParseToTypedValue( value ) {
+		if( !( value instanceof TypedValue) ) {
+			if (typeof value === "string") {
+				let number = Number.parseInt(value);
+				console.log( number );
+				if (!isNaN(number))
+					return new TypedValue({ type:Number.name, value:number } );
+
+				let date = new Date(value).getTime();
+				if (!isNaN(date))
+					return new TypedValue({ type: Date.name, value: value });
+
+				let dateTime = new Date(`1970-01-02T${value}`).getTime();
+				if (!isNaN(dateTime))
+					return new TypedValue({ type: Time.name, value:value} );
+
+				return new TypedValue( { type: String.name, value: value } );
+			}
+			else if( typeof value === "number") {
+				return new TypedValue({ type: Number.name, value: value } );
+			}
+
+			console.log( `${this.constructor.name}`, "unable to parse value", value);
+			return new TypedValue( { type: value.constructor ? value.constructor.name : Object.name, value: value } );
+		}
+		else {
+			return value;
 		}
 	}
 

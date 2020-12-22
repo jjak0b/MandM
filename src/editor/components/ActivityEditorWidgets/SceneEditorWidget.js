@@ -22,6 +22,8 @@ import { component as spinbuttonComponent } from "../../../shared/components/Use
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "../../../shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
+import { component as photoComponent } from "../../../shared/components/UserPhotoWidget.js";
+import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserPhotoEditorWidget.js";
 import {I18nUtils} from "../../../shared/js/I18nUtils.js";
 import SceneComponentParser from "../../../shared/js/Scene/SceneComponentParser.js";
 import SceneCell from "../../../shared/js/Scene/SceneCell.js";
@@ -31,12 +33,14 @@ import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/Compo
 import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 
+
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );
 SceneComponentParser.register( "user-widget-text-input", ComponentText );
 SceneComponentParser.register( "user-widget-checkbox", ComponentList );
 SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );
+SceneComponentParser.register( "user-widget-photo", ComponentList );
 
 
 export const component = {
@@ -58,6 +62,7 @@ export const component = {
 		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
+		"user-widget-editor-photo": photoEditorComponent,
 		"grid-widget": gridComponent,
 		"attribute-editor-widget": attributeEditorComponent
 	},
@@ -119,6 +124,11 @@ export const component = {
 					editor: "user-widget-editor-text-content",
 					label: "UserWidgets.TextContent.label-text-content",
 					options: textContentComponent
+				},
+				"user-widget-photo" : {
+					editor: "user-widget-editor-photo",
+					label: "UserWidgets.label-photo-widget-name",
+					options: photoComponent
 				},
 			},
 			cursor: null,

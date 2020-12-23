@@ -4,6 +4,7 @@ export const template =
 <section>
 	<h3 v-t="$t('UserWidgets.label-text-input-settings')"></h3>
 	<i18n-input-widget
+		id="text-input-placeholder"
 		tag="input"
 		v-bind:label="$t('shared.label-placeholder')"
 		v-bind:locale="locale"

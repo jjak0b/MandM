@@ -9,9 +9,11 @@ export const component = {
 	},
 	methods: {
 		getContent(){
-			if( this.$i18n.te( this.localeLabel, this.locale) )
-				return this.$i18n.t( this.localeLabel, this.locale );
-			return ""
+			let content = this.$i18n.t( this.localeLabel, this.locale );
+			if( !content || content === this.localeLabel )
+				return "";
+			else
+				return content;
 		}
 	}
 };

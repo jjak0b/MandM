@@ -56,7 +56,8 @@ export class Asset extends Disposable {
 	}
 
 	getURL() {
-		return Asset.cache.get( this.url ).blobURL || this.url;
+		let cached = Asset.cache.get( this.url );
+		return cached ? cached.blobURL : this.url;
 	}
 
 	toString() {

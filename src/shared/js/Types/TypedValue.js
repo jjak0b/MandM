@@ -10,4 +10,9 @@ export class TypedValue {
 		}
 		return false;
 	}
+
+	toString() {
+		return "" + this.value;
+	}
+
 }

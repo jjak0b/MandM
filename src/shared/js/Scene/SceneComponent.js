@@ -5,7 +5,10 @@ export default class SceneComponent extends I18nCategorized{
 	constructor(unparsedComponent) {
 		super(unparsedComponent);
 		this.name = unparsedComponent.name;
-		this.props = unparsedComponent.props || {};
+		this.props = unparsedComponent.props || {
+			id: undefined,
+			class: []
+		};
 		this.value = unparsedComponent.value || {};
 		this.getOptionsCallback = null;
 	}

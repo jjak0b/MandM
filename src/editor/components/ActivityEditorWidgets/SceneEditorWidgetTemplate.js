@@ -6,7 +6,7 @@ export const template =
 		<div class="col">
 			<attribute-editor-widget
 				v-if="currentCellCache && currentCellCache.component"
-				v-model="currentCellCache.component"
+				v-model="currentCellCache.component.props"
 			></attribute-editor-widget>
 		</div>
 	</div>

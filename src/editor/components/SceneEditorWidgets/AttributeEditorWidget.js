@@ -11,6 +11,7 @@ export const component = {
 	},
 	data() {
 		let data = {
+			selectedBootstrapClass: null,
 			localeLabels: {
 				classes: {
 					utility: "StyleEditorWidget.classes.label-utility",
@@ -193,28 +194,25 @@ export const component = {
 		});
 		return data;
 	},
+	computed : {
+		isLibAddButtonDisabled() {
+			return !this.selectedBootstrapClass || !this.isClassValid( this.selectedBootstrapClass );
+		}
+	},
 	methods: {
-		onAddClass(event){
-			let data = new FormData( event.target );
-			let classes = [];
-			let customValue = data.get( "classnameCustom" );
-			let libValue = data.get( "classnameLib" );
+		onAddClass( classname ){
 
-			if( customValue )
-				classes = classes.concat( customValue.trim().split(" ") );
-			if( libValue )
-				classes = classes.concat( libValue.split(" ") );
+			let classes = classname.trim().split(" ") || [];
+			classes = classes.filter( this.isClassValid );
+			if( !( "class" in this.value ) ) this.$set( this.value, "class", [] );
 
-			if( classes.length > 0){
-				classes = classes.concat( this.value.class );
-				this.$set(
-					this.value,
-					"class",
-					// get unique class list
-					classes.filter( (value, index, array) => array.indexOf(value) === index )
-				);
-				$( event.target ).trigger( "reset" );
-			}
+			classes.forEach( classname => this.value.class.push( classname ) );
+			this.selectedBootstrapClass = null;
+		},
+		isClassValid( classname ) {
+			if( !( "class" in this.value ) ) this.$set( this.value, "class", [] );
+
+			return !this.value.class.includes( classname );
 		}
 	}
 }

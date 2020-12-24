@@ -9,8 +9,7 @@ export const template =
 		<component
 			v-if="value.component && value.component.options"
 			v-bind:locale="locale"
-			v-bind:id="value.component.id"
-			v-bind:class="value.component.class"
+			v-bind:key="value.component.id"
 			:is="value.component.options"
 			v-bind="value.component.props"
 			v-bind:value="value.component.value"

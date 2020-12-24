@@ -211,7 +211,10 @@
   "AttributeEditorWidget": {
 	"label-attributes": "Attributes",
 	"label-label-id": "Id",
-	"label-classes": "Classes"
+	"label-classes": "Classes",
+  	"label-current-classes": "Current classes",
+	"label-duplicate-classes": "Duplicate class(es)",
+	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons"
   },
   "UserWidgets": {
 	"label-checkbox-widget-name": "Checkbox",

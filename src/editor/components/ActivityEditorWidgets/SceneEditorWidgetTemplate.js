@@ -18,18 +18,9 @@ export const template =
 			<component
 				v-bind:key="currentCellCache.component.id"
 				v-bind:is="widgetsTable[ currentCellCache.component.name ].editor"
-				v-bind:props="currentCellCache.component.props"
 				v-bind:component="currentCellCache.component"
-				v-model="currentCellCache.component.value"
 				v-bind:locale="locale"
 				v-bind:locales-list="localesList"
-				v-on:addElement="addListElement"
-				v-on:removeElement="removeListElement"
-				v-on:move-up="moveUpListElement"
-				v-on:move-down="moveDownListElement"
-				v-on:copy="copyListElement"
-				v-on:paste="pasteListElement"	
-				v-on:delete="removeListElement"
 			></component>
 		</div>
 	</div>

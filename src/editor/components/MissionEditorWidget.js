@@ -110,6 +110,7 @@ export const component = {
 			}
 			console.log("Pasted mission", this.copiedMission);
 			let newMission = this.copiedMission.duplicate(this.copiedMission.locales);
+			if (index === this.missions.length - 1) index++;
 			this.missions.splice(index, 0, newMission);
 		},
 		onEnableMission( index ) {

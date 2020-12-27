@@ -6,12 +6,8 @@ import { FormUtils} from "../../../shared/js/FormUtils.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerComponent } from "../../../shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
-import { component as selectComponent } from "../../../shared/components/UserWidgetSelect.js";
-import { component as selectEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSelect.js";
-import { component as checkboxComponent } from "../../../shared/components/UserWidgetCheckbox.js";
-import { component as checkboxEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorCheckbox.js";
-import { component as radioComponent } from "../../../shared/components/UserWidgetRadio.js";
-import { component as radioEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRadio.js";
+import { component as listComponent } from "../../../shared/components/UserWidgetList.js";
+import { component as listEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorList.js";
 import { component as textInputComponent } from "../../../shared/components/UserWidgetTextInput.js";
 import { component as textInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
 import { component as numberInputComponent } from "../../../shared/components/UserWidgetNumberInput.js";
@@ -49,9 +45,7 @@ export const component = {
 	},
 	components : {
 		"user-widget-editor-text-content": textContentEditorComponent,
-		"user-widget-editor-select": selectEditorComponent,
-		"user-widget-editor-checkbox": checkboxEditorComponent,
-		"user-widget-editor-radio": radioEditorComponent,
+		"user-widget-editor-list": listEditorComponent,
 		"user-widget-editor-text-input": textInputEditorComponent,
 		"user-widget-editor-number-input": numberInputEditorComponent,
 		"user-widget-editor-range": rangeEditorComponent,
@@ -71,19 +65,19 @@ export const component = {
 			showCSSGrid: true,
 			widgetsTable: {
 				"user-widget-checkbox" : {
-					editor: "user-widget-editor-checkbox",
+					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-checkbox-widget-name",
-					options: checkboxComponent
+					options: listComponent
 				},
 				"user-widget-select" : {
-					editor: "user-widget-editor-select",
+					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-select-widget-name",
-					options: selectComponent
+					options: listComponent
 				},
 				"user-widget-radio" : {
-					editor: "user-widget-editor-radio",
+					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-radio-widget-name",
-					options: radioComponent
+					options: listComponent
 				},
 				"user-widget-text-input" : {
 					editor: "user-widget-editor-text-input",
@@ -278,48 +272,6 @@ export const component = {
 					cell.component.dispose();
 				}
 				this.$delete( cell, "component" );
-			}
-		},
-		addListElement(toAdd) {
-			if (! ('options' in this.currentCellCache.component.props)) {
-				this.$set( this.currentCellCache.component.props, 'options', [] );
-			}
-			this.currentCellCache.component.props.options.push( toAdd );
-		},
-		removeListElement(index) {
-			this.currentCellCache.component.props.options.splice( index, 1 );
-		},
-		moveUpListElement( index ) {
-			this.currentCellCache.component.props.options.splice(
-				index-1,
-				0,
-				this.currentCellCache.component.props.options.splice(index, 1)[0]
-			)
-		}
-		,
-		moveDownListElement( index ) {
-			this.currentCellCache.component.props.options.splice(
-				index+1,
-				0,
-				this.currentCellCache.component.props.options.splice(index, 1)[0]
-			)
-		},
-		copyListElement( index ) {
-			this.copiedItem = JSON.parse(JSON.stringify(this.currentCellCache.component.props.options[index]))
-		},
-		pasteListElement( index ) {
-			if ( this.copiedItem ) {
-				let obj;
-				let value;
-				let labelArray = this.copiedItem.title.split('.');
-				labelArray[labelArray.length - 1] = I18nUtils.getUniqueID();
-				let label = labelArray.join('.');
-				for (const locale of this.localesList) {
-					value = this.$t(this.copiedItem.title, locale);
-					obj = I18nUtils.buildObjectFromLabel(label, value);
-					this.$i18n.mergeLocaleMessage(locale, obj);
-				}
-				this.currentCellCache.component.props.options.splice(index, 0, {title: label})
 			}
 		}
 	}

@@ -5,6 +5,7 @@ export const template =
 	:is="value.name"
 	:value="value.value"
 	v-bind="value.props"
+	:name="value.name"
 	:locale="locale"
 	:localeLabel="value.i18nCategory"
 	v-on:input="$emit('input', $event )"

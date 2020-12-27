@@ -73,13 +73,13 @@ component = {
         value: TypedValue,
         acceptTypes: {
             type: Array,
-            default: [
+            default: function () { return [
                 Time.name,
                 Date.name,
                 String.name,
                 Number.name,
                 Array.name
-            ]
+            ] }
         },
         context: Object
     },

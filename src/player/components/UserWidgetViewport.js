@@ -1,8 +1,6 @@
 import {template} from "./UserWidgetViewportTemplate.js";
 import SceneComponent from "../../shared/js/Scene/SceneComponent.js";
-import {component as checkboxComponent} from "../../shared/components/UserWidgetCheckbox.js";
-import {component as selectComponent} from "../../shared/components/UserWidgetSelect.js";
-import {component as radioComponent} from "../../shared/components/UserWidgetRadio.js";
+import {component as listComponent} from "../../shared/components/UserWidgetList.js";
 import {component as textInputComponent} from "../../shared/components/UserWidgetTextInput.js";
 import {component as numberInputComponent} from "../../shared/components/UserWidgetNumberInput.js";
 import {component as rangeComponent} from "../../shared/components/UserWidgetRange.js";
@@ -26,9 +24,9 @@ SceneComponentParser.register( "user-widget-select", ComponentList );
 export const component = {
 	template: template,
 	components : {
-		"user-widget-checkbox" : checkboxComponent,
-		"user-widget-select" : selectComponent,
-		"user-widget-radio" : radioComponent,
+		"user-widget-checkbox" : listComponent,
+		"user-widget-select" : listComponent,
+		"user-widget-radio" : listComponent,
 		"user-widget-text-input" : textInputComponent,
 		"user-widget-number-input" : numberInputComponent,
 		"user-widget-range" : rangeComponent,

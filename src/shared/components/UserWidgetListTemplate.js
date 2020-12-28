@@ -5,7 +5,7 @@ export const template =
   	v-bind:is="widgetsTable[name].item"
     v-for="option in options"
     v-bind:value="option.value">
-    {{ getContent(option.title) }}
+    {{ getContent(option) }}
   </component>
 </component>
 `

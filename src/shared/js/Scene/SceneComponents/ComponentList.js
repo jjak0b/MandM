@@ -1,11 +1,15 @@
 import SceneComponent from "../SceneComponent.js";
-import {Asset} from "../../Asset.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
 import Mission from "../../Mission.js";
+import {TypedValue} from "../../Types/TypedValue.js";
 
 export default class ComponentList extends SceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
+		this.props.options = unparsed.props && unparsed.props.options ? unparsed.props.options : [];
+		for (const option of this.props.options) {
+			option.value = new TypedValue( option.value );
+		}
 	}
 
 	duplicate( locales, activityCategory ) {

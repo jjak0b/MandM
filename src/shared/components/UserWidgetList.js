@@ -27,10 +27,12 @@ export const component = {
 		}
 	},
 	methods: {
-		getContent( localeLabel ){
+		getContent( option ){
+			let localeLabel = option.title;
+			let value = option.value;
 			let content = this.$i18n.t( localeLabel, this.locale );
-			if( !content || content === localeLabel )
-				return "";
+			if( !content || !content.length || content === localeLabel )
+				return value.toString();
 			else
 				return content;
 		}

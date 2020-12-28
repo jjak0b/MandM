@@ -10,6 +10,8 @@ import {component as i18nRegion } from "../../i18nWidgets/I18nRegion.js";
 import {Asset} from "../../../../shared/js/Asset.js";
 import {I18nUtils} from "../../../../shared/js/I18nUtils.js";
 import ComponentMediaPlayer from "../../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
+import ContextMediaPlayer from "../../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayer.js";
+import ContextMediaPlayerArea from "../../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 
 export const component = {
 	template: template,
@@ -22,13 +24,6 @@ export const component = {
 		"user-widget-media-player" : asyncLoadComponentI18nMediaPlayer
 	},
 	props: {
-		value: {
-			type: Object,
-			default: {
-				asset: null,
-				captions: null
-			}
-		},
 		component: ComponentMediaPlayer,
 		locale : String
 	},
@@ -70,9 +65,9 @@ export const component = {
 
 			let shouldAddAsset = !!asset;
 
-			if( this.value.asset ) {
-				if( !shouldAddAsset || !asset.equals( this.value.asset ) ) {
-					this.resetValue( this.value );
+			if( this.context.asset ) {
+				if( !shouldAddAsset || !asset.equals( this.context.asset ) ) {
+					this.resetValue( this.context );
 				}
 				else {
 					shouldAddAsset = false;
@@ -80,14 +75,14 @@ export const component = {
 			}
 
 			if( shouldAddAsset ) {
-				this.$set( this.value, "asset", asset );
+				this.$set( this.context, "asset", asset );
 				this.$root.$emit( "add-dependency", asset );
 
-				this.$set( this.value, "captions", {} );
-				if( this.value.asset.category == "images" ) {
+				this.$set( this.context, "captions", {} );
+				if( this.context.asset.category == "images" ) {
 
 					this.$set(
-						this.value.captions,
+						this.context.captions,
 						0,
 						`${this.component.i18nCategory}.image.caption`
 					);
@@ -96,12 +91,12 @@ export const component = {
 		},
 		"form.caption" : function ( caption, prevCaption) {
 			let shouldAddCaption = !!caption;
-			let isCaptionSetForLocale =  this.value.captions && this.locale in this.value.captions;
+			let isCaptionSetForLocale =  this.context.captions && this.locale in this.context.captions;
 
 			if( isCaptionSetForLocale ) {
-				if( !shouldAddCaption || !caption.equals(this.value.captions[ this.locale ] )  ) {
-					this.value.captions[ this.locale ].dispose();
-					this.$delete( this.value.captions, this.locale );
+				if( !shouldAddCaption || !caption.equals(this.context.captions[ this.locale ] )  ) {
+					this.context.captions[ this.locale ].dispose();
+					this.$delete( this.context.captions, this.locale );
 				}
 				else {
 					shouldAddCaption = false;
@@ -109,17 +104,17 @@ export const component = {
 			}
 
 			if( shouldAddCaption ) {
-				this.$set( this.value.captions, this.locale, caption );
-				this.$root.$emit( "add-dependency", this.value.captions[ this.locale ] );
+				this.$set( this.context.captions, this.locale, caption );
+				this.$root.$emit( "add-dependency", this.context.captions[ this.locale ] );
 			}
 		}
 	},
 	computed: {
-
+		context() { return this.component.props.context }
 	},
 	methods: {
 		shouldPreview() {
-			return this.value && this.value.asset;
+			return this.context && this.context.asset;
 		},
 		resetValue( value ) {
 			console.log( value );
@@ -133,7 +128,7 @@ export const component = {
 		},
 		reset() {
 			console.log("[MediaFormWidget]", "resetData" );
-			this.resetValue( this.value );
+			this.resetValue( this.context );
 			this.form.asset = null;
 			this.form.caption = null;
 		},
@@ -160,49 +155,32 @@ export const component = {
 		resetAreas( value ) {
 			while( value && value.areas && value.areas.length > 0) {
 				let area = value.areas.pop();
-				this.$i18n.removeMessageAll( area.alt );
+				area.dispose();
 			}
 			this.$delete( value, "areas" );
+			this.$set( value, "areas", [] );
 		},
 		onAddArea( event ) {
 			let data = FormUtils.getAssociativeArray($(event.target).serializeArray());
 			let id = I18nUtils.getUniqueID();
 
-			let area = {
+			let area = new ContextMediaPlayerArea({
 				id: id,
-				alt: `${this.component.i18nCategory}.image.area.${id}.label-alt`,
+				i18nCategory: `${this.component.i18nCategory}.image.area.${id}`,
 				shape: data["shape"],
-				action: null, // TODO: eventAction built into an interaction editor component
 				href: "javascript:void(0)",
-				target: null,
-				value: null, // TODO: value returned can be a value built with a variable editor component
-				vertices: (() => {
-					if (data["shape"] == 'circle') {
-						return [ [50, 50], [50] ];
-					}
-					else if (data["shape"] == 'rect') {
-						return [ [25, 25], [75, 75] ];
-					}
-					else {
-						return null;
-					}
-				})()
-			};
-			if (!this.value.areas)
-				this.$set(this.value, "areas", [] );
-			this.value.areas.push( area );
+				action: null, // TODO: eventAction built into an interaction editor component
+				value: null
+			});
+
+			this.context.areas.push( area );
 		},
 		onRemoveArea( index ) {
 
-			if( 0 <= index && index < this.value.areas.length ) {
+			if( 0 <= index && index < this.context.areas.length ) {
 				this.$refs.preview.unHighlightMapArea( index );
-				this.$i18n.removeMessageAll( this.value.areas[ index ].alt );
-				this.value.areas.splice( index, 1 );
-			}
-
-			if( !this.value.areas.length ) {
-				this.$set( this.value, "areas", undefined );
-				delete this.value["areas"];
+				this.context.areas[ index ].dispose();
+				this.context.areas.splice( index, 1 );
 			}
 		}
 	}

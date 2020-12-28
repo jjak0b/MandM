@@ -17,7 +17,7 @@ export const template =
 							<assets-manager-browser-widget
 								id="assets-manager-widget-browser-delete"
 								aria-controls="assets-manager-widget-input-asset"
-								v-bind:value="value.asset"
+								v-bind:value="context.asset"
 								v-on:input="form.asset = $event"
 								v-bind:button-only="true"
 								v-bind:force-filter="mediaCategories"
@@ -26,7 +26,7 @@ export const template =
 						</b-input-group-prepend>
 						<b-form-input
 							id="assets-manager-widget-input-asset"
-							v-bind:value="value.asset"
+							v-bind:value="context.asset ? context.asset.toString() : null"
 							required="required"
 							readonly
 						></b-form-input>
@@ -52,7 +52,7 @@ export const template =
 					-->
 				<fieldset>
 					<legend>{{ $t( "UserWidgets.MediaPlayer.label-options" ) }}</legend>
-					<div v-if="value.asset && value.asset.category && value.asset.category == 'images'">
+					<div v-if="context.asset && context.asset.category && context.asset.category == 'images'">
 						<i18n-input-widget
 							v-bind:label="$t('UserWidgets.MediaPlayer.label-input-file.imageCaption')"
 							v-bind:tag="'textarea'"
@@ -60,7 +60,7 @@ export const template =
 							name="fileCaption"
 							rows="4"
 							v-bind:locale="locale"
-							v-bind:locale-label="value.captions[0]"
+							v-bind:locale-label="context.captions[0]"
 						></i18n-input-widget>
 						<div class="form-group">
 							<div class="form-check">
@@ -68,7 +68,7 @@ export const template =
 									id="mediaForm-input-image-useMap"
 									type="checkbox"
 									v-model="shouldUseMap"
-									v-bind:disabled="!value.asset"
+									v-bind:disabled="!context.asset"
 									class="form-check-input"
 								>
 								<label
@@ -125,7 +125,7 @@ export const template =
 							</div>
 						</div>
 					</div>
-					<div v-if="value.asset && value.asset.category && ( value.asset.category == 'audios' || value.asset.category == 'videos' )" >
+					<div v-if="context.asset && context.asset.category && ( context.asset.category == 'audios' || context.asset.category == 'videos' )" >
 						<i18n-region
 							v-bind:label="$t('UserWidgets.MediaPlayer.label-input-file.captions')"
 							label-for="user-widget-editor-media-player-asset-caption-input"
@@ -138,7 +138,7 @@ export const template =
 										id="user-widget-editor-media-player-asset-caption"
 										aria-controls="user-widget-editor-media-player-asset-caption-input"
 										v-bind:force-filter="['captions']"
-										v-bind:value="locale && value.captions ? value.captions[locale] : null"
+										v-bind:value="locale && context.captions ? context.captions[locale] : null"
 										v-on:input="form.caption = $event"
 										v-bind:button-only="true"
 										v-bind:disabled="!locale"
@@ -147,7 +147,7 @@ export const template =
 								</b-input-group-prepend>
 								<b-form-input
 									id="user-widget-editor-media-player-asset-caption-input"
-									v-bind:value="locale ? value.captions[ locale ] : null"
+									v-bind:value="locale ? context.captions[ locale ] : null"
 									readonly
 									v-bind:disabled="!locale"
 								></b-form-input>
@@ -163,11 +163,11 @@ export const template =
 		</section>
 	</div>
 	<div class="row">
-		<section class="col" v-if="value.asset && value.asset.category && value.asset.category == 'images' && value.areas">
+		<section class="col" v-if="context.asset && context.asset.category && context.asset.category == 'images' && context.areas">
 			<b-card no-body>
 				<b-tabs card vertical>
 					<user-widget-editor-media-player-image-area-tabpanel
-						v-for="(area, areaIndex) in value.areas"
+						v-for="(area, areaIndex) in context.areas"
 						:key="'imageArea-' + areaIndex"
 						v-bind:area="area"
 						v-bind:areaIndex="areaIndex"
@@ -187,7 +187,7 @@ export const template =
 				ref="preview"
 				v-if="shouldPreview()"
 				id="mediaForm-preview"
-				v-bind:value="value"
+				v-bind:context="context"
 				v-bind:locale="locale"
 			></user-widget-media-player>
 		</section>

@@ -1,15 +1,18 @@
 import {template} from "./UserWidgetEditorMediaPlayerImageAreaTabPanelTemplate.js";
 import {asyncLoad as asyncLoadComponentI18nInputWidget} from "../../../i18nWidgets/I18nInputWidget.js";
+import ContextMediaPlayerArea from "../../../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
+import {component as typedValueComponent} from "../../../InputTypedValueWidget.js";
 
 export const component = {
 	template: template,
 	props: {
 		locale : String,
-		area: Object,
+		area: ContextMediaPlayerArea,
 		areaIndex: Number,
 		labelShapeTypes: Object
 	},
 	components: {
+		"input-typed-value": typedValueComponent,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 	},
 	data() {

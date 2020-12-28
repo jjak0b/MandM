@@ -1,14 +1,12 @@
 import I18nCategorized from "../I18nCategorized.js";
+import SceneComponentProps from "./SceneComponents/SceneComponentProps.js";
 
 
 export default class SceneComponent extends I18nCategorized{
 	constructor(unparsedComponent) {
 		super(unparsedComponent);
 		this.name = unparsedComponent.name;
-		this.props = unparsedComponent.props || {
-			id: undefined,
-			class: []
-		};
+		this.props = new SceneComponentProps( unparsedComponent.props );
 		this.value = unparsedComponent.value || {};
 		this.getOptionsCallback = null;
 	}
@@ -40,6 +38,7 @@ export default class SceneComponent extends I18nCategorized{
 	}
 
 	dispose( params ) {
+		this.props.dispose( params );
 		super.dispose( params );
 	}
 }

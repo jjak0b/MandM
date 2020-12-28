@@ -26,6 +26,7 @@ import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
+import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );
@@ -143,14 +144,19 @@ export const component = {
 		ComponentMediaPlayer.setDisposeCallback(
 			ComponentMediaPlayer.name,
 			(that, params) => {
-				if( that.value && that.value.asset && that.value.asset.category == "images" ) {
-					if( that.value.areas.captions ) {
-						this.$i18n.removeMessageAll( that.value.captions[ 0 ] );
-					}
-					if( that.value.areas ) {
-						that.value.areas.forEach( (area) => this.$i18n.removeMessageAll( area.alt ) );
+
+				if( that.props.context && that.props.context.asset && that.props.context.asset.category == "images" ) {
+					if( that.props.context.areas.captions ) {
+
+						this.$i18n.removeMessageAll( that.props.context.captions[ 0 ] );
 					}
 				}
+			}
+		);
+		ContextMediaPlayerArea.setDisposeCallback(
+			ContextMediaPlayerArea.name,
+			(that, params) => {
+				this.$i18n.removeMessageAll( that.alt )
 			}
 		);
 		this.init( this.scene );

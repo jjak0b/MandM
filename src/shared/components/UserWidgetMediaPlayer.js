@@ -1,12 +1,13 @@
 import {template} from "./UserWidgetMediaPlayerTemplate.js";
 import {I18nUtils} from "../js/I18nUtils.js";
 import {Asset} from "../js/Asset.js";
+import ContextMediaPlayer from "../js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayer.js";
 
 export const component = {
 	inheritAttrs: false,
 	template: template,
 	props: {
-		value: Object,
+		context: ContextMediaPlayer,
 		locale: String,
 	},
 	data() {
@@ -23,12 +24,12 @@ export const component = {
 	},
 	created() {
 
-		if( this.value.asset && this.value.asset.category == "images" ) {
+		if( this.context.asset && this.context.asset.category == "images" ) {
 			window.addEventListener("resize", this.onResize);
 		}
 	},
 	mounted(){
-		if( this.value.asset && this.value.asset.category == "images" ) {
+		if( this.context.asset && this.context.asset.category == "images" ) {
 
 			// trigger the update lifecycle after the DOM is rendered to set the highlight if needed
 			setTimeout( () => {
@@ -37,7 +38,7 @@ export const component = {
 		}
 	},
 	watch: {
-		"value.areas": {
+		"context.areas": {
 			deep: true,
 			handler: function (areas) {
 				this.$nextTick( this.updateMapAreas );
@@ -45,7 +46,7 @@ export const component = {
 		}
 	},
 	beforeUpdate() {
-		if( this.value.asset && this.value.asset.category == "images" ) {
+		if( this.context.asset && this.context.asset.category == "images" ) {
 			// here image size may have been changed, resized, and the highlight plugin may be buggy so refresh it
 			this.setupHighlight();
 
@@ -54,7 +55,7 @@ export const component = {
 		}
 	},
 	updated(){
-		if( this.value.asset && this.value.asset.category == "images" ) {
+		if( this.context.asset && this.context.asset.category == "images" ) {
 			// into before update we let the view to update the map areas coords, so update the highlight plugin with new DOM
 			this.setupHighlight();
 
@@ -64,14 +65,14 @@ export const component = {
 		}
 	},
 	beforeDestroy(){
-		if( this.value.asset && this.value.asset.category == "images" ) {
+		if( this.context.asset && this.context.asset.category == "images" ) {
 			window.removeEventListener("resize", this.onResize);
 		}
 	},
 	methods: {
 		areaOnClick( indexArea, event ) {
-			if( !this.value || !this.value.areas ) return;
-			let area = this.value.areas[ indexArea ];
+			if( !this.context || !this.context.areas ) return;
+			let area = this.context.areas[ indexArea ];
 			if( area.value != null )
 				this.$emit( 'input', area.value );
 
@@ -88,17 +89,17 @@ export const component = {
 				this.captionContent = "";
 		},
 		onResize( event ){
-			if( this.value.asset && this.value.asset.category == "images" ){
+			if( this.context.asset && this.context.asset.category == "images" ){
 				// trigger vue cicle to update
 				this.updateMapAreas();
 			}
 		},
 		resizeArea( indexArea, imgWidth, imgHeight){
 			let coords = [];
-			if( !this.value || !this.value.areas || !this.value.areas[ indexArea ] )
+			if( !this.context || !this.context.areas || !this.context.areas[ indexArea ] )
 				return coords;
 			let self = this;
-			let area = this.value.areas[ indexArea ];
+			let area = this.context.areas[ indexArea ];
 
 			if( !area.vertices || !area.vertices.length )
 				return coords;
@@ -122,8 +123,8 @@ export const component = {
 		updateMapAreas() {
 			// update a variable to force view update and recompute map coords
 			// see :key="updateFlagToggle" on template
-			if( !this.value.areas || !this.$refs.img ) return;
-			for( let areaIndex = 0; areaIndex < this.value.areas.length; areaIndex++ ) {
+			if( !this.context.areas || !this.$refs.img ) return;
+			for( let areaIndex = 0; areaIndex < this.context.areas.length; areaIndex++ ) {
 				let coords = this.resizeArea(areaIndex, this.$refs.img.width, this.$refs.img.height);
 				this.map.coords[areaIndex] = coords ? coords.join() : "";
 			}
@@ -134,9 +135,9 @@ export const component = {
 		},
 		setupHighlight(){
 			let self = this;
-			if( this.value && this.value.areas && this.$refs.img ) {
+			if( this.context && this.context.areas && this.$refs.img ) {
 				let useHighlight = false;
-				this.value.areas.forEach( ( area, indexArea ) => {
+				this.context.areas.forEach( ( area, indexArea ) => {
 					if( self.$refs.area && self.$refs.area[indexArea] ) {
 						$(self.$refs.area[indexArea]).data(
 							"maphilight",
@@ -163,7 +164,7 @@ export const component = {
 			this.indexOverArea = -1;
 		},
 		getImgAlt() {
-			let localeLabel = this.value.captions[0];
+			let localeLabel = this.context.captions[0];
 			let translation = this.$t( localeLabel );
 
 			if( translation && translation !== localeLabel ) {

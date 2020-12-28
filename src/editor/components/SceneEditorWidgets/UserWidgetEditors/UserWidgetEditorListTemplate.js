@@ -28,7 +28,7 @@ export const template =
 	</b-modal>		
 		
 				
-	<h4>{{ $t('UserWidgets.label-select-settings') }}</h4>			
+	<h4>{{ $t('UserWidgets.label-' + component.name + '-settings') }}</h4>			
 	<b-row>
 		<b-col>
 			<b-form-group

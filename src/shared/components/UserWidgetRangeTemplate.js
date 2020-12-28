@@ -9,7 +9,8 @@ export const template =
 		v-bind:min="min"
 		v-bind:max="max"
 		type="range"
-		v-bind="$attrs">
+		v-bind="$attrs"
+		v-on:input="emitInput">
 	</b-form-input>
 </div>
 `

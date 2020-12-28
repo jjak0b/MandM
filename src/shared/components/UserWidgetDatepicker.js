@@ -1,4 +1,5 @@
 import {template} from "./UserWidgetDatepickerTemplate.js";
+import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
 
 export const component = {
 	template: template,
@@ -39,7 +40,6 @@ export const component = {
 			if( this.prevLocale != this.$i18n.locale ) {
 				this.prevLocale = this.$i18n.locale;
 				let self = this;
-				console.log( self.$i18n );
 				this.labels.forEach( (label, index) => {
 					let localeLabel = "UserWidgets.Datepicker." + label
 					let message =  self.$i18n.t( localeLabel );
@@ -53,6 +53,9 @@ export const component = {
 					}
 				});
 			}
-		}
-	}
+		},
+		emitInput(event) {
+			let item = new TypedValue({type: Date.name, value: event});
+			this.$emit('input', item);
+		}}
 };

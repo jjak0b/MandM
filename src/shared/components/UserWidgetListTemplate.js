@@ -1,6 +1,9 @@
 export const template =
 		`
-<component v-bind:is="widgetsTable[name].list">
+<component
+	v-bind:is="widgetsTable[name].list"
+	v-on="$listeners"
+>
   <component 
   	v-bind:is="widgetsTable[name].item"
     v-for="option in options"

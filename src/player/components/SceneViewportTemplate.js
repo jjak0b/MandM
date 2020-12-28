@@ -1,7 +1,7 @@
 export const template =
 `
 <b-container
-	v-on="$listeners"
+
 >
 	<b-row
 		v-for="(row, i) in value.grid"
@@ -15,7 +15,7 @@ export const template =
 			<user-widget-viewport
 				v-bind:locale="$root.locale"
 				v-bind:value="cell.component"
-				v-on:input="$emit('input', $event )"
+				v-on="$listeners"
 			>
 			</user-widget-viewport>
 		</b-col>

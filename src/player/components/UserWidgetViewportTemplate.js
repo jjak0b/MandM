@@ -8,6 +8,6 @@ export const template =
 	:name="value.name"
 	:locale="locale"
 	:localeLabel="value.i18nCategory"
-	v-on:input="$emit('input', $event )"
+	v-on="$listeners"
 ></component>
 `;

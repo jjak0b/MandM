@@ -3,20 +3,28 @@ export const template =
 <div>
 <section>
 	<b-modal
+		hide-footer
 		id="addElementModal"
 		v-bind:title="$t('shared.label-add-new-element')"
-		v-bind:ok-title="$t('shared.label-save')"
-		centered
-		v-on:ok="addElement()">
-			<i18n-input-widget
-				id="addListElement"
-				tag="input"
-				v-bind:label="$t('shared.label-add-element')"
-				v-bind:locale="locale"
-				v-bind:locale-label="label">
-			</i18n-input-widget>
-			<typed-value v-model="value">
-			</typed-value>
+		centered>
+			<b-form ref="form" v-on:submit.stop.prevent="addElement">
+				<b-form-group>
+					<i18n-input-widget
+						id="addListElement"
+						tag="input"
+						v-bind:label="$t('shared.label-text')"
+						v-bind:locale="locale"
+						v-bind:locale-label="label">
+					</i18n-input-widget>
+					<typed-value v-model="value">
+					</typed-value>
+				</b-form-group>
+				<div class="float-right">
+				<b-button variant="danger" v-on:click="$bvModal.hide('addElementModal')">
+				{{ $t('shared.label-close') }}</b-button>
+				<b-button type="submit" variant="primary">{{ $t('shared.label-save') }}</b-button>
+				</div>
+			</b-form>
 	</b-modal>		
 		
 				

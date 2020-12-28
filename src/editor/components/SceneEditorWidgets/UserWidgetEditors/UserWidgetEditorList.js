@@ -22,7 +22,8 @@ export const component = {
 	data() {
 		return {
 			label: null,
-			value: null
+			value: null,
+			state: true
 		}
 	},
 	methods: {
@@ -35,13 +36,18 @@ export const component = {
 			this.$bvModal.show('addElementModal');
 		},
 		addElement() {
+			if (!this.$refs.form.checkValidity()) return;
+
 			if (! ('options' in this.component.props)) {
 				this.$set( this.component.props, 'options', [] );
+
 			}
-			if ( this.label && this.value !== null ) {
-				let item = new TypedValue( this.value );
-				this.component.props.options.push({title: this.label, value: item});
-			}
+
+			let item = new TypedValue( this.value );
+			this.component.props.options.push({title: this.label, value: item});
+			this.$nextTick(() => {
+				this.$bvModal.hide('addElementModal')
+			})
 		},
 		removeElement(index) {
 			this.component.props.options.splice( index, 1 );

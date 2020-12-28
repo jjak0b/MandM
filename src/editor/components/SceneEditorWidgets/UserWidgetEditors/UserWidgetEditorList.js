@@ -26,16 +26,19 @@ export const component = {
 		}
 	},
 	methods: {
-		onAdd() {
+		resetAddForm() {
 			this.label = this.component.i18nCategory + '.element.' + I18nUtils.getUniqueID();
 			this.value = null;
+		},
+		onAdd() {
+			this.resetAddForm();
 			this.$bvModal.show('addElementModal');
 		},
 		addElement() {
 			if (! ('options' in this.component.props)) {
 				this.$set( this.component.props, 'options', [] );
 			}
-			if (this.$te(this.label) && this.value !== null) {
+			if ( this.label && this.value !== null ) {
 				let item = new TypedValue( this.value );
 				this.component.props.options.push({title: this.label, value: item});
 			}

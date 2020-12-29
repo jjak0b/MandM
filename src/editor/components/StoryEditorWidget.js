@@ -41,7 +41,7 @@ export const component = {
 	},
 	computed: {
 		selectedName: function () { return (this.tabValue > -1) ? this.names[this.tabValue] : null },
-		playStoryURL: function () { return encodeURI(`${window.location.protocol}//${window.location.host}/player?story=${this.value.name}`) }
+		playStoryURL: function () { return this.value && this.value.name ? encodeURI(`${window.location.protocol}//${window.location.host}/player?story=${this.value.name}`) : "Error"; }
 	},
 	data() {
 		return {

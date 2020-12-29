@@ -23,10 +23,15 @@ export const template =
 										v-model="value.public">
 										{{ $t('StoryEditorWidget.label-story-public') }}
 									</b-form-checkbox>
+									<a
+										v-bind:href="playStoryURL"
+										target="_blank"
+									>
 									<qrcode
 										v-bind:value="playStoryURL"
 										v-if="value.public"
 									></qrcode>
+									</a>
 								<b-form-group
 										v-bind:label="$t('StoryEditorWidget.label-story-description')"
 										label-for="storyDescriptionInput">

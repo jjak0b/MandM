@@ -1,29 +1,29 @@
 export const template =
 `
-<div class="w-100" v-if="value.asset">
+<div class="w-100" v-if="context.asset">
 	<!-- Force image to re-render and delete maphilight extra tags using :key as image url when changed in editor -->
 	<figure
-		v-if="value.asset.category == 'images'"
+		v-if="context.asset.category == 'images'"
 		class="figure"
-		v-bind:key="value.asset.getURL()"
+		v-bind:key="context.asset.getURL()"
 	>
 		<img	
-			v-if="value.asset"
+			v-if="context.asset"
 			ref="img"
 			v-bind="$attrs"
-			v-bind:src="value.asset.getURL()"
+			v-bind:src="context.asset.getURL()"
 			v-bind:alt="getImgAlt()"
-			v-bind:usemap="value.areas ? '#' + $attrs.id + '-map' : ''"
+			v-bind:usemap="context.areas ? '#' + $attrs.id + '-map' : ''"
 			class="figure-img img-fluid rounded" 
 		/>
 		<map
 			:key="updateFlagToggle"
-			v-if="value.areas"
+			v-if="context.areas"
 			ref="map"
 			v-bind:name="$attrs.id + '-map'"
 		>
 			<area
-				v-for="(area, i) in value.areas"
+				v-for="(area, i) in context.areas"
 				ref="area"
 				v-bind:shape="area.shape"
 				v-bind:coords="getStringAreaCoords( i )"
@@ -38,13 +38,13 @@ export const template =
 		>{{ getImgAlt() }}</figcaption>
 	</figure>
 	<video
-		v-if="value.asset.category == 'videos'"
+		v-if="context.asset.category == 'videos'"
 		controls="controls"
 		v-bind="$attrs"
-		v-bind:src="value.asset.getURL()"
+		v-bind:src="context.asset.getURL()"
 		class="w-100"
 	>
-		<track v-for="(source, lang) in value.captions"
+		<track v-for="(source, lang) in context.captions"
 			kind="captions"
 			v-bind:src="source.getURL()"
 			v-bind:srclang="lang"
@@ -54,14 +54,14 @@ export const template =
 		{{ $t( "shared.errors.video_tag-unsupported" ) }}
 	</video>
 	<audio 
-		v-if="value.asset.category == 'audios'"
+		v-if="context.asset.category == 'audios'"
 		controls="controls"
 		v-bind="$attrs"
-		v-bind:src="value.asset.getURL()"
+		v-bind:src="context.asset.getURL()"
 		v-bind:aria-describedby="$attrs.id + '-lyrics'"
 		class="w-100"
 	>
-		<track v-for="(source, lang) in value.captions"
+		<track v-for="(source, lang) in context.captions"
 			kind="captions"
 			v-bind:src="source.getURL()"
 			v-bind:srclang="lang"
@@ -72,7 +72,7 @@ export const template =
 		{{ $t( "shared.errors.audio_tag-unsupported" ) }}
 	</audio>
 	<pre
-		v-if="value.asset.category == 'audios'"
+		v-if="context.asset.category == 'audios'"
 		v-bind:id="$attrs.id + '-lyrics'"
 		v-html="captionContent"
 		aria-live="polite"

@@ -94,14 +94,18 @@ export const component = {
 					let head = document.getElementsByTagName('head')[0];
 
 					// add stylesheet URL
-					if( this.player.story.style.asset ) {
-						console.log( "[PlayerVM]", "Init custom file stylesheet" );
-						let link = document.createElement('link');
-						link.setAttribute( "id", "author-stylesheet");
-						link.setAttribute('rel', 'stylesheet');
-						link.setAttribute('type', 'text/css');
-						link.setAttribute('href', this.player.story.style.asset.getURL() );
-						head.appendChild(link);
+					if( this.player.story.style.assets && this.player.story.style.assets.length ) {
+						console.log( "[PlayerVM]", "Init custom file stylesheets" );
+						for (let i = 0; i < this.player.story.style.assets.length; i++) {
+							let asset = this.player.story.style.assets[ i ];
+
+							let link = document.createElement('link');
+							link.setAttribute( "id", "author-stylesheet-" + i );
+							link.setAttribute('rel', 'stylesheet');
+							link.setAttribute('type', 'text/css');
+							link.setAttribute('href', asset.getURL() );
+							head.appendChild(link);
+						}
 					}
 
 					// write into style tag the custom CSS rules

@@ -7,9 +7,10 @@ export default class StyleData extends Disposable {
 		super(unparsed);
 
 		/**
-		 * @type {Asset}
+		 * @type {Asset[]}
 		 */
-		this.asset = unparsed && unparsed.asset ? new Asset( unparsed.asset, null, null ) : null;
+		this.assets = unparsed && unparsed.assets ? unparsed.assets.map( asset => asset ? new Asset( asset ) : null ).filter( (asset) => !!asset ) : [];
+
 		/**
 		 *
 		 * @type {StyleRule[]}

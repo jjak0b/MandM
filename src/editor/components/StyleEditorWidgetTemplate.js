@@ -1,44 +1,35 @@
 export const template =
 `
 <div>
-<b-form class="clearfix"
-	v-on:reset="value.asset=null"
->
-	<b-form-group
-		v-bind:label="$t('StyleEditorWidget.label-select-custom-stylesheet')"
-		v-bind:label-for="'style-editor-widget-stylesheet-input-asset'"
-		v-bind:description="$t('StyleEditorWidget.label-custom-stylesheet-description')"
+<b-card no-body aria-labelledby="style-editor-widget-stylesheet-tablist">
+	<b-card-header id="style-editor-widget-stylesheet-tablist">{{ $t('StyleEditorWidget.rule.label-stylesheet-list') }}</b-card-header>
+	<b-tabs card vertical
 	>
-		<b-input-group
-			aria-atomic="true"
-			class="my-3"
+		<b-tab
+			v-for="(stylesheet, stylesheetIndex) in value.assets"
+			:key="'stylesheet-' + stylesheetIndex + '_'"
+			v-bind:title="stylesheet ? stylesheet.toString() : $t('shared.media.label-stylesheets')"
 		>
-			<b-input-group-prepend>
-				<assets-manager-browser
-					aria-controls="style-editor-widget-stylesheet-input-asset"
-					ref="assetsBrowser"
-					id="style-editor-widget-stylesheets-browser"
-					v-model="value.asset"
-					v-bind:button-only="true"
-					v-bind:force-filter="['stylesheets']"
-				>
-				</assets-manager-browser>
-			</b-input-group-prepend>
-			<b-form-input
-				id="style-editor-widget-stylesheet-input-asset"
-				v-bind:value="value.asset"
-				readonly
-			></b-form-input>
-		</b-input-group>
-	</b-form-group>
-	<b-button
-		class="float-right"
-		size="sm"
-		type="reset"
-		variant="warning"
-		v-t="'shared.label-reset'"
-	></b-button>
-</b-form>
+			<stylesheet-asset
+				v-bind:id="'style-editor-widget-stylesheet-item_' + stylesheetIndex"
+				v-bind:value="stylesheet"
+				v-on:input="$set( value.assets, stylesheetIndex, $event )"
+			></stylesheet-asset>
+			<hr>
+			<b-button variant="danger"
+				v-t="'shared.label-remove'"
+				v-on:click="removeStylesheet( stylesheetIndex )"
+			></b-button>
+		</b-tab>
+		<!-- New Tab Button  -->
+		<template v-slot:tabs-end>
+			<b-nav-item
+				role="presentation"
+				v-on:click.prevent="addStylesheet()" href="#"
+			><b>{{ $t('shared.label-add') }}</b></b-nav-item>
+		</template>
+	</b-tabs>
+</b-card>
 <hr>
 <b-card no-body aria-labelledby="style-editor-widget-rule-tablist">
 	<b-card-header id="style-editor-widget-rule-tablist">{{ $t('StyleEditorWidget.rule.label-rule-list') }}</b-card-header>

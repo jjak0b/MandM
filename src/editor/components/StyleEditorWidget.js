@@ -10,12 +10,12 @@ import {FormUtils} from "../../shared/js/FormUtils.js";
 import StyleRule from "../../shared/js/StyleData/StyleRule.js";
 import StyleProperty from "../../shared/js/StyleData/StyleProperty.js";
 import StyleData from "../../shared/js/StyleData/StyleData.js";
-import {component as assetManagerBrowser} from "./AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
+import {component as stylesheetAssetComponent} from "./StyleEditorWidgets/StylesheetAssetWidget.js";
 
 export const component = {
 	template: template,
 	components: {
-		"assets-manager-browser": assetManagerBrowser,
+		"stylesheet-asset": stylesheetAssetComponent,
 		"style-string-widget": styleStringComponent,
 		"style-uri-widget": styleURIComponent,
 		"style-length-widget": styleLengthComponent,
@@ -25,7 +25,7 @@ export const component = {
 		"input-range-number-widget" : inputRangeNumberComponent
 	},
 	props: {
-		value: Object
+		value: StyleData
 	},
 	data(){
 		let data = {
@@ -417,18 +417,17 @@ export const component = {
 	created() {
 
 	},
-	watch: {
-		"value.asset": function (newStyleSheet, oldStyleSheet) {
-			if( oldStyleSheet ) {
-				oldStyleSheet.dispose();
-			}
-
-			if( newStyleSheet ) {
-				this.$root.$emit( "add-dependency", newStyleSheet );
-			}
-		}
-	},
 	methods: {
+		removeStylesheet( index ) {
+			if( index < this.value.assets.length ) {
+				if( this.value.assets[ index ] )
+					this.value.assets[ index ].dispose();
+				this.value.assets.splice( index, 1 );
+			}
+		},
+		addStylesheet() {
+			this.value.assets.push( null );
+		},
 		addRule() {
 			let rule = {
 				selector: {},

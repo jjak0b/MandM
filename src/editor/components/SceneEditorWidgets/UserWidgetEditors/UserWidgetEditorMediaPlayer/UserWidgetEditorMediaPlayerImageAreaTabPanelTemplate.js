@@ -119,24 +119,15 @@ export const template =
 		</div>
 		<div class="row">
 			<div class="col">
-				<!-- TODO: Temp; replace this with interactable form component for return value and event-->
 				<b-form-group
 					v-bind:label="$t('UserWidgets.MediaPlayer.areas.label-set-value-to-return-as-player-input')"
-					v-bind:label-for="'mediaForm-input-image-area-' + areaIndex + '-action-returnValue'"
 				>
-					<b-form-input
+					<input-typed-value
 						v-bind:id="'mediaForm-input-image-area-' + areaIndex + '-action-returnValue'"
-						type="text"
 						name="return"
 						v-model="area.value"
-						required="required"
-						v-on:keydown.space.prevent
-					></b-form-input>
-					<template v-slot:invalid-feedback>
-						<h5 v-t="'UserWidgets.MediaPlayer.areas.label-url-invalid'"></h5>
-						<hr>
-						<p>{{ $t("UserWidgets.MediaPlayer.areas.label-url-invalid-example", "https://www.google.it") }}</p>
-					</template>
+					>
+					</input-typed-value>
 				</b-form-group>
 			</div>
 		</div>

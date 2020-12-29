@@ -25,10 +25,11 @@ export const component = {
 		"input-range-number-widget" : inputRangeNumberComponent
 	},
 	props: {
-		value: Object
+		value: StyleData
 	},
 	data(){
 		let data = {
+			tempAsset: null,
 			selector: null,
 			rules: [],
 			properties: {
@@ -418,17 +419,31 @@ export const component = {
 
 	},
 	watch: {
-		"value.asset": function (newStyleSheet, oldStyleSheet) {
-			if( oldStyleSheet ) {
-				oldStyleSheet.dispose();
+		"tempAsset" : function (asset, prevAsset ) {
+			let shouldAddAsset = !!asset;
+
+			if( this.value.asset ) {
+				if( !shouldAddAsset || !asset.equals( this.value.asset ) ) {
+					this.value.asset.dispose();
+					this.$set( this.value, "asset", null );
+				}
+				else {
+					shouldAddAsset = false;
+				}
 			}
 
-			if( newStyleSheet ) {
-				this.$root.$emit( "add-dependency", newStyleSheet );
+			if( shouldAddAsset ) {
+				this.$set( this.value, "asset", asset );
+				this.$root.$emit( "add-dependency", asset );
 			}
-		}
+		},
 	},
 	methods: {
+		clearAsset() {
+			this.tempAsset = null;
+			if( this.value.asset ) this.value.asset.dispose();
+			this.$set( this.value, "asset", null );
+		},
 		addRule() {
 			let rule = {
 				selector: {},

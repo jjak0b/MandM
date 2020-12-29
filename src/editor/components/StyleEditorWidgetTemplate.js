@@ -2,7 +2,7 @@ export const template =
 `
 <div>
 <b-form class="clearfix"
-	v-on:reset="value.asset=null"
+	v-on:reset="clearAsset"
 >
 	<b-form-group
 		v-bind:label="$t('StyleEditorWidget.label-select-custom-stylesheet')"
@@ -18,7 +18,8 @@ export const template =
 					aria-controls="style-editor-widget-stylesheet-input-asset"
 					ref="assetsBrowser"
 					id="style-editor-widget-stylesheets-browser"
-					v-model="value.asset"
+					v-bind:value="value.asset"
+					v-on:input="tempAsset = $event"
 					v-bind:button-only="true"
 					v-bind:force-filter="['stylesheets']"
 				>
@@ -26,7 +27,7 @@ export const template =
 			</b-input-group-prepend>
 			<b-form-input
 				id="style-editor-widget-stylesheet-input-asset"
-				v-bind:value="value.asset"
+				v-bind:value="value.asset ? value.asset.toString() : null"
 				readonly
 			></b-form-input>
 		</b-input-group>

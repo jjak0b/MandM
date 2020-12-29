@@ -1,8 +1,11 @@
 export const template =
     `
-    <b-form-checkbox-group>
-        <label for="op-todo">Prova sa sa prova</label>
-        <input type="file" id="op-todo"  accept="video/*">
-        </b-form-checkbox-group>
+    <div>
+        <h5>{{ valueType.description }}</h5>
+        <input type="file" id="op-todo" v-bind:capture="valueType.cap" v-bind:accept="valueType.type">
+<!--        <img-->
+<!--        v-if="mediaSelected!=null" -->
+<!--        v-bind:src="mediaSelected.prototype" alt="immagine">-->
+        </div>
     
     `;

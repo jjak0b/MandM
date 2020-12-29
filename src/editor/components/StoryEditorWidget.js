@@ -40,7 +40,8 @@ export const component = {
 		}
 	},
 	computed: {
-		selectedName: function () { return (this.tabValue > -1) ? this.names[this.tabValue] : null }
+		selectedName: function () { return (this.tabValue > -1) ? this.names[this.tabValue] : null },
+		playStoryURL: function () { return encodeURI(`${window.location.protocol}//${window.location.host}/player?story=${this.value.name}`) }
 	},
 	data() {
 		return {

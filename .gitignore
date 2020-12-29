@@ -31,7 +31,7 @@ bower_components
 .next
 .npm
 .eslintcache
-.package-lock.json
+/package-lock.json
 
 # Specific directories section
 .idea/

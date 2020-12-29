@@ -10,12 +10,12 @@ import {FormUtils} from "../../shared/js/FormUtils.js";
 import StyleRule from "../../shared/js/StyleData/StyleRule.js";
 import StyleProperty from "../../shared/js/StyleData/StyleProperty.js";
 import StyleData from "../../shared/js/StyleData/StyleData.js";
-import {component as assetManagerBrowser} from "./AssetsManagerWidgets/AssetsManagerBrowserWidget.js";
+import {component as stylesheetAssetComponent} from "./StyleEditorWidgets/StylesheetAssetWidget.js";
 
 export const component = {
 	template: template,
 	components: {
-		"assets-manager-browser": assetManagerBrowser,
+		"stylesheet-asset": stylesheetAssetComponent,
 		"style-string-widget": styleStringComponent,
 		"style-uri-widget": styleURIComponent,
 		"style-length-widget": styleLengthComponent,
@@ -29,7 +29,6 @@ export const component = {
 	},
 	data(){
 		let data = {
-			tempAsset: null,
 			selector: null,
 			rules: [],
 			properties: {
@@ -418,31 +417,16 @@ export const component = {
 	created() {
 
 	},
-	watch: {
-		"tempAsset" : function (asset, prevAsset ) {
-			let shouldAddAsset = !!asset;
-
-			if( this.value.asset ) {
-				if( !shouldAddAsset || !asset.equals( this.value.asset ) ) {
-					this.value.asset.dispose();
-					this.$set( this.value, "asset", null );
-				}
-				else {
-					shouldAddAsset = false;
-				}
-			}
-
-			if( shouldAddAsset ) {
-				this.$set( this.value, "asset", asset );
-				this.$root.$emit( "add-dependency", asset );
+	methods: {
+		removeStylesheet( index ) {
+			if( index < this.value.assets.length ) {
+				if( this.value.assets[ index ] )
+					this.value.assets[ index ].dispose();
+				this.value.assets.splice( index, 1 );
 			}
 		},
-	},
-	methods: {
-		clearAsset() {
-			this.tempAsset = null;
-			if( this.value.asset ) this.value.asset.dispose();
-			this.$set( this.value, "asset", null );
+		addStylesheet() {
+			this.value.assets.push( null );
 		},
 		addRule() {
 			let rule = {

@@ -49,8 +49,10 @@ export const template =
 
 	</b-tab>
 	<b-tab title="Chat">
-		<main>
+		<main style="margin: 0 auto">
 			<h4>Chat</h4>
+			<chat-widget>
+			</chat-widget>
 		</main>
 	</b-tab>
 </b-tabs>

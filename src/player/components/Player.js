@@ -5,12 +5,14 @@ import {CacheSystem} from "../../shared/js/CacheSystem.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./PlayerTemplate.js";
 import {component as playerViewport} from "./PlayerViewport.js";
+import {component as chatWidget} from "./PlayerChatWidget.js";
 
 export const component = {
 	el: '#main',
 	template: template,
 	i18n: i18n,
 	components: {
+		chatWidget,
 		playerViewport
 	},
 	data() {

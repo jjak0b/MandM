@@ -145,6 +145,7 @@ export default class Player {
 					this.current.activity.id,
 					{
 						input: null,
+						end: true
 					}
 				);
 			}
@@ -167,6 +168,7 @@ export default class Player {
 				this.current.activity.id,
 				{
 					input: this.envVars.userInput,
+					end: true
 				}
 			);
 		}
@@ -216,7 +218,9 @@ export default class Player {
 			this.logger.log(
 				this.current.mission.id,
 				this.current.activity.id,
-				null
+					{
+						start: true
+					}
 			);
 		}
 	}

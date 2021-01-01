@@ -11,7 +11,7 @@ const sessionDuration = {
 
 router.use( setupSession() );
 
-router.get( "/",
+router.use(
 	handlePlayerSession,
 	initPlayerSession // init only if needed
 	// here any handler for player

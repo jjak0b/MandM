@@ -8,7 +8,13 @@ export const template = `
     ></h3>
     <p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
     ></p>
-
+<b-form-group  v-if="condition">
+		            <b-form-input
+                    type="number"
+                    v-model.number="condition.rewardPoints"
+                    >
+                    </b-form-input>
+		    </b-form-group>
     <condition-parameter v-if="condition && condition.function"
 	    :key="condition.function + '_0'"
 	    v-bind:value="selfParameter"

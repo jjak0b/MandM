@@ -15,9 +15,9 @@ export const component = {
 		valueAcceptTypes: Array,
 		variableOptions: Array
 	},
-	data() {
-		return {
-		statusPoints:false
+	data(){
+		return{
+
 		}
 	},
 	watch: {

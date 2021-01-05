@@ -28,9 +28,14 @@ export const template =
 			<b-card-body
 				:style="{background: messageBackgroundColorProp}"
 			>
+
+			<div
+				ref="chatScrollbar"
+				class="scrollable-chat-area"
+			>
 				<div
-					ref="chatArea"
-					class="scrollable-chat-area"
+					ref="chatContent"
+					class="position-absolute w-100"
 				>
 				<b-card
 					v-for="message in messageListProp"
@@ -51,6 +56,7 @@ export const template =
 					<b-card-text>{{ message.body }}</b-card-text>
 				</b-card>
 				</div>
+			</div>
 				<!--
 				<p
 					v-for="message in messageListProp"

@@ -53,8 +53,8 @@ export const component = {
 			this.$emit('onToggleOpen', this.isOpen)
 		},
 		messageScroll() {
-			let messageDisplay = this.$refs.chatArea
-			messageDisplay.scrollTop = messageDisplay.scrollHeight
+			let scrollbar = this.$refs.chatScrollbar;
+			scrollbar.scrollTop = scrollbar.scrollHeight;
 		}
 	},
 	mounted() {

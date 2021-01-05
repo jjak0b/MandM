@@ -3,9 +3,9 @@ export const template =
 <div class="h-100">
 <b-tabs
 	pills card end
-	nav-wrapper-class="fixed-bottom"
-	content-class="h-100"
-	class="h-100"
+	nav-wrapper-class="sticky-bottom"
+	content-class="flex-grow-1"
+	class="h-100 d-flex flex-column"
 >
 	<b-tab title="Main" active
 		class="h-100"

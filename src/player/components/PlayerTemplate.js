@@ -1,12 +1,16 @@
 export const template =
 `
-<div>
+<div class="h-100">
 <b-tabs
 	pills card end
 	nav-wrapper-class="fixed-bottom"
+	content-class="h-100"
+	class="h-100"
 >
-	<b-tab title="Main" active>
-		<main>
+	<b-tab title="Main" active
+		class="h-100"
+	>
+		<main class="h-100">
 			<div
 				v-if="isLoading"
 				id="loading-container"
@@ -42,14 +46,18 @@ export const template =
 			</player-viewport>
 		</main>
 	</b-tab>
-	<b-tab title="Missions">
-		<main>
+	<b-tab title="Missions"
+		class="h-100"
+	>
+		<main class="h-100">
 			<h4>Missions</h4>
 		</main>
 
 	</b-tab>
-	<b-tab title="Chat">
-		<main style="margin: 0 auto">
+	<b-tab title="Chat"
+		class="h-100"
+	>
+		<main style="margin: 0 auto" class="h-100">
 			<h4>Chat</h4>
 			<chat-widget>
 			</chat-widget>

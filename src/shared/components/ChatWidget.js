@@ -1,8 +1,12 @@
 import {template} from "./ChatTemplate.js";
+import {component as listWidgetComponent } from "./ListWidget.js";
 
 export const component = {
 	template: template,
 	inheritAttrs: false,
+	components: {
+		listWidget: listWidgetComponent
+	},
 	props: {
 		iconColorProp: {
 			type: String,
@@ -42,7 +46,11 @@ export const component = {
 			if (!this.youMessage) {
 				return
 			}
-			this.$emit('onMessageWasSent', { body: this.youMessage, author: this.mySelf.id })
+			this.$emit('onMessageWasSent', {
+				body: this.youMessage,
+				author: this.mySelf.id,
+				timestamp: new Date().toISOString()
+			})
 			this.youMessage = ''
 			this.$nextTick(() => {
 				this.messageScroll()

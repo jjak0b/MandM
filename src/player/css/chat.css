@@ -50,11 +50,8 @@ chat-container > * {
     color: black;
     margin-left: 5%;
 }
-.chat-inputs {
-    display: flex;
-    justify-content: space-between;
-}
-.chat-input input {
+
+.chat-input {
     border: none;
     font-size: .8em;
     outline: none;

@@ -32,30 +32,46 @@ export const template =
 			<div
 				ref="chatScrollbar"
 				class="scrollable-chat-area"
+				role="log"
 			>
-				<div
+				<list-widget
+					v-bind:id="$attrs.id + '-' + 'chat-widget'"
 					ref="chatContent"
 					class="position-absolute w-100"
+					:list="messageListProp"
+					:tag="'div'"
+					:tag-item="'div'"
+					:role-list="'mark'"
+					:role-item="'comment'"
+					readonly
+				>
+				<template
+					v-slot:item="{item: message}"
 				>
 				<b-card
-					v-for="message in messageListProp"
 					:key="message.body"
 					class="message"
 					:style="[message.author === mySelf.id ? {background: messageOutColorProp} : {background: messageInColorProp}]"
 					:class="message.author === mySelf.id ? mineMessagesClass : othersMessagesClass"
-				
-					:header="getAuthorName( message.author )"
-					header-text-variant="white"
-					header-tag="header"
-					header-bg-variant="dark"
-					footer="Card Footer"
-					footer-tag="footer"
-					footer-bg-variant="success"
-					footer-border-variant="dark"
+					:sub-title="getAuthorName( message.author )"
 				>
-					<b-card-text>{{ message.body }}</b-card-text>
+					<b-card-text>
+						<pre v-text="message.body">
+						</pre>
+					</b-card-text>
+					<b-card-footer
+						tag="div"
+						class="w-auto"
+					>
+						<time
+							class="float-right"
+							v-bind:datetime="message.timestamp"
+							dir="auto"
+						>{{ new Date( message.timestamp ).toLocaleTimeString() }}</time></p>
+					</b-card-footer>
 				</b-card>
-				</div>
+				</template>
+				</list-widget>
 			</div>
 				<!--
 				<p
@@ -69,19 +85,18 @@ export const template =
 				</p>
 				-->
 			</b-card-body>
-			<b-card-footer
-				class="chat-input">
+			<b-card-footer>
 				<b-form
 					@submit.prevent="handleOutboundMessage()"
 					class="chat-form"
 					autocomplete="off"
 				>
-					<b-input-group>
+					<b-input-group class="justify-content-between">
 						<b-form-input
-							v-model="youMessage"
-							type="text"
+							required
 							placeholder="Type your message"
-							autofocus
+							v-model.trim="youMessage"
+							class="chat-input"
 						></b-form-input>
 						<b-input-group-append>
 							<b-btn pill type="submit" variant="secondary">Submit

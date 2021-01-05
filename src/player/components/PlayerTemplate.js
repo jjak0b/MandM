@@ -57,8 +57,7 @@ export const template =
 	<b-tab title="Chat"
 		class="h-100"
 	>
-		<main style="margin: 0 auto" class="h-100">
-			<h4>Chat</h4>
+		<main class="h-100">
 			<chat-widget>
 			</chat-widget>
 		</main>

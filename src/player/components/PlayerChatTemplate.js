@@ -6,7 +6,7 @@ export const template =
 	v-bind:participants="participants"
 	v-bind:my-self="mySelf"
 	:initOpenProp="true"
-	class="h-75"
+	class="h-100"
 >
 </chat-widget>
 `;

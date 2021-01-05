@@ -4,12 +4,20 @@ import {KeyboardUtils} from "../js/KeyboardUtils.js";
 export const component = {
 	template: template,
 	props: {
-		"list": Object,
-		"tag": {
+		readonly: {
+			type: Boolean,
+			default: false
+		},
+		list: Object,
+		tag: {
 			type: String,
 			default: "ul"
 		},
-		"value": Object, // keys of item list that is selected
+		tagItem: {
+			type: String,
+			default: "li"
+		},
+		value: Object, // keys of item list that is selected
 		roleList: {
 			type: String,
 			default: "listbox"
@@ -17,6 +25,32 @@ export const component = {
 		roleItem: {
 			type: String,
 			default: "option"
+		},
+		classItem: {
+			type: Array,
+			default: () => [
+				"list-group-item",
+				"list-group-item-action"
+			]
+		},
+		classItemActive: {
+			type: Array,
+			default: () => [
+				'active'
+			]
+		},
+		classItemSelected: {
+			type: Array,
+			default: () => [
+				'list-group-item-success'
+			]
+		},
+		classList: {
+			type: Array,
+			default: () => [
+				"overflow-auto",
+				"list-group"
+			]
 		}
 	},
 	data() {
@@ -82,6 +116,22 @@ export const component = {
 		this.minItemHeight = maxHeight;
 	},
 	methods: {
+		getItemClasses( keyItem ) {
+			let classes = [];
+
+			if( this.classItem ) {
+				classes = classes.concat(this.classItem);
+			}
+
+			if( keyItem === this.activedescendantKey ) {
+				classes = classes.concat( this.classItemActive );
+			}
+			else if( keyItem === this.selectedKeyIndex ){
+				classes = classes.concat( this.classItemSelected );
+			}
+
+			return classes;
+		},
 		getFirstKey() {
 			if( !this.list ) return null;
 
@@ -162,6 +212,8 @@ export const component = {
 		},
 		setSelected( keyIndex ) {
 			this.select( keyIndex );
+			if( this.readonly ) return;
+
 			if( this.selectedKeyIndex != keyIndex ) {
 				this.selectedKeyIndex = keyIndex;
 				if( this.list && this.list[ keyIndex ] ) {

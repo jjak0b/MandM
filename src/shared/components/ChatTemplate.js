@@ -10,11 +10,12 @@ export const template =
 	</div>
 -->
 	<div
-		class="_chat-container"
+		class="h-100"
 		:class="(isOpen ? 'show' : 'hide')"
 	>
 		<b-card
-			class="chat-window"
+			class="h-100 chat-window"
+			body-class="d-flex flex-column"
 		>
 		<!--
 			<div
@@ -24,13 +25,13 @@ export const template =
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><g fill="none" stroke="#ffffff" stroke-width="10" stroke-miterlimit="10" stroke-linecap="round"><path d="M10 10l45 45M10 55l45-45"/></g></svg>
 			</div>-->
-			<b-card-header
-			></b-card-header>
 			<b-card-body
-				ref="chatArea"
-				class="w-100 scrollable-chat-area"
 				:style="{background: messageBackgroundColorProp}"
 			>
+				<div
+					ref="chatArea"
+					class="scrollable-chat-area"
+				>
 				<b-card
 					v-for="message in messageListProp"
 					:key="message.body"
@@ -49,6 +50,7 @@ export const template =
 				>
 					<b-card-text>{{ message.body }}</b-card-text>
 				</b-card>
+				</div>
 				<!--
 				<p
 					v-for="message in messageListProp"
@@ -66,6 +68,7 @@ export const template =
 				<b-form
 					@submit.prevent="handleOutboundMessage()"
 					class="chat-form"
+					autocomplete="off"
 				>
 					<b-input-group>
 						<b-form-input

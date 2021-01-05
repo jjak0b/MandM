@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 /* Dedicate a router to each top-level base path. */
+app.use('/evaluator', require('./backend/routes/evaluator'));
 app.use('/player', require('./backend/routes/player'));
 app.use('/editor', require('./backend/routes/editor'));
 app.use('/scan', require('./backend/routes/qr-scanner'));

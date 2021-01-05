@@ -1,0 +1,7 @@
+{
+  "Evaluator": {
+	"label-start-time": "Start time",
+	"label-end-time": "End time",
+	"label-input": "Input value"
+  }
+}

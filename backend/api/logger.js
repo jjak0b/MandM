@@ -1,12 +1,14 @@
 const express = require('express');
 const path = require('path');
+const util = require('util')
+
 const router = express.Router();
 
 
-router.get( "/", API_LOGGER );
-router.post("/", ACTIVITY_LOGGER);
+router.post("/", PUT_SESSION);
+router.get("/", GET_SESSION);
 
-function ACTIVITY_LOGGER( req, res, next ) {
+function PUT_SESSION( req, res, next ) {
 	let log = req.body.slice(-1)[0];
 	if (log && req.query.story) {
 		let story = req.query.story;
@@ -45,16 +47,16 @@ function ACTIVITY_LOGGER( req, res, next ) {
 	}
 }
 
-function API_LOGGER( req, res, next ) {
-	if (req.session.views) {
-		req.session.views++
-		res.setHeader('Content-Type', 'text/html')
-		res.write('<p>views: ' + req.session.views + '</p>')
-		res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-		res.end()
-	} else {
-		req.session.views = 1
-		res.end('welcome to the session demo. refresh!')
-	}
+function GET_SESSION( req, res, next ) {
+	req.sessionStore.all( (err, sessions) => {
+		let players = {};
+		for (const session in sessions) {
+			if ('stories' in sessions[session]) {
+				players[session] = sessions[session].stories;
+			}
+		}
+		res.json(players);
+	})
 }
+
 module.exports = router;

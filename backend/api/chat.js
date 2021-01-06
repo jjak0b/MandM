@@ -8,6 +8,8 @@ const router = express.Router();
 const StatusCodes = require("http-status-codes").StatusCodes;
 
 router.use( initChat );
+
+router.get( '/', API_GET_chatID );
 // list of messages of a receiver
 router.get('/messages/', API_GET_messages );
 router.get('/:receiverID/messages/', API_GET_messages );
@@ -17,7 +19,7 @@ router.put('/:receiverID/messages/', API_addMessage );
 
 router.get( '/contacts/', API_GET_contacts );
 router.get( '/:receiverID/contacts/', API_GET_contacts );
-router.post( '/contacts/', API_POST_addContacts );
+router.post( '/contacts/', API_addContacts );
 router.post( '/:receiverID/contacts/', API_addContacts );
 
 function initChat(req, res, next) {
@@ -38,6 +40,10 @@ function initChatOnSession( session ) {
 			contacts: []
 		};
 	}
+}
+
+function API_GET_chatID(req, res) {
+	res.json( [ req.session.id ] );
 }
 
 function API_GET_contacts( req, res ) {
@@ -64,7 +70,7 @@ function API_GET_contacts( req, res ) {
 
 function registerContacts( chat, newContacts ) {
 	for (const newContact of newContacts) {
-		let alreadyRegistered = chat.filter( contact => contact.id === newContact.id );
+		let alreadyRegistered = chat.contacts.filter( contact => contact.id === newContact.id );
 		if( alreadyRegistered.length > 0 ) {
 			alreadyRegistered.name = newContact.name;
 		}
@@ -133,13 +139,13 @@ function API_GET_messages( req, res ) {
 				res.sendStatus( StatusCodes.NOT_FOUND );
 			}
 			else {
-				res.json( session.chat || [] );
+				res.json( session.chat.messages || [] );
 			}
 		});
 	}
 	// otherwise get self messages
 	else {
-		res.json( selfChat );
+		res.json( selfChat.messages );
 	}
 }
 
@@ -152,8 +158,8 @@ function API_addMessage( req, res ) {
 	let selfChat = req.session.chat;
 
 	let loggedMessage = {
-		sender: selfID,
-		content: message.content,
+		author: selfID,
+		body: message.body,
 		type: message.type,
 		timestamp: message.timestamp
 	};
@@ -183,7 +189,7 @@ function API_addMessage( req, res ) {
 	}
 	// otherwise add it to self messages
 	else {
-		selfChat.push( loggedMessage );
+		selfChat.messages.push( loggedMessage );
 		res.sendStatus( StatusCodes.CREATED );
 	}
 }

@@ -87,5 +87,14 @@
 	},
 	"UserWidgets": {
 
+	},
+	"ChatWidget": {
+		"status": {
+			"label-sending-message": "Sending",
+			"label-message-sent": "Sent",
+			"label-unable-to-send-message": "Sending failed"
+		},
+		"label-myself": "You",
+		"label-type-your-message": "Type your message"
 	}
 }

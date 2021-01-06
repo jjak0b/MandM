@@ -26,12 +26,18 @@
 		<script src="//unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue-icons.min.js"></script>
 		<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 		<script src="/libs/datalist-polyfill/datalist-polyfill.min.js"></script>
+		<script type="application/javascript">
+			let elNoScripts = document.getElementsByTagName( "noscript");
+			for (const tag of elNoScripts) {
+				tag.remove();
+			}
+		</script>
 		<script type="module" src="./js/init.js"></script>
 	</head>
 	<body class="h-100">
 		<div id="main">
 			<player></player>
-			<noscript>
+			<noscript id="noscript">
 				<strong>We're sorry but this site doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
 			</noscript>
 		</div>

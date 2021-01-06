@@ -5,14 +5,14 @@ import {CacheSystem} from "../../shared/js/CacheSystem.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./PlayerTemplate.js";
 import {component as playerViewport} from "./PlayerViewport.js";
-import {component as chatWidget} from "./PlayerChatWidget.js";
+import {component as playerChatWidget} from "./PlayerChatWidget.js";
 
 export const component = {
 	el: '#main',
 	template: template,
 	i18n: i18n,
 	components: {
-		chatWidget,
+		playerChatWidget,
 		playerViewport
 	},
 	data() {
@@ -39,7 +39,7 @@ export const component = {
 			this.player.init(),
 			I18nUtils.fetchLocales( "/shared/", [ i18n.locale, i18n.fallbackLocale ] ),
 			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
-			I18nUtils.fetchLocales( this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] )
+			I18nUtils.fetchLocales( this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] ),
 		];
 		this.loadingProgress = 0;
 		let updateProgress = (percentage) => {
@@ -123,20 +123,20 @@ export const component = {
 						head.appendChild(styleElement);
 					}
 				}
-
-				return new Promise( (resolve) => {
-					setTimeout( () => this.$nextTick( () => {
-						this.isLoading = false;
-						console.log( "[PlayerVM]", "story assets download complete" );
-						// just let finish the loading animation
-						resolve();
-					}),1000 );
-				})
+				return Promise.resolve();
 			})
+			.then( () => new Promise( (resolve) => {
+				setTimeout( () => this.$nextTick( () => {
+					this.isLoading = false;
+					console.log( "[PlayerVM]", "story assets download complete" );
+					// just let finish the loading animation
+					resolve();
+				}),1000 );
+			}))
 	},
 	mounted() {
 		this.readyPromise
-			.then( ()=> {
+			.then( () => {
 				this.start();
 			})
 	},

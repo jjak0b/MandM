@@ -49,25 +49,57 @@ export const template =
 					v-slot:item="{item: message}"
 				>
 				<b-card
+					aria-atomic="true"
 					:key="message.body"
 					class="message"
 					:style="[message.author === mySelf.id ? {background: messageOutColorProp} : {background: messageInColorProp}]"
 					:class="message.author === mySelf.id ? mineMessagesClass : othersMessagesClass"
 					:sub-title="getAuthorName( message.author )"
 				>
-					<b-card-text>
-						<pre v-text="message.body">
-						</pre>
-					</b-card-text>
+					<b-card-body>
+						<b-card-text v-if="message.type === 'text'">
+							<span v-text="message.body"></span>
+						</b-card-text>
+					</b-card-body>
 					<b-card-footer
 						tag="div"
 						class="w-auto"
 					>
-						<time
-							class="float-right"
-							v-bind:datetime="message.timestamp"
-							dir="auto"
-						>{{ new Date( message.timestamp ).toLocaleTimeString() }}</time></p>
+						<span class="float-right">
+							<span class="text-info">
+								<slot name="status-pending" v-if="message.status === 'pending'" >
+									<b-spinner 
+										type="border"
+										small
+										v-bind:label="statusLabels[ message.status ]"
+									></b-spinner>
+								</slot>
+								<slot name="status-rejected" v-else-if="message.status === 'rejected'"
+									role="status"
+									aria-live="polite"
+								>
+									{{ statusLabels[ message.status ] }}
+									<b-icon 
+										icon="exclamation-triangle" variant="danger"
+									></b-icon>
+								</slot>
+								<slot name="status-sent" v-else
+									role="status"
+									aria-live="polite"
+								>
+									{{ statusLabels.sent }}
+									<b-icon
+										icon="check-square" variant="success"
+									></b-icon>
+								</slot>
+							</span>
+							<span>
+							<time
+								v-bind:datetime="message.timestamp"
+								dir="auto"
+							>{{ new Date( message.timestamp ).toLocaleTimeString() }}</time>
+							</span>
+						</span>
 					</b-card-footer>
 				</b-card>
 				</template>
@@ -94,7 +126,7 @@ export const template =
 					<b-input-group class="justify-content-between">
 						<b-form-input
 							required
-							placeholder="Type your message"
+							v-bind:placeholder="placeholder"
 							v-model.trim="youMessage"
 							class="chat-input"
 						></b-form-input>

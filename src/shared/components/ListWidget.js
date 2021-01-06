@@ -8,7 +8,7 @@ export const component = {
 			type: Boolean,
 			default: false
 		},
-		list: Object,
+		list: [Object, Array],
 		tag: {
 			type: String,
 			default: "ul"

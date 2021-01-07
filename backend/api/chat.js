@@ -268,6 +268,7 @@ function API_POST_status(req, res) {
 	}
 	else {
 		mergeStatus( selfChat.status, status );
+		
 		res.sendStatus( StatusCodes.OK );
 	}
 }

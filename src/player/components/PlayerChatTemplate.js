@@ -20,6 +20,7 @@ export const template =
 					<b-btn
 						v-t="'Player.label-i-need-help'"
 						variant="danger"
+						size="lg"
 						v-bind:pressed.sync="isHelpRequested"
 					>
 					</b-btn>
@@ -33,6 +34,7 @@ export const template =
 						aria-live="polite"
 						variant="black"
 						type="grow"
+						style="width: 2rem"
 					></b-spinner>
 					<i
 						id="player-chat-help-btn-label-waiting"

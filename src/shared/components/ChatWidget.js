@@ -53,14 +53,12 @@ export const component = {
 		"messageListProp": function (newMessages) {
 
 			let otherMessages = this.otherMessages;
-			if( otherMessages.length > this.lastOtherMessagesCount ) {
+			if( otherMessages.length != this.lastOtherMessagesCount ) {
 				let newMessages = otherMessages.slice( this.lastOtherMessagesCount, otherMessages.length );
 				this.$emit( 'onMessagesReceived', newMessages );
 				this.messageScroll();
 			}
-			else {
-				this.$emit( 'onMessagesReceived', otherMessages );
-			}
+
 			this.lastOtherMessagesCount = otherMessages.length;
 		}
 	},
@@ -81,7 +79,7 @@ export const component = {
 			}
 			else {
 				let users = this.participants.filter( user => user.id === id );
-				return users[ 0 ].name;
+				return users.length > 0 ? users[ 0 ].name : "";
 			}
 		},
 		handleOutboundMessage() {

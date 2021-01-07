@@ -27,26 +27,26 @@ export const component = {
 			default: "option"
 		},
 		classItem: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				"list-group-item",
 				"list-group-item-action"
 			]
 		},
 		classItemActive: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				'active'
 			]
 		},
 		classItemSelected: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				'list-group-item-success'
 			]
 		},
 		classList: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				"overflow-auto",
 				"list-group"

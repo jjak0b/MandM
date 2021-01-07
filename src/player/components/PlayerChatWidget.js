@@ -6,6 +6,12 @@ export const component = {
 	components: {
 		chatWidget
 	},
+	props: {
+		enableNotifications: {
+			type: Boolean,
+			default: false
+		}
+	},
 	data() {
 		return {
 			messages: [
@@ -172,6 +178,8 @@ export const component = {
 				})
 		},
 		showMessagesNotification(messages) {
+			if( !this.enableNotifications ) return;
+
 			const h = this.$createElement;
 			for (const message of messages) {
 				// Create the message
@@ -221,6 +229,7 @@ export const component = {
 						noAutoHide: true,
 						isStatus: true,
 						variant: "info",
+						visible: this.enableNotifications
 					}
 				)
 			}

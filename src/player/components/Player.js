@@ -26,7 +26,8 @@ export const component = {
 			 * @type Promise
 			 */
 			readyPromise: null,
-			locale: i18n.locale
+			locale: i18n.locale,
+			selectedPage: 0
 		}
 	},
 	created() {

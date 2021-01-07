@@ -7,6 +7,7 @@ export const template =
 	nav-wrapper-class="sticky-bottom"
 	content-class="flex-grow-1"
 	class="h-100 d-flex flex-column"
+	v-model="selectedPage"
 >
 	<b-tab title="Main" active
 		class="h-100"
@@ -31,8 +32,10 @@ export const template =
 		class="h-100"
 	>
 		<main class="h-100">
-			<player-chat-widget ref="chat">
-			</player-chat-widget>
+			<player-chat-widget
+				ref="chat"
+				v-bind:enable-notifications="selectedPage !== 2"
+			></player-chat-widget>
 		</main>
 	</b-tab>
 </b-tabs>

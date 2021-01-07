@@ -3,7 +3,6 @@ import {component as listWidgetComponent } from "./ListWidget.js";
 
 export const component = {
 	template: template,
-	inheritAttrs: false,
 	components: {
 		listWidget: listWidgetComponent
 	},

@@ -14,29 +14,48 @@ export const template =
 			<div
 				class="mx-auto"
 			>
-				
-				<b-btn
-					v-t="'Player.label-i-need-help'"
-					variant="danger"
-					v-bind:pressed.sync="isHelpRequested"
+				<div
+					class="mb-2"
 				>
-				</b-btn>
-				<b-spinner
+					<b-btn
+						v-t="'Player.label-i-need-help'"
+						variant="danger"
+						v-bind:pressed.sync="isHelpRequested"
+					>
+					</b-btn>
+				</div>
+				<div
 					v-if="isHelpRequested"
-					aria-live="polite"
-					v-bind:label="$t('Player.label-waiting')"
-					variant="black"
-					type="grow"
-				></b-spinner>
+					class="mb-2"
+				>
+					<b-spinner
+						aria-labelledby="player-chat-help-btn-label-waiting"
+						aria-live="polite"
+						variant="black"
+						type="grow"
+					></b-spinner>
+					<i
+						id="player-chat-help-btn-label-waiting"
+						v-t="'Player.label-waiting'"
+					></i>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div
 		v-else
-		class="h-100"
+		class="h-100 d-flex flex-column"
 	>
+		<h4
+			class="text-center"
+			id="player-chat-description"
+		>{{ $t('Player.label-chat-and-ask-help') }}</h4>
 		<chat-widget
 			ref="chat"
+			id="player-chat"
+			aria-describedby="player-chat-description"
+			tabindex="0"
+			:list-label="$t('Player.label-list-messages')"
 			v-on:onMessageWasSent="sendMessage"
 			v-on:onMessagesReceived="showMessagesNotification"
 			v-bind:messageListProp="messages"
@@ -59,7 +78,7 @@ export const template =
 			:class-message-header="[ 'message-header', 'mb-2', 'p-0' ]"
 			:class-message-body="[ 'message-body', 'mb-2', 'p-0' ]"
 			:class-message-footer="[ 'message-footer', 'text-info', 'mb-2', 'p-0' ]"
-			class="h-100"
+			class="h-100 flex-grow-1"
 		>
 		</chat-widget>
 	</div>

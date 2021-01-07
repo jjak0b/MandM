@@ -3,7 +3,6 @@ import {component as listWidgetComponent } from "./ListWidget.js";
 
 export const component = {
 	template: template,
-	inheritAttrs: false,
 	components: {
 		listWidget: listWidgetComponent
 	},
@@ -11,18 +10,6 @@ export const component = {
 		iconColorProp: {
 			type: String,
 			default: '#e6e6e6'
-		},
-		messageBackgroundColorProp: {
-			type: String,
-			default: '#ffffff'
-		},
-		messageOutColorProp: {
-			type: String,
-			default: '#3d7e9a'
-		},
-		messageInColorProp: {
-			type: String,
-			default: '#f1f0f0'
 		},
 		statusLabels: {
 			type: Object,
@@ -34,6 +21,18 @@ export const component = {
 				}
 			}
 		},
+		classChatContainer: [Array, String],
+		classMessageList: [Array, String],
+		classMessageListItem: [Array, String],
+		classMessageListItemSelected: [Array, String],
+		classMessage: [Array, String],
+		classMessageIn: [Array, String],
+		classMessageOut: [Array, String],
+		classMessageHeader: [Array, String],
+		classMessageBody: [Array, String],
+		classMessageFooter: [Array, String],
+
+		listLabel: String,
 		placeholder: String,
 		mySelf: Object,
 		participants: Array,
@@ -51,16 +50,14 @@ export const component = {
 	},
 	watch: {
 		"messageListProp": function (newMessages) {
-			this.messageScroll();
 
 			let otherMessages = this.otherMessages;
-			if( otherMessages.length >= this.lastOtherMessagesCount ) {
+			if( otherMessages.length != this.lastOtherMessagesCount ) {
 				let newMessages = otherMessages.slice( this.lastOtherMessagesCount, otherMessages.length );
 				this.$emit( 'onMessagesReceived', newMessages );
+				this.messageScroll();
 			}
-			else {
-				this.$emit( 'onMessagesReceived', otherMessages );
-			}
+
 			this.lastOtherMessagesCount = otherMessages.length;
 		}
 	},
@@ -70,13 +67,18 @@ export const component = {
 		}
 	},
 	methods: {
+		getMessageClass( message ) {
+			let classes = new Array( this.classMessage );
+			let specificClass = message.author === this.mySelf.id ? this.classMessageOut : this.classMessageIn;
+			return classes.concat( specificClass );
+		},
 		getAuthorName( id ) {
 			if( id === this.mySelf.id ) {
 				return this.mySelf.name;
 			}
 			else {
 				let users = this.participants.filter( user => user.id === id );
-				return users[ 0 ].name;
+				return users.length > 0 ? users[ 0 ].name : "";
 			}
 		},
 		handleOutboundMessage() {
@@ -99,7 +101,7 @@ export const component = {
 			this.$emit('onToggleOpen', this.isOpen)
 		},
 		messageScroll() {
-			let scrollbar = this.$refs.chatScrollbar;
+			let scrollbar = this.$refs.chatScrollbar.$el;
 			scrollbar.scrollTop = scrollbar.scrollHeight;
 		}
 	},

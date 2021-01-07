@@ -10,6 +10,10 @@
 	},
 	"Player" : {
 		"label-loading-resources": "Caricamento delle risorse",
+		"label-do-you-need-help" : "Ti serve aiuto ?",
+		"label-i-need-help" : "Si, mi serve aiuto",
+		"label-waiting": "Attendi ...",
+		"label-chat-and-ask-help": "Chatta e chiedi aiuto",
 		"errors": {
 			"label-generic": "Errore",
 			"label-unable-to-load-resources": "Ops, non possiamo caricare le risorse necessarie, ricarica l'applicazine per piacere"

@@ -14,8 +14,9 @@ export const template =
 		:class="(isOpen ? 'show' : 'hide')"
 	>
 		<b-card
-			class="h-100 chat-window"
+			class="h-100"
 			body-class="d-flex flex-column"
+			:class="classChatContainer"
 		>
 		<!--
 			<div
@@ -25,18 +26,14 @@ export const template =
 			>
 				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><g fill="none" stroke="#ffffff" stroke-width="10" stroke-miterlimit="10" stroke-linecap="round"><path d="M10 10l45 45M10 55l45-45"/></g></svg>
 			</div>-->
-			<b-card-body
-				:style="{background: messageBackgroundColorProp}"
-			>
 
 			<div
-				ref="chatScrollbar"
-				class="scrollable-chat-area"
+				class="position-relative h-100"
 				role="log"
 			>
 				<list-widget
+					ref="chatScrollbar"
 					v-bind:id="$attrs.id + '-' + 'chat-widget'"
-					ref="chatContent"
 					class="position-absolute w-100"
 					:list="messageListProp"
 					:tag="'div'"
@@ -44,6 +41,10 @@ export const template =
 					:role-list="'mark'"
 					:role-item="'comment'"
 					readonly
+					:class-list="classMessageList"
+					:class-item="classMessageListItem"
+					:class-item-active="classMessageListItemSelected"
+					:aria-label="listLabel"
 				>
 				<template
 					v-slot:item="{item: message}"
@@ -51,22 +52,31 @@ export const template =
 				<b-card
 					aria-atomic="true"
 					:key="message.body"
-					class="message"
-					:style="[message.author === mySelf.id ? {background: messageOutColorProp} : {background: messageInColorProp}]"
-					:class="message.author === mySelf.id ? mineMessagesClass : othersMessagesClass"
-					:sub-title="getAuthorName( message.author )"
+					:class="getMessageClass( message )"
+					no-body
 				>
-					<b-card-body>
+					<b-card-header
+						:class="classMessageHeader"
+					>
+						<b-card-sub-title
+							sub-title-tag="h4"
+							:sub-title-text-variant="null"
+						>{{ getAuthorName( message.author ) }}</b-card-sub-title>
+					</b-card-header>
+					<b-card-body
+						:class="classMessageBody"
+					>
 						<b-card-text v-if="message.type === 'text'">
 							<span v-text="message.body"></span>
 						</b-card-text>
 					</b-card-body>
 					<b-card-footer
-						tag="div"
-						class="w-auto"
+						footer-tag="div"
+						class="clearfix"
+						:class="classMessageFooter"
 					>
 						<span class="float-right">
-							<span class="text-info">
+							<span>
 								<slot name="status-pending" v-if="message.status === 'pending'" >
 									<b-spinner 
 										type="border"
@@ -116,7 +126,6 @@ export const template =
 				  {{ message.body }}
 				</p>
 				-->
-			</b-card-body>
 			<b-card-footer>
 				<b-form
 					@submit.prevent="handleOutboundMessage()"

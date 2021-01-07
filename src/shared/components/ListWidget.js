@@ -27,26 +27,26 @@ export const component = {
 			default: "option"
 		},
 		classItem: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				"list-group-item",
 				"list-group-item-action"
 			]
 		},
 		classItemActive: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				'active'
 			]
 		},
 		classItemSelected: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				'list-group-item-success'
 			]
 		},
 		classList: {
-			type: Array,
+			type: [Array,String],
 			default: () => [
 				"overflow-auto",
 				"list-group"
@@ -70,8 +70,17 @@ export const component = {
 			return null;
 		},
 		getStyle: function () {
-			if( !this.list || !this.minItemHeight ) return null;
-			return `min-height: ${this.minItemHeight}px`;
+			let style = {
+				"overflow-y": "scroll",
+				"height": "100%"
+			};
+
+			if( this.minItemHeight ) {
+				style = Object.assign( style, {
+					"min-height": this.minItemHeight + "px",
+				});
+			}
+			return style;
 		}
 	},
 	watch: {

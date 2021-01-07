@@ -19,19 +19,37 @@ export const component = {
 				name: this.$t( "ChatWidget.label-myself" )
 			},
 			fetchTimeout: 5 * 1000,
+			isHelpRequested: false,
+			shouldPreventHelpRequest: false,
+			isChatEnabled: false,
 		}
 	},
 	computed: {
 		placeholder() { return this.$t('ChatWidget.label-type-your-message'); }
 	},
 	created() {
-		this.initChat()
-			.catch( (error) => {
-				console.error( "[Chat]", "Unable to init chat", "cause:", error );
-			})
+		function tryWhileFailing(timeout) {
+			this.initChat()
+				.catch( (error) => {
+					console.error( "[Chat]", "Unable to init chat, retry later", "cause:", error );
+					setTimeout(
+						tryWhileFailing.bind( this ),
+						timeout,
+						timeout
+					);
+				})
+		}
+		const start = tryWhileFailing.bind( this );
+		start( 2 * 1000 );
+
+	},
+	watch: {
+		isHelpRequested( needHelp ) {
+			// allow to change the help request only if user requested it
+			this.requestHelp( needHelp );
+		}
 	},
 	mounted() {
-
 		function fetchAndWaitLoop(timeout) {
 			this.fetchAll()
 				.finally( () => {
@@ -73,6 +91,16 @@ export const component = {
 				})
 
 		},
+		requestHelp( needHelp ) {
+			if( this.shouldPreventHelpRequest ) return;
+			$.ajax("/player/chat/status", {
+				method: "post",
+				contentType: 'application/json',
+				data: JSON.stringify( {
+					invite: !!needHelp
+				})
+			});
+		},
 		sendMessage(message) {
 			let request = $.ajax( "/player/chat/messages/", {
 				method: "put",
@@ -92,30 +120,57 @@ export const component = {
 		},
 		fetchAll() {
 
-			let requestContacts = $.get( `/player/chat/contacts/` );
-			let requestMessages = $.get( `/player/chat/messages/` );
+			let requestChatStatus = Promise.resolve( $.get( "/player/chat/status" ) );
+			let status;
+			return requestChatStatus
+				.then( (response) => {
+					status = response;
+					if( status.online ) {
+						let requestContacts = Promise.resolve( $.get( `/player/chat/contacts/` ) );
+						let requestMessages = Promise.resolve( $.get( `/player/chat/messages/` ) );
 
-			return Promise.all( [requestContacts, requestMessages] )
-				.then( (responses) => {
-					let participants = responses[ 0 ];
-					let messages = responses[ 1 ];
-					let newMessages = [];
+						return Promise.all([requestContacts, requestMessages])
+							.then((responses) => {
+								let participants = responses[0];
+								let messages = responses[1];
+								let newMessages = [];
 
-					for (const message of messages) {
+								for (const message of messages) {
 
-						if( message.type === "text" ) {
-							newMessages.push( message );
-						}
+									if (message.type === "text") {
+										newMessages.push(message);
+									}
+								}
+
+								this.messages = newMessages;
+								this.participants = participants;
+							})
+							.catch((error) => {
+								console.error("[Chat]", "Unable to fetch contacts and messages, cause:", error);
+							});
 					}
-
-					this.messages = newMessages;
-					this.participants = participants;
+					else {
+						return Promise.resolve();
+					}
 				})
-				.catch( (error) => {
-					console.error( "[Chat]", "Unable to fetch contacts and messages, cause:", error );
-				});
-		},
+				.catch((error) => {
+					console.error("[Chat]", "Unable to fetch chat state, cause:", error);
+				})
+				.finally( () => {
+					if( status ) {
+						this.isChatEnabled = !!status.online;
 
+						// use as mutex to prevent the requesting of help when "isHelpRequested" change
+						this.shouldPreventHelpRequest = true;
+
+						this.isHelpRequested = !!status.invite;
+
+						this.$nextTick( () => {
+							this.shouldPreventHelpRequest = false;
+						})
+					}
+				})
+		},
 		showMessagesNotification(messages) {
 			const h = this.$createElement;
 			for (const message of messages) {

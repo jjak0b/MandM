@@ -10,6 +10,10 @@
 	},
 	"Player" : {
 		"label-loading-resources": "Loading resources",
+		"label-do-you-need-help" : "Do you need help ?",
+		"label-i-need-help" : "Yes, i need help !",
+		"label-waiting": "Waiting ...",
+		"label-chat-and-ask-help": "Chat and ask help",
 		"errors": {
 			"label-generic": "Error",
 			"label-unable-to-load-resources": "Ops, we can't load resources, please refresh the app"

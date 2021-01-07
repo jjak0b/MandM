@@ -14,6 +14,16 @@ export const template =
 		sent: $t('ChatWidget.status.label-message-sent' ),
 		rejected: $t( 'ChatWidget.status.label-unable-to-send-message' )
 	}"
+	class-chat-container="chat-container"
+	class-message-list="chat-list"
+	:class-message-list-item="[]"
+	class-message-list-item-selected="bg-info"
+	class-message="message"
+	class-message-in="message-in"
+	class-message-out="message-out"
+	:class-message-header="[ 'message-header', 'mb-2', 'p-0' ]"
+	:class-message-body="[ 'message-body', 'mb-2', 'p-0' ]"
+	:class-message-footer="[ 'message-footer', 'text-info', 'mb-2', 'p-0' ]"
 	class="h-100"
 >
 </chat-widget>

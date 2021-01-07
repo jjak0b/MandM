@@ -22,6 +22,11 @@ router.get( '/:receiverID/contacts/', API_GET_contacts );
 router.post( '/contacts/', API_addContacts );
 router.post( '/:receiverID/contacts/', API_addContacts );
 
+router.get( '/:receiverID/status/', API_GET_status );
+router.get( '/status/', API_GET_status );
+router.post( '/:receiverID/status/', API_POST_status );
+router.post( '/status/', API_POST_status );
+
 function initChat(req, res, next) {
 	if( req.session ) {
 		initChatOnSession( req.session );
@@ -37,7 +42,11 @@ function initChatOnSession( session ) {
 	if( !session.chat ) {
 		session.chat = {
 			messages: [],
-			contacts: []
+			contacts: [],
+			status: {
+				online: false,
+				invite: false
+			}
 		};
 	}
 }
@@ -172,7 +181,6 @@ function API_addMessage( req, res ) {
 			}
 			else {
 				initChatOnSession( session ); // init session if needed
-
 				session.chat.messages.push( loggedMessage );
 
 				session.save( (error) => {
@@ -191,6 +199,76 @@ function API_addMessage( req, res ) {
 	else {
 		selfChat.messages.push( loggedMessage );
 		res.sendStatus( StatusCodes.CREATED );
+	}
+}
+
+function API_GET_status(req, res) {
+	let receiverID = req.params.receiverID;
+	let selfChat = req.session.chat;
+
+	if( receiverID ) {
+		req.sessionStore.get( receiverID, (error, session) => {
+			if( error ) {
+				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+			}
+			else if( session ) {
+				res.json( session.chat.status );
+			}
+			else {
+				let fakeSession = {};
+				initChatOnSession( fakeSession );
+				res.json( fakeSession.chat.status );
+			}
+		});
+	}
+	else {
+		res.json( selfChat.status );
+	}
+}
+
+function mergeStatus( targetStatus, sourceStatus) {
+	if( "online" in sourceStatus ) {
+		targetStatus.online = sourceStatus.online;
+	}
+
+	if( "invite" in sourceStatus ) {
+		targetStatus.invite = sourceStatus.invite;
+	}
+}
+
+function API_POST_status(req, res) {
+	let receiverID = req.params.receiverID;
+	let selfChat = req.session.chat;
+	let status = req.body;
+
+	if( receiverID ) {
+		req.sessionStore.get( receiverID, (error, session) => {
+			if( error ) {
+				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+			}
+
+			if( !session ) {
+				mergeStatus( session.chat.status, status );
+				session.save( (error) => {
+					if( error ) {
+						console.error( "[api/chat]", "Error saving session", session.id, "cause:", error );
+						res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
+					}
+					else {
+						res.sendStatus( StatusCodes.OK );
+					}
+				})
+			}
+			else {
+				let fakeSession = {};
+				initChatOnSession( fakeSession );
+				res.json( fakeSession.chat.status );
+			}
+		});
+	}
+	else {
+		mergeStatus( selfChat.status, status );
+		res.sendStatus( StatusCodes.OK );
 	}
 }
 

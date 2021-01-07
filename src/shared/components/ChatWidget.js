@@ -33,7 +33,7 @@ export const component = {
 		classMessageBody: [Array, String],
 		classMessageFooter: [Array, String],
 
-
+		listLabel: String,
 		placeholder: String,
 		mySelf: Object,
 		participants: Array,
@@ -102,7 +102,7 @@ export const component = {
 			this.$emit('onToggleOpen', this.isOpen)
 		},
 		messageScroll() {
-			let scrollbar = this.$refs.chatScrollbar;
+			let scrollbar = this.$refs.chatScrollbar.$el;
 			scrollbar.scrollTop = scrollbar.scrollHeight;
 		}
 	},

@@ -28,13 +28,12 @@ export const template =
 			</div>-->
 
 			<div
-				ref="chatScrollbar"
-				class="position-relative scrollable-chat-area"
+				class="position-relative h-100"
 				role="log"
 			>
 				<list-widget
+					ref="chatScrollbar"
 					v-bind:id="$attrs.id + '-' + 'chat-widget'"
-					ref="chatContent"
 					class="position-absolute w-100"
 					:list="messageListProp"
 					:tag="'div'"
@@ -45,6 +44,7 @@ export const template =
 					:class-list="classMessageList"
 					:class-item="classMessageListItem"
 					:class-item-active="classMessageListItemSelected"
+					:aria-label="listLabel"
 				>
 				<template
 					v-slot:item="{item: message}"

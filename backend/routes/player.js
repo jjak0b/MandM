@@ -36,8 +36,9 @@ function setupSession() {
 		saveUninitialized: false,
 		cookie: {
 			maxAge: sessionDuration.hours * 3600000 + sessionDuration.minutes * 3600 + sessionDuration.seconds * 1000
-		}
-	});
+		},
+		store: new session.MemoryStore()
+	})
 }
 
 function handlePlayerSession( req, res, next ) {

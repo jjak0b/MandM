@@ -109,7 +109,7 @@ function API_addContacts( req, res ) {
 
 					registerContacts( session.chat, newContacts );
 
-					session.save( (error) => {
+					req.sessionStore.set( receiverID, session, (error) => {
 						if( error ) {
 							console.error( "[api/chat]", "Error saving session", session.id, "cause:", error );
 							res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
@@ -183,7 +183,7 @@ function API_addMessage( req, res ) {
 				initChatOnSession( session ); // init session if needed
 				session.chat.messages.push( loggedMessage );
 
-				session.save( (error) => {
+				req.sessionStore.set( receiverID, session, (error) => {
 					if( error ) {
 						console.error( "[api/chat]", "Error saving session", session.id, "cause:", error );
 						res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
@@ -212,7 +212,9 @@ function API_GET_status(req, res) {
 				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
 			}
 			else if( session ) {
-				res.json( session.chat.status );
+				initChatOnSession( session );
+				let status = session.chat.status;
+				res.json( status );
 			}
 			else {
 				let fakeSession = {};
@@ -247,9 +249,10 @@ function API_POST_status(req, res) {
 				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
 			}
 
-			if( !session ) {
-				mergeStatus( session.chat.status, status );
-				session.save( (error) => {
+			if( session ) {
+				initChatOnSession( session );
+				mergeStatus( session.chat.status, status);
+				req.sessionStore.set( receiverID, session, (error) => {
 					if( error ) {
 						console.error( "[api/chat]", "Error saving session", session.id, "cause:", error );
 						res.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
@@ -257,7 +260,7 @@ function API_POST_status(req, res) {
 					else {
 						res.sendStatus( StatusCodes.OK );
 					}
-				})
+				});
 			}
 			else {
 				let fakeSession = {};

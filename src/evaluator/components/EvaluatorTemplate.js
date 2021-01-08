@@ -161,36 +161,42 @@ export const template =
 											class="mx-0 my-1"
 										>
 											<b-card-header>
-												<b-card-title>{{ getMissionTitle( missionId ) }}</b-card-title>
+												<b-card-title
+													v-b-toggle="'collapse-player-'+ sessionName +'-mission-' + missionId"
+												>{{ getMissionTitle( missionId ) }}</b-card-title>
 											</b-card-header>
-											<b-card-body class="p-2">
-												<b-card
-													class="mx-0 my-1"
-													v-for="(activityObject, activityId) in missionObject"
-													border-variant="info"
-													v-bind:header="'assets.mission.' + missionId + '.activity.' + activityId + '.title'">
-													<b-card-text>
-														<b-row v-if="activityObject.start">
-															<b-col>
-															<p style="font-weight: bold;">{{ $t("Evaluator.label-start-time") }}</p>
-															<p>{{ new Date(activityObject.start).toUTCString() }}</p>
-															</b-col>
-														</b-row>
-														<b-row v-if="activityObject.end">
-															<b-col>
-															<p  style="font-weight: bold;">{{ $t("Evaluator.label-end-time") }}</p>
-															<p>{{ new Date(activityObject.end).toUTCString() }}</p>
-															</b-col>
-														</b-row>
-														<b-row v-if="activityObject.input">
-															<b-col>
-															<p  style="font-weight: bold;">{{ $t("Evaluator.label-input") }}</p>
-															<p>{{ activityObject.input }}</p>
-															</b-col>
-														</b-row>
-													</b-card-text>
-												</b-card>
-											</b-card-body>
+											<b-collapse
+												v-bind:id="'collapse-player-'+ sessionName +'-mission-' + missionId"
+											>
+												<b-card-body class="p-2">
+													<b-card
+														class="mx-0 my-1"
+														v-for="(activityObject, activityId) in missionObject"
+														border-variant="info"
+														v-bind:header="'assets.mission.' + missionId + '.activity.' + activityId + '.title'">
+														<b-card-text>
+															<b-row v-if="activityObject.start">
+																<b-col>
+																<p style="font-weight: bold;">{{ $t("Evaluator.label-start-time") }}</p>
+																<p>{{ new Date(activityObject.start).toUTCString() }}</p>
+																</b-col>
+															</b-row>
+															<b-row v-if="activityObject.end">
+																<b-col>
+																<p  style="font-weight: bold;">{{ $t("Evaluator.label-end-time") }}</p>
+																<p>{{ new Date(activityObject.end).toUTCString() }}</p>
+																</b-col>
+															</b-row>
+															<b-row v-if="activityObject.input">
+																<b-col>
+																<p  style="font-weight: bold;">{{ $t("Evaluator.label-input") }}</p>
+																<p>{{ activityObject.input }}</p>
+																</b-col>
+															</b-row>
+														</b-card-text>
+													</b-card>
+												</b-card-body>
+											</b-collapse>
 										</b-card>
 									</b-card-body>
 								</b-collapse>

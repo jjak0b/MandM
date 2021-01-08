@@ -4,12 +4,20 @@ import {KeyboardUtils} from "../js/KeyboardUtils.js";
 export const component = {
 	template: template,
 	props: {
-		"list": Object,
-		"tag": {
+		readonly: {
+			type: Boolean,
+			default: false
+		},
+		list: [Object, Array],
+		tag: {
 			type: String,
 			default: "ul"
 		},
-		"value": Object, // keys of item list that is selected
+		tagItem: {
+			type: String,
+			default: "li"
+		},
+		value: Object, // keys of item list that is selected
 		roleList: {
 			type: String,
 			default: "listbox"
@@ -17,6 +25,32 @@ export const component = {
 		roleItem: {
 			type: String,
 			default: "option"
+		},
+		classItem: {
+			type: [Array,String],
+			default: () => [
+				"list-group-item",
+				"list-group-item-action"
+			]
+		},
+		classItemActive: {
+			type: [Array,String],
+			default: () => [
+				'active'
+			]
+		},
+		classItemSelected: {
+			type: [Array,String],
+			default: () => [
+				'list-group-item-success'
+			]
+		},
+		classList: {
+			type: [Array,String],
+			default: () => [
+				"overflow-auto",
+				"list-group"
+			]
 		}
 	},
 	data() {
@@ -36,8 +70,17 @@ export const component = {
 			return null;
 		},
 		getStyle: function () {
-			if( !this.list || !this.minItemHeight ) return null;
-			return `min-height: ${this.minItemHeight}px`;
+			let style = {
+				"overflow-y": "scroll",
+				"height": "100%"
+			};
+
+			if( this.minItemHeight ) {
+				style = Object.assign( style, {
+					"min-height": this.minItemHeight + "px",
+				});
+			}
+			return style;
 		}
 	},
 	watch: {
@@ -82,6 +125,22 @@ export const component = {
 		this.minItemHeight = maxHeight;
 	},
 	methods: {
+		getItemClasses( keyItem ) {
+			let classes = [];
+
+			if( this.classItem ) {
+				classes = classes.concat(this.classItem);
+			}
+
+			if( keyItem === this.activedescendantKey ) {
+				classes = classes.concat( this.classItemActive );
+			}
+			else if( keyItem === this.selectedKeyIndex ){
+				classes = classes.concat( this.classItemSelected );
+			}
+
+			return classes;
+		},
 		getFirstKey() {
 			if( !this.list ) return null;
 
@@ -162,6 +221,8 @@ export const component = {
 		},
 		setSelected( keyIndex ) {
 			this.select( keyIndex );
+			if( this.readonly ) return;
+
 			if( this.selectedKeyIndex != keyIndex ) {
 				this.selectedKeyIndex = keyIndex;
 				if( this.list && this.list[ keyIndex ] ) {

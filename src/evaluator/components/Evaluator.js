@@ -27,6 +27,10 @@ export const component = {
 		}
 	},
 	methods: {
+		getMissionTitle( missionId ) {
+			// TODO: read from story
+			return this.$t(`assets.mission.${missionId}.title`);
+		},
 		updateActiveStories() {
 			for (const session in this.sessions) {
 				for (const story in this.sessions[session]) {

@@ -30,127 +30,183 @@ export const template =
 		</div>
 	</div>
 	<div v-else>
-	<b-navbar toggleable="xl" type="light" variant="light">
-		<b-navbar-toggle
-			target="sidebar-stories"
-		></b-navbar-toggle>
+		<b-navbar toggleable type="light" variant="light">
+			<b-navbar-toggle
+				target="sidebar-stories"
+			></b-navbar-toggle>
 	
-		<b-sidebar
-			id="sidebar-stories"
-			:title="$t('shared.label-story')"
-			shadow
-			role="navigation"
-			backdrop="true"
-		>
-			<b-nav
-				vertical
-				class="accordion"
-				role="menu"
+			<b-sidebar
+				id="sidebar-stories"
+				:title="$t('shared.label-story')"
+				shadow
+				role="navigation"
+				:backdrop="true"
 			>
-				<b-card
-					v-for="(storyArray, storyName) in activeStories"
-					no-body
-					class="mb-1"
-					tag="li"
-					role="menuitem"
+				<b-nav
+					vertical
+					class="accordion"
+					role="menu"
 				>
-					<b-button
-						block
-						v-b-toggle:[encodeURIComponent(storyName)]
-						variant="info"
-					>{{ storyName }}</b-button>
-					<b-collapse
-						v-bind:id="encodeURIComponent(storyName)"
-						accordion="story"
+					<b-card
+						v-for="(storyArray, storyName) in activeStories"
+						no-body
+						class="mb-1"
+						tag="li"
+						role="menuitem"
 					>
-						<b-list-group
-							class="text-dark"
-							role="menu"
+						<b-button
+							block
+							v-b-toggle:[encodeURIComponent(storyName)]
+							variant="info"
+						>{{ storyName }}</b-button>
+						<b-collapse
+							v-bind:id="encodeURIComponent(storyName)"
+							accordion="story"
 						>
-							<b-list-group-item
-								role="menuitem"
-								v-for="(missionId) in storyArray"
-								button 
-								v-on:click="onSelectMission(storyName, missionId)"
-								v-b-toggle.sidebar-stories
-							>{{ $t( 'assets.mission.' + missionId + '.' + 'title' ) }}</b-list-group-item>
-						</b-list-group>
-
-					</b-collapse>
-				</b-card>
-			</b-navbar-nav>
-		</b-sidebar>
-	</b-navbar>
-	<main>
-		<b-breadcrumb>
-			<b-breadcrumb-item
-				v-if="selectedStory"
-			>
-				{{ selectedStory }}
-			</b-breadcrumb-item>
-			<b-breadcrumb-item
-				v-if="selectedMission"
-			>
-				{{ selectedMission }}
-			</b-breadcrumb-item>
-		</b-breadcrumb>
-		  <div style="margin-left: 25%">
-		  <span>{{ selectedStory }}</span>
-		  <span>{{ selectedMission }}</span>
-		  	<b-container>
-		  		<b-row>
-		  			<div v-for="(sessionObject, sessionName) in sessions">
-					<div v-for="(storyObject, storyName) in sessionObject">
-					<div v-if="storyName === selectedStory">
-					<div v-for="(missionObject, missionId) in storyObject">
-						<b-col v-if="missionId === selectedMission">
-							<b-card deck
-								style="background-color: #00867d"
-								class="mb-3 mt-5"
-							>	
-								<h4 style="font-weight: bold; color: #FFFFFF;">
-									{{sessionName + ' '}}
-									<span style="float: right">
-										<b-icon-chat-fill></b-icon-chat-fill>
-										<b-icon-alarm-fill></b-icon-alarm-fill>
-										<b-icon-check-circle-fill></b-icon-check-circle-fill>
-									</span>
-								</h4>
+							<b-list-group
+								class="text-dark"
+								role="menu"
+							>
+								<b-list-group-item
+									role="menuitem"
+									v-for="(missionId) in storyArray"
+									button 
+									v-on:click="onSelectMission(storyName, missionId)"
+									v-b-toggle.sidebar-stories
+								>{{ getMissionTitle( missionId ) }}</b-list-group-item>
+							</b-list-group>
+	
+						</b-collapse>
+					</b-card>
+				</b-nav>
+			</b-sidebar>
+		</b-navbar>
+		<main>
+			<b-breadcrumb>
+				<b-breadcrumb-item
+					v-if="selectedStory"
+				>
+					{{ selectedStory }}
+				</b-breadcrumb-item>
+				<b-breadcrumb-item
+					v-if="selectedMission"
+				>
+					{{ getMissionTitle( selectedMission ) }}
+				</b-breadcrumb-item>
+			</b-breadcrumb>
+			<b-container>
+				<b-row v-if="selectedStory">
+					<b-col>
+						<b-card-group
+							deck
+						>
+							<b-card
+								v-for="(sessionObject, sessionName) in sessions"
+								no-body
+								style="height: max-content"
+							>
+								<b-card-header class="clearfix">
+									<b-row>
+										<b-col
+											sm="auto"
+											md="8"
+										>
+											<b-row>
+												<b-col cols="6">
+													<b-card-title
+														v-b-toggle="'player-accordion-' + sessionName"
+						
+													>{{ sessionObject.name ? sessionObject.name : sessionName }}
+													</b-card-title>
+												</b-col>
+												<b-col cols="6">
+													<div class="d-flex">
+														<b-button-toolbar
+															class="mx-auto"
+															key-nav
+														>
+															<b-button>
+																<b-icon
+																	icon="pencil"
+																></b-icon>
+																{{ $t('Player.label-edit-name') }}
+															</b-button>
+														</b-button-toolbar>
+													</div>
+												</b-col>
+											</b-row>
+									</b-col>
+									<b-col>
+										<div class="d-flex">
+											<b-button-toolbar
+												key-nav
+												aria-label="Iteractions"
+												class="float-right mx-auto"
+											>
+												<b-button><b-icon-chat-fill></b-icon-chat-fill></b-button>
+												<b-button><b-icon-alarm-fill></b-icon-alarm-fill></b-button>
+												<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
+											</b-button-toolbar>
+										</div>
+									</b-col>
+									</b-row>
+								</b-card-header>
+								<b-collapse
+									v-bind:id="'player-accordion-' + sessionName"
+								>
+									<b-card-body>
+										<b-card
+											v-for="(missionObject, missionId) in sessionObject[ selectedStory ]"
+											no-body
+											class="mx-0 my-1"
+										>
+											<b-card-header>
+												<b-card-title>{{ getMissionTitle( missionId ) }}</b-card-title>
+											</b-card-header>
+											<b-card-body class="p-2">
+												<b-card
+													class="mx-0 my-1"
+													v-for="(activityObject, activityId) in missionObject"
+													border-variant="info"
+													v-bind:header="'assets.mission.' + missionId + '.activity.' + activityId + '.title'">
+													<b-card-text>
+														<b-row v-if="activityObject.start">
+															<b-col>
+															<p style="font-weight: bold;">{{ $t("Evaluator.label-start-time") }}</p>
+															<p>{{ new Date(activityObject.start).toUTCString() }}</p>
+															</b-col>
+														</b-row>
+														<b-row v-if="activityObject.end">
+															<b-col>
+															<p  style="font-weight: bold;">{{ $t("Evaluator.label-end-time") }}</p>
+															<p>{{ new Date(activityObject.end).toUTCString() }}</p>
+															</b-col>
+														</b-row>
+														<b-row v-if="activityObject.input">
+															<b-col>
+															<p  style="font-weight: bold;">{{ $t("Evaluator.label-input") }}</p>
+															<p>{{ activityObject.input }}</p>
+															</b-col>
+														</b-row>
+													</b-card-text>
+												</b-card>
+											</b-card-body>
+										</b-card>
+									</b-card-body>
+								</b-collapse>
 							</b-card>
-							<b-card deck
-								v-for="(activityObject, activityId) in missionObject"
-								border-variant="info"
-								header-tag="b"
-								v-bind:header="'assets.mission.' + missionId + '.activity.' + activityId + '.title'">
-								<b-card-text>
-									<b-row v-if="activityObject.start">
-										<b-col>
-										<p style="font-weight: bold;">{{ $t("Evaluator.label-start-time") }}</p>
-										<p>{{ new Date(activityObject.start).toUTCString() }}</p>
-										</b-col>
-									</b-row>
-									<b-row v-if="activityObject.end">
-										<b-col>
-										<p  style="font-weight: bold;">{{ $t("Evaluator.label-end-time") }}</p>
-										<p>{{ new Date(activityObject.end).toUTCString() }}</p>
-										</b-col>
-									</b-row>
-									<b-row v-if="activityObject.input">
-										<b-col>
-										<p  style="font-weight: bold;">{{ $t("Evaluator.label-input") }}</p>
-										<p>{{ activityObject.input }}</p>
-										</b-col>
-									</b-row>
-								</b-card-text>
-							</b-card>
-						</b-col>
-					</div>
-					</div>
-					</div>
-					</div>
+						</b-card-group>
+					</b-col>
+				</b-row>
+				<b-row v-else>
+					<b-col>
+						<h1 v-t="'Evaluator.label-no-story-selected'"
+						></h1>
+						<p v-t="'Evaluator.label-select-story-to-show-player-status'"
+						></p>
+					</b-col>
 				</b-row>
 			</b-container>
-		  </div>
 		</main>
 	</div>
 </div>

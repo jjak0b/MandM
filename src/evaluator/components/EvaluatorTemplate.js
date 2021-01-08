@@ -30,35 +30,73 @@ export const template =
 		</div>
 	</div>
 	<div v-else>
-		
+	<b-navbar toggleable="xl" type="light" variant="light">
+		<b-navbar-toggle
+			target="sidebar-stories"
+		></b-navbar-toggle>
+	
+		<b-sidebar
+			id="sidebar-stories"
+			:title="$t('shared.label-story')"
+			shadow
+			role="navigation"
+			backdrop="true"
+		>
+			<b-nav
+				vertical
+				class="accordion"
+				role="menu"
+			>
+				<b-card
+					v-for="(storyArray, storyName) in activeStories"
+					no-body
+					class="mb-1"
+					tag="li"
+					role="menuitem"
+				>
+					<b-button
+						block
+						v-b-toggle:[encodeURIComponent(storyName)]
+						variant="info"
+					>{{ storyName }}</b-button>
+					<b-collapse
+						v-bind:id="encodeURIComponent(storyName)"
+						accordion="story"
+					>
+						<b-list-group
+							class="text-dark"
+							role="menu"
+						>
+							<b-list-group-item
+								role="menuitem"
+								v-for="(missionId) in storyArray"
+								button 
+								v-on:click="onSelectMission(storyName, missionId)"
+								v-b-toggle.sidebar-stories
+							>{{ $t( 'assets.mission.' + missionId + '.' + 'title' ) }}</b-list-group-item>
+						</b-list-group>
 
-		<div class="h-100 position-fixed w-25" style="background-color: #4db6ac">
-			<div class="py-2 px-3">
-				<h1 class="font-weight-bold px-3">Evaluator</h1>
-				<b-nav vertical>
-					<div v-for="(storyArray, storyName) in activeStories">
-						<b-nav-item
-							v-b-toggle.coll>
-							<h2 class="text-light" v-b-toggle="storyName">
-								{{ storyName }}
-								<b-icon-chevron-compact-down font-scale="0.9" variant="light"
-								></b-icon-chevron-compact-down>
-							</h2>	
-							</b-nav-item>
-						<b-collapse v-bind:id="storyName">
-							<b-list-group class="text-dark">
-								<b-list-group-item button 
-									v-for="(missionId) in storyArray"
-									v-on:click="onSelectMission(storyName, missionId)">
-									{{ $t( 'assets.mission.' + missionId + '.' + 'title' ) }}
-								</b-list-group-item>
-							</b-list-group>
-						</b-collapse>
-					</div>
-				</b-nav>
-			</div>
-		  </div>
+					</b-collapse>
+				</b-card>
+			</b-navbar-nav>
+		</b-sidebar>
+	</b-navbar>
+	<main>
+		<b-breadcrumb>
+			<b-breadcrumb-item
+				v-if="selectedStory"
+			>
+				{{ selectedStory }}
+			</b-breadcrumb-item>
+			<b-breadcrumb-item
+				v-if="selectedMission"
+			>
+				{{ selectedMission }}
+			</b-breadcrumb-item>
+		</b-breadcrumb>
 		  <div style="margin-left: 25%">
+		  <span>{{ selectedStory }}</span>
+		  <span>{{ selectedMission }}</span>
 		  	<b-container>
 		  		<b-row>
 		  			<div v-for="(sessionObject, sessionName) in sessions">
@@ -113,7 +151,7 @@ export const template =
 				</b-row>
 			</b-container>
 		  </div>
-
+		</main>
 	</div>
 </div>
 `

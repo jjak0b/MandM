@@ -1,5 +1,4 @@
 import {i18n} from "../../shared/js/i18n.js";
-import {CacheSystem} from "../../shared/js/CacheSystem.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./EvaluatorTemplate.js";
 
@@ -12,7 +11,6 @@ export const component = {
 	},
 	data() {
 		return {
-			cacheSystem: new CacheSystem(),
 			loadingProgress: 0,
 			loadingInfoLocaleLabel: "shared.label-loading",
 			isLoading: false,
@@ -24,7 +22,8 @@ export const component = {
 			activeStories: {},
 			interval: null,
 			selectedStory: null,
-			selectedMission: null
+			selectedMission: null,
+			readyPromise: null
 		}
 	},
 	methods: {
@@ -63,15 +62,12 @@ export const component = {
 		}
 	},
 	created() {
-			this.updateSessions();
-			this.interval = setInterval(this.updateSessions, 2500);
 
 			this.isLoading = true;
 			this.loadingInfoLocaleLabel = "shared.label-loading";
 
 			console.log("[EvaluatorVM]", "Start downloading story");
 			let promsInit = [
-				this.cacheSystem.init(),
 				I18nUtils.fetchLocales("/shared/", [i18n.locale, i18n.fallbackLocale]),
 				I18nUtils.fetchLocales("./", [i18n.locale, i18n.fallbackLocale])
 			];
@@ -80,9 +76,8 @@ export const component = {
 			let updateProgress = (percentage) => {
 				this.loadingProgress = percentage;
 			}
-			allProgress(promsInit, updateProgress)
+			this.readyPromise = allProgress(promsInit, updateProgress)
 			.then((responses) => {
-				let assetsProms = responses[1];
 				let localesMessagesShared = responses[2];
 				let localesMessagesEvaluator = responses[3];
 				console.log("[EvaluatorVM]", "Story downloading complete");
@@ -125,7 +120,14 @@ export const component = {
 					}), 1000);
 				})
 			})
-		}
+		},
+	mounted() {
+		this.readyPromise
+			.then( () => {
+				this.updateSessions();
+				this.interval = setInterval(this.updateSessions, 2500);
+			})
+	}
 }
 
 function allProgress(proms, progress_cb) {

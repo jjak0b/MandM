@@ -143,7 +143,15 @@ export const template =
 												aria-label="Iteractions"
 												class="float-right mx-auto"
 											>
-												<b-button><b-icon-chat-fill></b-icon-chat-fill></b-button>
+												<b-button
+													v-bind:pressed="getPlayerChatData( sessionName ).status.online"
+													v-on:update:pressed="enablePlayerChat( sessionName, $event )"
+												>
+													<b-icon
+														v-bind="getIconChatProps(sessionName)"
+													>
+													</b-icon>
+												</b-button>
 												<b-button><b-icon-alarm-fill></b-icon-alarm-fill></b-button>
 												<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
 											</b-button-toolbar>

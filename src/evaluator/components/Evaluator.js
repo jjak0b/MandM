@@ -23,10 +23,88 @@ export const component = {
 			interval: null,
 			selectedStory: null,
 			selectedMission: null,
-			readyPromise: null
+			readyPromise: null,
+			chatsData: {
+				mySelf: {
+					id: null,
+					name: "Me",
+				},
+				players: {}
+			}
 		}
 	},
 	methods: {
+		initDataChatForPlayer( playerID ) {
+			this.$set( this.chatsData, "mySelf", {
+				id: null,
+				name: "Me",
+			});
+
+			if( !("players" in this.chatsData ))
+				this.$set( this.chatsData, "players", {} );
+
+			if( !(playerID in this.chatsData.players ) ) {
+				this.$set( this.chatsData.players, playerID, {
+					contacts: [],
+					messages: []
+				});
+			}
+		},
+		getPlayerChatData(playerID) {
+			this.initDataChatForPlayer( playerID );
+			return this.chatsData.players[ playerID ];
+		},
+		fetchDataForPlayerChat( playerID ) {
+			if( !playerID ) return Promise.reject( playerID );
+
+			this.initDataChatForPlayer( playerID );
+			let playerChatData = this.getPlayerChatData(playerID);
+
+			let promiseParts = {
+				status: Promise.resolve( $.get( `/player/chat/${playerID}/status/`) )
+			}
+
+			return promiseParts.status
+				.then( response => {
+					playerChatData.status = response;
+					// fetch contacts and messages only if chat is online
+					if( playerChatData.status.online ) {
+						promiseParts.contacts = Promise.resolve( $.get( `/player/chat/${playerID}/contacts/`) );
+						promiseParts.messages = Promise.resolve( $.get( `/player/chat/${playerID}/messages/`) );
+
+						return Promise.all( [ promiseParts.messages, promiseParts.contacts] )
+							.then( (responses) => {
+								playerChatData.messages = responses[ 0 ];
+								playerChatData.contacts = responses[ 1 ];
+							})
+							.catch( (error) => {
+								console.error( "[Chat]","Unable to fetch messages and contacts", "cause:",error );
+							})
+					}
+				})
+				.catch( (error) => {
+					console.error( "[Chat]","Unable to fetch status", "cause:", error );
+				})
+
+		},
+		fetchDataOfChats() {
+			let promiseChatId = Promise.resolve( $.get( "/player/chat/") );
+
+			promiseChatId
+				.then( (response) => {
+					this.chatsData.mySelf.id = response[ 0 ];
+				})
+				.catch( error => {
+					console.error( "[Chat]", "Unable to fetch chat data for my session id", "cause:", error );
+				})
+
+			for (const playerID in this.sessions) {
+				this.fetchDataForPlayerChat( playerID )
+					.catch( error => {
+						console.error( "[Chat]", "Unable to fetch chat data for session", playerID );
+					})
+			}
+		},
 		getMissionTitle( missionId ) {
 			// TODO: read from story
 			return this.$t(`assets.mission.${missionId}.title`);
@@ -63,6 +141,53 @@ export const component = {
 		onSelectMission(story, mission) {
 			this.selectedStory = story;
 			this.selectedMission = mission;
+		},
+		fetchAll() {
+			this.updateSessions();
+			this.fetchDataOfChats();
+		},
+		getIconChatProps( playerID ) {
+			let playerChat = this.getPlayerChatData( playerID );
+			let props = {};
+			if( playerChat.status) {
+				if( playerChat.status.online ) {
+					props.animation = null;
+					props.variant = "success";
+					props.icon = "chat-fill";
+				}
+				else if( playerChat.status.invite ) {
+					props.animation = "fade";
+					props.variant = "warning";
+					props.icon = "chat-dots";
+				}
+				else {
+					props.animation = null;
+					props.variant = null;
+					props.icon = "chat";
+				}
+			}
+
+			return props;
+		},
+		enablePlayerChat( playerID, enable ) {
+			let playerChat = this.getPlayerChatData( playerID );
+
+			// update temp locally
+			playerChat.status.online = !!enable;
+			if( enable ) {
+				playerChat.status.invite = false;
+			}
+			else {
+				playerChat.status.invite = false;
+			}
+
+			// update on server
+			$.ajax({
+				method: "post",
+				url: `/player/chat/${playerID}/status`,
+				contentType: "application/json",
+				data: JSON.stringify( playerChat.status )
+			});
 		}
 	},
 	created() {
@@ -128,8 +253,8 @@ export const component = {
 	mounted() {
 		this.readyPromise
 			.then( () => {
-				this.updateSessions();
-				this.interval = setInterval(this.updateSessions, 2500);
+				this.fetchAll();
+				this.interval = setInterval(this.fetchAll, 2500);
 			})
 	}
 }

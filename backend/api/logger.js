@@ -1,4 +1,5 @@
 const express = require('express');
+const {StatusCodes} = require( "http-status-codes" );
 const path = require('path');
 const util = require('util')
 
@@ -43,7 +44,10 @@ function PUT_SESSION( req, res, next ) {
 				req.session.stories[story][mission][activity].input = log.params.input;
 			}
 		}
-		req.session.save();
+		res.sendStatus( StatusCodes.OK );
+	}
+	else {
+		res.sendStatus( StatusCodes.NOT_ACCEPTABLE );
 	}
 }
 

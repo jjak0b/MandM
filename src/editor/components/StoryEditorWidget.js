@@ -31,6 +31,7 @@ export const component = {
 
 				if ( this.stories.some( story => story.name === this.selectedName ) ) {
 					console.log("[StoryEditor]", `Loaded the Story ${this.selectedName} from local cache`);
+					this.loading = false;
 					this.$emit('change-story', this.selectedName);
 				}
 				else {
@@ -113,7 +114,6 @@ export const component = {
 
 				Promise.all( [ promiseStory ].concat( promisesLocales ) )
 					.then( ( responses ) => {
-						storyData.dependencies.locales = locales;
 						this.$emit('add-local-story', storyData);
 						console.log("[StoryEditor]", `Added (or updated) the Story ${storyData.name} to server`);
 						resolve( responses[ 0 ] );
@@ -147,13 +147,12 @@ export const component = {
 				this.$emit('import', story );
 				this.$emit('add-local-story', story);
 				console.log("[StoryEditor]", `Loaded the Story ${name} from server`);
+				this.loading = false;
 			})
 			// file can't be downloaded for some reason so report it
 			.catch( ( error) => {
+				this.tabValue = -1;
 				console.error( "[StoryEditor]", `Error loading the Story "${name}" from server`, "cause:", error );
-			})
-			.finally(() => {
-				this.loading = false;
 			})
 		},
 		resetModal(){

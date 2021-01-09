@@ -6,7 +6,7 @@
     display: none;
 }
 
-.message {
+.chat-list .message {
     max-width: 65%;
     width: 65%; /* as fallback */
     width: fit-content;
@@ -15,10 +15,10 @@
     font-size: 1.5rem;
     margin: 1rem auto;
 }
-.message-out {
+.message.message-out {
     margin-right: 5%;
 }
-.message-in {
+.message.message-in {
     margin-left: 5%;
 }
 

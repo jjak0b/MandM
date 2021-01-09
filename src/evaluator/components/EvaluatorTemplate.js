@@ -129,7 +129,7 @@ export const template =
 																<b-icon
 																	icon="pencil"
 																></b-icon>
-																{{ $t('Player.label-edit-name') }}
+																{{ $t('Evaluator.label-edit-name') }}
 															</b-button>
 														</b-button-toolbar>
 													</div>
@@ -195,7 +195,7 @@ export const template =
 														class="mx-0 my-1"
 														v-for="(activityObject, activityId) in missionObject"
 														border-variant="info"
-														v-bind:header="'assets.mission.' + missionId + '.activity.' + activityId + '.title'">
+														v-bind:header=" $t('assets.mission.' + missionId + '.activity.' + activityId + '.title') ">
 														<b-card-text>
 															<b-row v-if="activityObject.start">
 																<b-col>
@@ -209,12 +209,20 @@ export const template =
 																<p>{{ new Date(activityObject.end).toUTCString() }}</p>
 																</b-col>
 															</b-row>
-															<b-row v-if="activityObject.input">
+															<div v-if="activityObject.input">
+															<b-row>
 																<b-col>
-																<p  style="font-weight: bold;">{{ $t("Evaluator.label-input") }}</p>
-																<p>{{ activityObject.input }}</p>
+																	<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-type") }}</p>
+																	<p>{{ activityObject.input.type }}</p>
 																</b-col>
 															</b-row>
+															<b-row>
+																<b-col>
+																	<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-value") }}</p>
+																	<p>{{ activityObject.input.value.toString() }}</p>
+																</b-col>
+															</b-row>
+															</div>
 														</b-card-text>
 													</b-card>
 												</b-card-body>

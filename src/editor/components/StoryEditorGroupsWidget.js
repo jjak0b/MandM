@@ -1,5 +1,8 @@
  import {template} from "./StoryEditorGroupsWidgetTemplate.js";
 import { component as listComponent } from "../../shared/components/AccessibleListWidget.js";
+ import VueQrcode from '/libs/vue-qrcode/vue-qrcode.esm.js';
+
+ Vue.component(VueQrcode.name, VueQrcode);
 
 export const component = {
 	template: template,
@@ -7,7 +10,9 @@ export const component = {
 		locale: String,
 		localesList: Array,
 		missions: Array,
-		groups: Array
+		groups: Array,
+		public: Boolean,
+		url: String
 	},
 	components: {
 		"list-widget": listComponent

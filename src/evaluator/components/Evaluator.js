@@ -1,13 +1,14 @@
 import {i18n} from "../../shared/js/i18n.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./EvaluatorTemplate.js";
+import {component as evaluatorChat } from "./EvaluatorChatWidget.js";
 
 export const component = {
 	el: '#main',
 	template: template,
 	i18n: i18n,
 	components: {
-
+		evaluatorChat
 	},
 	data() {
 		return {
@@ -27,26 +28,26 @@ export const component = {
 			chatsData: {
 				mySelf: {
 					id: null,
-					name: "Me",
+					name: this.$t( "ChatWidget.label-myself" ),
+					nameForReceiver: this.$t( "ChatWidget.label-Helper" ),
 				},
 				players: {}
-			}
+			},
+			fetchTimeout: 1 * 1000
 		}
 	},
 	methods: {
 		initDataChatForPlayer( playerID ) {
-			this.$set( this.chatsData, "mySelf", {
-				id: null,
-				name: "Me",
-			});
 
 			if( !("players" in this.chatsData ))
 				this.$set( this.chatsData, "players", {} );
 
 			if( !(playerID in this.chatsData.players ) ) {
 				this.$set( this.chatsData.players, playerID, {
-					contacts: [],
-					messages: []
+					status: {
+						online: false,
+						invite: false
+					}
 				});
 			}
 		},
@@ -67,25 +68,10 @@ export const component = {
 			return promiseParts.status
 				.then( response => {
 					playerChatData.status = response;
-					// fetch contacts and messages only if chat is online
-					if( playerChatData.status.online ) {
-						promiseParts.contacts = Promise.resolve( $.get( `/player/chat/${playerID}/contacts/`) );
-						promiseParts.messages = Promise.resolve( $.get( `/player/chat/${playerID}/messages/`) );
-
-						return Promise.all( [ promiseParts.messages, promiseParts.contacts] )
-							.then( (responses) => {
-								playerChatData.messages = responses[ 0 ];
-								playerChatData.contacts = responses[ 1 ];
-							})
-							.catch( (error) => {
-								console.error( "[Chat]","Unable to fetch messages and contacts", "cause:",error );
-							})
-					}
 				})
 				.catch( (error) => {
 					console.error( "[Chat]","Unable to fetch status", "cause:", error );
 				})
-
 		},
 		fetchDataOfChats() {
 			let promiseChatId = Promise.resolve( $.get( "/player/chat/") );

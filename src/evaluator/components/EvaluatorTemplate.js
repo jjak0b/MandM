@@ -159,7 +159,21 @@ export const template =
 									</b-col>
 									</b-row>
 								</b-card-header>
+								<div class="d-flex flex-column">
+									<div
+										v-if="getPlayerChatData( sessionName ).status.online"
+										style="resize:vertical; height: 50rem; overflow-y: auto;"
+									>
+										<evaluator-chat
+											v-bind:my-self="chatsData.mySelf"
+											v-bind:receiverID="sessionName"
+											v-bind:fetch-timeout="fetchTimeout"
+											class="h-100"
+										>
+										</evaluator-chat>
+									</div>
 								<b-collapse
+									class="flex-grow-1"
 									v-bind:id="'player-accordion-' + sessionName"
 								>
 									<b-card-body>
@@ -208,6 +222,7 @@ export const template =
 										</b-card>
 									</b-card-body>
 								</b-collapse>
+								</div>
 							</b-card>
 						</b-card-group>
 					</b-col>

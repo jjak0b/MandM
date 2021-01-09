@@ -12,6 +12,7 @@ export const component = {
 	template: template,
 	props: {
 		value: Object, // mission cache
+		story: Object,
 		missions: Array,
 		locale: String,
 		localesList: Array,
@@ -94,8 +95,20 @@ export const component = {
 
 			if( mission ) {
 				console.log( "Removed mission", mission);
+
+				if ( this.story.groups.length > 0 ) {
+					for ( const group in this.story.groups ) {
+						this.$set( this.story.groups, group,
+						this.story.groups[group].filter( element => {
+							return element.id !== mission.id;
+						} ) );
+
+					}
+				}
+
 				mission.dispose();
 				this.missions.splice( index, 1);
+
 				this.$emit('save-story');
 			}
 		},

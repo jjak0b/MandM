@@ -67,6 +67,7 @@ export const template =
 								<mission-editor-widget
 									id="mission-editor-widget"
 									v-model="mission"
+									v-bind:story="value"
 									v-bind:missions="value.missions"
 									v-bind:locale="locale"
 									v-bind:localesList="localesList"

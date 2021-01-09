@@ -193,8 +193,8 @@ export const component = {
 			}
 			this.readyPromise = allProgress(promsInit, updateProgress)
 			.then((responses) => {
-				let localesMessagesShared = responses[2];
-				let localesMessagesEvaluator = responses[3];
+				let localesMessagesShared = responses[0];
+				let localesMessagesEvaluator = responses[1];
 				console.log("[EvaluatorVM]", "Story downloading complete");
 				console.log("[EvaluatorVM]", "Start downloading story assets");
 

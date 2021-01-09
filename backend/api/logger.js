@@ -10,38 +10,39 @@ router.post("/", PUT_SESSION);
 router.get("/", GET_SESSION);
 
 function PUT_SESSION( req, res, next ) {
-	let log = req.body.slice(-1)[0];
-	if (log && req.query.story) {
+
+	if (req.body && req.query.story) {
 		let story = req.query.story;
-		let mission = log.missionID;
-		let activity = log.activityID;
+		for (const log of req.body) {
+			let mission = log.missionID;
+			let activity = log.activityID;
 
-
-		if (!req.session.stories) {
-			req.session.stories = {};
-		}
-
-		if (!(story in req.session.stories)) {
-			req.session.stories[story] = {}
-		}
-
-		if (!(mission in req.session.stories[story])) {
-			req.session.stories[story][mission] = {};
-		}
-
-		if (!(activity in req.session.stories[story][mission])) {
-			req.session.stories[story][mission][activity] = {};
-		}
-
-		if (log.params) {
-			if (log.params.start) {
-				req.session.stories[story][mission][activity].start = log.timestamp;
-			} else if (log.params.end) {
-				req.session.stories[story][mission][activity].end = log.timestamp;
+			if (!req.session.stories) {
+				req.session.stories = {};
 			}
 
-			if (log.params.input) {
-				req.session.stories[story][mission][activity].input = log.params.input;
+			if (!(story in req.session.stories)) {
+				req.session.stories[story] = {}
+			}
+
+			if (!(mission in req.session.stories[story])) {
+				req.session.stories[story][mission] = {};
+			}
+
+			if (!(activity in req.session.stories[story][mission])) {
+				req.session.stories[story][mission][activity] = {};
+			}
+
+			if (log.params) {
+				if (log.params.start) {
+					req.session.stories[story][mission][activity].start = log.timestamp;
+				} else if (log.params.end) {
+					req.session.stories[story][mission][activity].end = log.timestamp;
+				}
+
+				if (log.params.input) {
+					req.session.stories[story][mission][activity].input = log.params.input;
+				}
 			}
 		}
 		res.sendStatus( StatusCodes.OK );

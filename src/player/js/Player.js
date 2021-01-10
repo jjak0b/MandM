@@ -15,15 +15,29 @@ export default class Player {
 		// reuse already created references in dependencies fetch when Asset constructor will be called
 		Asset.shouldReuseCache = true;
 
-		let url = new URL( window.location.href );
+		/**
+		 *
+		 * @type {string|null}
+		 */
+		this.storyName = null;
+
+		/**
+		 *
+		 * @type {Number|null}
+		 */
+		this.team = null;
 
 		/**
 		 *
 		 * @type {string|null}
 		 */
-		this.storyName = url.searchParams.get( "story" );
+		this.storyURL = null;
 
-		this.storyURL = `/stories/${this.storyName}`;
+		/**
+		 *
+		 * @type {Mission[]}
+		 */
+		this.missionsPool = [];
 
 		/**
 		 * @type {Story}
@@ -43,7 +57,12 @@ export default class Player {
 			activityIndex: -1
 		};
 
-		this.logger = new ActivityLogger(`./log?story=${this.storyName}`);
+
+		/**
+		 *
+		 * @type {ActivityLogger}
+		 */
+		this.logger = null;
 
 		this.envVars = {
 			userInput: undefined,
@@ -93,23 +112,48 @@ export default class Player {
 		return this.instance;
 	}
 
-	init() {
+	/**
+	 * Init Player returning the promise of asset download
+	 * @param storyName
+	 * @param team
+	 * @return {Promise<[]>}
+	 */
+	init( storyName, team ) {
 		console.log(`[${this.constructor.name}]`, "Init");
+
+		if( !storyName ){
+			return Promise.reject( new Error( "NO_STORY" ) );
+		}
+
+		this.storyName = storyName;
+		this.team = team;
+		this.storyURL = `/stories/${this.storyName}`;
+		this.logger = new ActivityLogger(`./log?story=${this.storyName}`);
+
 		let cachedStoryName = Cookies.get("storyNameInCache");
 		return this.downloadStory( this.storyName );
 	}
 
 	downloadStory( storyName ) {
 
-		if( !storyName )
-			throw new Error("No story defined in URL");
 		let reqJSONStory = fetch( `${this.storyURL}?source=player` );
 		return reqJSONStory
-			.catch( (e) => {
-				throw e;
-			})
 			.then( (response) => {
-				return response.json();
+				if( response && response.ok ) {
+					return response.json();
+				}
+				else {
+					switch( response.status ) {
+						case 403:
+							return Promise.reject( new Error("FORBIDDEN_STORY") );
+							break;
+						case 404:
+							return Promise.reject( new Error("INVALID_STORY") );
+							break;
+						default:
+							return Promise.reject( response );
+					}
+				}
 			})
 			.then( (json) => {
 				this.story = new Story( json );
@@ -129,7 +173,41 @@ export default class Player {
 			});
 	}
 
+
+	/**
+	 * Setup player to run the story, like fill the missionsPool based on gamemode, team, etc ...
+	 * @param story {Story}
+	 */
+	initStory( story ) {
+		console.log(`[${this.constructor.name}]`, "Init Story", story );
+
+		if( !story ) throw new Error("NO_STORY");
+
+		switch( story.gamemode ) {
+			// Competitions mode
+			case "2":
+				if( this.team && (this.team in story.groups) ) {
+					let missionsData = story.groups[this.team];
+					this.missionsPool = story.missions.filter((mission) => missionsData.some(missionData => missionData.id === mission.id));
+				}
+				else if (!this.team) {
+					throw new Error("NO_TEAM");
+				}
+				else {
+					throw new Error("INVALID_TEAM");
+				}
+				break;
+			// Single player mode
+			case "1":
+			case "0":
+			default:
+				this.missionsPool = story.missions;
+				break;
+		}
+	}
+
 	main() {
+		this.initStory( this.story );
 		this.startStory();
 	}
 
@@ -295,19 +373,19 @@ export default class Player {
 	nextMission() {
 		let next = null;
 		if( this.current.missionIndex < 0 ) {
-			if( this.story.missions.length > 0 ) {
+			if( this.missionsPool.length > 0 ) {
 				this.current.missionIndex = 0;
 			}
 		}
 		else {
 			this.current.missionIndex ++;
-			if( this.current.missionIndex >= this.story.missions.length ) {
+			if( this.current.missionIndex >= this.missionsPool.length ) {
 				// this.current.missionIndex = -1;
 			}
 		}
 
-		if( 0 <= this.current.missionIndex && this.current.missionIndex < this.story.missions.length ) {
-			this.current.mission =  this.story.missions[ this.current.missionIndex ];
+		if( 0 <= this.current.missionIndex && this.current.missionIndex < this.missionsPool.length ) {
+			this.current.mission =  this.missionsPool[ this.current.missionIndex ];
 			return this.current.mission;
 		}
 		else {

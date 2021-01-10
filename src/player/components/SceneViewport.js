@@ -9,11 +9,5 @@ export const component = {
 	},
 	props: {
 		value: Scene
-	},
-	watch: {
-		value( newScene ) {
-			// avoid vue native caching
-			this.$refs.scene.$destroy();
-		}
 	}
 }

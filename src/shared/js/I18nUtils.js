@@ -98,7 +98,9 @@ export class I18nUtils {
 					}
 					else{
 						let rejected = results.map( result => result.status === "rejected" ? result.reason : result.value );
-						return Promise.reject( rejected.length > 0 ? rejected[ 0 ].json() : null );
+						return rejected.length > 0
+							? Promise.reject( rejected[ 0 ] ) // rejected so return first cause
+							: Promise.resolve( [] ); // no rejected found, so we received no data
 					}
 				})
 				.then((results) => {

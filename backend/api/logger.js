@@ -4,7 +4,10 @@ const path = require('path');
 const util = require('util')
 
 const router = express.Router();
-
+// We can receive big buffers of logs
+router.use(express.json({
+	limit: "100MB"
+}));
 
 router.post("/", PUT_SESSION);
 router.get("/", GET_SESSION);

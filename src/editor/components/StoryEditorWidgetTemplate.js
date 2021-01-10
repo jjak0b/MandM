@@ -29,7 +29,7 @@ export const template =
 									>
 									<qrcode
 										v-bind:value="playStoryURL"
-										v-if="value.public"
+										v-if="value.public && value.gamemode !== '2'"
 									></qrcode>
 									</a>
 								<b-form-group
@@ -85,6 +85,8 @@ export const template =
 								v-bind:localesList="localesList"
 								v-bind:missions="value.missions"
 								v-bind:groups="value.groups"
+								v-bind:public="value.public"
+								v-bind:url="playStoryURL"
 							></story-groups-widget>
 							</b-col>
 						</b-form-row>

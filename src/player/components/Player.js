@@ -21,6 +21,7 @@ export const component = {
 			cacheSystem: new CacheSystem(),
 			loadingProgress: 0,
 			loadingInfoLocaleLabel: "shared.label-loading",
+			errorMessage: null,
 			isLoading: false,
 			/**
 			 * @type Promise
@@ -34,64 +35,80 @@ export const component = {
 		this.isLoading = true;
 		this.loadingInfoLocaleLabel = "shared.label-loading";
 
+		let url = new URL( window.location.href );
+		let storyName = url.searchParams.get( "story" );
+		let team = url.searchParams.get("team");
+
 		console.log( "[PlayerVM]", "Start downloading story" );
 		let promsInit = [
 			this.cacheSystem.init(),
-			this.player.init(),
+			this.player.init( storyName, team ),
 			I18nUtils.fetchLocales( "/shared/", [ i18n.locale, i18n.fallbackLocale ] ),
 			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
-			I18nUtils.fetchLocales( this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] ),
+			this.player.storyURL ? I18nUtils.fetchLocales( "" + this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] ) : Promise.reject(),
 		];
 		this.loadingProgress = 0;
 		let updateProgress = (percentage) => {
 			this.loadingProgress = percentage;
 		}
-		this.readyPromise = allProgress( promsInit, updateProgress )
-			.catch( (error) => {
-				console.error( "[PlayerVM]", "Unable to init Player required stuff", error );
-				return error;
-			})
-			.then( (responses) => {
-				let assetsProms = responses[ 1 ];
-				let localesMessagesShared = responses[ 2 ];
-				let localesMessagesPlayer = responses[ 3 ];
-				let localesMessagesAuthored = responses[ 4 ];
-				console.log( "[PlayerVM]", "Story downloading complete" );
-				console.log( "[PlayerVM]", "Start downloading story assets" );
+		this.readyPromise = new Promise( (resolveReady, rejectReady) => {
+			// assets depends on the result of system init promise
+			let dependenciesPromise = new Promise( (resolveDependencies, rejectDependencies) => {
+				// the system init promise handler
+				let promisePlayer = new Promise( (resolvePlayer, rejectPlayer ) => {
+					allProgress( promsInit, updateProgress )
+						.then( resolvePlayer )
+						.catch(( error ) => { // handle error specific of Player
+							if( error && error instanceof Error ) {
+								if( error.message === "NO_STORY") {
+									this.errorMessage = "Player.errors.label-no-story"
+								}
+								else if( error.message === "FORBIDDEN_STORY") {
+									this.errorMessage = "Player.errors.label-story-forbidden"
+								}
+								else if( error.message === "INVALID_STORY") {
+									this.errorMessage = "Player.errors.label-story-not-found"
+								}
+							}
+							console.error( "[PLayer VM] Unable to init system, reason:", error );
+							rejectPlayer( error );
+						});
+				});
 
-				console.log( "[PlayerVM]", "Init i18n messages for current locale and fallback" );
-				for (const locale in localesMessagesShared) {
-					this.$i18n.mergeLocaleMessage( locale, localesMessagesShared[ locale ] );
-				}
+				promisePlayer
+					.then( (responses) => {
+						let assetsProms = responses[ 1 ];
+						let localesMessagesShared = responses[ 2 ];
+						let localesMessagesPlayer = responses[ 3 ];
+						let localesMessagesAuthored = responses[ 4 ];
+						console.log( "[PlayerVM]", "Story and System fetch complete" );
+						console.log( "[PlayerVM]", "Start downloading story assets" );
 
-				for (const locale in localesMessagesPlayer) {
-					this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
-				}
+						console.log( "[PlayerVM]", "Init i18n messages for current locale and fallback" );
+						for (const locale in localesMessagesShared) {
+							this.$i18n.mergeLocaleMessage( locale, localesMessagesShared[ locale ] );
+						}
 
-				for (const locale in localesMessagesAuthored) {
-					this.$i18n.mergeLocaleMessage( locale, localesMessagesAuthored[ locale ] );
-				}
+						for (const locale in localesMessagesPlayer) {
+							this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
+						}
 
-				this.loadingProgress = 0;
-				this.loadingInfoLocaleLabel = "Player.label-loading-resources";
-				return allProgress( assetsProms, updateProgress );
-			})
-			.catch( (error) => {
-				this.$bvToast.toast(
-					this.$t("Player.errors.label-unable-to-load-resources"),
-					{
-						title: this.$t("Player.errors.label-error"),
-						appendToast: true,
-						noAutoHide: true,
-						variant: "danger"
-					}
-				)
-				console.error( "[PlayerVM]", "Unable to fetch assets", error );
-				return error;
-			})
+						for (const locale in localesMessagesAuthored) {
+							this.$i18n.mergeLocaleMessage( locale, localesMessagesAuthored[ locale ] );
+						}
+
+						this.loadingProgress = 0;
+						this.loadingInfoLocaleLabel = "Player.label-loading-resources";
+
+						resolveDependencies( allProgress( assetsProms, updateProgress ) );
+					})
+					.catch( rejectDependencies )
+			});
+
+			dependenciesPromise
 			.then( () => {
 				// From here we have all stuffs we need to run the story
-
+				console.log( "[PlayerVM]", "story assets download complete" );
 				// Init custom stylesheet for the story
 				if( this.player.story.style ) {
 					let head = document.getElementsByTagName('head')[0];
@@ -126,24 +143,61 @@ export const component = {
 				}
 				return Promise.resolve();
 			})
-			.then( () => new Promise( (resolve) => {
-				setTimeout( () => this.$nextTick( () => {
-					this.isLoading = false;
-					console.log( "[PlayerVM]", "story assets download complete" );
-					// just let finish the loading animation
-					resolve();
-				}),1000 );
-			}))
+			.then( () => {
+				let promise = new Promise( (resolve) => {
+					this.loadingProgress = 100;
+					setTimeout( () => this.$nextTick( () => {
+						this.isLoading = false;
+						console.log( "[PlayerVM]", "story install complete" );
+						// just let finish the loading animation
+						resolve();
+					}),1000 );
+				})
+					.then( resolveReady )
+			})
+			.catch( (error) => {
+				this.$bvToast.toast(
+					this.$t("Player.errors.label-unable-to-load-resources"),
+					{
+						title: this.$t("Player.errors.label-error"),
+						appendToast: true,
+						noAutoHide: true,
+						variant: "danger"
+					}
+				)
+				console.error( "[PlayerVM]", "Unable to fetch assets", error );
+				rejectReady(error);
+			});
+		});
 	},
 	mounted() {
 		this.readyPromise
 			.then( () => {
 				this.start();
 			})
+			.catch((error) => {
+				console.error( "[PlayerVM]", "Unable to start story, reason:", error );
+			});
 	},
 	methods: {
 		start() {
-			this.player.main();
+			try {
+				this.player.main();
+			}
+			catch (/*Error*/error) {
+				let message;
+				switch (error.message) {
+					case "NO_TEAM":
+						message = "Player.errors.label-no-team";
+						break;
+					case "INVALID_TEAM":
+						message = "Player.errors.label-invalid-team";
+						break;
+				}
+				if( message )
+					this.errorMessage = message;
+				console.error( "[PlayerVM]", "Catched exception", error );
+			}
 		}
 	}
 }
@@ -155,6 +209,9 @@ function allProgress(proms, progress_cb) {
 		p.then(()=> {
 			d ++;
 			progress_cb( 100 * (d / proms.length ) );
+		})
+		.catch( (error) => {
+			console.warn( "Promise of progress failed", error );
 		});
 	}
 	return Promise.all(proms);

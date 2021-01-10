@@ -15,6 +15,15 @@ export const template =
 	</b-form-row>
 	<b-form-row>
 		<div v-for="(group, index) in groups">
+			<a
+				v-bind:href="url + '&team=' + (index+1)"
+				target="_blank"
+			>
+			<qrcode
+				v-if="public"
+				v-bind:value="url + '&team=' + (index+1)"
+			></qrcode>
+			</a>
 			<list-widget	
 				class="ml-3"
 				v-bind:title="$t('StoryEditorWidget.label-group') + ' ' + (index+1)"

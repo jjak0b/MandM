@@ -132,11 +132,16 @@ export class Asset extends Disposable {
 	fetch() {
 		return window.fetch( this.url )
 			.then( (response) => {
-				return response.blob()
-					.then( (blobData) => {
-						this.blobURL = URL.createObjectURL( blobData );
-						return response;
-					});
-			})
+				if( response.ok ) {
+					return response.blob()
+						.then((blobData) => {
+							this.blobURL = URL.createObjectURL(blobData);
+							return response;
+						});
+				}
+				else {
+					return Promise.reject(response);
+				}
+			});
 	}
 }

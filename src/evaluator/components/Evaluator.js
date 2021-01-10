@@ -33,10 +33,31 @@ export const component = {
 				},
 				players: {}
 			},
-			fetchTimeout: 1 * 1000
+			fetchTimeout: 1 * 1000,
+			selectedSession: null,
+			sessionName: null
 		}
 	},
 	methods: {
+		showModal( session ) {
+			this.selectedSession = session;
+			this.$bvModal.show('evaluatorModal');
+		},
+		setSessionName() {
+			console.log( this.selectedSession, this.sessionName );
+			if (this.selectedSession && this.sessionName) {
+				$.ajax({
+					method: "post",
+					url: `/player/log/${this.selectedSession}/?name=${this.sessionName}`
+				}).done(() => {
+					console.log(`Renamed session ${this.selectedSession} with ${this.sessionName}`)
+				}).fail( () => {
+					console.log(`Failed to rename session ${this.selectedSession} with ${this.sessionName}`)
+				}).always( () => {
+					this.sessionName = null;
+				});
+			}
+		},
 		initDataChatForPlayer( playerID ) {
 
 			if( !("players" in this.chatsData ))

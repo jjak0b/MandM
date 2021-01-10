@@ -125,7 +125,7 @@ export const template =
 															class="mx-auto"
 															key-nav
 														>
-															<b-button>
+															<b-button v-on:click="showModal(sessionName)">
 																<b-icon
 																	icon="pencil"
 																></b-icon>
@@ -245,6 +245,14 @@ export const template =
 				</b-row>
 			</b-container>
 		</main>
+		<b-modal
+		id="evaluatorModal"
+		v-bind:title="$t('Evaluator.label-edit-name')"
+		v-bind:ok-title="$t('shared.label-save')"
+		centered
+		v-on:ok="setSessionName">
+			<b-form-input v-model="sessionName"></b-form-input>
+		</b-modal>	
 	</div>
 </div>
 `

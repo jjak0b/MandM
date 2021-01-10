@@ -33,10 +33,20 @@ export const component = {
 				},
 				players: {}
 			},
-			fetchTimeout: 1 * 1000
+			fetchTimeout: 1 * 1000,
+			globalStorySettings: {
+				isRunning: false,
+				startSecondsCountDown: 0,
+			}
 		}
 	},
 	methods: {
+		startStory() {
+			this.globalStorySettings.isRunning = true;
+		},
+		stopStory() {
+			this.globalStorySettings.isRunning = false;
+		},
 		initDataChatForPlayer( playerID ) {
 
 			if( !("players" in this.chatsData ))

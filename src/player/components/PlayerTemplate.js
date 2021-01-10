@@ -2,7 +2,7 @@ export const template =
 `
 <div class="h-100">
 <b-tabs
-	v-if="!isLoading"
+	v-if="!isLoading && !errorMessage"
 	pills card end
 	nav-wrapper-class="sticky-bottom"
 	content-class="flex-grow-1"
@@ -47,11 +47,20 @@ export const template =
 	<div
 		class="mx-auto w-75"
 	>
+		<b-alert
+			v-bind:show="!!errorMessage"
+			variant="danger"
+			class="text-center"
+			aria-live="assertive"
+		>
+			<h1
+				v-t="errorMessage"
+			></h1>
+		</b-alert>
 		<div class="text-center" role="status" aria-live="polite">
 			<h4
 				id="player-loading-progressbar"
-				v-t="loadingInfoLocaleLabel"
-			></h4>
+		>{{ $t( loadingInfoLocaleLabel ) }}</h4>
 		</div>
 		<b-progress
 			:max="100"

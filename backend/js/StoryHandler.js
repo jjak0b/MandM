@@ -12,6 +12,11 @@ class StoryHandler {
 		this.storyDependeciesFilename = "dependencies.json"
 		this.cacheList = [];
 		this.pathStories = path.join( __basedir, this.storyDirname );
+		/**
+		 *
+		 * @type {Map<String, Object>}
+		 */
+		this.status = new Map();
 	}
 
 	updateNameList() {
@@ -238,6 +243,26 @@ class StoryHandler {
 				.then( (data) => resolve( data || {} ) )
 				.catch( reject )
 		});
+	}
+
+	/**
+	 *
+	 * @param name
+	 * @return {Object}
+	 */
+	getStoryStatus( name ) {
+		if( !this.getList().includes( name ) ) {
+			return null;
+		}
+		let status = this.status.get( name );
+		if( !status ) {
+			status = {
+				startTime: null,
+				isActive: false
+			}
+			this.status.set( name, status );
+		}
+		return status;
 	}
 }
 

@@ -117,7 +117,15 @@ export const component = {
 				},
 			},
 			cursor: null,
-			currentCellCache: null
+			currentCellCache: null,
+			currentGridElement: null,
+
+			newCell: new SceneCell( { colSize: 1, component: null } ),
+			newCellComponentName: null,
+			newCellSize: 1,
+			onModalSubmit: null,
+			modalState: null,
+			maxCellSizeAvailable: 0,
 		}
 	},
 	watch: {
@@ -133,14 +141,9 @@ export const component = {
 			}
 		}
 	},
-	computed: {
-		canAddRow: function () { let rc = this.getRowsCount(); return rc >= 0 && rc < this.maxRows },
-		canAddColumn: function () {  let rc = this.getRowsCount(); let cc = this.getColumnsCount(); return rc > 0 && 0 <= cc && cc < this.maxColumns },
-		maxCellSizeAvailable: function() {
-			return this.getMaxColumnsForGrid() + (this.currentCellCache ? this.currentCellCache.colSize : 0);
-		}
-	},
 	created() {
+		this.onModalSubmit = this.onSubmitModalCellComponent;
+
 		ComponentMediaPlayer.setDisposeCallback(
 			ComponentMediaPlayer.name,
 			(that, params) => {
@@ -162,9 +165,21 @@ export const component = {
 		this.init( this.scene );
 	},
 	mounted(){
+		this.currentGridElement = this.$refs.grid;
 		this.isFormGridEnabled = this.$refs.grid;
 	},
 	methods: {
+		canAddRow: function () {
+			let rc = this.getRowsCount();
+			console.log( "row count-", rc);
+			return rc >= 0 && rc < this.maxRows
+		},
+		canAddColumn: function () {
+			let rc = this.getRowsCount(); let cc = this.getColumnsCount();
+			console.log( "row count_", rc);
+			console.log( "column count", cc);
+			return rc > 0 && 0 <= cc && cc < this.maxColumns
+		},
 		init( newScene ) {
 			if( newScene && newScene.grid) {
 				for (let i = 0; i < newScene.grid.length; i++) {
@@ -177,27 +192,33 @@ export const component = {
 				}
 			}
 		},
-		onAddGridRows( event ){
-			// we perform manual submit so check form validity first
-			let valid = $( event.target).closest( "form" )[0].checkValidity();
-			if( !valid ) return;
-
-			let formData = FormUtils.getFormData( event, true );
-			this.$refs.grid.AddRow( formData.get( "position" ) == "after" );
-		},
-		onAddGridColumn( event ) {
-			// we perform manual submit so check form validity first
-			let valid = $( event.target).closest( "form" )[0].checkValidity();
-			if( !valid ) return;
-
-			let formData = FormUtils.getFormData( event, true );
-			let cellData = {
-				colSize: Number.parseInt( formData.get( "size" ) ),
-				component: null
+		onAddGridRows( event, position ){
+			this.maxCellSizeAvailable = this.maxColumns;
+			this.onModalSubmit = (e) => {
+				let valid = this.onSubmitModalCellComponent(e);
+				if( valid ) {
+					this.currentGridElement.AddRow( position === "after", this.newCell );
+				}
 			}
-			let cell = new SceneCell( cellData );
+		},
+		onAddGridColumn( event, position ) {
+			let avail = this.getAvailableColumnsCount();
+			this.maxCellSizeAvailable = Math.max( 0, Math.min( avail, this.maxColumns ) )
+			this.onModalSubmit = (e) => {
+				let valid = this.onSubmitModalCellComponent(e);
+				if( valid ) {
+					this.currentGridElement.AddColumn(position === "after", this.newCell);
+				}
+			}
+		},
+		onChangeSelectedCellComponent() {
+			// use current cell as reference
+			this.newCell = this.currentCellCache;
+			this.newCellSize = this.currentCellCache.colSize;
+			this.newCellComponentName = this.currentCellCache.component.name;
+			this.maxCellSizeAvailable = Math.max( 0, Math.min( this.getAvailableColumnsCount() + this.newCell.colSize, this.maxColumns ) )
 
-			this.$refs.grid.AddColumn( formData.get( "position" ) == "after", cell );
+			this.onModalSubmit = this.onSubmitModalCellComponent;
 		},
 		removeRow() {
 			if( this.cursor ) {
@@ -206,33 +227,34 @@ export const component = {
 					this.removeCellComponent( columns[ i ] );
 				}
 			}
-			return this.$refs.grid.removeRow();
+			return this.currentGridElement.removeRow();
 		},
 		removeCell() {
 			this.removeCellComponent( this.currentCellCache );
-			return this.$refs.grid.removeCell();
+			return this.currentGridElement.removeCell();
 		},
 		getMaxRowsForGrid(){
-			if( this.$refs.grid )
-				return this.$refs.grid.getAvailableRowsCount();
+			if( this.currentGridElement )
+				return this.currentGridElement.getAvailableRowsCount();
 			return null;
 		},
-		getMaxColumnsForGrid() {
-			if( this.$refs.grid ){
-				let c = this.$refs.grid.getAvailableColumnsCount();
-				return c;
-			}
+		getAvailableColumnsCount() {
+			if( this.currentGridElement ){
+				let c = this.currentGridElement.getAvailableColumnsCount();
 
-			return null;
+				if( c >= 0 )
+					return c;
+			}
+			return this.maxColumns;
 		},
 		getRowsCount() {
-			if( this.$refs.grid )
-				return this.$refs.grid.getRowsCount();
+			if( this.currentGridElement )
+				return this.currentGridElement.getRowsCount();
 			return -1;
 		},
 		getColumnsCount() {
-			if( this.$refs.grid )
-				return this.$refs.grid.getColumnsCount();
+			if( this.currentGridElement )
+				return this.currentGridElement.getColumnsCount();
 			return -1;
 		},
 		initCellComponent( cell, name ) {
@@ -279,6 +301,38 @@ export const component = {
 				}
 				this.$delete( cell, "component" );
 			}
+		},
+		onOkModalCellComponent(bvModalEvt) {
+			bvModalEvt.preventDefault();
+			if( this.onModalSubmit )
+				this.onModalSubmit( bvModalEvt );
+		},
+		onSubmitModalCellComponent() {
+			const formValidity = this.$refs[ "form-set-cell-component" ].checkValidity()
+			this.modalState = formValidity;
+			if ( !formValidity ) {
+				return;
+			}
+
+			this.newCell.colSize = this.newCellSize;
+			// re-init component only if not defined or only if different than original
+			if( !this.newCell.component || ( this.newCell.component && this.newCell.component.name != this.newCellComponentName ) ) {
+				// reinit on new component name
+				this.removeCellComponent(this.newCell);
+				this.initCellComponent(this.newCell, this.newCellComponentName);
+			}
+
+			this.$nextTick(() => {
+				this.$bvModal.hide('sceneEditor-modal-set-cell-component')
+			});
+
+			return formValidity;
+		},
+		resetModalCellComponent() {
+			this.newCell = new SceneCell( { colSize: 1, component: null } );
+			this.newCellComponentName = null;
+			this.modalState = null;
+			this.newCellSize = 1;
 		}
 	}
 };

@@ -166,7 +166,7 @@ export const component = {
 				}
 			}
 		},
-		AddRow( shouldAddAfter ) {
+		AddRow( shouldAddAfter, initCell ) {
 			let index = this.cursor[0];
 			if( shouldAddAfter && this.gridData.length > 0 ){
 				index += 1;
@@ -174,7 +174,7 @@ export const component = {
 
 			this.gridData.splice(index, 0, [  ] );
 			this.onSetCursor( [ index, 0 ] );
-			this.AddColumn( false, new SceneCell( { colSize: 1, component: null } ) );
+			this.AddColumn( false, initCell );
 		},
 		removeRow() {
 			let indexRow = this.cursor[0];

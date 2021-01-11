@@ -17,6 +17,8 @@
 		"errors": {
 			"label-generic": "Error",
 			"label-unable-to-load-resources": "Ops, we can't load resources, please refresh the app"
-		}
+		},
+		"label-game-will-start-in": "Game will start in",
+		"label-waiting-game-start": "Wait until the game starts"
 	}
 }

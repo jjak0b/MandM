@@ -1,5 +1,6 @@
 {
 	"shared" : {
+		"label-field-required": "Questo è un campo obbligatorio",
 		"label-new-element" : "Nuovo elemento {name}",
 		"label-save" : "Salva",
 		"label-remove" : "Rimuovi",

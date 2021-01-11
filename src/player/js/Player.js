@@ -207,7 +207,6 @@ export default class Player {
 	}
 
 	main() {
-		this.initStory( this.story );
 		this.startStory();
 	}
 

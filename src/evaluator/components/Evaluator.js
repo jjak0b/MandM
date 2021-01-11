@@ -12,6 +12,7 @@ export const component = {
 	},
 	data() {
 		return {
+			storyNames: [],
 			loadingProgress: 0,
 			loadingInfoLocaleLabel: "shared.label-loading",
 			isLoading: false,
@@ -234,8 +235,17 @@ export const component = {
 			this.selectedMission = mission;
 		},
 		fetchAll() {
+			this.fetchStoryNames();
 			this.updateSessions();
 			this.fetchDataOfChats();
+		},
+		fetchStoryNames() {
+			return $.get( "/stories/", {
+				dataType: "json"
+			})
+				.done( (data) => {
+					this.storyNames = data;
+				})
 		},
 		getIconChatProps( playerID ) {
 			let playerChat = this.getPlayerChatData( playerID );

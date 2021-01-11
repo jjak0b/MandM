@@ -48,7 +48,7 @@ export const template =
 					role="menu"
 				>
 					<b-card
-						v-for="(storyArray, storyName) in activeStories"
+						v-for="(storyName) in storyNames"
 						no-body
 						class="mb-1"
 						tag="li"
@@ -57,8 +57,11 @@ export const template =
 						<b-button
 							block
 							v-b-toggle:[encodeURIComponent(storyName)]
+							v-b-toggle.sidebar-stories
+							v-on:click="onSelectMission(storyName)"
 							variant="info"
 						>{{ storyName }}</b-button>
+						<!--
 						<b-collapse
 							v-bind:id="encodeURIComponent(storyName)"
 							accordion="story"
@@ -77,6 +80,7 @@ export const template =
 							</b-list-group>
 	
 						</b-collapse>
+						-->
 					</b-card>
 				</b-nav>
 			</b-sidebar>
@@ -120,7 +124,6 @@ export const template =
 															v-bind:disabled="globalStorySettings.isRunning"
 															v-model="globalStorySettings.startSecondsCountDown"
 															min="0"
-															max="100"
 															class="mb-2"
 														></b-form-spinbutton>
 													</div>

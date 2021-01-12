@@ -169,6 +169,22 @@ export const component = {
 		this.isFormGridEnabled = this.$refs.grid;
 	},
 	methods: {
+		getCellComponentClass( isFocused, isSelected ) {
+			let classes = [];
+			if( this.showCSSGrid || isSelected ) {
+				classes.push( 'rounded-0 border' );
+				if( isSelected ) {
+					classes.push( 'border-primary' );
+				}
+				else if( isFocused ){
+					classes.push( 'border-success' );
+				}
+				else{
+					classes.push( 'border-danger' );
+				}
+			}
+			return classes;
+		},
 		canAddRow: function () {
 			let rc = this.getRowsCount();
 			console.log( "row count-", rc);

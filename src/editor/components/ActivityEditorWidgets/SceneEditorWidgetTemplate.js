@@ -183,15 +183,40 @@ export const template =
 	<hr>
 	<section id="gridSection">
 		<grid-widget
+			id="scene-editor-grid"
 			ref="grid"
-			v-bind:locale="locale"
-			v-bind:gridData="scene.grid"
+			v-bind:grid-data="scene.grid"
+			grid-role="grid"
+			grid-tag="div"
+			row-role="row"
+			row-class="row no-gutters"
+			row-tag="div"
+			cell-role="gridcell"
+			cell-class="col"
+			cell-tag="span"
 			v-bind:maxRows="maxRows"
 			v-bind:maxColumns="maxColumns"
-			v-bind:showCSSGrid="showCSSGrid"
-			v-bind:locales-list="localesList"
+			selectable
 			v-model="cursor"
-		></grid-widget>
+		>
+			<template
+				#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
+			>
+				<component
+					v-bind:tabindex="isFocused ? 0 : -1"
+					v-bind:class="getCellComponentClass( isFocused, isSelected )"
+					v-if="cellData.component && cellData.component.options"
+					v-bind:is="cellData.component.options"
+					v-bind:locale="locale"
+					v-bind:key="cellData.component.id"
+					v-bind="cellData.component.props"
+					v-bind:name="cellData.component.name"
+					v-bind:value="cellData.component.value"
+					v-bind:locales-list="localesList"
+					v-bind:localeLabel="cellData.component.i18nCategory"
+				></component>
+			</template>
+		</grid-widget>
 	</section>
 </div>
 <div class="row">

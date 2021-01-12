@@ -1,22 +1,46 @@
 import {template} from "./GridWidgetTemplate.js";
-import {component as rowComponent } from "./GridRowWidget.js";
 import {KeyboardUtils} from "../../../shared/js/KeyboardUtils.js";
-import SceneCell from "../../../shared/js/Scene/SceneCell.js";
 
 export const component = {
 	template: template,
-	components: {
-		"row" : rowComponent
-	},
 	props: {
-		locale: String,
 		gridData: Array,
+		gridRole: {
+			type: String,
+			default: "grid"
+		},
+		gridClass: [Array, String],
+		gridTag: {
+			type: [String, Object],
+			default: "div"
+		},
+		rowRole: {
+			type: String,
+			default: "row"
+		},
+		rowClass: [Array, String],
+		rowTag: {
+			type: [String, Object],
+			default: "div"
+		},
+		cellRole: {
+			type: String,
+			default: "gridcell"
+		},
+		cellClass: [Array, String],
+		cellTag: {
+			type: [String, Object],
+			default: "span"
+		},
+		selectable : {
+			type: Boolean,
+			default: false
+		},
+		showCSSGrid: Boolean,
 		value: Array,
 		maxRows: Number,
 		maxColumns: Number,
-		showCSSGrid: Boolean,
-		localesList: Array,
-		i18nCategory: String
+
 	},
 	data(){
 		return {
@@ -24,7 +48,12 @@ export const component = {
 				0,
 				0
 			],
-			currentCell: null
+			selectCursor: [
+				0,
+				0
+			],
+			currentCell: null,
+			preventFocus: false
 		}
 	},
 	watch: {
@@ -37,6 +66,10 @@ export const component = {
 			if( newVal
 				&& newVal[0] < this.gridData.length
 				&& newVal[1] < this.gridData[ newVal[0] ].length ) {
+
+				if( !this.preventFocus )
+					this.focusCell( newVal, true );
+
 				this.$emit( 'input', newVal );
 			}
 			else{
@@ -45,6 +78,44 @@ export const component = {
 		}
 	},
 	methods: {
+		isCellSelected( rowIndex, cellIndex ) {
+			console.log("s", this.selectable );
+			if( this.selectable ) {
+				return this.selectCursor[0] === rowIndex && this.selectCursor[1] === cellIndex;
+			}
+			else {
+				return null;
+			}
+		},
+		focusCell( cursor, focusFirstChild ) {
+			let el = this.getCellElement( cursor );
+			if( el ) {
+				if (focusFirstChild && el.children && el.children.length > 0) {
+					el = el.children[0];
+				}
+				el.focus();
+			}
+		},
+		isCellFocused( rowIndex, cellIndex ) {
+			return this.cursor[ 0 ] === rowIndex && this.cursor[ 1 ] === cellIndex;
+		},
+		getCellElement( cursor ) {
+			let name = `cell-${cursor[0]}-${cursor[1]}`;
+
+			if( (name in this.$refs ) ) {
+				return this.$refs[ name ][ 0 ];
+			}
+			return null;
+		},
+		handleOnCellSelect( event, cursor ) {
+			if( !this.isCellSelected( cursor[0], cursor[1] ) ){
+				this.preventFocus = true;
+				this.onSetSelectCursor( cursor );
+				this.$nextTick( () => {
+					this.preventFocus = false;
+				});
+			}
+		},
 		KeyHandler( event ) {
 			let row = this.cursor[0];
 			let col = this.cursor[1];
@@ -113,8 +184,15 @@ export const component = {
 				event.preventDefault();
 			}
 		},
+		onSetSelectCursor( value ) {
+			if( this.selectable ) {
+				this.selectCursor.splice(0, 2, value[0], value[1] );
+			}
+			this.onSetCursor( value );
+		},
 		onSetCursor( value ) {
-			this.cursor.splice(0, 2, value[0], value[1] );
+			if( !this.isCellFocused( value[0], value[1] ) )
+				this.cursor.splice(0, 2, value[0], value[1] );
 		},
 		onSetCellData( value ) {
 			this.currentCell = value;

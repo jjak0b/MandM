@@ -6,7 +6,24 @@
 	"label-input-value": "Input value",
 	"label-edit-name": "Edit name",
 	"label-no-story-selected": "No story selected",
-	"label-select-story-to-show-player-status": "Select story to show player status"
-
+	"label-select-story-to-show-player-status": "Select story to show player status",
+	"label-is-stuck": "is stuck",
+	"label-player-status": "Player Status",
+	"label-story-settings": "Story settings",
+	"label-story-countdown": "Story countdown",
+	"label-start-story": "Start story",
+	"label-end-story": "End story",
+	"label-unable-to-stop-story": "Unable to stop story",
+	"label-unable-to-start-story": "Unable to start story",
+	"label-story-already-ended": "Story already ended",
+	"label-story-already-active": "Story already active",
+	"label-story-ending": "Story ending",
+	"label-story-starting": "Story starting",
+	"label-story-end": "Story end",
+	"label-loading-resources": "Loading resources",
+	"errors": {
+	  "label-error": "error",
+	  "label-unable-to-load-resources": "Unable to load resources"
+	}
   }
 }

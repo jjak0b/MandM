@@ -40,7 +40,8 @@ export const component = {
 			globalStorySettings: {
 				isRunning: false,
 				startSecondsCountDown: 0,
-			}
+			},
+			stuckData: {}
 		}
 	},
 	methods: {
@@ -49,15 +50,14 @@ export const component = {
 			this.$bvModal.show('evaluatorModal');
 		},
 		setSessionName() {
-			console.log( this.selectedSession, this.sessionName );
 			if (this.selectedSession && this.sessionName) {
 				$.ajax({
 					method: "post",
 					url: `/player/log/${this.selectedSession}/?name=${this.sessionName}`
 				}).done(() => {
-					console.log(`Renamed session ${this.selectedSession} with ${this.sessionName}`)
+					console.log(`[Evaluator] Renamed session ${this.selectedSession} with ${this.sessionName}`)
 				}).fail( () => {
-					console.log(`Failed to rename session ${this.selectedSession} with ${this.sessionName}`)
+					console.log(`[Evaluator] Failed to rename session ${this.selectedSession} with ${this.sessionName}`)
 				}).always( () => {
 					this.sessionName = null;
 				});
@@ -245,10 +245,82 @@ export const component = {
 				}
 			})
 		},
+		updateStuckStatus() {
+			const maxTime = 10000;
+			let onStory, onMission, onActivity;
+			let currentTime, activityStartTime, difference, name;
+			for ( const player in this.sessions ) {
+
+				if ( !this.stuckData.hasOwnProperty( player ) ) {
+					this.stuckData[player] = {
+						stuck: false,
+						story: null,
+						mission: null,
+						activity: null,
+					}
+				}
+
+				if ( this.stuckData[player].stuck ) {
+
+					onStory = this.stuckData[player].story;
+					onMission = this.stuckData[player].mission;
+					onActivity = this.stuckData[player].activity;
+
+					if (this.sessions[player].hasOwnProperty(onStory)) {
+						if (this.sessions[player][onStory].hasOwnProperty(onMission)) {
+							if (this.sessions[player][onStory][onMission].hasOwnProperty(onActivity)) {
+								if (this.sessions[player][onStory][onMission][onActivity].hasOwnProperty('end')) {
+									this.stuckData[player].stuck = false;
+								}
+							}
+						}
+					}
+				}
+
+				if ( !this.stuckData[player].stuck ) {
+
+					for (const story in this.sessions[player]) {
+						for (const mission in this.sessions[player][story]) {
+							for (const activity in this.sessions[player][story][mission]) {
+
+								if (this.sessions[player][story][mission][activity].hasOwnProperty('start')) {
+									if (!this.sessions[player][story][mission][activity].hasOwnProperty('end')) {
+
+										currentTime = new Date();
+										activityStartTime = new Date(this.sessions[player][story][mission][activity]['start']);
+										difference = (currentTime - activityStartTime);
+
+										if (difference > maxTime) {
+
+											this.stuckData[player].stuck = true;
+											this.stuckData[player].story = story;
+											this.stuckData[player].mission = mission;
+											this.stuckData[player].activity = activity;
+
+											name = this.sessions[player].name ? this.sessions[player].name : player
+											this.$bvToast.toast(
+													`${name} ${this.$t("Evaluator.label-is-stuck")}` ,
+													{
+														title: this.$tc("Evaluator.label-player-status"),
+														appendToast: true,
+														noAutoHide: false,
+														variant: "danger"
+													}
+											)
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		updateSessions() {
 				$.get( `/player/log` ).then( (response) => {
 					this.sessions = response;
 					this.updateActiveStories();
+					this.updateStuckStatus();
 				})
 		},
 		onSelectMission(story, mission) {

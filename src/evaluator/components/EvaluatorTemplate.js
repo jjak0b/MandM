@@ -220,7 +220,11 @@ export const template =
 													>
 													</b-icon>
 												</b-button>
-												<b-button><b-icon-alarm-fill></b-icon-alarm-fill></b-button>
+												<b-button
+													v-bind:pressed="stuckData[sessionName].stuck"
+												>
+												<b-icon-alarm-fill></b-icon-alarm-fill>
+												</b-button>
 												<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
 											</b-button-toolbar>
 										</div>

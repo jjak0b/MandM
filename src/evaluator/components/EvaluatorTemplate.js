@@ -48,7 +48,7 @@ export const template =
 					role="menu"
 				>
 					<b-card
-						v-for="(storyArray, storyName) in activeStories"
+						v-for="(storyName) in storyNames"
 						no-body
 						class="mb-1"
 						tag="li"
@@ -57,8 +57,11 @@ export const template =
 						<b-button
 							block
 							v-b-toggle:[encodeURIComponent(storyName)]
+							v-b-toggle.sidebar-stories
+							v-on:click="onSelectMission(storyName)"
 							variant="info"
 						>{{ storyName }}</b-button>
+						<!--
 						<b-collapse
 							v-bind:id="encodeURIComponent(storyName)"
 							accordion="story"
@@ -77,6 +80,7 @@ export const template =
 							</b-list-group>
 	
 						</b-collapse>
+						-->
 					</b-card>
 				</b-nav>
 			</b-sidebar>
@@ -95,6 +99,70 @@ export const template =
 				</b-breadcrumb-item>
 			</b-breadcrumb>
 			<b-container>
+				<b-row v-if="selectedStory">
+					<b-col>
+						<b-card
+							no-body
+						>
+							<b-card-header
+								v-b-toggle="'story-settings'"
+							>
+								<h3 v-t="'Evaluator.label-story-settings'"></h3>
+							</b-card-header>
+							<b-collapse id="story-settings">
+								<b-card-body>
+									<div>
+										<b-form-group
+											label-for="evaluator-story-start-countdown"
+											v-bind:label="$t('Evaluator.label-story-countdown')"
+										>
+											<div class="row">
+												<div class="col d-flex">
+													<div class="m-auto">
+														<b-form-spinbutton
+															id="evaluator-story-start-countdown"
+															v-bind:disabled="globalStorySettings.isRunning"
+															v-model="globalStorySettings.startSecondsCountDown"
+															min="0"
+															class="mb-2"
+														></b-form-spinbutton>
+													</div>
+												</div>
+												<div class="col text-center">
+													<b-button-group
+														vertical
+														class="mb-2"
+													>
+														<b-button
+															id="evaluator-story-control-start-story"
+															v-on:click="startStory()"	
+															v-bind:disabled="globalStorySettings.isRunning === true"
+														>
+															<b-icon
+																icon="play"
+															></b-icon>
+															{{ $t('Evaluator.label-start-story') }}
+														</b-button>
+														<b-button
+															id="evaluator-story-control-end-story"
+															v-on:click="stopStory()"
+															v-bind:disabled="globalStorySettings.isRunning === false"
+														>
+															<b-icon
+																icon="stop"
+															></b-icon>
+															{{ $t('Evaluator.label-end-story') }}
+														</b-button>
+													</b-button-group>
+												</div>
+											</div>
+										</b-form-group>
+									</div>
+								</b-card-body>
+							</b-collapse>
+						</b-card>
+					</b-col>
+				</b-row>
 				<b-row v-if="selectedStory">
 					<b-col>
 						<b-card-group
@@ -235,7 +303,7 @@ export const template =
 						</b-card-group>
 					</b-col>
 				</b-row>
-				<b-row v-else>
+				<b-row v-if="!selectedStory">
 					<b-col>
 						<h1 v-t="'Evaluator.label-no-story-selected'"
 						></h1>

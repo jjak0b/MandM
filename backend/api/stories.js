@@ -13,10 +13,59 @@ router.param('name', function (req, res, next, value ) {
 	next();
 });
 
+const storyOperationRouter = express.Router();
+
 router.route("/:name" )
 	.get( API_GET_story )
 	.put( API_PUT_story )
-	.delete( API_DELETE_story );
+	.delete( API_DELETE_story )
+storyOperationRouter.post( "/start", API_POST_startStory);
+storyOperationRouter.post( "/stop", API_POST_endStory );
+storyOperationRouter.route( "/status")
+	.all( function (req, res, next) {
+		if( res.locals.storyName && handler.getList().includes( res.locals.storyName ) ) {
+			next();
+		}
+		else {
+			res.sendStatus( StatusCodes.NOT_FOUND );
+		}
+	})
+	.get( API_GET_statusStory );
+router.use("/:name", storyOperationRouter );
+
+function API_POST_startStory( req, res ) {
+	let status = handler.getStoryStatus( res.locals.storyName );
+	let newStatus = req.body;
+	if( !status.isActive ) {
+		status.isActive = true;
+		let countDown = newStatus.countDown || 0;
+		let startTime = Date.now() + ( countDown * 1000 );
+		status.startTime = new Date( startTime ).toISOString();
+		res.json( status );
+	}
+	else {
+		res.sendStatus( StatusCodes.METHOD_NOT_ALLOWED );
+	}
+}
+
+function API_POST_endStory( req, res ) {
+	let status = handler.getStoryStatus( res.locals.storyName );
+	let newStatus = req.body;
+	if( status.isActive ) {
+		status.isActive = false;
+		status.startTime = null;
+		res.json( status );
+	}
+	else {
+		res.sendStatus( StatusCodes.METHOD_NOT_ALLOWED );
+	}
+}
+
+function API_GET_statusStory( req, res ) {
+	let status = handler.getStoryStatus( res.locals.storyName );
+	res.json( status );
+}
+
 
 router.use(
 	"/:name/locales",

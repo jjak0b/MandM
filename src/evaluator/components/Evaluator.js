@@ -12,6 +12,7 @@ export const component = {
 	},
 	data() {
 		return {
+			storyNames: [],
 			loadingProgress: 0,
 			loadingInfoLocaleLabel: "shared.label-loading",
 			isLoading: false,
@@ -35,7 +36,11 @@ export const component = {
 			},
 			fetchTimeout: 1 * 1000,
 			selectedSession: null,
-			sessionName: null
+			sessionName: null,
+			globalStorySettings: {
+				isRunning: false,
+				startSecondsCountDown: 0,
+			}
 		}
 	},
 	methods: {
@@ -57,6 +62,107 @@ export const component = {
 					this.sessionName = null;
 				});
 			}
+		},
+		startStory() {
+			this.globalStorySettings.isRunning = null;
+
+			$.ajax({
+				method: "POST",
+				url: `/stories/${this.selectedStory}/start`,
+				contentType: "application/json",
+				dataType: "json",
+				data: JSON.stringify({
+					countDown: this.globalStorySettings.startSecondsCountDown
+				})
+			})
+				.done( ( data, textStatus, jqXHR) => {
+					this.globalStorySettings.isRunning = true;
+					this.$bvToast.toast(
+						this.$t("Evaluator.label-story-starting"),
+						{
+							title: this.$tc("Evaluator.label-story-starting"),
+							appendToast: true,
+							noAutoHide: false,
+							variant: "success"
+						}
+					)
+				})
+				.fail( ( jqXHR, textStatus, errorThrown ) => {
+					switch ( jqXHR.status ) {
+						case 405 : // method not allowed -> story already runnning
+							this.globalStorySettings.isRunning = true;
+							this.$bvToast.toast(
+								this.$t("Evaluator.errors.label-story-already-active"),
+								{
+									title: this.$t("Evaluator.errors.label-error"),
+									appendToast: true,
+									noAutoHide: false,
+									variant: "warning"
+								}
+							)
+							break;
+						default:
+							this.globalStorySettings.isRunning = false;
+							this.$bvToast.toast(
+								this.$t("Evaluator.errors.label-unable-to-start-story"),
+								{
+									title: this.$t("Evaluator.errors.label-error"),
+									appendToast: true,
+									noAutoHide: false,
+									variant: "danger"
+								}
+							);
+							break
+					}
+				})
+		},
+		stopStory() {
+			this.globalStorySettings.isRunning = null;
+
+			$.ajax({
+				url: `/stories/${this.selectedStory}/stop`,
+				method: "POST"
+			})
+				.done( ( data, textStatus, jqXHR) => {
+					this.$bvToast.toast(
+						this.$t("Evaluator.label-story-end"),
+						{
+							title: this.$tc("Evaluator.label-story-ending"),
+							appendToast: true,
+							noAutoHide: false,
+							variant: "success"
+						}
+					)
+					this.globalStorySettings.isRunning = false;
+				})
+				.fail( ( jqXHR, textStatus, errorThrown ) => {
+					switch ( jqXHR.status ) {
+						case 405 : // method not allowed -> story already stopped
+							this.globalStorySettings.isRunning = false;
+							this.$bvToast.toast(
+								this.$t("Evaluator.errors.label-story-already-ended"),
+								{
+									title: this.$t("Evaluator.errors.label-error"),
+									appendToast: true,
+									noAutoHide: false,
+									variant: "warning"
+								}
+							)
+							break;
+						default:
+							this.globalStorySettings.isRunning = true;
+							this.$bvToast.toast(
+								this.$t("Evaluator.errors.label-unable-to-stop-story"),
+								{
+									title: this.$t("Evaluator.errors.label-error"),
+									appendToast: true,
+									noAutoHide: false,
+									variant: "danger"
+								}
+							);
+							break
+					}
+				})
 		},
 		initDataChatForPlayer( playerID ) {
 
@@ -150,8 +256,17 @@ export const component = {
 			this.selectedMission = mission;
 		},
 		fetchAll() {
+			this.fetchStoryNames();
 			this.updateSessions();
 			this.fetchDataOfChats();
+		},
+		fetchStoryNames() {
+			return $.get( "/stories/", {
+				dataType: "json"
+			})
+				.done( (data) => {
+					this.storyNames = data;
+				})
 		},
 		getIconChatProps( playerID ) {
 			let playerChat = this.getPlayerChatData( playerID );

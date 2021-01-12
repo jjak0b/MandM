@@ -6,6 +6,7 @@ import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./PlayerTemplate.js";
 import {component as playerViewport} from "./PlayerViewport.js";
 import {component as playerChatWidget} from "./PlayerChatWidget.js";
+import {clock, wait} from "../../shared/js/Timers.js";
 
 export const component = {
 	el: '#main',
@@ -28,7 +29,42 @@ export const component = {
 			 */
 			readyPromise: null,
 			locale: i18n.locale,
-			selectedPage: 0
+			selectedPage: 0,
+			storyStatus: {
+				isActive: false,
+				startTime: null,
+			},
+			startGame: {
+				startGameDeferred: new $.Deferred(),
+				isRunning: false,
+				secondsCountDown: -1,
+				timerTimeoutHandler: null,
+				timerIntervalHandler: null
+			},
+			fetchTimeout: 5 * 1000,
+			fetchAllIntervalHandler: null,
+			timerLoopHandler: null,
+		}
+	},
+	computed: {
+		isGameStarted() {
+			// startGameDeferred is not reactive, so use also isActive to update this computed
+			return this.storyStatus.isActive && this.startGame.isRunning && this.startGame.startGameDeferred.state() === "resolved";
+		},
+		shouldShowWaiting() {
+			return !this.isGameStarted && this.startGame.secondsCountDown < 0;
+		},
+		shouldShowCountDown() {
+			return !this.isGameStarted && this.startGame.secondsCountDown > 0;
+		},
+		startingSecondsRemaining() {
+			if( this.storyStatus.startTime ) {
+				let timeDiff = Date.parse( this.storyStatus.startTime ) - Date.now();
+				return Math.floor( timeDiff / 1000 );
+			}
+			else {
+				return null;
+			}
 		}
 	},
 	created() {
@@ -173,16 +209,121 @@ export const component = {
 	mounted() {
 		this.readyPromise
 			.then( () => {
-				this.start();
+				this.initStory()
+					.then( () => {
+						this.fetchAll();
+						this.fetchAllIntervalHandler = setInterval( this.fetchAll, this.fetchTimeout );
+						this.startGame.startGameDeferred
+							.done( () => {
+								this.player.startStory();
+							})
+							.fail( (error) => {
+								console.error( "[PlayerVM]", "Unable to start story, reason:", error );
+							})
+					})
+					.catch( (error) => {
+						console.error( "[PlayerVM]", "Unable to init story, reason:", error );
+					})
 			})
 			.catch((error) => {
-				console.error( "[PlayerVM]", "Unable to start story, reason:", error );
+				console.error( "[PlayerVM]", "Unable to init Player with story, reason:", error );
 			});
 	},
+	beforeDestroy() {
+		clearInterval( this.fetchAllIntervalHandler );
+	},
 	methods: {
-		start() {
+		fetchAll() {
+			return Promise.all([
+				this.fetchStoryStatus()
+			])
+		},
+		fetchStoryStatus() {
+			if( !this.player.story || !this.player.storyURL ) return;
+
+			return $.get( {
+				url: `${this.player.storyURL}/status`,
+				dataType: "json",
+			})
+				.done( ( newStoryStatus, textStatus, jqXHR) => {
+
+					console.log( newStoryStatus );
+					let shouldTryToStartGame = false;
+					// if startTime are different
+					if( !(this.storyStatus.startTime === newStoryStatus.startTime && this.storyStatus.isActive && newStoryStatus.isActive ) ) {
+						// interrupt any running timer
+						if( this.startGame.timerTimeoutHandler ) {
+							clearTimeout( this.startGame.timerTimeoutHandler );
+							this.startGame.timerTimeoutHandler = null;
+						}
+						if( this.startGame.timerIntervalHandler ) {
+							clearInterval(this.startGame.timerIntervalHandler );
+							this.startGame.timerIntervalHandler = null;
+						}
+						this.$set(this.startGame, "secondsCountDown", -1 );
+						shouldTryToStartGame = true;
+					}
+					let timeData = getSecondsAndOffset(Date.now(), Date.parse(newStoryStatus.startTime));
+					console.log( this.startGame, timeData );
+
+
+					if( newStoryStatus.isActive ) {
+						// start countdown if not started yet
+						if( shouldTryToStartGame && this.startGame.startGameDeferred.state() !== "resolved" ) {
+							let timeData = getSecondsAndOffset(Date.now(), Date.parse(newStoryStatus.startTime));
+
+							// wait less than a second
+							if (timeData[0] > 0 && timeData[1] > 0) {
+								this.$set(this.startGame, "secondsCountDown", timeData[0]);
+								this.startGame.timerTimeoutHandler = setTimeout(this.startCountDown, timeData[1], timeData[0], this.setGameAsRunning );
+							}
+							else if (timeData[0] > 0) {
+								this.$set(this.startGame, "secondsCountDown", timeData[0]);
+								this.startCountDown(timeData[0], this.setGameAsRunning );
+							}
+							else {
+								console.log( "[PLayerVM]", "Game already started", "run immediately" );
+								this.startCountDown( 0, this.setGameAsRunning );
+							}
+						}
+					}
+					else {
+						// end story if already started
+						if( this.storyStatus.isActive && this.startGame.startGameDeferred.state() === "resolved" ) {
+							this.endStoryManually();
+						}
+					}
+					// update status
+					this.storyStatus = Object.assign( {}, this.storyStatus, newStoryStatus );
+				})
+				.catch( error => {
+					console.error( "[PLayerVM]", "Unable to fetch story status", "cause:", error );
+				})
+		},
+		startCountDown( seconds, callback ) {
+			if( this.startGame.timerTimeoutHandler ) {
+				clearTimeout( this.startGame.timerTimeoutHandler )
+				this.startGame.timerTimeoutHandler = null;
+			}
+			if( seconds > 0 ) {
+				this.$set(this.startGame, "secondsCountDown", seconds);
+				console.log( "[PLayerVM]", "Game will start in", seconds, "seconds" );
+				this.startGame.timerIntervalHandler = clock(
+					seconds,
+					(secondsLeft) => {
+						this.$set(this.startGame, "secondsCountDown", secondsLeft);
+					},
+					callback
+				);
+			}
+			else {
+				if( callback ) callback();
+			}
+		},
+		initStory() {
 			try {
-				this.player.main();
+				this.player.initStory( this.player.story );
+				return Promise.resolve();
 			}
 			catch (/*Error*/error) {
 				let message;
@@ -197,9 +338,28 @@ export const component = {
 				if( message )
 					this.errorMessage = message;
 				console.error( "[PlayerVM]", "Catched exception", error );
+				return Promise.reject( error );
 			}
+		},
+		setGameAsRunning() {
+			this.startGame.timerIntervalHandler = null;
+			if( this.startGame.startGameDeferred.state() === "pending" ) {
+				this.startGame.startGameDeferred.resolve();
+			}
+			this.$set( this.startGame, "isRunning", true );
+		},
+		endStoryManually() {
+
 		}
 	}
+}
+
+function getSecondsAndOffset( startTime, endTime ) {
+	let diffTime = endTime - startTime;
+	let seconds = Math.floor( diffTime / 1000 );
+	let timeOffset = diffTime - (seconds * 1000);
+
+	return [ seconds, timeOffset ];
 }
 
 function allProgress(proms, progress_cb) {

@@ -9,6 +9,10 @@ export const component = {
 	props: {
 		context: ContextMediaPlayer,
 		locale: String,
+		tabindex: {
+			type: Number,
+			default: null
+		}
 	},
 	data() {
 		return {

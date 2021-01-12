@@ -1,6 +1,6 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
 import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
-import { component as gridComponent } from "../SceneEditorWidgets/GridWidget.js";
+import { component as gridComponent } from "../../../shared/components/GridWidget.js";
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "../../../shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "../../../shared/js/FormUtils.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";

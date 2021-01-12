@@ -1,5 +1,5 @@
 import {template} from "./GridWidgetTemplate.js";
-import {KeyboardUtils} from "../../../shared/js/KeyboardUtils.js";
+import {KeyboardUtils} from "../js/KeyboardUtils.js";
 
 export const component = {
 	template: template,

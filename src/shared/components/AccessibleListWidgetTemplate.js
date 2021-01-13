@@ -9,7 +9,9 @@ export const template =
 		v-for="(item, index) in items"
 		v-bind:variant="getVariant(index)"
 		v-on:click="$emit('select', index)" 
-		v-bind:active="isActive(index)">
+		v-bind:active="isActive(index)"
+		v-bind:aria-label="$t(item.title)"
+		href="#">
 		<b-container>
 			<b-row> 
 				<b-col>

@@ -286,7 +286,7 @@ export const template =
 														class="mx-0 my-1"
 														v-for="(activityObject, activityId) in missionObject"
 														border-variant="info"
-														v-bind:header=" $t('assets.mission.' + missionId + '.activity.' + activityId + '.title') ">
+														v-bind:header="getActivityTitle( missionId, activityId )">
 														<b-card-text>
 															<b-row v-if="activityObject.start">
 																<b-col>

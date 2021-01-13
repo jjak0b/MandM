@@ -36,11 +36,15 @@ export const component = {
 			type: Boolean,
 			default: false
 		},
+
+		preventFocus: {
+			type: Boolean,
+			default: false
+		},
 		showCSSGrid: Boolean,
 		value: Array,
 		maxRows: Number,
 		maxColumns: Number,
-
 	},
 	data(){
 		return {
@@ -53,8 +57,24 @@ export const component = {
 				-1
 			],
 			currentCell: null,
-			preventFocus: false
+			localPreventFocus: false,
 		}
+	},
+	computed: {
+		shouldPreventFocus() { return this.preventFocus || this.localPreventFocus }
+	},
+	mounted() {
+		/*
+		let initRowIndex = ( this.value && this.value[ 0 ] >= 0 && this.value[ 0 ] < this.gridData.length )
+			? this.value[ 0 ]
+			: ( this.gridData.length > 0 ? 0 : -1 );
+		let initCellIndex = ( initRowIndex >= 0 && (this.value && this.value[ 1 ] >= 0 && this.value[ 1 ] < this.gridData[ initRowIndex ].length) )
+			? this.value[ 1 ]
+			: ( initRowIndex >= 0 ? initRowIndex : -1 );
+
+		this.localPreventFocus = true;
+		this.onSetSelectCursor( [ initRowIndex, initCellIndex ] );
+		this.$nextTick( () => this.localPreventFocus = false );*/
 	},
 	watch: {
 		// parent to child update is not needed because we send the object reference on updated cursor, so any field change
@@ -64,19 +84,44 @@ export const component = {
 		// Note: we send the object reference, so if the internal field are changed, will be updated also on child since it's a reference
 		"cursor": function (newVal, oldVal) {
 			if( newVal
+				&& newVal[0] >= 0
 				&& newVal[0] < this.gridData.length
+				&& newVal[1] >= 0
 				&& newVal[1] < this.gridData[ newVal[0] ].length ) {
 
-				if( !this.preventFocus )
+				if( !this.shouldPreventFocus )
 					this.focusCell( newVal, true );
+
+				this.$emit( 'update:cursor', newVal );
+			}
+			else {
+				this.$emit( 'update:cursor', null );
 			}
 		},
 		"selectCursor": function (newVal, oldVal) {
 			if( newVal
+				&& newVal[0] >= 0
 				&& newVal[0] < this.gridData.length
+				&& newVal[1] >= 0
 				&& newVal[1] < this.gridData[ newVal[0] ].length ) {
 
 				this.$emit( 'input', newVal );
+			}
+			else{
+				this.$emit( 'input', null );
+			}
+		},
+		"value" : function (newVal, oldVal) {
+			if(
+
+				newVal
+				&& newVal[0] >= 0
+				&& newVal[0] < this.gridData.length
+				&& newVal[1] >= 0
+				&& newVal[1] < this.gridData[ newVal[0] ].length
+			) {
+				if( !this.isCellSelected( newVal[0], newVal[ 1 ] ) )
+					this.onSetSelectCursor( newVal );
 			}
 			else{
 				this.$emit( 'input', null );
@@ -85,7 +130,6 @@ export const component = {
 	},
 	methods: {
 		isCellSelected( rowIndex, cellIndex ) {
-			console.log("s", this.selectable );
 			if( this.selectable ) {
 				return this.selectCursor[0] === rowIndex && this.selectCursor[1] === cellIndex;
 			}
@@ -100,10 +144,15 @@ export const component = {
 					el = el.children[0];
 				}
 				el.focus();
+				console.error( "focusing", el );
+			}
+			else {
+				console.error( "not found", cursor, focusFirstChild );
 			}
 		},
 		isCellFocused( rowIndex, cellIndex ) {
-			return this.cursor[ 0 ] === rowIndex && this.cursor[ 1 ] === cellIndex;
+			let isFocused =  this.cursor[ 0 ] === rowIndex && this.cursor[ 1 ] === cellIndex;
+			return isFocused;
 		},
 		getCellElement( cursor ) {
 			let name = `cell-${cursor[0]}-${cursor[1]}`;
@@ -115,10 +164,10 @@ export const component = {
 		},
 		handleOnCellSelect( event, cursor ) {
 			if( !this.isCellSelected( cursor[0], cursor[1] ) ){
-				this.preventFocus = true;
+				this.localPreventFocus = true;
 				this.onSetSelectCursor( cursor );
 				this.$nextTick( () => {
-					this.preventFocus = false;
+					this.localPreventFocus = false;
 				});
 			}
 		},
@@ -173,7 +222,6 @@ export const component = {
 
 				this.onSetCursor( [row, col] );
 
-				this.$emit( "input", this.gridData );
 				event.stopPropagation();
 			}
 
@@ -207,8 +255,8 @@ export const component = {
 			return this.gridData.length;
 		},
 		getColumnsCount() {
-			if( this.gridData.length > 0 && this.gridData[ this.cursor[0] ] ){
-				let a_columns = this.gridData[ this.cursor[0] ];
+			if( this.gridData.length > 0 && this.gridData[ this.selectCursor[0] ] ){
+				let a_columns = this.gridData[ this.selectCursor[0] ];
 				let columnSize = 0;
 				for (let i = 0; i < a_columns.length; i++){
 					columnSize += a_columns[i].colSize;
@@ -217,62 +265,87 @@ export const component = {
 			}
 			return 0;
 		},
-		AddColumn( shouldAddAfter, cellData ) {
-			let rowIndex =  this.cursor[0];
-			let cellIndex = this.cursor[1];
+		AddColumn( shouldAddAfter, cellData, cursor = this.selectCursor ) {
+			let rowIndex =  cursor[0];
+			let cellIndex = cursor[1];
+
 			if( rowIndex < 0 ) rowIndex = 0;
 
 			if ( !this.gridData[ rowIndex ] )
 				this.$set( this.gridData, rowIndex, [] );
 
+			let newCellIndex = cellIndex;
 			if( shouldAddAfter && this.gridData[ rowIndex ].length > 0 )
-				cellIndex += 1;
+				newCellIndex += 1;
 
-			this.gridData[this.cursor[0]].splice(
-				cellIndex,
+			this.gridData[ rowIndex ].splice(
+				newCellIndex,
 				0,
 				cellData
 			);
-			this.onSetCursor( [ rowIndex, cellIndex ] );
+
+			let cellPosition = [ rowIndex, newCellIndex ];
+
+			return cellPosition;
 		},
-		removeCell() {
-			let index = this.cursor[1];
-			if( this.gridData.length > 0 && this.gridData[this.cursor[0]] ) {
-				if ( this.gridData[this.cursor[0]].length > 1) {
-					this.gridData[this.cursor[0]].splice(index, 1);
-					if (index >= this.gridData[this.cursor[0]].length) {
-						index = this.gridData[this.cursor[0]].length - 1
+		removeCell( cursor = this.selectCursor ) {
+			let rowIndex = cursor[0];
+			let cellIndex = cursor[1];
+			if( rowIndex >= 0 && cellIndex >= 0 && this.gridData.length > 0 && this.gridData[ rowIndex ] ) {
+				if ( this.gridData[ rowIndex ].length > 1) {
+					let removed = this.gridData[ rowIndex ].splice(cellIndex, 1);
+
+
+					let isFocused = this.isCellFocused( rowIndex, cellIndex );
+					let isSelected = this.isCellSelected( rowIndex, cellIndex );
+
+					// unselecte
+					if( isSelected ) {
+						this.onSetSelectCursor( [-1, -1] );
 					}
+
 					// else the columns is already valid in the new row
-					this.onSetCursor( [ this.cursor[0], index ] );
+					if( isFocused ){
+						if (cellIndex >= this.gridData[ rowIndex ].length) {
+							cellIndex = this.gridData[ rowIndex ].length - 1
+						}
+						this.onSetCursor( [ rowIndex, cellIndex ] );
+					}
+
+					return [ removed ];
 				}
 				// if there is 1 column, so remove the row
 				else {
-					this.removeRow();
+					return this.removeRow();
 				}
 			}
 		},
 		AddRow( shouldAddAfter, initCell ) {
-			let rowIndex = this.cursor[0];
+			let rowIndex = this.selectCursor[0];
 			if( rowIndex < 0 ) rowIndex = 0;
 			if( shouldAddAfter && this.gridData.length > 0 ){
 				rowIndex += 1;
 			}
 
 			this.gridData.splice(rowIndex, 0, [  ] );
-			this.onSetCursor( [ rowIndex, 0 ] );
-			this.AddColumn( false, initCell );
+			return this.AddColumn( false, initCell, [ rowIndex, 0 ] );
 		},
-		removeRow() {
-			let indexRow = this.cursor[0];
-			let indexCol = this.cursor[1];
-			if( indexRow >= 0 && this.gridData.length > 0 ) {
-				this.gridData.splice( indexRow, 1 );
-				if( indexRow >= this.gridData.length) {
-					indexRow = Math.max( 0, this.gridData.length-1);
-				}
+		removeRow( cursor = this.selectCursor ) {
+			let indexRow = cursor[0];
+			let indexCol = cursor[1];
 
+			if( indexRow >= 0 && indexCol >= 0 && this.gridData.length > 0 ) {
+				let isFocused = this.isCellFocused( indexRow, indexCol );
+				let isSelected = this.isCellSelected( indexRow, indexCol );
+
+				let removedCells = this.gridData.splice( indexRow, 1 );
+
+				if( indexRow >= this.gridData.length )
+					indexRow--;
+
+				// at least 1 row left
 				if( this.gridData.length > 0 ) {
+					// set same index or most near index of same cell index but of current row
 					if( indexCol >= this.gridData[ indexRow ].length ){
 						indexCol = Math.max( 0, this.gridData[ indexRow ].length - 1 );
 					}
@@ -282,7 +355,17 @@ export const component = {
 					indexCol = 0;
 				}
 
-				this.onSetCursor( [ indexRow, indexCol ] );
+				// unselect
+				if( isSelected ) {
+					this.onSetSelectCursor( [-1, -1] );
+				}
+
+				// else the columns is already valid in the new row
+				if( isFocused ){
+					this.onSetCursor( [ indexRow, indexCol ] );
+				}
+
+				return removedCells;
 			}
 		},
 		getAvailableColumnsCount() {

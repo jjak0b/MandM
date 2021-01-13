@@ -12,6 +12,7 @@ export const template =
 	<component
 		v-for="(rowCells, rowIndex) in gridData"
 		v-bind:key="$attrs.id + '-' + rowIndex"
+		v-bind:id="$attrs.id + '-grid-row-' + rowIndex"
 		v-bind:is="rowTag"
 		v-bind:role="rowRole"
 		v-bind:aria-rowindex="rowIndex+1"
@@ -21,6 +22,7 @@ export const template =
 			v-for="(cellData, cellIndex) in rowCells"
 			v-bind:ref="'cell-' + rowIndex + '-' + cellIndex" 
 			v-bind:key="$attrs.id + '-' + rowIndex + '-' + cellIndex"
+			v-bind:id="$attrs.id + '-grid-cell-' + rowIndex + '-' + cellIndex"
 			v-bind:is="cellTag"
 			v-bind:role="cellRole"
 			v-bind:aria-colindex="cellIndex+1"

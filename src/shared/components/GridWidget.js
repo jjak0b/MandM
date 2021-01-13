@@ -45,12 +45,12 @@ export const component = {
 	data(){
 		return {
 			cursor: [
-				0,
-				0
+				-1,
+				-1
 			],
 			selectCursor: [
-				0,
-				0
+				-1,
+				-1
 			],
 			currentCell: null,
 			preventFocus: false
@@ -69,6 +69,12 @@ export const component = {
 
 				if( !this.preventFocus )
 					this.focusCell( newVal, true );
+			}
+		},
+		"selectCursor": function (newVal, oldVal) {
+			if( newVal
+				&& newVal[0] < this.gridData.length
+				&& newVal[1] < this.gridData[ newVal[0] ].length ) {
 
 				this.$emit( 'input', newVal );
 			}
@@ -212,20 +218,22 @@ export const component = {
 			return 0;
 		},
 		AddColumn( shouldAddAfter, cellData ) {
-			let index = this.cursor[1];
+			let rowIndex =  this.cursor[0];
+			let cellIndex = this.cursor[1];
+			if( rowIndex < 0 ) rowIndex = 0;
 
-			if ( !this.gridData[this.cursor[0]] )
-				this.$set( this.gridData, this.cursor[0], [] );
+			if ( !this.gridData[ rowIndex ] )
+				this.$set( this.gridData, rowIndex, [] );
 
-			if( shouldAddAfter && this.gridData[this.cursor[0]].length > 0 )
-				index += 1;
+			if( shouldAddAfter && this.gridData[ rowIndex ].length > 0 )
+				cellIndex += 1;
 
 			this.gridData[this.cursor[0]].splice(
-				index,
+				cellIndex,
 				0,
 				cellData
 			);
-			this.onSetCursor( [ this.cursor[0], index ] );
+			this.onSetCursor( [ rowIndex, cellIndex ] );
 		},
 		removeCell() {
 			let index = this.cursor[1];
@@ -245,19 +253,20 @@ export const component = {
 			}
 		},
 		AddRow( shouldAddAfter, initCell ) {
-			let index = this.cursor[0];
+			let rowIndex = this.cursor[0];
+			if( rowIndex < 0 ) rowIndex = 0;
 			if( shouldAddAfter && this.gridData.length > 0 ){
-				index += 1;
+				rowIndex += 1;
 			}
 
-			this.gridData.splice(index, 0, [  ] );
-			this.onSetCursor( [ index, 0 ] );
+			this.gridData.splice(rowIndex, 0, [  ] );
+			this.onSetCursor( [ rowIndex, 0 ] );
 			this.AddColumn( false, initCell );
 		},
 		removeRow() {
 			let indexRow = this.cursor[0];
 			let indexCol = this.cursor[1];
-			if( this.gridData.length > 0 ) {
+			if( indexRow >= 0 && this.gridData.length > 0 ) {
 				this.gridData.splice( indexRow, 1 );
 				if( indexRow >= this.gridData.length) {
 					indexRow = Math.max( 0, this.gridData.length-1);

@@ -27,7 +27,7 @@ import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/Compo
 import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
-import { component as userWidgetViewport} from "../../../player/components/UserWidgetViewport.js";
+import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );

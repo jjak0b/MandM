@@ -1,6 +1,6 @@
 import {template} from "./SceneViewportTemplate.js";
 import Scene from "../../shared/js/Scene/Scene.js";
-import { component as userWidgetViewport} from "./UserWidgetViewport.js";
+import { component as userWidgetViewport} from "../../shared/components/UserWidgetViewport.js";
 
 export const component = {
 	template: template,

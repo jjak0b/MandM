@@ -30,26 +30,26 @@ export const template =
 							aria-hidden="true"
 						></b-icon> {{ $t('SceneEditorWidget.GridWidget.label-add-row') }}
 					</template>
-					<b-dropdown-item-button
+					<b-dropdown-item
 						id="scene-editor-toolbar-row-add-before"
-						v-on:click="onAddGridRows( $event, 'before')"
-						v-b-toggle.sceneEditor-modal-set-cell-component
+						v-on:click.prevent="onAddGridRows( $event, 'before')"
+						v-b-toggle="'sceneEditor-modal-set-cell-component'"
 					>
 						<b-icon
 							icon="arrow-bar-up"
 							aria-hidden="true"
 						></b-icon> {{ $t( "shared.label-add-before" ) }}
-					</b-dropdown-item-button>
-					<b-dropdown-item-button
+					</b-dropdown-item>
+					<b-dropdown-item
 						id="scene-editor-toolbar-row-add-after"
-						v-on:click="onAddGridRows( $event, 'after')"
-						v-b-toggle.sceneEditor-modal-set-cell-component
+						v-on:click.prevent="onAddGridRows( $event, 'after')"
+						v-b-toggle="'sceneEditor-modal-set-cell-component'"
 					>
 						<b-icon
 							icon="arrow-bar-down"
 							aria-hidden="true"
 						></b-icon> {{ $t( "shared.label-add-after" ) }}
-					</b-dropdown-item-button>
+					</b-dropdown-item>
 				</b-dropdown>
 				<b-button
 					v-on:click="removeRow()"
@@ -76,26 +76,26 @@ export const template =
 							aria-hidden="true"
 						></b-icon> {{ $t('SceneEditorWidget.GridWidget.label-add-col') }}
 					</template>
-					<b-dropdown-item-button
+					<b-dropdown-item
 						id="scene-editor-toolbar-col-add-before"
-						v-on:click="onAddGridColumn( $event, 'before')"
-						v-b-toggle.sceneEditor-modal-set-cell-component
+						v-on:click.prevent="onAddGridColumn( $event, 'before')"
+						v-b-toggle="'sceneEditor-modal-set-cell-component'"
 					>
 						<b-icon
 							icon="arrow-bar-left"
 							aria-hidden="true"
 						></b-icon> {{ $t( "shared.label-add-before" ) }}
-					</b-dropdown-item-button>
-					<b-dropdown-item-button
+					</b-dropdown-item>
+					<b-dropdown-item
 						id="scene-editor-toolbar-col-add-after"
-						v-on:click="onAddGridColumn( $event, 'after')"
-						v-b-toggle.sceneEditor-modal-set-cell-component
+						v-on:click.prevent="onAddGridColumn( $event, 'after')"
+						v-b-toggle="'sceneEditor-modal-set-cell-component'"
 					>
 						<b-icon
 							icon="arrow-bar-right"
 							aria-hidden="true"
 						></b-icon> {{ $t( "shared.label-add-after" ) }}
-					</b-dropdown-item-button>
+					</b-dropdown-item>
 				</b-dropdown>
 				<b-button
 					class="mb-1"
@@ -111,7 +111,7 @@ export const template =
 			<b-button
 				v-bind:disabled="!currentCellCache"
 				v-on:click="onChangeSelectedCellComponent"
-				v-b-toggle.sceneEditor-modal-set-cell-component
+				v-b-toggle="'sceneEditor-modal-set-cell-component'"
 			>
 				<b-icon
 					icon="pencil"
@@ -140,6 +140,8 @@ export const template =
 			<b-container>
 				<b-row>
 					<b-col>
+						<b-row>
+						<b-col>
 						<section
 							aria-labelledby="sceneEditor-modal-section-cell-label-name"
 						>
@@ -154,10 +156,7 @@ export const template =
 										ref="form-set-cell-component"
 										v-on:submit.stop.prevent="onModalSubmit"
 									>
-										<b-form-group
-											v-bind:state="modalState"
-											v-bind:invalid-feedback="$t('shared.label-field-required')"
-										>
+										<b-form-group>
 											<b-form-row>
 												<b-col
 													sm="12"
@@ -169,7 +168,6 @@ export const template =
 													<b-form-select
 														id="SceneEditor-input-edit-cell-component"
 														v-model="newCellComponentName"
-														:state="modalState"
 														required
 													>
 														<template #first>
@@ -209,18 +207,25 @@ export const template =
 								</b-col>
 							</b-row>
 						</section>
-						<br>
+						</b-col>
+						</b-row>
+						<br/>
+						<b-row>
+						<b-col>
 						<section
-							v-if="newCell && newCell.component"
 							aria-labelledby="sceneEditor-modal-section-component-label-name"
+							v-bind:aria-hidden="!newCell || !newCell.component"
 							class="mb-2"
+							v-show="newCell && newCell.component"
+							aria-live="polite"
 						>
 							<h3
-								aria-live="polite"
 								id="sceneEditor-modal-section-component-label-name"
 								class="mb-2"
 							>{{ $t('SceneEditorWidget.label-edit-component-properties') }}</h3>
-							<b-row>
+							<b-row
+								v-if="newCell && newCell.component"
+							>
 								<b-col
 									sm="12"
 									lg="6"
@@ -246,6 +251,8 @@ export const template =
 								</b-col>
 							</b-row>
 						</section>
+						</b-col>
+						</b-row>
 					</b-col>
 				</b-row>
 			</b-container>
@@ -261,6 +268,52 @@ export const template =
 		>
 			{{ $t('SceneEditorWidget.GridWidget.label-scene-grid-layout-and-content') }}
 		</h3>
+		<div class="sr-only">
+			<div
+				role="status"
+				aria-live="polite"
+				aria-relevant="additions text"
+			>
+				<output
+					v-if="lastAddedWidgetName" 
+					:key="lastAddedWidgetName"
+					aria-atomic="true"
+				>
+					{{
+						$tc(
+							'shared.label-items-added',
+							1,
+							{
+								items: lastAddedWidgetName && (lastAddedWidgetName in widgetsTable)
+									? $t( widgetsTable[ lastAddedWidgetName ].label )
+									: ''
+							}
+						)
+					}}
+				</output>
+			</div>
+			<div
+				role="status"
+				aria-live="polite"
+				aria-relevant="removals"
+			>
+				<output
+					v-if="lastRemovedWidgetNames && lastRemovedWidgetNames.length > 0"
+					:key="lastRemovedWidgetNames.toString()"
+					aria-atomic="true"
+				>
+					{{
+						$tc(
+							'shared.label-items-removed',
+							lastRemovedWidgetNames.length,
+							{
+								items: lastRemovedWidgetNames.map( (widgetName) => $t( widgetsTable[ widgetName ].label ) ).join( ', ' )
+							}
+						)
+					}}
+				</output>
+			</div>
+		</div>
 		<grid-widget
 			id="scene-editor-grid"
 			ref="grid"
@@ -276,6 +329,7 @@ export const template =
 			v-bind:maxRows="maxRows"
 			v-bind:maxColumns="maxColumns"
 			selectable
+			v-bind:preventFocus="gridPreventFocus"
 			v-model="cursor"
 		>
 			<template
@@ -283,6 +337,7 @@ export const template =
 			>
 				<user-widget-viewport
 					v-if="cellData.component"
+					v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
 					v-bind:id="'sceneEditor-section-grid-component-' + cellData.component.id"
 					v-bind:tabindex="isFocused ? 0 : -1"
 					v-bind:value="cellData.component"

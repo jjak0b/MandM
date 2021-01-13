@@ -22,6 +22,7 @@ SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );
 
 export const component = {
+	inheritAttrs: false,
 	template: template,
 	components : {
 		"user-widget-checkbox" : listComponent,

@@ -126,20 +126,27 @@ export const component = {
 			newCellComponentName: null,
 			newCellSize: 1,
 			onModalSubmit: null,
-			modalState: null,
 			maxCellSizeAvailable: 0,
+			gridPreventFocus: false,
+			lastRemovedWidgetNames: [],
+			lastAddedWidgetName: null
 		}
 	},
 	watch: {
 		"cursor": function ( coords ) {
+			console.log( "new coords", coords );
 			if( coords
+				&& coords[0] >= 0
 				&& coords[0] < this.scene.grid.length
+				&& coords[1] >= 0
 				&& coords[1] < this.scene.grid[ coords[0] ].length ) {
-				console.log( "new coords", coords );
+
 				this.currentCellCache = this.scene.grid[ coords[ 0 ] ] [ coords[ 1 ] ];
+				console.log( this.currentCellCache );
 			}
 			else {
 				this.currentCellCache = null;
+				console.log( this.currentCellCache );
 			}
 		}
 	},
@@ -215,7 +222,11 @@ export const component = {
 			this.onModalSubmit = (e) => {
 				let valid = this.onSubmitModalCellComponent(e);
 				if( valid ) {
-					this.currentGridElement.AddRow( position === "after", this.newCell );
+
+					this.gridPreventFocus = true;
+					this.cursor = this.currentGridElement.AddRow( position === "after", this.newCell );
+					this.$nextTick( () => this.gridPreventFocus = false );
+
 					// so we are sure that after added, we can only save that component
 					this.onModalSubmit = this.onSubmitModalCellComponent;
 				}
@@ -227,7 +238,9 @@ export const component = {
 			this.onModalSubmit = (e) => {
 				let valid = this.onSubmitModalCellComponent(e);
 				if( valid ) {
-					this.currentGridElement.AddColumn(position === "after", this.newCell);
+					this.gridPreventFocus = true;
+					this.cursor = this.currentGridElement.AddColumn(position === "after", this.newCell );
+					this.$nextTick( () => this.gridPreventFocus = false );
 					// so we are sure that after added, we can only save that component
 					this.onModalSubmit = this.onSubmitModalCellComponent;
 				}
@@ -245,15 +258,30 @@ export const component = {
 		removeRow() {
 			if( this.cursor ) {
 				let columns = this.scene.grid[ this.cursor[ 0 ] ];
+
+				// clear old state
+				this.lastAddedWidgetName = null;
+				this.lastRemovedWidgetNames = [];
+
 				for (let i = 0; i < columns.length; i++) {
 					this.removeCellComponent( columns[ i ] );
 				}
 			}
-			return this.currentGridElement.removeRow();
+
+			this.gridPreventFocus = true;
+			let removed = this.currentGridElement.removeRow();
+			this.$nextTick( () => this.gridPreventFocus = false );
+			return removed;
 		},
 		removeCell() {
+			// clear old state
+			this.lastRemovedWidgetNames = [];
+			this.lastAddedWidgetName = null;
+
 			this.removeCellComponent( this.currentCellCache );
-			return this.currentGridElement.removeCell();
+			this.gridPreventFocus = true;
+			let removed = this.currentGridElement.removeCell();
+			this.$nextTick( () => this.gridPreventFocus = false );
 		},
 		getMaxRowsForGrid(){
 			if( this.currentGridElement )
@@ -318,6 +346,7 @@ export const component = {
 		removeCellComponent( cell ) {
 			console.log("[SceneEditor]", "removing cell", cell );
 			if( cell && cell.component) {
+				this.lastRemovedWidgetNames.push( cell.component.name );
 				if( cell.component.dispose ){
 					cell.component.dispose();
 				}
@@ -331,7 +360,6 @@ export const component = {
 		},
 		onSubmitModalCellComponent() {
 			const formValidity = this.$refs[ "form-set-cell-component" ].checkValidity()
-			this.modalState = formValidity;
 			if ( !formValidity ) {
 				return;
 			}
@@ -339,9 +367,21 @@ export const component = {
 			this.newCell.colSize = this.newCellSize;
 			// re-init component only if not defined or only if different than original
 			if( !this.newCell.component || ( this.newCell.component && this.newCell.component.name != this.newCellComponentName ) ) {
+
+				let newName = this.newCellComponentName;
+				if( newName ) {
+					// clear old state
+					this.lastRemovedWidgetNames = [];
+					this.lastAddedWidgetName = null;
+					this.$nextTick( () => this.lastAddedWidgetName = newName );
+				}
+
 				// reinit on new component name
 				this.removeCellComponent(this.newCell);
+
 				this.initCellComponent(this.newCell, this.newCellComponentName);
+
+
 			}
 
 			this.$nextTick(() => {
@@ -353,7 +393,6 @@ export const component = {
 		resetModalCellComponent() {
 			this.newCell = new SceneCell( { colSize: 1, component: null } );
 			this.newCellComponentName = null;
-			this.modalState = null;
 			this.newCellSize = 1;
 		}
 	}

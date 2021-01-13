@@ -27,6 +27,7 @@ import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/Compo
 import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
+import { component as userWidgetViewport} from "../../../player/components/UserWidgetViewport.js";
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );
@@ -45,6 +46,7 @@ export const component = {
 		localesList: Array
 	},
 	components : {
+		"user-widget-viewport": userWidgetViewport,
 		"user-widget-editor-text-content": textContentEditorComponent,
 		"user-widget-editor-list": listEditorComponent,
 		"user-widget-editor-text-input": textInputEditorComponent,
@@ -214,6 +216,8 @@ export const component = {
 				let valid = this.onSubmitModalCellComponent(e);
 				if( valid ) {
 					this.currentGridElement.AddRow( position === "after", this.newCell );
+					// so we are sure that after added, we can only save that component
+					this.onModalSubmit = this.onSubmitModalCellComponent;
 				}
 			}
 		},
@@ -224,6 +228,8 @@ export const component = {
 				let valid = this.onSubmitModalCellComponent(e);
 				if( valid ) {
 					this.currentGridElement.AddColumn(position === "after", this.newCell);
+					// so we are sure that after added, we can only save that component
+					this.onModalSubmit = this.onSubmitModalCellComponent;
 				}
 			}
 		},
@@ -339,7 +345,7 @@ export const component = {
 			}
 
 			this.$nextTick(() => {
-				this.$bvModal.hide('sceneEditor-modal-set-cell-component')
+				// this.$bvModal.hide('sceneEditor-modal-set-cell-component')
 			});
 
 			return formValidity;

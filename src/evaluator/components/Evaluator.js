@@ -40,6 +40,7 @@ export const component = {
 			globalStorySettings: {
 				isRunning: false,
 				startSecondsCountDown: 0,
+				stuckTime: 5
 			},
 			stuckData: {}
 		}
@@ -246,8 +247,7 @@ export const component = {
 			})
 		},
 		updateStuckStatus() {
-			const maxTime = 10000;
-			let onStory, onMission, onActivity;
+			let onStory, onMission, onActivity, maxTime;
 			let currentTime, activityStartTime, difference, name;
 			for ( const player in this.sessions ) {
 
@@ -290,7 +290,7 @@ export const component = {
 										activityStartTime = new Date(this.sessions[player][story][mission][activity]['start']);
 										difference = (currentTime - activityStartTime);
 
-										if (difference > maxTime) {
+										if (difference > (this.globalStorySettings.stuckTime * 60000)) {
 
 											this.stuckData[player].stuck = true;
 											this.stuckData[player].story = story;

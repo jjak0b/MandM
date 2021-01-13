@@ -21,6 +21,8 @@
 	"label-story-starting": "Story starting",
 	"label-story-end": "Story end",
 	"label-loading-resources": "Loading resources",
+	"label-player-stuck-notification-time": "Stuck player notification time",
+	"label-player-stuck-notification-time-description": "Define how many minutes will pass before the evaluator notifies that the player is stuck in an activity.d",
 	"errors": {
 	  "label-error": "error",
 	  "label-unable-to-load-resources": "Unable to load resources"

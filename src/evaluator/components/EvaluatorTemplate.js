@@ -156,6 +156,25 @@ export const template =
 													</b-button-group>
 												</div>
 											</div>
+										</b-form-group>	
+										<b-form-group
+											label-for="evaluator-player-stuck-notification-time"
+												v-bind:label="$t('Evaluator.label-player-stuck-notification-time')"
+											v-bind:description="$t('Evaluator.label-player-stuck-notification-time-description')"
+										>
+											<div class="row">
+												<div class="col-6 d-flex">
+													<div class="m-auto">
+														<b-form-spinbutton
+																id="evaluator-player-stuck-notification-time"
+																v-bind:disabled="globalStorySettings.isRunning"
+																v-model="globalStorySettings.stuckTime"
+																min="0"
+																class="mb-2"
+														></b-form-spinbutton>
+													</div>
+												</div>
+											</div>
 										</b-form-group>
 									</div>
 								</b-card-body>

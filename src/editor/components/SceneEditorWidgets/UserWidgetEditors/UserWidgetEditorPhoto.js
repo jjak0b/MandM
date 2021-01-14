@@ -10,18 +10,21 @@ export const component = {
     data(){
         return{
         typedValue:{
-            type:String,
+            type:"select",
             value:Object,
             description:"{{ $t('UserWidgets.label-photo-text')}}",
-            cap:String
+            cap:"enviroment"
         },
         typeOfCapture:[
-            {value: "image/*", text:"Foto", selected:true},
+            {value: "select", text:"Select type of media to capture", disabled:true},
+            {value: "image/*", text:"Foto"},
             {value: "video/*", text:"Video" },
             {value: "audio/*", text:"Audio"}
-        ]
-
-
+        ],
+            side:[
+                {text:"User", value:"user"},
+                {text:"Enviroment",value:"enviroment"}
+            ]
         }
     },
     components: {

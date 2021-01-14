@@ -8,8 +8,12 @@ export const template = `
     ></h3>
     <p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
     ></p>
-<b-form-group  v-if="condition">
+<b-form-group  v-if="condition"
+    v-bind:label="$t('ActivityEditorWidget.label-point-assignment')"
+	label-for="activity-editor-branch-point-assignment"
+	>
 		            <b-form-input
+		            id="activity-editor-branch-point-assignment"
                     type="number"
                     v-model.number="condition.rewardPoints"
                     >

@@ -314,40 +314,48 @@ export const template =
 				</output>
 			</div>
 		</div>
-		<grid-widget
-			id="scene-editor-grid"
-			ref="grid"
-			v-bind:grid-data="scene.grid"
-			grid-role="grid"
-			grid-tag="div"
-			row-role="row"
-			row-class="row no-gutters"
-			row-tag="div"
-			cell-role="gridcell"
-			cell-class="col"
-			cell-tag="span"
-			v-bind:maxRows="maxRows"
-			v-bind:maxColumns="maxColumns"
-			selectable
-			v-bind:preventFocus="gridPreventFocus"
-			v-model="cursor"
+		
+		<b-tabs
+			vertical
 		>
-			<template
-				#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
+			<b-tab
+				v-for="(gridLayer, gridIndex ) in gridLayers"
+				v-bind:title="'layer-' + gridIndex"
+				v-model="currentLayerIndex"
 			>
-				<user-widget-viewport
-					v-if="cellData.component"
-					v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
-					v-bind:id="'sceneEditor-section-grid-component-' + cellData.component.id"
-					v-bind:tabindex="isFocused ? 0 : -1"
-					v-bind:value="cellData.component"
-					v-bind:class="getCellComponentClass( isFocused, isSelected )"
-					v-bind:locale="locale"
-					v-bind:locales-list="localesList"
-					v-bind:localeLabel="cellData.component.i18nCategory"
-				></user-widget-viewport>
-			</template>
-		</grid-widget>
+				<grid-widget
+					v-bind:ref="'grid-' + gridIndex"
+					grid-role="grid"
+					row-role="row"
+					cell-role="gridcell"
+					v-model="gridLayer.cursor"
+					v-bind:grid-data="gridLayer.component.grid"
+
+					v-bind:selectable="true"
+					v-bind:preventFocus="gridPreventFocus"
+					
+					v-on:input="onCellSelectedInsideGrid( gridIndex, $event )"
+					v-bind="gridLayer.component.props"					
+				>
+					<template
+						#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
+					>	
+						<user-widget-viewport
+							v-bind:class="getCellComponentClass( isFocused, isSelected )"
+							v-if="cellData.component"
+							v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
+							v-bind:id="$attrs.id + '-grid-component-' + cellData.component.id"
+							v-bind:tabindex="isFocused ? 0 : -1"
+							v-bind:value="cellData.component"
+							v-bind:class="getCellComponentClass( isFocused, isSelected )"
+							v-bind:locale="locale"
+							v-bind:locales-list="localesList"
+							v-bind:localeLabel="cellData.component.i18nCategory"
+						></user-widget-viewport>
+					</template>
+				</grid-widget>
+			</b-tab>
+		</b-tabs>
 	</section>
 </section>
 `;

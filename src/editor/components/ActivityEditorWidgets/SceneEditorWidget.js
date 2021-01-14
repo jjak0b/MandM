@@ -20,7 +20,7 @@ import { component as textContentComponent } from "../../../shared/components/Us
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
 import {I18nUtils} from "../../../shared/js/I18nUtils.js";
 import SceneComponentParser from "../../../shared/js/Scene/SceneComponentParser.js";
-import SceneCell from "../../../shared/js/Scene/SceneCell.js";
+import SceneCell from "../../../shared/js/Scene/SceneComponents/Grid/SceneCell.js";
 import Scene from "../../../shared/js/Scene/Scene.js";
 import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";

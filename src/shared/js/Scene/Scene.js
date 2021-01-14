@@ -1,27 +1,14 @@
 import Disposable from "../Disposable.js";
-import SceneCell from "./SceneCell.js";
+import ComponentGrid from "./SceneComponents/ComponentGrid.js";
 
-export default class Scene extends Disposable{
+export default class Scene extends Disposable {
 	constructor( unparsedScene ) {
 		super( unparsedScene );
-		this.grid = [];
-		if( unparsedScene && unparsedScene.grid ){
-			this.grid = unparsedScene.grid;
-			for( let i = 0; i < this.grid.length; i++ ) {
-				for (let j = 0; j < this.grid[ i ].length; j++) {
-					this.grid[ i ][ j ] = new SceneCell( this.grid[ i ][ j ] );
-				}
-			}
-		}
+		this.body = new ComponentGrid( unparsedScene ? unparsedScene.body : null );
 	}
 
 	dispose( params ) {
-		for( let i = 0; i < this.grid.length; i++ ) {
-			for( let j = 0; j < this.grid[ i ].length; j++ ) {
-				this.grid[ i ][ j ].dispose( params );
-			}
-		}
-		super.dispose( params );
+		this.body.dispose( params );
 	}
 
 	addComponent( row, column, component ) {
@@ -29,12 +16,9 @@ export default class Scene extends Disposable{
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateScene = new Scene(JSON.parse(JSON.stringify(this)));
-		for( let i = 0; i < duplicateScene.grid.length; i++ ) {
-			for( let j = 0; j < duplicateScene.grid[ i ].length; j++ ) {
-				duplicateScene.grid[ i ][ j ] = this.grid[ i ][ j ].duplicate( locales, activityCategory );
-			}
-		}
+		let duplicateScene = new Scene( {
+			body: this.body.duplicate( locales, activityCategory )
+		});
 
 		return duplicateScene;
 	}

@@ -15,7 +15,7 @@ export const template =
 		v-bind:id="$attrs.id + '-grid-row-' + rowIndex"
 		v-bind:is="rowTag"
 		v-bind:role="rowRole"
-		v-bind:aria-rowindex="rowIndex+1"
+		v-bind:aria-rowindex="getAriaRowIndex(rowIndex)"
 		v-bind:class="rowClass"
 	>
 		<component
@@ -25,8 +25,8 @@ export const template =
 			v-bind:id="$attrs.id + '-grid-cell-' + rowIndex + '-' + cellIndex"
 			v-bind:is="cellTag"
 			v-bind:role="cellRole"
-			v-bind:aria-colindex="cellIndex+1"
-			v-bind:class="cellClass"
+			v-bind:aria-colindex="getAriaColIndex(cellIndex)"
+			v-bind:class="getCellClass( rowIndex, cellIndex )"
 			v-bind:tabindex="isCellFocused( rowIndex, cellIndex ) ? 0 : -1"
 			v-on:click="handleOnCellSelect( $event, [ rowIndex, cellIndex ] )"
 			v-on:keyup.enter="handleOnCellSelect( $event, [ rowIndex, cellIndex ] )"

@@ -1,5 +1,6 @@
 import {template} from "./GridWidgetTemplate.js";
 import {component as gridWidget } from "./GridWidget.js";
+import {TypedValue} from "../js/Types/TypedValue.js";
 
 export const component ={
 	template: template,
@@ -7,6 +8,7 @@ export const component ={
 		gridWidget
 	},
 	props: {
+		tabindex: [Number|String],
 		locale: String,
 
 		gridData: Array,
@@ -24,8 +26,44 @@ export const component ={
 		gridClass: [Array, String],
 		rowClass: [Array, String],
 		cellClass: [Array, String],
+		cursorCellClass: [Array, String],
+		selectedCellClass: [Array, String],
 
 		// custom props
-		selectable: Boolean
+		useIndexes: {
+			type: Boolean,
+			default: true
+		},
+		navKey: {
+			type: Boolean,
+			default: true
+		},
+		selectable : {
+			type: Boolean,
+			default: false
+		},
+		preventFocus: {
+			type: Boolean,
+			default: false
+		}
+	},
+	methods: {
+		onSelected( event ) {
+			this.$emit(
+				'input',
+				new TypedValue({
+					type: Array.name,
+					value: event
+				})
+			)
+		},
+		getTabIndex( isFocused ) {
+			if( this.navKey ) {
+				return ( this.tabindex === null || this.tabindex === undefined ) ? (isFocused ? 0 : -1) : this.tabindex;
+			}
+			else {
+				return this.tabIndex;
+			}
+		}
 	}
 }

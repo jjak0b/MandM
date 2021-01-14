@@ -1,8 +1,8 @@
 export const template =
 `
 <grid-widget
-	id="scene-editor-grid"
-	ref="grid"
+	v-bind:tabindex="tabindex"
+	
 	v-bind:grid-data="gridData"
 	v-bind:grid-tag="gridTag"
 	v-bind:grid-role="gridRole"
@@ -14,27 +14,26 @@ export const template =
 	v-bind:cell-role="cellRole"
 	v-bind:cell-class="cellClass"
 	
-	v-bind:maxRows="$attrs.maxRows"
-	v-bind:maxColumns="$attrs.maxColumns"
-	v-bind:selectable="$attrs.selectable"
-	v-bind:preventFocus="$attrs.gridPreventFocus"
 	v-bind:selectable="selectable"
+	v-bind:preventFocus="preventFocus"
+	v-bind:useIndexes="useIndexes"
+	v-bind:navKey="navKey"
 	
 	v-bind:value="value"
-	v-on:input="$emit('input', $event )"
+	v-on:input="onSelected"
+	v-on="$listeners"
 >
-	<slot>
-		<template
-			#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
-		>
-			<user-widget-viewport
-				v-if="cellData.component"
-				v-bind:id="cellData.component.id"
-				v-bind:tabindex="isFocused ? 0 : -1"
-				v-bind:value="cellData.component"
-				v-bind:locale="locale"
-			></user-widget-viewport>
-		</template>
-	</slot>
+	<template
+		#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
+	>
+		<user-widget-viewport
+			v-if="cellData.component"
+			v-bind:id="cellData.component.id"
+			v-bind:tabindex="getTabindex( isFocused )"
+			v-bind:value="cellData.component"
+			v-bind:locale="locale"
+			v-on="$listeners"
+		></user-widget-viewport>
+	</template>
 </grid-widget>
 `;

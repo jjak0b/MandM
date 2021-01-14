@@ -8,10 +8,12 @@ import {component as spinbuttonComponent} from "../../shared/components/UserWidg
 import {component as datepickerComponent} from "../../shared/components/UserWidgetDatepicker.js";
 import {asyncLoad as asyncLoadComponentI18nMediaPlayer} from "../../shared/components/UserWidgetMediaPlayer.js";
 import {component as textContentComponent} from "../../shared/components/UserWidgetTextContent.js";
+import {component as gridComponent } from "../../shared/components/UserWidgetGrid.js";
 import SceneComponentParser from "../../shared/js/Scene/SceneComponentParser.js";
 import ComponentMediaPlayer from "../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 import ComponentText from "../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../shared/js/Scene/SceneComponents/ComponentList.js";
+import ComponentGrid from "../../shared/js/Scene/SceneComponents/ComponentGrid.js";
 
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
@@ -20,6 +22,7 @@ SceneComponentParser.register( "user-widget-text-input", ComponentText );
 SceneComponentParser.register( "user-widget-checkbox", ComponentList );
 SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );
+SceneComponentParser.register( "user-widget-grid", ComponentGrid );
 
 export const component = {
 	inheritAttrs: false,
@@ -34,7 +37,8 @@ export const component = {
 		"user-widget-spinbutton" : spinbuttonComponent,
 		"user-widget-datepicker" : datepickerComponent,
 		"user-widget-media-player": asyncLoadComponentI18nMediaPlayer,
-		"user-widget-text-content" : textContentComponent
+		"user-widget-text-content" : textContentComponent,
+		"user-widget-grid" : gridComponent
 	},
 	props: {
 		value: SceneComponent,

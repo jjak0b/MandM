@@ -329,7 +329,7 @@ export const template =
 					row-role="row"
 					cell-role="gridcell"
 					v-model="gridLayer.cursor"
-					v-bind:grid-data="gridLayer.component.grid"
+					v-bind:grid-data="gridLayer.component.props.gridData"
 
 					v-bind:selectable="true"
 					v-bind:preventFocus="gridPreventFocus"

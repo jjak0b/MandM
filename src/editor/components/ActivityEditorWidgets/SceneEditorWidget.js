@@ -19,7 +19,6 @@ import { component as spinbuttonComponent } from "../../../shared/components/Use
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "../../../shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
-import { component as gridComponent } from "../../../shared/components/UserWidgetGrid.js";
 import { component as gridEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorGrid.js";
 
 
@@ -128,7 +127,7 @@ export const component = {
 				"user-widget-grid" : {
 					editor: "user-widget-editor-grid",
 					label: "UserWidgets.grid.label-grid",
-					options: gridComponent
+					options: gridWidget
 				},
 			},
 			cursor: null,
@@ -156,7 +155,7 @@ export const component = {
 			this.currentCellCache = null;
 			let cursor = this.currentLayerGrid.cursor;
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
-				let selectedCell = this.currentLayerGrid.component.grid[ cursor[ 0 ] ][ cursor[ 1 ] ];
+				let selectedCell = this.currentLayerGrid.component.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 				this.currentCellCache = selectedCell;
 			}
 		},
@@ -214,7 +213,7 @@ export const component = {
 			let gridLayerComponent = this.gridLayers[ gridIndex ].component;
 
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
-				let selectedCell = gridLayerComponent.grid[ cursor[ 0 ] ][ cursor[ 1 ] ];
+				let selectedCell = gridLayerComponent.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 
 				if( selectedCell.component.name === "user-widget-grid" ) {
 					if( this.gridLayers.length-1 <= gridIndex ) {
@@ -238,8 +237,8 @@ export const component = {
 		canAddColumn: function () {
 			// have rows
 			if( this.currentLayerGrid ) {
-				if( this.currentLayerGrid.component.grid ) {
-					return this.currentLayerGrid.component.grid.length > 0;
+				if( this.currentLayerGrid.component.props.gridData ) {
+					return this.currentLayerGrid.component.props.gridData.length > 0;
 				}
 			}
 			return false;

@@ -4,12 +4,12 @@ import SceneCell from "./Grid/SceneCell.js";
 export default class ComponentGrid extends SceneComponent {
 	constructor( unparsed ) {
 		super( unparsed );
-		this.grid = [];
-		if( unparsed && unparsed.grid ){
-			this.grid = unparsed.grid;
-			for( let i = 0; i < this.grid.length; i++ ) {
-				for (let j = 0; j < this.grid[ i ].length; j++) {
-					this.grid[ i ][ j ] = new SceneCell( this.grid[ i ][ j ] );
+		this.props.gridData = [];
+		if( unparsed && unparsed.props.gridData ){
+			this.props.gridData = unparsed.props.gridData;
+			for( let i = 0; i < this.props.gridData.length; i++ ) {
+				for (let j = 0; j < this.props.gridData[ i ].length; j++) {
+					this.props.gridData[ i ][ j ] = new SceneCell( this.props.gridData[ i ][ j ] );
 				}
 			}
 		}
@@ -33,9 +33,9 @@ export default class ComponentGrid extends SceneComponent {
 	}
 
 	dispose( params ) {
-		for( let i = 0; i < this.grid.length; i++ ) {
-			for( let j = 0; j < this.grid[ i ].length; j++ ) {
-				this.grid[ i ][ j ].dispose( params );
+		for( let i = 0; i < this.props.gridData.length; i++ ) {
+			for( let j = 0; j < this.props.gridData[ i ].length; j++ ) {
+				this.props.gridData[ i ][ j ].dispose( params );
 			}
 		}
 		super.dispose( params );
@@ -43,11 +43,11 @@ export default class ComponentGrid extends SceneComponent {
 
 	duplicate( locales, activityCategory ) {
 		let duplicate = new ComponentGrid();
-		duplicate.grid = new Array( this.grid.length );
-		for( let i = 0; i < this.grid.length; i++ ) {
-			duplicate.grid[ i ] = new Array( this.grid[ i ].length );
-			for( let j = 0; j < this.grid[ i ].length; j++ ) {
-				duplicate.grid[ i ][ j ] = this.grid[ i ][ j ].duplicate( locales, activityCategory );
+		duplicate.props.gridData = new Array( this.props.gridData.length );
+		for( let i = 0; i < this.props.gridData.length; i++ ) {
+			duplicate.props.gridData[ i ] = new Array( this.props.gridData[ i ].length );
+			for( let j = 0; j < this.props.gridData[ i ].length; j++ ) {
+				duplicate.props.gridData[ i ][ j ] = this.props.gridData[ i ][ j ].duplicate( locales, activityCategory );
 			}
 		}
 		// roles

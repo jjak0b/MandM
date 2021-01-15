@@ -27,12 +27,15 @@ export default class ActivityDataSceneable extends ActivityData {
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateData = super.duplicate( locales, activityCategory );
 
-		if ( duplicateData.scene ) {
-			duplicateData.scene = this.scene.duplicate( locales, activityCategory );
-		}
+		let duplicate = super.duplicate( locales, activityCategory );
+		duplicate = Object.assign(
+			duplicate,
+			{
+				scene: this.scene.duplicate( locales, duplicate.i18nCategory )
+			}
+		);
 
-		return duplicateData
+		return Object.setPrototypeOf( duplicate, ActivityDataSceneable.prototype );
 	}
 }

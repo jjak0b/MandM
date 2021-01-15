@@ -15,9 +15,9 @@ export default class Scene extends Disposable {
 
 	}
 
-	duplicate( locales, activityCategory ) {
+	duplicate( locales, i18nCategoryPrefix ) {
 		let duplicateScene = new Scene( {
-			body: this.body.duplicate( locales, activityCategory )
+			body: this.body.duplicate( locales, i18nCategoryPrefix )
 		});
 
 		return duplicateScene;

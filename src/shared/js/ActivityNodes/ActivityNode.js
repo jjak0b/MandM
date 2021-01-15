@@ -1,6 +1,6 @@
 import JSTreeNode from "../JSTreeNode.js";
 import NodeParser from "../NodeParser.js";
-import {I18nUtils} from "/shared/js/I18nUtils.js";
+import {I18nUtils} from "../I18nUtils.js";
 
 export default class ActivityNode extends JSTreeNode{
 
@@ -32,24 +32,27 @@ export default class ActivityNode extends JSTreeNode{
 	}
 
 	duplicate( locales, missionCategory ) {
-		let duplicateActivity = new ActivityNode(JSON.parse(JSON.stringify(this)));
-		let activityId = I18nUtils.getUniqueID();
-		duplicateActivity.id = activityId;
-		let activityCategory = missionCategory + '.activity.' + activityId;
+		let activityCategory = missionCategory + '.activity';
+
+		let duplicateActivity = JSON.parse(JSON.stringify( this ));
+		delete duplicateActivity.data;
+		delete duplicateActivity.children;
+		duplicateActivity = new JSTreeNode( duplicateActivity );
 
 		if( this.data ) {
 			if( this.data.duplicate ) {
 				duplicateActivity.data = this.data.duplicate(locales, activityCategory);
+				duplicateActivity.id = duplicateActivity.data.id;
 			}
 		}
 
 		if (this.children) {
+			duplicateActivity.children = new Array( this.children.length );
 			for (let i = 0; i < this.children.length; i++) {
-				if (this.children[i].duplicate)
-						duplicateActivity.children[i] = new ActivityNode(this.children[i].duplicate(locales, missionCategory));
+				duplicateActivity.children[i] = this.children[i].duplicate(locales, missionCategory);
 			}
 		}
 
-		return duplicateActivity;
+		return Object.setPrototypeOf( duplicateActivity, ActivityNode.prototype );
 	}
 }

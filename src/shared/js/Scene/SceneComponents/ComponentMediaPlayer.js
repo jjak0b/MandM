@@ -11,4 +11,17 @@ export default class ComponentMediaPlayer extends SceneComponent {
 		this.props.context.dispose( params );
 		super.dispose(params);
 	}
+
+	duplicate( locales, activityCategory ) {
+		let duplicate = super.duplicate( activityCategory );
+		duplicate = Object.assign(
+				duplicate,
+			{
+				props: {
+					context: this.props.context.duplicate( locales, duplicate.i18nCategory )
+				}
+			}
+		);
+		return Object.setPrototypeOf( duplicate, ComponentMediaPlayer.prototype );
+	}
 }

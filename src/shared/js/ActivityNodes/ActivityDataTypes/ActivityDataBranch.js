@@ -148,6 +148,12 @@ export default class ActivityDataBranch extends ActivityData {
 		this.condition = new BranchCondition( unparsed ? unparsed.condition : null );
 	}
 
+	duplicate(locales, activityCategory) {
+		let duplicate = super.duplicate(locales, activityCategory);
+		duplicate.condition = new BranchCondition( this.condition ? JSON.parse( JSON.stringify( this.condition ) ) : null );
+		return Object.setPrototypeOf( duplicate, ActivityDataBranch.prototype );
+	}
+
 	static isDefined( self ) {
 		return !!self && !!self.value;
 	}

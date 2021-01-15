@@ -46,6 +46,10 @@ export class Asset extends Disposable {
 		reference.blobURL = this.blobURL;
 	}
 
+	duplicate() {
+		return new Asset( JSON.parse( JSON.stringify( this ) ), null );
+	};
+
 	toJSON() {
 		return {
 			name: this.name,

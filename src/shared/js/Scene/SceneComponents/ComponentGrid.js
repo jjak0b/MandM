@@ -1,5 +1,6 @@
 import SceneComponent from "../SceneComponent.js";
 import SceneCell from "./Grid/SceneCell.js";
+import {I18nUtils} from "../../I18nUtils.js";
 
 export default class ComponentGrid extends SceneComponent {
 	constructor( unparsed ) {
@@ -41,13 +42,13 @@ export default class ComponentGrid extends SceneComponent {
 		super.dispose( params );
 	}
 
-	duplicate( locales, activityCategory ) {
-		let duplicate = new ComponentGrid();
+	duplicate( locales, i18nCategoryPrefix ) {
+		let duplicate = super.duplicate( locales, i18nCategoryPrefix );
 		duplicate.props.gridData = new Array( this.props.gridData.length );
 		for( let i = 0; i < this.props.gridData.length; i++ ) {
 			duplicate.props.gridData[ i ] = new Array( this.props.gridData[ i ].length );
 			for( let j = 0; j < this.props.gridData[ i ].length; j++ ) {
-				duplicate.props.gridData[ i ][ j ] = this.props.gridData[ i ][ j ].duplicate( locales, activityCategory );
+				duplicate.props.gridData[ i ][ j ] = this.props.gridData[ i ][ j ].duplicate( locales, i18nCategoryPrefix );
 			}
 		}
 		// roles
@@ -68,6 +69,6 @@ export default class ComponentGrid extends SceneComponent {
 		duplicate.props.selectable = this.props.selectable;
 
 
-		return duplicate;
+		return Object.setPrototypeOf( duplicate, ComponentGrid.prototype );
 	}
 }

@@ -2,8 +2,6 @@ import I18nCategorized from "./I18nCategorized.js";
 import ActivityNode from "./ActivityNodes/ActivityNode.js";
 import NodeParser from "./NodeParser.js";
 import NodeUtils from "./NodeUtils.js";
-import JSTreeNode from "./JSTreeNode.js";
-import {I18nUtils} from "/shared/js/I18nUtils.js";
 
 NodeParser.register( NodeUtils.Types.Mission, ActivityNode );
 
@@ -30,22 +28,28 @@ export default class Mission extends I18nCategorized {
 		this.duplicateCallback = func;
 	}
 
-	duplicate( locales ) {
-		let duplicateMission = new Mission(JSON.parse(JSON.stringify(this)));
-		let id = I18nUtils.getUniqueID();
-		let prefix = `assets.mission.${ id }`;
-		duplicateMission.i18nCategory = prefix;
-		duplicateMission.id = id
-		duplicateMission.title = prefix + ".title";
-		duplicateMission.description =  prefix + ".description";
+	duplicate( locales, i18nCategory ) {
+		let duplicateMission = super.duplicate( i18nCategory + ".mission");
 
-		Mission.duplicateCallback(locales, duplicateMission.title, this.title);
-		Mission.duplicateCallback(locales, duplicateMission.description, this.description);
+		console.log( "duplicated", this, "in", duplicateMission, i18nCategory, duplicateMission.i18nCategory );
+		duplicateMission.title = duplicateMission.i18nCategory + ".title";
+		duplicateMission.description =  duplicateMission.i18nCategory + ".description";
+		duplicateMission.active = this.active;
+		locales.push(
+			[
+				this.title,
+				duplicateMission.title
+			],
+			[
+				this.description,
+				duplicateMission.description
+			]
+		);
 
-		if (duplicateMission.tree) {
+		if ( this.tree ) {
 			duplicateMission.tree = this.tree.duplicate(locales, duplicateMission.i18nCategory);
 		}
 
-		return duplicateMission;
+		return Object.setPrototypeOf( duplicateMission, Mission.prototype );
 	}
 }

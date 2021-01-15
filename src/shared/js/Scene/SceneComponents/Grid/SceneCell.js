@@ -16,13 +16,11 @@ export default class SceneCell extends Disposable {
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateCell = new SceneCell({
-			colSize: this.colSize
-		});
-		if( this.component && this.component.duplicate )
-			duplicateCell.component = this.component.duplicate( locales, activityCategory );
+		let duplicate = {
+			colSize: this.colSize,
+			component: this.component ? this.component.duplicate( locales, activityCategory ) : null
+		};
 
-
-		return duplicateCell;
+		return Object.setPrototypeOf( duplicate, SceneCell.prototype );
 	}
 }

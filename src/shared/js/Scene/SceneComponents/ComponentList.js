@@ -13,15 +13,21 @@ export default class ComponentList extends SceneComponent {
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateComponent = new ComponentList(JSON.parse(JSON.stringify(this)));
-		let localeLabel;
+		let duplicate = super.duplicate( activityCategory );
+
 		if (this.props.options) {
-			for (const index in this.props.options) {
-				localeLabel = activityCategory + '.component.' + I18nUtils.getUniqueID() + '.element.' + I18nUtils.getUniqueID();
-				duplicateComponent.props.options[index].title = localeLabel;
-				Mission.duplicateCallback( locales, duplicateComponent.props.options[index].title, this.props.options[index].title );
+			duplicate.props.options = new Array( this.props.options.length );
+			for (let index = 0; index < this.props.options.length; index++){
+				duplicate.props.options[ index ] = {
+					value: new TypedValue( JSON.parse( JSON.stringify( this.props.options[ index ].value ) ) ),
+					title: duplicate.i18nCategory + '.element.' + I18nUtils.getUniqueID()
+				};
+				locales.push([
+					this.props.options[ index ].title,
+					duplicate.props.options[ index ].title
+				]);
 			}
 		}
-		return duplicateComponent;
+		return Object.setPrototypeOf( duplicate, ComponentList.prototype );
 	}
 }

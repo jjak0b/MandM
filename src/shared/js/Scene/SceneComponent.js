@@ -46,7 +46,7 @@ export default class SceneComponent extends I18nCategorized{
 		let duplicate = Object.assign(
 			super.duplicate( i18nCategoryPrefix +  '.component' ),
 			{
-				name: new String( this.name ),
+				name: "" + this.name,
 				value: this.value ? JSON.parse( JSON.stringify( this.value ) ) : this.value,
 				props: this.props.duplicate()
 			}

@@ -31,7 +31,6 @@ export default class Mission extends I18nCategorized {
 	duplicate( locales, i18nCategory ) {
 		let duplicateMission = super.duplicate( i18nCategory + ".mission");
 
-		console.log( "duplicated", this, "in", duplicateMission, i18nCategory, duplicateMission.i18nCategory );
 		duplicateMission.title = duplicateMission.i18nCategory + ".title";
 		duplicateMission.description =  duplicateMission.i18nCategory + ".description";
 		duplicateMission.active = this.active;

@@ -53,12 +53,12 @@ export default class ContextMediaPlayerArea extends I18nCategorized {
 		duplicate = Object.assign(
 			duplicate,
 			{
-				shape: new String( this.shape ),
+				shape: this.shape ? "" + this.shape : null,
 				vertices: JSON.parse( JSON.stringify( this.vertices ) ),
 				useHighlight: this.useHighlight,
 				alt: `${duplicate.i18nCategory}.label-alt`,
-				href: this.href ? new String( this.href ) : null,
-				target: this.target ? new String( this.target ) : null,
+				href: this.href ? "" + this.href : null,
+				target: this.target ? "" + this.target : null,
 				action: this.action,
 				value: new TypedValue( JSON.parse( JSON.stringify( this.value ) ) )
 			}

@@ -18,7 +18,7 @@ export default class SceneComponentProps extends Disposable {
 	duplicate() {
 		return new SceneComponentProps({
 			class: JSON.parse( JSON.stringify( this.class )),
-			id: new String( this.id )
+			id: this.id ? "" + this.id : undefined
 		});
 	}
 }

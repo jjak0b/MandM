@@ -24,24 +24,27 @@ SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );
 SceneComponentParser.register( "user-widget-grid", ComponentGrid );
 
-export const component = {
-	inheritAttrs: false,
-	template: template,
-	components : {
-		"user-widget-checkbox" : listComponent,
-		"user-widget-select" : listComponent,
-		"user-widget-radio" : listComponent,
-		"user-widget-text-input" : textInputComponent,
-		"user-widget-number-input" : numberInputComponent,
-		"user-widget-range" : rangeComponent,
-		"user-widget-spinbutton" : spinbuttonComponent,
-		"user-widget-datepicker" : datepickerComponent,
-		"user-widget-media-player": asyncLoadComponentI18nMediaPlayer,
-		"user-widget-text-content" : textContentComponent,
-		"user-widget-grid" : gridComponent
-	},
-	props: {
-		value: SceneComponent,
-		locale: String
-	},
+// circular dependency avoided with "user-widget-grid" using async component loading
+export function component( resolve, reject ) {
+	resolve({
+		inheritAttrs: false,
+		template: template,
+		components: {
+			"user-widget-checkbox": listComponent,
+			"user-widget-select": listComponent,
+			"user-widget-radio": listComponent,
+			"user-widget-text-input": textInputComponent,
+			"user-widget-number-input": numberInputComponent,
+			"user-widget-range": rangeComponent,
+			"user-widget-spinbutton": spinbuttonComponent,
+			"user-widget-datepicker": datepickerComponent,
+			"user-widget-media-player": asyncLoadComponentI18nMediaPlayer,
+			"user-widget-text-content": textContentComponent,
+			"user-widget-grid": gridComponent
+		},
+		props: {
+			value: SceneComponent,
+			locale: String
+		},
+	})
 }

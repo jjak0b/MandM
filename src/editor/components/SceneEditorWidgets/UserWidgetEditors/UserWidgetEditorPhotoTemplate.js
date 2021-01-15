@@ -8,7 +8,7 @@ export const template =
 			>{{ $t('UserWidgets.label-photo-settings') }}</template>
 			<b-form-row>
 			<b-col>
-			    <b-label for="descPhoto">{{ $t('UserWidgets.label-photo-text')}}</b-label>
+			    <b-label for="descPhoto">{{ $t('UserWidgets.TextContent.initial-editor-content')}}</b-label>
 			    <b-form-textarea id="descPhoto" v-model="typedValue.description" row="2" max-rows="2">
 			    </b-form-textarea>			
             </b-col>

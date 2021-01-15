@@ -1,4 +1,4 @@
-import ComponentGrid from "../../../../shared/js/Scene/SceneComponents/ComponentGrid";
+import ComponentGrid from "../../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
 import {template} from "./UserWidgetEditorGridTemplate.js";
 
 export const component = {

@@ -109,7 +109,7 @@ export const template =
 		tag-variant="secondary"
 		size="lg"
 		input-id="user-widget-editor-grid_cell-classes-input"
-		v-model="component.props.rowClass"
+		v-model="component.props.cellClass"
 		separator=" ,;"
 		remove-on-delete
 		v-bind:tag-validator="(classname) => isClassValid(component.props.cellClass, classname)"

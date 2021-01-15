@@ -175,10 +175,10 @@ export const component = {
 					el = el.children[0];
 				}
 				el.focus();
-				console.error( "focusing", el );
+				// console.log( "focusing", el );
 			}
 			else {
-				console.error( "not found", cursor, focusFirstChild );
+				// console.log( "not found", cursor, focusFirstChild );
 			}
 		},
 		isCellFocused( rowIndex, cellIndex ) {

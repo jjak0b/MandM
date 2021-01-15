@@ -103,23 +103,29 @@ export const component = {
 					data: JSON.stringify( storyData )
 				});
 				let locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
-				let promisesLocales = Object.keys( locales )
-										.map( (lang) => {
-											return $.ajax( storyUrl + `/locales/${lang}`, {
-												method: "put",
-												contentType: 'application/json',
-												data: JSON.stringify( locales[ lang ] )
-											})
-										});
 
-				Promise.all( [ promiseStory ].concat( promisesLocales ) )
-					.then( ( responses ) => {
+				promiseStory
+					.then( response => {
+						return Object.keys( locales )
+							.map( (lang) => {
+								return $.ajax( storyUrl + `/locales/${lang}`, {
+									method: "put",
+									contentType: 'application/json',
+									data: JSON.stringify( locales[ lang ] )
+								})
+							});
+					})
+					.then( ( promisesLocales ) => {
+						return Promise.all( promisesLocales );
+					})
+					.then( ( response ) => {
 						this.$emit('add-local-story', storyData);
 						console.log("[StoryEditor]", `Added (or updated) the Story ${storyData.name} to server`);
-						resolve( responses[ 0 ] );
+						resolve( response )
 					})
-					.catch( (reject) => {
-							console.log("[StoryEditor]", `Failed to add or update the Story ${storyData.name}`, reject );
+					.catch( (error) => {
+						console.log("[StoryEditor]", `Failed to add or update the Story ${storyData.name}`, error );
+						reject( error );
 					});
 			});
 		},
@@ -178,16 +184,23 @@ export const component = {
 			this.$bvModal.show('duplicateModal');
 		},
 		saveDupModal(){
-			let dataExport = new Story( this.value );
-			dataExport = dataExport.duplicate(this.$i18n.messages);
-			dataExport.name = this.newStory.name;
-
-			if (this.names.includes(dataExport.name)) {
+			if (this.names.includes(this.newStory.name)) {
 				console.log(dataExport.name," already exists");
 				return
 			}
 
+			let dataExport = new Story( this.value );
+
+			let i18nTupleList = [];
+			dataExport = dataExport.duplicate( i18nTupleList );
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.$i18n.messages, i18nTupleList );
+			dataExport.name = this.newStory.name;
+
 			this.putStoryOnServer( dataExport )
+				.then( () => {
+					dataExport.dependencies.locales = localesCopy;
+					this.$emit( 'add-local-story', dataExport );
+				})
 			.finally( () => {
 				this.resetModal();
 				this.$emit("update-names");

@@ -142,6 +142,68 @@ export class I18nUtils {
 		}
 	}
 
+	/**
+	 * Copy object structure of fromLocales that are in tupleList[ i ][ 0 ] to an object with the structures of merged tupleList[ i ][ 1 ]
+	 * @param i18n
+	 * @param localeMessages
+	 * @param tupleList { String[][] }
+	 */
+	static copyOldLabelsToNewLabels( fromLocales, tupleList) {
+		let value;
+
+		let obj = {};
+		for (const tuple of tupleList) {
+			let fromLabel = tuple[ 0 ];
+			let toLabel = tuple[ 1 ];
+
+			for (const locale in fromLocales) {
+				value = I18nUtils.getValueFromLabel(fromLocales, locale, fromLabel);
+				if (value) {
+					let msgObject = I18nUtils.buildObjectFromLabel(toLabel, value);
+					if( locale in obj ) {
+						I18nUtils.mergeDeep( obj[ locale ], msgObject );
+					}
+					else {
+						obj[ locale ] = msgObject;
+					}
+				}
+			}
+		}
+		return obj;
+	}
+
+	/**
+	 * Deep merge two objects.
+	 * @param target
+	 * @param source
+	 */
+	static mergeDeep(target, source) {
+		function isObject(item) {
+			return (item && typeof item === 'object' && !Array.isArray(item));
+		}
+
+		if (!source) return target;
+
+
+		if (isObject(target) && isObject(source)) {
+			for (const key in source) {
+				if (isObject(source[key])) {
+					// insert empty object on the target at this key
+					if (!target[key]) {
+						let empty = {};empty[ key ] = {};
+						Object.assign(target, empty );
+					}
+					// so merge them
+					I18nUtils.mergeDeep(target[key], source[key]);
+				}
+				else {
+					let endObj = {};endObj[ key ] = source[key];
+					Object.assign(target, endObj);
+				}
+			}
+		}
+	}
+
 	static setValueFromLabel( fromLocales, i18n, toLabel, fromLabel ) {
 		let value;
 		for (const locale in fromLocales) {

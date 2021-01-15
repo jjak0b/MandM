@@ -30,7 +30,7 @@ import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
-import { component as userWidgetViewport} from "../../../player/components/UserWidgetViewport.js";
+import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 export const component = {
 	template: template,

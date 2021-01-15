@@ -319,6 +319,7 @@ export const template =
 			card
 			vertical
 			v-model="currentLayerIndex"
+			v-bind:key="scene.body.id"
 		>
 			<b-tab
 				v-for="(gridLayer, gridIndex ) in gridLayers"

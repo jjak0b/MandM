@@ -48,6 +48,30 @@ export default class ContextMediaPlayerArea extends I18nCategorized {
 		this.value = new TypedValue( unparsed.value || {} );
 	}
 
+	duplicate(locales, i18nCategoryPrefix) {
+		let duplicate = super.duplicate( i18nCategoryPrefix + ".image.area" );
+		duplicate = Object.assign(
+			duplicate,
+			{
+				shape: this.shape ? "" + this.shape : null,
+				vertices: JSON.parse( JSON.stringify( this.vertices ) ),
+				useHighlight: this.useHighlight,
+				alt: `${duplicate.i18nCategory}.label-alt`,
+				href: this.href ? "" + this.href : null,
+				target: this.target ? "" + this.target : null,
+				action: this.action,
+				value: new TypedValue( JSON.parse( JSON.stringify( this.value ) ) )
+			}
+		);
+		locales.push(
+			[
+				this.alt,
+				duplicate.alt
+			]
+		);
+		return Object.setPrototypeOf( duplicate, ContextMediaPlayerArea.prototype );
+	}
+
 	dispose(params) {
 		super.dispose(params);
 	}

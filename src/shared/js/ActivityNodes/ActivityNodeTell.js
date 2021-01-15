@@ -13,5 +13,10 @@ export default class ActivityNodeTell extends ActivityNode {
 			}
 		}
 	}
+
+	duplicate(locales, missionCategory) {
+		let duplicate = super.duplicate(locales, missionCategory );
+		return Object.setPrototypeOf(duplicate, ActivityNodeTell.prototype );
+	}
 }
 NodeParser.register( NodeUtils.Types.Tell, ActivityNodeTell );

@@ -1,9 +1,12 @@
 export const template =
 `
-<div class="w-100" v-if="context.asset">
+<div
+	v-bind:tabindex="tabindex"
+	aria-atomic="true"
+>
 	<!-- Force image to re-render and delete maphilight extra tags using :key as image url when changed in editor -->
 	<figure
-		v-if="context.asset.category == 'images'"
+		v-if="context.asset && context.asset.category == 'images'"
 		class="figure"
 		v-bind:key="context.asset.getURL()"
 	>
@@ -31,18 +34,18 @@ export const template =
 				v-bind:href="area.href"
 				v-bind:target="area.target"
 				v-on:click="areaOnClick( i, $event )"
+				v-bind:tabindex="tabindex"
 			/>
 		</map>
 		<figcaption
-			class="figure-caption text-right"
+			class="figure-caption"
 		>{{ getImgAlt() }}</figcaption>
 	</figure>
 	<video
-		v-if="context.asset.category == 'videos'"
+		v-else-if="context.asset && context.asset.category == 'videos'"
 		controls="controls"
 		v-bind="$attrs"
 		v-bind:src="context.asset.getURL()"
-		class="w-100"
 	>
 		<track v-for="(source, lang) in context.captions"
 			kind="captions"
@@ -54,12 +57,11 @@ export const template =
 		{{ $t( "shared.errors.video_tag-unsupported" ) }}
 	</video>
 	<audio 
-		v-if="context.asset.category == 'audios'"
+		v-else-if="context.asset && context.asset.category == 'audios'"
 		controls="controls"
 		v-bind="$attrs"
 		v-bind:src="context.asset.getURL()"
 		v-bind:aria-describedby="$attrs.id + '-lyrics'"
-		class="w-100"
 	>
 		<track v-for="(source, lang) in context.captions"
 			kind="captions"
@@ -71,8 +73,11 @@ export const template =
 		<!-- Visile only if it's unsupported by browser-->
 		{{ $t( "shared.errors.audio_tag-unsupported" ) }}
 	</audio>
+	<span
+		v-else
+	>&nbsp;</span>
 	<pre
-		v-if="context.asset.category == 'audios'"
+		v-if="context.asset && context.asset.category == 'audios'"
 		v-bind:id="$attrs.id + '-lyrics'"
 		v-html="captionContent"
 		aria-live="polite"

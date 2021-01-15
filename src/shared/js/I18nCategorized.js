@@ -1,4 +1,5 @@
 import Disposable from "./Disposable.js";
+import {I18nUtils} from "./I18nUtils.js";
 
 export default class I18nCategorized extends Disposable {
 	constructor(unparsedObject) {
@@ -13,5 +14,13 @@ export default class I18nCategorized extends Disposable {
 
 	setID( id ) {
 		this.id = id;
+	}
+
+	duplicate( i18nCategoryPrefix ) {
+		let id = I18nUtils.getUniqueID();
+		return new I18nCategorized({
+			id: id,
+			i18nCategory: i18nCategoryPrefix + "." + id
+		});
 	}
 }

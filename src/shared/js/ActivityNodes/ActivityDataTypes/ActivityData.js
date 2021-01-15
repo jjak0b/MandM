@@ -1,7 +1,4 @@
-import Disposable from "../../Disposable.js";
 import I18nCategorized from "../../I18nCategorized.js";
-import Mission from "../../Mission.js";
-import ActivityDataSceneable from "./ActivityDataSceneable.js";
 
 export default class ActivityData extends I18nCategorized {
 
@@ -18,17 +15,26 @@ export default class ActivityData extends I18nCategorized {
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateData = new ActivityDataSceneable(JSON.parse(JSON.stringify(this)));
+		let duplicate = super.duplicate( activityCategory );
 
-		if (duplicateData.title) {
-			duplicateData.title = activityCategory + '.title';
-			Mission.duplicateCallback(locales, duplicateData.title, this.title);
+		duplicate.noteInfo = JSON.parse( JSON.stringify( this.noteInfo ) );
+		duplicate.active = this.active;
+
+		if (this.title) {
+			duplicate.title = duplicate.i18nCategory + '.title';
+			locales.push( [
+				this.title,
+				duplicate.title
+			]);
 		}
-		if (duplicateData.description) {
-			duplicateData.description = activityCategory + '.description';
-			Mission.duplicateCallback(locales, duplicateData.description, this.description);
+		if (this.description) {
+			duplicate.description = duplicate.i18nCategory + '.description';
+			locales.push( [
+				this.description,
+				duplicate.description
+			]);
 		}
 
-		return duplicateData
+		return Object.setPrototypeOf( duplicate, ActivityData.prototype );
 	}
 }

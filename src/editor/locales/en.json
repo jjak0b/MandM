@@ -127,7 +127,11 @@
 	"label-value": "Values"
   },
   "SceneEditorWidget": {
+	"label-edit-component-properties": "Edit component properties",
+	"label-edit-cell-properties": "Edit cell properties",
+	"label-scene-editor": "Scene editor",
 	"GridWidget": {
+	  "label-scene-grid-layout-and-content": "Scene grid layout and content",
 	  "label-add-row": "Add row",
 	  "label-add-col": "Add columns",
 	  "label-remove-cell": "remove selected cell",

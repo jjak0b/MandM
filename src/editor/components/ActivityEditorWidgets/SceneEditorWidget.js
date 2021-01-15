@@ -1,6 +1,7 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
 import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
-import { component as gridComponent } from "../SceneEditorWidgets/GridWidget.js";
+import { component as gridWidget } from "../../../shared/components/GridWidget.js";
+
 import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "../../../shared/components/UserWidgetMediaPlayer.js";
 import { FormUtils} from "../../../shared/js/FormUtils.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
@@ -18,23 +19,18 @@ import { component as spinbuttonComponent } from "../../../shared/components/Use
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentComponent } from "../../../shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
+import { component as gridEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorGrid.js";
+
+
 import {I18nUtils} from "../../../shared/js/I18nUtils.js";
 import SceneComponentParser from "../../../shared/js/Scene/SceneComponentParser.js";
-import SceneCell from "../../../shared/js/Scene/SceneCell.js";
+import SceneCell from "../../../shared/js/Scene/SceneComponents/Grid/SceneCell.js";
 import Scene from "../../../shared/js/Scene/Scene.js";
 import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
-import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
-import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
-
-SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
-SceneComponentParser.register( "user-widget-text-content", ComponentText );
-SceneComponentParser.register( "user-widget-text-input", ComponentText );
-SceneComponentParser.register( "user-widget-checkbox", ComponentList );
-SceneComponentParser.register( "user-widget-radio", ComponentList );
-SceneComponentParser.register( "user-widget-select", ComponentList );
-
+import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
+import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 export const component = {
 	template: template,
@@ -45,6 +41,7 @@ export const component = {
 		localesList: Array
 	},
 	components : {
+		"user-widget-viewport": userWidgetViewport,
 		"user-widget-editor-text-content": textContentEditorComponent,
 		"user-widget-editor-list": listEditorComponent,
 		"user-widget-editor-text-input": textInputEditorComponent,
@@ -53,7 +50,8 @@ export const component = {
 		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
-		"grid-widget": gridComponent,
+		"user-widget-editor-grid": gridEditorComponent,
+		"grid-widget": gridWidget,
 		"attribute-editor-widget": attributeEditorComponent
 	},
 	data() {
@@ -68,79 +66,95 @@ export const component = {
 				"user-widget-checkbox" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-checkbox-widget-name",
-					options: listComponent
 				},
 				"user-widget-select" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-select-widget-name",
-					options: listComponent
 				},
 				"user-widget-radio" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-radio-widget-name",
-					options: listComponent
 				},
 				"user-widget-text-input" : {
 					editor: "user-widget-editor-text-input",
 					label: "UserWidgets.label-text-input-widget-name",
-					options: textInputComponent
 				},
 				"user-widget-number-input" : {
 					editor: "user-widget-editor-number-input",
 					label: "UserWidgets.label-number-input-widget-name",
-					options: numberInputComponent
 				},
 				"user-widget-range" : {
 					editor: "user-widget-editor-range",
 					label: "UserWidgets.label-range-widget-name",
-					options: rangeComponent
 				},
 				"user-widget-spinbutton" : {
 					editor: "user-widget-editor-spinbutton",
 					label: "UserWidgets.label-spinbutton-widget-name",
-					options: spinbuttonComponent
 				},
 				"user-widget-datepicker" : {
 					editor: "user-widget-editor-datepicker",
 					label: "UserWidgets.label-datepicker-widget-name",
-					options: datepickerComponent
 				},
 				"user-widget-media-player": {
 					editor: "user-widget-editor-media-player",
 					label: "UserWidgets.label-media-player-widget-name",
-					options:  asyncLoadComponentI18nMediaPlayer
 				},
 				"user-widget-text-content" : {
 					editor: "user-widget-editor-text-content",
 					label: "UserWidgets.TextContent.label-text-content",
-					options: textContentComponent
+				},
+				"user-widget-grid" : {
+					editor: "user-widget-editor-grid",
+					label: "UserWidgets.grid.label-grid",
 				},
 			},
 			cursor: null,
-			currentCellCache: null
+			currentCellCache: null,
+			currentLayerIndex: -1,
+			currentGridElement: null,
+			/**
+			 * @type {{
+			 * 	component: ComponentGrid
+			 * 	cursor: Array
+			 * }[]}
+			 */
+			gridLayers: [],
+			newCell: new SceneCell( { colSize: 1, component: null } ),
+			newCellComponentName: null,
+			newCellSize: 1,
+			onModalSubmit: null,
+			maxCellSizeAvailable: 0,
+			gridPreventFocus: false,
+			lastRemovedWidgetNames: [],
+			lastAddedWidgetName: null
 		}
 	},
 	watch: {
-		"cursor": function ( coords ) {
-			if( coords
-				&& coords[0] < this.scene.grid.length
-				&& coords[1] < this.scene.grid[ coords[0] ].length ) {
-				console.log( "new coords", coords );
-				this.currentCellCache = this.scene.grid[ coords[ 0 ] ] [ coords[ 1 ] ];
+		"currentLayerIndex": function () {
+			let gridRefName = "grid-" + this.currentLayerIndex;
+			if( gridRefName in this.$refs ) {
+				this.currentGridElement = this.$refs[ gridRefName ][ 0 ];
 			}
 			else {
-				this.currentCellCache = null;
+				this.currentGridElement = undefined;
 			}
-		}
+			this.currentCellCache = null;
+			let cursor = this.currentLayerGrid.cursor;
+			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
+				let selectedCell = this.currentLayerGrid.component.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
+				this.currentCellCache = selectedCell;
+			}
+		},
 	},
 	computed: {
-		canAddRow: function () { let rc = this.getRowsCount(); return rc >= 0 && rc < this.maxRows },
-		canAddColumn: function () {  let rc = this.getRowsCount(); let cc = this.getColumnsCount(); return rc > 0 && 0 <= cc && cc < this.maxColumns },
-		maxCellSizeAvailable: function() {
-			return this.getMaxColumnsForGrid() + (this.currentCellCache ? this.currentCellCache.colSize : 0);
-		}
+		currentLayerGrid: function() {
+			if( this.currentLayerIndex < 0 ) return undefined;
+			return this.gridLayers[ this.currentLayerIndex ];
+		},
 	},
 	created() {
+		this.onModalSubmit = this.onSubmitModalCellComponent;
+
 		ComponentMediaPlayer.setDisposeCallback(
 			ComponentMediaPlayer.name,
 			(that, params) => {
@@ -159,80 +173,139 @@ export const component = {
 				this.$i18n.removeMessageAll( that.alt )
 			}
 		);
-		this.init( this.scene );
 	},
 	mounted(){
-		this.isFormGridEnabled = this.$refs.grid;
+		// put default grid as first layer
+		this.gridLayers.push({
+			component: this.scene.body,
+			cursor: [-1, -1]
+		});
+		// this.isFormGridEnabled = true;
 	},
 	methods: {
-		init( newScene ) {
-			if( newScene && newScene.grid) {
-				for (let i = 0; i < newScene.grid.length; i++) {
-					let columns = newScene.grid[ i ];
-					for (let j = 0; j < columns.length; j++) {
-						if( columns[ j ].component ) {
-							this.initCellComponent( columns[ j ], columns[ j ].component.name );
+		onCellSelectedInsideGrid( gridIndex, cursor ) {
+			if( gridIndex < 0 || gridIndex >= this.gridLayers.length ) return;
+			// this.currentLayerGrid
+			let gridLayerComponent = this.gridLayers[ gridIndex ].component;
+
+			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
+				let selectedCell = gridLayerComponent.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
+
+				this.currentCellCache = selectedCell;
+
+
+				if( selectedCell.component ){
+
+					if( selectedCell.component instanceof ComponentGrid ) {
+						if( this.gridLayers.length-1 <= gridIndex ) {
+							this.gridLayers.push({
+								component: selectedCell.component,
+								cursor: [-1, -1]
+							});
+						}
+						// else we already have the layer
+					}
+					else {
+						while( this.gridLayers.length -1 > gridIndex ) {
+							let gridLayer = this.gridLayers.pop();
 						}
 					}
 				}
 			}
 		},
-		onAddGridRows( event ){
-			// we perform manual submit so check form validity first
-			let valid = $( event.target).closest( "form" )[0].checkValidity();
-			if( !valid ) return;
-
-			let formData = FormUtils.getFormData( event, true );
-			this.$refs.grid.AddRow( formData.get( "position" ) == "after" );
+		canAddRow: function () {
+			return !!this.currentLayerGrid;
 		},
-		onAddGridColumn( event ) {
-			// we perform manual submit so check form validity first
-			let valid = $( event.target).closest( "form" )[0].checkValidity();
-			if( !valid ) return;
-
-			let formData = FormUtils.getFormData( event, true );
-			let cellData = {
-				colSize: Number.parseInt( formData.get( "size" ) ),
-				component: null
+		canAddColumn: function () {
+			// have rows
+			if( this.currentCellCache && this.currentLayerGrid ) {
+				if( this.currentLayerGrid.component.props.gridData ) {
+					return this.currentLayerGrid.component.props.gridData.length > 0;
+				}
 			}
-			let cell = new SceneCell( cellData );
+			return false;
+		},
+		onAddGridRows( event, position ){
+			this.onModalSubmit = (e) => {
+				let valid = this.onSubmitModalCellComponent(e);
+				if( valid ) {
 
-			this.$refs.grid.AddColumn( formData.get( "position" ) == "after", cell );
+					this.gridPreventFocus = true;
+						this.$set(
+							this.currentLayerGrid,
+							"cursor",
+							this.currentGridElement.AddRow( position === "after", this.newCell )
+						);
+					this.gridPreventFocus = false
+
+					// so we are sure that after added, we can only save that component
+					this.onModalSubmit = this.onSubmitModalCellComponent;
+				}
+			}
+		},
+		onAddGridColumn( event, position ) {
+			this.onModalSubmit = (e) => {
+				let valid = this.onSubmitModalCellComponent(e);
+				if( valid ) {
+					this.gridPreventFocus = true;
+					this.$set(
+						this.currentLayerGrid,
+						"cursor",
+						this.currentGridElement.AddColumn(position === "after", this.newCell )
+					);
+					this.gridPreventFocus = false
+					// so we are sure that after added, we can only save that component
+					this.onModalSubmit = this.onSubmitModalCellComponent;
+				}
+			}
+		},
+		onChangeSelectedCellComponent() {
+			// use current cell as reference
+			this.newCell = this.currentCellCache;
+			this.newCellSize = this.currentCellCache.colSize;
+			this.newCellComponentName = this.currentCellCache.component.name;
+
+			this.onModalSubmit = this.onSubmitModalCellComponent;
 		},
 		removeRow() {
-			if( this.cursor ) {
-				let columns = this.scene.grid[ this.cursor[ 0 ] ];
+			this.gridPreventFocus = true;
+			this.$nextTick( () => {
+				let columns = this.currentGridElement.removeRow();
+
+				if( columns ) {
+					// clear old state
+					this.lastAddedWidgetName = null;
+					this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
+
+					for (let i = 0; i < columns.length; i++) {
+						this.removeCellComponent( columns[ i ] );
+					}
+				}
+				this.$nextTick( () => this.gridPreventFocus = false );
+			});
+		},
+		removeCell() {
+			// clear old state
+			this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
+			this.lastAddedWidgetName = null;
+
+			this.gridPreventFocus = true;
+			this.$nextTick( () => {
+				let columns = this.currentGridElement.removeCell();
 				for (let i = 0; i < columns.length; i++) {
 					this.removeCellComponent( columns[ i ] );
 				}
-			}
-			return this.$refs.grid.removeRow();
-		},
-		removeCell() {
-			this.removeCellComponent( this.currentCellCache );
-			return this.$refs.grid.removeCell();
-		},
-		getMaxRowsForGrid(){
-			if( this.$refs.grid )
-				return this.$refs.grid.getAvailableRowsCount();
-			return null;
-		},
-		getMaxColumnsForGrid() {
-			if( this.$refs.grid ){
-				let c = this.$refs.grid.getAvailableColumnsCount();
-				return c;
-			}
-
-			return null;
+				this.$nextTick( () => this.gridPreventFocus = false );
+			});
 		},
 		getRowsCount() {
-			if( this.$refs.grid )
-				return this.$refs.grid.getRowsCount();
+			if( this.currentGridElement )
+				return this.currentGridElement.getRowsCount();
 			return -1;
 		},
 		getColumnsCount() {
-			if( this.$refs.grid )
-				return this.$refs.grid.getColumnsCount();
+			if( this.currentGridElement )
+				return this.currentGridElement.getColumnsCount();
 			return -1;
 		},
 		initCellComponent( cell, name ) {
@@ -253,14 +326,12 @@ export const component = {
 								id: id ,
 								i18nCategory: `${this.activity.data.i18nCategory}.component.${id}`,
 								name: name,
-								value: {},
 								props: {},
 							}
 						)
 					);
 					console.log("[SceneEditor]", "Set component data", cell.component );
 				}
-				cell.component.options = this.widgetsTable[ name ].options || null;
 			}
 		},
 		setCurrentCellComponent( name ) {
@@ -274,11 +345,71 @@ export const component = {
 		removeCellComponent( cell ) {
 			console.log("[SceneEditor]", "removing cell", cell );
 			if( cell && cell.component) {
+				this.lastRemovedWidgetNames.push( cell.component.name );
 				if( cell.component.dispose ){
 					cell.component.dispose();
 				}
 				this.$delete( cell, "component" );
 			}
-		}
+		},
+		onOkModalCellComponent(bvModalEvt) {
+			bvModalEvt.preventDefault();
+			if( this.onModalSubmit )
+				this.onModalSubmit( bvModalEvt );
+		},
+		onSubmitModalCellComponent() {
+			const formValidity = this.$refs[ "form-set-cell-component" ].checkValidity()
+			if ( !formValidity ) {
+				return;
+			}
+
+			this.newCell.colSize = this.newCellSize;
+			// re-init component only if not defined or only if different than original
+			if( !this.newCell.component || ( this.newCell.component && this.newCell.component.name != this.newCellComponentName ) ) {
+
+				let newName = this.newCellComponentName;
+				if( newName ) {
+					// clear old state
+					this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
+					this.lastAddedWidgetName = null;
+					this.$nextTick( () => this.lastAddedWidgetName = newName );
+				}
+
+				// reinit on new component name
+				this.removeCellComponent(this.newCell);
+
+				this.initCellComponent(this.newCell, this.newCellComponentName);
+
+
+			}
+
+			// was required if use modal instead ofsidebar
+			// this.$nextTick(() => {
+				// this.$bvModal.hide('sceneEditor-modal-set-cell-component')
+			// });
+
+			return formValidity;
+		},
+		resetModalCellComponent() {
+			this.newCell = new SceneCell( { colSize: 1, component: null } );
+			this.newCellComponentName = null;
+			this.newCellSize = 1;
+		},
+		getCellComponentClass( isFocused, isSelected ) {
+			let classes = [];
+			if( this.showCSSGrid || isSelected ) {
+				classes.push( 'rounded-0 border' );
+				if( isSelected ) {
+					classes.push( 'border-primary' );
+				}
+				else if( isFocused ){
+					classes.push( 'border-success' );
+				}
+				else{
+					classes.push( 'border-danger' );
+				}
+			}
+			return classes;
+		},
 	}
 };

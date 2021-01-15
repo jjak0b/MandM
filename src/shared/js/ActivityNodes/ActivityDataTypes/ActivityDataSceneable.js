@@ -5,7 +5,20 @@ import Mission from "../../Mission.js";
 export default class ActivityDataSceneable extends ActivityData {
 	constructor(unparsed) {
 		super(unparsed);
-		this.scene = new Scene( unparsed ? unparsed.scene : null );
+		if( !unparsed.scene || !( unparsed.scene instanceof Scene ) ){
+			let sceneDummy = {
+				body: {
+					id: this.id,
+					i18nCategory: `${this.i18nCategory}.component.${ this.id }`,
+					name:  "user-widget-grid",
+					props: {},
+				}
+			}
+			this.scene = new Scene( unparsed.scene || sceneDummy );
+		}
+		else {
+			this.scene = unparsed.scene;
+		}
 	}
 
 	dispose( params ) {
@@ -14,12 +27,15 @@ export default class ActivityDataSceneable extends ActivityData {
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateData = super.duplicate( locales, activityCategory );
 
-		if ( duplicateData.scene ) {
-			duplicateData.scene = this.scene.duplicate( locales, activityCategory );
-		}
+		let duplicate = super.duplicate( locales, activityCategory );
+		duplicate = Object.assign(
+			duplicate,
+			{
+				scene: this.scene.duplicate( locales, duplicate.i18nCategory )
+			}
+		);
 
-		return duplicateData
+		return Object.setPrototypeOf( duplicate, ActivityDataSceneable.prototype );
 	}
 }

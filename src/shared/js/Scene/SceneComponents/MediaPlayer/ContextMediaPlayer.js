@@ -23,6 +23,33 @@ export default class ContextMediaPlayer extends Disposable {
 		this.areas = unparsed.areas ? unparsed.areas.map( area => new ContextMediaPlayerArea(area) ) : [];
 	}
 
+	duplicate( locales, i18nCategoryPrefix ) {
+		let captions = {};
+		switch (this.asset.category) {
+			case "images":
+				captions[ 0 ] = i18nCategoryPrefix + ".image.caption";
+				locales.push([
+					this.captions[ 0 ],
+					captions[ 0 ]
+				]);
+				break;
+			default:
+				Object.keys(this.captions)
+					.forEach( (lang) => {
+						captions[lang] = this.captions[lang].duplicate();
+					});
+				break;
+		}
+
+		let duplicate = {
+			asset: this.asset.duplicate(),
+			captions: captions,
+			areas: this.areas ? this.areas.map( (area) => area.duplicate( locales, i18nCategoryPrefix ) ) : []
+		};
+
+		return Object.setPrototypeOf( duplicate, ContextMediaPlayer.prototype );
+	}
+
 	dispose(params) {
 
 		if( this.asset ) {

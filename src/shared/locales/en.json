@@ -1,5 +1,6 @@
 {
 	"shared": {
+		"label-field-required": "This is a required field",
 		"label-select" : "Select",
 		"label-asset-manager" : "Asset Manager",
 		"label-style-editor" : "Style Editor",
@@ -27,6 +28,8 @@
 		"label-upload" : "Upload",
 		"label-download" : "Download",
 		"label-edit" : "Edit",
+		"label-items-removed": "No items removed | Removed: {items}",
+		"label-items-added": "No items added | Added: {items}",
 		"label-add" : "Add",
 		"label-add-before" : "Add before",
 		"label-add-after" : "Add after",

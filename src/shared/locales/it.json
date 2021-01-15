@@ -1,5 +1,6 @@
 {
 	"shared" : {
+		"label-field-required": "Questo è un campo obbligatorio",
 		"label-new-element" : "Nuovo elemento {name}",
 		"label-save" : "Salva",
 		"label-remove" : "Rimuovi",
@@ -10,6 +11,8 @@
 		"label-export" : "Esporta",
 		"label-upload" : "Carica",
 		"label-download" : "Scarica",
+		"label-items-removed": "Nessun elemento rimosso | Rimosso: {items} | Rimossi: {items}",
+		"label-items-added": "Nessun elemento aggiunto | Aggiunto: {items} | Aggiunti: {items}",
 		"label-add" : "Aggiungi",
 		"label-add-before" : "Aggiungi prima",
 		"label-add-after" : "Aggiungi dopo",

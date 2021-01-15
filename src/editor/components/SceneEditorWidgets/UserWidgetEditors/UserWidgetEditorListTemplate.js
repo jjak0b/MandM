@@ -12,7 +12,7 @@ export const template =
 					<i18n-input-widget
 						id="addListElement"
 						tag="input"
-						v-bind:label="$t('shared.label-text')"
+						v-bind:label="$t('shared.label-Text')"
 						v-bind:locale="locale"
 						v-bind:locale-label="label">
 					</i18n-input-widget>

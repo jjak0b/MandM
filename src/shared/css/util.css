@@ -1,0 +1,12 @@
+.resize {
+    resize: both;
+    overflow: scroll;
+}
+.resize-x {
+    resize: horizontal;
+    overflow-x: scroll;
+}
+.resize-y {
+    resize: vertical;
+    overflow-y: scroll;
+}

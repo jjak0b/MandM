@@ -13,5 +13,10 @@ export default class ActivityNodeBranch extends ActivityNode {
 		}
 
 	}
+
+	duplicate(locales, missionCategory) {
+		let duplicate = super.duplicate(locales, missionCategory );
+		return Object.setPrototypeOf(duplicate, ActivityNodeBranch.prototype );
+	}
 }
 NodeParser.register( NodeUtils.Types.Branch, ActivityNodeBranch );

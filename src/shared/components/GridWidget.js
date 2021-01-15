@@ -32,16 +32,24 @@ export const component = {
 			type: [String, Object],
 			default: "span"
 		},
+		cursorCellClass: [Array, String],
+		selectedCellClass: [Array, String],
+		useIndexes: {
+			type: Boolean,
+			default: true
+		},
+		navKey: {
+			type: Boolean,
+			default: true
+		},
 		selectable : {
 			type: Boolean,
 			default: false
 		},
-
 		preventFocus: {
 			type: Boolean,
 			default: false
 		},
-		showCSSGrid: Boolean,
 		value: Array,
 		maxRows: Number,
 		maxColumns: Number,
@@ -129,7 +137,30 @@ export const component = {
 		}
 	},
 	methods: {
+		getCellClass( rowIndex, cellIndex ) {
+			let classes = [].concat( this.cellClass );
+
+			if( this.isCellSelected(  rowIndex, cellIndex ) ) {
+				classes.concat( this.selectedCellClass );
+			}
+			if( this.isCellFocused( rowIndex, cellIndex ) ) {
+				classes.concat( this.cursorCellClass );
+			}
+			return classes;
+		},
+		getAriaColIndex(cellIndex) {
+			if( !this.useIndexes ) return null;
+
+			return cellIndex+1;
+		},
+		getAriaRowIndex(rowIndex) {
+			if( !this.useIndexes ) return null;
+
+			return rowIndex+1;
+		},
 		isCellSelected( rowIndex, cellIndex ) {
+			if( !this.navKey ) return null;
+
 			if( this.selectable ) {
 				return this.selectCursor[0] === rowIndex && this.selectCursor[1] === cellIndex;
 			}
@@ -144,10 +175,10 @@ export const component = {
 					el = el.children[0];
 				}
 				el.focus();
-				console.error( "focusing", el );
+				// console.log( "focusing", el );
 			}
 			else {
-				console.error( "not found", cursor, focusFirstChild );
+				// console.log( "not found", cursor, focusFirstChild );
 			}
 		},
 		isCellFocused( rowIndex, cellIndex ) {
@@ -163,6 +194,8 @@ export const component = {
 			return null;
 		},
 		handleOnCellSelect( event, cursor ) {
+			if( !this.navKey ) return;
+
 			if( !this.isCellSelected( cursor[0], cursor[1] ) ){
 				this.localPreventFocus = true;
 				this.onSetSelectCursor( cursor );
@@ -172,6 +205,8 @@ export const component = {
 			}
 		},
 		KeyHandler( event ) {
+			if( !this.navKey ) return;
+
 			let row = this.cursor[0];
 			let col = this.cursor[1];
 			let shouldStopPropagation = true;
@@ -228,6 +263,8 @@ export const component = {
 		},
 		// allow to prevent arrowUp/Down, pageUp/down, home/end scrolling the page
 		keyPreventHandler( event ){
+			if( !this.navKey ) return;
+
 			if ( KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.ArrowDown )
 				|| KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.ArrowUp )
 				|| KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.Home )

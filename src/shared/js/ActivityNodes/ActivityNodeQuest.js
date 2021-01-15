@@ -13,5 +13,10 @@ export default class ActivityNodeQuest extends ActivityNode {
 			}
 		}
 	}
+
+	duplicate(locales, missionCategory) {
+		let duplicate = super.duplicate(locales, missionCategory );
+		return Object.setPrototypeOf(duplicate, ActivityNodeQuest.prototype );
+	}
 }
 NodeParser.register( NodeUtils.Types.Quest, ActivityNodeQuest );

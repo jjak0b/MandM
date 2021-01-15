@@ -8,5 +8,10 @@ export default class ActivityNodeTell extends ActivityNode {
 		super(unparsed);
 		this.data = new ActivityDataSceneable(this.data);
 	}
+
+	duplicate(locales, missionCategory) {
+		let duplicate = super.duplicate(locales, missionCategory );
+		return Object.setPrototypeOf(duplicate, ActivityNodeTell.prototype );
+	}
 }
 NodeParser.register( NodeUtils.Types.Tell, ActivityNodeTell );

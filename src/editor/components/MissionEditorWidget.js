@@ -122,7 +122,15 @@ export const component = {
 				return
 			}
 			console.log("Pasted mission", this.copiedMission);
-			let newMission = this.copiedMission.duplicate(this.copiedMission.locales);
+
+			this.copiedMission.i18nTupleList = [];
+			let newMission = this.copiedMission.duplicate(this.copiedMission.i18nTupleList, 'assets' );
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.copiedMission.locales, this.copiedMission.i18nTupleList );
+			for (const locale in localesCopy) {
+				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
+			}
+			this.copiedMission.i18nTupleList = undefined;
+
 			if (index === this.missions.length - 1) index++;
 			this.missions.splice(index, 0, newMission);
 		},

@@ -1,5 +1,5 @@
-import Disposable from "../Disposable.js";
-import SceneComponentParser from "./SceneComponentParser.js";
+import Disposable from "../../../Disposable.js";
+import SceneComponentParser from "../../SceneComponentParser.js";
 
 export default class SceneCell extends Disposable {
 	constructor(unparsed) {
@@ -16,11 +16,11 @@ export default class SceneCell extends Disposable {
 	}
 
 	duplicate( locales, activityCategory ) {
-		let duplicateCell = new SceneCell( JSON.parse(JSON.stringify(this)) );
-		if( duplicateCell.component && duplicateCell.component.duplicate )
-			duplicateCell.component = this.component.duplicate( locales, activityCategory );
+		let duplicate = {
+			colSize: this.colSize,
+			component: this.component ? this.component.duplicate( locales, activityCategory ) : null
+		};
 
-
-		return duplicateCell;
+		return Object.setPrototypeOf( duplicate, SceneCell.prototype );
 	}
 }

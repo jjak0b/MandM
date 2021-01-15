@@ -314,25 +314,32 @@ export const template =
 				</output>
 			</div>
 		</div>
-		
 		<b-tabs
+			pills
+			card
 			vertical
+			v-model="currentLayerIndex"
 		>
 			<b-tab
 				v-for="(gridLayer, gridIndex ) in gridLayers"
+				v-bind:key="gridLayer.component.id"
 				v-bind:title="'layer-' + gridIndex"
-				v-model="currentLayerIndex"
 			>
 				<grid-widget
+					v-bind:id="'scene-editor-grid-' + gridIndex"
+					v-bind:key="gridLayer.component.id"
 					v-bind:ref="'grid-' + gridIndex"
 					grid-role="grid"
 					row-role="row"
 					cell-role="gridcell"
 					v-model="gridLayer.cursor"
 					v-bind:grid-data="gridLayer.component.props.gridData"
-
+					v-bind:nav-key="true"
+					v-bind:use-indexes="true"
 					v-bind:selectable="true"
 					v-bind:preventFocus="gridPreventFocus"
+					v-bind:cursorCellClass="getCellComponentClass( true, false )"
+					v-bind:selectedCellClass="getCellComponentClass( false, true )"
 					
 					v-on:input="onCellSelectedInsideGrid( gridIndex, $event )"
 					v-bind="gridLayer.component.props"					
@@ -341,10 +348,10 @@ export const template =
 						#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
 					>	
 						<user-widget-viewport
-							v-bind:class="getCellComponentClass( isFocused, isSelected )"
 							v-if="cellData.component"
+							v-bind:id="'scene-editor-grid-' + gridIndex + '-widget-' + cellData.component.id"
+							v-bind:key="cellData.component.id"
 							v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
-							v-bind:id="$attrs.id + '-grid-component-' + cellData.component.id"
 							v-bind:tabindex="isFocused ? 0 : -1"
 							v-bind:value="cellData.component"
 							v-bind:class="getCellComponentClass( isFocused, isSelected )"

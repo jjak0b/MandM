@@ -28,20 +28,9 @@ import SceneCell from "../../../shared/js/Scene/SceneComponents/Grid/SceneCell.j
 import Scene from "../../../shared/js/Scene/Scene.js";
 import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
-import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
-import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
 import { component as userWidgetViewport} from "../../../player/components/UserWidgetViewport.js";
-
-SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
-SceneComponentParser.register( "user-widget-text-content", ComponentText );
-SceneComponentParser.register( "user-widget-text-input", ComponentText );
-SceneComponentParser.register( "user-widget-checkbox", ComponentList );
-SceneComponentParser.register( "user-widget-radio", ComponentList );
-SceneComponentParser.register( "user-widget-select", ComponentList );
-SceneComponentParser.register( "user-widget-grid", ComponentGrid );
-
 
 export const component = {
 	template: template,
@@ -77,62 +66,52 @@ export const component = {
 				"user-widget-checkbox" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-checkbox-widget-name",
-					options: listComponent
 				},
 				"user-widget-select" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-select-widget-name",
-					options: listComponent
 				},
 				"user-widget-radio" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-radio-widget-name",
-					options: listComponent
 				},
 				"user-widget-text-input" : {
 					editor: "user-widget-editor-text-input",
 					label: "UserWidgets.label-text-input-widget-name",
-					options: textInputComponent
 				},
 				"user-widget-number-input" : {
 					editor: "user-widget-editor-number-input",
 					label: "UserWidgets.label-number-input-widget-name",
-					options: numberInputComponent
 				},
 				"user-widget-range" : {
 					editor: "user-widget-editor-range",
 					label: "UserWidgets.label-range-widget-name",
-					options: rangeComponent
 				},
 				"user-widget-spinbutton" : {
 					editor: "user-widget-editor-spinbutton",
 					label: "UserWidgets.label-spinbutton-widget-name",
-					options: spinbuttonComponent
 				},
 				"user-widget-datepicker" : {
 					editor: "user-widget-editor-datepicker",
 					label: "UserWidgets.label-datepicker-widget-name",
-					options: datepickerComponent
 				},
 				"user-widget-media-player": {
 					editor: "user-widget-editor-media-player",
 					label: "UserWidgets.label-media-player-widget-name",
-					options:  asyncLoadComponentI18nMediaPlayer
 				},
 				"user-widget-text-content" : {
 					editor: "user-widget-editor-text-content",
 					label: "UserWidgets.TextContent.label-text-content",
-					options: textContentComponent
 				},
 				"user-widget-grid" : {
 					editor: "user-widget-editor-grid",
 					label: "UserWidgets.grid.label-grid",
-					options: gridWidget
 				},
 			},
 			cursor: null,
 			currentCellCache: null,
-			currentLayerIndex: 0,
+			currentLayerIndex: -1,
+			currentGridElement: null,
 			/**
 			 * @type {{
 			 * 	component: ComponentGrid
@@ -152,6 +131,13 @@ export const component = {
 	},
 	watch: {
 		"currentLayerIndex": function () {
+			let gridRefName = "grid-" + this.currentLayerIndex;
+			if( gridRefName in this.$refs ) {
+				this.currentGridElement = this.$refs[ gridRefName ][ 0 ];
+			}
+			else {
+				this.currentGridElement = undefined;
+			}
 			this.currentCellCache = null;
 			let cursor = this.currentLayerGrid.cursor;
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
@@ -162,26 +148,12 @@ export const component = {
 	},
 	computed: {
 		currentLayerGrid: function() {
+			if( this.currentLayerIndex < 0 ) return undefined;
 			return this.gridLayers[ this.currentLayerIndex ];
 		},
-		currentGridElement: function() {
-			let gridRefName = "grid-" + this.currentLayerIndex;
-			if( gridRefName in this.$refs ) {
-				return this.$refs[ gridRefName ][ 0 ];
-			}
-			else {
-				return undefined;
-			}
-		}
 	},
 	created() {
 		this.onModalSubmit = this.onSubmitModalCellComponent;
-
-		// put default grid as first layer
-		this.gridLayers.push({
-			component: this.scene.body,
-			cursor: [-1, -1]
-		});
 
 		ComponentMediaPlayer.setDisposeCallback(
 			ComponentMediaPlayer.name,
@@ -203,40 +175,50 @@ export const component = {
 		);
 	},
 	mounted(){
+		// put default grid as first layer
+		this.gridLayers.push({
+			component: this.scene.body,
+			cursor: [-1, -1]
+		});
 		// this.isFormGridEnabled = true;
 	},
 	methods: {
 		onCellSelectedInsideGrid( gridIndex, cursor ) {
 			if( gridIndex < 0 || gridIndex >= this.gridLayers.length ) return;
-
 			// this.currentLayerGrid
 			let gridLayerComponent = this.gridLayers[ gridIndex ].component;
 
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
 				let selectedCell = gridLayerComponent.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 
-				if( selectedCell.component.name === "user-widget-grid" ) {
-					if( this.gridLayers.length-1 <= gridIndex ) {
-						this.gridLayers.push({
-							component: selectedCell.component,
-							cursor: [-1, -1]
-						});
+				this.currentCellCache = selectedCell;
+
+
+				if( selectedCell.component ){
+
+					if( selectedCell.component instanceof ComponentGrid ) {
+						if( this.gridLayers.length-1 <= gridIndex ) {
+							this.gridLayers.push({
+								component: selectedCell.component,
+								cursor: [-1, -1]
+							});
+						}
+						// else we already have the layer
 					}
-					// else we already have the layer
-				}
-				else {
-					while( this.gridLayers.length -1 > gridIndex ) {
-						let gridLayer = this.gridLayers.pop();
+					else {
+						while( this.gridLayers.length -1 > gridIndex ) {
+							let gridLayer = this.gridLayers.pop();
+						}
 					}
 				}
 			}
 		},
 		canAddRow: function () {
-			return true;
+			return !!this.currentLayerGrid;
 		},
 		canAddColumn: function () {
 			// have rows
-			if( this.currentLayerGrid ) {
+			if( this.currentCellCache && this.currentLayerGrid ) {
 				if( this.currentLayerGrid.component.props.gridData ) {
 					return this.currentLayerGrid.component.props.gridData.length > 0;
 				}
@@ -249,12 +231,12 @@ export const component = {
 				if( valid ) {
 
 					this.gridPreventFocus = true;
-					this.$set(
-						this.currentLayerGrid,
-						"cursor",
-						this.currentGridElement.AddRow( position === "after", this.newCell )
-					);
-					this.$nextTick( () => this.gridPreventFocus = false );
+						this.$set(
+							this.currentLayerGrid,
+							"cursor",
+							this.currentGridElement.AddRow( position === "after", this.newCell )
+						);
+					this.gridPreventFocus = false
 
 					// so we are sure that after added, we can only save that component
 					this.onModalSubmit = this.onSubmitModalCellComponent;
@@ -271,7 +253,7 @@ export const component = {
 						"cursor",
 						this.currentGridElement.AddColumn(position === "after", this.newCell )
 					);
-					this.$nextTick( () => this.gridPreventFocus = false );
+					this.gridPreventFocus = false
 					// so we are sure that after added, we can only save that component
 					this.onModalSubmit = this.onSubmitModalCellComponent;
 				}
@@ -293,7 +275,7 @@ export const component = {
 				if( columns ) {
 					// clear old state
 					this.lastAddedWidgetName = null;
-					this.lastRemovedWidgetNames = [];
+					this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
 
 					for (let i = 0; i < columns.length; i++) {
 						this.removeCellComponent( columns[ i ] );
@@ -304,7 +286,7 @@ export const component = {
 		},
 		removeCell() {
 			// clear old state
-			this.lastRemovedWidgetNames = [];
+			this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
 			this.lastAddedWidgetName = null;
 
 			this.gridPreventFocus = true;
@@ -344,14 +326,12 @@ export const component = {
 								id: id ,
 								i18nCategory: `${this.activity.data.i18nCategory}.component.${id}`,
 								name: name,
-								value: {},
 								props: {},
 							}
 						)
 					);
 					console.log("[SceneEditor]", "Set component data", cell.component );
 				}
-				// cell.component.options = this.widgetsTable[ name ].options || null;
 			}
 		},
 		setCurrentCellComponent( name ) {
@@ -390,7 +370,7 @@ export const component = {
 				let newName = this.newCellComponentName;
 				if( newName ) {
 					// clear old state
-					this.lastRemovedWidgetNames = [];
+					this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
 					this.lastAddedWidgetName = null;
 					this.$nextTick( () => this.lastAddedWidgetName = newName );
 				}
@@ -403,9 +383,10 @@ export const component = {
 
 			}
 
-			this.$nextTick(() => {
+			// was required if use modal instead ofsidebar
+			// this.$nextTick(() => {
 				// this.$bvModal.hide('sceneEditor-modal-set-cell-component')
-			});
+			// });
 
 			return formValidity;
 		},

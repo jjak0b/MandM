@@ -6,10 +6,15 @@ export default class ActivityDataSceneable extends ActivityData {
 	constructor(unparsed) {
 		super(unparsed);
 		if( !unparsed.scene || !( unparsed.scene instanceof Scene ) ){
-			this.scene = new Scene( unparsed ? unparsed.scene : null );
-			this.scene.body.name = "user-widget-grid";
-			this.scene.body.id = this.id;
-			this.scene.body.i18nCategory = `${this.i18nCategory}.component.${ this.id }`;
+			let sceneDummy = {
+				body: {
+					id: this.id,
+					i18nCategory: `${this.i18nCategory}.component.${ this.id }`,
+					name:  "user-widget-grid",
+					props: {},
+				}
+			}
+			this.scene = new Scene( unparsed.scene || sceneDummy );
 		}
 		else {
 			this.scene = unparsed.scene;

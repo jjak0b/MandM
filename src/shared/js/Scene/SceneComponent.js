@@ -7,7 +7,7 @@ export default class SceneComponent extends I18nCategorized{
 		super(unparsedComponent);
 		this.name = unparsedComponent.name;
 		this.props = new SceneComponentProps( unparsedComponent.props );
-		this.value = unparsedComponent.value || {};
+		this.value = unparsedComponent.value || null;
 		this.getOptionsCallback = null;
 	}
 

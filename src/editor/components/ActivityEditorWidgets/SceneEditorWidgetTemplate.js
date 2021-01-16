@@ -11,6 +11,9 @@ export const template =
 		{{ $t('SceneEditorWidget.label-scene-editor') }}
 	</h2>
 	<section>
+		<div>
+			<p>{{ $t('SceneEditorWidget.GridWidget.label-populate-grid-with-rows-and-cells-to-customize-widget-you-need') }}</p>
+		</div>
 		<b-button-toolbar
 			v-bind:aria-label="$t('SceneEditorWidget.GridWidget.label-grid-toolbar')"
 			key-nav
@@ -324,38 +327,46 @@ export const template =
 			<b-tab
 				v-for="(gridLayer, gridIndex ) in gridLayers"
 				v-bind:key="gridLayer.component.id"
-				v-bind:title="'layer-' + gridIndex"
+				v-bind:title="$tc( 'SceneEditorWidget.GridWidget.label-layout-level', gridIndex )"
 			>
+				<div
+					v-if="gridLayer.component.props.gridData && gridLayer.component.props.gridData.length < 1"
+				>
+					<p>{{ $t('SceneEditorWidget.GridWidget.label-no-rows-in-grid') }}</p>
+				</div>
 				<grid-widget
-					v-bind:id="'scene-editor-grid-' + gridIndex"
 					v-bind:key="gridLayer.component.id"
 					v-bind:ref="'grid-' + gridIndex"
-					grid-role="grid"
-					row-role="row"
-					cell-role="gridcell"
+					v-bind="gridLayer.component.props"
+					v-bind:aria-level="gridIndex+1"
+					
+					v-bind:id="'scene-editor-grid-' + gridIndex"
+					v-bind:grid-role="'grid'"
+					v-bind:row-role="'row'"
+					v-bind:cell-role="'gridcell'"
+					
 					v-model="gridLayer.cursor"
-					v-bind:grid-data="gridLayer.component.props.gridData"
 					v-bind:nav-key="true"
 					v-bind:use-indexes="true"
 					v-bind:selectable="true"
-					v-bind:preventFocus="gridPreventFocus"
-					v-bind:cursorCellClass="getCellComponentClass( true, false )"
-					v-bind:selectedCellClass="getCellComponentClass( false, true )"
+					v-bind:prevent-focus="gridPreventFocus"
 					
-					v-on:input="onCellSelectedInsideGrid( gridIndex, $event )"
-					v-bind="gridLayer.component.props"					
+					v-bind:cell-class="getGridCellClass( gridLayer )"
+					v-bind:cursor-cell-class="getGridCursorCellClass( gridLayer )"
+					v-bind:selected-cell-class="getGridSelectedCellClass( gridLayer )"
+					
+					v-on:input="onCellSelectedInsideGrid( gridIndex, $event )"			
 				>
 					<template
 						#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
 					>	
 						<user-widget-viewport
 							v-if="cellData.component"
-							v-bind:id="'scene-editor-grid-' + gridIndex + '-widget-' + cellData.component.id"
+							v-bind:id="'scene-editor-grid-' + gridIndex + '-widget-' + rowIndex + '-' + cellIndex + '-' + cellData.component.id"
 							v-bind:key="cellData.component.id"
 							v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
 							v-bind:tabindex="isFocused ? 0 : -1"
 							v-bind:value="cellData.component"
-							v-bind:class="getCellComponentClass( isFocused, isSelected )"
 							v-bind:locale="locale"
 							v-bind:locales-list="localesList"
 							v-bind:localeLabel="cellData.component.i18nCategory"

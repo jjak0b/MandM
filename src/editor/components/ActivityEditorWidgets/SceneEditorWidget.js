@@ -1,26 +1,17 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
 import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
 import { component as gridWidget } from "../../../shared/components/GridWidget.js";
-
-import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "../../../shared/components/UserWidgetMediaPlayer.js";
-import { FormUtils} from "../../../shared/js/FormUtils.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
-import { component as datepickerComponent } from "../../../shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
-import { component as listComponent } from "../../../shared/components/UserWidgetList.js";
 import { component as listEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorList.js";
-import { component as textInputComponent } from "../../../shared/components/UserWidgetTextInput.js";
 import { component as textInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
-import { component as numberInputComponent } from "../../../shared/components/UserWidgetNumberInput.js";
 import { component as numberInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
-import { component as rangeComponent } from "../../../shared/components/UserWidgetRange.js";
 import { component as rangeEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
-import { component as spinbuttonComponent } from "../../../shared/components/UserWidgetSpinbutton.js";
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
-import { component as textContentComponent } from "../../../shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
+import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorPhoto.js";
 import { component as gridEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorGrid.js";
-
+import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 import {I18nUtils} from "../../../shared/js/I18nUtils.js";
 import SceneComponentParser from "../../../shared/js/Scene/SceneComponentParser.js";
@@ -30,7 +21,6 @@ import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
-import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 export const component = {
 	template: template,
@@ -50,17 +40,21 @@ export const component = {
 		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
+		"user-widget-editor-photo": photoEditorComponent,
 		"user-widget-editor-grid": gridEditorComponent,
 		"grid-widget": gridWidget,
 		"attribute-editor-widget": attributeEditorComponent
 	},
 	data() {
 		return {
+			// deprecated / not used
 			copiedItem: null,
 			newId: 0,
 			maxRows: 12,
 			maxColumns: 12,
-			isFormGridEnabled: false,
+			cursor: null,
+			maxCellSizeAvailable: 0,
+			//end deprecated
 			showCSSGrid: true,
 			widgetsTable: {
 				"user-widget-checkbox" : {
@@ -103,12 +97,15 @@ export const component = {
 					editor: "user-widget-editor-text-content",
 					label: "UserWidgets.TextContent.label-text-content",
 				},
+				"user-widget-photo" : {
+					editor: "user-widget-editor-photo",
+					label: "UserWidgets.label-photo-widget-name",
+				},
 				"user-widget-grid" : {
 					editor: "user-widget-editor-grid",
 					label: "UserWidgets.grid.label-grid",
 				},
 			},
-			cursor: null,
 			currentCellCache: null,
 			currentLayerIndex: -1,
 			currentGridElement: null,
@@ -123,14 +120,14 @@ export const component = {
 			newCellComponentName: null,
 			newCellSize: 1,
 			onModalSubmit: null,
-			maxCellSizeAvailable: 0,
 			gridPreventFocus: false,
 			lastRemovedWidgetNames: [],
 			lastAddedWidgetName: null
 		}
 	},
 	watch: {
-		"currentLayerIndex": function () {
+		// Change current working cell when current layer change
+		"currentLayerIndex": function (gridIndex) {
 			let gridRefName = "grid-" + this.currentLayerIndex;
 			if( gridRefName in this.$refs ) {
 				this.currentGridElement = this.$refs[ gridRefName ][ 0 ];
@@ -138,19 +135,29 @@ export const component = {
 			else {
 				this.currentGridElement = undefined;
 			}
-			this.currentCellCache = null;
+
 			let cursor = this.currentLayerGrid.cursor;
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
 				let selectedCell = this.currentLayerGrid.component.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 				this.currentCellCache = selectedCell;
+				console.log( "[SceneEditor]", "Change working cell @", cursor, "in layer", gridIndex );
 			}
-		},
+			// select first cell if possible
+			else if( this.currentLayerGrid.component.props.gridData.length > 0 && this.currentLayerGrid.component.props.gridData[ 0 ].length > 0 ) {
+				cursor.splice( 0, 2, 0, 0 );
+				console.log( "[SceneEditor]", "Changing working cell @", cursor, "in layer", gridIndex );
+			}
+			else {
+				this.currentCellCache = null;
+				console.log( "[SceneEditor]", "Unset working cell in layer", gridIndex );
+			}
+		}
 	},
 	computed: {
 		currentLayerGrid: function() {
 			if( this.currentLayerIndex < 0 ) return undefined;
 			return this.gridLayers[ this.currentLayerIndex ];
-		},
+		}
 	},
 	created() {
 		this.onModalSubmit = this.onSubmitModalCellComponent;
@@ -180,15 +187,19 @@ export const component = {
 			component: this.scene.body,
 			cursor: [-1, -1]
 		});
-		// this.isFormGridEnabled = true;
 	},
 	methods: {
 		onCellSelectedInsideGrid( gridIndex, cursor ) {
-			if( gridIndex < 0 || gridIndex >= this.gridLayers.length ) return;
+			if( gridIndex < 0 || gridIndex >= this.gridLayers.length ){
+				this.currentCellCache = null;
+			}
 			// this.currentLayerGrid
 			let gridLayerComponent = this.gridLayers[ gridIndex ].component;
 
-			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
+			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0
+				&& cursor[ 0 ] < gridLayerComponent.props.gridData.length && cursor[ 1 ] < gridLayerComponent.props.gridData[ cursor[ 0 ] ].length ) {
+				console.log( "[SceneEditor]", "Selected cell @", cursor, "in layer", gridIndex );
+
 				let selectedCell = gridLayerComponent.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 
 				this.currentCellCache = selectedCell;
@@ -196,6 +207,7 @@ export const component = {
 
 				if( selectedCell.component ){
 
+					// Add Layer if is a grid
 					if( selectedCell.component instanceof ComponentGrid ) {
 						if( this.gridLayers.length-1 <= gridIndex ) {
 							this.gridLayers.push({
@@ -205,11 +217,21 @@ export const component = {
 						}
 						// else we already have the layer
 					}
+					// Toggle layers
 					else {
+						let gridLayer;
 						while( this.gridLayers.length -1 > gridIndex ) {
-							let gridLayer = this.gridLayers.pop();
+							gridLayer = this.gridLayers.pop();
 						}
 					}
+				}
+			}
+			else {
+				console.log( "[SceneEditor]", "Unselected cell in layer", gridIndex );
+				this.currentCellCache = null;
+				let gridLayer;
+				while( this.gridLayers.length -1 > gridIndex ) {
+					gridLayer = this.gridLayers.pop();
 				}
 			}
 		},
@@ -375,6 +397,16 @@ export const component = {
 					this.$nextTick( () => this.lastAddedWidgetName = newName );
 				}
 
+
+				// if we change current cell and it's a grid then remove its layer
+				if( this.newCell.component instanceof ComponentGrid ) {
+
+					let gridLayer;
+					while( this.gridLayers.length -1 > this.currentLayerIndex ) {
+						gridLayer = this.gridLayers.pop();
+					}
+				}
+
 				// reinit on new component name
 				this.removeCellComponent(this.newCell);
 
@@ -395,21 +427,45 @@ export const component = {
 			this.newCellComponentName = null;
 			this.newCellSize = 1;
 		},
-		getCellComponentClass( isFocused, isSelected ) {
+		getGridCellClass( gridLayer ) {
 			let classes = [];
-			if( this.showCSSGrid || isSelected ) {
-				classes.push( 'rounded-0 border' );
-				if( isSelected ) {
-					classes.push( 'border-primary' );
-				}
-				else if( isFocused ){
-					classes.push( 'border-success' );
-				}
-				else{
-					classes.push( 'border-danger' );
-				}
+			if (gridLayer && gridLayer.component.props.cellClass) {
+				classes = classes.concat( gridLayer.component.props.cellClass );
 			}
+
+			if( this.showCSSGrid ) {
+				classes.push( 'rounded-0', 'border' );
+			}
+
 			return classes;
 		},
+		getGridCursorCellClass( gridLayer ) {
+			let classes = [];
+
+			if( gridLayer && gridLayer.component.props.cursorCellClass ){
+				classes = classes.concat( gridLayer.component.props.cursorCellClass );
+			}
+
+			if( this.showCSSGrid ) {
+				classes.push( "border-primary" );
+			}
+
+			return classes;
+		},
+		getGridSelectedCellClass( gridLayer ) {
+			let classes = [];
+
+			if( gridLayer && gridLayer.component.props.selectedCellClass ){
+				classes = classes.concat( gridLayer.component.props.selectedCellClass );
+			}
+
+			// always show selected border
+			if( !this.showCSSGrid ) {
+				classes.push( 'rounded-0', 'border' );
+			}
+			classes.push( 'shadow-lg', "border-success" );
+
+			return classes;
+		}
 	}
 };

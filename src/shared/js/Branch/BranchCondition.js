@@ -7,14 +7,17 @@ export class BranchCondition extends Disposable {
 		params: [
 			new ConditionParameter({
 				sourceType: "variable",
-				sourceValue: "userInput"
+				sourceValue: "userInput",
 			})
-		]
+
+		],
+		rewardPoints: 0
 	}) {
 		super(unparsed);
 
 		this.function = unparsed ? unparsed.function : null;
 		this.params = [];
+		this.rewardPoints = unparsed ? unparsed.rewardPoints : 0;
 		if( unparsed && unparsed.params) {
 			for (let i = 0; i < unparsed.params.length; i++) {
 				this.params.push(

@@ -15,8 +15,8 @@ export const component = {
 		valueAcceptTypes: Array,
 		variableOptions: Array
 	},
-	data() {
-		return {
+	data(){
+		return{
 
 		}
 	},

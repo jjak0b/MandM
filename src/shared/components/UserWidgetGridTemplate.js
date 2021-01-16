@@ -13,6 +13,8 @@ export const template =
 	v-bind:cell-tag="cellTag"
 	v-bind:cell-role="cellRole"
 	v-bind:cell-class="cellClass"
+	v-bind:cursor-cell-class="cursorCellClass"
+	v-bind:selected-cell-class="selectedCellClass"
 	
 	v-bind:selectable="selectable"
 	v-bind:preventFocus="preventFocus"
@@ -28,7 +30,8 @@ export const template =
 	>
 		<user-widget-viewport
 			v-if="cellData.component"
-			v-bind:id="cellData.component.id"
+			v-bind:key="cellData.component.id"
+			v-bind:id="'grid-widget-' + rowIndex + '-' + cellIndex + '-' + cellData.component.id"
 			v-bind:tabindex="getTabindex( isFocused )"
 			v-bind:value="cellData.component"
 			v-bind:locale="locale"

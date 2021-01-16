@@ -3,28 +3,39 @@ export const template = `
 	v-on:submit.prevent="onSubmit"
 	v-on:reset.prevent="onReset"
 >
-<h3
-	v-t="'ActivityEditorWidget.label-setup-your-condition'"
-></h3>
-<p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
-></p>
-
-<condition-parameter v-if="condition && condition.function"
-	:key="condition.function + '_0'"
-	v-bind:value="selfParameter"
-	id="activity-editor-branch-parameter-this"
-	v-bind:valueAcceptTypes="functionPrototypes[ condition.function ].arguments[ 0 ].accepts"
-	v-bind:variableOptions="variableOptions"
-	v-bind:sourceTypeOptions="sourceTypeOptions"
-	v-bind:function="condition.function"
-	v-bind:label="getParameterI18n( 'this' )"
->
-</condition-parameter>
-<b-form-group v-if="condition"
-	v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
-	label-for="activity-editor-branch-select-function"
-	v-bind:description="$t('ActivityEditorWidget.label-branch-condition-example')"
->
+    <h3
+	    v-t="'ActivityEditorWidget.label-setup-your-condition'"
+    ></h3>
+    <p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
+    ></p>
+<b-form-group  v-if="condition"
+    v-bind:label="$t('ActivityEditorWidget.label-point-assignment')"
+	label-for="activity-editor-branch-point-assignment"
+	>
+		            <b-form-input
+		            id="activity-editor-branch-point-assignment"
+                    type="number"
+                    v-model.number="condition.rewardPoints"
+                    >
+                    </b-form-input>
+		    </b-form-group>
+    <condition-parameter v-if="condition && condition.function"
+	    :key="condition.function + '_0'"
+	    v-bind:value="selfParameter"
+	    id="activity-editor-branch-parameter-this"
+	    v-bind:valueAcceptTypes="functionPrototypes[ condition.function ].arguments[ 0 ].accepts"
+	    v-bind:variableOptions="variableOptions"
+	    v-bind:sourceTypeOptions="sourceTypeOptions"
+	    v-bind:function="condition.function"
+	    v-bind:label="getParameterI18n( 'this' )"
+    >
+    </condition-parameter>
+		
+    <b-form-group v-if="condition"
+	    v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
+	    label-for="activity-editor-branch-select-function"
+	    v-bind:description="$t('ActivityEditorWidget.label-branch-condition-example')"
+    >
 	<b-form-select
 		id="activity-editor-branch-select-function"
 		v-bind:options="functionOptions"

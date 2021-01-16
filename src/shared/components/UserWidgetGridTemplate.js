@@ -13,6 +13,8 @@ export const template =
 	v-bind:cell-tag="cellTag"
 	v-bind:cell-role="cellRole"
 	v-bind:cell-class="cellClass"
+	v-bind:cursor-cell-class="cursorCellClass"
+	v-bind:selected-cell-class="selectedCellClass"
 	
 	v-bind:selectable="selectable"
 	v-bind:preventFocus="preventFocus"

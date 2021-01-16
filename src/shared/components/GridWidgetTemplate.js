@@ -38,5 +38,9 @@ export const template =
 			>&nbsp;</slot>
 		</component>
 	</component>
+	<slot
+		name="no-content"
+		v-if="!gridData || gridData.length < 1"
+	>&nbsp;</slot>
 </component>
 `;

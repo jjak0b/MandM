@@ -138,13 +138,16 @@ export const component = {
 	},
 	methods: {
 		getCellClass( rowIndex, cellIndex ) {
-			let classes = [].concat( this.cellClass );
+			let classes = [];
 
-			if( this.isCellSelected(  rowIndex, cellIndex ) ) {
-				classes.concat( this.selectedCellClass );
+			if( this.cellClass ) {
+				classes = classes.concat( this.cellClass );
 			}
-			if( this.isCellFocused( rowIndex, cellIndex ) ) {
-				classes.concat( this.cursorCellClass );
+			if( this.isCellSelected(  rowIndex, cellIndex ) && this.selectedCellClass ) {
+				classes = classes.concat( this.selectedCellClass );
+			}
+			if( this.isCellFocused( rowIndex, cellIndex ) && this.cursorCellClass ) {
+				classes = classes.concat( this.cursorCellClass );
 			}
 			return classes;
 		},

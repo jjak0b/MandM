@@ -395,21 +395,45 @@ export const component = {
 			this.newCellComponentName = null;
 			this.newCellSize = 1;
 		},
-		getCellComponentClass( isFocused, isSelected ) {
+		getGridCellClass( gridLayer ) {
 			let classes = [];
-			if( this.showCSSGrid || isSelected ) {
-				classes.push( 'rounded-0 border' );
-				if( isSelected ) {
-					classes.push( 'border-primary' );
-				}
-				else if( isFocused ){
-					classes.push( 'border-success' );
-				}
-				else{
-					classes.push( 'border-danger' );
-				}
+			if (gridLayer && gridLayer.component.props.cellClass) {
+				classes = classes.concat( gridLayer.component.props.cellClass );
 			}
+
+			if( this.showCSSGrid ) {
+				classes.push( 'rounded-0', 'border' );
+			}
+
 			return classes;
 		},
+		getGridCursorCellClass( gridLayer ) {
+			let classes = [];
+
+			if( gridLayer && gridLayer.component.props.cursorCellClass ){
+				classes = classes.concat( gridLayer.component.props.cursorCellClass );
+			}
+
+			if( this.showCSSGrid ) {
+				classes.push( "border-primary" );
+			}
+
+			return classes;
+		},
+		getGridSelectedCellClass( gridLayer ) {
+			let classes = [];
+
+			if( gridLayer && gridLayer.component.props.selectedCellClass ){
+				classes = classes.concat( gridLayer.component.props.selectedCellClass );
+			}
+
+			// always show selected border
+			if( !this.showCSSGrid ) {
+				classes.push( 'rounded-0', 'border' );
+			}
+			classes.push( 'shadow-lg', "border-success" );
+
+			return classes;
+		}
 	}
 };

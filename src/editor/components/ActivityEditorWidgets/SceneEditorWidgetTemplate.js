@@ -327,23 +327,26 @@ export const template =
 				v-bind:title="'layer-' + gridIndex"
 			>
 				<grid-widget
-					v-bind:id="'scene-editor-grid-' + gridIndex"
 					v-bind:key="gridLayer.component.id"
 					v-bind:ref="'grid-' + gridIndex"
-					grid-role="grid"
-					row-role="row"
-					cell-role="gridcell"
+					v-bind="gridLayer.component.props"
+					
+					v-bind:id="'scene-editor-grid-' + gridIndex"
+					v-bind:grid-role="'grid'"
+					v-bind:row-role="'row'"
+					v-bind:cell-role="'gridcell'"
+					
 					v-model="gridLayer.cursor"
-					v-bind:grid-data="gridLayer.component.props.gridData"
 					v-bind:nav-key="true"
 					v-bind:use-indexes="true"
 					v-bind:selectable="true"
-					v-bind:preventFocus="gridPreventFocus"
-					v-bind:cursorCellClass="getCellComponentClass( true, false )"
-					v-bind:selectedCellClass="getCellComponentClass( false, true )"
+					v-bind:prevent-focus="gridPreventFocus"
 					
-					v-on:input="onCellSelectedInsideGrid( gridIndex, $event )"
-					v-bind="gridLayer.component.props"					
+					v-bind:cell-class="getGridCellClass( gridLayer )"
+					v-bind:cursor-cell-class="getGridCursorCellClass( gridLayer )"
+					v-bind:selected-cell-class="getGridSelectedCellClass( gridLayer )"
+					
+					v-on:input="onCellSelectedInsideGrid( gridIndex, $event )"			
 				>
 					<template
 						#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"
@@ -355,7 +358,6 @@ export const template =
 							v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
 							v-bind:tabindex="isFocused ? 0 : -1"
 							v-bind:value="cellData.component"
-							v-bind:class="getCellComponentClass( isFocused, isSelected )"
 							v-bind:locale="locale"
 							v-bind:locales-list="localesList"
 							v-bind:localeLabel="cellData.component.i18nCategory"

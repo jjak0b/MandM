@@ -8,6 +8,7 @@ export const template =
 	v-on:keyup="KeyHandler"
 	v-on:keydown="keyPreventHandler"
 	v-bind:aria-rowcount="useIndexes ? gridData.length : null"
+	v-bind:aria-colcount="useIndexes ? -1: null"
 >
 	<component
 		v-for="(rowCells, rowIndex) in gridData"

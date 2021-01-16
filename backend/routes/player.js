@@ -71,7 +71,6 @@ function handlePlayerSession( req, res, next ) {
 }
 
 function initPlayerSession(req, res, next) {
-	console.log("initPlayerSession", req.session.initialized, req.query.story );
 	let storyName = req.query.story;
 	if( !req.session.initialized ){
 		console.log( "[routes/player]", "Init new session for player of session", req.sessionID );

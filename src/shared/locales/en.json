@@ -2,7 +2,9 @@
 	"shared": {
 	  	"label-continue": "Continue",
 		"label-field-required": "This is a required field",
-		"label-select" : "Select",
+	  	"label-unnamed-mission": "Unnamed mission",
+	  	"label-unnamed-activity": "Unnamed activity",
+	  	"label-select" : "Select",
 		"label-asset-manager" : "Asset Manager",
 		"label-style-editor" : "Style Editor",
 		"label-enable" : "Enable",

@@ -9,8 +9,9 @@ i18n.mergeLocaleMessage( i18n.fallbackLocale,
 				"label-loading": "Loading"
 			},
 			"Evaluator" : {
+				"label-loading-resources": "Loading resources",
 				"errors": {
-					"label-generic": "Error",
+					"label-error": "Error",
 					"label-unable-to-load-resources": "Ops, we can't load resources, please refresh"
 				}
 			}

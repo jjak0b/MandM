@@ -35,13 +35,71 @@ export const component = {
 				players: {}
 			},
 			fetchTimeout: 1 * 1000,
+			selectedSession: null,
+			sessionName: null,
 			globalStorySettings: {
 				isRunning: false,
 				startSecondsCountDown: 0,
-			}
+				stuckTime: 5
+			},
+			stuckData: {},
+			collapseData: {}
 		}
 	},
 	methods: {
+		toggleStuckDataCollapse(sessionName) {
+			if (this.stuckData.hasOwnProperty(sessionName) && this.stuckData[sessionName].stuck === true ) {
+				let story = this.stuckData[sessionName].story;
+				let mission = this.stuckData[sessionName].mission;
+				let activity = this.stuckData[sessionName].activity;
+				let id;
+
+				this.onSelectMission(story);
+
+				if (!this.collapseData[sessionName].visible) {
+					id = 'player-accordion-' + sessionName;
+					this.$emit('bv::toggle::collapse', id);
+				}
+				this.$nextTick(() => {
+					if (!this.collapseData[sessionName][story][mission].visible) {
+						id = 'collapse-player-' + sessionName + '-mission-' + mission;
+						this.$emit('bv::toggle::collapse', id);
+					}
+					this.$nextTick(() => {
+						this.$refs[`${sessionName}${story}${mission}${activity}`][0].focus();
+					})
+
+				})
+			}
+		},
+		getActivityBorderVariant(session, story, mission, activity) {
+			if ( this.stuckData[session] && this.stuckData[session].stuck === true ) {
+				if ( this.stuckData[session].story === story
+					 && this.stuckData[session].mission === mission
+					 && this.stuckData[session].activity === activity ) {
+					return 'danger'
+				}
+			}
+			return 'info'
+		},
+		showModal( session ) {
+			this.selectedSession = session;
+			this.$bvModal.show('evaluatorModal');
+		},
+		setSessionName() {
+			if (this.selectedSession && this.sessionName) {
+				$.ajax({
+					method: "post",
+					url: `/player/log/${this.selectedSession}/?name=${this.sessionName}`
+				}).done(() => {
+					console.log(`[Evaluator] Renamed session ${this.selectedSession} with ${this.sessionName}`)
+				}).fail( () => {
+					console.log(`[Evaluator] Failed to rename session ${this.selectedSession} with ${this.sessionName}`)
+				}).always( () => {
+					this.sessionName = null;
+				});
+			}
+		},
 		startStory() {
 			this.globalStorySettings.isRunning = null;
 
@@ -199,18 +257,44 @@ export const component = {
 		},
 		getMissionTitle( missionId ) {
 			// TODO: read from story
-			return this.$t(`assets.mission.${missionId}.title`);
+			if ( this.$t(`assets.mission.${missionId}.title`) )
+				return this.$t(`assets.mission.${missionId}.title`);
+			else
+				return this.$t("shared.label-unnamed-mission");
+		},
+		getActivityTitle( missionId, activityId ) {
+			// TODO: read from story
+			if ( this.$te(`assets.mission.${missionId}.activity.${activityId}.title`) )
+				return this.$t(`assets.mission.${missionId}.activity.${activityId}.title`);
+			else
+				return this.$t("shared.label-unnamed-activity");
 		},
 		updateActiveStories() {
 			for (const session in this.sessions) {
+
+				if (!(session in this.collapseData)) {
+					this.$set(this.collapseData, session, { visible: false });
+				}
+
 				for (const story in this.sessions[session]) {
+
 					if (!(story in this.activeStories)) {
 						this.updateStoryLocale(story)
 						this.$set(this.activeStories, story, []);
 					}
+
+					if (!(story in this.collapseData[session])) {
+						this.$set(this.collapseData[session], story, {});
+					}
+
 					for (const mission in this.sessions[session][story]) {
+
 						if (!this.activeStories[story].includes(mission)) {
 							this.activeStories[story].push(mission);
+						}
+
+						if (!(mission in this.collapseData[session][story])) {
+							this.$set(this.collapseData[session][story], mission, { visible: false });
 						}
 					}
 				}
@@ -224,10 +308,81 @@ export const component = {
 				}
 			})
 		},
+		updateStuckStatus() {
+			let onStory, onMission, onActivity, maxTime;
+			let currentTime, activityStartTime, difference, name;
+			for ( const player in this.sessions ) {
+
+				if ( !this.stuckData.hasOwnProperty( player ) ) {
+					this.stuckData[player] = {
+						stuck: false,
+						story: null,
+						mission: null,
+						activity: null,
+					}
+				}
+
+				if ( this.stuckData[player].stuck ) {
+
+					onStory = this.stuckData[player].story;
+					onMission = this.stuckData[player].mission;
+					onActivity = this.stuckData[player].activity;
+
+					if (this.sessions[player].hasOwnProperty(onStory)) {
+						if (this.sessions[player][onStory].hasOwnProperty(onMission)) {
+							if (this.sessions[player][onStory][onMission].hasOwnProperty(onActivity)) {
+								if (this.sessions[player][onStory][onMission][onActivity].hasOwnProperty('end')) {
+									this.stuckData[player].stuck = false;
+								}
+							}
+						}
+					}
+				}
+
+				if ( !this.stuckData[player].stuck ) {
+
+					for (const story in this.sessions[player]) {
+						for (const mission in this.sessions[player][story]) {
+							for (const activity in this.sessions[player][story][mission]) {
+
+								if (this.sessions[player][story][mission][activity].hasOwnProperty('start')) {
+									if (!this.sessions[player][story][mission][activity].hasOwnProperty('end')) {
+
+										currentTime = new Date();
+										activityStartTime = new Date(this.sessions[player][story][mission][activity]['start']);
+										difference = (currentTime - activityStartTime);
+
+										if (difference > (this.globalStorySettings.stuckTime * 60000)) {
+
+											this.stuckData[player].stuck = true;
+											this.stuckData[player].story = story;
+											this.stuckData[player].mission = mission;
+											this.stuckData[player].activity = activity;
+
+											name = this.sessions[player].name ? this.sessions[player].name : player
+											this.$bvToast.toast(
+													`${name} ${this.$t("Evaluator.label-is-stuck")}` ,
+													{
+														title: this.$tc("Evaluator.label-player-status"),
+														appendToast: true,
+														noAutoHide: false,
+														variant: "danger"
+													}
+											)
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		updateSessions() {
 				$.get( `/player/log` ).then( (response) => {
 					this.sessions = response;
 					this.updateActiveStories();
+					this.updateStuckStatus();
 				})
 		},
 		onSelectMission(story, mission) {
@@ -308,8 +463,8 @@ export const component = {
 			}
 			this.readyPromise = allProgress(promsInit, updateProgress)
 			.then((responses) => {
-				let localesMessagesShared = responses[2];
-				let localesMessagesEvaluator = responses[3];
+				let localesMessagesShared = responses[0];
+				let localesMessagesEvaluator = responses[1];
 				console.log("[EvaluatorVM]", "Story downloading complete");
 				console.log("[EvaluatorVM]", "Start downloading story assets");
 

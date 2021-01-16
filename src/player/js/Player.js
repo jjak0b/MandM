@@ -308,6 +308,11 @@ export default class Player {
 	 * @return TypedValue
 	 */
 	guessAndParseToTypedValue( value ) {
+
+		if ( value instanceof Array ) {
+			value = new TypedValue({type: value[0].type, value: value[0].value});
+		}
+
 		if( !( value instanceof TypedValue) ) {
 			if (typeof value === "string") {
 				let number = Number.parseInt(value);

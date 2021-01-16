@@ -2,6 +2,11 @@
   "Evaluator": {
 	"label-start-time": "Start time",
 	"label-end-time": "End time",
-	"label-input": "Input value"
+	"label-input-type": "Input type",
+	"label-input-value": "Input value",
+	"label-edit-name": "Edit name",
+	"label-no-story-selected": "No story selected",
+	"label-select-story-to-show-player-status": "Select story to show player status"
+
   }
 }

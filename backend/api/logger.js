@@ -10,7 +10,34 @@ router.use(express.json({
 }));
 
 router.post("/", PUT_SESSION);
+router.post("/:sessionId", SET_NAME);
 router.get("/", GET_SESSION);
+
+function SET_NAME( req, res, next ) {
+
+	let sessionId = req.params.sessionId;
+	let name = req.query.name;
+
+	if ( sessionId && name ) {
+		req.sessionStore.get( sessionId, (error, session) => {
+			if (error && session) {
+				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+			} else {
+				session.name = name;
+				req.sessionStore.set(sessionId, session, (error) => {
+					if (error) {
+						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+					} else {
+						res.sendStatus(StatusCodes.OK);
+					}
+				});
+			}
+		})
+	}
+	else {
+		res.sendStatus( StatusCodes.BAD_REQUEST );
+	}
+}
 
 function PUT_SESSION( req, res, next ) {
 
@@ -61,6 +88,9 @@ function GET_SESSION( req, res, next ) {
 		for (const session in sessions) {
 			if ('stories' in sessions[session]) {
 				players[session] = sessions[session].stories;
+				if ('name' in sessions[session]) {
+					players[session].name = sessions[session].name;
+				}
 			}
 		}
 		res.json(players);

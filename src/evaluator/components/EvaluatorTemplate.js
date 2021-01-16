@@ -156,6 +156,25 @@ export const template =
 													</b-button-group>
 												</div>
 											</div>
+										</b-form-group>	
+										<b-form-group
+											label-for="evaluator-player-stuck-notification-time"
+												v-bind:label="$t('Evaluator.label-player-stuck-notification-time')"
+											v-bind:description="$t('Evaluator.label-player-stuck-notification-time-description')"
+										>
+											<div class="row">
+												<div class="col-6 d-flex">
+													<div class="m-auto">
+														<b-form-spinbutton
+																id="evaluator-player-stuck-notification-time"
+																v-bind:disabled="globalStorySettings.isRunning"
+																v-model="globalStorySettings.stuckTime"
+																min="0"
+																class="mb-2"
+														></b-form-spinbutton>
+													</div>
+												</div>
+											</div>
 										</b-form-group>
 									</div>
 								</b-card-body>
@@ -193,11 +212,11 @@ export const template =
 															class="mx-auto"
 															key-nav
 														>
-															<b-button>
+															<b-button v-on:click="showModal(sessionName)">
 																<b-icon
 																	icon="pencil"
 																></b-icon>
-																{{ $t('Player.label-edit-name') }}
+																{{ $t('Evaluator.label-edit-name') }}
 															</b-button>
 														</b-button-toolbar>
 													</div>
@@ -220,7 +239,12 @@ export const template =
 													>
 													</b-icon>
 												</b-button>
-												<b-button><b-icon-alarm-fill></b-icon-alarm-fill></b-button>
+												<b-button
+													v-on:click="toggleStuckDataCollapse(sessionName)"
+													v-bind:pressed="stuckData[sessionName].stuck"
+												>
+												<b-icon-alarm-fill></b-icon-alarm-fill>
+												</b-button>
 												<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
 											</b-button-toolbar>
 										</div>
@@ -243,6 +267,7 @@ export const template =
 								<b-collapse
 									class="flex-grow-1"
 									v-bind:id="'player-accordion-' + sessionName"
+									v-model="collapseData[sessionName].visible"
 								>
 									<b-card-body>
 										<b-card
@@ -257,13 +282,16 @@ export const template =
 											</b-card-header>
 											<b-collapse
 												v-bind:id="'collapse-player-'+ sessionName +'-mission-' + missionId"
+												v-model="collapseData[sessionName][selectedStory][missionId].visible"
 											>
 												<b-card-body class="p-2">
 													<b-card
-														class="mx-0 my-1"
 														v-for="(activityObject, activityId) in missionObject"
-														border-variant="info"
-														v-bind:header="'assets.mission.' + missionId + '.activity.' + activityId + '.title'">
+														v-bind:ref="sessionName + selectedStory + missionId + activityId"
+														tabindex="-1"
+														class="mx-0 my-1"
+														v-bind:border-variant="getActivityBorderVariant(sessionName, selectedStory, missionId, activityId)"
+														v-bind:header="getActivityTitle( missionId, activityId )">
 														<b-card-text>
 															<b-row v-if="activityObject.start">
 																<b-col>
@@ -277,12 +305,20 @@ export const template =
 																<p>{{ new Date(activityObject.end).toUTCString() }}</p>
 																</b-col>
 															</b-row>
-															<b-row v-if="activityObject.input">
+															<div v-if="activityObject.input">
+															<b-row>
 																<b-col>
-																<p  style="font-weight: bold;">{{ $t("Evaluator.label-input") }}</p>
-																<p>{{ activityObject.input }}</p>
+																	<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-type") }}</p>
+																	<p>{{ activityObject.input.type }}</p>
 																</b-col>
 															</b-row>
+															<b-row>
+																<b-col>
+																	<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-value") }}</p>
+																	<p>{{ activityObject.input.value.toString() }}</p>
+																</b-col>
+															</b-row>
+															</div>
 														</b-card-text>
 													</b-card>
 												</b-card-body>
@@ -305,6 +341,14 @@ export const template =
 				</b-row>
 			</b-container>
 		</main>
+		<b-modal
+		id="evaluatorModal"
+		v-bind:title="$t('Evaluator.label-edit-name')"
+		v-bind:ok-title="$t('shared.label-save')"
+		centered
+		v-on:ok="setSessionName">
+			<b-form-input v-model="sessionName"></b-form-input>
+		</b-modal>	
 	</div>
 </div>
 `

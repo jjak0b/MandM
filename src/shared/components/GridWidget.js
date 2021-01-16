@@ -72,15 +72,26 @@ export const component = {
 		shouldPreventFocus() { return this.preventFocus || this.localPreventFocus }
 	},
 	mounted() {
-		let initRowIndex = ( this.value && this.value[ 0 ] >= 0 && this.value[ 0 ] < this.gridData.length )
-			? this.value[ 0 ]
-			: ( this.gridData.length > 0 ? 0 : -1 );
-		let initCellIndex = ( initRowIndex >= 0 && (this.value && this.value[ 1 ] >= 0 && this.value[ 1 ] < this.gridData[ initRowIndex ].length) )
-			? this.value[ 1 ]
-			: ( initRowIndex >= 0 ? initRowIndex : -1 );
+		let cursor = this.value;
+		let initRowIndex = -1
+		let initCellIndex = -1;
+
+		if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
+			initRowIndex = cursor[ 0 ];
+			initCellIndex = cursor[ 1 ];
+		}
+		else if( cursor && this.gridData ) {
+			// select first cell if needed
+			if( this.gridData.length > 0 ) {
+				if( this.gridData[ 0 ].length > 0 ) {
+					initRowIndex = 0;
+					initCellIndex = 0;
+				}
+			}
+		}
 
 		this.localPreventFocus = true;
-		this.onSetSelectCursor( [ initRowIndex, initCellIndex ] );
+		this.onSetCursor( [ initRowIndex, initCellIndex ] );
 		this.$nextTick( () => this.localPreventFocus = false );
 	},
 	watch: {

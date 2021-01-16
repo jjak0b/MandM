@@ -234,6 +234,10 @@ export const component = {
 			else {
 				console.log( "[SceneEditor]", "Unselected cell in layer", gridIndex );
 				this.currentCellCache = null;
+				let gridLayer;
+				while( this.gridLayers.length -1 > gridIndex ) {
+					gridLayer = this.gridLayers.pop();
+				}
 			}
 		},
 		canAddRow: function () {
@@ -396,6 +400,16 @@ export const component = {
 					this.lastRemovedWidgetNames.splice(0, this.lastRemovedWidgetNames.length );
 					this.lastAddedWidgetName = null;
 					this.$nextTick( () => this.lastAddedWidgetName = newName );
+				}
+
+
+				// if we change current cell and it's a grid then remove its layer
+				if( this.newCell.component instanceof ComponentGrid ) {
+
+					let gridLayer;
+					while( this.gridLayers.length -1 > this.currentLayerIndex ) {
+						gridLayer = this.gridLayers.pop();
+					}
 				}
 
 				// reinit on new component name

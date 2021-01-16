@@ -1,5 +1,6 @@
 {
 	"shared": {
+	  	"label-continue": "Continue",
 		"label-field-required": "This is a required field",
 		"label-select" : "Select",
 		"label-asset-manager" : "Asset Manager",

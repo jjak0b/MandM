@@ -42,10 +42,46 @@ export const component = {
 				startSecondsCountDown: 0,
 				stuckTime: 5
 			},
-			stuckData: {}
+			stuckData: {},
+			collapseData: {}
 		}
 	},
 	methods: {
+		toggleStuckDataCollapse(sessionName) {
+			if (this.stuckData.hasOwnProperty(sessionName) && this.stuckData[sessionName].stuck === true ) {
+				let story = this.stuckData[sessionName].story;
+				let mission = this.stuckData[sessionName].mission;
+				let activity = this.stuckData[sessionName].activity;
+				let id;
+
+				this.onSelectMission(story);
+
+				if (!this.collapseData[sessionName].visible) {
+					id = 'player-accordion-' + sessionName;
+					this.$emit('bv::toggle::collapse', id);
+				}
+				this.$nextTick(() => {
+					if (!this.collapseData[sessionName][story][mission].visible) {
+						id = 'collapse-player-' + sessionName + '-mission-' + mission;
+						this.$emit('bv::toggle::collapse', id);
+					}
+					this.$nextTick(() => {
+						this.$refs[`${sessionName}${story}${mission}${activity}`][0].focus();
+					})
+
+				})
+			}
+		},
+		getActivityBorderVariant(session, story, mission, activity) {
+			if ( this.stuckData[session] && this.stuckData[session].stuck === true ) {
+				if ( this.stuckData[session].story === story
+					 && this.stuckData[session].mission === mission
+					 && this.stuckData[session].activity === activity ) {
+					return 'danger'
+				}
+			}
+			return 'info'
+		},
 		showModal( session ) {
 			this.selectedSession = session;
 			this.$bvModal.show('evaluatorModal');
@@ -235,14 +271,30 @@ export const component = {
 		},
 		updateActiveStories() {
 			for (const session in this.sessions) {
+
+				if (!(session in this.collapseData)) {
+					this.$set(this.collapseData, session, { visible: false });
+				}
+
 				for (const story in this.sessions[session]) {
+
 					if (!(story in this.activeStories)) {
 						this.updateStoryLocale(story)
 						this.$set(this.activeStories, story, []);
 					}
+
+					if (!(story in this.collapseData[session])) {
+						this.$set(this.collapseData[session], story, {});
+					}
+
 					for (const mission in this.sessions[session][story]) {
+
 						if (!this.activeStories[story].includes(mission)) {
 							this.activeStories[story].push(mission);
+						}
+
+						if (!(mission in this.collapseData[session][story])) {
+							this.$set(this.collapseData[session][story], mission, { visible: false });
 						}
 					}
 				}

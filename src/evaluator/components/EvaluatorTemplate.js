@@ -240,6 +240,7 @@ export const template =
 													</b-icon>
 												</b-button>
 												<b-button
+													v-on:click="toggleStuckDataCollapse(sessionName)"
 													v-bind:pressed="stuckData[sessionName].stuck"
 												>
 												<b-icon-alarm-fill></b-icon-alarm-fill>
@@ -266,6 +267,7 @@ export const template =
 								<b-collapse
 									class="flex-grow-1"
 									v-bind:id="'player-accordion-' + sessionName"
+									v-model="collapseData[sessionName].visible"
 								>
 									<b-card-body>
 										<b-card
@@ -280,12 +282,15 @@ export const template =
 											</b-card-header>
 											<b-collapse
 												v-bind:id="'collapse-player-'+ sessionName +'-mission-' + missionId"
+												v-model="collapseData[sessionName][selectedStory][missionId].visible"
 											>
 												<b-card-body class="p-2">
 													<b-card
-														class="mx-0 my-1"
 														v-for="(activityObject, activityId) in missionObject"
-														border-variant="info"
+														v-bind:ref="sessionName + selectedStory + missionId + activityId"
+														tabindex="-1"
+														class="mx-0 my-1"
+														v-bind:border-variant="getActivityBorderVariant(sessionName, selectedStory, missionId, activityId)"
 														v-bind:header="getActivityTitle( missionId, activityId )">
 														<b-card-text>
 															<b-row v-if="activityObject.start">

@@ -2,11 +2,10 @@ export const template =
 `
 <!-- https://www.w3.org/TR/wai-aria-practices/#gridNav -->
 <component
+	v-bind:tabindex="tabindex"
 	v-bind:is="gridTag"
 	v-bind:role="gridRole"
 	v-bind:class="gridClass"
-	v-on:keyup="KeyHandler"
-	v-on:keydown="keyPreventHandler"
 	v-bind:aria-rowcount="useIndexes ? gridData.length : null"
 	v-bind:aria-colcount="useIndexes ? -1: null"
 >
@@ -20,6 +19,8 @@ export const template =
 		v-bind:class="rowClass"
 	>
 		<component
+			v-on:keyup="KeyHandler"
+			v-on:keydown="keyPreventHandler"
 			v-for="(cellData, cellIndex) in rowCells"
 			v-bind:ref="'cell-' + rowIndex + '-' + cellIndex" 
 			v-bind:key="$attrs.id + '-' + rowIndex + '-' + cellIndex"
@@ -28,7 +29,7 @@ export const template =
 			v-bind:role="cellRole"
 			v-bind:aria-colindex="getAriaColIndex(cellIndex)"
 			v-bind:class="getCellClass( rowIndex, cellIndex )"
-			v-bind:tabindex="isCellFocused( rowIndex, cellIndex ) ? 0 : -1"
+			v-bind:tabindex="getTabindex( isCellFocused( rowIndex, cellIndex ) )"
 			v-on:click="handleOnCellSelect( $event, [ rowIndex, cellIndex ] )"
 			v-on:keyup.enter="handleOnCellSelect( $event, [ rowIndex, cellIndex ] )"
 			v-bind:aria-selected="isCellSelected( rowIndex, cellIndex )"

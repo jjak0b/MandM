@@ -27,7 +27,6 @@ SceneComponentParser.register( "user-widget-grid", ComponentGrid );
 // circular dependency avoided with "user-widget-grid" using async component loading
 export function component( resolve, reject ) {
 	resolve({
-		inheritAttrs: false,
 		template: template,
 		components: {
 			"user-widget-checkbox": listComponent,
@@ -44,6 +43,7 @@ export function component( resolve, reject ) {
 		},
 		props: {
 			value: SceneComponent,
+			tabindex: [Number,String],
 			locale: String
 		},
 	})

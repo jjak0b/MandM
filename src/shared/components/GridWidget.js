@@ -4,6 +4,7 @@ import {KeyboardUtils} from "../js/KeyboardUtils.js";
 export const component = {
 	template: template,
 	props: {
+		tabindex: [Number,String],
 		gridData: Array,
 		gridRole: {
 			type: String,
@@ -80,7 +81,7 @@ export const component = {
 			initRowIndex = cursor[ 0 ];
 			initCellIndex = cursor[ 1 ];
 		}
-		else if( cursor && this.gridData ) {
+		else if( this.gridData ) {
 			// select first cell if needed
 			if( this.gridData.length > 0 ) {
 				if( this.gridData[ 0 ].length > 0 ) {
@@ -147,6 +148,25 @@ export const component = {
 		}
 	},
 	methods: {
+		getTabindex( isFocused ) {
+			if( this.navKey ) {
+				if( this.tabindex === undefined || this.tabindex == null ) {
+					return (isFocused ? 0 : -1);
+				}
+				else {
+					if( this.tabindex < 0 ) {
+						// may be disabled by grid so disabled all widgets
+						return this.tabindex;
+					}
+					else {
+						return isFocused ? 0 : -1;
+					}
+				}
+			}
+			else {
+				return this.tabIndex;
+			}
+		},
 		getCellClass( rowIndex, cellIndex ) {
 			let classes = [];
 

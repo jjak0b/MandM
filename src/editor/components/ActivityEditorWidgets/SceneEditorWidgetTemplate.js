@@ -354,7 +354,7 @@ export const template =
 					>	
 						<user-widget-viewport
 							v-if="cellData.component"
-							v-bind:id="'scene-editor-grid-' + gridIndex + '-widget-' + cellData.component.id"
+							v-bind:id="'scene-editor-grid-' + gridIndex + '-widget-' + rowIndex + '-' + cellIndex + '-' + cellData.component.id"
 							v-bind:key="cellData.component.id"
 							v-bind:aria-label="cellData.component.name in widgetsTable ? $t( widgetsTable[ cellData.component.name ].label) : null"
 							v-bind:tabindex="isFocused ? 0 : -1"

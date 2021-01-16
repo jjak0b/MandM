@@ -8,6 +8,7 @@ export const template =
 >
 
 <scene-viewport
+	v-bind:key="activity.id"
 	aria-label="Scene"
 	id="player-scene"
 	ref="scene"

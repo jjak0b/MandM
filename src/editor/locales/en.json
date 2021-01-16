@@ -70,6 +70,24 @@
 	"label-selected-mission": "Edit selected mission"
   },
   "ActivityEditorWidget": {
+	"parameters": {
+	  "label-element-to-check": "Element to check",
+	  "label-elements-to-check": "Elements to check",
+	  "label-that-element-to-compare": "Element to compare",
+	  "label-min-value": "Min value",
+	  "label-max-value": "Max value"
+	},
+	"select-type-var": {
+	  "label-user-input": "User input"
+	},
+	"label-that-element-to-compare": "Element to compare",
+	"label-condition-check-parameters": "Condition check parameters",
+	"label-select-a-variable": "Select a variable",
+	"label-select-condition-to-check": "Select condition to check",
+	"label-branch-condition-example": "Branch condition example",
+	"label-select-source-of-parameter-value": "Select source of parameter value",
+	"label-setup-your-condition": "Setup your condition",
+	"label-condition-required-to-continue-play-this-story-route": "Condition required to continue playing this story route",
 	"label-edit-menu-title": "Edit menu",
 	"label-add-menu-title": "Add menu",
 	"label-activity-title": "Activity title",
@@ -127,7 +145,11 @@
 	"label-value": "Values"
   },
   "SceneEditorWidget": {
+	"label-edit-component-properties": "Edit component properties",
+	"label-edit-cell-properties": "Edit cell properties",
+	"label-scene-editor": "Scene editor",
 	"GridWidget": {
+	  "label-scene-grid-layout-and-content": "Scene grid layout and content",
 	  "label-add-row": "Add row",
 	  "label-add-col": "Add columns",
 	  "label-remove-cell": "remove selected cell",

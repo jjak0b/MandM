@@ -1,6 +1,6 @@
 import {template} from "./UserWidgetGridTemplate.js";
 import {component as gridWidget } from "./GridWidget.js";
-import {component as userWidgetViewport} from "../../player/components/UserWidgetViewport.js";
+import {component as userWidgetViewport} from "./UserWidgetViewport.js";
 import {TypedValue} from "../js/Types/TypedValue.js";
 
 // circular dependency avoided with "user-widget-grid" using async component loading

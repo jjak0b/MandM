@@ -1,27 +1,17 @@
 import { template } from "./SceneEditorWidgetTemplate.js"
 import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
 import { component as gridWidget } from "../../../shared/components/GridWidget.js";
-
-import { asyncLoad as asyncLoadComponentI18nMediaPlayer } from "../../../shared/components/UserWidgetMediaPlayer.js";
-import { FormUtils} from "../../../shared/js/FormUtils.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
-import { component as datepickerComponent } from "../../../shared/components/UserWidgetDatepicker.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
-import { component as listComponent } from "../../../shared/components/UserWidgetList.js";
 import { component as listEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorList.js";
-import { component as textInputComponent } from "../../../shared/components/UserWidgetTextInput.js";
 import { component as textInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
-import { component as numberInputComponent } from "../../../shared/components/UserWidgetNumberInput.js";
 import { component as numberInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
-import { component as rangeComponent } from "../../../shared/components/UserWidgetRange.js";
 import { component as rangeEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
-import { component as spinbuttonComponent } from "../../../shared/components/UserWidgetSpinbutton.js";
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
-import { component as textContentComponent } from "../../../shared/components/UserWidgetTextContent.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
-import { component as photoComponent } from "../../../shared/components/UserWidgetPhoto.js";
 import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorPhoto.js";
 import { component as gridEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorGrid.js";
+import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 import {I18nUtils} from "../../../shared/js/I18nUtils.js";
 import SceneComponentParser from "../../../shared/js/Scene/SceneComponentParser.js";
@@ -31,7 +21,6 @@ import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
-import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
 export const component = {
 	template: template,

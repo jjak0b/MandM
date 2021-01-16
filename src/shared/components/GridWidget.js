@@ -72,7 +72,6 @@ export const component = {
 		shouldPreventFocus() { return this.preventFocus || this.localPreventFocus }
 	},
 	mounted() {
-		/*
 		let initRowIndex = ( this.value && this.value[ 0 ] >= 0 && this.value[ 0 ] < this.gridData.length )
 			? this.value[ 0 ]
 			: ( this.gridData.length > 0 ? 0 : -1 );
@@ -82,7 +81,7 @@ export const component = {
 
 		this.localPreventFocus = true;
 		this.onSetSelectCursor( [ initRowIndex, initCellIndex ] );
-		this.$nextTick( () => this.localPreventFocus = false );*/
+		this.$nextTick( () => this.localPreventFocus = false );
 	},
 	watch: {
 		// parent to child update is not needed because we send the object reference on updated cursor, so any field change
@@ -208,7 +207,7 @@ export const component = {
 			}
 		},
 		KeyHandler( event ) {
-			if( !this.navKey ) return;
+			if( !this.navKey || this.gridData.length < 1) return;
 
 			let row = this.cursor[0];
 			let col = this.cursor[1];
@@ -255,6 +254,9 @@ export const component = {
 			}
 
 			if( shouldStopPropagation ){
+				if( col < 0 ) col = 0;
+				if( row < 0 ) row = 0;
+
 				row = Math.min( Math.max( 0, row ), this.gridData.length-1 );
 				col = Math.min( Math.max( 0, col ), this.gridData[ row ].length-1 );
 

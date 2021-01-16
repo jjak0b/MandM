@@ -4,21 +4,36 @@
 	"label-locale-select": "Seleziona l'internazionalizzazione corrente da modificare"
   },
   "StoryEditorWidget": {
-	"label-story-title": "Titolo della storia",
-	"label-story-description": "Descrizione della storia",
-	"label-gamemode": "Modalità di gioco",
-	"label-story-to-import": "Storia da importare",
-	"label-story-to-export": "Storia da esportare",
-	"label-export-server-description": "La storia attualmente presente nell'applicazione sarà caricata sul server con il nome fornito. Se sul server è già presente una storia con lo stesso nome, essa sarà sostituita con questa versione",
-	"label-upload-story": "Carica la storia",
-	"label-download-story": "Scarica la storia",
-	"label-select-story-file": "Seleziona il file della storia",
-	"label-story-id-name": "Nome identificativo della storia",
-	"label-replace-existing": "Sostituisci la storia esistente",
-	"label-invalid-name-already-exists": "Il nome esiste già",
-	"label-valid-name-available": "Il nome è disponibile",
-	"label-valid-json": "Il file selezionato è una storia valida",
-	"label-invalid-json": "Il file selezionato non è una storia valida. Riprova con una storia .json valida",
+	  "label-story-public": "Storia Pubblica",
+	  "label-remove-group": "Rimuovi gruppo",
+	  "label-add-new-group": "Aggiungi nuovo gruppo",
+	  "label-group": "Gruppo",
+	  "label-groups": "Gruppi",
+	  "label-edit-story": "Modifica storia",
+	  "label-local-story": "Locale",
+	  "label-select-internationalization": "Per favore seleziona una internazionalità",
+	  "label-reload-from-server": "Ricarica",
+	  "label-add-new-story": "Aggiungi nuova storia",
+	  "label-story-editor": "Modifica storia",
+	  "label-story-name": "Nome storia",
+	  "label-story-description": "Descrizione storia",
+	  "label-gamemode": "Modalità di gioco",
+	  "label-age": "Età",
+	  "label-story-to-import": "Storia da importare",
+	  "label-story-to-export": "Storia da esportare",
+	  "label-export-server-description": "La storia attuale caricata nell' applicazione sarà inserita nel server col il nome assegnato. Se una storia con lo stesso nome è già presente nel server, sarà rimpiazzata con questa versione",
+	  "label-upload-story": "Carica la storia",
+	  "label-download-story": "Scarica la storia",
+	  "label-select-story-file": "Seleziona un file storia",
+	  "label-story-id-name": "Nome id della storia",
+	  "label-replace-existing": "Rimpiazza storia",
+	  "label-invalid-name-already-exists": "Rinomina storia",
+	  "label-valid-name-available": "Nome disponibile",
+	  "label-valid-json": "Il file fornito è una storia valida",
+	  "label-invalid-json": "Il file fornito è una storia invalida. Riprova fornendo un file storia .json valido",
+	  "label-empty-tabs-up": "Non ci sono storie",
+	  "label-empty-tabs-down": "Crea una nuova storia premendo il tasto Aggiungi",
+	  "label-add-new-story": "Aggiungi nuova storia",
 	"gamemodes": {
 	  "solo": {
 		"label": "Modalità individuale",
@@ -32,61 +47,92 @@
 		"label": "Modalità classe",
 		"description": "I gruppi agiscono indipendentemente e sono in competizione"
 	  }
-	}
+	},
+	  "ages": {
+		  "7_to_10": {
+			  "label": "Dai 7 ai 10 anni"
+		  },
+		  "11_to_14": {
+			  "label": "Dai 11 ai 14 anni"
+		  },
+		  "15_to_18": {
+			  "label": "Dai 15 ai 18 anni"
+		  }
+	  }
   },
   "MissionEditorWidget": {
 	"label-mission-no-title": "Missione senza titolo",
 	"label-mission-title": "Titolo della missione",
+	  "label-add-mission-description": "Aggiungi descrizione missione",
 	"label-mission-description": "Descrizione della missione",
-	"label-mission-list": "Lista missioni"
+	"label-mission-list": "Lista missioni",
+	  "label-add-new-mission": "Aggiungi nuova missione",
+	  "label-selected-mission": "Modifica missione selezionata"
   },
   "ActivityEditorWidget": {
-	"label-activity-title": "Titolo dell'attività",
-	"label-activity-description": "Descrizione dell'attività",
-	"label-mission-activity-tree-of": "Albero delle possibili attività nella missione: ",
-	"label-select-nodeType": "Seleziona il tipo di elemento da aggiungere all'albero",
-	"label-node-item-name": "Nome elemento dell'albero",
-	"label-input-type": "Seleziona tipo di input",
-	"label-node-item-description": "Nota sull'elemento dell'albero",
-	"treeNode-type": {
-	  "quest": {
-		"label": "Sfida",
-		"description": "Crea un'attività interattiva, che porterà a uno o più esiti possibili"
+	  "label-edit-menu-title": "Modifica menu",
+	  "label-add-menu-title": "Aggiungi menu",
+	  "label-activity-title": "Titolo attività",
+	  "label-activity-no-title": "Attività senza titolo",
+	  "label-activity-description": "Descrizione attività",
+	  "label-mission-activity-tree-of": "Alberi delle possibili attività nella missione: ",
+	  "label-select-nodeType": "Seleziona un tipo di elemento da aggiungere all'albero",
+	  "add-menu-invalid-feedback": "Per favore seleziona tipo di attività",
+	  "add-menu-valid-feedback": "Grazie",
+	  "label-node-item-name": "Nome elemento dell' albero",
+	  "label-input-type": "Seleziona tipo di input",
+	  "label-node-item-description": "Nota sull'elemento dell'albero",
+	  "label-tree-tab": "Nodo",
+	  "label-activity-tab": "Attività",
+	  "label-scene-tab": "Scena",
+	  "label-tale-tab": "Racconto",
+	  "label-quest-tab": "Missione",
+	  "label-branch-tab": "Ramo",
+	  "treeNode-type": {
+		  "quest": {
+			  "label": "Missione",
+			  "description": "Crea un'attività la quale forma un ramo di risultati possibili"
+		  },
+		  "tell": {
+			  "label": "Racconto",
+			  "description": "Spiega e racconta un dialogo"
+		  },
+		  "branch": {
+			  "label": "Ramo",
+			  "description": "Descrive una strada possibile della storia"
+		  }
 	  },
-	  "tell": {
-		"label": "Racconto",
-		"description": "Spiega e racconta un dialogo"
+	  "input-type": {
+		  "any": "Qualsiasi",
+		  "atom": "Unico",
+		  "range": "Estensione", //ci sono termini migliori
+		  "function": "Funzione"
 	  },
-	  "branch": {
-		"label": "Ramo",
-		"description": "Descrive un possibile percorso della storia"
-	  }
-	},
-	"input-type": {
-	  "any": "Qualsiasi",
-	  "atom": "Unico",
-	  "range": "Rateo",
-	  "function": "Funzione"
-	},
-	"label-variable": "Variabile",
-	"tnt-desc": "Inserisci un {value}, premendo Aggiungi il precedente viene sovvrascritto se presente, Save conferma il valore scelto",
-	"array-desc": "Inserisci i valori in una lista, premendo Aggiungi inserisci il valore nella lista, premendo Rimuovi toglie il valore dalla lista se presente",
-	"range-desc": "Inserisci il valore minimo e massimo",
-	"function-desc": "Seleziona i parametri e le condizioni avanzate",
-	"select-type-func": {
-	  "eq": "Ugualianza",
-	  "neq": "Non Ugulianza",
-	  "hasInside": "Ha il valore",
-	  "isInThere": "È presente",
-	  "isInRange": "È tra i valori"
-	},
-	"label-tag": "Sistema",
-	"label-type": "Tipo",
-	"label-type-func": "Tipo Condizione",
-	"label-value": "Valori"
+
+	  "tnt-desc": "Inserisci un {value}, premendo Rimuovi cancella l'ultimo elemento scelto, Salva conferma il valore",
+	  "array-desc": "Inserisci elementi in una lista premendo aggiungi oppure premi Rimuovi per eliminare il valore scritto, Salva conferma la lista ",
+	  "range-desc": "Inserisci la condizione minima e massima",
+	  "function-desc": "Seleziona parametri e tipi di condizioni avanzate",
+	  "label-single": "Singolo",
+	  "label-variable": "Variabile",
+	  "select-type-func": {
+		  "eq": "Equivalente",
+		  "neq": "Non uguali",
+		  "hasInside": "Ha valore",
+		  "isInThere": "Presente",
+		  "isInRange": "Tra i valori"
+	  },
+	  "label-tag": "Tag",
+	  "label-type": "Tipo",
+	  "label-type-func": "Tipo di funzione",
+	  "label-value": "Valori"
   },
   "SceneEditorWidget": {
+	  "label-edit-component-properties": "Modifica proprietà componenti",
+	  "label-edit-cell-properties": "Modifica proprietà celle",
+	  "label-scene-editor": "Editor scena",
 	"GridWidget": {
+		"label-scene-grid-layout-and-content": "Contenuti e layout della scena",
 	  "label-add-row": "Aggiungi riga",
 	  "label-add-col": "Aggiungi colonna",
 	  "label-remove-cell": "Rimuovi cella selezionata",
@@ -97,7 +143,118 @@
 	  "label-edit-cell-widget": "Imposta il widget contenuto nella cella"
 	}
   },
+	"StyleEditorWidget": {
+		"label-custom-stylesheet-description": "Descrizione stylesheet personalizzati",
+		"label-select-custom-stylesheet": "Seleziona stylesheet personalizzato",
+		"label-no-property": "Nessuna proprietà",
+		"label-add-property-to-edit": "Aggiungi proprietà da modificare",
+		"label-no-CSS-rule": "No regole CSS",
+		"label-add-rule-to-edit": "Aggiungi regola alla modifica",
+		"label-property-value": "Valore proprietà",
+		"classes": {
+			"label-utility": "Utilità",
+			"label-image": "Imaggine",
+			"label-text": "Testo",
+			"label-align": "Allinea",
+			"label-color": "Colore",
+			"label-border": "Bordo",
+			"label-margin": "Margine",
+			"label-padding": "Spaziatura",
+			"label-position": "Posizione",
+			"label-size": "Grandezza",
+			"label-button": "Bottone"
+		},
+		"bootstrap": {
+			"label-bootstrap-classes": "Classi di Bootstrap",
+			"label-visit-documentation-for-class-info": "Visita documentazione per informazioni delle classi"
+		},
+		"rule": {
+			"label-rule-list": "Lista delle regole",
+			"label-css-selector-editor": "Editor selettore di CSS",
+			"label-css-properties-editor": "Editor proprietà CSS",
+			"label-add-property-name": "Aggiungi nome proprietà",
+			"label-css-preview": "Preview CSS",
+			"property": {
+				"label-parameter": "Parametro"
+			}
+		},
+		"StyleLengthWidget": {
+			"units": {
+				"label_relative": "Relativo",
+				"label_absolute": "Assoluto"
+			}
+		},
+		"selector": {
+			"label-class": "Classe"
+		},
+		"StyleSelector": {
+			"selector": {
+				"label-class": "Classe",
+				"label-use-custom-selector": "Usa selettore personalizzato",
+				"label-entity-selector": "Selettore entità",
+				"label-warning-assuming-advanced-user": "Assumendo utente avanzato",
+				"label-insert-custom-selector": "Inserisci selettore personalizzato",
+				"label-element": "Elemento",
+				"label-id": "Id",
+				"label-attribute-selector": "Selettore attributo",
+				"label-attribute-name": "Nome attributo",
+				"label-attribute-check-operator": "Attributo cerca operatore",
+				"label-attribute-value": "Attributo valore",
+				"label-match-case-insensitive": "Confronta in minuscolo",
+				"label-pseudo-class": "Pseudo-classe",
+				"label-pseudo-element": "Pseudo-elemento",
+				"attributeOp": {
+					"label-equals": "Equivalenti",
+					"label-contains-word": "Contiene parola",
+					"label-start-with": "Inizia con",
+					"label-end-with": "Finisce con",
+					"label-contains": "Contiene"
+				}
+			}
+		}
+	},
+	"AttributeEditorWidget": {
+		"label-attributes": "Attributi",
+		"label-label-id": "Id",
+		"label-classes": "Classi",
+		"label-current-classes": "Classe attuale",
+		"label-duplicate-classes": "Duplica classe/i",
+		"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure \"Enter\", \"Space\" "
+	},
   "UserWidgets": {
+	  "label-checkbox-widget-name": "Checkbox",
+	  "label-select-widget-name": "Selezione",
+	  "label-radio-widget-name": "Radiale",
+	  "label-text-input-widget-name": "Testo",
+	  "label-number-input-widget-name": "Numero",
+	  "label-range-widget-name": "Estensione", //ci sono termini migliori
+	  "label-spinbutton-widget-name": "Campo",  //ci sono termini migliori
+	  "label-datepicker-widget-name": "Selezione Data",
+	  "label-media-player-widget-name": "Media Player",
+	  "label-user-widget-checkbox-settings": "Impostazioni Checkbox",
+	  "label-user-widget-radio-settings": "Impostazioni Menu Radiale",
+	  "label-user-widget-select-settings": "Impostazioni Selezione",
+	  "label-text-input-settings": "Impostazioni Testo",
+	  "label-number-input-settings": "Impostazioni Numero",
+	  "label-range-settings": "Impostazioni Estensione",
+	  "label-spinbutton-settings": "Impostazioni Campo",
+	  "label-photo-settings": "Impostazioni Media",
+	  "label-show-extremes": "Mostra Valori Limite",
+	  "TextContent": {
+		  "initial-editor-content": "Aggiungi il tuo testo",
+		  "label-text-content": "Contenuto Testo",
+		  "label-text-content-editor": "Modifica Contenuto Testo",
+		  "label-heading1": "Titolo 1",
+		  "label-heading2": "Titolo 2",
+		  "label-heading3": "Titolo 3",
+		  "label-bold": "Grassetto",
+		  "label-italic": "Corsivo",
+		  "label-underline": "Sottolinea",
+		  "label-strike": "Barra",
+		  "label-code_block": "Allineamento", //(?)
+		  "label-bullet_list": "Elenco Puntato",
+		  "label-ordered_list": "Elenco Ordinato"
+	  },
 	"Datepicker": {
 	  "label-prev-decade": "Decennio precedente",
 	  "label-prev-year": "Anno precedente",
@@ -112,6 +269,81 @@
 	  "label-calendar": "Calendario",
 	  "label-nav": "Navigazione calendario",
 	  "label-help": "Usa i tasti cursore per navigare tra le date del calendario"
+	},
+	  "MediaPlayer": {
+		  "label_upload_file": "Carica File",
+		  "label_mediatype": "Tipo di media",
+		  "label_mediaSource": "Fonte del media",
+		  "label-add-image-area": "Aggiungi immagine",
+		  "label-input-useArea": "Usa Area",
+		  "label-select-shape-area": "Seleziona forma",
+		  "label-select-link-interaction": "Seleziona interazione link",
+		  "MediaType": {
+			  "label_audio": "Audio",
+			  "label_video": "Video",
+			  "label_image": "Immagine"
+		  },
+		  "label-input-file": {
+			  "audio": "Audio",
+			  "video": "Video",
+			  "image": "Immagine",
+			  "captions": "Sottotitoli",
+			  "captions_accessibility": "Accessibilità sottotitoli",
+			  "imageCaption": "Sottotitoli per Immagine",
+			  "useArea": "Usa Area"
+		  },
+		  "areas": {
+			  "label-vertex-description": "Descrizione nel vertice",
+			  "label-use-highlight": "Usa evidenziatore",
+			  "label-set-value-to-return-as-player-input": "Applica valore selezionabile dal giocatore",
+			  "label-add-anchor-to-scroll-onto-when-triggered": "Aggiungi ancora per scorrerci dentro quando attivato",
+			  "label-anchor-warning-no-element-found": "Nessun elemento trovato",
+			  "label-shape-full": "Pieno",
+			  "label-shape-rectangle": "Rettangolo",
+			  "label-shape-circle": "Cerchio",
+			  "label-rectangle-top-left": "Rettangolo in alto a sinistra",
+			  "label-rectangle-bottom-right": "Rettangolo in fondo a destra",
+			  "label-circle-centre": "Cerchio Centro",
+			  "label-circle-radius": "Cerchio Radiale",
+			  "label-select-shape-area": "Seleziona area della forma",
+			  "label-select-interact-action": "Seleziona interazione",
+			  "label-add-url-to-open-when-triggered": "Aggiungi url da aprire quando interagita",
+			  "label-url-invalid": "url invalido",
+			  "label-url-invalid-example": "Esempio di url invalido",
+			  "actions": {
+				  "label-open-url-new-tab": "Apri url in a nuova finestra",
+				  "label-navigate-to-page-element": "Naviga nellàelemento della pagina",
+				  "label-return-a-value-to-activity": "Riporta un valore nell'attività"
+			  }
+		  }
+	  }
+  },
+	"DataEditorWidget": {
+		"label-create-value-you-need": "Crea il valore desiderato",
+		"label-value-type": "Tipo di valore",
+		"label-values": "Valori"
+	},
+	"AssetsManager": {
+		"label-invalid-file-unsupported": "File non supportato",
+		"label-invalid-name-already-exists": "Nome già presente",
+		"label-valid-name-available": "Nome disponibile",
+		"label-asset-name-description": "Descrizione nome della risorsa",
+		"label-asset-name": "Nome della risorsa",
+		"label-valid-file": "File invalido",
+		"label-server": "Sever",
+		"label-locale": "Locale",
+		"label-select-and-upload": "Seleziona e carica",
+		"label-select-media-file": "Seleziona file media",
+		"label-replace-existing": "Rimpiazza file",
+		"label-search-asset": "Cerca risorsa",
+		"label-filter-categories": "Filtra categorie",
+		"label-result-list": "Lista risultati",
+		"label-select-asset": "Seleziona risorsa",
+		"label-stories-that-depend-by-asset": "Storie dipendenti da risorse",
+		"error": {
+			"label-asset-is-dependency": "Risorsa è una dipendenza",
+			"label-unable-to-delete-asset": "Impossibile rimuovere risorsa",
+			"label-asset-already-deleted": "Risorsa già eliminata"
+		}
 	}
-  }
 }

@@ -18,7 +18,7 @@ export const component = {
             form: {
                 assign: false
             },
-            condition: new BranchCondition(null),
+            condition: new BranchCondition(null,),
             functionPrototypes: ActivityDataBranch._functions,
             envVariableNames: ActivityDataBranch._variables,
             functionLocaleLabels: {
@@ -117,8 +117,10 @@ export const component = {
                     "params",
                     []
                 );
+
                 console.log("clear function parameters",this.condition );
             }
+
         }
     },
     computed:{
@@ -151,7 +153,7 @@ export const component = {
         },
         onReset( event ) {
             this.form.assign = true;
-            this.condition = new BranchCondition({function:null, params: [] } );
+            this.condition = new BranchCondition({function:null, params: [], rewardPoints:0 } );
             this.$nextTick( () => this.assign( this.branch ) );
         }
     }

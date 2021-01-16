@@ -330,6 +330,7 @@ export const template =
 					v-bind:key="gridLayer.component.id"
 					v-bind:ref="'grid-' + gridIndex"
 					v-bind="gridLayer.component.props"
+					v-bind:aria-level="gridIndex+1"
 					
 					v-bind:id="'scene-editor-grid-' + gridIndex"
 					v-bind:grid-role="'grid'"

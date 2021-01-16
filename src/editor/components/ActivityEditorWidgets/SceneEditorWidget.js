@@ -140,25 +140,21 @@ export const component = {
 			else {
 				this.currentGridElement = undefined;
 			}
-			this.currentCellCache = null;
+
 			let cursor = this.currentLayerGrid.cursor;
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
 				let selectedCell = this.currentLayerGrid.component.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 				this.currentCellCache = selectedCell;
 				console.log( "[SceneEditor]", "Change working cell @", cursor, "in layer", gridIndex );
 			}
-			else if( cursor ) {
-				// select first cell if needed
-				if( this.currentLayerGrid.component.props.gridData.length > 0 ) {
-					if( this.currentLayerGrid.component.props.gridData[ 0 ].length > 0 ) {
-						cursor.splice( 0, 2, [ 0, 0 ] );
-						console.log( "[SceneEditor]", "Change working cell @", cursor, "in layer", gridIndex );
-					}
-				}
+			// select first cell if possible
+			else if( this.currentLayerGrid.component.props.gridData.length > 0 && this.currentLayerGrid.component.props.gridData[ 0 ].length > 0 ) {
+				cursor.splice( 0, 2, 0, 0 );
+				console.log( "[SceneEditor]", "Changing working cell @", cursor, "in layer", gridIndex );
 			}
-
-			if( !this.currentCellCache ) {
-				console.log( "[SceneEditor]", "Unset working cell" );
+			else {
+				this.currentCellCache = null;
+				console.log( "[SceneEditor]", "Unset working cell in layer", gridIndex );
 			}
 		}
 	},
@@ -166,7 +162,7 @@ export const component = {
 		currentLayerGrid: function() {
 			if( this.currentLayerIndex < 0 ) return undefined;
 			return this.gridLayers[ this.currentLayerIndex ];
-		},
+		}
 	},
 	created() {
 		this.onModalSubmit = this.onSubmitModalCellComponent;

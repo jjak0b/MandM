@@ -56,11 +56,14 @@ export const component = {
 	},
 	data() {
 		return {
+			// deprecated / not used
 			copiedItem: null,
 			newId: 0,
 			maxRows: 12,
 			maxColumns: 12,
-			isFormGridEnabled: false,
+			cursor: null,
+			maxCellSizeAvailable: 0,
+			//end deprecated
 			showCSSGrid: true,
 			widgetsTable: {
 				"user-widget-checkbox" : {
@@ -108,7 +111,6 @@ export const component = {
 					label: "UserWidgets.grid.label-grid",
 				},
 			},
-			cursor: null,
 			currentCellCache: null,
 			currentLayerIndex: -1,
 			currentGridElement: null,
@@ -123,14 +125,14 @@ export const component = {
 			newCellComponentName: null,
 			newCellSize: 1,
 			onModalSubmit: null,
-			maxCellSizeAvailable: 0,
 			gridPreventFocus: false,
 			lastRemovedWidgetNames: [],
 			lastAddedWidgetName: null
 		}
 	},
 	watch: {
-		"currentLayerIndex": function () {
+		// Change current working cell when current layer change
+		"currentLayerIndex": function (gridIndex) {
 			let gridRefName = "grid-" + this.currentLayerIndex;
 			if( gridRefName in this.$refs ) {
 				this.currentGridElement = this.$refs[ gridRefName ][ 0 ];
@@ -143,8 +145,22 @@ export const component = {
 			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
 				let selectedCell = this.currentLayerGrid.component.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 				this.currentCellCache = selectedCell;
+				console.log( "[SceneEditor]", "Change working cell @", cursor, "in layer", gridIndex );
 			}
-		},
+			else if( cursor ) {
+				// select first cell if needed
+				if( this.currentLayerGrid.component.props.gridData.length > 0 ) {
+					if( this.currentLayerGrid.component.props.gridData[ 0 ].length > 0 ) {
+						cursor.splice( 0, 2, [ 0, 0 ] );
+						console.log( "[SceneEditor]", "Change working cell @", cursor, "in layer", gridIndex );
+					}
+				}
+			}
+
+			if( !this.currentCellCache ) {
+				console.log( "[SceneEditor]", "Unset working cell" );
+			}
+		}
 	},
 	computed: {
 		currentLayerGrid: function() {
@@ -180,15 +196,19 @@ export const component = {
 			component: this.scene.body,
 			cursor: [-1, -1]
 		});
-		// this.isFormGridEnabled = true;
 	},
 	methods: {
 		onCellSelectedInsideGrid( gridIndex, cursor ) {
-			if( gridIndex < 0 || gridIndex >= this.gridLayers.length ) return;
+			if( gridIndex < 0 || gridIndex >= this.gridLayers.length ){
+				this.currentCellCache = null;
+			}
 			// this.currentLayerGrid
 			let gridLayerComponent = this.gridLayers[ gridIndex ].component;
 
-			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0 ) {
+			if( cursor && cursor[ 0 ] >= 0 && cursor[ 1 ] >= 0
+				&& cursor[ 0 ] < gridLayerComponent.props.gridData.length && cursor[ 1 ] < gridLayerComponent.props.gridData[ cursor[ 0 ] ].length ) {
+				console.log( "[SceneEditor]", "Selected cell @", cursor, "in layer", gridIndex );
+
 				let selectedCell = gridLayerComponent.props.gridData[ cursor[ 0 ] ][ cursor[ 1 ] ];
 
 				this.currentCellCache = selectedCell;
@@ -196,6 +216,7 @@ export const component = {
 
 				if( selectedCell.component ){
 
+					// Add Layer if is a grid
 					if( selectedCell.component instanceof ComponentGrid ) {
 						if( this.gridLayers.length-1 <= gridIndex ) {
 							this.gridLayers.push({
@@ -205,12 +226,18 @@ export const component = {
 						}
 						// else we already have the layer
 					}
+					// Toggle layers
 					else {
+						let gridLayer;
 						while( this.gridLayers.length -1 > gridIndex ) {
-							let gridLayer = this.gridLayers.pop();
+							gridLayer = this.gridLayers.pop();
 						}
 					}
 				}
+			}
+			else {
+				console.log( "[SceneEditor]", "Unselected cell in layer", gridIndex );
+				this.currentCellCache = null;
 			}
 		},
 		canAddRow: function () {

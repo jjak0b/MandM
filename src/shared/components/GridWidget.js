@@ -6,28 +6,19 @@ export const component = {
 	props: {
 		tabindex: [Number,String],
 		gridData: Array,
-		gridRole: {
-			type: String,
-			default: "grid"
-		},
+		gridRole: String,
 		gridClass: [Array, String],
 		gridTag: {
 			type: [String, Object],
 			default: "div"
 		},
-		rowRole: {
-			type: String,
-			default: "row"
-		},
+		rowRole: String,
 		rowClass: [Array, String],
 		rowTag: {
 			type: [String, Object],
 			default: "div"
 		},
-		cellRole: {
-			type: String,
-			default: "gridcell"
-		},
+		cellRole: String,
 		cellClass: [Array, String],
 		cellTag: {
 			type: [String, Object],
@@ -37,11 +28,11 @@ export const component = {
 		selectedCellClass: [Array, String],
 		useIndexes: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		navKey: {
 			type: Boolean,
-			default: true
+			default: false
 		},
 		selectable : {
 			type: Boolean,

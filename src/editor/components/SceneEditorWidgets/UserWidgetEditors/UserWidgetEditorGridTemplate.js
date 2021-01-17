@@ -41,10 +41,14 @@ export const template =
 				>{{ $t('UserWidgets.Grid.label-html-tag-role') }}</label>
 				<b-form-input
 					id="user-widget-editor-grid_grid-role-input"
+					list="user-widget-editor-grid_grid-role-options"
 					v-model.trim="component.props.gridRole"
 					type="text"
 				>
 				</b-form-input>
+				<datalist id="user-widget-editor-grid_grid-role-options">
+					<option value="grid" />
+				</datalist>
 			</div>
 			
 			<div class="mb-2">
@@ -151,11 +155,15 @@ export const template =
 			>{{ $t('UserWidgets.Grid.label-html-tag-role') }}</label>
 			<b-form-input
 				id="user-widget-editor-grid_row-role-input"
+				list="user-widget-editor-grid_row-role-options"
 				v-model.trim="component.props.rowRole"
 				type="text"
 				class="mb-2"
 			>
 			</b-form-input>
+			<datalist id="user-widget-editor-grid_row-role-options">
+				<option value="row" />
+			</datalist>
 		</b-card-body>
 	</b-card>
 	
@@ -210,11 +218,15 @@ export const template =
 			>{{ $t('UserWidgets.Grid.label-html-tag-role') }}</label>
 			<b-form-input
 				id="user-widget-editor-grid_cell-role-input"
+				list="user-widget-editor-grid_cell-role-options"
 				v-model.trim="component.props.cellRole"
 				type="text"
 				class="mb-2"
 			>
 			</b-form-input>
+			<datalist id="user-widget-editor-grid_cell-role-options">
+				<option value="gridcell" />
+			</datalist>
 		</b-card-body>
 	</b-card>
 

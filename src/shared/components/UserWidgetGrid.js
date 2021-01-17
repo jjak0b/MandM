@@ -35,22 +35,10 @@ export function component(resolve, reject) {
 			selectedCellClass: [Array, String],
 
 			// custom props
-			useIndexes: {
-				type: Boolean,
-				default: true
-			},
-			navKey: {
-				type: Boolean,
-				default: true
-			},
-			selectable : {
-				type: Boolean,
-				default: false
-			},
-			preventFocus: {
-				type: Boolean,
-				default: false
-			}
+			useIndexes: Boolean,
+			navKey: Boolean,
+			selectable : Boolean,
+			preventFocus: Boolean
 		},
 		methods: {
 			onSelected( event ) {

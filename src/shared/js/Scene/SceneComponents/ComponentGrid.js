@@ -16,26 +16,26 @@ export default class ComponentGrid extends SceneComponent {
 		}
 
 		// roles
-		this.props.gridRole = unparsed.gridRole || "grid";
-		this.props.rowRole = unparsed.rowRole || "row";
-		this.props.cellRole = unparsed.cellRole || "gridcell";
+		this.props.gridRole = unparsed.props.gridRole;
+		this.props.rowRole = unparsed.props.rowRole;
+		this.props.cellRole = unparsed.props.cellRole;
 
 		// tags
-		this.props.gridTag = unparsed.gridTag || "div";
-		this.props.rowTag= unparsed.rowTag || "div";
-		this.props.cellTag = unparsed.cellTag || "span";
+		this.props.gridTag = unparsed.props.gridTag || "div";
+		this.props.rowTag= unparsed.props.rowTag || "div";
+		this.props.cellTag = unparsed.props.cellTag || "span";
 
 		// classes
-		this.props.gridClass = unparsed.gridClass || [ "container" ];
-		this.props.rowClass = unparsed.rowClass || [ "row" ];
-		this.props.cellClass = unparsed.cellClass || [ "col" ];
-		this.props.cursorCellClass = unparsed.cursorCellClass || [];
-		this.props.selectedCellClass = unparsed.selectedCellClass || [];
+		this.props.gridClass = unparsed.props.gridClass || [ "container" ];
+		this.props.rowClass = unparsed.props.rowClass || [ "row" ];
+		this.props.cellClass = unparsed.props.cellClass || [ "col" ];
+		this.props.cursorCellClass = unparsed.props.cursorCellClass || [];
+		this.props.selectedCellClass = unparsed.props.selectedCellClass || [];
 
 		// custom props
-		this.props.useIndexes = unparsed.useIndexes || true;
-		this.props.navKey = unparsed.navKey || true;
-		this.props.selectable = unparsed.selectable || false;
+		this.props.useIndexes = unparsed.props.useIndexes !== undefined ? unparsed.props.useIndexes : false;
+		this.props.navKey = unparsed.props.navKey !== undefined ? unparsed.props.navKey : false;
+		this.props.selectable = unparsed.props.selectable !== undefined ? unparsed.props.selectable : false;
 	}
 
 	dispose( params ) {

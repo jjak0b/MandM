@@ -104,8 +104,8 @@
 	  },
 	  "input-type": {
 		  "any": "Qualsiasi",
-		  "atom": "Unico",
-		  "range": "Estensione", //ci sono termini migliori
+		  "atom": "Atomico",
+		  "range": "Intervallo",
 		  "function": "Funzione"
 	  },
 
@@ -127,21 +127,22 @@
 	  "label-type-func": "Tipo di funzione",
 	  "label-value": "Valori"
   },
-  "SceneEditorWidget": {
-	  "label-edit-component-properties": "Modifica proprietà componenti",
-	  "label-edit-cell-properties": "Modifica proprietà celle",
-	  "label-scene-editor": "Editor scena",
-	"GridWidget": {
-		"label-scene-grid-layout-and-content": "Contenuti e layout della scena",
-	  "label-add-row": "Aggiungi riga",
-	  "label-add-col": "Aggiungi colonna",
-	  "label-remove-cell": "Rimuovi cella selezionata",
-	  "label-remove-row": "Rimuovi riga selezionata",
-	  "label-show-grid-border": "Mostra bordi delle celle sulla griglia",
-	  "label-edit-selected-cell": "Modifica la cella selezionata",
-	  "label-edit-cell-size": "Imposta la dimensione della cella",
-	  "label-edit-cell-widget": "Imposta il widget contenuto nella cella"
-	}
+   "SceneEditorWidget": {
+	    "label-edit-component-properties": "Modifica proprietà del componente",
+		"label-edit-cell-properties": "Modifica proprietà della cella",
+	    "label-scene-editor": "Editor della scena",
+		"GridWidget": {
+	  		"label-scene-grid-layout-and-content": "Contenuti e layout della scena",
+	  		"label-add-row": "Aggiungi riga",
+	  		"label-add-col": "Aggiungi colonna",
+	  		"label-remove-cell": "Rimuovi cella selezionata",
+	  		"label-remove-row": "Rimuovi riga selezionata",
+	  		"label-show-grid-border": "Mostra bordi delle celle sulla griglia",
+	  		"label-edit-selected-cell": "Modifica la cella selezionata",
+	  		"label-edit-cell-size": "Imposta la dimensione della cella",
+	  		"label-edit-cell-widget": "Imposta il widget contenuto nella cella",
+			"label-layout-level": "Livello profondità {n}"
+		}
   },
 	"StyleEditorWidget": {
 		"label-custom-stylesheet-description": "Descrizione stylesheet personalizzati",
@@ -217,41 +218,44 @@
 		"label-attributes": "Attributi",
 		"label-label-id": "Id",
 		"label-classes": "Classi",
-		"label-current-classes": "Classe attuale",
-		"label-duplicate-classes": "Duplica classe/i",
-		"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure \"Enter\", \"Space\" "
+		"label-current-classes": "Classe/i attuale/i",
+		"label-duplicate-classes": "Classi duplicate",
+		"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure \"Invio\", \"Spazio\" "
 	},
   "UserWidgets": {
-	  "label-checkbox-widget-name": "Checkbox",
-	  "label-select-widget-name": "Selezione",
-	  "label-radio-widget-name": "Radiale",
-	  "label-text-input-widget-name": "Testo",
-	  "label-number-input-widget-name": "Numero",
-	  "label-range-widget-name": "Estensione", //ci sono termini migliori
-	  "label-spinbutton-widget-name": "Campo",  //ci sono termini migliori
-	  "label-datepicker-widget-name": "Selezione Data",
-	  "label-media-player-widget-name": "Media Player",
-	  "label-user-widget-checkbox-settings": "Impostazioni Checkbox",
-	  "label-user-widget-radio-settings": "Impostazioni Menu Radiale",
-	  "label-user-widget-select-settings": "Impostazioni Selezione",
-	  "label-text-input-settings": "Impostazioni Testo",
-	  "label-number-input-settings": "Impostazioni Numero",
-	  "label-range-settings": "Impostazioni Estensione",
-	  "label-spinbutton-settings": "Impostazioni Campo",
-	  "label-photo-settings": "Impostazioni Media",
+	  "label-checkbox-widget-name": "Lista a scelta multipla",
+	  "label-select-widget-name": "Lista a tendina ",
+	  "label-radio-widget-name": "Lista a scelta unica",
+	  "label-text-input-widget-name": "Campo di inserimento testo",
+	  "label-number-input-widget-name": "Campo di inserimento numerico",
+	  "label-range-widget-name": "Campo con intervallo numerico",
+	  "label-spinbutton-widget-name": "Campo numerico con pulsanti",
+	  "label-datepicker-widget-name": "Campo di selezione data",
+	  "label-media-player-widget-name": "Visualizzatore multimediale",
+	  "label-photo-widget-name": "Acquisitore multimediale",
+	  "label-grid-widget-name": "Griglia",
+	  "label-user-widget-checkbox-settings": "Impostazioni @:UserWidgets.label-checkbox-widget-name",
+	  "label-user-widget-radio-settings": "Impostazioni @:UserWidgets.label-radio-widget-name",
+	  "label-user-widget-select-settings": "Impostazioni @:UserWidgets.label-select-widget-name",
+	  "label-text-input-settings": "Impostazioni @:UserWidgets.label-text-input-widget-name",
+	  "label-number-input-settings": "Impostazioni @:UserWidgets.label-number-input-widget-name",
+	  "label-range-settings": "Impostazioni @:UserWidgets.label-range-widget-name",
+	  "label-spinbutton-settings": "Impostazioni @:UserWidgets.label-spinbutton-widget-name",
+	  "label-photo-settings": "Impostazioni @:UserWidgets.label-photo-widget-name",
+	  "label-grid-settings": "Impostazioni @:UserWidgets.label-grid-widget-name",
 	  "label-show-extremes": "Mostra Valori Limite",
 	  "TextContent": {
 		  "initial-editor-content": "Aggiungi il tuo testo",
-		  "label-text-content": "Contenuto Testo",
-		  "label-text-content-editor": "Modifica Contenuto Testo",
-		  "label-heading1": "Titolo 1",
-		  "label-heading2": "Titolo 2",
-		  "label-heading3": "Titolo 3",
+		  "label-text-content": "Contenuto testuale",
+		  "label-text-content-editor": "Modifica contenuto Testo",
+		  "label-heading1": "Intestazione 1",
+		  "label-heading2": "Intestazione 2",
+		  "label-heading3": "Intestazione 3",
 		  "label-bold": "Grassetto",
 		  "label-italic": "Corsivo",
-		  "label-underline": "Sottolinea",
-		  "label-strike": "Barra",
-		  "label-code_block": "Allineamento", //(?)
+		  "label-underline": "Sottolineato",
+		  "label-strike": "Barrato",
+		  "label-code_block": "Codice",
 		  "label-bullet_list": "Elenco Puntato",
 		  "label-ordered_list": "Elenco Ordinato"
 	  },

@@ -26,10 +26,15 @@ export default class ComponentGrid extends SceneComponent {
 		this.props.cellTag = unparsed.cellTag || "span";
 
 		// classes
+		this.props.gridClass = unparsed.gridClass || [ "container" ];
 		this.props.rowClass = unparsed.rowClass || [ "row" ];
 		this.props.cellClass = unparsed.cellClass || [ "col" ];
+		this.props.cursorCellClass = unparsed.cursorCellClass || [];
+		this.props.selectedCellClass = unparsed.selectedCellClass || [];
 
 		// custom props
+		this.props.useIndexes = unparsed.useIndexes || true;
+		this.props.navKey = unparsed.navKey || true;
 		this.props.selectable = unparsed.selectable || false;
 	}
 

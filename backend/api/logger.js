@@ -10,20 +10,37 @@ router.use(express.json({
 }));
 
 router.post("/", PUT_SESSION);
-router.post("/:sessionId", SET_NAME);
+router.post("/:sessionId", EDIT_SESSION);
 router.get("/", GET_SESSION);
 
-function SET_NAME( req, res, next ) {
+function EDIT_SESSION( req, res, next ) {
 
 	let sessionId = req.params.sessionId;
-	let name = req.query.name;
 
-	if ( sessionId && name ) {
-		req.sessionStore.get( sessionId, (error, session) => {
-			if (error && session) {
+	if ( req.query.name ) {
+		req.sessionStore.get(sessionId, (error, session) => {
+			if (error || !session) {
 				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 			} else {
-				session.name = name;
+				session.name = req.query.name;
+
+				req.sessionStore.set(sessionId, session, (error) => {
+					if (error) {
+						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+					} else {
+						res.sendStatus(StatusCodes.OK);
+					}
+				});
+			}
+		})
+	}
+	else if ( req.query.score && req.body ) {
+		req.sessionStore.get(sessionId, (error, session) => {
+			if (error || !session) {
+				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+			} else {
+				session.stories[req.body.story][req.body.mission][req.body.activity].score = req.body.score;
+
 				req.sessionStore.set(sessionId, session, (error) => {
 					if (error) {
 						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
@@ -35,7 +52,7 @@ function SET_NAME( req, res, next ) {
 		})
 	}
 	else {
-		res.sendStatus( StatusCodes.BAD_REQUEST );
+		res.sendStatus(StatusCodes.BAD_REQUEST);
 	}
 }
 
@@ -69,9 +86,11 @@ function PUT_SESSION( req, res, next ) {
 				} else if (log.params.end) {
 					req.session.stories[story][mission][activity].end = log.timestamp;
 				}
-
 				if (log.params.input) {
 					req.session.stories[story][mission][activity].input = log.params.input;
+				}
+				if (log.params.score) {
+					req.session.stories[story][mission][activity].score = log.params.score;
 				}
 			}
 		}

@@ -138,6 +138,8 @@ export const component = {
 					}
 				}
 				this.$refs.treeView.remove();
+				this.isEditFormVisible = false;
+
 				this.save(this.mission);
 			});
 

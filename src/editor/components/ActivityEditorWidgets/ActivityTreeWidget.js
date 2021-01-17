@@ -203,9 +203,8 @@ export const component = {
 		},
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];
-			let nextSelectNode = this.tree.get_prev_dom( selectedNode );
-			this.tree.select_node( nextSelectNode );
 			this.tree.delete_node( selectedNode );
+			this.tree.deselect_all(true);
 		},
 		createNewNode( item, selectedNode ) {
 			let selectedtype = this.tree.get_type( selectedNode );

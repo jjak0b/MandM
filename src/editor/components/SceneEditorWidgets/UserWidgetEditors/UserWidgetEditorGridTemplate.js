@@ -3,7 +3,7 @@ export const template =
 <section>
 <h3
 	id="user-widget-editor-grid-header-name"
->{{ $t( 'UserWidgets.Grid.label-customize-grid-settings' ) }}</h3>
+>{{ $t( 'UserWidgets.label-grid-settings' ) }}</h3>
 <b-form
 	aria-labelledby="user-widget-editor-grid-header-name"
 	v-on:submit.prevent

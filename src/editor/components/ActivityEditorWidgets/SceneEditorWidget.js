@@ -103,7 +103,7 @@ export const component = {
 				},
 				"user-widget-grid" : {
 					editor: "user-widget-editor-grid",
-					label: "UserWidgets.grid.label-grid",
+					label: "UserWidgets.label-grid-widget-name",
 				},
 			},
 			currentCellCache: null,

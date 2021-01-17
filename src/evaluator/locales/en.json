@@ -1,5 +1,8 @@
 {
   "Evaluator": {
+	"label-edit-score": "Edit score",
+	"label-edit-score-of-activity": "Edit score of activity",
+	"label-score": "Score",
 	"label-start-time": "Start time",
 	"label-end-time": "End time",
 	"label-input-type": "Input type",
@@ -22,7 +25,7 @@
 	"label-story-end": "Story end",
 	"label-loading-resources": "Loading resources",
 	"label-player-stuck-notification-time": "Stuck player notification time",
-	"label-player-stuck-notification-time-description": "Define how many minutes will pass before the evaluator notifies that the player is stuck in an activity.d",
+	"label-player-stuck-notification-time-description": "Define how many minutes will pass before the evaluator notifies that the player is stuck in an activity.",
 	"errors": {
 	  "label-error": "error",
 	  "label-unable-to-load-resources": "Unable to load resources"

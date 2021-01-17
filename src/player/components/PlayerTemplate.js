@@ -104,7 +104,7 @@ export const template =
 								dir="auto"
 								aria-labelledby="player-countdown-message"
 								style="font-size: xx-large"
-							><span>{{ startGame.secondsCountDown }}<span></output>
+							><span>{{ startGame.secondsCountDown }}</span></output>
 						</div>
 					</div>
 					<div

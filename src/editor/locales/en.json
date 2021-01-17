@@ -33,7 +33,6 @@
 	"label-invalid-json": "The provided file is an invalid story. Retry providing .json valid story",
 	"label-empty-tabs-up": "There are no stories",
 	"label-empty-tabs-down": "Create a new story using the Add button.",
-	"label-add-new-story": "Add new story",
 	"gamemodes": {
 	  "solo": {
 		"label": "Solo mode",
@@ -80,6 +79,7 @@
 	"select-type-var": {
 	  "label-user-input": "User input"
 	},
+	"label-point-assignment": "Point assignment",
 	"label-that-element-to-compare": "Element to compare",
 	"label-condition-check-parameters": "Condition check parameters",
 	"label-select-a-variable": "Select a variable",
@@ -149,6 +149,9 @@
 	"label-edit-cell-properties": "Edit cell properties",
 	"label-scene-editor": "Scene editor",
 	"GridWidget": {
+	  "label-populate-grid-with-rows-and-cells-to-customize-widget-you-need": "Populate grid with rows and cells to customize widget you need",
+	  "label-layout-level": "Layout level",
+	  "label-no-rows-in-grid": "No rows in grid",
 	  "label-scene-grid-layout-and-content": "Scene grid layout and content",
 	  "label-add-row": "Add row",
 	  "label-add-col": "Add columns",

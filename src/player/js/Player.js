@@ -66,7 +66,7 @@ export default class Player {
 
 		this.envVars = {
 			userInput: undefined,
-			score: 0
+			score: null
 		}
 	}
 
@@ -233,6 +233,11 @@ export default class Player {
 				// select branchNode as parent Node
 				if (indexBranch >= 0) {
 					let branchNode = this.current.activity.children[indexBranch];
+
+					if ( branchNode.data.condition.rewardPoints ) {
+						this.envVars.score = branchNode.data.condition.rewardPoints;
+					}
+
 					this.current.parentNodes.push(branchNode);
 					this.current.activityIndex = -1;
 				}
@@ -245,6 +250,7 @@ export default class Player {
 				this.current.activity.id,
 				{
 					input: this.envVars.userInput,
+					score: this.envVars.score,
 					end: true
 				}
 			);
@@ -284,6 +290,7 @@ export default class Player {
 		}while( !nextActivity && nextMission );
 
 		this.envVars.userInput = null;
+		this.envVars.score = null;
 
 		// no activity left -> end the story
 		if( !nextMission && !nextActivity ) {
@@ -316,7 +323,6 @@ export default class Player {
 		if( !( value instanceof TypedValue) ) {
 			if (typeof value === "string") {
 				let number = Number.parseInt(value);
-				console.log( number );
 				if (!isNaN(number))
 					return new TypedValue({ type:Number.name, value:number } );
 

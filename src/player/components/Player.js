@@ -247,7 +247,6 @@ export const component = {
 			})
 				.done( ( newStoryStatus, textStatus, jqXHR) => {
 
-					console.log( newStoryStatus );
 					let shouldTryToStartGame = false;
 					// if startTime are different
 					if( !(this.storyStatus.startTime === newStoryStatus.startTime && this.storyStatus.isActive && newStoryStatus.isActive ) ) {
@@ -264,7 +263,6 @@ export const component = {
 						shouldTryToStartGame = true;
 					}
 					let timeData = getSecondsAndOffset(Date.now(), Date.parse(newStoryStatus.startTime));
-					console.log( this.startGame, timeData );
 
 
 					if( newStoryStatus.isActive ) {

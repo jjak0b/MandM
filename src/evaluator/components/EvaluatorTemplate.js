@@ -212,7 +212,7 @@ export const template =
 															class="mx-auto"
 															key-nav
 														>
-															<b-button v-on:click="showModal(sessionName)">
+															<b-button v-on:click="showSessionModal(sessionName)">
 																<b-icon
 																	icon="pencil"
 																></b-icon>
@@ -306,18 +306,38 @@ export const template =
 																</b-col>
 															</b-row>
 															<div v-if="activityObject.input">
-															<b-row>
-																<b-col>
-																	<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-type") }}</p>
-																	<p>{{ activityObject.input.type }}</p>
-																</b-col>
-															</b-row>
-															<b-row>
-																<b-col>
-																	<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-value") }}</p>
-																	<p>{{ activityObject.input.value.toString() }}</p>
-																</b-col>
-															</b-row>
+																<b-row>
+																	<b-col>
+																		<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-type") }}</p>
+																		<p>{{ activityObject.input.type }}</p>
+																	</b-col>
+																</b-row>
+																<b-row>
+																	<b-col>
+																		<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-value") }}</p>
+																		<p>{{ activityObject.input.value.toString() }}</p>
+																	</b-col>
+																</b-row>
+															</div>
+															<div v-if="activityObject.score">
+																<b-row>
+																	<b-col>
+																		<p  style="font-weight: bold;">{{ $t("Evaluator.label-score") }}</p>
+																		<b-row>
+																			<b-col>
+																		<p>{{ activityObject.score }}</p>																			
+																			</b-col>
+																			<b-col>
+																				<b-button v-on:click="showScoreModal(sessionName, selectedStory, missionId, activityId)">
+																					<b-icon
+																						icon="pencil"
+																					></b-icon>
+																					{{ $t('Evaluator.label-edit-score') }}
+																				</b-button>
+																			</b-col>
+																		</b-row>
+																	</b-col>	
+																</b-row>
 															</div>
 														</b-card-text>
 													</b-card>
@@ -348,6 +368,16 @@ export const template =
 		centered
 		v-on:ok="setSessionName">
 			<b-form-input v-model="sessionName"></b-form-input>
+		</b-modal>
+		<b-modal
+			v-if="editScoreData"
+			id="scoreModal"
+			v-bind:title="$t('Evaluator.label-edit-score-of-activity')"
+			v-bind:ok-title="$t('shared.label-save')"
+			centered
+			v-on:ok="setActivityScore">
+			<b-form-input type="number" v-model="editScoreData.score">
+			</b-form-input>
 		</b-modal>	
 	</div>
 </div>

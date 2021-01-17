@@ -43,7 +43,8 @@ export const component = {
 				stuckTime: 5
 			},
 			stuckData: {},
-			collapseData: {}
+			collapseData: {},
+			editScoreData: null
 		}
 	},
 	methods: {
@@ -82,9 +83,35 @@ export const component = {
 			}
 			return 'info'
 		},
-		showModal( session ) {
+		showSessionModal( session ) {
 			this.selectedSession = session;
 			this.$bvModal.show('evaluatorModal');
+		},
+		showScoreModal( sessionName, selectedStory, missionId, activityId ) {
+			this.editScoreData = {
+				session: sessionName,
+				story: selectedStory,
+				mission: missionId,
+				activity: activityId,
+				score: this.sessions[sessionName][selectedStory][missionId][activityId].score
+			}
+			this.$nextTick( () => {
+				this.$bvModal.show('scoreModal');
+			} )
+		},
+		setActivityScore() {
+			$.ajax({
+				method: "post",
+				url: `/player/log/${this.editScoreData.session}/?score=${this.editScoreData.score}`,
+				data: JSON.stringify(this.editScoreData),
+				contentType: "application/json"
+			}).done(() => {
+				console.log(`[Evaluator] Changed the score of activity ${this.editScoreData.activity} of session ${this.editScoreData.session} to ${this.editScoreData.score}`)
+			}).fail( () => {
+				console.log(`[Evaluator] Failed to change the score of activity ${this.editScoreData.activity} of session ${this.editScoreData.session} to ${this.editScoreData.score}`)
+			}).always( () => {
+				this.editScoreData = null;
+			});
 		},
 		setSessionName() {
 			if (this.selectedSession && this.sessionName) {

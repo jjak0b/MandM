@@ -226,21 +226,15 @@ export const template =
 								id="sceneEditor-modal-section-component-label-name"
 								class="mb-2"
 							>{{ $t('SceneEditorWidget.label-edit-component-properties') }}</h3>
-							<b-row
+							<div
 								v-if="newCell && newCell.component"
 							>
-								<b-col
-									sm="12"
-									lg="6"
-								>
+								<div>
 									<attribute-editor-widget
 										v-model="newCell.component.props"
 									></attribute-editor-widget>
-								</b-col>
-								<b-col
-									sm="12"
-									lg="6"
-								>
+								</div>
+								<div>
 									<component
 										id="sceneEditor-componentEditor"
 										v-bind:key="newCell.component.id"
@@ -251,8 +245,8 @@ export const template =
 										v-bind:locale="locale"
 										v-bind:locales-list="localesList"
 									></component>
-								</b-col>
-							</b-row>
+								</div>
+							</div>
 						</section>
 						</b-col>
 						</b-row>

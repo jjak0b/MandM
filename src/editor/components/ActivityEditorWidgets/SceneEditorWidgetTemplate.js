@@ -111,16 +111,30 @@ export const template =
 					></b-icon> {{ $t("SceneEditorWidget.GridWidget.label-remove-cell") }}	
 				</b-button>
 			</b-button-group>
-			<b-button
-				v-bind:disabled="!currentCellCache"
-				v-on:click="onChangeSelectedCellComponent"
-				v-b-toggle="'sceneEditor-modal-set-cell-component'"
+			<b-button-group
+				vertical
+				size="md"
 			>
-				<b-icon
-					icon="pencil"
-					aria-hidden="true"
-				></b-icon> {{ $t( 'SceneEditorWidget.GridWidget.label-edit-selected-cell' ) }}
-			</b-button>
+				<b-button
+					v-bind:disabled="!currentCellCache"
+					v-on:click="onChangeSelectedCellComponent"
+					v-b-toggle="'sceneEditor-modal-set-cell-component'"
+				>
+					<b-icon
+						icon="pencil"
+						aria-hidden="true"
+					></b-icon> {{ $t( 'SceneEditorWidget.GridWidget.label-edit-selected-cell' ) }}
+				</b-button>
+				<b-button
+					v-bind:disabled="!currentLayerGrid"
+					v-b-toggle="'sceneEditor-modal-edit-gridLayer'"
+				>
+					<b-icon
+						icon="gear"
+						aria-hidden="true"
+					></b-icon> {{ $t( 'SceneEditorWidget.GridWidget.label-edit-current-grid-settings' ) }}
+				</b-button>
+			</b-button-group>
 			<div>
 				<b-form-checkbox
 					id="SceneEditor-showGrid-input"
@@ -234,6 +248,7 @@ export const template =
 										v-model="newCell.component.props"
 									></attribute-editor-widget>
 								</div>
+								<br/>
 								<div>
 									<component
 										id="sceneEditor-componentEditor"
@@ -251,6 +266,47 @@ export const template =
 						</b-col>
 						</b-row>
 					</b-col>
+				</b-row>
+			</b-container>
+		</b-sidebar>
+		<b-sidebar
+			id="sceneEditor-modal-edit-gridLayer"
+			ref="modal-set-cell-component"
+			v-bind:title="$t( 'SceneEditorWidget.GridWidget.label-edit-current-grid-settings' )"
+			:backdrop="true"
+			width="auto"
+			v-bind:right="true"
+		>
+			<b-container>
+				<b-row>
+				<b-col>
+				<section
+					v-if="currentLayerGrid"
+					aria-labelledby="sceneEditor-modal-section-grid-label-name"
+					class="mb-2"
+				>
+					<h3
+						id="sceneEditor-modal-section-grid-label-name"
+						class="mb-2"
+					>{{ $t('SceneEditorWidget.label-edit-component-properties') }}</h3>
+					<div>
+						<attribute-editor-widget
+							v-model="currentLayerGrid.component.props"
+						></attribute-editor-widget>
+					</div>
+					<br/>
+					<div>
+						<component
+							id="sceneEditor-componentEditor"
+							v-bind:key="currentLayerGrid.component.id"
+							v-bind:is="widgetsTable[ currentLayerGrid.component.name ].editor"
+							v-model="currentLayerGrid.component.value"
+							v-bind:component="currentLayerGrid.component"
+							v-bind:props="currentLayerGrid.component.props"
+						></component>
+					</div>
+				</section>
+				</b-col>
 				</b-row>
 			</b-container>
 		</b-sidebar>

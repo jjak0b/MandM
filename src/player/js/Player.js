@@ -6,6 +6,7 @@ import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQues
 import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBranch.js";
 import ActivityDataBranch from "../../shared/js/ActivityNodes/ActivityDataTypes/ActivityDataBranch.js";
 import ActivityLogger from "./ActivityLogger.js";
+import ActivityLoggedEvent from "../../shared/js/ActivityLoggedEvent.js";
 import {TypedValue} from "../../shared/js/Types/TypedValue.js";
 import Time from "../../shared/js/Types/Time.js";
 
@@ -245,15 +246,21 @@ export default class Player {
 			}
 
 			// log end activity
-			this.logger.log(
-				this.current.mission.id,
-				this.current.activity.id,
-				{
-					input: this.envVars.userInput,
-					score: this.envVars.score,
-					end: true
-				}
-			);
+			$.ajax({
+				method: "post",
+				url: `/player/log/?story=${this.storyName}`,
+				contentType: "application/json",
+				data: JSON.stringify(new ActivityLoggedEvent(
+						new Date().toISOString(),
+						this.current.mission.id,
+						this.current.activity.id,
+						{
+							input: this.envVars.userInput,
+							score: this.envVars.score,
+							end: true
+						}
+				))
+			})
 		}
 
 		// go to next activity

@@ -39,7 +39,8 @@ function EDIT_SESSION( req, res, next ) {
 			if (error || !session) {
 				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 			} else {
-				session.stories[req.body.story][req.body.mission][req.body.activity].score = req.body.score;
+				session.stories[req.body.story][req.body.mission][req.body.activity].score = parseInt(req.body.score);
+				session = updateTotalScore(session);
 
 				req.sessionStore.set(sessionId, session, (error) => {
 					if (error) {
@@ -57,12 +58,13 @@ function EDIT_SESSION( req, res, next ) {
 }
 
 function PUT_SESSION( req, res, next ) {
-
 	if (req.body && req.query.story) {
+
 		let story = req.query.story;
-		for (const log of req.body) {
-			let mission = log.missionID;
-			let activity = log.activityID;
+		let mission = req.body.missionID;
+		let activity = req.body.activityID;
+
+		if ( story && mission && activity ) {
 
 			if (!req.session.stories) {
 				req.session.stories = {};
@@ -80,17 +82,18 @@ function PUT_SESSION( req, res, next ) {
 				req.session.stories[story][mission][activity] = {};
 			}
 
-			if (log.params) {
-				if (log.params.start) {
-					req.session.stories[story][mission][activity].start = log.timestamp;
-				} else if (log.params.end) {
-					req.session.stories[story][mission][activity].end = log.timestamp;
+			if (req.body.params) {
+				if (req.body.params.start) {
+					req.session.stories[story][mission][activity].start = req.body.timestamp;
+				} else if (req.body.params.end) {
+					req.session.stories[story][mission][activity].end = req.body.timestamp;
 				}
-				if (log.params.input) {
-					req.session.stories[story][mission][activity].input = log.params.input;
+				if (req.body.params.input) {
+					req.session.stories[story][mission][activity].input = req.body.params.input;
 				}
-				if (log.params.score) {
-					req.session.stories[story][mission][activity].score = log.params.score;
+				if (req.body.params.score) {
+					req.session.stories[story][mission][activity].score = req.body.params.score;
+					req.session = updateTotalScore(req.session);
 				}
 			}
 		}
@@ -111,9 +114,34 @@ function GET_SESSION( req, res, next ) {
 					players[session].name = sessions[session].name;
 				}
 			}
+
+			if ('totalScore' in sessions[session]) {
+				players[session].totalScore = sessions[session].totalScore;
+			}
 		}
 		res.json(players);
 	})
+}
+
+function updateTotalScore( session ) {
+
+	if ( !('totalScore' in session) ) {
+		session.totalScore = {};
+	}
+
+	for (const story in session.stories) {
+
+		session.totalScore[story] = 0;
+
+		for (const mission in session.stories[story]) {
+			for (const activity in session.stories[story][mission]) {
+				if ( session.stories[story][mission][activity].score ) {
+					session.totalScore[story] = session.totalScore[story] + session.stories[story][mission][activity].score;
+				}
+			}
+		}
+	}
+	return session;
 }
 
 module.exports = router;

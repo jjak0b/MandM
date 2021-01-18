@@ -77,9 +77,28 @@ const component = {
 	methods: {
 		load( data ) {
 			this.localesList = data && data.dependencies && data.dependencies.locales ? Object.keys( data.dependencies.locales ) : [];
-			this.$set( this.cache, "story", new Story( data ) );
+
+			this.clearAuthoredI18nFromLocal();
+			this.loadAuthoredI18nToLocal( data.dependencies.locales );
+
+			this.$set( this.cache, "story", data );
+
 			console.log("[EditorWidget]", "Loaded story", this.cache.story );
 			return this.cache.story;
+		},
+		loadAuthoredI18nToLocal( localesData ) {
+			for (const locale in localesData ) {
+				this.$i18n.mergeLocaleMessage( locale, localesData[ locale ] );
+			}
+		},
+		clearAuthoredI18nFromLocal() {
+			let messages;
+			for (const locale of this.$i18n.availableLocales ) {
+				messages = this.$i18n.getLocaleMessage( locale );
+				delete messages.assets;
+
+				this.$i18n.setLocaleMessage( locale, messages );
+			}
 		},
 		getRemoteStoryNames() {
 			let self = this;
@@ -89,29 +108,40 @@ const component = {
 				});
 		},
 		addToLocalStories( story ) {
-			console.log("[StoryEditor]", `Added (or updated) the Story ${story.name} to local cache`);
-			this.localStories.push(story);
+			if( !this.localStories.some( localStory => localStory.name === story.name ) ) {
+				console.log("[StoryEditor]", `Added (or updated) the Story ${story.name} to local cache`);
+				this.localStories.push(story);
+			}
+			else {
+				console.warn("[StoryEditor]", `Local Story ${story.name} already exists, ignore adding` );
+			}
 		},
 		deleteFromLocalStories( name ) {
+			if( this.cache.story && this.cache.story.name === name ) {
+				this.clearAuthoredI18nFromLocal();
+			}
 			console.log("[StoryEditor]", `Deleted the Story ${name} from local cache`);
 			this.localStories = this.localStories.filter(function( story ) {
 				return story.name !== name;
 			});
 		},
 		changeSelectedStory( name ) {
+			console.log( "[StoryEditor]", "Changing loaded story from", `'${this.cache.story.name}'`, "to", `'${ name }'` );
 			let story = this.localStories.find(function( story ) {
 				return story.name === name;
 			});
 			if (story) {
-				this.cache.story = story;
-				let self = this;
-				let getlocale;
-				Object.keys( this.cache.story.dependencies.locales ).forEach( locale => {
-					getlocale = self.$i18n.getLocaleMessage( locale );
-					getlocale.assets = {};
-					self.$i18n.setLocaleMessage( locale, getlocale );
-					self.$i18n.mergeLocaleMessage( locale, this.cache.story.dependencies.locales[locale] );
-				});
+				// save temporarily current authored locales
+				let oldStory = this.cache.story;
+				if( this.localStories.some( (story) => story.name === oldStory.name ) ) {
+					oldStory.dependencies.locales = I18nUtils.getRootMessages( this.$i18n, "assets" );
+					console.log( "[StoryEditor]", "Saving current authored locales in local cache of", oldStory.name, "->", oldStory );
+				}
+
+				this.load( story );
+			}
+			else {
+				console.error( "[StoryEditor]", "Unable to change to story'", name, "because missing in local cache" );
 			}
 		},
 		selectMission( index ) {

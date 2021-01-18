@@ -30,13 +30,28 @@ export const component = {
 			if (this.selectedName) {
 				this.selectMission(null);
 
-				if ( this.stories.some( story => story.name === this.selectedName ) ) {
-					console.log("[StoryEditor]", `Loaded the Story ${this.selectedName} from local cache`);
+				if( this.loading ) {
 					this.loading = false;
+				}
+				else if( this.loading === false ) {
+					this.loading = undefined;
+				}
+
+				if ( this.stories.some( story => story.name === this.selectedName ) ) {
+					console.log("[StoryEditor]", `Loading the Story ${this.selectedName} from local cache`);
 					this.$emit('change-story', this.selectedName);
 				}
 				else {
-					this.getStoryFromServer( this.selectedName );
+					this.getStoryFromServer( this.selectedName )
+						.then( (story) => {
+							if( !this.stories.some( localStoryName => localStoryName.name === story.name ) ) {
+								this.$emit('add-local-story', story);
+								// here user could change the selected story, so load only if current atb it's the same
+								if( this.selectedName === story.name ) {
+									this.$emit("change-story", story.name);
+								}
+							}
+						})
 				}
 			}
 		}
@@ -47,7 +62,7 @@ export const component = {
 	},
 	data() {
 		return {
-			loading: false,
+			loading: null,
 			tabValue: -1,
 			newStory: new Story( null ),
 			gamemodes: {
@@ -64,16 +79,26 @@ export const component = {
 	},
 	methods: {
 		updateStoryOnServer() {
+
+			this.value.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 			// load to the server the instance of the story present in the local cache
 			this.putStoryOnServer( this.value );
 		},
 		reloadStoryFromServer() {
 			// delete story instance from local cache and reload the instance on the server
 			let name = this.value.name;
-			if ( this.stories.some( story => story.name === name ) ) {
-				this.$emit('delete-local-story', name);
-			}
-			this.getStoryFromServer(this.value.name);
+			this.getStoryFromServer(this.value.name)
+				.then( (story) => {
+					if ( this.stories.some( story => story.name === name ) ) {
+						this.$emit('delete-local-story', name);
+					}
+					this.$emit('add-local-story', story);
+
+					// here user can change the selected story, so load only if it's the same
+					if( this.selectedName === story.name ) {
+						this.$emit('import', story);
+					}
+				})
 		},
 		deleteStory() {
 			// delete story from server and from local cache
@@ -97,13 +122,18 @@ export const component = {
 		putStoryOnServer( storyData ) {
 			return new Promise( (resolve, reject) => {
 
+				let locales = storyData.dependencies.locales;
+				// prevent to save locales as dependency data
+				storyData.dependencies.locales = null;
+				let storyContent = JSON.stringify( storyData );
+				storyData.dependencies.locales = locales;
+
 				let storyUrl = `/stories/${storyData.name}`
 				let promiseStory = $.ajax( storyUrl, {
 					method: "put",
 					contentType: 'application/json',
-					data: JSON.stringify( storyData )
+					data: storyContent
 				});
-				let locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 
 				promiseStory
 					.then( response => {
@@ -135,30 +165,22 @@ export const component = {
 			let reqJSONStory = $.get( `/stories/${name}?source=editor` );
 			let reqJSONLocales = I18nUtils.fetchLocales( `/stories/${name}`, "*" );
 
-			Promise.all( [reqJSONStory, reqJSONLocales] )
+			return Promise.all( [reqJSONStory, reqJSONLocales] )
 			// file has been downloaded so can be loaded
 			.then( (jsonData) => {
 
-				let story = jsonData[0];
+				let story = new Story( jsonData[0] );
 				let locales = jsonData[1];
 
-				let getlocale;
-				Object.keys( locales ).forEach( locale => {
-					getlocale = this.$i18n.getLocaleMessage( locale );
-					getlocale.assets = {};
-					this.$i18n.setLocaleMessage( locale, getlocale );
-					this.$i18n.mergeLocaleMessage( locale, locales[locale] );
-				});
-
 				story.dependencies.locales = locales;
-				this.$emit('import', story );
-				this.$emit('add-local-story', story);
-				console.log("[StoryEditor]", `Loaded the Story ${name} from server`);
+				console.log("[StoryEditor]", `Fetched the Story ${name} from server`);
 				this.loading = false;
+				return story;
 			})
 			// file can't be downloaded for some reason so report it
 			.catch( ( error) => {
 				this.tabValue = -1;
+				this.loading = undefined;
 				console.error( "[StoryEditor]", `Error loading the Story "${name}" from server`, "cause:", error );
 			})
 		},
@@ -175,6 +197,8 @@ export const component = {
 				return
 			}
 
+			dataExport.dependencies.locales = {};
+
 			this.putStoryOnServer( dataExport )
 			.finally( () => {
 				this.resetModal();
@@ -190,7 +214,7 @@ export const component = {
 				return
 			}
 
-			let dataExport = this.value;
+			let dataExport = new Story( this.value );
 
 			let i18nTupleList = [];
 
@@ -199,15 +223,16 @@ export const component = {
 			Asset.setDuplicateCallback( Asset.name, undefined );
 
 			dataExport = dataExport.duplicate( i18nTupleList );
-			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.$i18n.messages, i18nTupleList );
-			dataExport.name = this.newStory.name;
 
 			// re-enable asset adding callback
 			Asset.setDuplicateCallback( Asset.name, callbackBackup );
 
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.$i18n.messages, i18nTupleList );
+			dataExport.name = this.newStory.name;
+			dataExport.dependencies.locales = localesCopy;
+
 			this.putStoryOnServer( dataExport )
 				.then( () => {
-					dataExport.dependencies.locales = localesCopy;
 					this.$emit( 'add-local-story', dataExport );
 				})
 			.finally( () => {

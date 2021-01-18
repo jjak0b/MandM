@@ -224,30 +224,37 @@ export const template =
 											</b-row>
 									</b-col>
 									<b-col>
-										<div class="d-flex">
-											<b-button-toolbar
-												key-nav
-												aria-label="Iteractions"
-												class="float-right mx-auto"
-											>
-												<b-button
-													v-bind:pressed="getPlayerChatData( sessionName ).status.online"
-													v-on:update:pressed="enablePlayerChat( sessionName, $event )"
+										<b-row>
+											<div class="d-flex">
+												<b-button-toolbar
+													key-nav
+													aria-label="Iteractions"
+													class="float-right mx-auto"
 												>
-													<b-icon
-														v-bind="getIconChatProps(sessionName)"
+													<b-button
+														v-bind:pressed="getPlayerChatData( sessionName ).status.online"
+														v-on:update:pressed="enablePlayerChat( sessionName, $event )"
 													>
-													</b-icon>
-												</b-button>
-												<b-button
-													v-on:click="toggleStuckDataCollapse(sessionName)"
-													v-bind:pressed="stuckData[sessionName].stuck"
-												>
-												<b-icon-alarm-fill></b-icon-alarm-fill>
-												</b-button>
-												<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
-											</b-button-toolbar>
-										</div>
+														<b-icon
+															v-bind="getIconChatProps(sessionName)"
+														>
+														</b-icon>
+													</b-button>
+													<b-button
+														v-on:click="toggleStuckDataCollapse(sessionName)"
+														v-bind:pressed="stuckData[sessionName].stuck"
+													>
+													<b-icon-alarm-fill></b-icon-alarm-fill>
+													</b-button>
+													<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
+												</b-button-toolbar>
+											</div>
+										</b-row>
+										<b-row>
+											<h4 class="mt-2">
+											{{ $t('Evaluator.label-total-score') + ': ' + getTotalScore(sessionName) }}
+											</h4>
+										</b-row>
 									</b-col>
 									</b-row>
 								</b-card-header>

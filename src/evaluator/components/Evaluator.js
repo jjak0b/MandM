@@ -99,6 +99,14 @@ export const component = {
 				this.$bvModal.show('scoreModal');
 			} )
 		},
+		getTotalScore( session ) {
+			if ( 'totalScore' in this.sessions[session] ) {
+				if ( this.selectedStory in this.sessions[session].totalScore ) {
+					return this.sessions[session].totalScore[this.selectedStory];
+				}
+			}
+			return null;
+		},
 		setActivityScore() {
 			$.ajax({
 				method: "post",

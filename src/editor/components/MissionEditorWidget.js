@@ -37,19 +37,9 @@ export const component = {
 		selectedId: function () { return this.value ? this.value.id : null }
 	},
 	created() {
-		Mission.setDisposeCallback(Mission.name, this.disposeMissionCallback );
-		Mission.setDuplicateCallback( this.duplicateMissionCallback );
+
 	},
 	methods: {
-		disposeMissionCallback(mission) {
-			console.warn( "callback ", mission );
-			this.$i18n.removeMessageAll( mission.title );
-			this.$i18n.removeMessageAll( mission.description );
-		},
-		duplicateMissionCallback( locales, toLabel, fromLabel ) {
-			let self = this;
-			I18nUtils.setValueFromLabel( locales, self.$i18n, toLabel, fromLabel )
-		},
 		addMission() {
 			console.log( "Added mission: ", this.newMission );
 			this.missions.push( this.newMission );

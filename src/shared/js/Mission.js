@@ -7,8 +7,6 @@ NodeParser.register( NodeUtils.Types.Mission, ActivityNode );
 
 export default class Mission extends I18nCategorized {
 
-	static duplicateCallback = null;
-
 	constructor( unparsedMission ) {
 		super( unparsedMission );
 

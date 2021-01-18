@@ -376,7 +376,7 @@ export const component = {
 						this.onSetCursor( [ rowIndex, cellIndex ] );
 					}
 
-					return [ removed ];
+					return removed;
 				}
 				// if there is 1 column, so remove the row
 				else {
@@ -429,7 +429,7 @@ export const component = {
 					this.onSetCursor( [ indexRow, indexCol ] );
 				}
 
-				return removedCells;
+				return removedCells[ 0 ];
 			}
 		},
 		getAvailableColumnsCount() {

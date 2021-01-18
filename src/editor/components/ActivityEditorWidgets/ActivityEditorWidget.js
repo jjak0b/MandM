@@ -164,11 +164,12 @@ export const component = {
 			}
 			this.grabbedActivity.i18nTupleList = [];
 			let newActivity = this.grabbedActivity.duplicate(this.grabbedActivity.i18nTupleList, this.mission.i18nCategory );
-			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.$i18n, this.grabbedActivity.locales, this.grabbedActivity.i18nTupleList );
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.grabbedActivity.locales, this.grabbedActivity.i18nTupleList );
 			for (const locale in localesCopy) {
 				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
 			}
 			this.grabbedActivity.i18nTupleList = undefined;
+			this.grabbedActivity.locales = undefined;
 
 			console.log("[ActivityEditor]", "Dropped activity", newActivity);
 			this.$refs.treeView.add(newActivity);
@@ -194,7 +195,6 @@ export const component = {
 				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
 			}
 			this.copiedActivity.i18nTupleList = undefined;
-			this.copiedActivity.locales = undefined;
 
 			console.log("[ActivityEditor]", "Pasted activity", newActivity);
 			this.$refs.treeView.add(newActivity);

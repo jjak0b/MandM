@@ -24,10 +24,10 @@ export const component = {
 		'story-groups-widget': storyGroupsComponent
 	},
 	watch: {
-		selectedName: function ( newVal ) {
+		selectedName: function ( newVal, oldVal ) {
 			// when the selected story changes, load the story from the local change if present,
 			// else load the story from server
-			if (this.selectedName) {
+			if (newVal) {
 				this.selectMission(null);
 
 				if( this.loading ) {
@@ -37,9 +37,9 @@ export const component = {
 					this.loading = undefined;
 				}
 
-				if ( this.stories.some( story => story.name === this.selectedName ) ) {
-					console.log("[StoryEditor]", `Loading the Story ${this.selectedName} from local cache`);
-					this.$emit('change-story', this.selectedName);
+				if ( this.stories.some( story => story.name === newVal ) ) {
+					console.log("[StoryEditor]", `Loading the Story ${newVal} from local cache`);
+					this.$emit('change-story', newVal);
 				}
 				else {
 					this.getStoryFromServer( this.selectedName )
@@ -149,11 +149,7 @@ export const component = {
 					.then( ( promisesLocales ) => {
 						return Promise.all( promisesLocales );
 					})
-					.then( ( response ) => {
-						this.$emit('add-local-story', storyData);
-						console.log("[StoryEditor]", `Added (or updated) the Story ${storyData.name} to server`);
-						resolve( response )
-					})
+					.then( resolve )
 					.catch( (error) => {
 						console.log("[StoryEditor]", `Failed to add or update the Story ${storyData.name}`, error );
 						reject( error );
@@ -200,6 +196,9 @@ export const component = {
 			dataExport.dependencies.locales = {};
 
 			this.putStoryOnServer( dataExport )
+			.then( () => {
+				this.$emit( 'add-local-story', dataExport );
+			})
 			.finally( () => {
 				this.resetModal();
 				this.$emit("update-names");
@@ -210,7 +209,7 @@ export const component = {
 		},
 		saveDupModal(){
 			if (this.names.includes(this.newStory.name)) {
-				console.log(dataExport.name," already exists");
+				console.log(this.newStory.name," already exists");
 				return
 			}
 

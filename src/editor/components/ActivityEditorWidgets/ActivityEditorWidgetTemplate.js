@@ -6,6 +6,14 @@ export const template =
         	{{ $t( "ActivityEditorWidget.label-mission-activity-tree-of") + $t(mission.title) }}
 			</p>
 			<activity-tree-widget
+				v-on:add="onAddActivity"
+				v-on:edit="onEditActivity"
+				v-on:remove="onRemoveActivity"
+				v-on:grab="onGrabActivity"
+				v-on:drop="onDropActivity"
+				v-on:copy="onCopyActivity"
+				v-on:paste="onPasteActivity"
+				v-on:enable="onEnableActivity"
 				aria-describedby="activityTreeDescription"
 				ref="treeView"
 				v-model="currentNode"
@@ -19,13 +27,13 @@ export const template =
 		ref="addMenu"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
-		v-on:addActivity="onAddActivity"
+		v-on:addActivity="addActivity"
 	></add-menu-widget>
 	<edit-menu-widget v-if="isEditFormVisible"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
 		v-bind:locales-list="localesList"
-		v-on:editActivity="onEditActivity"
+		v-on:editActivity="editActivity"
 	></edit-menu-widget>
 </div>
 `;

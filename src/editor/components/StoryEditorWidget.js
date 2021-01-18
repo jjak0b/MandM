@@ -3,6 +3,7 @@ import { I18nUtils } from "../../shared/js/I18nUtils.js";
 import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
 import Story from "../../shared/js/Story.js";
+import {Asset} from "../../shared/js/Asset.js";
 // import VueQrcode from '/libs/vue-qrcode/vue-qrcode.esm.js';
 
 // Vue.component(VueQrcode.name, VueQrcode);
@@ -189,12 +190,20 @@ export const component = {
 				return
 			}
 
-			let dataExport = new Story( this.value );
+			let dataExport = this.value;
 
 			let i18nTupleList = [];
+
+			// disable temporarily asset adding callback
+			let callbackBackup = Asset.getDuplicateCallback( Asset.name );
+			Asset.setDuplicateCallback( Asset.name, undefined );
+
 			dataExport = dataExport.duplicate( i18nTupleList );
 			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.$i18n.messages, i18nTupleList );
 			dataExport.name = this.newStory.name;
+
+			// re-enable asset adding callback
+			Asset.setDuplicateCallback( Asset.name, callbackBackup );
 
 			this.putStoryOnServer( dataExport )
 				.then( () => {

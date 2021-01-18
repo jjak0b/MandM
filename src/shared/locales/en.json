@@ -67,6 +67,13 @@
 		"label-Number" : "Number",
 		"label-Time" : "Time",
 		"label-Date" : "Date",
+		"label-loading": "Loading",
+		"label-loading-resources": "Loading resources",
+		"label-loading-completed": "Loading completed",
+		"errors": {
+			"label-generic": "Error",
+			"label-unable-to-load-resources": "Ops, we can't load resources, please refresh the app"
+		},
 		"status" : {
 			"label-operation-success" : "Operation completed successfully",
 			"label-operation-failed" : "Operation failed"

@@ -28,6 +28,13 @@
 		"label-from-server" : "Da server",
 		"label-as-file" : "Come file",
 		"label-onto-server" : "Sul server",
+		"label-loading": "Caricamento in corso",
+		"label-loading-completed": "Caricamento completato",
+		"label-loading-resources": "Caricamento delle risorse in corso",
+		"errors": {
+			"label-generic": "Errore",
+			"label-unable-to-load-resources": "Ops, non possiamo caricare le risorse necessarie, ricarica l'applicazine per piacere"
+		},
 		"status" : {
 			"label-operation-success" : "Operazione completata con successo",
 			"label-operation-failed" : "Operazione fallita"

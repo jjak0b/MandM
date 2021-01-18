@@ -6,10 +6,28 @@ export const template =
 		<b-tabs pills card vertical lazy v-model="tabValue" ref="tabs">
 			<template v-for="name in names">
 				<b-tab v-bind:title="name" v-bind:key="name">
-					<div v-if="loading" style="padding-bottom: 25em;">
-						<b-spinner variant="primary" v-if="loading" class="mr-2"></b-spinner>
+					<div
+						v-if="loading === true || loading === false"
+						class="mb-3"
+					>
+						<span
+							role="status"
+							aria-live="polite"
+							
+						>
+							<span v-if="loading">
+								<b-spinner
+									role="img"
+									aria-hidden="true"
+									variant="primary"
+								></b-spinner> {{ $t( 'shared.label-loading-resources' ) }}
+							</span>
+							<span
+								v-else-if="loading === false"
+							>{{ $t( 'shared.label-loading-completed' ) }}</span>
+						</span>
 					</div>
-					<template v-else>
+					<template v-if="!loading">
 						<b-form-row>
 							<h2>{{ value.name }}</h2><hr>
 						</b-form-row>

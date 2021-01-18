@@ -15,6 +15,7 @@ export const component = {
 		this.$root.$on( "add-dependency", this.addToDependencies );
 		this.$root.$on( "remove-dependency", this.removeFromDependencies );
 		Asset.setDisposeCallback( Asset.name, this.removeFromDependencies );
+		Asset.setDuplicateCallback( Asset.name, this.addToDependencies );
 	},
 	methods: {
 		addToDependencies( /*Asset*/asset ) {

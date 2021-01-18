@@ -47,8 +47,10 @@ export class Asset extends Disposable {
 	}
 
 	duplicate() {
-		return new Asset( JSON.parse( JSON.stringify( this ) ), null );
-	};
+		let duplicate = new Asset( JSON.parse( JSON.stringify( this ) ), null );
+		super.duplicate();
+		return duplicate;
+	}
 
 	toJSON() {
 		return {

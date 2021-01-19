@@ -33,6 +33,7 @@ export const template =
 			v-on:click="handleOnCellSelect( $event, [ rowIndex, cellIndex ] )"
 			v-on:keyup.enter="handleOnCellSelect( $event, [ rowIndex, cellIndex ] )"
 			v-bind:aria-selected="isCellSelected( rowIndex, cellIndex )"
+			v-bind:style="(selectable || navKey) ? { cursor: 'pointer' } : null"
 		>
 			<slot
 				name="cell-content"

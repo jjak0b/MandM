@@ -12,7 +12,13 @@ export function component(resolve, reject) {
 			userWidgetViewport: userWidgetViewport
 		},
 		props: {
-			value: Array,
+			value: {
+				type: TypedValue,
+				default: () => new TypedValue({
+					type: Array.name,
+					value: null
+				})
+			},
 			tabindex: [Number, String],
 			locale: String,
 
@@ -41,15 +47,6 @@ export function component(resolve, reject) {
 			preventFocus: Boolean
 		},
 		methods: {
-			onSelected( event ) {
-				this.$emit(
-					'input',
-					new TypedValue({
-						type: Array.name,
-						value: event
-					})
-				)
-			},
 			getTabindex( isFocused ) {
 				if( this.navKey ) {
 					if( this.tabindex === undefined || this.tabindex == null ) {

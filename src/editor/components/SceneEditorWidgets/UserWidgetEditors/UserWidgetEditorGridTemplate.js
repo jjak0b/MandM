@@ -85,6 +85,8 @@ export const template =
 		</b-card-body>
 	</b-card>
 
+<!--
+	Deprecated because selection can cause conflicts in player between grids
 	<div class="mb-2">
 		<b-form-checkbox
 			id="user-widget-editor-grid_grid-use-selectable-input"
@@ -102,7 +104,7 @@ export const template =
 			>{{ $t('UserWidgets.Grid.label-its-recommended-to-enable-grid-navigation-for-accessibility-purpose-if-used') }}</small>
 		</div>
 	</div>
-	
+-->
 	<div class="mb-2">
 		<label for="user-widget-editor-grid_grid-classes-input"
 		>{{ $t('UserWidgets.Grid.label-class-name') }}</label>
@@ -273,7 +275,8 @@ export const template =
 			v-bind:placeholder="$t('AttributeEditorWidget.label-placeholder-insert-class')"
 		></b-form-tags>
 	</b-form-group>
-		
+<!--
+	Deprecated because selection can cause conflicts in player between grids
 	<div class="mb-2">
 		<label for="user-widget-editor-grid_cell-selected-class-input"
 		>{{ $t('UserWidgets.Grid.label-cell-class-name-selected') }}</label>
@@ -293,6 +296,7 @@ export const template =
 			class="mb-2"
 		></b-form-tags>
 	</div>
+-->
 </b-form-group>
 
 </b-form>

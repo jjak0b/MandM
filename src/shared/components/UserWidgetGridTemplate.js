@@ -1,6 +1,7 @@
 export const template =
 `
 <grid-widget
+	v-bind="$attrs"
 	v-bind:tabindex="tabindex"
 	
 	v-bind:grid-data="gridData"
@@ -21,9 +22,7 @@ export const template =
 	v-bind:useIndexes="useIndexes"
 	v-bind:navKey="navKey"
 	
-	v-bind:value="value"
-	v-on:input="onSelected"
-	v-on="$listeners"
+	v-bind:value="value ? value.value : null"
 >
 	<template
 		#cell-content="{rowIndex, cellIndex, cellData, isFocused, isSelected}"

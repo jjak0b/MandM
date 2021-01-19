@@ -134,6 +134,7 @@ export default class Player {
 	}
 
 	handleActivityBehavior() {
+		let shouldChoseNextActivity = true;
 		if( this.current.activity ) {
 			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
 			if (this.current.activity instanceof ActivityNodeTell) {
@@ -158,7 +159,22 @@ export default class Player {
 					this.current.parentNodes.push(branchNode);
 					this.current.activityIndex = -1;
 				}
-				// else continue on following sibling activities as "else" branch
+				else {
+					let behaviorType = this.current.activity.data.noBranchBehavior;
+					switch ( behaviorType ) {
+						case "continue":
+							// continue on following sibling activities as "else" branch
+							shouldChoseNextActivity = true;
+							break;
+						case "message":
+							shouldChoseNextActivity = false;
+							break;
+						case "nothing":
+						default:
+							shouldChoseNextActivity = false;
+							break;
+					}
+				}
 			}
 
 			// log end activity
@@ -170,6 +186,8 @@ export default class Player {
 				}
 			);
 		}
+
+		if( !shouldChoseNextActivity ) return true;
 
 		// go to next activity
 		// if has no siblings then go to next mission and set next activity
@@ -219,6 +237,7 @@ export default class Player {
 				null
 			);
 		}
+		return null;
 	}
 
 	/**
@@ -227,7 +246,7 @@ export default class Player {
 	 * @return TypedValue
 	 */
 	guessAndParseToTypedValue( value ) {
-		if( !( value instanceof TypedValue) ) {
+		if( value && !( value instanceof TypedValue) ) {
 			if (typeof value === "string") {
 				let number = Number.parseInt(value);
 				console.log( number );

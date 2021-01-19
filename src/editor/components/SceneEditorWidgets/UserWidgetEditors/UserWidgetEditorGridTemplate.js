@@ -11,7 +11,7 @@ export const template =
 >
 
 <b-form-group
-	v-bind:label="$t('UserWidgets.Grid.grid.label-properties')"
+	v-bind:label="$t('UserWidgets.Grid.label-properties')"
 >
 	<label for="user-widget-editor-grid_grid-tag-input"
 	>{{ $t('UserWidgets.Grid.label-html-tag-name') }}</label>
@@ -127,7 +127,7 @@ export const template =
 </b-form-group>
 
 <b-form-group
-	v-bind:label="$t('UserWidgets.Grid.row.label-properties')"
+	v-bind:label="$t('UserWidgets.Grid.label-properties')"
 >
 	<div class="mb-2">
 		<label for="user-widget-editor-grid_row-tag-input"
@@ -191,7 +191,7 @@ export const template =
 </b-form-group>
 
 <b-form-group
-	v-bind:label="$t('UserWidgets.Grid.cell.label-properties')"
+	v-bind:label="$t('UserWidgets.Grid.label-properties')"
 >
 	<div class="mb-2">
 		<label for="user-widget-editor-grid_cell-tag-input"

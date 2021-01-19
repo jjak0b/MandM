@@ -290,16 +290,19 @@ export const component = {
 				top: e.clientY,
 				left: e.clientX
 			});
-			menu.focus();
+
+			this.$nextTick( () => {
+				menu.focus();
+			})
 
 			$(document).click(function () {
-				menu.css({display: 'none'});
+				menu.css({display: 'none', ariaHidden: 'true'});
 			});
 			$(document).on("keydown", function (event) {
 
 				if ( KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.Enter )
 					|| KeyboardUtils.iskey( event.key, KeyboardUtils.ENUM.Keys.Escape ) ) {
-					menu.css({display: 'none'});
+					menu.css({display: 'none', ariaHidden: 'true'});
 				}
 			});
 		}

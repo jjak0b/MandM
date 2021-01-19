@@ -15,6 +15,7 @@ import ComponentMediaPlayer from "../js/Scene/SceneComponents/ComponentMediaPlay
 import ComponentText from "../js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../js/Scene/SceneComponents/ComponentList.js";
 import ComponentGrid from "../js/Scene/SceneComponents/ComponentGrid.js";
+import ComponentPhoto from "../js/Scene/SceneComponents/ComponentPhoto.js"
 
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
@@ -23,7 +24,7 @@ SceneComponentParser.register( "user-widget-text-input", ComponentText );
 SceneComponentParser.register( "user-widget-checkbox", ComponentList );
 SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );
-SceneComponentParser.register( "user-widget-photo", ComponentList );
+SceneComponentParser.register( "user-widget-photo", ComponentPhoto );
 SceneComponentParser.register( "user-widget-grid", ComponentGrid );
 
 // circular dependency avoided with "user-widget-grid" using async component loading

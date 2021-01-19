@@ -1,7 +1,6 @@
 export const template =
 `
-<div id="menu">
-	<b-list-group role="menu">
+	<b-list-group id="menu" tabindex="0" role="menu">
 		<b-list-group-item
 			v-on:click="$emit('add')" 	
 			role="menuitem"
@@ -65,5 +64,4 @@ export const template =
 			{{ $t( 'shared.label-disable' ) }}
 		</b-list-group-item>
 	</b-list-group>
-</div>
 `

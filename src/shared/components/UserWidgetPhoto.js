@@ -21,7 +21,7 @@ export const component = {
     methods: {
         send(){
             if(this.mediaSelected) {
-                this.$emit('input', new TypedValue({type: "File", value: this.mediaSelected}));
+                this.$emit('change', new TypedValue({type: "File", value: this.mediaSelected}));
             }else{
                 alert("Insert a file before continuing");
             }

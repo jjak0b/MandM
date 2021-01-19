@@ -78,7 +78,7 @@ export const component = {
 			if( !this.context || !this.context.areas ) return;
 			let area = this.context.areas[ indexArea ];
 			if( area.value != null )
-				this.$emit( 'input', area.value );
+				this.$emit( 'change', area.value );
 
 
 			if( area.action == 'event' ){

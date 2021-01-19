@@ -4,7 +4,7 @@ export const template =
 	v-bind="Object.assign({}, $attrs, localeLabels)"
 	v-bind:locale="$i18n.locale"
 	v-bind:value="value || null"
-	v-on:input="emitInput"
+	v-on:change="emitInput"
 	
 	menu-class="w-100"
 	calendar-width="100%"

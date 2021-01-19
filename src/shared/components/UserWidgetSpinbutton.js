@@ -6,7 +6,7 @@ export const component = {
 	methods: {
 		emitInput(event) {
 			let item = new TypedValue({type: Number.name, value: event});
-			this.$emit('input', item);
+			this.$emit('change', item);
 		}
 	}
 };

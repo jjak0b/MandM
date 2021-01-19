@@ -11,7 +11,7 @@ export const component = {
 	methods: {
 		emitInput(event){
 			let item = new TypedValue( { type: String.name, value: event } );
-			this.$emit('input', item);
+			this.$emit('change', item);
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

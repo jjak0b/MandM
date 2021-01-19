@@ -80,6 +80,7 @@
 	"select-type-var": {
 	  "label-user-input": "User input"
 	},
+	"label-point-assignment": "Point assignment",
 	"label-that-element-to-compare": "Element to compare",
 	"label-condition-check-parameters": "Condition check parameters",
 	"label-select-a-variable": "Select a variable",
@@ -149,6 +150,10 @@
 	"label-edit-cell-properties": "Edit cell properties",
 	"label-scene-editor": "Scene editor",
 	"GridWidget": {
+	  "label-no-rows-in-grid": "No rows in grid",
+	  "label-layout-level": "Label layout level",
+	  "label-edit-current-grid-settings": "Edit current grid settings",
+	  "label-populate-grid-with-rows-and-cells-to-customize-widget-you-need": "Populate grid with rows and cells to customize the widget as you need.",
 	  "label-scene-grid-layout-and-content": "Scene grid layout and content",
 	  "label-add-row": "Add row",
 	  "label-add-col": "Add columns",
@@ -239,6 +244,21 @@
 	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons"
   },
   "UserWidgets": {
+	"Grid": {
+	  "label-properties": "Properties",
+	  "label-html-tag-name": "HTML tag name",
+	  "label-html-tag-role": "HTML tag role",
+	  "label-use-auto-generated-indexes": "Use auto generated indexes",
+	  "label-indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex": "indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex",
+	  "label-allow-grid-navigation-using-keyboard": "Allow grid navigation using keyboard",
+	  "label-disable-it-if-using-for-layout-only": "Disable it if using for layout only",
+	  "label-selection-provide-player-input-as-grid-coordinates": "Provide player input as grid coordinates",
+	  "label-its-recommended-to-enable-grid-navigation-for-accessibility-purpose-if-used": "It's recommended to enable grid navigation for accessibility purpose if used",
+	  "label-class-name": "Class name",
+	  "label-cell-class-name-active-unselected": "Cell class name active unselected",
+	  "label-current-unselected-cell-while-navigating": "Current unselected cell while navigating",
+	  "label-cell-class-name-selected": "Cell class name selected"
+	},
 	"label-checkbox-widget-name": "Checkbox",
 	"label-select-widget-name": "Select",
 	"label-radio-widget-name": "Radio",
@@ -362,5 +382,14 @@
 	  "label-unable-to-delete-asset": "Unable to delete asset",
 	  "label-asset-already-deleted": "Asset already deleted"
 	}
+  },
+  "ActivityQuestEditor": {
+	"label-choose-behavior-on-what-should-happen-when-user-response-doesnt-match-with-any-branch": "Choose behavior on what should happen when user response doesn't match with any branch",
+	"label-nothing": "Nothing",
+	"label-show-message": "Show message",
+	"label-continue-on-next-activity-in-sequence": "Continue on the next activity",
+	"label-activity-behaviors": "Activity behaviors",
+	"label-insert-message-to-show": "Insert message to show"
+
   }
 }

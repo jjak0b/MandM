@@ -27,7 +27,8 @@ export const template =
         </b-form>
 	    <h4 v-t="'shared.label-preview'"></h4>
 	    <user-widget-photo
-	    v-bind:component="component"
+	    v-bind:type="component.type"
+	    v-bind:cap="component.cap"
 	    ></user-widget-photo>
     </section>
 </div>

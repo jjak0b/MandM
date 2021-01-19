@@ -6,7 +6,8 @@ import {TypedValue} from "../js/Types/TypedValue.js";
 export const component = {
     template: template,
     props: {
-        component: ComponentPhoto,
+        type:String,
+        cap:String
         //Side:String
         //type:File.name
         //value:Object

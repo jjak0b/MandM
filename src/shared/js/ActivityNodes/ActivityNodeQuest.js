@@ -1,15 +1,15 @@
 import ActivityNode from "./ActivityNode.js";
 import NodeParser from "../NodeParser.js";
 import NodeUtils from "../NodeUtils.js";
-import ActivityDataSceneable from "./ActivityDataTypes/ActivityDataSceneable.js";
 import ActivityData from "./ActivityDataTypes/ActivityData.js";
+import ActivityDataQuest from "./ActivityDataTypes/ActivityDataQuest.js";
 
 export default class ActivityNodeQuest extends ActivityNode {
 	constructor(unparsed) {
 		super(unparsed);
 		if( unparsed ) {
 			if( unparsed.data && !(unparsed.data instanceof ActivityData) ) {
-				this.data = new ActivityDataSceneable(this.data);
+				this.data = new ActivityDataQuest(this.data);
 			}
 		}
 	}

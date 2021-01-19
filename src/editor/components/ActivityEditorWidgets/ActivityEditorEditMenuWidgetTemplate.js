@@ -60,8 +60,10 @@ export const template =
 				</activity-tale-editor-widget>
 			</b-tab>
 			<b-tab v-bind:title="questTab" v-if="isType(NodeUtils.Types.Quest)">
-				<activity-quest-editor-widget>
-				</activity-quest-editor-widget>
+				<activity-quest-editor-widget
+					v-bind:value="currentNode.data"
+					v-bind:locale="locale"
+				></activity-quest-editor-widget>
 			</b-tab>
 			<b-tab v-bind:title="branchTab" v-if="isType(NodeUtils.Types.Branch)">
 				<branch-editor-widget

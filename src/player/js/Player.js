@@ -354,7 +354,10 @@ export default class Player {
 				return new TypedValue({ type: Number.name, value: value } );
 			}
 			else if ( value instanceof Array ) {
-				return new TypedValue({type: value[0].type, value: value[0].value});
+				return new TypedValue({
+					type: Array.name,
+					value: value.map( (item) => item ? this.guessAndParseToTypedValue( item ) : undefined )
+				});
 			}
 
 			console.log( `${this.constructor.name}`, "unable to parse value", value);

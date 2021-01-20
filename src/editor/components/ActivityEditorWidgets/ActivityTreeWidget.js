@@ -68,6 +68,12 @@ export const component = {
 			let parsed = NodeParser.parse( node );
 			console.info( "[ActivityTree]", "updating current node", node, "aka -> parsed", parsed);
 			this.$emit( 'input', parsed );
+			if( node ) {
+				let parentNode = this.tree.get_node(this.tree.get_parent( node ) );
+				if (parentNode) {
+					this.$emit('update:parent', parentNode);
+				}
+			}
 		},
 		get_json( id = NodeUtils.Types.Root) {
 			let jsonNode = this.tree.get_json( id );

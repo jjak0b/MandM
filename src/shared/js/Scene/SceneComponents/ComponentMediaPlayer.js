@@ -1,7 +1,7 @@
-import SceneComponent from "../SceneComponent.js";
+import InputSceneComponent from "../InputSceneComponent.js";
 import ContextMediaPlayer from "./MediaPlayer/ContextMediaPlayer.js";
 
-export default class ComponentMediaPlayer extends SceneComponent {
+export default class ComponentMediaPlayer extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 		this.props.context = "context" in unparsed.props ? new ContextMediaPlayer( unparsed.props.context ) : new ContextMediaPlayer({});

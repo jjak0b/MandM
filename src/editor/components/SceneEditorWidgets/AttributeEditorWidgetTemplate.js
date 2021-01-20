@@ -21,6 +21,22 @@ export const template =
 				</div>
 			</div>
 		</div>
+		<div class="col"
+			v-if="isInteractComponent()"
+		>
+			<b-form-group
+				v-bind:label="$t('AttributeEditorWidget.label-associated-variable-name')"
+				label-for="attributeEditor-input-name"
+				v-bind:description="$t('AttributeEditorWidget.label-variable-name-is-used-to-check-specific-user-input-in-branch-condition')"
+			>
+				<b-form-input
+					id="attributeEditor-input-name"
+					type="text"
+					v-model="value.name"
+					v-on:keydown.space.prevent
+				></b-form-input>
+			</b-form-group>
+		</div>
 	</div>
 	<div class="row">
 		<div class="col">

@@ -5,11 +5,13 @@ import {component as activityQuestEditorComponent} from "./ActivityQuestEditorWi
 import {component as conditionActivityOptionWidget} from "./BranchEditorWidget.js";
 import { component as sceneEditorComponent } from "./SceneEditorWidget.js ";
 import NodeUtils from "../../../shared/js/NodeUtils.js";
+import InputSceneComponent from "../../../shared/js/Scene/InputSceneComponent.js";
 
 export const component = {
 	template: template,
 	props: {
 		locale: String,
+		parentNode: Object,
 		currentNode: Object,
 		localesList: Array
 	},
@@ -55,6 +57,20 @@ export const component = {
 		activityTitleLabel: function () { return this.$t('ActivityEditorWidget.label-activity-title') },
 		activityDescriptionLabel: function () { return this.$t('ActivityEditorWidget.label-activity-description') },
 		noteInfo: function () { return ( this.currentNode.data.noteInfo ? this.currentNode.data.noteInfo : null ) },
+		parentVariables() {
+			if( this.currentNode && this.isType( NodeUtils.Types.Branch ) && this.parentNode ) {
+				/**
+				 * @type {ActivityDataQuest}
+				 */
+				let data = this.parentNode.data;
+				return data.scene.body
+					.filter( ( inputComponent ) => (inputComponent instanceof InputSceneComponent) && inputComponent.props.name )
+					.map( (inputComponent) => inputComponent.props.name );
+			}
+			else {
+				return [];
+			}
+		},
 	},
 	methods: {
 		isType( checkType ) {

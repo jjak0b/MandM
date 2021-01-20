@@ -15,11 +15,12 @@ import ComponentMediaPlayer from "../js/Scene/SceneComponents/ComponentMediaPlay
 import ComponentText from "../js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../js/Scene/SceneComponents/ComponentList.js";
 import ComponentGrid from "../js/Scene/SceneComponents/ComponentGrid.js";
+import ComponentInput from "../js/Scene/SceneComponents/ComponentInput.js";
 
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );
-SceneComponentParser.register( "user-widget-text-input", ComponentText );
+SceneComponentParser.register( "user-widget-text-input", ComponentInput );
 SceneComponentParser.register( "user-widget-checkbox", ComponentList );
 SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );

@@ -1,5 +1,7 @@
 import {template} from "./AttributeEditorWidgetTemplate.js";
 import {component as listWidgetComponent } from "../../../shared/components/ListWidget.js";
+import SceneComponent from "../../../shared/js/Scene/SceneComponent.js";
+import InputSceneComponent from "../../../shared/js/Scene/InputSceneComponent.js";
 
 export const component = {
 	template: template,
@@ -7,7 +9,8 @@ export const component = {
 		"list-item-widget": listWidgetComponent,
 	},
 	props: {
-		value: Object
+		value: Object,
+		component: SceneComponent,
 	},
 	data() {
 		let data = {
@@ -200,6 +203,10 @@ export const component = {
 		}
 	},
 	methods: {
+		isInteractComponent() {
+			console.log( "Hello", this.component )
+			return this.component && (this.component instanceof InputSceneComponent);
+		},
 		onAddClass( classname ){
 
 			let classes = classname.trim().split(" ") || [];

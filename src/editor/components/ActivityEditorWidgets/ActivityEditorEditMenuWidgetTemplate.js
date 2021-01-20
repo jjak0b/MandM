@@ -68,6 +68,7 @@ export const template =
 			<b-tab v-bind:title="branchTab" v-if="isType(NodeUtils.Types.Branch)">
 				<branch-editor-widget
 					v-bind:branch="currentNode.data"
+					v-bind:variables-names="parentVariables"
 				>
 				</branch-editor-widget>
 			</b-tab>

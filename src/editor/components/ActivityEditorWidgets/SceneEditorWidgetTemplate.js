@@ -245,7 +245,8 @@ export const template =
 							>
 								<div>
 									<attribute-editor-widget
-										v-model="newCell.component.props"
+										v-bind:value="newCell.component.props"
+										v-bind:component="newCell.component"
 									></attribute-editor-widget>
 								</div>
 								<br/>
@@ -419,7 +420,7 @@ export const template =
 							v-bind:value="cellData.component"
 							v-bind:locale="locale"
 							v-bind:locales-list="localesList"
-							v-bind:localeLabel="cellData.component.i18nCategory"
+							v-bind:locale-label="cellData.component.i18nCategory"
 						></user-widget-viewport>
 					</template>
 				</grid-widget>

@@ -130,7 +130,6 @@ export default class Player {
 		this.storyURL = `/stories/${this.storyName}`;
 		this.logger = new ActivityLogger(`./log?story=${this.storyName}`);
 
-		let cachedStoryName = Cookies.get("storyNameInCache");
 		return Promise.resolve();
 	}
 

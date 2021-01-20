@@ -276,9 +276,6 @@ export default class Player {
 	}
 
 	nextActivity() {
-
-		let next = null;
-
 		/**
 		 * @type {ActivityNode}
 		 */
@@ -286,50 +283,80 @@ export default class Player {
 
 		if( parentNode ) {
 			let activities = parentNode.children;
-			if( this.current.activityIndex < 0 ) {
-				if( activities.length > 0 ) {
-					this.current.activityIndex = 0;
+			let chosenActivity;
+
+			console.log( this.current.activityIndex, this.current.activity );
+			while( !chosenActivity && activities.length > 0 && this.current.activityIndex < activities.length ) {
+
+				if (this.current.activityIndex < 0) {
+					if (activities.length > 0) {
+						this.current.activityIndex = 0;
+					}
 				}
-			}
-			else {
-				this.current.activityIndex ++;
-				if( this.current.activityIndex >= activities.length ) {
-					this.current.activityIndex = -1;
+				else {
+					this.current.activityIndex++;
+				}
+				
+				if (0 <= this.current.activityIndex && this.current.activityIndex < activities.length) {
+					chosenActivity = activities[this.current.activityIndex];
+					if( chosenActivity && chosenActivity.data.active ){
+						this.current.activity = chosenActivity;
+					}
+					else {
+						console.log( `[${this.constructor.name}]`, "Skipping disabled activity", chosenActivity );
+						chosenActivity = null;
+					}
+				}
+				else {
+					chosenActivity = null;
 				}
 			}
 
-			if( 0 <= this.current.activityIndex && this.current.activityIndex < activities.length ) {
-				this.current.activity = activities[ this.current.activityIndex ];
-				return this.current.activity;
+			if (this.current.activityIndex >= activities.length) {
+				this.current.activityIndex = -1;
+				this.current.activity = null;
 			}
+			return chosenActivity;
 		}
 
 		return null;
 	}
 
 	nextMission() {
-		let next = null;
-		if( this.current.missionIndex < 0 ) {
-			if( this.story.missions.length > 0 ) {
-				this.current.missionIndex = 0;
+		let missions = this.story.missions;
+		let chosenMission;
+
+		while( !chosenMission && missions.length > 0 && this.current.missionIndex < missions.length ) {
+
+			if (this.current.missionIndex < 0) {
+				if (missions.length > 0) {
+					this.current.missionIndex = 0;
+				}
 			}
-		}
-		else {
-			this.current.missionIndex ++;
-			if( this.current.missionIndex >= this.story.missions.length ) {
-				// this.current.missionIndex = -1;
+			else {
+				this.current.missionIndex++;
+			}
+
+			if (0 <= this.current.missionIndex && this.current.missionIndex < missions.length) {
+				chosenMission = missions[this.current.missionIndex];
+				if( chosenMission && chosenMission.active ) {
+					this.current.mission = chosenMission;
+				}
+				else {
+					console.log( `[${this.constructor.name}]`, "Skipping disabled mission", chosenMission );
+					chosenMission = null;
+				}
+			}
+			else {
+				chosenMission = null;
 			}
 		}
 
-		if( 0 <= this.current.missionIndex && this.current.missionIndex < this.story.missions.length ) {
-			this.current.mission =  this.story.missions[ this.current.missionIndex ];
-			return this.current.mission;
-		}
-		else {
+		if (this.current.missionIndex >= missions.length || !chosenMission ) {
+			this.current.missionIndex = -1;
 			this.current.mission = null;
-			// this.current.missionIndex = -1;
-			return this.current.mission;
 		}
+		return chosenMission;
 	}
 
 	startStory() {

@@ -101,7 +101,7 @@ export const component = {
 			this.$refs.treeView.load( tree );
 		},
 		// events
-		onAddActivity( unparsedNode ) {
+		addActivity( unparsedNode ) {
 			let id = I18nUtils.getUniqueID();
 			let prefix = `${this.mission.i18nCategory}.activity.${id}`;
 
@@ -119,6 +119,19 @@ export const component = {
 				this.$refs.addMenu.$bvModal.hide('addMenu');
 			});
 			this.save(this.mission);
+		},
+		editActivity() {
+			let node = this.currentNode;
+			this.$set( node, "text", node.data.noteInfo.name );
+			this.isEditFormVisible = false;
+			this.save(this.mission);
+		},
+		onAddActivity() {
+			this.isEditFormVisible = false;
+			this.$refs.addMenu.$bvModal.show('addMenu');
+		},
+		onEditActivity() {
+			this.isEditFormVisible = true;
 		},
 		onRemoveActivity() {
 			// save the full updated and parsed tree from jstree's structure to be able to parse it and after dispose from the current node
@@ -144,13 +157,6 @@ export const component = {
 			});
 
 		},
-		onEditActivity() {
-			let node = this.currentNode;
-			this.$set( node, "text", node.data.noteInfo.name );
-			this.isEditFormVisible = false;
-			this.save(this.mission);
-		},
-
 		onGrabActivity() {
 			let copiedId = this.$refs.treeView.tree.get_selected(true)[0].id;
 			let copiedActivity = this.getActivityById( copiedId, this.mission.tree.children);
@@ -166,11 +172,12 @@ export const component = {
 			}
 			this.grabbedActivity.i18nTupleList = [];
 			let newActivity = this.grabbedActivity.duplicate(this.grabbedActivity.i18nTupleList, this.mission.i18nCategory );
-			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.$i18n, this.grabbedActivity.locales, this.grabbedActivity.i18nTupleList );
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.grabbedActivity.locales, this.grabbedActivity.i18nTupleList );
 			for (const locale in localesCopy) {
 				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
 			}
 			this.grabbedActivity.i18nTupleList = undefined;
+			this.grabbedActivity.locales = undefined;
 
 			console.log("[ActivityEditor]", "Dropped activity", newActivity);
 			this.$refs.treeView.add(newActivity);
@@ -196,48 +203,17 @@ export const component = {
 				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
 			}
 			this.copiedActivity.i18nTupleList = undefined;
-			this.copiedActivity.locales = undefined;
 
 			console.log("[ActivityEditor]", "Pasted activity", newActivity);
 			this.$refs.treeView.add(newActivity);
 			this.save(this.mission);
 		},
-		onDisableActivity() {
+		onEnableActivity() {
 			this.$refs.treeView.disable();
 			this.save(this.mission);
 		},
 		onSelectedNode() {
 			this.isEditFormVisible = false;
 		}
-	},
-	mounted() {
-		$(document).on("addToolbar", () => {
-			this.isEditFormVisible = false;
-			this.$refs.addMenu.$bvModal.show('addMenu');
-		});
-		$(document).on("editToolbar", () => {
-			this.isEditFormVisible = true;
-		});
-		$(document).on("removeToolbar", () => {
-			this.onRemoveActivity();
-		});
-		$(document).on("grabToolbar", () => {
-			this.onGrabActivity();
-		});
-		$(document).on("dropToolbar", () => {
-			this.onDropActivity();
-		});
-		$(document).on("copyToolbar", () => {
-			this.onCopyActivity();
-		});
-		$(document).on("pasteToolbar", () => {
-			this.onPasteActivity();
-		});
-		$(document).on("enableToolbar", () => {
-			this.onDisableActivity();
-		});
-		$(document).on("disableToolbar", () => {
-			this.onDisableActivity();
-		});
 	}
 };

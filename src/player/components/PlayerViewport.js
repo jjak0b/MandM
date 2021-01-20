@@ -28,20 +28,34 @@ export const component = {
 
 	watch: {
 		scene() {
+			this.player.envVars.userInput = null;
 			this.$nextTick( () => this.$el.focus() );
 		}
-
 	},
 	methods : {
 		onInput( type, event ) {
 			if( this.isSceneable ) {
 				console.log( "input", event );
 				if( this.activity instanceof ActivityNodeTell && type === 'click') {
+					this.player.envVars.userInput = null;
 					this.player.handleActivityBehavior();
 				}
 				else if( this.activity instanceof ActivityNodeQuest && type !== 'click' ) {
 					this.player.envVars.userInput = event;
-					this.player.handleActivityBehavior();
+					if( this.player.handleActivityBehavior() ) {
+						let behaviorType = this.activity.data.noBranchBehavior;
+						switch ( behaviorType ) {
+							case "message":
+								let localeLabelMessage = this.activity.data.message;
+								this.$bvModal.msgBoxOk( this.$t( localeLabelMessage ), {
+									size: 'md',
+									buttonSize: 'md',
+									hideHeaderClose: true,
+									centered: true
+								});
+								break;
+						}
+					}
 				}
 			}
 		}

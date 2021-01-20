@@ -1,8 +1,12 @@
 import {template} from "./ActivityToolbarWidgetTemplate.js";
 import NodeUtils from "../../../shared/js/NodeUtils.js";
+import {component as listWidgetComponent} from  "../../../shared/components/ListWidget.js";
 
 export const component = {
 	template: template,
+	components: {
+		'list-widget': listWidgetComponent
+	},
 	props: {
 		type: String,
 		copiedActivity: Object,
@@ -11,14 +15,6 @@ export const component = {
 	},
 	computed: {
 		isMission: function() { return this.type === NodeUtils.Types.Mission }
-	},
-	mounted() {
-		$( "#menu" ).menu({
-			select: (e, ui) => {
-				const event = jQuery.Event( ui.item.attr('id') );
-				$( "#menu" ).trigger(event);
-			}
-		});
 	}
 };
 

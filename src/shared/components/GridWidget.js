@@ -134,7 +134,8 @@ export const component = {
 					this.onSetSelectCursor( newVal );
 			}
 			else{
-				this.$emit( 'input', null );
+				if( this.selectable )
+					this.$emit( 'input', null );
 			}
 		}
 	},

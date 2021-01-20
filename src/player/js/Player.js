@@ -211,6 +211,7 @@ export default class Player {
 	}
 
 	handleActivityBehavior() {
+		let shouldChoseNextActivity = true;
 		if( this.current.activity ) {
 			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
 			if (this.current.activity instanceof ActivityNodeTell) {
@@ -241,7 +242,22 @@ export default class Player {
 					this.current.parentNodes.push(branchNode);
 					this.current.activityIndex = -1;
 				}
-				// else continue on following sibling activities as "else" branch
+				else {
+					let behaviorType = this.current.activity.data.noBranchBehavior;
+					switch ( behaviorType ) {
+						case "continue":
+							// continue on following sibling activities as "else" branch
+							shouldChoseNextActivity = true;
+							break;
+						case "message":
+							shouldChoseNextActivity = false;
+							break;
+						case "nothing":
+						default:
+							shouldChoseNextActivity = false;
+							break;
+					}
+				}
 			}
 
 			// log end activity
@@ -255,6 +271,8 @@ export default class Player {
 				}
 			);
 		}
+
+		if( !shouldChoseNextActivity ) return true;
 
 		// go to next activity
 		// if has no siblings then go to next mission and set next activity
@@ -307,6 +325,7 @@ export default class Player {
 					}
 			);
 		}
+		return null;
 	}
 
 	/**
@@ -315,12 +334,7 @@ export default class Player {
 	 * @return TypedValue
 	 */
 	guessAndParseToTypedValue( value ) {
-
-		if ( value instanceof Array ) {
-			value = new TypedValue({type: value[0].type, value: value[0].value});
-		}
-
-		if( !( value instanceof TypedValue) ) {
+		if( value && !( value instanceof TypedValue) ) {
 			if (typeof value === "string") {
 				let number = Number.parseInt(value);
 				if (!isNaN(number))
@@ -339,6 +353,9 @@ export default class Player {
 			else if( typeof value === "number") {
 				return new TypedValue({ type: Number.name, value: value } );
 			}
+			else if ( value instanceof Array ) {
+				return new TypedValue({type: value[0].type, value: value[0].value});
+			}
 
 			console.log( `${this.constructor.name}`, "unable to parse value", value);
 			return new TypedValue( { type: value.constructor ? value.constructor.name : Object.name, value: value } );
@@ -349,9 +366,6 @@ export default class Player {
 	}
 
 	nextActivity() {
-
-		let next = null;
-
 		/**
 		 * @type {ActivityNode}
 		 */
@@ -359,50 +373,80 @@ export default class Player {
 
 		if( parentNode ) {
 			let activities = parentNode.children;
-			if( this.current.activityIndex < 0 ) {
-				if( activities.length > 0 ) {
-					this.current.activityIndex = 0;
+			let chosenActivity;
+
+			console.log( this.current.activityIndex, this.current.activity );
+			while( !chosenActivity && activities.length > 0 && this.current.activityIndex < activities.length ) {
+
+				if (this.current.activityIndex < 0) {
+					if (activities.length > 0) {
+						this.current.activityIndex = 0;
+					}
 				}
-			}
-			else {
-				this.current.activityIndex ++;
-				if( this.current.activityIndex >= activities.length ) {
-					this.current.activityIndex = -1;
+				else {
+					this.current.activityIndex++;
+				}
+
+				if (0 <= this.current.activityIndex && this.current.activityIndex < activities.length) {
+					chosenActivity = activities[this.current.activityIndex];
+					if( chosenActivity && chosenActivity.data.active ){
+						this.current.activity = chosenActivity;
+					}
+					else {
+						console.log( `[${this.constructor.name}]`, "Skipping disabled activity", chosenActivity );
+						chosenActivity = null;
+					}
+				}
+				else {
+					chosenActivity = null;
 				}
 			}
 
-			if( 0 <= this.current.activityIndex && this.current.activityIndex < activities.length ) {
-				this.current.activity = activities[ this.current.activityIndex ];
-				return this.current.activity;
+			if (this.current.activityIndex >= activities.length) {
+				this.current.activityIndex = -1;
+				this.current.activity = null;
 			}
+			return chosenActivity;
 		}
 
 		return null;
 	}
 
 	nextMission() {
-		let next = null;
-		if( this.current.missionIndex < 0 ) {
-			if( this.missionsPool.length > 0 ) {
-				this.current.missionIndex = 0;
+		let missions = this.missionsPool;
+		let chosenMission;
+
+		while( !chosenMission && missions.length > 0 && this.current.missionIndex < missions.length ) {
+
+			if (this.current.missionIndex < 0) {
+				if (missions.length > 0) {
+					this.current.missionIndex = 0;
+				}
 			}
-		}
-		else {
-			this.current.missionIndex ++;
-			if( this.current.missionIndex >= this.missionsPool.length ) {
-				// this.current.missionIndex = -1;
+			else {
+				this.current.missionIndex++;
+			}
+
+			if (0 <= this.current.missionIndex && this.current.missionIndex < missions.length) {
+				chosenMission = missions[this.current.missionIndex];
+				if( chosenMission && chosenMission.active ) {
+					this.current.mission = chosenMission;
+				}
+				else {
+					console.log( `[${this.constructor.name}]`, "Skipping disabled mission", chosenMission );
+					chosenMission = null;
+				}
+			}
+			else {
+				chosenMission = null;
 			}
 		}
 
-		if( 0 <= this.current.missionIndex && this.current.missionIndex < this.missionsPool.length ) {
-			this.current.mission =  this.missionsPool[ this.current.missionIndex ];
-			return this.current.mission;
-		}
-		else {
+		if (this.current.missionIndex >= missions.length || !chosenMission ) {
+			this.current.missionIndex = -1;
 			this.current.mission = null;
-			// this.current.missionIndex = -1;
-			return this.current.mission;
 		}
+		return chosenMission;
 	}
 
 	startStory() {

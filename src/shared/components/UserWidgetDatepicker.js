@@ -56,6 +56,6 @@ export const component = {
 		},
 		emitInput(event) {
 			let item = new TypedValue({type: Date.name, value: event});
-			this.$emit('input', item);
+			this.$emit('change', item);
 		}}
 };

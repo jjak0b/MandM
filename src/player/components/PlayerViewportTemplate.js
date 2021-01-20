@@ -12,7 +12,7 @@ export const template =
 	aria-label="Scene"
 	id="player-scene"
 	ref="scene"
-	v-on:input="onInput( 'input', $event )"
+	v-on:change="onInput( 'input', $event )"
 	v-if="isSceneable"
 	:value="scene"
 >

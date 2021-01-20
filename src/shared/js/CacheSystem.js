@@ -2,20 +2,24 @@ export class CacheSystem {
 	constructor() {
 		this._defaultFetch = window.fetch.bind( window );
 		window.fetch = this._fetchOverride.bind( this );
-
+		this.version = 1;
 	}
 
 	/**
 	 *
 	 * @returns {Promise<void>}
 	 */
-	init() {
+	init( version = 1 ) {
+		this.version = version;
 		return new Promise( (resolve, reject) => {
 			if( window.indexedDB) {
-				let dbOpenRequest = indexedDB.open("cache");
-				dbOpenRequest.addEventListener( "error", reject );
-				dbOpenRequest.addEventListener("upgradeneeded", this._onUpgradeNeeded );
-				dbOpenRequest.addEventListener( "success", (event) => resolve() );
+				let dbDeleteRequest = indexedDB.deleteDatabase( "cache" );
+				dbDeleteRequest.addEventListener( "success", ( ) => {
+					let dbOpenRequest = indexedDB.open("cache", version );
+					dbOpenRequest.addEventListener( "error", (event) => reject( event.target.error ) );
+					dbOpenRequest.addEventListener("upgradeneeded", this._onUpgradeNeeded );
+					dbOpenRequest.addEventListener( "success", (event) => resolve() );
+				})
 			}
 			else {
 				reject("Indexed DB not supported");
@@ -81,7 +85,7 @@ export class CacheSystem {
 	 */
 	fetch( url ) {
 		return new Promise( (resolve, reject) => {
-			let iDBOpenRequest = indexedDB.open( "cache", 1 );
+			let iDBOpenRequest = indexedDB.open( "cache", this.version );
 			iDBOpenRequest.addEventListener( "error", (error) => {
 				console.error( `[${this.constructor.name}:fetch]`, "indexedDB Error on opening cache DB, reason:", error );
 				reject( error );

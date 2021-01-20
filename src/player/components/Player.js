@@ -19,7 +19,7 @@ export const component = {
 	data() {
 		return {
 			player: Player.getInstance(),
-			cacheSystem: new CacheSystem(),
+			cacheSystem: null,
 			loadingProgress: 0,
 			loadingInfoLocaleLabel: "shared.label-loading",
 			errorMessage: null,
@@ -69,7 +69,6 @@ export const component = {
 	},
 	created() {
 		this.isLoading = true;
-		this.loadingInfoLocaleLabel = "shared.label-loading";
 
 		let url = new URL( window.location.href );
 		let storyName = url.searchParams.get( "story" );
@@ -77,23 +76,53 @@ export const component = {
 
 		console.log( "[PlayerVM]", "Start downloading story" );
 		let promsInit = [
-			this.cacheSystem.init(),
 			this.player.init( storyName, team ),
+			this.player.fetchStory(),
 			I18nUtils.fetchLocales( "/shared/", [ i18n.locale, i18n.fallbackLocale ] ),
 			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
-			this.player.storyURL ? I18nUtils.fetchLocales( "" + this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] ) : Promise.reject(),
 		];
-		this.loadingProgress = 0;
 		let updateProgress = (percentage) => {
 			this.loadingProgress = percentage;
 		}
+
 		this.readyPromise = new Promise( (resolveReady, rejectReady) => {
 			// assets depends on the result of system init promise
 			let dependenciesPromise = new Promise( (resolveDependencies, rejectDependencies) => {
 				// the system init promise handler
 				let promisePlayer = new Promise( (resolvePlayer, rejectPlayer ) => {
+
+					this.loadingProgress = 0;
+					this.loadingInfoLocaleLabel = "shared.label-loading";
 					allProgress( promsInit, updateProgress )
-						.then( resolvePlayer )
+						.then( (responses) => {
+
+							let resultLoadPlayer = responses[0];
+							let resultFetchStory = responses[1];
+							let localesMessagesShared = responses[ 2 ];
+							let localesMessagesPlayer = responses[ 3 ];
+
+							console.log( "[PlayerVM]", "Story and System fetch complete" );
+							console.log( "[PlayerVM]", "Init i18n messages for current locale and fallback" );
+
+							for (const locale in localesMessagesShared) {
+								this.$i18n.mergeLocaleMessage( locale, localesMessagesShared[ locale ] );
+							}
+
+							for (const locale in localesMessagesPlayer) {
+								this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
+							}
+
+							this.cacheSystem = new CacheSystem();
+							this.cacheSystem.init()
+								.then( () => {
+									console.log( "[PLayer VM] Init cache system successfully" );
+								})
+								.catch( (error) => {
+									console.warn( "[PLayer VM] Unable to init cache system", "continue with offline cache unavailable,", "reason:", error );
+								})
+								// Fetch story's dependencies
+								.finally( resolvePlayer );
+						})
 						.catch(( error ) => { // handle error specific of Player
 							if( error && error instanceof Error ) {
 								if( error.message === "NO_STORY") {
@@ -113,37 +142,32 @@ export const component = {
 
 				promisePlayer
 					.then( (responses) => {
-						let assetsProms = responses[ 1 ];
-						let localesMessagesShared = responses[ 2 ];
-						let localesMessagesPlayer = responses[ 3 ];
-						let localesMessagesAuthored = responses[ 4 ];
-						console.log( "[PlayerVM]", "Story and System fetch complete" );
 						console.log( "[PlayerVM]", "Start downloading story assets" );
 
-						console.log( "[PlayerVM]", "Init i18n messages for current locale and fallback" );
-						for (const locale in localesMessagesShared) {
-							this.$i18n.mergeLocaleMessage( locale, localesMessagesShared[ locale ] );
-						}
-
-						for (const locale in localesMessagesPlayer) {
-							this.$i18n.mergeLocaleMessage( locale, localesMessagesPlayer[ locale ] );
-						}
-
-						for (const locale in localesMessagesAuthored) {
-							this.$i18n.mergeLocaleMessage( locale, localesMessagesAuthored[ locale ] );
-						}
+						let promisesDependencies = [
+							I18nUtils.fetchLocales( "" + this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] )
+						];
+						promisesDependencies = promisesDependencies.concat( this.player.fetchAssets() );
 
 						this.loadingProgress = 0;
 						this.loadingInfoLocaleLabel = "Player.label-loading-resources";
-
-						resolveDependencies( allProgress( assetsProms, updateProgress ) );
+						resolveDependencies(
+							allProgress( promisesDependencies, updateProgress )
+						);
 					})
 					.catch( rejectDependencies )
 			});
 
 			dependenciesPromise
-			.then( () => {
+			.then( (responses) => {
+
 				// From here we have all stuffs we need to run the story
+
+				let localesMessagesAuthored = responses[ 0 ];
+				for (const locale in localesMessagesAuthored) {
+					this.$i18n.mergeLocaleMessage( locale, localesMessagesAuthored[ locale ] );
+				}
+
 				console.log( "[PlayerVM]", "story assets download complete" );
 				// Init custom stylesheet for the story
 				if( this.player.story.style ) {

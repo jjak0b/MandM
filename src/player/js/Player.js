@@ -131,13 +131,15 @@ export default class Player {
 		this.logger = new ActivityLogger(`./log?story=${this.storyName}`);
 
 		let cachedStoryName = Cookies.get("storyNameInCache");
-		return this.downloadStory( this.storyName );
+		return Promise.resolve();
 	}
 
-	downloadStory( storyName ) {
-
-		let reqJSONStory = fetch( `${this.storyURL}?source=player` );
-		return reqJSONStory
+	/**
+	 *
+	 * @return {Promise<Response>}
+	 */
+	fetchStory() {
+		return fetch( `${this.storyURL}?source=player` )
 			.then( (response) => {
 				if( response && response.ok ) {
 					return response.json();
@@ -157,22 +159,27 @@ export default class Player {
 			})
 			.then( (json) => {
 				this.story = new Story( json );
-
-				let assetsRequests = [];
-				for (const category in this.story.dependencies) {
-					if( category === "locales") continue;
-					/**
-					 * @type { {asset: Asset, count: Number}[] }
-					 */
-					let assetsEntries = this.story.dependencies[ category ];
-					for (const { asset } of assetsEntries) {
-						assetsRequests.push( asset.fetch() );
-					}
-				}
-				return assetsRequests;
 			});
 	}
 
+	/**
+	 *
+	 * @return {Promise<Response>[]}
+	 */
+	fetchAssets() {
+		let assetsRequests = [];
+		for (const category in this.story.dependencies) {
+			if( category === "locales") continue;
+			/**
+			 * @type { {asset: Asset, count: Number}[] }
+			 */
+			let assetsEntries = this.story.dependencies[ category ];
+			for (const { asset } of assetsEntries) {
+				assetsRequests.push( asset.fetch() );
+			}
+		}
+		return assetsRequests;
+	}
 
 	/**
 	 * Setup player to run the story, like fill the missionsPool based on gamemode, team, etc ...

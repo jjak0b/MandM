@@ -21,6 +21,8 @@ import ActivityNode from "../../../shared/js/ActivityNodes/ActivityNode.js";
 import ComponentMediaPlayer from "../../../shared/js/Scene/SceneComponents/ComponentMediaPlayer.js";
 import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/MediaPlayer/ContextMediaPlayerArea.js";
 import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
+import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
+import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 
 export const component = {
 	template: template,
@@ -161,25 +163,6 @@ export const component = {
 	},
 	created() {
 		this.onModalSubmit = this.onSubmitModalCellComponent;
-
-		ComponentMediaPlayer.setDisposeCallback(
-			ComponentMediaPlayer.name,
-			(that, params) => {
-
-				if( that.props.context && that.props.context.asset && that.props.context.asset.category == "images" ) {
-					if( that.props.context.areas.captions ) {
-
-						this.$i18n.removeMessageAll( that.props.context.captions[ 0 ] );
-					}
-				}
-			}
-		);
-		ContextMediaPlayerArea.setDisposeCallback(
-			ContextMediaPlayerArea.name,
-			(that, params) => {
-				this.$i18n.removeMessageAll( that.alt )
-			}
-		);
 	},
 	mounted(){
 		// put default grid as first layer
@@ -469,3 +452,48 @@ export const component = {
 		}
 	}
 };
+
+/**
+ * @PreCondition bind this function to vm instance before calling
+ */
+export function registerDisposeCallbacks() {
+	ComponentMediaPlayer.setDisposeCallback(
+		ComponentMediaPlayer.name,
+		(that, params) => {
+
+			if( that.props.context && that.props.context.asset && that.props.context.asset.category == "images" ) {
+				if( that.props.context.areas.captions ) {
+
+					this.$i18n.removeMessageAll( that.props.context.captions[ 0 ] );
+				}
+			}
+		}
+	);
+	ContextMediaPlayerArea.setDisposeCallback(
+		ContextMediaPlayerArea.name,
+		(that, params) => {
+			this.$i18n.removeMessageAll( that.alt )
+		}
+	);
+
+	ComponentText.setDisposeCallback(
+		ComponentText.name,
+		(that, params) => {
+			if( that.i18nCategory )
+				this.$i18n.removeMessageAll( that.i18nCategory );
+		}
+	);
+
+	ComponentList.setDisposeCallback(
+		ComponentList.name,
+		(that, params) => {
+			if( that.props.options ) {
+				for (const option of that.props.options) {
+					if( option.title ) {
+						this.$i18n.removeMessageAll( option.title );
+					}
+				}
+			}
+		}
+	);
+}

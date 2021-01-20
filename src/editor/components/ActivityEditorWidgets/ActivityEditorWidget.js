@@ -11,6 +11,7 @@ import ActivityNodeTell from "../../../shared/js/ActivityNodes/ActivityNodeTell.
 import ActivityNodeQuest from "../../../shared/js/ActivityNodes/ActivityNodeQuest.js";
 import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBranch.js";
 import NodeParser from "../../../shared/js/NodeParser.js";
+import {registerDisposeCallbacks as registerSceneDisposeCallbacks } from "./SceneEditorWidget.js";
 
 export const component = {
 	template: template,
@@ -65,15 +66,21 @@ export const component = {
 		}
 	},
 	created() {
-		ActivityNode.setDisposeCallback( ActivityNode.name, this.disposeActivityNode )
-		ActivityNodeTell.setDisposeCallback( ActivityNodeTell.name, this.disposeActivityNode )
-		ActivityNodeQuest.setDisposeCallback( ActivityNodeQuest.name, this.disposeActivityNode )
+		ActivityNode.setDisposeCallback( ActivityNode.name, this.disposeActivityNode );
+		ActivityNodeTell.setDisposeCallback( ActivityNodeTell.name, this.disposeActivityNode );
+		ActivityNodeQuest.setDisposeCallback( ActivityNodeQuest.name, this.disposeActivityQuestNode );
+		registerSceneDisposeCallbacks.call( this );
 	},
 	methods: {
 		disposeActivityNode( node ) {
 			if( node.data ) {
 				if( node.data.title ) this.$i18n.removeMessageAll( node.data.title );
 				if( node.data.description ) this.$i18n.removeMessageAll( node.data.description );
+			}
+		},
+		disposeActivityQuestNode( node ) {
+			if( node.data.message ) {
+				this.$i18n.removeMessageAll( node.data.message );
 			}
 		},
 		getActivityById( id, children ) {

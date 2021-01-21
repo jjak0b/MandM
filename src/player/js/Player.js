@@ -54,9 +54,10 @@ export default class Player {
 	/**
 	 *
 	 * @param activityBranchNodes {ActivityNodeBranch[]}
+	 * @param localEnvVars {Object}
 	 * @return number
 	 */
-	checkConditions( activityBranchNodes ) {
+	checkConditions( activityBranchNodes, localEnvVars ) {
 		for (let i = 0; i < activityBranchNodes.length; i++) {
 			let branchNode = activityBranchNodes[ i ];
 
@@ -67,7 +68,7 @@ export default class Player {
 					console.error( `[${this.constructor.name}]`, "BranchNodeCondition of node", branchNode, `contains unknown function name named "${functionName}" with parameters`, functionParameters );
 					continue;
 				}
-				let result = branchNode.data.check( this.envVars );
+				let result = branchNode.data.check( localEnvVars );
 				if( result ) {
 					return i;
 				}
@@ -133,7 +134,12 @@ export default class Player {
 		this.startStory();
 	}
 
-	handleActivityBehavior() {
+	/**
+	 *
+	 * @param inputMap {Map<string, string | Array>}
+	 * @return {null|boolean}
+	 */
+	handleActivityBehavior( inputMap ) {
 		let shouldChoseNextActivity = true;
 		if( this.current.activity ) {
 			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
@@ -150,8 +156,17 @@ export default class Player {
 				);
 			}
 			else if (this.current.activity instanceof ActivityNodeQuest) {
-				this.envVars.userInput = this.guessAndParseToTypedValue( this.envVars.userInput );
-				let indexBranch = this.checkConditions(this.current.activity.children);
+
+				let parsedInput = {};
+				// add input to local Env Vars
+				for ( const pair of inputMap.entries() ) {
+					console.log( pair );
+					let variableName = pair[ 0 ];
+					let variableValue = pair[ 1 ];
+					parsedInput[ variableName ] = this.guessAndParseToTypedValue( variableValue );
+				}
+				let localEnvVars = Object.assign( {}, parsedInput, this.envVars );
+				let indexBranch = this.checkConditions(this.current.activity.children, localEnvVars );
 
 				// select branchNode as parent Node
 				if (indexBranch >= 0) {

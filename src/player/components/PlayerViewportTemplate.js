@@ -6,17 +6,21 @@ export const template =
 	ref="player-viewport"
 	tabindex="0"
 >
-
+<form
+	ref="form"
+	@submit.prevent="onSubmit"
+	@change="onChangeDoSubmit"
+>
 <scene-viewport
 	v-bind:key="activity.id"
 	aria-label="Scene"
 	id="player-scene"
 	ref="scene"
-	v-on:change="onInput( 'input', $event )"
 	v-if="isSceneable"
 	:value="scene"
 >
 </scene-viewport>
+</form>
 <b-container
 	v-if="shouldClickToContinue"
 	aria-disabled="!shouldClickToContinue"
@@ -32,7 +36,6 @@ export const template =
 				<b-btn
 					class="m-auto"
 					v-on:click="onInput( 'click', $event )"
-					type="primary"
 					v-t="'shared.label-continue'"
 				>
 				</b-btn>

@@ -303,7 +303,7 @@ export default class ActivityDataBranch extends ActivityData {
 
 	/**
 	 *
-	 * @param envVariable {[]}
+	 * @param envVariable {Object}
 	 * @returns {boolean|null|undefined}
 	 */
 	check( envVariable ) {

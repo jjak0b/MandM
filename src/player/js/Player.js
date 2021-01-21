@@ -257,7 +257,7 @@ export default class Player {
 					let branchNode = this.current.activity.children[indexBranch];
 
 					if ( branchNode.data.condition.rewardPoints ) {
-						this.envVars.score = branchNode.data.condition.rewardPoints;
+						this.envVars.score += branchNode.data.condition.rewardPoints;
 					}
 
 					this.current.parentNodes.push(branchNode);

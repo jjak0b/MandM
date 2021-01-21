@@ -10,6 +10,7 @@ import { component as rangeEditorComponent } from "../SceneEditorWidgets/UserWid
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
 import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorPhoto.js";
+import { component as qrDecoderEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorQrDecoder.js";
 import { component as gridEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorGrid.js";
 import { component as userWidgetViewport} from "../../../shared/components/UserWidgetViewport.js";
 
@@ -41,6 +42,7 @@ export const component = {
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
 		"user-widget-editor-photo": photoEditorComponent,
+		"user-widget-qr-decoder": qrDecoderEditorComponent,
 		"user-widget-editor-grid": gridEditorComponent,
 		"grid-widget": gridWidget,
 		"attribute-editor-widget": attributeEditorComponent
@@ -100,6 +102,10 @@ export const component = {
 				"user-widget-photo" : {
 					editor: "user-widget-editor-photo",
 					label: "UserWidgets.label-photo-widget-name",
+				},
+				"user-widget-qr-decoder" : {
+					editor: "user-widget-editor-qr-decode",
+					label: "UserWidgets.label-qr-decode-widget-name",
 				},
 				"user-widget-grid" : {
 					editor: "user-widget-editor-grid",

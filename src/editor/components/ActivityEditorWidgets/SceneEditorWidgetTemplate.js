@@ -172,54 +172,36 @@ export const template =
 										id="sceneEditor-modal-form-set-cell-component"
 										ref="form-set-cell-component"
 										v-on:submit.stop.prevent="onModalSubmit"
+										class="d-flex justify-content-around align-items-center"
 									>
-										<b-form-group>
-											<b-form-row>
-												<b-col
-													sm="12"
-													lg="6"
+										<div>
+											<label
+												for="SceneEditor-input-edit-cell-component"
+											>{{ $t( 'SceneEditorWidget.GridWidget.label-edit-cell-widget' ) }}</label>
+											<b-form-select
+												id="SceneEditor-input-edit-cell-component"
+												v-model="newCellComponentName"
+												required
+											>
+												<template #first>
+													<b-form-select-option
+														v-bind:value="null"
+														disabled
+													>{{ $t('shared.label-select-option') }}</b-form-select-option>
+												</template>
+												<b-form-select-option
+													v-for="(widgetData, name) in widgetsTable"
+													v-bind:value="name"
 												>
-													<label
-														for="SceneEditor-input-edit-cell-component"
-													>{{ $t( 'SceneEditorWidget.GridWidget.label-edit-cell-widget' ) }}</label>
-													<b-form-select
-														id="SceneEditor-input-edit-cell-component"
-														v-model="newCellComponentName"
-														required
-													>
-														<template #first>
-															<b-form-select-option
-																v-bind:value="null"
-																disabled
-															>{{ $t('shared.label-select-option') }}</b-form-select-option>
-														</template>
-														<b-form-select-option
-															v-for="(widgetData, name) in widgetsTable"
-															v-bind:value="name"
-														>
-														{{ $t( widgetData.label ) }}
-														</b-form-select-option>
-													</b-form-select>
-												</b-col>
-												<b-col
-													sm="12"
-													lg="6"
-												>
-													<label for="sceneEditor-input-edit-cell-size">{{ $t( 'SceneEditorWidget.GridWidget.label-edit-cell-size' ) }}</label>
-													<b-form-spinbutton
-														id="sceneEditor-input-edit-cell-size"
-														v-model.number="newCellSize"
-														min="1"
-														v-bind:max="maxCellSizeAvailable"
-														required="required"
-													></b-form-spinbutton>
-												</b-col>
-											</b-form-row>
-										</b-form-group>
+												{{ $t( widgetData.label ) }}
+												</b-form-select-option>
+											</b-form-select>
+										</div>
 										<b-button
 											type="submit"
 										>{{ newCell.component ? $t('shared.label-save') : $t('shared.label-add') }}
 										</b-button>
+
 									</b-form>
 								</b-col>
 							</b-row>

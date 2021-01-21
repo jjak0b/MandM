@@ -164,8 +164,8 @@ export default class ActivityDataBranch extends ActivityData {
 	 * @param that {TypedValue}
 	 */
 	static equals( self, that ) {
-		let isEquals = self.equals( that );
-		if( !isEquals && self.type === that.type ) {
+		let isEquals = self && that && self.equals( that );
+		if( !isEquals && self && that && self.type === that.type ) {
 			switch (that.type) {
 				case String.name:
 				case Number.name:
@@ -203,7 +203,7 @@ export default class ActivityDataBranch extends ActivityData {
 	 */
 	static isInRange( self, that0, that1 ) {
 		let isInRng = false;
-		if( self.type === that0.type && self.type !== that1.type ) {
+		if( self && that0 && that1 && self.type === that0.type && self.type !== that1.type ) {
 			let min, max;
 			switch (self.type) {
 				case Number.name:
@@ -244,12 +244,12 @@ export default class ActivityDataBranch extends ActivityData {
 	 * @param {TypedValue[]}
 	 */
 	static isAny( self, typedArray ) {
-		return typedArray.some( (typedValue) => this.equals( self, typedValue ) );
+		return self && typedArray && typedArray.some( (typedValue) => this.equals( self, typedValue ) );
 	}
 
 	static isGreaterThan(self, that) {
 		let isGt = false;
-		if( self.type === that.type ) {
+		if( self && that && self.type === that.type ) {
 			let parsedSelf = this.parseTypedValue( self );
 			let parsedThat = this.parseTypedValue( that );
 			try {
@@ -268,7 +268,7 @@ export default class ActivityDataBranch extends ActivityData {
 	}
 	static isLessThan(self, that) {
 		let isLt = false;
-		if( self.type === that.type ) {
+		if( self && that && self.type === that.type ) {
 			let parsedSelf = this.parseTypedValue( self );
 			let parsedThat = this.parseTypedValue( that );
 			try {

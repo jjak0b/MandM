@@ -45,14 +45,16 @@ export const component = {
 	},
 
 	methods : {
+		// nextTick is needed to allow v-model to set value in component.value correctly
+
 		onSubmit( event ) {
-			this.onInput( 'input', event.target );
+			this.$nextTick( () => this.onInput( 'input', event.target ) )
 		},
 		onChangeDoSubmit() {
 			// if is Quest activity and has no submit button, perform submit on first "onchange" event
 			if( !this.shouldClickToContinue && !this.hasSubmit ) {
 				let form = this.$refs.form;
-				this.onInput( 'input', form );
+				this.$nextTick( () => this.onInput( 'input', form ) )
 			}
 		},
 		onInput( type, target) {

@@ -225,6 +225,7 @@ export default class Player {
 	handleActivityBehavior( inputMap ) {
 		let shouldChoseNextActivity = true;
 		let playerInput = null;
+		let rewardPoints = 0;
 		if( this.current.activity ) {
 			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
 			if (this.current.activity instanceof ActivityNodeTell) {
@@ -232,15 +233,42 @@ export default class Player {
 			}
 			else if (this.current.activity instanceof ActivityNodeQuest) {
 
+				// collects values in widgets
+				let components = this.current.activity.data.scene.body
+					.filter( (component) => !!component.props.name );
 				playerInput = {};
-				// add input to local Env Vars
-				for ( const pair of inputMap.entries() ) {
-					console.log( pair );
-					let variableName = pair[ 0 ];
-					let variableValue = pair[ 1 ];
-					playerInput[ variableName ] = this.guessAndParseToTypedValue( variableValue );
+				// add input name and value pair to local Env Vars
+				for ( const component of components ) {
+					let variableName = component.props.name;
+					let variableValue = component.value;
+
+					variableValue = this.guessAndParseToTypedValue( variableValue );
+
+					if( variableName in playerInput && playerInput[ variableName ] ) {
+						if( !(playerInput[ variableName ].isType( Array.name ) ) ) {
+							let oldValue = playerInput[ variableName ];
+							playerInput[ variableName ] = new TypedValue({
+								type: Array.name,
+								value: [ oldValue ]
+							});
+						}
+
+						if( variableValue ) {
+							if (variableValue.isType(Array.name)) {
+								playerInput[variableName].value = playerInput[variableName].value.concat(variableValue.value);
+							}
+							else {
+								playerInput[variableName].value.push(variableValue);
+							}
+						}
+					}
+					else {
+						playerInput[ variableName ] = variableValue;
+					}
 				}
+				console.log( playerInput );
 				let localEnvVars = Object.assign( {}, playerInput, this.envVars );
+				console.log( localEnvVars );
 				let indexBranch = this.checkConditions(this.current.activity.children, localEnvVars );
 
 				// select branchNode as parent Node
@@ -248,7 +276,8 @@ export default class Player {
 					let branchNode = this.current.activity.children[indexBranch];
 
 					if ( branchNode.data.condition.rewardPoints ) {
-						this.envVars.score += branchNode.data.condition.rewardPoints;
+						rewardPoints = branchNode.data.condition.rewardPoints;
+						this.envVars.score += rewardPoints;
 					}
 
 					this.current.parentNodes.push(branchNode);
@@ -278,7 +307,7 @@ export default class Player {
 				this.current.activity.id,
 				{
 					input: playerInput,
-					score: this.envVars.score,
+					score: rewardPoints,
 					end: shouldChoseNextActivity
 				}
 			);
@@ -370,6 +399,20 @@ export default class Player {
 					type: Array.name,
 					value: value.map( (item) => item ? this.guessAndParseToTypedValue( item ) : undefined )
 				});
+			}
+			else if( value instanceof Object ) {
+				if( value.type ) {
+					let newValue = this.guessAndParseToTypedValue( value.value );
+					if( newValue ) {
+						return new TypedValue({
+							type: value.type,
+							value: newValue
+						});
+					}
+					else {
+						return null;
+					}
+				}
 			}
 
 			console.log( `${this.constructor.name}`, "unable to parse value", value);

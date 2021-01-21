@@ -15,4 +15,9 @@ export class TypedValue {
 		return "" + this.value;
 	}
 
+	isType( type ) {
+		if (type && this.type)
+			return type === this.type;
+		return false;
+	}
 }

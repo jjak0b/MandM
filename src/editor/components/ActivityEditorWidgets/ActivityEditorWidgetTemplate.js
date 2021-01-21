@@ -17,6 +17,7 @@ export const template =
 				aria-describedby="activityTreeDescription"
 				ref="treeView"
 				v-model="currentNode"
+				v-on:update:parent="parentNode = $event"
 				v-bind:locale="locale"
 				v-bind:copiedActivity="copiedActivity"
 				v-bind:grabbedActivity="grabbedActivity"
@@ -32,6 +33,7 @@ export const template =
 	<edit-menu-widget v-if="isEditFormVisible"
 		v-bind:locale="locale"
 		v-bind:currentNode="currentNode"
+		v-bind:parentNode="parentNode"
 		v-bind:locales-list="localesList"
 		v-on:editActivity="editActivity"
 	></edit-menu-widget>

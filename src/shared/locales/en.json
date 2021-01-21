@@ -67,6 +67,8 @@
 		"label-Number" : "Number",
 		"label-Time" : "Time",
 		"label-Date" : "Date",
+		"label-variable-name" : "Variable {name}",
+		"label-score" : "Score",
 		"label-loading": "Loading",
 		"label-loading-resources": "Loading resources",
 		"label-loading-completed": "Loading completed",

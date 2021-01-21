@@ -1,6 +1,5 @@
 import SceneComponent from "../SceneComponent.js";
 import SceneCell from "./Grid/SceneCell.js";
-import {I18nUtils} from "../../I18nUtils.js";
 
 export default class ComponentGrid extends SceneComponent {
 	constructor( unparsed ) {
@@ -36,6 +35,29 @@ export default class ComponentGrid extends SceneComponent {
 		this.props.useIndexes = unparsed.props.useIndexes !== undefined ? unparsed.props.useIndexes : false;
 		this.props.navKey = unparsed.props.navKey !== undefined ? unparsed.props.navKey : false;
 		this.props.selectable = unparsed.props.selectable !== undefined ? unparsed.props.selectable : false;
+	}
+
+	/**
+	 *
+	 * @param testFunction( component: SceneComponent )
+	 */
+	filter( testFunction ) {
+		let array = [];
+		if( !testFunction ) return array;
+
+		for (const cells of this.props.gridData) {
+			for (const cell of cells) {
+				if( cell && cell.component ) {
+					if( testFunction( cell.component ) ) {
+						array.push(cell.component);
+					}
+					if( cell.component instanceof ComponentGrid ) {
+						array = array.concat( cell.component.filter( testFunction ) );
+					}
+				}
+			}
+		}
+		return array;
 	}
 
 	dispose( params ) {

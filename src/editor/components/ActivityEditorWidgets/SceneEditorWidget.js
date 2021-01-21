@@ -23,6 +23,7 @@ import ContextMediaPlayerArea from "../../../shared/js/Scene/SceneComponents/Med
 import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGrid.js";
 import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
+import ComponentInput from "../../../shared/js/Scene/SceneComponents/ComponentInput.js";
 
 export const component = {
 	template: template,
@@ -478,6 +479,14 @@ export function registerDisposeCallbacks() {
 
 	ComponentText.setDisposeCallback(
 		ComponentText.name,
+		(that, params) => {
+			if( that.i18nCategory )
+				this.$i18n.removeMessageAll( that.i18nCategory );
+		}
+	);
+
+	ComponentInput.setDisposeCallback(
+		ComponentInput.name,
 		(that, params) => {
 			if( that.i18nCategory )
 				this.$i18n.removeMessageAll( that.i18nCategory );

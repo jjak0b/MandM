@@ -9,6 +9,7 @@ export const component = {
     props: {
         branch: ActivityDataBranch,
         locale: String,
+        variablesNames: Array
     },
     components: {
         'condition-parameter': conditionParameterComponent,
@@ -36,6 +37,7 @@ export const component = {
             },
             variableLocaleLabels: {
                 "userInput": "ActivityEditorWidget.select-type-var.label-user-input",
+                "score": "shared.label-score"
             },
             sourceTypeLocaleLabels: {
                 value: "ActivityEditorWidget.label-value",
@@ -51,12 +53,6 @@ export const component = {
                 // {
                 //    text: "localized",
                 //    value: "functionKey"
-                // }
-            ],
-            variableOptions: [
-                // {
-                //    text: "localized",
-                //    value: "variableName"
                 // }
             ]
         };
@@ -75,13 +71,6 @@ export const component = {
                 value: sourceType
             });
         }
-
-        data.envVariableNames.forEach( (varName, index) => {
-            data.variableOptions.push({
-                text: varName in data.variableLocaleLabels ? this.$t(data.variableLocaleLabels[ varName ]) : `unlocalized variable ${varName}`,
-                value: varName
-            });
-        });
 
         return data;
     },
@@ -131,6 +120,28 @@ export const component = {
             if( this.branch && this.condition && this.condition.params )
                 return this.condition.params;
             return [];
+        },
+        variableOptions() {
+            let options = [];
+
+            // add system default variables
+            this.envVariableNames.forEach( (varName, index) => {
+                options.push({
+                    text: varName in this.variableLocaleLabels ? this.$t(this.variableLocaleLabels[ varName ]) : this.$t( 'shared.label-variable-name', {name: varName} ),
+                    value: varName
+                });
+            });
+
+            // add local activity variables
+            if( this.variablesNames ) {
+                this.variablesNames.forEach( (varName, index) => {
+                    options.push({
+                        text: this.$t( 'shared.label-variable-name', {name: varName} ),
+                        value: varName
+                    });
+                });
+            }
+            return options;
         }
     },
     methods: {

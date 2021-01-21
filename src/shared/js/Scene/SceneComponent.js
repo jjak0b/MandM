@@ -7,6 +7,7 @@ export default class SceneComponent extends I18nCategorized{
 		super(unparsedComponent);
 		this.name = unparsedComponent.name;
 		this.props = new SceneComponentProps( unparsedComponent.props );
+		this.attrs = unparsedComponent.attrs || {};
 		this.value = unparsedComponent.value || null;
 		this.getOptionsCallback = null;
 	}
@@ -48,7 +49,8 @@ export default class SceneComponent extends I18nCategorized{
 			{
 				name: "" + this.name,
 				value: this.value ? JSON.parse( JSON.stringify( this.value ) ) : this.value,
-				props: this.props.duplicate()
+				props: this.props.duplicate(),
+				attrs: JSON.parse( JSON.stringify( this.attrs ) )
 			}
 		);
 		return new SceneComponent( duplicate );

@@ -23,26 +23,47 @@ export const component = {
 	computed : {
 		shouldClickToContinue() { return this.activity instanceof ActivityNodeTell },
 		isSceneable() { return this.activity && this.activity.data && this.activity.data instanceof ActivityDataSceneable },
+		hasSubmit() {
+			if( this.scene && this.$refs && this.$refs.form ) {
+				let form = this.$refs.form;
+				let hasSubmit = !!form.querySelector("[type='submit']");
+				return hasSubmit;
+			}
+			else {
+				return undefined;
+			}
+		},
 		scene() { return this.isSceneable ? this.activity.data.scene : null }
 	},
 
 	watch: {
 		scene() {
-			this.player.envVars.userInput = null;
-			this.$nextTick( () => this.$el.focus() );
+			this.$nextTick( () => {
+				this.$el.focus();
+			});
 		}
 	},
+
 	methods : {
-		onInput( type, event ) {
+		onSubmit( event ) {
+			this.onInput( 'input', event.target );
+		},
+		onChangeDoSubmit() {
+			// if is Quest activity and has no submit button, perform submit on first "onchange" event
+			if( !this.shouldClickToContinue && !this.hasSubmit ) {
+				let form = this.$refs.form;
+				this.onInput( 'input', form );
+			}
+		},
+		onInput( type, target) {
 			if( this.isSceneable ) {
-				console.log( "input", event );
+				console.log( "input", target  );
 				if( this.activity instanceof ActivityNodeTell && type === 'click') {
-					this.player.envVars.userInput = null;
-					this.player.handleActivityBehavior();
+					this.player.handleActivityBehavior( null );
 				}
 				else if( this.activity instanceof ActivityNodeQuest && type !== 'click' ) {
-					this.player.envVars.userInput = event;
-					if( this.player.handleActivityBehavior() ) {
+					let input = this.getInputMap( target );
+					if( this.player.handleActivityBehavior( input ) ) {
 						let behaviorType = this.activity.data.noBranchBehavior;
 						switch ( behaviorType ) {
 							case "message":
@@ -58,6 +79,22 @@ export const component = {
 					}
 				}
 			}
+		},
+		getInputMap( form ) {
+			let input = new Map();
+			let formData = new FormData( form );
+			for (const key of formData.keys() ) {
+				let values = formData.getAll( key );
+				// put the array
+				if( values.length > 1 ) {
+					input.set( key, values );
+				}
+				// put the value
+				else {
+					input.set( key, values[ 0 ] );
+				}
+			}
+			return input;
 		}
 	}
 }

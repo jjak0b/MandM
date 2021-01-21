@@ -28,6 +28,8 @@
 		"label-from-server" : "Da server",
 		"label-as-file" : "Come file",
 		"label-onto-server" : "Sul server",
+		"label-variable-name" : "Variabile {name}",
+		"label-score" : "Punteggio",
 		"label-loading": "Caricamento in corso",
 		"label-loading-completed": "Caricamento completato",
 		"label-loading-resources": "Caricamento delle risorse in corso",

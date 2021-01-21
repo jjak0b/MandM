@@ -1,9 +1,8 @@
-import SceneComponent from "../SceneComponent.js";
+import InputSceneComponent from "../InputSceneComponent.js";
 import {I18nUtils} from "/shared/js/I18nUtils.js";
-import Mission from "../../Mission.js";
 import {TypedValue} from "../../Types/TypedValue.js";
 
-export default class ComponentList extends SceneComponent {
+export default class ComponentList extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 		this.props.options = unparsed.props && unparsed.props.options ? unparsed.props.options : [];

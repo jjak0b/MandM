@@ -32,6 +32,7 @@ export const component = {
 		return {
 			NodeUtils: NodeUtils,
 			currentNode: null /* object node used by jsTree */,
+			parentNode: null,
 			isEditFormVisible: false
 		}
 	},

@@ -224,32 +224,23 @@ export default class Player {
 	 */
 	handleActivityBehavior( inputMap ) {
 		let shouldChoseNextActivity = true;
+		let playerInput = null;
 		if( this.current.activity ) {
 			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
 			if (this.current.activity instanceof ActivityNodeTell) {
 				// nothing special
-
-				// log end activity
-				this.logger.log(
-					this.current.mission.id,
-					this.current.activity.id,
-					{
-						input: null,
-						end: true
-					}
-				);
 			}
 			else if (this.current.activity instanceof ActivityNodeQuest) {
 
-				let parsedInput = {};
+				playerInput = {};
 				// add input to local Env Vars
 				for ( const pair of inputMap.entries() ) {
 					console.log( pair );
 					let variableName = pair[ 0 ];
 					let variableValue = pair[ 1 ];
-					parsedInput[ variableName ] = this.guessAndParseToTypedValue( variableValue );
+					playerInput[ variableName ] = this.guessAndParseToTypedValue( variableValue );
 				}
-				let localEnvVars = Object.assign( {}, parsedInput, this.envVars );
+				let localEnvVars = Object.assign( {}, playerInput, this.envVars );
 				let indexBranch = this.checkConditions(this.current.activity.children, localEnvVars );
 
 				// select branchNode as parent Node
@@ -286,9 +277,9 @@ export default class Player {
 				this.current.mission.id,
 				this.current.activity.id,
 				{
-					input: this.envVars.userInput,
+					input: playerInput,
 					score: this.envVars.score,
-					end: true
+					end: shouldChoseNextActivity
 				}
 			);
 		}

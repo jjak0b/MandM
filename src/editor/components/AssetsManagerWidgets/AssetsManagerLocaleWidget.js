@@ -17,6 +17,17 @@ export const component = {
 		Asset.setDisposeCallback( Asset.name, this.removeFromDependencies );
 		Asset.setDuplicateCallback( Asset.name, this.addToDependencies );
 	},
+	computed: {
+		categories() {
+			let items = [];
+			for (const category in this.dataStory.dependencies) {
+				if( this.dataStory.dependencies[ category ] && this.dataStory.dependencies[ category ] instanceof Array ) {
+					items.push( category );
+				}
+			}
+			return items;
+		}
+	},
 	methods: {
 		addToDependencies( /*Asset*/asset ) {
 			if( asset ) {

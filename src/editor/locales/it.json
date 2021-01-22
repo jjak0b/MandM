@@ -328,6 +328,7 @@
 		"label-values": "Valori"
 	},
 	"AssetsManager": {
+		"label-recurrences": "Nessuna ricorrenza | 1 ricorrenza | {n} ricorrenze",
 		"label-invalid-file-unsupported": "File non supportato",
 		"label-invalid-name-already-exists": "Nome già presente",
 		"label-valid-name-available": "Nome disponibile",

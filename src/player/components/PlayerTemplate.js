@@ -8,7 +8,9 @@ export const template =
 	class="h-100 d-flex flex-column-reverse"
 	v-model="selectedPage"
 >
-	<b-tab title="Main" active
+	<b-tab
+		:title="$t('Player.label-main')"
+		active
 		class="h-100"
 	>
 		<main class="h-100">
@@ -19,15 +21,33 @@ export const template =
 			</player-viewport>
 		</main>
 	</b-tab>
-	<b-tab title="Missions"
+	<b-tab
+		:title="$t('Player.label-info')"
 		class="h-100"
 	>
 		<main class="h-100">
-			<h4>Missions</h4>
+			<section
+				aria-labelledby="player-info-title"
+				class="container"
+			>
+				<div class="row">
+					<div class="col">
+						<h1
+							id="player-info-title"
+							class="display-1 text-center"
+						>{{ infoTitle }}</h1>
+						<p
+							id="player-info-description"
+							class="lead text-justify"
+						>{{ infoDescription }}</p>
+					</div>
+				</div>
+			</section>
 		</main>
 
 	</b-tab>
-	<b-tab title="Chat"
+	<b-tab
+		:title="$t('Player.label-help')"
 		class="h-100"
 	>
 		<main class="h-100">

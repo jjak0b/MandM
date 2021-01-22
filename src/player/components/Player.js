@@ -65,6 +65,26 @@ export const component = {
 			else {
 				return null;
 			}
+		},
+		infoTitle() {
+			let data = this.player.current.activity ? this.player.current.activity.data : null;
+			if(data) {
+				if( data.description && this.$te( data.title ) ) {
+					return this.$t( data.title );
+				}
+			}
+
+			return !this.infoDescription ? this.$t( 'Player.label-no-info-available' ) : null;
+		},
+		infoDescription() {
+			let data = this.player.current.activity ? this.player.current.activity.data : null;
+			if(data) {
+				if( data.description && this.$te( data.description ) ) {
+					return this.$t( data.description );
+				}
+			}
+
+			return null;
 		}
 	},
 	created() {

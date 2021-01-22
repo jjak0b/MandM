@@ -12,6 +12,7 @@ export const component = {
 		evaluatorChat
 	},
 	data() {
+		let self = this;
 		return {
 			storyNames: [],
 			loadingProgress: 0,
@@ -29,9 +30,13 @@ export const component = {
 			readyPromise: null,
 			chatsData: {
 				mySelf: {
-					id: null,
-					name: this.$t( "ChatWidget.label-myself" ),
-					nameForReceiver: this.$t( "ChatWidget.label-Helper" ),
+					id: 1,
+					name: {
+						toString() {
+							return self.$t("ChatWidget.label-myself");
+						}
+					},
+					nameForReceiver: "ChatWidget.label-Helper",
 				},
 				players: {}
 			},

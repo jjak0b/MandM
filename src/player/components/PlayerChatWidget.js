@@ -22,7 +22,8 @@ export const component = {
 			],
 			mySelf: {
 				id: "0",
-				name: this.$t( "ChatWidget.label-myself" )
+				name: this.$t( "ChatWidget.label-myself" ),
+				nameForReceiver: "ChatWidget.label-Player"
 			},
 			fetchTimeout: 5 * 1000,
 			isHelpRequested: false,
@@ -91,7 +92,7 @@ export const component = {
 						contentType: 'application/json',
 						data: JSON.stringify([{
 							id: mySelf.id,
-							name: "Player"
+							name: mySelf.nameForReceiver
 						}])
 					});
 				})
@@ -148,6 +149,9 @@ export const component = {
 									}
 								}
 
+								for (const user of participants) {
+									user.name = this.$t( user.name );
+								}
 								this.messages = newMessages;
 								this.participants = participants;
 							})

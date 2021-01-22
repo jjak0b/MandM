@@ -12,16 +12,7 @@ export const component = {
 			default: false
 		},
 		receiverID: String,
-		mySelf: {
-			type: Object,
-			default: () => {
-				return {
-					id: "1",
-					name: this.$t( "ChatWidget.label-myself" ),
-					nameForReceiver: null
-				}
-			}
-		},
+		mySelf: Object,
 		fetchTimeout: {
 			type: Number,
 			default: 1000
@@ -97,6 +88,11 @@ export const component = {
 									if (message.type === "text") {
 										newMessages.push(message);
 									}
+								}
+
+								for (const user of participants) {
+									console.log( user.name, "translated to ",  this.$t( user.name ) );
+									user.name = this.$t( user.name );
 								}
 
 								this.messages = newMessages;

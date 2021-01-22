@@ -275,7 +275,7 @@
     "label-user-widget-select-settings": "@:UserWidgets.label-select-widget-name settings",
     "label-text-input-settings": "@:UserWidgets.label-text-input-widget-name settings",
     "label-number-input-settings": "@:UserWidgets.label-number-input-widget-name settings",
-    "label-range-settings": "@:UserWidgets.label-range-widget-name settings",
+    "label-range-input-settings": "@:UserWidgets.label-range-widget-name settings",
     "label-spinbutton-settings": "@:UserWidgets.label-spinbutton-widget-name settings",
     "label-photo-settings": "@:UserWidgets.label-photo-widget-name settings",
     "label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",

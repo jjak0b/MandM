@@ -4,9 +4,7 @@ import { component as gridWidget } from "../../../shared/components/GridWidget.j
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 import { component as listEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorList.js";
-import { component as textInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextInput.js";
-import { component as numberInputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorNumberInput.js";
-import { component as rangeEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorRange.js";
+import { component as inputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorInput.js";
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
 import { component as textContentEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTextContent.js";
 import { component as photoEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorPhoto.js";
@@ -37,9 +35,9 @@ export const component = {
 		"user-widget-viewport": userWidgetViewport,
 		"user-widget-editor-text-content": textContentEditorComponent,
 		"user-widget-editor-list": listEditorComponent,
-		"user-widget-editor-text-input": textInputEditorComponent,
-		"user-widget-editor-number-input": numberInputEditorComponent,
-		"user-widget-editor-range": rangeEditorComponent,
+		"user-widget-editor-text-input": inputEditorComponent,
+		"user-widget-editor-number-input": inputEditorComponent,
+		"user-widget-editor-range": inputEditorComponent,
 		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,

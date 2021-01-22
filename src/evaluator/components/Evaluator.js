@@ -2,6 +2,7 @@ import {i18n} from "../../shared/js/i18n.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./EvaluatorTemplate.js";
 import {component as evaluatorChat } from "./EvaluatorChatWidget.js";
+import {TypedValue} from "../../shared/js/Types/TypedValue.js";
 
 export const component = {
 	el: '#main',
@@ -471,6 +472,20 @@ export const component = {
 				contentType: "application/json",
 				data: JSON.stringify( playerChat.status )
 			});
+		},
+		getItemsForInputTable( object ) {
+			let items = [];
+			for (const objectKey in object) {
+				if( object[ objectKey] ) {
+					let typedValue = new TypedValue( object[objectKey] );
+					items.push({
+						variableName: objectKey,
+						type: typedValue.type,
+						value: typedValue.toString()
+					});
+				}
+			}
+			return items;
 		}
 	},
 	created() {

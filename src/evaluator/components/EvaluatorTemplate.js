@@ -306,18 +306,16 @@ export const template =
 																</b-col>
 															</b-row>
 															<div v-if="activityObject.input">
-																<b-row>
-																	<b-col>
-																		<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-type") }}</p>
-																		<p>{{ activityObject.input.type }}</p>
-																	</b-col>
-																</b-row>
-																<b-row>
-																	<b-col>
-																		<p  style="font-weight: bold;">{{ $t("Evaluator.label-input-value") }}</p>
-																		<p>{{ activityObject.input.value.toString() }}</p>
-																	</b-col>
-																</b-row>
+																<b-table
+																	striped
+																	hover
+																	:items="getItemsForInputTable( activityObject.input )"
+																	:fields="[
+																		{ key: 'variableName', label: $t('shared.label-variable-name', {name: ''}) },
+																		{ key: 'type', label: $t('Evaluator.label-input-type') },
+																		{ key: 'value', label: $t('Evaluator.label-input-value') }
+																	]"
+																></b-table>
 															</div>
 															<div v-if="activityObject.score">
 																<b-row>

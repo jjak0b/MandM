@@ -110,6 +110,8 @@
 			"label-unable-to-send-message": "Sending failed"
 		},
 		"label-myself": "You",
+		"label-Helper": "Helper",
+		"label-Player": "Player",
 		"label-type-your-message": "Type your message"
 	}
 }

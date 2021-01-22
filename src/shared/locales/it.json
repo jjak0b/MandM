@@ -83,5 +83,16 @@
 			"label-nav" : "Navigazione calendario",
 			"label-help" : "Usa i tasti cursore per navigare tra le date del calendario"
 		}
+	},
+	"ChatWidget": {
+		"status": {
+			"label-sending-message": "Invio in corso",
+			"label-message-sent": "Inviato",
+			"label-unable-to-send-message": "Invio fallito"
+		},
+		"label-myself": "Tu",
+		"label-Helper": "Aiutante",
+		"label-Player": "Giocatore",
+		"label-type-your-message": "Scrivi un messaggio"
 	}
 }

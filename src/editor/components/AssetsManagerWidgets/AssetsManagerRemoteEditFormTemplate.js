@@ -67,7 +67,7 @@ export const template =
 						<b-badge v-if="item.value"
 							v-bind:variant="operationAlert.isError ? 'danger' : 'success'"
 							pill
-						>{{ item.value }}</b-badge>
+						>{{ $tc( 'AssetsManager.label-recurrences', item.value ) }}</b-badge>
 					</b-list-group-item>
 				</b-list-group>
 			</p>

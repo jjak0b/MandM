@@ -393,7 +393,7 @@ export const component = {
 													{
 														title: this.$tc("Evaluator.label-player-status"),
 														appendToast: true,
-														noAutoHide: false,
+														noAutoHide: true,
 														variant: "danger"
 													}
 											)

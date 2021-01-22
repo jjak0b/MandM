@@ -77,10 +77,13 @@ export const component = {
 		areaOnClick( indexArea, event ) {
 			if( !this.context || !this.context.areas ) return;
 			let area = this.context.areas[ indexArea ];
-			if( area.value != null )
-				this.$emit( 'change', area.value );
+			if( area.value != null ) {
+				this.$emit('input', area.value);
 
+				this.$el.dispatchEvent(new Event('change', { bubbles: true }));
+			}
 
+			// deprecated, unused
 			if( area.action == 'event' ){
 				// TODO: dispatch event to window (global) object
 			}

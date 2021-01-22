@@ -2,6 +2,14 @@ export class TypedValue {
 	constructor( unparsed  = { type: null, value : null} ) {
 		this.type = unparsed ? unparsed.type : null;
 		this.value = unparsed ? unparsed.value : null;
+
+		if( this.isType( Array.name ) ) {
+			if( this.value ) {
+				for (let i = 0; i < this.value.length; i++) {
+					this.value[ i ] = new TypedValue( this.value[ i ] );
+				}
+			}
+		}
 	}
 
 	equals( typedValue ) {
@@ -12,7 +20,7 @@ export class TypedValue {
 	}
 
 	toString() {
-		return "" + this.value;
+		return this.value ? this.value.toString() : "";
 	}
 
 	isType( type ) {

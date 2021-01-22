@@ -3,10 +3,9 @@ export const template =
 <div class="h-100">
 <b-tabs
 	v-if="isGameStarted"
-	pills card end
-	nav-wrapper-class="sticky-bottom"
-	content-class="flex-grow-1"
-	class="h-100 d-flex flex-column"
+	pills card
+	content-class="flex-grow-1 overflow-auto"
+	class="h-100 d-flex flex-column-reverse"
 	v-model="selectedPage"
 >
 	<b-tab title="Main" active

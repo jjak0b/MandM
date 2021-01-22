@@ -361,6 +361,7 @@
 	"label-values": "Values"
   },
   "AssetsManager": {
+  	"label-recurrences": "No recurrences | 1 recurrence | {n} recurrence",
 	"label-invalid-file-unsupported": "File unsupported",
 	"label-invalid-name-already-exists": "Name already exists",
 	"label-valid-name-available": "Name available",

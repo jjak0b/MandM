@@ -97,7 +97,7 @@ function API_addContacts( req, res ) {
 	let selfChat = req.session.chat;
 	let newContacts = req.body;
 
-	if( receiverID ) {
+	if( receiverID && receiverID != req.session.id ) {
 		req.sessionStore.get( receiverID, (error, session) => {
 			if( error ) {
 				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
@@ -174,7 +174,7 @@ function API_addMessage( req, res ) {
 	};
 
 	// if a receiver is set, then add the message to the receiver messages
-	if( receiverID ) {
+	if( receiverID && receiverID != req.session.id ) {
 		req.sessionStore.get( receiverID, (error, session) => {
 			if( error ) {
 				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );
@@ -243,7 +243,7 @@ function API_POST_status(req, res) {
 	let selfChat = req.session.chat;
 	let status = req.body;
 
-	if( receiverID ) {
+	if( receiverID && receiverID != req.session.id ) {
 		req.sessionStore.get( receiverID, (error, session) => {
 			if( error ) {
 				req.sendStatus( StatusCodes.INTERNAL_SERVER_ERROR );

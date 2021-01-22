@@ -9,6 +9,10 @@
 		"label-loading": "Caricamento"
 	},
 	"Player" : {
+		"label-main": "Principale",
+		"label-info": "Informazioni",
+		"label-help": "Aiuto",
+		"label-no-info-available": "Nessuna informazione attualmente disponibile",
 		"label-loading-resources": "Caricamento delle risorse",
 		"label-do-you-need-help" : "Ti serve aiuto ?",
 		"label-i-need-help" : "Si, mi serve aiuto",

@@ -9,6 +9,10 @@
 		"label-loading": "Loading"
 	},
 	"Player" : {
+		"label-main": "Main",
+		"label-info": "Info",
+		"label-help": "Help",
+		"label-no-info-available": "No info currently available",
 		"label-loading-resources": "Loading resources",
 		"label-do-you-need-help" : "Do you need help ?",
 		"label-i-need-help" : "Yes, i need help !",

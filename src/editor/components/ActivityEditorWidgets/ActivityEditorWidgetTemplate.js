@@ -22,6 +22,7 @@ export const template =
 				v-bind:copiedActivity="copiedActivity"
 				v-bind:grabbedActivity="grabbedActivity"
 				v-on:selectedNode="onSelectedNode"
+				v-on:editActivity="editActivity"
 			></activity-tree-widget>
 	</b-card>
 	<add-menu-widget

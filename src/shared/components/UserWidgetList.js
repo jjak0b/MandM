@@ -3,6 +3,7 @@ import {template} from "./UserWidgetListTemplate.js";
 export const component = {
 	template: template,
 	props: {
+		classes: Array,
 		locale: String,
 		localesList: Array,
 		options: Array,

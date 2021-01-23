@@ -3,6 +3,7 @@ export const template =
 <component
 	v-bind:is="widgetsTable[name].list"
 	v-on="$listeners"
+	v-bind:class="classes"
 >
   <component 
   	v-bind:is="widgetsTable[name].item"

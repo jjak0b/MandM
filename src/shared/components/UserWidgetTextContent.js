@@ -3,6 +3,7 @@ import {template} from "./UserWidgetTextContentTemplate.js";
 export const component = {
 	template: template,
 	props: {
+		classes: Array,
 		locale: String,
 		localeLabel: String,
 		localesList: Array

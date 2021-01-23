@@ -5,6 +5,7 @@ export const component = {
 	template: template,
 	props: {
 		value: Object,
+		classes: Array,
 	},
 	data() {
 		return {

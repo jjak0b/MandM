@@ -7,6 +7,7 @@ export const component = {
 	inheritAttrs: false,
 	template: template,
 	props: {
+		classes: Array,
 		context: ContextMediaPlayer,
 		locale: String,
 		tabindex: {

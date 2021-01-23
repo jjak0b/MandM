@@ -5,9 +5,9 @@ export const template =
 	:is="value.name"
 	v-model="value.value"
 	v-bind:tabindex="tabindex"
-	v-bind="Object.assign( {}, value.attrs, value.props )"
+	v-bind="Object.assign( {}, value.attrs, value.props, { class: [] } )"
 	v-bind:id="value.props.id || $attrs.id || value.id"
-	:name="value.name"
+	v-bind:classes="value.props.class"
 	:locale="locale"
 	:localeLabel="value.i18nCategory"
 ></component>

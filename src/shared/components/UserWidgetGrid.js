@@ -12,6 +12,7 @@ export function component(resolve, reject) {
 			userWidgetViewport: userWidgetViewport
 		},
 		props: {
+			classes: Array,
 			value: {
 				type: TypedValue,
 				default: () => new TypedValue({

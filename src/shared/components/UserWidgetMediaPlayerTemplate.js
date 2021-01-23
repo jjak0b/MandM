@@ -1,6 +1,6 @@
 export const template =
 `
-<div
+<span
 	v-bind:tabindex="tabindex"
 	aria-atomic="true"
 >
@@ -14,6 +14,7 @@ export const template =
 			v-if="context.asset"
 			ref="img"
 			v-bind="$attrs"
+			v-bind:class="classes" 
 			v-bind:src="context.asset.getURL()"
 			v-bind:alt="getImgAlt()"
 			v-bind:usemap="context.areas ? '#' + $attrs.id + '-map' : ''"
@@ -46,6 +47,7 @@ export const template =
 		controls="controls"
 		v-bind="$attrs"
 		v-bind:src="context.asset.getURL()"
+		v-bind:class="classes"
 	>
 		<track v-for="(source, lang) in context.captions"
 			kind="captions"
@@ -62,6 +64,7 @@ export const template =
 		v-bind="$attrs"
 		v-bind:src="context.asset.getURL()"
 		v-bind:aria-describedby="$attrs.id + '-lyrics'"
+		v-bind:class="classes"
 	>
 		<track v-for="(source, lang) in context.captions"
 			kind="captions"
@@ -82,5 +85,5 @@ export const template =
 		v-html="captionContent"
 		aria-live="polite"
 	></pre>
-</div>
+</span>
 `;

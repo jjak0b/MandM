@@ -2,6 +2,7 @@ export const template =
 `
 <grid-widget
 	v-bind="$attrs"
+	v-bind:class="classes"
 	v-bind:tabindex="tabindex"
 	
 	v-bind:grid-data="gridData"

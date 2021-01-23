@@ -2,8 +2,11 @@ import {template} from "./UserWidgetInputTemplate.js";
 import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
 
 export const component = {
+	inheritAttrs: false,
 	template: template,
 	props: {
+		classes: Array,
+		value: Object,
 		type: String,
 		min: String,
 		max: String,
@@ -13,11 +16,20 @@ export const component = {
 		localeLabel: String
 	},
 	methods: {
-		emitInput(event, type){
+		emitInput(event){
+			let type = this.type;
 			let item = null;
-			if ( type === 'number' || type === 'range' ) item = new TypedValue( { type: Number.name, value: event } );
-			else if ( type === 'string' ) item = new TypedValue( { type: String.name, value: event } );
-			this.$emit('change', item);
+			switch( type ) {
+				case "number":
+				case "range":
+					item = new TypedValue( { type: Number.name, value: parseFloat( event ) } );
+					break;
+				case "text":
+					item = new TypedValue( { type: String.name, value: event } );
+				default:
+					break;
+			}
+			this.$emit('input', item);
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

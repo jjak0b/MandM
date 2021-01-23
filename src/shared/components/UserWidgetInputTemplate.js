@@ -1,17 +1,24 @@
 export const template =
-		`
-<div>
-<template v-if="extremes">
-		<span>{{ min ? min : '0' }}</span>
-		<span class="float-right">{{ max ? max : '100' }}</span>
-</template>
+`
+<span>
+<output
+	v-if="extremes"
+	aria-label="min"
+>{{ min ? min : '0' }}</output>
 <b-form-input
+	v-bind="$attrs"
+	v-bind:class="classes"
 	v-bind:placeholder="getContent()"
-	v-on:change="emitInput($event, type)"
+	v-bind:value="value ? value.toString() : null"
+	v-on:input="emitInput"
 	v-bind:type="type"
 	v-bind:min="min"
 	v-bind:max="max"
 	v-bind:step="step"
 ></b-form-input>
-</div>
+<output
+	v-if="extremes"
+	aria-label="max"
+>{{ max ? max : '100' }}</output>
+</span>
 `

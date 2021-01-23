@@ -24,6 +24,7 @@
 		"label-activity" : "Attività",
 		"label-story" : "Storia | Storie",
 		"label-select-option" : "Seleziona un'opzione",
+		"label-no-match-found": "Nessuna corrispondenza trovata",
 		"label-from-file" : "Da file",
 		"label-from-server" : "Da server",
 		"label-as-file" : "Come file",

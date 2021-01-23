@@ -23,6 +23,9 @@ export const component = {
 			value: []
 		}
 	},
+	created() {
+		this.value = this.formTagProps.value;
+	},
 	watch: {
 		search(newVal, odlVal) {
 			if( newVal )

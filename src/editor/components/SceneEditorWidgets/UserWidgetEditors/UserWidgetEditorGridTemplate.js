@@ -11,7 +11,7 @@ export const template =
 >
 
 <b-form-group
-	v-bind:label="$t('UserWidgets.Grid.label-properties')"
+	v-bind:label="$t('UserWidgets.Grid.grid.label-properties')"
 >
 	<label for="user-widget-editor-grid_grid-tag-input"
 	>{{ $t('UserWidgets.Grid.label-html-tag-name') }}</label>
@@ -106,28 +106,14 @@ export const template =
 	</div>
 -->
 	<div class="mb-2">
-		<label for="user-widget-editor-grid_grid-classes-input"
-		>{{ $t('UserWidgets.Grid.label-class-name') }}</label>
-		<b-form-tags
-			tag-pills
-			tag-variant="secondary"
-			size="lg"
-			input-id="user-widget-editor-grid_grid-classes-input"
+		<attribute-class-editor-widget
 			v-model="component.props.gridClass"
-			separator=" ,;"
-			remove-on-delete
-			v-bind:tag-validator="(classname) => isClassValid(component.props.gridClass, classname)"
-			v-bind:add-button-text="$t('shared.label-add')"
-			add-button-variant="success"
-			v-bind:duplicate-tag-text="$t('AttributeEditorWidget.label-duplicate-classes')"
-			v-bind:placeholder="$t('AttributeEditorWidget.label-placeholder-insert-class')"
-			class="mb-2"
-		></b-form-tags>
+		></attribute-class-editor-widget>
 	</div>
 </b-form-group>
 
 <b-form-group
-	v-bind:label="$t('UserWidgets.Grid.label-properties')"
+	v-bind:label="$t('UserWidgets.Grid.row.label-properties')"
 >
 	<div class="mb-2">
 		<label for="user-widget-editor-grid_row-tag-input"
@@ -170,28 +156,14 @@ export const template =
 	</b-card>
 	
 	<div class="mb-2">
-		<label for="user-widget-editor-grid_row-classes-input"
-		>{{ $t('UserWidgets.Grid.label-class-name') }}</label>
-		<b-form-tags
-			tag-pills
-			tag-variant="secondary"
-			size="lg"
-			input-id="user-widget-editor-grid_row-classes-input"
+		<attribute-class-editor-widget
 			v-model="component.props.rowClass"
-			separator=" ,;"
-			remove-on-delete
-			v-bind:tag-validator="(classname) => isClassValid(component.props.rowClass, classname)"
-			v-bind:add-button-text="$t('shared.label-add')"
-			add-button-variant="success"
-			v-bind:duplicate-tag-text="$t('AttributeEditorWidget.label-duplicate-classes')"
-			v-bind:placeholder="$t('AttributeEditorWidget.label-placeholder-insert-class')"
-			class="mb-2"
-		></b-form-tags>
+		></attribute-class-editor-widget>
 	</div>
 </b-form-group>
 
 <b-form-group
-	v-bind:label="$t('UserWidgets.Grid.label-properties')"
+	v-bind:label="$t('UserWidgets.Grid.cell.label-properties')"
 >
 	<div class="mb-2">
 		<label for="user-widget-editor-grid_cell-tag-input"
@@ -233,68 +205,29 @@ export const template =
 	</b-card>
 
 	<div class="mb-2">
-		<label for="user-widget-editor-grid_cell-classes-input"
-		>{{ $t('UserWidgets.Grid.label-class-name') }}</label>
-		<b-form-tags
-			tag-pills
-			tag-variant="secondary"
-			size="lg"
-			input-id="user-widget-editor-grid_cell-classes-input"
+		<attribute-class-editor-widget
 			v-model="component.props.cellClass"
-			separator=" ,;"
-			remove-on-delete
-			v-bind:tag-validator="(classname) => isClassValid(component.props.cellClass, classname)"
-			v-bind:add-button-text="$t('shared.label-add')"
-			add-button-variant="success"
-			v-bind:duplicate-tag-text="$t('AttributeEditorWidget.label-duplicate-classes')"
-			v-bind:placeholder="$t('AttributeEditorWidget.label-placeholder-insert-class')"
-			class="mb-2"
-		></b-form-tags>
+		></attribute-class-editor-widget>
 	</div>
-	
+
 	<b-form-group
-		v-bind:label="$t('UserWidgets.Grid.label-cell-class-name-active-unselected')"
-		label-for="user-widget-editor-grid_cell-cursor-class-input"
 		v-bind:description="$t('UserWidgets.Grid.label-current-unselected-cell-while-navigating')"
 		class="mb-2"
 		v-slot="{ ariaDescribedby, id, descriptionId, labelId }"
 	>
-		<b-form-tags
-		 	v-bind:input-attrs="{ 'aria-describedby': ariaDescribedby }"
-			tag-pills
-			tag-variant="secondary"
-			size="lg"
-			input-id="user-widget-editor-grid_cell-cursor-class-input"
+		<attribute-class-editor-widget
+			:label="$t('UserWidgets.Grid.label-cell-class-name-active-unselected')"
 			v-model="component.props.cursorCellClass"
-			separator=" ,;"
-			remove-on-delete
-			v-bind:tag-validator="(classname) => isClassValid(component.props.cursorCellClass, classname)"
-			v-bind:add-button-text="$t('shared.label-add')"
-			add-button-variant="success"
-			v-bind:duplicate-tag-text="$t('AttributeEditorWidget.label-duplicate-classes')"
-			v-bind:placeholder="$t('AttributeEditorWidget.label-placeholder-insert-class')"
-		></b-form-tags>
+			:aria-describedby="ariaDescribedby" 
+		></attribute-class-editor-widget>
 	</b-form-group>
 <!--
 	Deprecated because selection can cause conflicts in player between grids
 	<div class="mb-2">
-		<label for="user-widget-editor-grid_cell-selected-class-input"
-		>{{ $t('UserWidgets.Grid.label-cell-class-name-selected') }}</label>
-		<b-form-tags
-			tag-pills
-			tag-variant="secondary"
-			size="lg"
-			input-id="user-widget-editor-grid_cell-selected-class-input"
+		<attribute-class-editor-widget
+			:label="$t('UserWidgets.Grid.label-cell-class-name-selected')"
 			v-model="component.props.selectedCellClass"
-			separator=" ,;"
-			remove-on-delete
-			v-bind:tag-validator="(classname) => isClassValid(component.props.selectedCellClass, classname)"
-			v-bind:add-button-text="$t('shared.label-add')"
-			add-button-variant="success"
-			v-bind:duplicate-tag-text="$t('AttributeEditorWidget.label-duplicate-classes')"
-			v-bind:placeholder="$t('AttributeEditorWidget.label-placeholder-insert-class')"
-			class="mb-2"
-		></b-form-tags>
+		></attribute-class-editor-widget>
 	</div>
 -->
 </b-form-group>

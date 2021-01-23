@@ -8,8 +8,8 @@ export const component = {
 		inputTags
 	},
 	props: {
-		value: Array,
-		options: Array
+		label: String,
+		value: Array
 	},
 	data() {
 		return {
@@ -17,15 +17,11 @@ export const component = {
 		}
 	},
 	created() {
-		if( !this.options ) {
-			this.options = getBootstrapClassOptions( this.$i18n );
-		}
+		this.options = getBootstrapClassOptions( this.$i18n );
 	},
 	methods: {
 		isClassValid( classname ) {
-			if( !( "class" in this.value ) ) this.$set( this.value, "class", [] );
-
-			return !this.value.class.includes( classname );
+			return !this.value.includes( classname );
 		}
 	}
 }

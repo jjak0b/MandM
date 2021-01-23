@@ -1,7 +1,7 @@
 export const template =
 `
 <input-tags
-	:label="$t( 'AttributeEditorWidget.label-classes' )"
+	:label="label || $t( 'AttributeEditorWidget.label-classes' )"
 	:labelTags="$t('AttributeEditorWidget.label-current-classes')" 
 	:labelSelect="$t( 'AttributeEditorWidget.label-classes' )"
 	:description="$t( 'AttributeEditorWidget.label-add-custom-classes-or-pick-some-from-provided-framework' )"

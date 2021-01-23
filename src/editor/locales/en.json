@@ -186,6 +186,8 @@
 	  "label-button": "Button"
 	},
 	"bootstrap": {
+	  "label-search-into-available-classes": "Search into available classes",
+	  "label-search-and-add-bootstrap-classes": "Search and add Bootstrap's classes",
 	  "label-bootstrap-classes": "Bootstrap classes",
 	  "label-visit-documentation-for-class-info": "Visit documentation for class info"
 	},
@@ -240,23 +242,32 @@
 	"label-classes": "Classes",
   	"label-current-classes": "Current classes",
 	"label-duplicate-classes": "Duplicate class(es)",
-	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons"
+	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons",
+  	"label-add-custom-classes-or-pick-some-from-provided-framework": "Add your custom classes or pick some from the provided framework"
   },
   "UserWidgets": {
 	"Grid": {
-	  "label-properties": "Properties",
+	  "grid": {
+		"label-properties": "Grid properties"
+	  },
+	  "row": {
+	  	"label-properties": "Rows properties"
+	  },
+	  "cell": {
+	  	"label-properties": "Cells properties"
+	  },
 	  "label-html-tag-name": "HTML tag name",
 	  "label-html-tag-role": "HTML tag role",
-	  "label-use-auto-generated-indexes": "Use auto generated indexes",
-	  "label-indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex": "indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex",
+	  "label-use-auto-generated-indexes": "Use auto generated row and column indexes for accessibility purpose in grid",
+	  "label-indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex": "Use attributes aria-rowcount, aria-colcount, aria-rowindex, aria-colindex when possible",
 	  "label-allow-grid-navigation-using-keyboard": "Allow grid navigation using keyboard",
 	  "label-disable-it-if-using-for-layout-only": "Disable it if using for layout only",
-	  "label-selection-provide-player-input-as-grid-coordinates": "Provide player input as grid coordinates",
+	  "label-selection-provide-player-input-as-grid-coordinates": "Provide player input as grid coordinates into 0-based index (row, cell)",
 	  "label-its-recommended-to-enable-grid-navigation-for-accessibility-purpose-if-used": "It's recommended to enable grid navigation for accessibility purpose if used",
 	  "label-class-name": "Class name",
-	  "label-cell-class-name-active-unselected": "Cell class name active unselected",
-	  "label-current-unselected-cell-while-navigating": "Current unselected cell while navigating",
-	  "label-cell-class-name-selected": "Cell class name selected"
+	  "label-cell-class-name-active-unselected": "Classes of current, active cell",
+	  "label-current-unselected-cell-while-navigating": "Current, active cell while navigating/interacting with grid",
+	  "label-cell-class-name-selected": "classes of selected cell"
 	},
 	"label-checkbox-widget-name": "Checkbox",
 	"label-select-widget-name": "Select",

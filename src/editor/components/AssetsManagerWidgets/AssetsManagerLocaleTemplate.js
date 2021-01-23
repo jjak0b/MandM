@@ -35,7 +35,6 @@ export const template =
 				v-for="dependency in dataStory.dependencies[ category ]"
 				tag="li"
 				v-if="dependency.asset"
-				:aria-label=""
 			>
 				<b-media>
 					<template #aside>

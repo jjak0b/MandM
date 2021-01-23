@@ -166,6 +166,8 @@
 			"label-button": "Bottone"
 		},
 		"bootstrap": {
+			"label-search-into-available-classes": "Cerca tra le classi disponibili",
+			"label-search-and-add-bootstrap-classes": "Cerca e aggiungi le classi di Bootstrap",
 			"label-bootstrap-classes": "Classi di Bootstrap",
 			"label-visit-documentation-for-class-info": "Visita documentazione per informazioni delle classi"
 		},
@@ -220,9 +222,33 @@
 		"label-classes": "Classi",
 		"label-current-classes": "Classe/i attuale/i",
 		"label-duplicate-classes": "Classi duplicate",
-		"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure \"Invio\", \"Spazio\" "
+		"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure digitando \"Invio\", \"Spazio\" ",
+		"label-add-custom-classes-or-pick-some-from-provided-framework": "Aggiungi le tue classi personalizzate, oppure scegline tra alcune del framework fornito"
 	},
   "UserWidgets": {
+	  "Grid": {
+		  "grid": {
+			  "label-properties": "Proprietà della griglia"
+		  },
+		  "row": {
+			  "label-properties": "Proprietà delle righe"
+		  },
+		  "cell": {
+			  "label-properties": "Proprietà delle celle"
+		  },
+		  "label-html-tag-name": "Nome del tag HTML",
+		  "label-html-tag-role": "Nome del ruolo del tag HTML",
+		  "label-use-auto-generated-indexes": "Usa indici delle righe e celle auto-generati per accessibilità nelle griglie",
+		  "label-indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex": " Applica gli attributi aria-rowcount, aria-colcount, aria-rowindex, aria-colindex quando possibile",
+		  "label-allow-grid-navigation-using-keyboard": "Permette la navigazione sulla griglia utilizzando la tastiera",
+		  "label-disable-it-if-using-for-layout-only": "Disabilitarlo se si sta usando per solo scopo di struttura",
+		  "label-selection-provide-player-input-as-grid-coordinates": "Fornisce l'input al giocatore come coordinate della griglia (riga, colonna) indicizzate da 0",
+		  "label-its-recommended-to-enable-grid-navigation-for-accessibility-purpose-if-used": "Se utilizzato, Si raccomanda di abilitare la navigazione della griglia per motivi di accessibilità",
+		  "label-class-name": "Nomi delle classi",
+		  "label-cell-class-name-active-unselected": "Classi della cella vorrente, attiva",
+		  "label-current-unselected-cell-while-navigating": "Cella corrente, attiva mentre si sta interagendo sulla griglia",
+		  "label-cell-class-name-selected": "Classi della cella selezionata"
+	  },
 	  "label-checkbox-widget-name": "Lista a scelta multipla",
 	  "label-select-widget-name": "Lista a tendina ",
 	  "label-radio-widget-name": "Lista a scelta unica",

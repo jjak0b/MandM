@@ -46,6 +46,7 @@
 		"label-activity" : "Activity",
 		"label-story" : "Story",
 		"label-select-option" : "Select an option",
+		"label-no-match-found": "No match found",
 		"label-from-file" : "From file",
 		"label-from-server" : "From server",
 		"label-as-file" : "As file",

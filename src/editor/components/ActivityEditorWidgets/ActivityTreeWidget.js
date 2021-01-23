@@ -174,6 +174,11 @@ export const component = {
 			this.tree = $( e ).jstree(true);
 			$( e ).on( "select_node.jstree", this.onSelect );
 			$( e ).on( "create_node.jstree", this.onCreate );
+			$( e ).on('move_node.jstree', (event, data) => {
+				this.tree.deselect_all(true);
+				this.tree.select_node( data.node );
+				this.$emit('editActivity' );
+			});
 
 			// select root node
 			let nodeToSelect = this.tree.get_node( jsonData.id );

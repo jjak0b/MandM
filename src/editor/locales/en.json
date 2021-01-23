@@ -187,6 +187,8 @@
 	  "label-button": "Button"
 	},
 	"bootstrap": {
+	  "label-search-into-available-classes": "Search into available classes",
+	  "label-search-and-add-bootstrap-classes": "Search and add Bootstrap's classes",
 	  "label-bootstrap-classes": "Bootstrap classes",
 	  "label-visit-documentation-for-class-info": "Visit documentation for class info"
 	},
@@ -241,7 +243,8 @@
 	"label-classes": "Classes",
   	"label-current-classes": "Current classes",
 	"label-duplicate-classes": "Duplicate class(es)",
-	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons"
+	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons",
+  	"label-add-custom-classes-or-pick-some-from-provided-framework": "Add your custom classes or pick some from the provided framework"
   },
   "UserWidgets": {
 	"Grid": {

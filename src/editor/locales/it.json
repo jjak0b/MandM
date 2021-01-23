@@ -239,6 +239,7 @@
 	  "label-range-settings": "Impostazioni Estensione",
 	  "label-spinbutton-settings": "Impostazioni Campo",
 	  "label-photo-settings": "Impostazioni Media",
+	  "label-qr-decoder-settings": "Impostazioni Decodificatore QR",
 	  "label-show-extremes": "Mostra Valori Limite",
 	  "TextContent": {
 		  "initial-editor-content": "Aggiungi il tuo testo",

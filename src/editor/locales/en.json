@@ -256,6 +256,7 @@
 	"label-range-settings": "Range Settings",
 	"label-spinbutton-settings": "Spinbutton Settings",
 	  "label-photo-settings": "Media Settings",
+	  "label-qr-decoder-settings": "QR Decoder Settings",
 	"label-show-extremes": "Show range extremes",
 	"TextContent": {
 	  "initial-editor-content": "Add your text",

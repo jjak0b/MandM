@@ -42,7 +42,7 @@ export const component = {
 		"user-widget-editor-datepicker": datepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
 		"user-widget-editor-photo": photoEditorComponent,
-		"user-widget-qr-decoder": qrDecoderEditorComponent,
+		"user-widget-editor-qr-decode": qrDecoderEditorComponent,
 		"user-widget-editor-grid": gridEditorComponent,
 		"grid-widget": gridWidget,
 		"attribute-editor-widget": attributeEditorComponent

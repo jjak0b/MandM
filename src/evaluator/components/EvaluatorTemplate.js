@@ -296,13 +296,13 @@ export const template =
 															<b-row v-if="activityObject.start">
 																<b-col>
 																<p style="font-weight: bold;">{{ $t("Evaluator.label-start-time") }}</p>
-																<p>{{ new Date(activityObject.start).toUTCString() }}</p>
+																<p>{{ new Date(activityObject.start).toLocaleDateString() }}</p>
 																</b-col>
 															</b-row>
 															<b-row v-if="activityObject.end">
 																<b-col>
 																<p  style="font-weight: bold;">{{ $t("Evaluator.label-end-time") }}</p>
-																<p>{{ new Date(activityObject.end).toUTCString() }}</p>
+																<p>{{ new Date(activityObject.end).toLocaleDateString() }}</p>
 																</b-col>
 															</b-row>
 															<div v-if="activityObject.input">

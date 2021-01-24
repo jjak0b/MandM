@@ -5,19 +5,20 @@ import {TypedValue} from "../js/Types/TypedValue.js";
 export const component = {
     template: template,
     props: {
+        value: Object,
+        id: String,
         label: String,
-        locale: String,
+        errorMessage: Object,
     },
     data() {
         return {
             content: null
         }
     },
-
     methods: {
-        getContent(){
-            let content = this.$i18n.t( this.label, this.locale );
-            if( !content || content === this.label )
+        getContentOf( localeLabel ){
+            let content = this.$i18n.t( localeLabel, this.locale );
+            if( !content || content === localeLabel )
                 return "";
             else
                 return content;
@@ -27,49 +28,34 @@ export const component = {
                 .then((decodeData) => {
                     let content = decodeData.content;
                     if (content === null) {
-                        alert("No qr detected");
-                    } else {
-                        this.$emit(new TypedValue({type: "String.name", value: content}));
-                        alert("lol");
+                        this.$bvToast.toast(
+                            this.getContentOf( this.errorMessage.body ),
+                            {
+                                id: this.errorMessage.id,
+                                title: this.getContentOf( this.errorMessage.title ),
+                                autoHideDelay: 20000,
+                                variant: 'danger'
+                            }
+                        );
+                        this.$emit('input', null );
+                    }
+                    else {
+                        this.$emit('input', new TypedValue({type: String.name, value: content}));
+                        this.$el.dispatchEvent( new Event('change', { bubbles: true }) );
                     }
                 })
                 .catch((error) => {
-                    alert("An error has occured");
-                    console.log(error);
+                    console.error("[UserWidgetQrDecoder]", "onDetect error occurred: ", error);
+                    this.$bvToast.toast(
+                        this.getContentOf( this.errorMessage.body ),
+                        {
+                            id: this.errorMessage.id,
+                            title: this.getContentOf( this.errorMessage.title ),
+                            autoHideDelay: 20000,
+                            variant: 'danger'
+                        }
+                    );
                 })
         }
-
-
-
-
-
-
-//
-//
-//         onFileChange(e) {
-//             const file = e.target.files[0];
-//             this.operation(file);
-//             this.mediaType=e.target.files[0]["type"];
-//
-//         },
-//
-//
-//         operation(file) {
-//             let fileToBase64 = (file) => new Promise((resolve, reject) => {
-//                 const reader = new FileReader();
-//                 reader.readAsDataURL(file);
-//                 reader.onload = () => resolve(reader.result);
-//                 reader.onerror = error => reject(error);
-//
-//             });
-//             fileToBase64(file).then( (uri) => this.mediaSelected = uri)
-//             fileToBase64(file).catch(e => Error(e)).then((result) => {
-//                 if (result instanceof Error) {
-//                     console.error('Error: ', result.message);
-//                     return;
-//                 }
-// // result è una string in formato base64
-//             });
-//         }
     }
 }

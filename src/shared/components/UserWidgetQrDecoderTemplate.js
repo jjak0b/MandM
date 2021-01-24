@@ -1,8 +1,13 @@
 export const template =
-    `
-    <div>
-    <h5>{{$t(label)}}</h5>
-    <qrcode-capture @detect="onDetect"/>
-
-    </div>
+`
+<div v-on:change.stop>
+    <label
+        v-bind:for="id"
+        v-text="getContentOf( label )"
+    ></label>
+    <qrcode-capture
+        v-bind:id="id"
+        @detect="onDetect"
+    />
+</div>
     `;

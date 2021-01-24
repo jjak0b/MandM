@@ -295,15 +295,24 @@ export const template =
 														<b-card-text>
 															<b-row v-if="activityObject.start">
 																<b-col>
-																<p style="font-weight: bold;">{{ $t("Evaluator.label-start-time") }}</p>
-																<p>{{ new Date(activityObject.start).toLocaleDateString() }}</p>
+																<span aria-atomic="true">
+																	<strong>{{ $t("Evaluator.label-start-time") }}</strong>
+																	<time :datetime="activityObject.start"
+																	>{{ new Date(activityObject.start).toLocaleDateString(undefined) }}
+																	{{ new Date(activityObject.start).toLocaleTimeString(undefined) }}
+																	</time>
+																</span>
 																</b-col>
 															</b-row>
 															<b-row v-if="activityObject.end">
 																<b-col>
-																<p  style="font-weight: bold;">{{ $t("Evaluator.label-end-time") }}</p>
-																<p>{{ new Date(activityObject.end).toLocaleDateString() }}</p>
+																<span aria-atomic="true">
+																	<strong>{{ $t("Evaluator.label-end-time") }}</strong>
+																	<time :datetime="activityObject.end"
+																	>{{ new Date(activityObject.end).toLocaleDateString(undefined) }}
+																	{{ new Date(activityObject.end).toLocaleTimeString(undefined) }}</time>
 																</b-col>
+																</span>
 															</b-row>
 															<div v-if="activityObject.input">
 																<b-table

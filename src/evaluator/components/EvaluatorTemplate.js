@@ -324,7 +324,55 @@ export const template =
 																		{ key: 'type', label: $t('Evaluator.label-input-type') },
 																		{ key: 'value', label: $t('Evaluator.label-input-value') }
 																	]"
-																></b-table>
+																>
+																	<template #cell(value)="data">
+																		<div
+																			v-if="data.item.type === 'File' && data.item.value" 
+																		>
+																			<b-img
+																				v-if="isDataURLOfType( data.item.value, 'image' )"
+																				v-bind:src="data.item.value"
+																				fluid
+																				v-bind:alt="$t('shared.label-preview')"
+																			></b-img>
+																			<audio
+																				v-else-if="isDataURLOfType( data.item.value, 'audio' )"
+																				controls="controls"
+																				v-bind:src="data.item.value"
+																				class="img-fluid"
+																			>
+																				<!-- if format is not supported -->
+																				<a
+																					v-bind:href="data.item.value"
+																					target="_blank"
+																					download="download"
+																				>{{ $t('shared.label-preview') }}</a>
+																			</audio>
+																			<video
+																				v-else-if="isDataURLOfType( data.item.value, 'video' )"
+																				controls="controls"
+																				v-bind:src="data.item.value"
+																				class="img-fluid"
+																			>
+																				<!-- if format is not supported -->
+																				<a
+																					v-bind:href="data.item.value"
+																					target="_blank"
+																					download="download"
+																				>{{ $t('shared.label-preview') }}</a>
+																			</video>
+																			<a
+																				v-else
+																				v-bind:href="data.item.value"
+																				target="_blank"
+																				download="download"
+																			>{{ $t('shared.label-preview') }}</a>
+																		</div>
+																		<output
+																			v-else
+																		>{{ data.item.value }}</output>
+																	</template>
+																</b-table>
 															</div>
 															<div v-if="activityObject.score">
 																<b-row>

@@ -3,6 +3,7 @@ import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./EvaluatorTemplate.js";
 import {component as evaluatorChat } from "./EvaluatorChatWidget.js";
 import {TypedValue} from "../../shared/js/Types/TypedValue.js";
+import {getMIMEFromDataURL} from "../../shared/js/FileUtility.js";
 
 export const component = {
 	el: '#main',
@@ -477,6 +478,9 @@ export const component = {
 				contentType: "application/json",
 				data: JSON.stringify( playerChat.status )
 			});
+		},
+		isDataURLOfType( dataURL, type ) {
+			return getMIMEFromDataURL(dataURL).startsWith(type);
 		},
 		getItemsForInputTable( object ) {
 			let items = [];

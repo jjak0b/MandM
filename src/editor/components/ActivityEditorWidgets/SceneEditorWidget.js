@@ -3,6 +3,7 @@ import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidge
 import { component as gridWidget } from "../../../shared/components/GridWidget.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
+import { component as buttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorButton.js";
 import { component as listEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorList.js";
 import { component as inputEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorInput.js";
 import { component as spinbuttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorSpinbutton.js";
@@ -23,6 +24,7 @@ import ComponentGrid from "../../../shared/js/Scene/SceneComponents/ComponentGri
 import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ComponentInput from "../../../shared/js/Scene/SceneComponents/ComponentInput.js";
+import ComponentButton from "../../../shared/js/Scene/SceneComponents/ComponentButton.js";
 
 export const component = {
 	template: template,
@@ -35,6 +37,7 @@ export const component = {
 	components : {
 		"user-widget-viewport": userWidgetViewport,
 		"user-widget-editor-text-content": textContentEditorComponent,
+		"user-widget-editor-button": buttonEditorComponent,
 		"user-widget-editor-list": listEditorComponent,
 		"user-widget-editor-text-input": inputEditorComponent,
 		"user-widget-editor-number-input": inputEditorComponent,
@@ -71,6 +74,10 @@ export const component = {
 				"user-widget-radio" : {
 					editor: "user-widget-editor-list",
 					label: "UserWidgets.label-radio-widget-name",
+				},
+				"user-widget-button" : {
+					editor: "user-widget-editor-button",
+					label: "UserWidgets.label-button-widget-name",
 				},
 				"user-widget-text-input" : {
 					editor: "user-widget-editor-text-input",
@@ -495,6 +502,14 @@ export function registerDisposeCallbacks() {
 			if( that.i18nCategory )
 				this.$i18n.removeMessageAll( that.i18nCategory );
 		}
+	);
+
+	ComponentButton.setDisposeCallback(
+			ComponentButton.name,
+			(that, params) => {
+				if( that.i18nCategory )
+					this.$i18n.removeMessageAll( that.i18nCategory );
+			}
 	);
 
 	ComponentList.setDisposeCallback(

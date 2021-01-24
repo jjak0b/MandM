@@ -269,6 +269,7 @@
 	  "label-current-unselected-cell-while-navigating": "Current, active cell while navigating/interacting with grid",
 	  "label-cell-class-name-selected": "classes of selected cell"
 	},
+	"label-button-widget-name": "Button",
 	"label-checkbox-widget-name": "Checkbox",
 	"label-select-widget-name": "Select",
 	"label-radio-widget-name": "Radio",
@@ -289,8 +290,9 @@
     "label-range-input-settings": "@:UserWidgets.label-range-widget-name settings",
     "label-spinbutton-settings": "@:UserWidgets.label-spinbutton-widget-name settings",
     "label-photo-settings": "@:UserWidgets.label-photo-widget-name settings",
-    "label-qr-decoder-settings": "@:UserWidgets.label-qr-decode-widget-name settings",
-    "label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",
+    "label-button-settings": "@:UserWidgets.label-button-widget-name settings",
+	"label-qr-decoder-settings": "@:UserWidgets.label-qr-decode-widget-name settings",
+	"label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",
 	"label-show-extremes": "Show range extremes",
 	"Photo" : {
 		"cameraType" : {

@@ -1,6 +1,6 @@
-import SceneComponent from "../SceneComponent.js";
+import ComponentInput from "./ComponentInput.js";
 
-export default class ComponentQRDecoder extends SceneComponent {
+export default class ComponentQRDecoder extends ComponentInput {
     constructor(unparsed) {
         super(unparsed);
         this.props.label = unparsed && unparsed.props.label ? unparsed.props.label : this.i18nCategory + ".label";

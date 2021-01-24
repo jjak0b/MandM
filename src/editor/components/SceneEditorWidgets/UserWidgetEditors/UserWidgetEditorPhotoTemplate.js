@@ -7,19 +7,14 @@ export const template =
             <template v-slot:label
 			>{{ $t('UserWidgets.label-photo-settings') }}</template>
 			<b-form-row>
-			<b-col>
-			    <b-label for="descPhoto">{{ $t('UserWidgets.TextContent.initial-editor-content')}}</b-label>
-			    <b-form-textarea id="descPhoto" v-model="typedValue.description" row="2" max-rows="2">
-			    </b-form-textarea>			
-            </b-col>
             <b-col>
                
-                <b-form-select v-bind:options="typeOfCapture" v-model="typedValue.type">
+                <b-form-select v-bind:options="typeOfCapture" v-model="component.type">
                     {{ $t( 'UserWidgets.label.select-type-media' ) }}
                 </b-form-select>
-                 <b-form-radio-group v-if="typedValue.type=='image/*'"
+                 <b-form-radio-group v-if="component.type=='image/*'"
                  id="radio-group-1"
-                 v-model="typedValue.cap"
+                 v-model="component.cap"
                  v-bind:options="side"
                  name="radio-options"
                 ></b-form-radio-group>
@@ -32,7 +27,8 @@ export const template =
         </b-form>
 	    <h4 v-t="'shared.label-preview'"></h4>
 	    <user-widget-photo
-	    v-bind:valueType="typedValue"
+	    v-bind:type="component.type"
+	    v-bind:cap="component.cap"
 	    ></user-widget-photo>
     </section>
 </div>

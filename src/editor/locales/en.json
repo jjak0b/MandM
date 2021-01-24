@@ -279,6 +279,7 @@
 	"label-datepicker-widget-name": "Datepicker",
 	"label-media-player-widget-name": "Media Player",
 	"label-photo-widget-name": "Media capture",
+    "label-qr-decode-widget-name": "QR capture and scanner",
 	"label-grid-widget-name": "Grid",
     "label-user-widget-checkbox-settings": "@:UserWidgets.label-checkbox-widget-name settings",
     "label-user-widget-radio-settings": "@:UserWidgets.label-radio-widget-name settings",
@@ -288,6 +289,7 @@
     "label-range-input-settings": "@:UserWidgets.label-range-widget-name settings",
     "label-spinbutton-settings": "@:UserWidgets.label-spinbutton-widget-name settings",
     "label-photo-settings": "@:UserWidgets.label-photo-widget-name settings",
+    "label-qr-decoder-settings": "@:UserWidgets.label-qr-decode-widget-name settings",
     "label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",
 	"label-show-extremes": "Show range extremes",
 	"TextContent": {

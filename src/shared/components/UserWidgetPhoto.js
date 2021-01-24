@@ -1,11 +1,13 @@
 import {template} from "./UserWidgetPhotoTemplate.js";
+import ComponentPhoto from "../js/Scene/SceneComponents/ComponentPhoto.js";
 import {TypedValue} from "../js/Types/TypedValue.js";
 
 
 export const component = {
     template: template,
     props: {
-        valueType: Object
+        type:String,
+        cap:String
         //Side:String
         //type:File.name
         //value:Object

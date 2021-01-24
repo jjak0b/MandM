@@ -259,6 +259,7 @@
 	  "label-datepicker-widget-name": "Campo di selezione data",
 	  "label-media-player-widget-name": "Visualizzatore multimediale",
 	  "label-photo-widget-name": "Acquisitore multimediale",
+	  "label-qr-decode-widget-name": "Acquisitore e scanner di codici QR",
 	  "label-grid-widget-name": "Griglia",
 	  "label-user-widget-checkbox-settings": "Impostazioni @:UserWidgets.label-checkbox-widget-name",
 	  "label-user-widget-radio-settings": "Impostazioni @:UserWidgets.label-radio-widget-name",
@@ -268,6 +269,7 @@
 	  "label-range-settings": "Impostazioni @:UserWidgets.label-range-widget-name",
 	  "label-spinbutton-settings": "Impostazioni @:UserWidgets.label-spinbutton-widget-name",
 	  "label-photo-settings": "Impostazioni @:UserWidgets.label-photo-widget-name",
+	  "label-qr-decoder-settings": "Impostazioni @:UserWidgets.label-qr-decode-widget-name",
 	  "label-grid-settings": "Impostazioni @:UserWidgets.label-grid-widget-name",
 	  "label-show-extremes": "Mostra Valori Limite",
 	  "TextContent": {

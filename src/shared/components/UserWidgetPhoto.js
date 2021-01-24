@@ -4,57 +4,92 @@ import {TypedValue} from "../js/Types/TypedValue.js";
 
 
 export const component = {
+    inheritAttrs: false,
     template: template,
     props: {
         type:String,
         cap:String
-        //Side:String
-        //type:File.name
-        //value:Object
-
     },
     data() {
         return {
+            confirmed: false,
             mediaSelected: null,
             mediaType:null
         }
     },
-
-    methods: {
-        send(){
-            if(this.mediaSelected) {
-                this.$emit('change', new TypedValue({type: "File", value: this.mediaSelected}));
-            }else{
-                alert("Insert a file before continuing");
+    computed: {
+        realAttrs() {
+            let attrs = Object.assign({}, this.$attrs );
+            if( "value" in attrs ) {
+                this.$delete( attrs, "value" )
             }
+            return attrs;
+        },
+        previewID() {
+            return this.$attrs.id + '-preview';
+        }
+    },
+    methods: {
+        checkValidity() {
 
         },
-
-
+        isMediaType( type ) {
+            let mimeBase = this.type.substring( 0 , this.type.lastIndexOf( '/' ) + 1 );
+            return type && type.startsWith( mimeBase );
+        },
+        onModalHidden() {
+            if (this.mediaSelected && this.confirmed ) {
+                this.$emit('input', new TypedValue({type: "File", value: this.mediaSelected}));
+                this.$el.dispatchEvent( new Event( "change", {bubbles: true} ) );
+            }
+            else {
+                if( this.$refs && "input" in this.$refs ) {
+                    this.$refs.input.form.reset();
+                }
+                this.confirmed = false;
+                this.mediaSelected = null;
+            }
+        },
+        confirm() {
+            this.confirmed = true;
+        },
+        remove() {
+            this.confirmed = false;
+        },
         onFileChange(e) {
-            const file = e.target.files[0];
-            this.operation(file);
-            this.mediaType=e.target.files[0]["type"];
-
+            let file = e.target.files && e.target.files.length > 0 ?  e.target.files[ 0 ] : null;
+            // checkValidity() doesn't work properly, so check type manually
+            if (file && this.isMediaType( file.type ) ) {
+                this.operation( file )
+                    .then( () => {
+                        this.$bvModal.show( this.previewID );
+                    })
+                    .catch( (error) => {
+                        this.onModalHidden();
+                    })
+            }
+            else {
+                this.onModalHidden();
+            }
         },
-
-
         operation(file) {
             let fileToBase64 = (file) => new Promise((resolve, reject) => {
-                const reader = new FileReader();
+                let reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = error => reject(error);
 
             });
-            fileToBase64(file).then( (uri) => this.mediaSelected = uri)
-            fileToBase64(file).catch(e => Error(e)).then((result) => {
-                if (result instanceof Error) {
-                    console.error('Error: ', result.message);
-                    return;
-                }
-// result è una string in formato base64
-            });
+
+            return fileToBase64(file)
+                .then((uri) => this.mediaSelected = uri)
+                .catch(error => {
+                    // result è una string in formato base64
+                    if (error instanceof Error) {
+                        console.error('Error: ', result.message);
+                        return;
+                    }
+                });
         }
     }
 }

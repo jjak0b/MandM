@@ -8,10 +8,8 @@ export const template =
 <input
 	ref="input"
 	type="file"
+	v-bind="Object.assign( {}, $props, realAttrs )"
 	v-on:change.stop="onFileChange"
-	v-bind:capture="cap"
-	v-bind:accept="type"
-	v-bind="realAttrs"
 >
 <b-modal
 	v-bind:return-focus="$refs.input"
@@ -28,12 +26,12 @@ export const template =
 	centered
 >
 	<img
-		v-if="type =='image/*'"
+		v-if="accept =='image/*'"
 		v-bind:src="mediaSelected"
 		v-bind:alt="$t('shared.label-preview')"
 	/>
 	<audio
-		v-else-if="type =='audio/*'"
+		v-else-if="accept =='audio/*'"
 		controls="controls"
 		v-bind:src="mediaSelected"
 	>
@@ -45,7 +43,7 @@ export const template =
 		>{{ $t('shared.label-preview') }}</a>
 	</audio>
 	<video
-		v-else-if="type =='video/*'"
+		v-else-if="accept =='video/*'"
 		controls="controls"
 		v-bind:src="mediaSelected"
 	>

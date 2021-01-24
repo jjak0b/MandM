@@ -7,8 +7,8 @@ export const component = {
     inheritAttrs: false,
     template: template,
     props: {
-        type:String,
-        cap:String
+        accept: String,
+        capture: String
     },
     data() {
         return {
@@ -30,11 +30,8 @@ export const component = {
         }
     },
     methods: {
-        checkValidity() {
-
-        },
         isMediaType( type ) {
-            let mimeBase = this.type.substring( 0 , this.type.lastIndexOf( '/' ) + 1 );
+            let mimeBase = this.accept.substring( 0 , this.accept.lastIndexOf( '/' ) + 1 );
             return type && type.startsWith( mimeBase );
         },
         onModalHidden() {

@@ -7,7 +7,10 @@ const logger = require('morgan');
 const app = express();
 
 app.use(logger('dev'));
-app.use(express.json());
+// We can receive big buffers
+app.use(express.json({
+	limit: "200MB"
+}));
 app.use(express.urlencoded({ extended: false }));
 
 /* Dedicate a router to each top-level base path. */

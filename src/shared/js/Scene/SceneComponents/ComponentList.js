@@ -5,6 +5,7 @@ import {TypedValue} from "../../Types/TypedValue.js";
 export default class ComponentList extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
+		this.props.type = 'type' in unparsed.props ? unparsed.props.type : null;
 		this.props.options = unparsed.props && unparsed.props.options ? unparsed.props.options : [];
 		for (const option of this.props.options) {
 			option.value = new TypedValue( option.value );

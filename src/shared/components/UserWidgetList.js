@@ -7,7 +7,7 @@ export const component = {
 		locale: String,
 		localesList: Array,
 		options: Array,
-		name: String
+		type: String
 	},
 	data() {
 		return {

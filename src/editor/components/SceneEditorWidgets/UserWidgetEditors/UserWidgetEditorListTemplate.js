@@ -37,7 +37,6 @@ export const template =
 			>
 			  <user-widget-list
 				v-bind="component.props"
-				v-bind:name="component.name"
 				v-bind:locale="locale"
 				v-bind:locales-list="localesList">
 			  </user-widget-list>

@@ -1,10 +1,4 @@
 {
-	"CameraWidget" : {
-		"cameraType" : {
-			"front": "Front-facing camera",
-			"back": "Back camera"
-		}
-	},
 	"shared": {
 		"label-loading": "Loading"
 	},

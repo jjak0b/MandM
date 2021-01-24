@@ -272,6 +272,12 @@
 	  "label-qr-decoder-settings": "Impostazioni @:UserWidgets.label-qr-decode-widget-name",
 	  "label-grid-settings": "Impostazioni @:UserWidgets.label-grid-widget-name",
 	  "label-show-extremes": "Mostra Valori Limite",
+	  "Photo" : {
+		  "cameraType" : {
+			  "front": "Fotocamera frontale",
+			  "back": "Fotocamera posteriore"
+		  }
+	  },
 	  "TextContent": {
 		  "initial-editor-content": "Aggiungi il tuo testo",
 		  "label-text-content": "Contenuto testuale",

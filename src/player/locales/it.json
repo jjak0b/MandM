@@ -1,10 +1,4 @@
 {
-	"CameraWidget" : {
-		"cameraType" : {
-			"front": "Fotocamera frontale",
-		  	"back": "Fotocamera posteriore"
-		}
-	},
 	"shared": {
 		"label-loading": "Caricamento"
 	},

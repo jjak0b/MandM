@@ -292,6 +292,12 @@
     "label-qr-decoder-settings": "@:UserWidgets.label-qr-decode-widget-name settings",
     "label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",
 	"label-show-extremes": "Show range extremes",
+	"Photo" : {
+		"cameraType" : {
+			"front": "Front-facing camera",
+			"back": "Back camera"
+		}
+	},
 	"TextContent": {
 	  "initial-editor-content": "Add your text",
 	  "label-text-content": "Text content",

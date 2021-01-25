@@ -58,7 +58,7 @@
 
 	<b-card no-body v-else>
 		<b-tabs v-on:input="onTabClick">
-			<b-tab v-bind:title="$t('shared.label-story')">
+			<b-tab v-bind:title="$tc('shared.label-story', 2 )">
 				<story-editor-widget
 						id="story-editor-widget"
 						ref="story"
@@ -78,7 +78,7 @@
 						v-on:copy-mission="copyMission"
 				></story-editor-widget>
 			</b-tab>
-			<b-tab v-bind:title="$t('shared.label-activity')">
+			<b-tab v-bind:title="$tc('shared.label-activity', 2)">
 				<activity-editor-widget
 						id="activity-editor-widget"
 						ref="activity"

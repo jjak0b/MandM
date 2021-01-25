@@ -2,6 +2,7 @@ export const template =
 `
 <!-- https://www.w3.org/TR/wai-aria-practices/#gridNav -->
 <component
+	v-bind="$attrs"
 	v-bind:tabindex="tabindex"
 	v-bind:is="gridTag"
 	v-bind:role="gridRole"
@@ -11,8 +12,8 @@ export const template =
 >
 	<component
 		v-for="(rowCells, rowIndex) in gridData"
-		v-bind:key="$attrs.id + '-' + rowIndex"
-		v-bind:id="$attrs.id + '-grid-row-' + rowIndex"
+		v-bind:key="id + '-' + rowIndex"
+		v-bind:id="id + '-grid-row-' + rowIndex"
 		v-bind:is="rowTag"
 		v-bind:role="rowRole"
 		v-bind:aria-rowindex="getAriaRowIndex(rowIndex)"
@@ -23,8 +24,8 @@ export const template =
 			v-on:keydown="keyPreventHandler"
 			v-for="(cellData, cellIndex) in rowCells"
 			v-bind:ref="'cell-' + rowIndex + '-' + cellIndex" 
-			v-bind:key="$attrs.id + '-' + rowIndex + '-' + cellIndex"
-			v-bind:id="$attrs.id + '-grid-cell-' + rowIndex + '-' + cellIndex"
+			v-bind:key="id + '-' + rowIndex + '-' + cellIndex"
+			v-bind:id="id + '-grid-cell-' + rowIndex + '-' + cellIndex"
 			v-bind:is="cellTag"
 			v-bind:role="cellRole"
 			v-bind:aria-colindex="getAriaColIndex(cellIndex)"

@@ -7,6 +7,7 @@ export const template =
 >{{ min ? min : '0' }}</output>
 <b-form-input
 	v-bind="$attrs"
+	v-bind:tabindex="tabindex"
 	v-bind:class="classes"
 	v-bind:placeholder="getContent()"
 	v-bind:value="value ? value.toString() : null"

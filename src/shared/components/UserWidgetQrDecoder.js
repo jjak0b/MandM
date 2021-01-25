@@ -3,8 +3,11 @@ import {TypedValue} from "../js/Types/TypedValue.js";
 
 
 export const component = {
+    inheritAttrs: false,
     template: template,
     props: {
+        tabindex: [Number,String],
+        classes: Array,
         value: Object,
         id: String,
         label: String,

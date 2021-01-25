@@ -9,6 +9,8 @@ export const template =
 	ref="input"
 	type="file"
 	v-bind="Object.assign( {}, $props, realAttrs )"
+	v-bind:class="classes"
+	v-bind:tabindex="tabindex"
 	v-on:change.stop="onFileChange"
 >
 <b-modal

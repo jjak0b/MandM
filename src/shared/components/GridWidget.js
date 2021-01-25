@@ -2,8 +2,10 @@ import {template} from "./GridWidgetTemplate.js";
 import {KeyboardUtils} from "../js/KeyboardUtils.js";
 
 export const component = {
+	inheritAttrs: false,
 	template: template,
 	props: {
+		id: String,
 		tabindex: [Number,String],
 		gridData: Array,
 		gridRole: String,

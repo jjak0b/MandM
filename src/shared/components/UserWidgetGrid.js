@@ -6,6 +6,7 @@ import {TypedValue} from "../js/Types/TypedValue.js";
 // circular dependency avoided with "user-widget-grid" using async component loading
 export function component(resolve, reject) {
 	resolve( {
+		inheritAttrs: false,
 		template: template,
 		components: {
 			gridWidget,

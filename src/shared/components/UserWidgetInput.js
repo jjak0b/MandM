@@ -5,6 +5,7 @@ export const component = {
 	inheritAttrs: false,
 	template: template,
 	props: {
+		tabindex: [Number,String],
 		classes: Array,
 		value: Object,
 		type: String,

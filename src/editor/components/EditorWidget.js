@@ -1,4 +1,4 @@
-import { i18n } from "../../shared/js/i18n.js";
+import { i18n, getLanguagesArraySet } from "../../shared/js/i18n.js";
 import { I18nUtils } from "../../shared/js/I18nUtils.js";
 import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./i18nWidgets/I18nSelectorWidget.js";
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
@@ -180,7 +180,7 @@ const component = {
 export function main() {
 
 	let promiseLocales = [
-		I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
+		I18nUtils.fetchLocales( "./", getLanguagesArraySet() ),
 		I18nUtils.fetchLocales( "/shared/", "*" )
 	];
 

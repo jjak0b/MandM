@@ -1,4 +1,4 @@
-import {i18n} from "../../shared/js/i18n.js";
+import {i18n, getLanguagesArraySet} from "../../shared/js/i18n.js";
 import Player from	"../js/Player.js"
 import Story from "../../shared/js/Story.js";
 import {CacheSystem} from "../../shared/js/CacheSystem.js";
@@ -98,8 +98,8 @@ export const component = {
 		let promsInit = [
 			this.player.init( storyName, team ),
 			this.player.fetchStory(),
-			I18nUtils.fetchLocales( "/shared/", [ i18n.locale, i18n.fallbackLocale ] ),
-			I18nUtils.fetchLocales( "./", [ i18n.locale, i18n.fallbackLocale ] ),
+			I18nUtils.fetchLocales( "/shared/", getLanguagesArraySet() ),
+			I18nUtils.fetchLocales( "./", getLanguagesArraySet() ),
 		];
 		let updateProgress = (percentage) => {
 			this.loadingProgress = percentage;

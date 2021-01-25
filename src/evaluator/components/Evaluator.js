@@ -1,4 +1,4 @@
-import {i18n} from "../../shared/js/i18n.js";
+import {i18n, getLanguagesArraySet } from "../../shared/js/i18n.js";
 import {I18nUtils} from "../../shared/js/I18nUtils.js";
 import {template} from "./EvaluatorTemplate.js";
 import {component as evaluatorChat } from "./EvaluatorChatWidget.js";
@@ -335,7 +335,7 @@ export const component = {
 			}
 		},
 		updateStoryLocale(story) {
-			I18nUtils.fetchLocales(`/stories/` + story, [i18n.locale, i18n.fallbackLocale])
+			I18nUtils.fetchLocales(`/stories/` + story, getLanguagesArraySet() )
 			.then(response => {
 				for (const locale in response) {
 					this.$i18n.mergeLocaleMessage(locale, response[locale]);
@@ -504,8 +504,8 @@ export const component = {
 
 			console.log("[EvaluatorVM]", "Start downloading story");
 			let promsInit = [
-				I18nUtils.fetchLocales("/shared/", [i18n.locale, i18n.fallbackLocale]),
-				I18nUtils.fetchLocales("./", [i18n.locale, i18n.fallbackLocale])
+				I18nUtils.fetchLocales( "/shared/", getLanguagesArraySet() ),
+				I18nUtils.fetchLocales( "./", getLanguagesArraySet() ),
 			];
 
 			this.loadingProgress = 0;

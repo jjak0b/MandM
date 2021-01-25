@@ -197,7 +197,10 @@ export const component = {
 			let el = this.getCellElement( cursor );
 			if( el ) {
 				if (focusFirstChild && el.children && el.children.length > 0) {
-					el = el.children[0];
+					// focus on first element with tabindex set, use first child as fallback
+					el = el.querySelector('[tabindex = "-1"]')
+						|| el.querySelector('[tabindex = "0"]')
+						|| el.children[0];
 				}
 				el.focus();
 				// console.log( "focusing", el );

@@ -42,6 +42,7 @@ componentArray = {
                 this.buffer = [];
             this.selectedIndex = null;
         },
+        //  taketype event not currently used, so we allow array with different types
         "type": function (newVal) {
             this.wipeBuffer();
         }

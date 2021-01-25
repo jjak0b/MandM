@@ -50,7 +50,7 @@ export const templateArray =
 		
 				<input-value-widget
 					v-on:taketype="type = $event"
-					v-on:input="tmpValue = $event.value"
+					v-on:input="tmpValue = $event"
 				>
 				</input-value-widget>
 				<b-button

@@ -367,6 +367,7 @@ export const template =
 				>
 					<p>{{ $t('SceneEditorWidget.GridWidget.label-no-rows-in-grid') }}</p>
 				</div>
+				<form v-on:submit.prevent.stop v-on:reset.prevent.stop>
 				<grid-widget
 					v-bind:key="gridLayer.component.id"
 					v-bind:ref="'grid-' + gridIndex"
@@ -406,6 +407,7 @@ export const template =
 						></user-widget-viewport>
 					</template>
 				</grid-widget>
+				</form>
 			</b-tab>
 		</b-tabs>
 	</section>

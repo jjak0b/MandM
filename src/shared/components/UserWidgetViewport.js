@@ -1,5 +1,6 @@
 import {template} from "./UserWidgetViewportTemplate.js";
 import SceneComponent from "../js/Scene/SceneComponent.js";
+import {component as buttonComponent} from "./UserWidgetButton.js";
 import {component as listComponent} from "./UserWidgetList.js";
 import {component as inputComponent} from "./UserWidgetInput.js";
 import {component as spinbuttonComponent} from "./UserWidgetSpinbutton.js";
@@ -15,6 +16,7 @@ import ComponentText from "../js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../js/Scene/SceneComponents/ComponentList.js";
 import ComponentGrid from "../js/Scene/SceneComponents/ComponentGrid.js";
 import ComponentInput from "../js/Scene/SceneComponents/ComponentInput.js";
+import ComponentButton from "../js/Scene/SceneComponents/ComponentButton.js";
 import ComponentPhoto from "../js/Scene/SceneComponents/ComponentPhoto.js"
 import ComponentQRDecoder from "../js/Scene/SceneComponents/ComponentQRDecoder.js";
 
@@ -22,6 +24,7 @@ import ComponentQRDecoder from "../js/Scene/SceneComponents/ComponentQRDecoder.j
 
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );
+SceneComponentParser.register( "user-widget-button", ComponentButton );
 SceneComponentParser.register( "user-widget-text-input", ComponentInput );
 SceneComponentParser.register( "user-widget-number-input", ComponentInput );
 SceneComponentParser.register( "user-widget-range", ComponentInput );
@@ -41,6 +44,7 @@ export function component( resolve, reject ) {
 			"user-widget-checkbox": listComponent,
 			"user-widget-select": listComponent,
 			"user-widget-radio": listComponent,
+			"user-widget-button": buttonComponent,
 			"user-widget-text-input": inputComponent,
 			"user-widget-number-input": inputComponent,
 			"user-widget-range": inputComponent,

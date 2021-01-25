@@ -26,6 +26,9 @@ export const component = {
 			state: true
 		}
 	},
+	created() {
+		this.component.props.type = this.component.name;
+	},
 	methods: {
 		resetAddForm() {
 			this.label = this.component.i18nCategory + '.element.' + I18nUtils.getUniqueID();

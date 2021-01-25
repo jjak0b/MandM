@@ -143,7 +143,7 @@ export const component = {
 		},
 		onRemoveActivity() {
 			// save the full updated and parsed tree from jstree's structure to be able to parse it and after dispose from the current node
-			this.$nextTick( () => {
+			// this.$nextTick( () => {
 				/* 	this will parse all subtree
 					we couldn't use the saved currentNode directly because the subtree isn't parsed so we couldn't dispose them
 				 */
@@ -161,8 +161,8 @@ export const component = {
 				this.$refs.treeView.remove();
 				this.isEditFormVisible = false;
 
-				this.save(this.mission);
-			});
+				// this.save(this.mission);
+			// });
 
 		},
 		onGrabActivity() {

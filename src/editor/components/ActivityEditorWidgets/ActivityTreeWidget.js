@@ -115,8 +115,17 @@ export const component = {
 				data = [ jsonData ];
 
 			if( this.tree ) {
-				this.tree.destroy( false );
-				this.tree = null;
+				// this.tree.destroy( false );
+				// this.tree = null;
+				this.tree.settings.core.data = data;
+				this.tree.refresh();
+
+				// select root node
+				let nodeToSelect = this.tree.get_node( jsonData.id );
+				this.tree.select_node( nodeToSelect );
+				// since "select_node.jstree" seems to be trigghered only by user select, we will notify to parent manually
+				this.notifyValue( nodeToSelect );
+				return;
 			}
 
 			if( !jsonData ){
@@ -174,6 +183,23 @@ export const component = {
 			this.tree = $( e ).jstree(true);
 			$( e ).on( "select_node.jstree", this.onSelect );
 			$( e ).on( "create_node.jstree", this.onCreate );
+			$( e ).on( "delete_node.jstree", (event, data) => {
+				// select next node
+				let candidateNodes = this.tree.get_next_dom( data.node );
+				candidateNodes = candidateNodes && candidateNodes.length > 0 ? candidateNodes : this.tree.get_prev_dom( data.node );
+				let nodeToSelect;
+				if( candidateNodes && candidateNodes.length > 0 ) {
+					nodeToSelect = candidateNodes[ 0 ];
+					this.tree.select_node( nodeToSelect.id );
+				}
+				// save jstree configuration because node has been deleted
+				this.$emit('editActivity' );
+				// load updated data and refresh
+				this.$nextTick( () => {
+					this.tree.settings.core.data = this.tree.get_json( NodeUtils.Types.Root );;
+					this.tree.refresh();
+				});
+			});
 			$( e ).on('move_node.jstree', (event, data) => {
 				this.tree.deselect_all(true);
 				this.tree.select_node( data.node );
@@ -215,7 +241,6 @@ export const component = {
 		remove() {
 			let selectedNode = this.tree.get_selected(true)[0];
 			this.tree.delete_node( selectedNode );
-			this.tree.deselect_all(true);
 		},
 		createNewNode( item, selectedNode ) {
 			let selectedtype = this.tree.get_type( selectedNode );

@@ -193,7 +193,6 @@ export const getBootstrapClassOptions = ( function () {
 				options: data.classes[ categories[ i ] ]
 			}
 		}
-		console.log( options );
 		return options;
 	}
 })();

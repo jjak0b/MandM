@@ -8,7 +8,7 @@ export const template =
 		<b-tab
 			v-for="(stylesheet, stylesheetIndex) in value.assets"
 			:key="'stylesheet-' + stylesheetIndex + '_'"
-			v-bind:title="stylesheet ? stylesheet.toString() : $t('shared.media.label-stylesheets')"
+			v-bind:title="stylesheet ? stylesheet.toString() : $t('media.label-stylesheets')"
 		>
 			<stylesheet-asset
 				v-bind:id="'style-editor-widget-stylesheet-item_' + stylesheetIndex"

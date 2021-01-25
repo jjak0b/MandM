@@ -108,7 +108,7 @@ export const component = {
 			data.optionsCategories.push(
 				{
 					value: category,
-					text: this.$t( `shared.media.label-${category}` )
+					text: this.$t( `media.label-${category}` )
 				}
 			);
 		});

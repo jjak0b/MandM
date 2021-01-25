@@ -31,11 +31,11 @@ export const component = {
 				"stylesheets"
 			],
 			localeStrings: {
-				videos: "shared.media.label-videos",
-				audios: "shared.media.label-audios",
-				images: "shared.media.label-images",
-				captions: "shared.media.label-captions",
-				stylesheets: "shared.media.label-stylesheets"
+				videos: "media.label-videos",
+				audios: "media.label-audios",
+				images: "media.label-images",
+				captions: "media.label-captions",
+				stylesheets: "media.label-stylesheets"
 			},
 			selectedItem: null,
 			filter: {

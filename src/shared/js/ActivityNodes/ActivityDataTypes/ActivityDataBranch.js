@@ -137,8 +137,8 @@ export default class ActivityDataBranch extends ActivityData {
 		},
 	}
 
+	// default system env variable names
 	static _variables = [
-		"userInput",
 		"score"
 	]
 

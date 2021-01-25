@@ -7,7 +7,7 @@ export class BranchCondition extends Disposable {
 		params: [
 			new ConditionParameter({
 				sourceType: "variable",
-				sourceValue: "userInput",
+				sourceValue: "score",
 			})
 
 		],

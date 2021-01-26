@@ -1,10 +1,13 @@
 export const template =
 `
-<div>
+<section
+	aria-labelledby="story-editor-groups-widget-h"
+>
+	<h2
+		id="story-editor-groups-widget-h"
+	v-t="'StoryEditorWidget.label-groups'"></h2>
 	<b-form-row>
-		<h3 v-t="'StoryEditorWidget.label-groups'"></h3>
-	</b-form-row>
-	<b-form-row>
+		<b-col>
 		<b-button 
 			class="ml-3 my-2"
 			variant="primary"
@@ -12,6 +15,7 @@ export const template =
 		>
 			{{ $t('StoryEditorWidget.label-add-new-group') }}
 		</b-button>
+		</b-col>
 	</b-form-row>
 	<b-form-row>
 	<b-col>
@@ -66,7 +70,9 @@ export const template =
 					</div>
 				</div>
 			</b-card-body>
-			<b-card-footer>
+			<b-card-footer
+				footer-class="clearfix"
+			>
 				<b-link 
 					class="float-right font-weight-bold text-decoration-none text-danger mr-2 mt-1 mb-3"
 					v-on:click="removeGroup(index)"
@@ -93,5 +99,5 @@ export const template =
 			</b-form-select-option>
 		</b-form-select>
 	</b-modal>		
-</div>		
+</section>		
 `

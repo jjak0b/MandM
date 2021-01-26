@@ -5,6 +5,7 @@ import {component as listComponent} from "./UserWidgetList.js";
 import {component as inputComponent} from "./UserWidgetInput.js";
 import {component as spinbuttonComponent} from "./UserWidgetSpinbutton.js";
 import {component as datepickerComponent} from "./UserWidgetDatepicker.js";
+import {component as timepickerComponent} from "./UserWidgetTimepicker.js";
 import {asyncLoad as asyncLoadComponentI18nMediaPlayer} from "./UserWidgetMediaPlayer.js";
 import {component as textContentComponent} from "./UserWidgetTextContent.js";
 import {component as photoComponent} from "./UserWidgetPhoto.js";
@@ -16,6 +17,8 @@ import ComponentText from "../js/Scene/SceneComponents/ComponentText.js";
 import ComponentList from "../js/Scene/SceneComponents/ComponentList.js";
 import ComponentGrid from "../js/Scene/SceneComponents/ComponentGrid.js";
 import ComponentInput from "../js/Scene/SceneComponents/ComponentInput.js";
+import ComponentDate from "../js/Scene/SceneComponents/ComponentDate.js";
+import ComponentTime from "../js/Scene/SceneComponents/ComponentTime.js";
 import ComponentButton from "../js/Scene/SceneComponents/ComponentButton.js";
 import ComponentPhoto from "../js/Scene/SceneComponents/ComponentPhoto.js"
 import ComponentQRDecoder from "../js/Scene/SceneComponents/ComponentQRDecoder.js";
@@ -28,6 +31,8 @@ SceneComponentParser.register( "user-widget-button", ComponentButton );
 SceneComponentParser.register( "user-widget-text-input", ComponentInput );
 SceneComponentParser.register( "user-widget-number-input", ComponentInput );
 SceneComponentParser.register( "user-widget-range", ComponentInput );
+SceneComponentParser.register( "user-widget-datepicker", ComponentDate );
+SceneComponentParser.register( "user-widget-timepicker", ComponentTime );
 SceneComponentParser.register( "user-widget-checkbox", ComponentList );
 SceneComponentParser.register( "user-widget-radio", ComponentList );
 SceneComponentParser.register( "user-widget-select", ComponentList );
@@ -50,6 +55,7 @@ export function component( resolve, reject ) {
 			"user-widget-range": inputComponent,
 			"user-widget-spinbutton": spinbuttonComponent,
 			"user-widget-datepicker": datepickerComponent,
+			"user-widget-timepicker": timepickerComponent,
 			"user-widget-media-player": asyncLoadComponentI18nMediaPlayer,
 			"user-widget-text-content": textContentComponent,
 			"user-widget-photo": photoComponent,

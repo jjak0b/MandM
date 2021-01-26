@@ -21,10 +21,12 @@ export const template =
 			v-bind:aria-selected="keyItem == selectedKeyIndex || null"
 			v-bind:class="getItemClasses(keyItem)"
 			v-on:click="setSelected( keyItem )"
+			v-on:keydown.space="setSelected( keyItem )"
+			v-bind:tabindex="keyItem == activedescendantKey ? 0 : -1"
 		>
 			<slot
 				name="item"
-				v-bind="{item, keyItem}"
+				v-bind="{item, keyItem, isFocused: keyItem == activedescendantKey, isSelected: keyItem == selectedKeyIndex }"
 			></slot>
 		</component>
 	</component>

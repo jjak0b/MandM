@@ -17,7 +17,7 @@ export const component = {
 			type: String,
 			default: "li"
 		},
-		value: Object, // keys of item list that is selected
+		value: [Object, Number, String], // keys of item list that is selected
 		roleList: {
 			type: String,
 			default: "listbox"
@@ -213,11 +213,13 @@ export const component = {
 			}
 		},
 		select( keyIndex ) {
-			this.activedescendantKey = keyIndex;
 			if( this.activedescendantKey != null && this.activedescendantKey != keyIndex ){
-				let el = this.$refs["li"+this.activedescendantKey];
-				if( el ) el.focus();
+				let el = this.$refs["li"+keyIndex][ 0 ];
+				if( el ) {
+					el.focus();
+				}
 			}
+			this.activedescendantKey = keyIndex;
 		},
 		setSelected( keyIndex ) {
 			this.select( keyIndex );

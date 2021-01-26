@@ -1,10 +1,23 @@
 export const template =
 `
 <div>
-	<b-card v-if="mission" class="mb-4">
-        	<p id="activityTreeDescription">
-        	{{ $t( "ActivityEditorWidget.label-mission-activity-tree-of") + $t(mission.title) }}
-			</p>
+	<b-card
+		class="mb-4"
+		no-body
+		
+	>
+		<b-card-header>
+			<h2
+				v-if="mission" 
+				id="activityTreeDescription"
+			>
+        		{{ $t( "ActivityEditorWidget.label-mission-activity-tree-of") + $t(mission.title) }}
+			</h2>
+			<h2
+				v-else
+			>{{ $t( "ActivityEditorWidget.label-select-mission-to-edit-activities") }}</h2>
+		</b-card-header>
+		<b-card-body v-if="mission">
 			<activity-tree-widget
 				v-on:add="onAddActivity"
 				v-on:edit="onEditActivity"
@@ -24,6 +37,7 @@ export const template =
 				v-on:selectedNode="onSelectedNode"
 				v-on:editActivity="editActivity"
 			></activity-tree-widget>
+		</b-card-body>
 	</b-card>
 	<add-menu-widget
 		ref="addMenu"

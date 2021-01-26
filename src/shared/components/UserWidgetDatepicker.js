@@ -4,8 +4,9 @@ import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
 export const component = {
 	template: template,
 	props: {
+		data: Object,
 		value: Object,
-		classes: Array,
+		classes: Array
 	},
 	data() {
 		return {
@@ -56,7 +57,8 @@ export const component = {
 			}
 		},
 		emitInput(event) {
-			let item = new TypedValue({type: Date.name, value: event});
-			this.$emit('change', item);
+			this.value.type = Date.name;
+			this.value.value = event;
+			this.$emit('change', this.value);
 		}}
 };

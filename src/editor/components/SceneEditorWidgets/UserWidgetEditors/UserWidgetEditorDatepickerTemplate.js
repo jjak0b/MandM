@@ -9,7 +9,7 @@ export const template =
 			<b-form-row>
 				<b-col>
 					<b-form-checkbox
-						v-model="props.readonly"
+						v-model="component.props.data.readonly"
 						switch inline
 					>{{ $t('UserWidgets.Datepicker.label-readonly') }}</b-form-checkbox>
 				</b-col>
@@ -20,7 +20,7 @@ export const template =
 					>
 						<b-form-select
 							id="user-widget-datepicker-editor-start-weekday"
-							v-model="props.startWeekday"
+							v-model="component.props.data.startWeekday"
 							v-bind:options="startWeekdays"
 						></b-form-select>
 					</b-form-group>
@@ -40,10 +40,10 @@ export const template =
 					>
 						<b-form-datepicker
 							id="datepicker-date-min"
-							v-model="props.min"
-							v-bind:max="props.max"
+							v-model="component.props.data.min"
+							v-bind:max="component.props.data.max"
 							v-bind:locale="$i18n.locale"
-							v-bind:start-weekday="value.startWeekday"
+							v-bind:start-weekday="component.props.data.startWeekday"
 							v-bind:reset-button="true"
 						></b-form-datepicker>
 					</b-form-group>
@@ -55,10 +55,10 @@ export const template =
 					>
 						<b-form-datepicker
 							id="datepicker-date-max"
-							v-model="props.max"
-							v-bind:min="props.min"
+							v-model="component.props.data.max"
+							v-bind:min="component.props.data.min"
 							v-bind:locale="$i18n.locale"
-							v-bind:start-weekday="value.startWeekday"
+							v-bind:start-weekday="component.props.data.startWeekday"
 							v-bind:reset-button="true"
 						></b-form-datepicker>
 					</b-form-group>
@@ -76,7 +76,7 @@ export const template =
 					>
 						<b-form-select
 							id="user-widget-datepicker-editor-variant-selected"
-							v-model="props.selectedVariant"
+							v-model="component.props.data.selectedVariant"
 							v-bind:options="colorVariants"
 						>
 							<template v-slot:first>
@@ -96,7 +96,7 @@ export const template =
 					>
 						<b-form-select
 							id="user-widget-datepicker-editor-variant-today"
-							v-model="props.todayVariant"
+							v-model="component.props.data.todayVariant"
 							v-bind:options="colorVariants"
 						>
 							<template v-slot:first>
@@ -116,9 +116,9 @@ export const template =
 <section>
 	<h4 v-t="'shared.label-preview'"></h4>
 	<user-widget-datepicker
-		v-bind:value="value"
 		v-bind:locale="locale"
-		v-bind="props"
+		v-bind:data="component.props.data"
+		v-bind:value="component.value"
 	></user-widget-datepicker>
 </section>
 </div>

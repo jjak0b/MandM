@@ -1,11 +1,11 @@
 import {template} from "./UserWidgetEditorDatepickerTemplate.js";
 import {component as datepickerComponent} from "../../../../shared/components/UserWidgetDatepicker.js";
+import ComponentDate from "../../../../shared/js/Scene/SceneComponents/ComponentDate.js";
 
 export const component = {
 	template: template,
 	props: {
-		props: Object,
-		value: Object,
+		component: ComponentDate,
 		locale: String
 	},
 	components: {

@@ -1,6 +1,7 @@
 export const template =
 		`
 <component
+	v-if="type in widgetsTable"
 	v-bind:is="widgetsTable[type].list"
 	v-on="$listeners"
 	v-bind:class="classes"

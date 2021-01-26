@@ -37,9 +37,13 @@ export const component = {
 		selectedId: function () { return this.value ? this.value.id : null }
 	},
 	created() {
-
+		Mission.setDisposeCallback(Mission.name, this.disposeMissionCallback );
 	},
 	methods: {
+		disposeMissionCallback(mission) {
+			this.$i18n.removeMessageAll( mission.title );
+			this.$i18n.removeMessageAll( mission.description );
+		},
 		addMission() {
 			console.log( "Added mission: ", this.newMission );
 			this.missions.push( this.newMission );

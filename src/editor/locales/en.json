@@ -242,6 +242,13 @@
 	}
   },
   "AttributeEditorWidget": {
+	"label-set-attribute-value": "Set attribute value",
+	"label-associated-variable-name": "Associated variable name",
+	"label-variable-name-is-used-to-check-specific-user-input-in-branch-condition": "Variable name is used to check specific user input in branch condition",
+	"label-attribute-name": "Attribute name",
+	"label-attribute-value": "Attribute value",
+	"label-no-added-attributes": "No added attributes",
+	"label-add-or-remove-attributes": "Add or remove attributes",
 	"label-attributes": "Attributes",
 	"label-label-id": "Id",
 	"label-classes": "Classes",
@@ -283,6 +290,7 @@
 	"label-range-widget-name": "Range",
 	"label-spinbutton-widget-name": "Spinbutton",
 	"label-datepicker-widget-name": "Datepicker",
+	"label-timepicker-widget-name": "Timepicker",
 	"label-media-player-widget-name": "Media Player",
 	"label-photo-widget-name": "Media capture",
     "label-qr-decode-widget-name": "QR capture and scanner",
@@ -319,6 +327,12 @@
 	  "label-code_block": "Code block",
 	  "label-bullet_list": "Bullet list",
 	  "label-ordered_list": "Ordered list"
+	},
+	"Timepicker": {
+	  "label-settings": "Settings",
+	  "label-show-seconds": "Show seconds",
+	  "label-now-button": "Now button",
+	  "label-reset-button": "Reset button"
 	},
 	"Datepicker": {
 	  "label-settings": "Settings",

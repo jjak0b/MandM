@@ -26,6 +26,9 @@ export const component = {
 		}
 	},
 	methods: {
+		getGroupName( index ) {
+			return this.$t('StoryEditorWidget.label-group') + ' ' + (index+1);
+		},
 		addGroup() {
 			this.groups.push([]);
 		},

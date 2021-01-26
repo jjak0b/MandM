@@ -115,6 +115,7 @@ export const component = {
 
 			let data = unparsedNode.data;
 			unparsedNode.id = id;
+			data.id = id;
 			data.i18nCategory = prefix;
 			data.title = prefix + ".title";
 			data.description = prefix + ".description";

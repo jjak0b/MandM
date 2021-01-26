@@ -6,6 +6,7 @@ export const component = {
 	i18n: i18n,
 	template: template,
 	props: {
+		tabindex: [Number, String],
 		locale: String,
 		localeLabel: String,
 		localesList: Array

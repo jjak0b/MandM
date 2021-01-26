@@ -10,6 +10,7 @@ export const component = {
 		items: Array,
 		selected: Number,
 		title: String,
+		description: String,
 		copyPaste: {
 			type: Boolean,
 			default: true

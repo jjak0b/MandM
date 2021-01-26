@@ -15,6 +15,7 @@ export const template =
 	<b-card-body>
 	<list-widget
 		v-bind:aria-labelledby="$attrs.id + '-list-widget-header'"
+		v-bind:aria-describedby="$attrs.id + '-list-widget-footer-description'"
 		v-bind:id="$attrs.id + '-list-widget-list'"
 		v-bind:list="items"
 		tag="ol"
@@ -24,6 +25,7 @@ export const template =
 	>
 	<template #item="{item, keyItem: index, isFocused, isSelected}">
 		<b-container
+			role="group"
 			v-bind:aria-label="$t(item.title)"
 		>
 			<b-row> 
@@ -115,8 +117,9 @@ export const template =
 	</list-widget>
 	</b-card-body>
 	<b-card-footer
-		:footer-class="[ 'clearfix', variant ? 'list-group-item-' + variant : null, 'font-weight-bold', 'text-info' ]"
+		:footer-class="[ variant ? 'list-group-item-' + variant : null, 'font-weight-bold', 'text-info' ]"
 	>
+		<div class="clearfix mb-2">
 		<b-button-toolbar
 			justify		
 			class="float-right"
@@ -138,6 +141,10 @@ export const template =
 				<b-icon-plus></b-icon-plus>
 			</b-button>
 		</b-button-toolbar>
+		</div>
+		<p
+			v-bind:id="$attrs.id + '-list-widget-footer-description'"
+		>{{ description }}</p>
 	</b-card-footer>
 </b-card>
 `

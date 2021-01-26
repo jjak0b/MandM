@@ -40,6 +40,7 @@ export const template =
 				<list-widget
 					id="mission-editor-widget-list-mission"
 					v-bind:title="$t('MissionEditorWidget.label-mission-list')"
+					v-bind:description="$t('MissionEditorWidget.label-select-mission-to-edit-properties-and-its-activities-in-activity-tab')"
 					v-bind:locale="locale"
 					v-bind:localesList="localesList"
 					v-bind:items="missions"

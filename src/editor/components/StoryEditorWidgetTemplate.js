@@ -34,6 +34,7 @@ export const template =
 						<b-form-row>
 							<b-col cols="4">
 								<h3>{{ $t('StoryEditorWidget.label-edit-story') }}</h3>
+								<div aria-live="polite" >
 									<b-form-checkbox switch
 										class="mt-3"
 										size="lg"
@@ -42,14 +43,21 @@ export const template =
 										{{ $t('StoryEditorWidget.label-story-public') }}
 									</b-form-checkbox>
 									<a
+										v-if="value.public && value.gamemode !== '2'"
 										v-bind:href="playStoryURL"
 										target="_blank"
+										class="d-flex flex-column text-center"
 									>
-									<qrcode
-										v-bind:value="playStoryURL"
-										v-if="value.public && value.gamemode !== '2'"
-									></qrcode>
+										<strong
+											id="story-editor-widget-qr"
+										>{{ $t('StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play') }}</strong>
+										<qrcode
+											class="mx-auto"
+											v-bind:value="playStoryURL"
+											v-bind:aria-label="$t('shared.label-qr-code')"
+										></qrcode>
 									</a>
+								</div>
 								<b-form-group
 										v-bind:label="$t('StoryEditorWidget.label-story-description')"
 										label-for="storyDescriptionInput">

@@ -7,6 +7,8 @@
 	"label-story-public": "Public story",
 	"label-remove-group": "Remove group",
 	"label-add-new-group": "Add new group",
+  	"label-use-this-link-or-scan-this-qrcode-to-play": "Follow this link or scan this QR code to play the story",
+	"label-use-this-link-or-scan-this-qrcode-to-play-as": "@:StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play as {team}",
 	"label-group": "Group",
 	"label-groups": "Groups",
 	"label-edit-story": "Edit story",
@@ -60,6 +62,8 @@
 	}
   },
   "MissionEditorWidget": {
+  	"label-add-and-edit-missions": "Add and edit missions of the current story",
+	"label-select-mission-to-edit-properties-and-its-activities-in-activity-tab": "Select a mission to edit order, properties here and to edit its activities \"@:ActivityEditorWidget.label-activity-tab\" tab",
 	"label-mission-no-title": "Untitled mission",
 	"label-mission-title": "Mission title",
 	"label-add-mission-description": "Add mission description",

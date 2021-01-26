@@ -7,6 +7,8 @@
 	  "label-story-public": "Storia Pubblica",
 	  "label-remove-group": "Rimuovi gruppo",
 	  "label-add-new-group": "Aggiungi nuovo gruppo",
+	  "label-use-this-link-or-scan-this-qrcode-to-play": "Segui questo link o scansiona questo codice QR per giocare la storia",
+	  "label-use-this-link-or-scan-this-qrcode-to-play-as": "@:StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play come {team}",
 	  "label-group": "Gruppo",
 	  "label-groups": "Gruppi",
 	  "label-edit-story": "Modifica storia",
@@ -61,6 +63,8 @@
 	  }
   },
   "MissionEditorWidget": {
+	"label-add-and-edit-missions": "Aggiungi e modifica le missioni della storia corrente",
+	"label-select-mission-to-edit-properties-and-its-activities-in-activity-tab": "Seleziona una missione per modificarne qui ordine, proprietà e le sue attività nella scheda \"@:ActivityEditorWidget.label-activity-tab\"",
 	"label-mission-no-title": "Missione senza titolo",
 	"label-mission-title": "Titolo della missione",
 	  "label-add-mission-description": "Aggiungi descrizione missione",

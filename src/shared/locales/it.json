@@ -29,6 +29,7 @@
 		"label-from-server" : "Da server",
 		"label-as-file" : "Come file",
 		"label-onto-server" : "Sul server",
+		"label-qr-code" : "Codice QR",
 		"label-variable-name" : "Variabile {name}",
 		"label-score" : "Punteggio",
 		"label-loading": "Caricamento in corso",

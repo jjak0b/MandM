@@ -81,6 +81,7 @@
 		"label-from-server" : "From server",
 		"label-as-file" : "As file",
 		"label-onto-server" : "Onto server",
+		"label-qr-code" : "QR code",
 		"label-preview" : "Preview",
 		"label-add-element" : "Add Element",
 		"label-remove-element" : "Remove Element",

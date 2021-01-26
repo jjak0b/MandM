@@ -94,6 +94,7 @@
 	"label-activity-no-title": "Untitled activity",
 	"label-activity-description": "Activity description",
 	"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
+    "label-select-mission-to-edit-activities": "Select a mission to add and edit its activities",
 	"label-select-nodeType": "Select a type of element to add to the tree",
 	"add-menu-invalid-feedback": "Please select activity type",
 	"add-menu-valid-feedback": "Thank you",

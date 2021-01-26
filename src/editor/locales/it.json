@@ -76,6 +76,7 @@
 	  "label-activity-no-title": "Attività senza titolo",
 	  "label-activity-description": "Descrizione attività",
 	  "label-mission-activity-tree-of": "Alberi delle possibili attività nella missione: ",
+	  "label-select-mission-to-edit-activities": "Seleziona una missione per aggiungere e modificare le sue attività",
 	  "label-select-nodeType": "Seleziona un tipo di elemento da aggiungere all'albero",
 	  "add-menu-invalid-feedback": "Per favore seleziona tipo di attività",
 	  "add-menu-valid-feedback": "Grazie",

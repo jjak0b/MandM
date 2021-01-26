@@ -27,13 +27,26 @@ export const template =
 							>{{ $t( 'shared.label-loading-completed' ) }}</span>
 						</span>
 					</div>
-					<template v-if="!loading">
-						<b-form-row>
-							<h2>{{ value.name }}</h2><hr>
-						</b-form-row>
-						<b-form-row>
-							<b-col cols="4">
-								<h3>{{ $t('StoryEditorWidget.label-edit-story') }}</h3>
+					<section
+						v-if="!loading"
+						aria-labelledby="story-editor-widget-section-h"
+					>
+						<b-row>
+							<b-col>
+								<h1
+									class="text-center"
+									id="story-editor-widget-section-h"
+								>{{ value.name }}</h1>
+							</b-col>
+						</b-row>
+						<b-row>
+							<b-col md="4">
+								<section
+									aria-labelledby="story-editor-widget-section-edit-h"
+								>
+									<h2
+										id="story-editor-widget-section-edit-h"
+									>{{ $t('StoryEditorWidget.label-edit-story') }}</h2>
 								<div aria-live="polite" >
 									<b-form-checkbox switch
 										class="mt-3"
@@ -88,8 +101,9 @@ export const template =
 										</template>
 									</b-form-radio-group>
 								</b-form-group>
+								</section>
 							</b-col>
-							<b-col offset="1" cols="5">
+							<b-col >
 								<mission-editor-widget
 									id="mission-editor-widget"
 									v-model="mission"
@@ -103,8 +117,8 @@ export const template =
 									v-on:copy-mission="copyMission"
 								></mission-editor-widget>
 							</b-col>
-						</b-form-row>
-						<b-form-row v-if="value.gamemode === '2'">
+						</b-row>
+						<b-row v-if="value.gamemode === '2'">
 							<b-col>
 							<story-groups-widget
 								class="mt-3"
@@ -116,8 +130,9 @@ export const template =
 								v-bind:url="playStoryURL"
 							></story-groups-widget>
 							</b-col>
-						</b-form-row>
-						<b-form-row class="mr-5 mb-3 float-right">
+						</b-row>
+						<b-row class="mr-5 mb-3 float-right">
+							<b-col>
 							<b-button-toolbar>
 								<b-button type="submit" variant="primary">
 									{{ $t('shared.label-save') }}
@@ -132,8 +147,9 @@ export const template =
 									{{ $t('shared.label-delete') }}
 								</b-button>
 							</b-button-toolbar>
-						</b-form-row>
-					</template>
+							</b-col>
+						</b-row>
+					</section>
 				</b-tab>
 			</template>
 			<template v-slot:tabs-end>

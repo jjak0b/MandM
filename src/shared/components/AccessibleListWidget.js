@@ -1,5 +1,6 @@
 import {template} from "./AccessibleListWidgetTemplate.js";
 import { component as borderlessInput } from "../../editor/components/i18nWidgets/I18nBorderlessInputWidget.js"
+import { component as listWidget } from "./ListWidget.js";
 
 export const component = {
 	template: template,
@@ -27,7 +28,8 @@ export const component = {
 		}
 	},
 	components: {
-		'borderless-input': borderlessInput
+		'borderless-input': borderlessInput,
+		"list-widget": listWidget
 	},
 	methods: {
 		select( index ) {

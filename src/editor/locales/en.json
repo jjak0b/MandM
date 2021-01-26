@@ -10,7 +10,7 @@
   	"label-use-this-link-or-scan-this-qrcode-to-play": "Follow this link or scan this QR code to play the story",
 	"label-use-this-link-or-scan-this-qrcode-to-play-as": "@:StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play as {team}",
 	"label-group": "Group",
-	"label-groups": "Groups",
+	"label-groups": "Manage groups and specific missions for each one",
 	"label-edit-story": "Edit story",
 	"label-local-story": "Local",
 	"label-select-internationalization": "Please select an internationalization",

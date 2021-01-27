@@ -53,6 +53,9 @@ export default class Story {
 		}
 
 		this.style = new StyleData( unparsed && unparsed.style ? unparsed.style : null );
+		this.utility = unparsed && unparsed.utility ? unparsed.utility : {
+			qrCodes: []
+		}
 	}
 
 	duplicate( locales ) {

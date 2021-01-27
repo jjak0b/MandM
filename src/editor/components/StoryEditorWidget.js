@@ -4,9 +4,6 @@ import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
 import Story from "../../shared/js/Story.js";
 import {Asset} from "../../shared/js/Asset.js";
-// import VueQrcode from '/libs/vue-qrcode/vue-qrcode.esm.js';
-
-// Vue.component(VueQrcode.name, VueQrcode);
 
 export const component = {
 	template: template,

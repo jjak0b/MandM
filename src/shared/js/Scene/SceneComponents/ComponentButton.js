@@ -1,10 +1,11 @@
 import InputSceneComponent from "../InputSceneComponent.js";
+import {TypedValue} from "../../Types/TypedValue.js";
 
 export default class ComponentButton extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 
-		this.props.value = 'value' in unparsed.props ? unparsed.props.value : null;
+		this.value = new TypedValue( unparsed.value || {} );
 		this.props.type = 'type' in unparsed.props ? unparsed.props.type : 'button';
 		this.props.size = 'size' in unparsed.props ? unparsed.props.size : null;
 		this.props.variant = 'variant' in unparsed.props ? unparsed.props.variant : null;
@@ -24,6 +25,6 @@ export default class ComponentButton extends InputSceneComponent {
 				]
 		);
 
-		return Object.setPrototypeOf( duplicate, ComponentInput.prototype );
+		return Object.setPrototypeOf( duplicate, ComponentButton.prototype );
 	}
 }

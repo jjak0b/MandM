@@ -23,7 +23,7 @@ export const template =
 						>
 						<typed-value
 							id="editor-button-value"
-							v-model="component.props.value"
+							v-model="component.value"
 						></typed-value>
 					</b-form-group>
 				</b-col>
@@ -104,6 +104,7 @@ export const template =
 		<form v-on:submit.prevent.stop v-on:reset.prevent.stop>
 		<user-widget-button
 			v-bind="component.props"
+			v-bind:value="component.value"
 			v-bind:locale="locale"
 			v-bind:localeLabel="component.i18nCategory"
 		></user-widget-button>

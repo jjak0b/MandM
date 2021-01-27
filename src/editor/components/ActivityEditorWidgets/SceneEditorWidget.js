@@ -2,6 +2,7 @@ import { template } from "./SceneEditorWidgetTemplate.js"
 import { component as mediaFormComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorMediaPlayer.js";
 import { component as gridWidget } from "../../../shared/components/GridWidget.js";
 import { component as attributeEditorComponent } from "../SceneEditorWidgets/AttributeEditorWidget.js";
+import { component as timepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorTimepicker.js";
 import { component as datepickerEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorDatepicker.js";
 import { component as buttonEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorButton.js";
 import { component as listEditorComponent } from "../SceneEditorWidgets/UserWidgetEditors/UserWidgetEditorList.js";
@@ -25,6 +26,8 @@ import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentTex
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ComponentInput from "../../../shared/js/Scene/SceneComponents/ComponentInput.js";
 import ComponentButton from "../../../shared/js/Scene/SceneComponents/ComponentButton.js";
+import ComponentDate from "../../../shared/js/Scene/SceneComponents/ComponentDate.js";
+import ComponentTime from "../../../shared/js/Scene/SceneComponents/ComponentTime.js";
 
 export const component = {
 	template: template,
@@ -44,6 +47,7 @@ export const component = {
 		"user-widget-editor-range": inputEditorComponent,
 		"user-widget-editor-spinbutton": spinbuttonEditorComponent,
 		"user-widget-editor-datepicker": datepickerEditorComponent,
+		"user-widget-editor-timepicker": timepickerEditorComponent,
 		"user-widget-editor-media-player": mediaFormComponent,
 		"user-widget-editor-photo": photoEditorComponent,
 		"user-widget-editor-qr-decode": qrDecoderEditorComponent,
@@ -98,6 +102,10 @@ export const component = {
 				"user-widget-datepicker" : {
 					editor: "user-widget-editor-datepicker",
 					label: "UserWidgets.label-datepicker-widget-name",
+				},
+				"user-widget-timepicker" : {
+					editor: "user-widget-editor-timepicker",
+					label: "UserWidgets.label-timepicker-widget-name",
 				},
 				"user-widget-media-player": {
 					editor: "user-widget-editor-media-player",
@@ -502,6 +510,22 @@ export function registerDisposeCallbacks() {
 			if( that.i18nCategory )
 				this.$i18n.removeMessageAll( that.i18nCategory );
 		}
+	);
+
+	ComponentDate.setDisposeCallback(
+			ComponentDate.name,
+			(that, params) => {
+				if( that.i18nCategory )
+					this.$i18n.removeMessageAll( that.i18nCategory );
+			}
+	);
+
+	ComponentTime.setDisposeCallback(
+			ComponentTime.name,
+			(that, params) => {
+				if( that.i18nCategory )
+					this.$i18n.removeMessageAll( that.i18nCategory );
+			}
 	);
 
 	ComponentButton.setDisposeCallback(

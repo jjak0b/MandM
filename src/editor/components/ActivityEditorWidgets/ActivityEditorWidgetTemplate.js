@@ -27,7 +27,7 @@ export const template =
 				v-on:copy="onCopyActivity"
 				v-on:paste="onPasteActivity"
 				v-on:enable="onEnableActivity"
-				aria-describedby="activityTreeDescription"
+				aria-labelledby="activityTreeDescription"
 				ref="treeView"
 				v-model="currentNode"
 				v-on:update:parent="parentNode = $event"

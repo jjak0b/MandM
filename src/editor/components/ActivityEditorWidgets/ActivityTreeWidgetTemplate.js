@@ -2,6 +2,7 @@ export const template =
 `
 <div>
 <div
+	v-bind="$attrs"
 	id="treeView"
 	ref="treeView"
 	v-on:focus="redraw()"

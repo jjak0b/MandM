@@ -11,6 +11,7 @@ import ActivityNodeBranch from "../../../shared/js/ActivityNodes/ActivityNodeBra
 import JSTreeNode from "../../../shared/js/JSTreeNode.js";
 
 export const component = {
+	inheritAttrs: false,
 	template: template,
 	props: {
 		value: Object,

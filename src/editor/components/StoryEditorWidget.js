@@ -4,6 +4,7 @@ import { component as missionEditorComponent } from "./MissionEditorWidget.js";
 import { component as storyGroupsComponent } from "./StoryEditorGroupsWidget.js";
 import Story from "../../shared/js/Story.js";
 import {Asset} from "../../shared/js/Asset.js";
+import {asyncLoad as asyncLoadComponentI18nSelectorWidget} from "./i18nWidgets/I18nSelectorWidget.js";
 
 export const component = {
 	template: template,
@@ -17,8 +18,9 @@ export const component = {
 		copiedMission: Object
 	},
 	components: {
+		'i18n-selector-widget': asyncLoadComponentI18nSelectorWidget,
 		'mission-editor-widget': missionEditorComponent,
-		'story-groups-widget': storyGroupsComponent
+		'story-groups-widget': storyGroupsComponent,
 	},
 	watch: {
 		selectedName: function ( newVal, oldVal ) {
@@ -59,9 +61,16 @@ export const component = {
 	},
 	data() {
 		return {
+			I18nUtils: I18nUtils,
 			loading: null,
 			tabValue: -1,
 			newStory: new Story( null ),
+			newStoryLocale: navigator.language,
+			newStoryForm: {
+				name: {
+					state: null
+				}
+			},
 			gamemodes: {
 				0 : "StoryEditorWidget.gamemodes.solo",
 				1 : "StoryEditorWidget.gamemodes.group",
@@ -178,25 +187,37 @@ export const component = {
 			})
 		},
 		resetModal(){
-			this.newStory = new Story(null)
+			this.newStory = new Story(null);
+			Object.keys( this.newStoryForm ).forEach( (name) => this.newStoryForm[ name ].state = null );
 		},
-		saveModal(){
+		onOkModal( event ) {
+			event.preventDefault();
+			// this.onModalSubmit();
+			this.$refs.newStoryFormSubmit.click();
+		},
+		onModalSubmit(event){
+			let formValidity = event.target.checkValidity();
+
 			// Save the new story on server and local cache if a story
 			// with the same name doesn't already exists
 			let dataExport = this.newStory;
 
-			if (this.names.includes(dataExport.name)) {
-				console.log(dataExport.name," already exists");
-				return
-			}
+			this.newStoryForm.name.state = !this.names.includes(dataExport.name);
 
 			dataExport.dependencies.locales = {};
+			// init story with the locale provided
+			dataExport.dependencies.locales[ this.newStoryLocale ] = { "assets" : {} };
+
+			if ( !formValidity || Object.keys( this.newStoryForm ).some( (name) => !this.newStoryForm[ name ].state ) ) {
+				return;
+			}
 
 			this.putStoryOnServer( dataExport )
 			.then( () => {
 				this.$emit( 'add-local-story', dataExport );
 			})
 			.finally( () => {
+				this.$bvModal.hide('addModal');
 				this.resetModal();
 				this.$emit("update-names");
 			});

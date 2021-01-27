@@ -47,6 +47,13 @@ export const template =
 									<h2
 										id="story-editor-widget-section-edit-h"
 									>{{ $t('StoryEditorWidget.label-edit-story') }}</h2>
+								<i18n-selector-widget
+									class="mx-3 my-4"
+									id="i18n-selector-widget"
+									v-bind:locale="locale"
+									v-bind:locales-list="localesList"
+									v-on:set-locale="$emit( 'update:locale', $event )"
+								></i18n-selector-widget>
 								<div aria-live="polite" >
 									<b-form-checkbox switch
 										class="mt-3"
@@ -183,35 +190,66 @@ export const template =
 		</b-form-group>
 	</b-form>
 </b-modal>
-
 <b-modal 
 	id="addModal"
 	v-bind:title="$t('StoryEditorWidget.label-add-new-story')"
 	v-bind:ok-title="$t('shared.label-save')"
 	centered
 	v-on:show="resetModal"
-	v-on:ok="saveModal">
-	<b-form v-on:submit.stop.prevent>
+	v-on:ok="onOkModal"
+>	
+	<form
+		ref="newStoryForm"
+		v-on:submit.prevent.stop="onModalSubmit"
+		autocomplete="off"
+	>
 		<b-form-group
-				v-bind:label="$t('StoryEditorWidget.label-story-name')"
-				label-for="storyNameInput">
+			v-bind:label="$t('StoryEditorWidget.label-story-name')"
+			label-for="storyNameInput"
+			v-bind:state="newStoryForm.name.state"
+			
+			:invalid-feedback="$t('shared.label-invalid-name-already-exists')"
+		>
 			<b-form-input
-					id="storyNameInput"
-					v-model="newStory.name">
+				required
+				type="text"
+				id="storyNameInput"
+				v-model="newStory.name">
 			</b-form-input>
 		</b-form-group>
 		<b-form-group
-				v-bind:label="$t('StoryEditorWidget.label-story-description')"
-				label-for="storyDescriptionInput">
+			v-bind:label="$t('StoryEditorWidget.label-story-description')"
+			label-for="storyDescriptionInput">
 			<b-form-textarea
-					id="storyDescriptionInput"
-					v-model="newStory.description">
+				id="storyDescriptionInput"
+				v-model="newStory.description">
 			</b-form-textarea>
 		</b-form-group>
-		<b-form-group v-bind:label="$t('StoryEditorWidget.label-gamemode')">
-			<b-form-radio-group v-model="newStory.gamemode">
+		<div class="mb-2">
+			<label
+				for="story-editor-widget-new-locale"
+			>{{ $t( 'StoryEditorWidget.label-select-internationalization' ) }}</label>
+			<b-form-select
+				id="story-editor-widget-new-locale"
+				v-model="newStoryLocale"
+				required
+			>
+				<b-form-select-option
+					v-for="(lang, code) in I18nUtils.i18nCodes"
+					v-bind:value="code"
+				>{{ lang.englishName }} [ {{code}} ]</b-form-select-option>
+			</b-form-select>
+		</div>
+		<b-form-group
+			v-bind:label="$t('StoryEditorWidget.label-gamemode')"
+		>
+			<b-form-radio-group v-model="newStory.gamemode"
+				required
+			>
 				<template v-for="(localeLabel, key) in gamemodes">
-					<b-form-group v-bind:label-for="'add_gamemode_' + key" v-bind:description="$t(localeLabel + '.description' )">
+					<b-form-group
+						v-bind:label-for="'add_gamemode_' + key" v-bind:description="$t(localeLabel + '.description' )" 
+					>
 						<b-form-radio
 								v-bind:id="'add_gamemode_' + key"
 								name="gamemode"
@@ -225,14 +263,20 @@ export const template =
 			<b-form-radio-group stacked v-model="newStory.age">
 				<template v-for="(localeLabel, key) in ages">
 					<b-form-radio
-							v-bind:id="'add_age_' + key"
-							name="age"
-							v-bind:value="key">
-						{{ $t(localeLabel + '.label' ) }}</b-form-radio>
+						v-bind:id="'add_age_' + key"
+						name="age"
+						v-bind:value="key"
+					>{{ $t(localeLabel + '.label' ) }}</b-form-radio>
 				</template>
 			</b-form-radio-group>
 		</b-form-group>
-	</b-form>
+		<input
+			ref="newStoryFormSubmit"
+			type="submit"
+			hidden
+			aria-hidden="true"
+		>
+	</form>
 </b-modal>
 </div>`
 ;

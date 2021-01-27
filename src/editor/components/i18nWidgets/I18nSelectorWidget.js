@@ -14,10 +14,27 @@ export const component = {
 			globalLocaleSelected: navigator.language
 		}
 	},
-	beforeMount: function() {
-		let self = this;
+	watch: {
+		"localesList" : function() {
+			this.onLocalesListChange();
+		}
+	},
+	beforeMount() {
+		this.onLocalesListChange();
 	},
 	methods: {
+		onLocalesListChange() {
+			if( !this.localesList.includes( this.locale ) ) {
+				if( this.localesList.length > 0 )
+					this.notifyValue( this.localesList[ 0 ] );
+				else {
+					this.notifyValue('en');
+				}
+			}
+			else {
+				this.notifyValue(this.locale );
+			}
+		},
 		add: function() {
 			let code = this.globalLocaleSelected;
 			if( !this.localesList.includes( code ) ) {
@@ -26,7 +43,8 @@ export const component = {
 		},
 		/* Notify to parent a value change */
 		notifyValue: function ( value ) {
-			this.$emit( 'input', value );
+			this.$emit('set-locale', value );
+			// this.$emit( 'input', value );
 		}
 	}
 };

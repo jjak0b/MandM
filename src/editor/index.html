@@ -42,21 +42,7 @@
 </head>
 <body>
 <div id="editor" class="container-fluid">
-	<i18n-selector-widget
-			class="mx-3 my-4"
-			id="i18n-selector-widget"
-			v-bind:locale="locale"
-			v-bind:locales-list="localesList"
-			v-on:set-locale="locale = $event"
-	></i18n-selector-widget>
-
-	<b-card no-body v-if="!locale">
-		<div class="text-center text-muted my-5">
-			<h4 v-t="'StoryEditorWidget.label-select-internationalization'"></h4>
-		</div>
-	</b-card>
-
-	<b-card no-body v-else>
+	<b-card no-body>
 		<b-tabs v-on:input="onTabClick">
 			<b-tab v-bind:title="$tc('shared.label-story', 2 )">
 				<story-editor-widget
@@ -66,7 +52,7 @@
 						v-bind:mission="cache.mission"
 						v-bind:names="remoteStories"
 						v-bind:stories="localStories"
-						v-bind:locale="locale"
+						v-bind:locale.sync="locale"
 						v-bind:locales-list="localesList"
 						v-on:update-names="getRemoteStoryNames()"
 						v-on:import="load"

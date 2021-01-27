@@ -1,6 +1,5 @@
 import { i18n, getLanguagesArraySet } from "../../shared/js/i18n.js";
 import { I18nUtils } from "../../shared/js/I18nUtils.js";
-import { component as i18nSelectorComponent, asyncLoad as asyncLoadComponentI18nSelectorWidget } from "./i18nWidgets/I18nSelectorWidget.js";
 import { component as i18nInputComponent, asyncLoad as asyncLoadComponentI18nInputWidget } from "./i18nWidgets/I18nInputWidget.js";
 import { component as storyEditorComponent } from "./StoryEditorWidget.js";
 import { component as activityEditorComponent } from "./ActivityEditorWidgets/ActivityEditorWidget.js";
@@ -37,7 +36,6 @@ const component = {
 		}
 	},
 	components: {
-		'i18n-selector-widget': asyncLoadComponentI18nSelectorWidget,
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,
 		'story-editor-widget': storyEditorComponent,
 		'activity-editor-widget': activityEditorComponent,
@@ -78,10 +76,16 @@ const component = {
 	},
 	methods: {
 		load( data ) {
-			this.localesList = data && data.dependencies && data.dependencies.locales ? Object.keys( data.dependencies.locales ) : [];
 
 			this.clearAuthoredI18nFromLocal();
 			this.loadAuthoredI18nToLocal( data.dependencies.locales );
+
+			this.localesList.splice(0, this.localesList.length );
+
+			let locales = data && data.dependencies && data.dependencies.locales ? Object.keys( data.dependencies.locales ) : [];
+			for (const locale of locales) {
+				this.localesList.push( locale );
+			}
 
 			this.$set( this.cache, "story", data );
 

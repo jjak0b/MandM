@@ -24,7 +24,7 @@ export const template =
 		<b-form-select
 			id="editor-content-locale"
 			v-bind:value="locale"
-			v-on:input="$emit('set-locale', $event)"
+			v-on:input="notifyValue"
 		>
 			<b-form-select-option
 					v-for="code in localesList"

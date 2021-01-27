@@ -390,6 +390,14 @@
 			"label-asset-already-deleted": "Risorsa già eliminata"
 		}
 	},
+	"ActivityQuestEditor": {
+		"label-choose-behavior-on-what-should-happen-when-user-response-doesnt-match-with-any-branch": "Scegli cosa dovrebbe accadere quando la risposta del giocatore non rientra in nessuno dei casi nelle attività figlie \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+		"label-nothing": "Non fare niente",
+		"label-show-message": "Mostra un messaggio",
+		"label-continue-on-next-activity-in-sequence": "Continua sulla prossima attività",
+		"label-activity-behaviors": "Le scelte \"@:ActivityQuestEditor.label-nothing\", \"@:ActivityQuestEditor.label-show-message\" non faranno continuare la storia a una nuova attività, ma \"@:ActivityQuestEditor.label-continue-on-next-activity-in-sequence\" farà continuare la storia a partire dalla prossima attività \"sorella\" nella stessa sequenza",
+		"label-insert-message-to-show": "Inserisci un messaggio da mostrare"
+	},
 	"UtilitySectionWidget" : {
 		"label-utility-section" : "Sezione utilità",
 		"label-qr-code-generator": "Generatore di @:shared.label-qr-code"

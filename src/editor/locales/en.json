@@ -424,11 +424,11 @@
 	}
   },
   "ActivityQuestEditor": {
-	"label-choose-behavior-on-what-should-happen-when-user-response-doesnt-match-with-any-branch": "Choose behavior on what should happen when user response doesn't match with any branch",
+	"label-choose-behavior-on-what-should-happen-when-user-response-doesnt-match-with-any-branch": "Choose behavior on what should happen when user response doesn't match any child \"@:ActivityEditorWidget.treeNode-type.branch.label\" activity",
 	"label-nothing": "Nothing",
 	"label-show-message": "Show message",
 	"label-continue-on-next-activity-in-sequence": "Continue on the next activity",
-	"label-activity-behaviors": "Activity behaviors",
+	"label-activity-behaviors": "The options \"@:ActivityQuestEditor.label-nothing\",\"@:ActivityQuestEditor.label-show-message\" won't continue the story to a new activity, but \"@:ActivityQuestEditor.label-continue-on-next-activity-in-sequence\" will continue the story starting from next \"sibling\" activity in sequence",
 	"label-insert-message-to-show": "Insert message to show"
 
   },

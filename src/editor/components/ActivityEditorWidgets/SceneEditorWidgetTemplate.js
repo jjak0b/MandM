@@ -12,7 +12,10 @@ export const template =
 	</h2>
 	<section>
 		<div>
+			<p>{{ $t('SceneEditorWidget.GridWidget.label-scene-description') }}</p>
 			<p>{{ $t('SceneEditorWidget.GridWidget.label-populate-grid-with-rows-and-cells-to-customize-widget-you-need') }}</p>
+			<p>{{ $t('SceneEditorWidget.GridWidget.label-scene-input-description') }}</p>
+			<p>{{ $t('SceneEditorWidget.GridWidget.label-scene-input-details') }}</p>
 		</div>
 		<b-button-toolbar
 			v-bind:aria-label="$t('SceneEditorWidget.GridWidget.label-grid-toolbar')"

@@ -139,9 +139,9 @@ export const template =
 						<tr>
 							<th>{{  $t( "UserWidgets.MediaPlayer.areas.label-vertex-description" ) }}</th>
 							<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-0'"
-							>{{ $t( "shared.label_axis", "X" ) }}</th>
+							>{{ $t( "shared.label_axis", { name: "X" } ) }}</th>
 							<th v-bind:id="'mediaForm-label-image-area-' + areaIndex + '-axis-1'"
-							>{{ $t( "shared.label_axis", "Y" ) }}</th>
+							>{{ $t( "shared.label_axis", { name: "Y" } ) }}</th>
 						</tr>
 					</thead>
 					<tbody>

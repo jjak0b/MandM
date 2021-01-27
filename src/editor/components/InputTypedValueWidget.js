@@ -94,7 +94,7 @@ component = {
                     },
                     i18n: {
                         type: 'shared.label-Time',
-                        description: "ActivityEditorWidget.tnt-desc"
+                        // description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
                 [Date.name]: {
@@ -104,7 +104,7 @@ component = {
                     },
                     i18n: {
                         type: 'shared.label-Date',
-                        description: "ActivityEditorWidget.tnt-desc"
+                        // description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
                 [String.name]: {
@@ -114,7 +114,7 @@ component = {
                     },
                     i18n: {
                         type: "shared.label-Text",
-                        description: "ActivityEditorWidget.tnt-desc"
+                        // description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
                 [Number.name]:{
@@ -124,14 +124,14 @@ component = {
                     },
                     i18n: {
                         type: "shared.label-Number",
-                        description: "ActivityEditorWidget.tnt-desc"
+                        // description: "ActivityEditorWidget.tnt-desc"
                     }
                 },
                 [Array.name]: {
                     component: "input-array",
                     i18n: {
                         type: "shared.label-Array",
-                        description: "ActivityEditorWidget.tnt-desc"
+                        // description: "ActivityEditorWidget.tnt-desc"
                     }
                 }
             },

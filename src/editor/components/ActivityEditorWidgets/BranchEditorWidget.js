@@ -24,8 +24,12 @@ export const component = {
             envVariableNames: ActivityDataBranch._variables,
             functionLocaleLabels: {
                 "equals": "ActivityEditorWidget.select-type-func.eq",
-                "isAny": "ActivityEditorWidget.select-type-func.isInThere",
+                "isAny": "ActivityEditorWidget.select-type-func.isAny",
                 "isInRange": "ActivityEditorWidget.select-type-func.isInRange",
+                "isGreaterThan": "ActivityEditorWidget.select-type-func.isGreaterThan",
+                "isLessThan": "ActivityEditorWidget.select-type-func.isLessThan",
+                "contains": "ActivityEditorWidget.select-type-func.contains",
+                "isDefined": "ActivityEditorWidget.select-type-func.isDefined",
             },
             parametersLocaleLabels: {
                 "this":"ActivityEditorWidget.parameters.label-element-to-check",

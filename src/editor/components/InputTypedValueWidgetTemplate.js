@@ -25,7 +25,7 @@ export const template =
 			v-if="typedValue.type"
 			v-bind:label="componentDataForType.i18n ? $t( componentDataForType.i18n.type ) : typedValue.type"
 			v-bind:label-for="$attrs.id + '_data-editor-widget-atom-' + typedValue.type"
-			v-bind:description="$tc( componentDataForType.i18n.description, componentDataForType.i18n.type )"
+			v-bind:description="componentDataForType.i18n.description ? $t( componentDataForType.i18n.description, { type: componentDataForType.i18n.type } ) : null"
 		>
 			<component
 				v-if="componentDataForType"
@@ -89,8 +89,8 @@ export const templateArray =
 							>
 								<b-button
 									variant="secondary"
-									v-bind:title="$t('shared.label-move-before')"
-									v-bind:aria-label="$t('shared.label-move-before')"
+									v-bind:title="$t('shared.label-move-up')"
+									v-bind:aria-label="$t('shared.label-move-up')"
 									v-bind:disabled="selectedIndex <= 0"
 									v-on:click="move( selectedIndex, -1 )"
 								>
@@ -103,15 +103,15 @@ export const templateArray =
 								
 								<b-button
 									variant="secondary"
-									v-bind:title="$t('shared.label-move-after')"
-									v-bind:aria-label="$t('shared.label-move-after')"
+									v-bind:title="$t('shared.label-move-down')"
+									v-bind:aria-label="$t('shared.label-move-down')"
 									v-bind:disabled="selectedIndex >= buffer.length - 1"
 									v-on:click="move( selectedIndex, 1 )"	
 								>
 									<span
 										class="glyphicon glyphicon-arrow-down"
 										role="img"
-										v-bind:title="$t('shared.label-move-after')"
+										v-bind:title="$t('shared.label-move-down')"
 										aria-hidden="true"
 									></span>
 								</b-button>

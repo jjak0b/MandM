@@ -279,8 +279,17 @@ export const component = {
 	methods: {
 		fetchAll() {
 			return Promise.all([
-				this.fetchStoryStatus()
+				this.fetchStoryStatus(),
+				this.fetchTotalScore()
 			])
+		},
+		fetchTotalScore() {
+			$.get( `/player/log/totalscore/?story=${this.player.storyName}` )
+			.then( (response) => {
+				this.player.envVars.score = response.totalScore;
+			}).catch( error => {
+				console.error( "[PLayerVM]", "Unable to fetch total score", "cause:", error );
+			})
 		},
 		fetchStoryStatus() {
 			if( !this.player.story || !this.player.storyURL ) return;

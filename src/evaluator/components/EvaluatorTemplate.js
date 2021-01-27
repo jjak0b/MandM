@@ -206,7 +206,13 @@ export const template =
 													>{{ sessionObject.name ? sessionObject.name : sessionName }}
 													</b-card-title>
 												</b-col>
-												<b-col cols="6">
+												<b-col>
+													<span>
+														<strong>{{ $t('Evaluator.label-total-score') }}</strong>
+														{{ sessionObject[selectedStory].totalScore }}
+													</span>
+												</b-col>
+												<b-col>
 													<div class="d-flex">
 														<b-button-toolbar
 															class="mx-auto"
@@ -270,8 +276,9 @@ export const template =
 									v-model="collapseData[sessionName].visible"
 								>
 									<b-card-body>
+										<div v-for="(missionObject, missionId) in sessionObject[ selectedStory ]">
 										<b-card
-											v-for="(missionObject, missionId) in sessionObject[ selectedStory ]"
+											v-if="missionId !== 'totalScore'"
 											no-body
 											class="mx-0 my-1"
 										>
@@ -311,8 +318,8 @@ export const template =
 																	<time :datetime="activityObject.end"
 																	>{{ new Date(activityObject.end).toLocaleDateString(undefined) }}
 																	{{ new Date(activityObject.end).toLocaleTimeString(undefined) }}</time>
-																</b-col>
 																</span>
+																</b-col>
 															</b-row>
 															<div v-if="activityObject.input">
 																<b-table
@@ -399,6 +406,7 @@ export const template =
 												</b-card-body>
 											</b-collapse>
 										</b-card>
+										</div>
 									</b-card-body>
 								</b-collapse>
 								</div>

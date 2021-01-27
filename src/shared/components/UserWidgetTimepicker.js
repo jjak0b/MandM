@@ -1,5 +1,6 @@
 import {template} from "./UserWidgetTimepickerTemplate.js";
 import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
+import Time from "../../shared/js/Types/Time.js";
 
 export const component = {
 	template: template,
@@ -16,7 +17,7 @@ export const component = {
 	},
 	methods: {
 		emitInput(event) {
-			this.value.type = Date.name;
+			this.value.type = Time.name;
 			this.value.value = event;
 			this.$emit('change', this.value);
 		},

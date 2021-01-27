@@ -389,5 +389,16 @@
 			"label-unable-to-delete-asset": "Impossibile rimuovere risorsa",
 			"label-asset-already-deleted": "Risorsa già eliminata"
 		}
+	},
+	"UtilitySectionWidget" : {
+		"label-utility-section" : "Sezione utilità",
+		"label-qr-code-generator": "Generatore di @:shared.label-qr-code"
+	},
+	"QrCodeGenerator": {
+		"label-qr-codes-use-description": "Usa il @:UtilitySectionWidget.label-qr-code-generator per salvare e generare codici QR così puoi utilizzare il componente \"@:UserWidgets.label-qr-decode-widget-name\" in qualsiasi attività che vuoi",
+		"label-save-qrcodes-in-one-place-and-print-them-later": "Tieni qui da parte i codici QR che ti servono per questa storia in un post semplice, così potrai per esempio stamparli successivamente",
+		"label-no-qr-codes": "Non hai nessun codice QR",
+		"label-add-named-qr-codes-for-future-use": "Aggiungi codice QR con dei nomi associati e saranno qui per usi futuri",
+		"label-value-stored-in-qr-code" : "Valore memorizzato nel codice QR come risultato di una scansione"
 	}
 }

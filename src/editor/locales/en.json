@@ -417,5 +417,16 @@
 	"label-activity-behaviors": "Activity behaviors",
 	"label-insert-message-to-show": "Insert message to show"
 
-  }
+  },
+	"UtilitySectionWidget" : {
+		"label-utility-section" : "Utility section",
+		"label-qr-code-generator": "@:shared.label-qr-code generator"
+	},
+	"QrCodeGenerator": {
+		"label-qr-codes-use-description": "Use @:UtilitySectionWidget.label-qr-code-generator to save and generate QR codes so you can use the widget \"@:UserWidgets.label-qr-decode-widget-name\" in any activity you want",
+		"label-save-qrcodes-in-one-place-and-print-them-later": "Keep aside QR codes you need in this story in one easy place, so you can use or print them later",
+		"label-no-qr-codes": "No QR codes",
+		"label-add-named-qr-codes-for-future-use": "Add QR codes with the names you want and will be there for later uses",
+		"label-value-stored-in-qr-code" : "Value stored in QR code for scan result"
+	}
 }

@@ -8,9 +8,24 @@ const router = express.Router();
 router.post("/", PUT_SESSION);
 router.post("/:sessionId", EDIT_SESSION);
 router.get("/", GET_SESSION);
+router.get("/totalscore", GET_TOTAL_SCORE);
+
+function GET_TOTAL_SCORE( req, res, next ) {
+	if (  req.query.story ) {
+		if ( req.query.story in req.session.stories
+				&& 'totalScore' in req.session.stories[req.query.story] ) {
+			res.json({totalScore: req.session.stories[req.query.story].totalScore});
+		}
+		else {
+			res.sendStatus(StatusCodes.NOT_FOUND);
+		}
+	}
+	else {
+		res.sendStatus(StatusCodes.BAD_REQUEST);
+	}
+}
 
 function EDIT_SESSION( req, res, next ) {
-
 	let sessionId = req.params.sessionId;
 
 	if ( req.query.name ) {
@@ -36,6 +51,7 @@ function EDIT_SESSION( req, res, next ) {
 				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 			} else {
 				session.stories[req.body.story][req.body.mission][req.body.activity].score = req.body.score;
+				session = updateTotalScore(session);
 
 				req.sessionStore.set(sessionId, session, (error) => {
 					if (error) {
@@ -87,6 +103,7 @@ function PUT_SESSION( req, res, next ) {
 				}
 				if (log.params.score) {
 					req.session.stories[story][mission][activity].score = log.params.score;
+					req.session = updateTotalScore(req.session);
 				}
 			}
 		}
@@ -106,10 +123,32 @@ function GET_SESSION( req, res, next ) {
 				if ('name' in sessions[session]) {
 					players[session].name = sessions[session].name;
 				}
+				if ('totalScore' in sessions[session]) {
+					players[session].totalScore = sessions[session].totalScore;
+				}
 			}
 		}
 		res.json(players);
 	})
+}
+
+function updateTotalScore( session ) {
+
+	if ( !('totalScore' in session) ) {
+		session.totalScore = {};
+	}
+	for (const story in session.stories) {
+		session.stories[story].totalScore = 0;
+		for (const mission in session.stories[story]) {
+			for (const activity in session.stories[story][mission]) {
+				if ( session.stories[story][mission][activity].score ) {
+					session.stories[story].totalScore = parseInt(session.stories[story].totalScore)
+							+ parseInt(session.stories[story][mission][activity].score);
+				}
+			}
+		}
+	}
+	return session;
 }
 
 module.exports = router;

@@ -154,6 +154,9 @@
 	"label-edit-cell-properties": "Edit cell properties",
 	"label-scene-editor": "Scene editor",
 	"GridWidget": {
+	  "label-scene-description": "The scene represents what the player has seen since starting this activity. The scene is a grid made up of rows and cells; Each cell is associated with a customizable component of your choice. One of these components can be an additional grid that can also be used to create a nested layered structure",
+	  "label-scene-input-description": "When the player interacts with a scene component, it provide a value (set by you) to help and inform you how the player interacted or responded activity. You can use this value to evaluate the response and advance the story with a possible different outcome via the \"@:ActivityEditorWidget.treeNode-type.branch.label\" activity. This value is stored in a variable with the name of your choice, which you can customize when you change the component properties. Remember which component the variable is associated with because you will need it if you use it in the \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+	  "label-scene-input-details": "You can specify to have user interactions evaluated only after they interact with a \"@:UserWidgets.label-button-widget-name\" component of type \"@:shared.label-submit\". If this is not in the scene, the evaluation of the activity will take place immediately after having made any interaction with an interactable component",
 	  "label-populate-grid-with-rows-and-cells-to-customize-widget-you-need": "Populate grid with rows and cells to customize the widgets as you need.",
 	  "label-layout-level": "Layout level",
 	  "label-no-rows-in-grid": "No rows in grid",

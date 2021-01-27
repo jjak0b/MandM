@@ -137,6 +137,9 @@
 		"label-edit-cell-properties": "Modifica proprietà della cella",
 	    "label-scene-editor": "Editor della scena",
 		"GridWidget": {
+			"label-scene-description": "La scena rappresenta ciò che il giocatore vede da quando inizia questa attività. La scena è una griglia composta da righe e celle; A ogni cella è associato un componente personalizzabile a tua scelta. Uno di questi componenti può essere un'ulteriore griglia utilizzabile anche per creare una struttura nidificata a livelli",
+			"label-scene-input-description": "Quando il giocatore interagisce con un componente di scena, quest'ultimo fornisce un certo valore per aiutarti e informarti come il giocatore ha interagito o risposto all'attività. Questo valore puoi utilizzarlo per valutare la risposta e far progredire la storia con un possibile esito diverso tramite le attività \"@:ActivityEditorWidget.treeNode-type.branch.label\". Questo valore è memorizzato in una variabile con il nome che preferisci, personalizzabile quando modifichi le proprietà del componente. Ricordati a quale componente è associata la variabile perchè ti servirà se la utilizzi nella sezione di modifica  \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+			"label-scene-input-details": "Puoi esplicitare di far valutare le interazioni dell'utente solo dopo che interagisce con un componente \"@:UserWidgets.label-button-widget-name\" di tipo \"@:shared.label-submit\". In caso questo non sia presente nella scena, la valutazione dell'attività avverrà subito dopo che ha effettuato una qualsiasi interazione con un componente interagibile",
 	  		"label-scene-grid-layout-and-content": "Contenuti e layout della scena",
 	  		"label-add-row": "Aggiungi riga",
 	  		"label-add-col": "Aggiungi colonna",
@@ -254,6 +257,7 @@
 		  "label-current-unselected-cell-while-navigating": "Cella corrente, attiva mentre si sta interagendo sulla griglia",
 		  "label-cell-class-name-selected": "Classi della cella selezionata"
 	  },
+	  "label-button-widget-name": "Pulsante",
 	  "label-checkbox-widget-name": "Lista a scelta multipla",
 	  "label-select-widget-name": "Lista a tendina ",
 	  "label-radio-widget-name": "Lista a scelta unica",

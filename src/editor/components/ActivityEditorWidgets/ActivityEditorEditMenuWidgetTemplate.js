@@ -55,10 +55,12 @@ export const template =
 					v-bind:locales-list="localesList"
 				></scene-editor-widget>
 			</b-tab>
+			<!--
+			Unused
 			<b-tab v-bind:title="taleTab" v-if="isType(NodeUtils.Types.Tell)">
 				<activity-tale-editor-widget>
 				</activity-tale-editor-widget>
-			</b-tab>
+			</b-tab>-->
 			<b-tab v-bind:title="questTab" v-if="isType(NodeUtils.Types.Quest)">
 				<activity-quest-editor-widget
 					v-bind:value="currentNode.data"

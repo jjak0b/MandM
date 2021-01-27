@@ -23,6 +23,7 @@ export const template =
 			v-on:click="setSelected( keyItem )"
 			v-on:keydown.space="setSelected( keyItem )"
 			v-bind:tabindex="keyItem == activedescendantKey ? 0 : -1"
+			v-bind:style="(!readonly) ? { cursor: 'pointer' } : null"
 		>
 			<slot
 				name="item"

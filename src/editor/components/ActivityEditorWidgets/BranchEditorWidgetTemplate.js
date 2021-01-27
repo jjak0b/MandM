@@ -8,17 +8,37 @@ export const template = `
     ></h3>
     <p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
     ></p>
-<b-form-group  v-if="condition"
-    v-bind:label="$t('ActivityEditorWidget.label-point-assignment')"
-	label-for="activity-editor-branch-point-assignment"
-	>
-		            <b-form-input
-		            id="activity-editor-branch-point-assignment"
-                    type="number"
-                    v-model.number="condition.rewardPoints"
-                    >
-                    </b-form-input>
-		    </b-form-group>
+    
+    <b-row>
+    	<b-col>
+			<b-form-group
+				v-bind:disabled="parametersDisabled"
+				v-bind:label="$t('ActivityEditorWidget.label-point-assignment')"
+				label-for="activity-editor-branch-point-assignment"
+			>
+				<b-form-input
+					id="activity-editor-branch-point-assignment"
+					type="number"
+					v-model.number="condition.rewardPoints"
+				></b-form-input>
+			</b-form-group>
+		</b-col>
+		<b-col>
+			<div>
+				<b-form-checkbox
+					id="activity-editor-branch-human-eval-checkbox"
+					v-model="condition.requireHumanEvaluation"
+					aria-describedby="activity-editor-branch-human-eval-description"
+					switch
+				>{{ $t('ActivityEditorWidget.label-require-human-to-evaluate') }}</b-form-checkbox>
+				<small
+					id="activity-editor-branch-human-eval-description"
+					tabindex="-1"
+					class="form-text text-muted"
+				>{{ $t('ActivityEditorWidget.label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity') }}</small>
+			</div>
+		</b-col>
+	</b-row>
     <condition-parameter v-if="condition && condition.function"
 	    :key="condition.function + '_0'"
 	    v-bind:value="selfParameter"
@@ -32,11 +52,13 @@ export const template = `
     </condition-parameter>
 		
     <b-form-group v-if="condition"
+    	v-bind:disabled="parametersDisabled"
 	    v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
 	    label-for="activity-editor-branch-select-function"
 	    v-bind:description="$t('ActivityEditorWidget.label-branch-condition-example')"
     >
 	<b-form-select
+		v-bind:disabled="parametersDisabled"
 		id="activity-editor-branch-select-function"
 		v-bind:options="functionOptions"
 		v-model="condition.function"

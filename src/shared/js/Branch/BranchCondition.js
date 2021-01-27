@@ -11,13 +11,15 @@ export class BranchCondition extends Disposable {
 			})
 
 		],
-		rewardPoints: 0
+		rewardPoints: 0,
+		requireHumanEvaluation: false
 	}) {
 		super(unparsed);
 
 		this.function = unparsed ? unparsed.function : null;
 		this.params = [];
 		this.rewardPoints = unparsed ? unparsed.rewardPoints : 0;
+		this.requireHumanEvaluation = unparsed ? !!unparsed.requireHumanEvaluation : false;
 		if( unparsed && unparsed.params) {
 			for (let i = 0; i < unparsed.params.length; i++) {
 				this.params.push(

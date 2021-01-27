@@ -81,6 +81,23 @@ export const component = {
         "branch": function (newVal, oldVal) {
             this.onReset();
         },
+        "condition.requireHumanEvaluation": function (newVal, oldVal) {
+            if( newVal ) {
+                // keep self parameter and set default isDefined function
+                this.$set( this.condition, "function", "isDefined");
+                // required to prevent "condition.function" watcher to wipe array
+                this.form.assign = true;
+
+                // keep self parameter
+                this.$set(
+                    this.condition,
+                    "params",
+                   [ this.selfParameter ]
+                );
+
+                this.$nextTick( () =>  this.form.assign = false );
+            }
+        },
         "condition.function": function (value, oldVal) {
 
             if( this.form.assign ) {
@@ -113,6 +130,9 @@ export const component = {
         }
     },
     computed:{
+        parametersDisabled() {
+            return this.condition.requireHumanEvaluation;
+        },
         selfParameter() {
             return this.condition.params[0];
         },

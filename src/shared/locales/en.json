@@ -32,6 +32,8 @@
 	  	"label-squared": "Squared",
 	  	"label-continue": "Continue",
 		"label-field-required": "This is a required field",
+		"label-invalid-name-already-exists": "Name already exists",
+		"label-valid-name-available": "Name available",
 	  	"label-unnamed-mission": "Unnamed mission",
 	  	"label-unnamed-activity": "Unnamed activity",
 	  	"label-select" : "Select",

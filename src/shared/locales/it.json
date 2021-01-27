@@ -32,6 +32,8 @@
 		"label-squared": "Squadrato",
 		"label-continue": "Continua",
 		"label-field-required": "Questo è un campo obbligatorio",
+		"label-invalid-name-already-exists": "Nome già presente",
+		"label-valid-name-available": "Nome disponibile",
 		"label-new-element" : "Nuovo elemento {name}",
 		"label-save" : "Salva",
 		"label-remove" : "Rimuovi",

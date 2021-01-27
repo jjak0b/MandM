@@ -1,5 +1,6 @@
 {
   "Evaluator": {
+	"label-total-score": "Total score",
 	"label-edit-score": "Edit score",
 	"label-edit-score-of-activity": "Edit score of activity",
 	"label-score": "Score",

@@ -74,6 +74,27 @@
 	  "label-selected-mission": "Modifica missione selezionata"
   },
   "ActivityEditorWidget": {
+	  "parameters": {
+		  "label-element-to-check": "Elemento da controllare",
+		  "label-elements-to-check": "Elementi da controllare",
+		  "label-that-element-to-compare": "Altro elemento da confrontare",
+		  "label-min-value": "Valore minimo da confrontare",
+		  "label-max-value": "Valore massimo da confrontare"
+	  },
+	  "select-type-var": {
+		  "label-user-input": "Interazione dell'utente"
+	  },
+	  "label-require-human-to-evaluate": "Richiede valutazione umana",
+	  "label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity": "Se questa condizione è verificata, suggerirà al valutatore di valutare l'attività",
+	  "label-point-assignment": "Imposta i punti da aggiungere o togliere al punteggio",
+	  "label-that-element-to-compare": "Elemento da confrontare",
+	  "label-condition-check-parameters": "Parametri del controllo",
+	  "label-select-a-variable": "Seleziona una variabile",
+	  "label-select-condition-to-check": "Seleziona una condizione da controllare",
+	  "label-branch-condition-example": "Esempio: @:ActivityEditorWidget.label-variable \"@:shared.label-score\" @:ActivityEditorWidget.select-type-func.isGreaterThan @:shared.label-Number con valore 1000",
+	  "label-select-source-of-parameter-value": "Seleziona da dove prendere il parametro",
+	  "label-setup-your-condition": "Imposta la tua condizione",
+	  "label-condition-required-to-continue-play-this-story-route": "Condizione che si deve verificare per continuare a giocare questo ramo della storia",
 	  "label-edit-menu-title": "Modifica menu",
 	  "label-add-menu-title": "Aggiungi menu",
 	  "label-activity-title": "Titolo attività",
@@ -123,9 +144,11 @@
 	  "select-type-func": {
 		  "eq": "Equivalente",
 		  "neq": "Non uguali",
-		  "hasInside": "Ha valore",
-		  "isInThere": "Presente",
-		  "isInRange": "Tra i valori"
+		  "isAny": "è contenuto in",
+		  "isInRange": "è tra l'intervallo",
+		  "isGreaterThan": "è maggiore di",
+		  "isLessThan": "è minore di",
+		  "isDefined": "è impostato"
 	  },
 	  "label-tag": "Tag",
 	  "label-type": "Tipo",

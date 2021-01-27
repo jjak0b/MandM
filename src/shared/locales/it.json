@@ -63,6 +63,23 @@
 		"label-as-file" : "Come file",
 		"label-onto-server" : "Sul server",
 		"label-qr-code" : "Codice QR",
+		"label-preview" : "Anteprima",
+		"label-add-element" : "Aggiungi elemento",
+		"label-remove-element" : "Rimuovi elemento",
+		"label-placeholder" : "Etichetta interna",
+		"label-step" : "Quantità di incremento",
+		"label-min" : "Minimo",
+		"label-max" : "Massimo",
+		"label-wrap" : "Avvolgi",
+		"label-none" : "Nessuno",
+		"label_axis" : "Asse {name}",
+		"label-shape-TYPE" : "Tipo di figura",
+		"label-Array" : "Lista di valori",
+		"label-Array-info" : "Costruisci la tua @.lower:shared.label-Array",
+		"label-Text" : "Testo",
+		"label-Number" : "Numero",
+		"label-Time" : "Orario",
+		"label-Date" : "Data",
 		"label-variable-name" : "Variabile {name}",
 		"label-score" : "Punteggio",
 		"label-loading": "Caricamento in corso",
@@ -95,12 +112,7 @@
 	"i18n" : {
 		"label" : "Internazionalizzazione",
 		"label-description-region" : "Contenuto dinamico per l'internazionalizzazione corrente",
-		"label-story" : "Storia | Storie",
-		"label-Array" : "Lista",
-		"label-Text" : "Testo",
-		"label-Number" : "Numero",
-		"label-Time" : "Tempo",
-		"label-Date" : "Data"
+		"label-story" : "Storia | Storie"
 	},
 	"UserWidgets" : {
 		"Datepicker" : {

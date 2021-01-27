@@ -76,19 +76,21 @@
 	"parameters": {
 	  "label-element-to-check": "Element to check",
 	  "label-elements-to-check": "Elements to check",
-	  "label-that-element-to-compare": "Element to compare",
-	  "label-min-value": "Min value",
-	  "label-max-value": "Max value"
+	  "label-that-element-to-compare": "Other element to compare",
+	  "label-min-value": "Min value to compare",
+	  "label-max-value": "Max value to compare"
 	},
 	"select-type-var": {
 	  "label-user-input": "User input"
 	},
-	"label-point-assignment": "Point assignment",
+  	"label-require-human-to-evaluate": "It Requires human evaluation",
+  	"label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity": "If this condition match will hint evaluator to evaluate the activity",
+	"label-point-assignment": "Set points amount to add o decrement to score",
 	"label-that-element-to-compare": "Element to compare",
 	"label-condition-check-parameters": "Condition check parameters",
 	"label-select-a-variable": "Select a variable",
 	"label-select-condition-to-check": "Select condition to check",
-	"label-branch-condition-example": "Branch condition example",
+	"label-branch-condition-example": "Example: @:ActivityEditorWidget.label-variable \"@:shared.label-score\" @:ActivityEditorWidget.select-type-func.isGreaterThan @:shared.label-Number with value 1000",
 	"label-select-source-of-parameter-value": "Select source of parameter value",
 	"label-setup-your-condition": "Setup your condition",
 	"label-condition-required-to-continue-play-this-story-route": "Condition required to continue playing this story route",
@@ -140,9 +142,11 @@
 	"select-type-func": {
 	  "eq": "Equivalent",
 	  "neq": "Not Equivalent",
-	  "hasInside": "Has Value",
-	  "isInThere": "Is There",
-	  "isInRange": "Is in Range"
+	  "isAny": "Is contained in",
+	  "isInRange": "Is in Range",
+	  "isGreaterThan": "Is greater than",
+	  "isLessThan": "Is less than",
+	  "isDefined": "Is set"
 	},
 	"label-tag": "Tag",
 	"label-type": "Type",

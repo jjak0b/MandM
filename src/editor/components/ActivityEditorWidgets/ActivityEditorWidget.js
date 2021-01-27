@@ -189,9 +189,15 @@ export const component = {
 			this.grabbedActivity.locales = undefined;
 
 			console.log("[ActivityEditor]", "Dropped activity", newActivity);
-			this.$refs.treeView.add(newActivity);
-			this.$emit('grab-activity', null);
-			this.save(this.mission);
+			let nodeAdded = this.$refs.treeView.add(newActivity);
+			if( nodeAdded ) {
+				this.$emit('grab-activity', null);
+				this.save(this.mission);
+			}
+			else {
+				// dispose it if can't create node
+				newActivity.dispose();
+			}
 		},
 		onCopyActivity() {
 			let copiedId = this.$refs.treeView.tree.get_selected(true)[0].id;
@@ -214,8 +220,14 @@ export const component = {
 			this.copiedActivity.i18nTupleList = undefined;
 
 			console.log("[ActivityEditor]", "Pasted activity", newActivity);
-			this.$refs.treeView.add(newActivity);
-			this.save(this.mission);
+			let nodeAdded = this.$refs.treeView.add(newActivity);
+			if( nodeAdded ) {
+				this.save(this.mission);
+			}
+			else {
+				// dispose it if can't create node
+				newActivity.dispose();
+			}
 		},
 		onEnableActivity() {
 			this.$refs.treeView.disable();

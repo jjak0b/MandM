@@ -103,6 +103,11 @@
 						v-bind:value="cache.story.style"
 				></style-editor-widget>
 			</b-tab>
+			<b-tab v-bind:title="$t('UtilitySectionWidget.label-utility-section')">
+				<utility-section-widget
+					v-bind:value="cache.story.utility"
+				></utility-section-widget>
+			</b-tab>
 		</b-tabs>
 	</b-card>
 </div>

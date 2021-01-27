@@ -10,6 +10,7 @@ import {component as formExportFile} from "./StoryEditorWidgets/StoryFormExportF
 import {component as formExportServer} from "./StoryEditorWidgets/StoryFormExportServer.js";
 import {component as assetsManager} from "./AssetsManagerWidget.js";
 import { component as styleEditor } from "./StyleEditorWidget.js";
+import {component as utilitySectionWidget} from "./UtilitySectionWidget.js";
 import Mission from "../../shared/js/Mission.js";
 import Story from "../../shared/js/Story.js";
 
@@ -46,7 +47,8 @@ const component = {
 		"form-import-server": formImportServer,
 		"form-export-file": formExportFile,
 		"form-export-server": formExportServer,
-		"style-editor-widget": styleEditor
+		"style-editor-widget": styleEditor,
+		"utility-section-widget" : utilitySectionWidget
 	},
 	computed: {
 		canExport: function () { return this.cache.story && this.cache.story.missions && this.cache.story.missions.length > 0; },

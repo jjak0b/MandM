@@ -1,7 +1,6 @@
 export const template =
 `
-<div
-	aria-label="Player"
+<section
 	aria-live='polite'
 	ref="player-viewport"
 	tabindex="0"
@@ -13,7 +12,6 @@ export const template =
 >
 <scene-viewport
 	v-bind:key="activity.id"
-	aria-label="Scene"
 	id="player-scene"
 	ref="scene"
 	v-if="isSceneable"
@@ -28,20 +26,16 @@ export const template =
 	aria-live="polite"
 >
 	<b-row>
-		<b-col>
-			<b-btn-group
-				
-				class="d-flex"
-			>
-				<b-btn
-					class="m-auto"
-					v-on:click="onInput( 'click', $event )"
-					v-t="'shared.label-continue'"
-				>
-				</b-btn>
-			</b-btn-group>
+		<b-col
+			class="d-flex"
+		>
+			<b-button
+				class="m-auto w-50"
+				v-on:click="onInput( 'click', $event )"
+				v-t="'shared.label-continue'"
+			></b-button>
 		</b-col>
 	</b-row>
 </b-container>
-</div>
+</section>
 `;

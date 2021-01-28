@@ -329,7 +329,8 @@ export const template =
 																	:fields="[
 																		{ key: 'variableName', label: $t('shared.label-variable-name', {name: ''}) },
 																		{ key: 'type', label: $t('Evaluator.label-input-type') },
-																		{ key: 'value', label: $t('Evaluator.label-input-value') }
+																		{ key: 'value', label: $t('Evaluator.label-input-value') },
+																		{ key: 'requireHumanEvaluation', label: ''  },
 																	]"
 																>
 																	<template #cell(value)="data">
@@ -379,15 +380,23 @@ export const template =
 																			v-else
 																		>{{ data.item.value }}</output>
 																	</template>
+																	<template #cell(requireHumanEvaluation)="data">
+																		<span class="text-danger">{{ $t(data.item.requireHumanEvaluation) }}</span>
+																	 </template>
 																</b-table>
 															</div>
-															<div v-if="activityObject.score">
+															<div v-if="'score' in activityObject">
 																<b-row>
 																	<b-col>
 																		<p  style="font-weight: bold;">{{ $t("Evaluator.label-score") }}</p>
 																		<b-row>
 																			<b-col>
-																		<p>{{ activityObject.score }}</p>																			
+																				<p>{{ activityObject.score }}</p>																			
+																			</b-col>
+																			<b-col v-if="'valueToEvaluate' in activityObject">
+																				<p class="text-danger">
+																					{{ getEvaluationText(activityObject.valueToEvaluate) }}
+																				</p>
 																			</b-col>
 																			<b-col>
 																				<b-button v-on:click="showScoreModal(sessionName, selectedStory, missionId, activityId)">

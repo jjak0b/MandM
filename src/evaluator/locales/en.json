@@ -1,5 +1,7 @@
 {
   "Evaluator": {
+	"label-evaluate-activity-based-on-total-score": "Evaluate activity based on total score",
+	"label-evaluate-the-activity-based-on-this-value": "Evaluate the activity based on this value",
 	"label-total-score": "Total score",
 	"label-edit-score": "Edit score",
 	"label-edit-score-of-activity": "Edit score of activity",

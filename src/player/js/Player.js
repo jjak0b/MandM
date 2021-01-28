@@ -65,8 +65,7 @@ export default class Player {
 		this.logger = null;
 
 		this.envVars = {
-			userInput: undefined,
-			score: null
+			score: new TypedValue({ type: Number.name, value: 0} )
 		}
 	}
 
@@ -277,7 +276,7 @@ export default class Player {
 
 					if ( branchNode.data.condition.rewardPoints ) {
 						rewardPoints = branchNode.data.condition.rewardPoints;
-						this.envVars.score += rewardPoints;
+						this.envVars.score.value += rewardPoints;
 					}
 
 					this.current.parentNodes.push(branchNode);
@@ -347,9 +346,6 @@ export default class Player {
 			}
 
 		}while( !nextActivity && nextMission );
-
-		this.envVars.userInput = null;
-		this.envVars.score = null;
 
 		// no activity left -> end the story
 		if( !nextMission && !nextActivity ) {

@@ -290,7 +290,7 @@ export const component = {
 		fetchTotalScore() {
 			$.get( `/player/log/totalscore/?story=${this.player.storyName}` )
 			.then( (response) => {
-				this.player.envVars.score = response.totalScore;
+				this.player.envVars.score.value = response.totalScore;
 			}).catch( error => {
 				console.error( "[PLayerVM]", "Unable to fetch total score", "cause:", error );
 			})

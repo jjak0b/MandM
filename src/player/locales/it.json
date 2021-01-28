@@ -15,6 +15,8 @@
 		"errors": {
 			"label-generic": "Errore",
 			"label-unable-to-load-resources": "Ops, non possiamo caricare le risorse necessarie, ricarica l'applicazine per piacere"
-		}
+		},
+		"label-game-will-start-in": "Il gioco inizierà tra",
+		"label-waiting-game-start": "Attendi finché non inizia il gioco"
 	}
 }

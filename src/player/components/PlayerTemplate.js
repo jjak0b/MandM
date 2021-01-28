@@ -27,19 +27,34 @@ export const template =
 	>
 		<main class="h-100">
 			<section
-				aria-labelledby="player-info-title"
 				class="container"
 			>
 				<div class="row">
 					<div class="col">
 						<h1
 							id="player-info-title"
-							class="display-1 text-center"
-						>{{ infoTitle }}</h1>
+							class="text-center"
+							v-if="missionTitle"
+						>{{ missionTitle }}</h1>
 						<p
 							id="player-info-description"
 							class="lead text-justify"
-						>{{ infoDescription }}</p>
+							v-if="missionDescription"
+						>{{ missionDescription }}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h2
+							id="player-info-subtitle"
+							class="text-center"
+							v-if="activityTitle"
+						>{{ activityTitle }}</h2>
+						<p
+							id="player-info-subdescription"
+							class="lead text-justify"
+							v-if="activityDescription"
+						>{{ activityDescription }}</p>
 					</div>
 				</div>
 			</section>

@@ -66,17 +66,36 @@ export const component = {
 				return null;
 			}
 		},
-		infoTitle() {
-			let data = this.player.current.activity ? this.player.current.activity.data : null;
+		missionTitle() {
+			let data = this.player.current.mission ? this.player.current.mission : null;
 			if(data) {
-				if( data.description && this.$te( data.title ) ) {
+				if( data.title && this.$te( data.title ) ) {
 					return this.$t( data.title );
 				}
 			}
 
-			return !this.infoDescription ? this.$t( 'Player.label-no-info-available' ) : null;
+			return this.$t( 'Player.label-no-info-available' );
 		},
-		infoDescription() {
+		missionDescription() {
+			let data = this.player.current.mission ? this.player.current.mission : null;
+			if(data) {
+				if( data.description && this.$te( data.description ) ) {
+					return this.$t( data.description );
+				}
+			}
+
+			return null;
+		},
+		activityTitle() {
+			let data = this.player.current.activity ? this.player.current.activity.data : null;
+			if(data) {
+				if( data.title && this.$te( data.title ) ) {
+					return this.$t( data.title );
+				}
+			}
+			return null;
+		},
+		activityDescription() {
 			let data = this.player.current.activity ? this.player.current.activity.data : null;
 			if(data) {
 				if( data.description && this.$te( data.description ) ) {

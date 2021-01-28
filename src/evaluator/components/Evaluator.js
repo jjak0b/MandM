@@ -482,15 +482,31 @@ export const component = {
 		isDataURLOfType( dataURL, type ) {
 			return getMIMEFromDataURL(dataURL).startsWith(type);
 		},
+		getEvaluationText( valueToEvaluate ) {
+			if ( valueToEvaluate.sourceType === 'value' ) {
+				let typedValue = new TypedValue( valueToEvaluate.sourceValue );
+				return `${this.$t('Evaluator.label-evaluate-the-activity-based-on-this-value')}: ${typedValue.toString()}`
+			}
+			else if ( valueToEvaluate.sourceType === 'variable' && valueToEvaluate.sourceValue === 'score' ) {
+				return this.$t('Evaluator.label-evaluate-activity-based-on-total-score')
+			}
+		},
 		getItemsForInputTable( object ) {
 			let items = [];
+			let requireHumanEvaluation;
 			for (const objectKey in object) {
 				if( object[ objectKey] ) {
+					requireHumanEvaluation = '';
+					if ( 'valueToEvaluate' in object[objectKey]
+						 && object[objectKey].valueToEvaluate.sourceType === 'variable' ) {
+						requireHumanEvaluation = 'label-evaluate-the-activity-based-on-this-value'
+					}
 					let typedValue = new TypedValue( object[objectKey] );
 					items.push({
 						variableName: objectKey,
 						type: typedValue.type,
-						value: typedValue.toString()
+						value: typedValue.toString(),
+						requireHumanEvaluation: requireHumanEvaluation
 					});
 				}
 			}

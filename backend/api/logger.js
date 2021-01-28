@@ -97,7 +97,10 @@ function PUT_SESSION( req, res, next ) {
 			}
 
 			if (!(activity in req.session.stories[story][mission])) {
-				req.session.stories[story][mission][activity] = {};
+				req.session.stories[story][mission][activity] = {
+					score: 0
+				};
+
 			}
 
 			if (log.params) {
@@ -112,6 +115,9 @@ function PUT_SESSION( req, res, next ) {
 				if (log.params.score) {
 					req.session.stories[story][mission][activity].score = log.params.score;
 					req.session = updateTotalScore(req.session);
+				}
+				if (log.params.valueToEvaluate) {
+					req.session.stories[story][mission][activity].valueToEvaluate = log.params.valueToEvaluate;
 				}
 			}
 		}

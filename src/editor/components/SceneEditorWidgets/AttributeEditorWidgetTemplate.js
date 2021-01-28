@@ -39,14 +39,15 @@ export const template =
 			</b-form-group>
 		</div>
 	</div>
-	<div
-		class="row"
+	<form
+		aria-labelledby="attributeEditor-input-attribute-legend"
+		v-on:submit.prevent="onAddAttribute"
+		autocomplete="off"
 		v-if="component"
 	>
-		<b-form
-			aria-labelledby="attributeEditor-input-attribute-legend"
-			v-on:submit.prevent="onAddAttribute"
-		>			
+		<div
+			class="row"
+		>	
 			<div class="col" >
 				<b-table
 					select-mode="single"
@@ -113,8 +114,8 @@ export const template =
 					</div>
 				</fieldset>
 			</div>
-		</b-form>
-	</div>
+		</div>
+	</form>
 </fieldset>
 <div class="row">
 	<div class="col">

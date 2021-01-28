@@ -162,7 +162,7 @@
 	  "label-scene-input-description": "When the player interacts with a scene component, it provide a value (set by you) to help and inform you how the player interacted or responded activity. You can use this value to evaluate the response and advance the story with a possible different outcome via the \"@:ActivityEditorWidget.treeNode-type.branch.label\" activity. This value is stored in a variable with the name of your choice, which you can customize when you change the component properties. Remember which component the variable is associated with because you will need it if you use it in the \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
 	  "label-scene-input-details": "You can specify to have user interactions evaluated only after they interact with a \"@:UserWidgets.label-button-widget-name\" component of type \"@:shared.label-submit\". If this is not in the scene, the evaluation of the activity will take place immediately after having made any interaction with an interactable component",
 	  "label-populate-grid-with-rows-and-cells-to-customize-widget-you-need": "Populate grid with rows and cells to customize the widgets as you need.",
-	  "label-layout-level": "Layout level",
+	  "label-layout-level": "Nested level {n}",
 	  "label-no-rows-in-grid": "No rows in grid",
 	  "label-scene-grid-layout-and-content": "Scene grid layout and content",
 	  "label-edit-current-grid-settings": "Edit current grid settings",
@@ -177,9 +177,9 @@
 	}
   },
   "StyleEditorWidget": {
-	"label-custom-stylesheet-description": "Custom stylesheet description",
-	"label-select-custom-stylesheet": "Select custom stylesheet",
-	"label-no-property": "No property",
+  	"label-custom-stylesheet-description": "Include your favorite stylesheet among those you have uploaded to the platform",
+  	"label-select-custom-stylesheet": "Select your own custom style sheet",
+	"label-no-property": "No property added",
 	"label-add-property-to-edit": "Add property to edit",
 	"label-no-CSS-rule": "No CSS rule",
 	"label-add-rule-to-edit": "Add rule to edit",
@@ -204,13 +204,14 @@
 	  "label-visit-documentation-for-class-info": "Visit documentation for class info"
 	},
 	"rule": {
+	  "label-stylesheet-list": "@:media.label-stylesheets List",
 	  "label-rule-list": "Rule list",
 	  "label-css-selector-editor": "CSS selector editor",
 	  "label-css-properties-editor": "CSS properties editor",
 	  "label-add-property-name": "Add property name",
 	  "label-css-preview": "CSS preview",
 	  "property": {
-		"label-parameter": "Parameter"
+		"label-parameter": "Property parameter"
 	  }
 	},
 	"StyleLengthWidget": {
@@ -255,7 +256,7 @@
 	"label-attribute-name": "Attribute name",
 	"label-attribute-value": "Attribute value",
 	"label-no-added-attributes": "No added attributes",
-	"label-add-or-remove-attributes": "Add or remove attributes",
+	"label-add-or-remove-attributes": "Add or remove attribute",
 	"label-attributes": "Attributes",
 	"label-label-id": "Id",
 	"label-classes": "Classes",

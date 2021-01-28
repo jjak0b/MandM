@@ -143,6 +143,8 @@
 			"label-message-sent": "Sent",
 			"label-unable-to-send-message": "Sending failed"
 		},
+		"label-send": "Send",
+		"label-list-messages": "Messages list",
 		"label-myself": "You",
 		"label-Helper": "Helper",
 		"label-Player": "Player",

@@ -156,6 +156,8 @@
 			"label-message-sent": "Inviato",
 			"label-unable-to-send-message": "Invio fallito"
 		},
+		"label-send": "Invia",
+		"label-list-messages": "Lista dei messaggi",
 		"label-myself": "Tu",
 		"label-Helper": "Aiutante",
 		"label-Player": "Giocatore",

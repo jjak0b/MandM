@@ -187,8 +187,9 @@ export const template =
 						<b-card-group
 							deck
 						>
+							<template v-for="(sessionObject, sessionName) in sessions">
 							<b-card
-								v-for="(sessionObject, sessionName) in sessions"
+								v-if="sessionObject[selectedStory]"
 								no-body
 								style="height: max-content"
 							>
@@ -420,6 +421,7 @@ export const template =
 								</b-collapse>
 								</div>
 							</b-card>
+							</template>
 						</b-card-group>
 					</b-col>
 				</b-row>

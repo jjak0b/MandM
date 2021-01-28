@@ -1,6 +1,7 @@
 export const template =
 `
 <b-form
+	autocomplete="off"
 	v-on:submit.prevent="onSubmit"
 	v-on:reset="onReset"
 >

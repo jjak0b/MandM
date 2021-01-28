@@ -5,7 +5,8 @@ export const template =
 		<section class="col">
 			<form
 				ref="form"
-				v-on:submit.prevent
+				autocomplete="off"
+				@submit.prevent.stop
 				v-on:reset="reset()"
 			>
 				<b-form-group
@@ -81,7 +82,8 @@ export const template =
 									<div>
 										<form
 											id="mediaForm-input-image-area-form"
-											v-on:submit.prevent="onAddArea"
+											autocomplete="off"
+											v-on:submit.prevent.stop="onAddArea"
 										>
 											<fieldset form="mediaForm-input-image-area-form">
 												<legend v-t="'UserWidgets.MediaPlayer.label-add-image-area'"></legend>

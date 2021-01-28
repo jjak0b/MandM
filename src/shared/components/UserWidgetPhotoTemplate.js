@@ -2,7 +2,7 @@ export const template =
 `
 <form
 	ref="form"
-	@submit.prevent
+	@submit.prevent.stop
 	@reset.stop
 >
 <input

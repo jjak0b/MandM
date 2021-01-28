@@ -18,7 +18,7 @@ export const template =
 		></b-form-tags>
 		
 		<b-form
-			@submit.prevent="onAddOption( guessOption )"
+			@submit.prevent.stop="onAddOption( guessOption )"
 			autocomplete="off"
 			:aria-describedby="ariaDescribedby"
 		>

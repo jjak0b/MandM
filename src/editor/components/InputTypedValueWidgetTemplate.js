@@ -42,7 +42,10 @@ export const template =
 
 export const templateArray =
 `
-<b-form>
+<b-form
+	autocomplete="off"
+	@submit.prevent.stop
+>
 	<fieldset>
 		<legend v-t="'shared.label-Array-info'"></legend>
 		<b-form-row>

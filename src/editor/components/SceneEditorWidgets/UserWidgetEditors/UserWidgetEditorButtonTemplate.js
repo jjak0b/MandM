@@ -101,7 +101,11 @@ export const template =
 </section>
 <section>
 	<h4 v-t="'shared.label-preview'"></h4>
-		<form v-on:submit.prevent.stop v-on:reset.prevent.stop>
+		<form
+			v-on:submit.prevent.stop
+			v-on:reset.prevent.stop
+			autocomplete="off"
+		>
 		<user-widget-button
 			v-bind="component.props"
 			v-bind:value="component.value"

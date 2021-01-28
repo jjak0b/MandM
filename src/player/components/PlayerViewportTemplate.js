@@ -7,6 +7,7 @@ export const template =
 >
 <form
 	ref="form"
+	autocomplete="off"
 	@submit.prevent="onSubmit"
 	@change="onChangeDoSubmit"
 >

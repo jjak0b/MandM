@@ -14,6 +14,12 @@ export default class ComponentInput extends InputSceneComponent {
 	duplicate( locales, activityCategory ) {
 		let duplicate = super.duplicate( activityCategory );
 
+		duplicate.props.type = this.props.type;
+		duplicate.props.min = this.props.min;
+		duplicate.props.max = this.props.max;
+		duplicate.props.step = this.props.step;
+		duplicate.props.extremes = this.props.extremes;
+
 		// used for label
 		locales.push(
 			[

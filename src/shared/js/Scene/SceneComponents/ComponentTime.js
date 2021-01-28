@@ -16,6 +16,9 @@ export default class ComponentTime extends InputSceneComponent {
 	duplicate( locales, activityCategory ) {
 		let duplicate = super.duplicate( activityCategory );
 
+		duplicate.value = this.value;
+		duplicate.props.data = this.props.data;
+
 		// used for label
 		locales.push(
 				[
@@ -24,7 +27,7 @@ export default class ComponentTime extends InputSceneComponent {
 				]
 		);
 
-		return Object.setPrototypeOf( duplicate, ComponentInput.prototype );
+		return Object.setPrototypeOf( duplicate, ComponentTime.prototype );
 	}
 
 }

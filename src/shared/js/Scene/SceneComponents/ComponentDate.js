@@ -16,4 +16,21 @@ export default class ComponentDate extends InputSceneComponent {
 
 	}
 
+	duplicate( locales, activityCategory ) {
+		let duplicate = super.duplicate( activityCategory );
+
+		duplicate.value = this.value;
+		duplicate.props.data = this.props.data;
+
+		// used for label
+		locales.push(
+				[
+					this.i18nCategory,
+					duplicate.i18nCategory
+				]
+		);
+
+		return Object.setPrototypeOf( duplicate, ComponentDate.prototype );
+	}
+
 }

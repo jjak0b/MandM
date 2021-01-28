@@ -107,11 +107,18 @@ export class I18nUtils {
 
 					if( results ) {
 						let locales = {};
-						languages.forEach( (lang, i) => {
-							if( results[ i ].status === "fulfilled" && results[ i ].value ) {
-								locales[ lang ] = results[ i ].value
+
+						for (const result of results) {
+							if( result.status === "fulfilled" && result.value ) {
+								for (const lang in result.value) {
+									let localeData = result.value[ lang ]
+									if( !(lang in locales) ) {
+										locales[ lang ] = {};
+									}
+									I18nUtils.mergeDeep( locales[ lang ], localeData );
+								}
 							}
-						});
+						}
 						console.log( "Locales data received from", rootPath, locales );
 						resolve( locales );
 					}

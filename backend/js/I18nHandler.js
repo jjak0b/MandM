@@ -52,7 +52,12 @@ class I18nHandler {
 					let data = null;
 					for (let i = 0; i < this.i18next.languages.length; i++) {
 						data = this.i18next.getResourceBundle( this.i18next.languages[i] );
-						if( data ) break;
+						if( data ) {
+							let tempData = {};
+							tempData[ this.i18next.languages[ i ] ] = data;
+							data = tempData;
+							break;
+						}
 					}
 					if( data ) {
 						resolve( data );

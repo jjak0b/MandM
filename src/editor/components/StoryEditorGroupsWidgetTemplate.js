@@ -6,7 +6,7 @@ export const template =
 	<h2
 		id="story-editor-groups-widget-h"
 	v-t="'StoryEditorWidget.label-groups'"></h2>
-	<b-form-row>
+	<b-row>
 		<b-col>
 		<b-button 
 			class="ml-3 my-2"
@@ -16,17 +16,16 @@ export const template =
 			{{ $t('StoryEditorWidget.label-add-new-group') }}
 		</b-button>
 		</b-col>
-	</b-form-row>
-	<b-form-row>
+	</b-row>
+	<b-row>
 	<b-col>
-	<b-card-group
-		columns
-		tag="ol"
+	<ol
 	>
-		<b-card
-			tag="li"
-			no-body
+		<li 
 			v-for="(group, index) in groups"
+		>
+		<b-card
+			no-body
 		>
 			<b-card-body>
 				<div class="row">
@@ -80,10 +79,11 @@ export const template =
 					{{ $t('shared.label-remove') }}
 				</b-link>
 			</b-card-footer>
-		</b-card>
-	</b-card-group>
+	</b-card>
+		</li>
+	</ol>
 	</b-col>
-	</b-form-row>
+	</b-row>
 
 	<b-modal
 		id="groupsModal"

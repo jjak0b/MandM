@@ -316,10 +316,21 @@
 	  "label-grid-settings": "Impostazioni @:UserWidgets.label-grid-widget-name",
 	  "label-show-extremes": "Mostra Valori Limite",
 	  "Photo" : {
+		  "label-select-type-media": "Seleziona un tipo di media da acquisire",
 		  "cameraType" : {
 			  "front": "Fotocamera frontale",
 			  "back": "Fotocamera posteriore"
 		  }
+	  },
+	  "QrDecoder": {
+		  "label-qr-decoder-settings": "@:UserWidgets.label-qr-decoder-settings",
+		  "label-label-qr": "Contenuto dell'etichetta per il componente",
+		  "label-error-message": "Configurazione del messaggio di errore",
+		  "label-id-of-message" : "ID da asssegnare all'elemento di notifica se si vuole applicare uno stile personalizzato",
+		  "label-error-message-title": "Titolo della notifica di errore",
+		  "label-error-message-content": "Contenuto principale della notifica di errore",
+		  "label-error-message-to-show-if-no-qr-has-been-detected-after-use": "Consigliato: Notifica del messaggio di errore per mostrare se non è stato rilevato alcun codice QR dopo la scansione, ad esempio un messaggio per aiutare il giocatore a scattare una foto non sfocata, con il codice QR al centro",
+		  "label-detected-result": "Contenuto rilevato"
 	  },
 	  "TextContent": {
 		  "initial-editor-content": "Aggiungi il tuo testo",

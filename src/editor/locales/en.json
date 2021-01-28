@@ -316,10 +316,21 @@
 	"label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",
 	"label-show-extremes": "Show range extremes",
 	"Photo" : {
+		"label-select-type-media": "Select a media type to capture",
 		"cameraType" : {
 			"front": "Front-facing camera",
 			"back": "Back camera"
 		}
+	},
+	"QrDecoder": {
+		"label-qr-decoder-settings": "@:UserWidgets.label-qr-decoder-settings",
+		"label-label-qr": "Label content for widget",
+		"label-error-message": "Error message settings",
+		"label-id-of-message" : "ID to assign to the notification element if you want apply a custom style",
+		"label-error-message-title": "Title of error message notification",
+		"label-error-message-content": "Main content of the error message",
+		"label-error-message-to-show-if-no-qr-has-been-detected-after-use": "Recommended: Error message notification to show if no QR code has been detected after scan, for example a message to help player to take a not blurred picture, with the QR code on center",
+		"label-detected-result": "Detected content"
 	},
 	"TextContent": {
 	  "initial-editor-content": "Add your text",

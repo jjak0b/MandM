@@ -12,13 +12,21 @@ router.get("/totalscore", GET_TOTAL_SCORE);
 
 function GET_TOTAL_SCORE( req, res, next ) {
 	if (  req.query.story ) {
-		if ( req.query.story in req.session.stories
-				&& 'totalScore' in req.session.stories[req.query.story] ) {
-			res.json({totalScore: req.session.stories[req.query.story].totalScore});
+
+		if ( !('stories' in req.session) ) {
+			req.session.stories = {};
 		}
-		else {
-			res.sendStatus(StatusCodes.NOT_FOUND);
+
+		if ( !(req.query.story in req.session.stories) ) {
+			req.session.stories[req.query.story] = {};
 		}
+
+		if ( !('totalScore' in req.session.stories[req.query.story]) ) {
+			req.session.stories[req.query.story].totalScore = 0;
+		}
+
+		res.json({totalScore: req.session.stories[req.query.story].totalScore});
+
 	}
 	else {
 		res.sendStatus(StatusCodes.BAD_REQUEST);

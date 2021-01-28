@@ -56,6 +56,8 @@
 		"label-missions" : "Nessuna missione | {count} missione | {count} missioni",
 		"label-activity" : "Attività",
 		"label-story" : "Storia | Storie",
+		"label-asset-manager" : "Gestore delle risorse",
+		"label-style-editor" : "Editor di stili",
 		"label-select-option" : "Seleziona un'opzione",
 		"label-no-match-found": "Nessuna corrispondenza trovata",
 		"label-from-file" : "Da file",

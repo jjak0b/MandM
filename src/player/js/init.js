@@ -2,7 +2,7 @@ import {component as playerComponent} from "../components/Player.js";
 import {i18n} from "../../shared/js/i18n.js";
 
 // minimal offline locales
-i18n.mergeLocaleMessage( i18n.fallbackLocale,
+i18n.mergeLocaleMessage( 'en',
 
 	{
 		"shared": {

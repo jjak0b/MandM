@@ -165,7 +165,11 @@ export const component = {
 						console.log( "[PlayerVM]", "Start downloading story assets" );
 
 						let promisesDependencies = [
-							I18nUtils.fetchLocales( "" + this.player.storyURL, [ i18n.locale, i18n.fallbackLocale ] )
+							I18nUtils.fetchLocales( "" + this.player.storyURL, getLanguagesArraySet() )
+								.catch( (error) => {
+									console.warn("[PlayerVM] Unable to fetch locales from browser preferences ...", "fetching supported locales by story as last chance" );
+									return I18nUtils.fetchLocales("" + this.player.storyURL, "*")
+								})
 						];
 						promisesDependencies = promisesDependencies.concat( this.player.fetchAssets() );
 

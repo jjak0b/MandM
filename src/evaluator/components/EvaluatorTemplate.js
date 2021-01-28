@@ -99,6 +99,27 @@ export const template =
 				</b-breadcrumb-item>
 			</b-breadcrumb>
 			<b-container>
+				<b-row v-if="selectedStory && Object.keys(leaderboard).length !== 0">
+					<b-col>
+						<b-card no-body>
+							<b-card-header v-b-toggle="'story-leaderboard'">
+								<h3 v-t="'Evaluator.label-story-leaderboard'"></h3>
+							</b-card-header>
+							<b-collapse id="story-leaderboard">
+								<b-card-body>
+									<b-table 
+										striped hover 
+										v-bind:items="leaderboard"
+										v-bind:fields="leaderboardFields"
+										sort-by="totalScore"
+										v-bind:sort-desc="true"
+      								>
+									</b-table>
+								</b-card-body>
+							</b-collapse>
+						</b-card>
+					</b-col>
+				</b-row>
 				<b-row v-if="selectedStory">
 					<b-col>
 						<b-card

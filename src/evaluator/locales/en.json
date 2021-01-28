@@ -1,5 +1,6 @@
 {
   "Evaluator": {
+	"label-story-leaderboard": "Story leaderboard",
 	"label-evaluate-activity-based-on-total-score": "Evaluate activity based on total score",
 	"label-evaluate-the-activity-based-on-this-value": "Evaluate the activity based on this value",
 	"label-total-score": "Total score",

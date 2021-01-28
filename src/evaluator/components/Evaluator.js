@@ -51,10 +51,55 @@ export const component = {
 			},
 			stuckData: {},
 			collapseData: {},
-			editScoreData: null
+			editScoreData: null,
+			leaderboardFields: [
+				{ key: 'name', sortable: true },
+				{ key: 'totalScore', sortable: true },
+			]
+		}
+	},
+	computed: {
+		leaderboard: function () {
+			let story = this.selectedStory;
+			let name;
+			let leaderboard = [];
+			for ( const session in this.sessions) {
+				if ( story in this.sessions[session] ) {
+					if ( 'totalScore' in this.sessions[session][story] ) {
+
+						name = session;
+						if ( 'name' in this.sessions[session] ) {
+							name = this.sessions[session].name;
+						}
+
+						leaderboard.push({
+							name: name,
+							totalScore: this.sessions[session][story].totalScore
+						})
+
+					}
+				}
+			}
+			return leaderboard;
 		}
 	},
 	methods: {
+		getLeaderboard(story) {
+			let leaderboard = {};
+			for ( const session in this.sessions) {
+				if ( story in this.sessions[session] ) {
+					if ( 'totalScore' in this.sessions[session][story] ) {
+						leaderboard[session] = {
+							totalScore: this.sessions[session][story].totalScore
+						}
+						if ( 'name' in this.sessions[session][story] ) {
+							leaderboard[session].name = this.sessions[session][story].name;
+						}
+					}
+				}
+			}
+			return leaderboard;
+		},
 		toggleStuckDataCollapse(sessionName) {
 			if (this.stuckData.hasOwnProperty(sessionName) && this.stuckData[sessionName].stuck === true ) {
 				let story = this.stuckData[sessionName].story;

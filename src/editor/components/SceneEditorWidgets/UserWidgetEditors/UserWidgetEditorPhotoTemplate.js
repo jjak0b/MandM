@@ -7,7 +7,8 @@ export const template =
 		id="user-widget-editor-photo-h"
 	>{{ $t('UserWidgets.label-photo-settings') }}</h3>
 	<form
-		@submit.prevent	
+		autocomplete="off"
+		@submit.prevent.stop
 	>
 		<b-form-row>
 			<b-col>

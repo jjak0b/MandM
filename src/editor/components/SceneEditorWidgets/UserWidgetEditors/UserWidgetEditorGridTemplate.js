@@ -5,6 +5,7 @@ export const template =
 	id="user-widget-editor-grid-header-name"
 >{{ $t( 'UserWidgets.label-grid-settings' ) }}</h3>
 <b-form
+	autocomplete="off"
 	aria-labelledby="user-widget-editor-grid-header-name"
 	v-on:submit.prevent
 	class="d-flex flex-column"

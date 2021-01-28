@@ -2,7 +2,9 @@ export const template =
 		`
 <b-card no-body
 	v-bind:header="menuTitle">
-	<b-form v-on:submit.prevent="onSubmit">
+	<b-form v-on:submit.prevent="onSubmit"
+		autocomplete="off"
+	>
 		<b-tabs pills card vertical lazy>
 			<b-tab v-bind:title="treeTab">
 				<b-form-row>

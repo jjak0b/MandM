@@ -8,7 +8,9 @@ export const template =
 	v-on:show="resetModal"
 	v-on:hidden="resetModal"
 	v-on:ok="onOk">
-	<b-form v-on:submit.prevent="onSubmit" ref="form">
+	<b-form v-on:submit.prevent="onSubmit" ref="form"
+		autocomplete="off"
+	>
 		<b-form-row>
 			<b-col>
 				<b-form-group

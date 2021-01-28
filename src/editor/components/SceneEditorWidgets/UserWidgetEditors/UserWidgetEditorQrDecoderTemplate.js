@@ -8,7 +8,10 @@ export const template =
 	>{{ $t('UserWidgets.QrDecoder.label-qr-decoder-settings') }}</h3>
 	<div class="row">
 		<div class="col">
-			<form>
+			<form
+				autocomplete="off"
+				@submit.prevent.stop
+			>
 				<i18n-input-widget
 					id="user-widget-editor-qr-decoder-label"
 					tag="input"

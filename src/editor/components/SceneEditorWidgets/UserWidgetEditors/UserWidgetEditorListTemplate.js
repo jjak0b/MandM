@@ -7,7 +7,9 @@ export const template =
 		id="addElementModal"
 		v-bind:title="$t('shared.label-add-new-element')"
 		centered>
-			<b-form ref="form" v-on:submit.stop.prevent="addElement">
+			<b-form ref="form" v-on:submit.stop.prevent="addElement"
+				autocomplete="off"
+			>
 				<b-form-group>
 					<i18n-input-widget
 						id="addListElement"

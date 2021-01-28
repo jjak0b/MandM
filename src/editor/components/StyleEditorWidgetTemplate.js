@@ -59,7 +59,8 @@ export const template =
 					>
 						<b-form
 							id="style-editor-form-rule"
-							v-on:submit.prevent
+							autocomplete="off"
+							@submit.prevent.stop
 						>
 							<style-selector-widget
 								v-bind:selector="rule.selector"
@@ -84,7 +85,8 @@ export const template =
 									>{{ property }}</code>
 								</template>
 								<b-form
-									v-on:submit.prevent
+									autocomplete="off"
+									@submit.prevent.stop
 									v-bind:key="'rule-' + ruleIndex + '-property-' + propertyIndex"
 								>
 									<b-button variant="danger"

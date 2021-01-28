@@ -2,7 +2,10 @@ export const template =
 		`
 <div>
 <section>
-	<b-form>
+	<b-form
+		autocomplete="off"
+		@submit.prevent.stop
+	>
 		<b-form-group>
 			<template v-slot:label
 			>{{ $t('UserWidgets.label-' + inputData.type + '-input-settings') }}</template>

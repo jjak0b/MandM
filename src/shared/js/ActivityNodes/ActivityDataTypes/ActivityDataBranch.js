@@ -155,7 +155,7 @@ export default class ActivityDataBranch extends ActivityData {
 	}
 
 	static isDefined( self ) {
-		return !!self && !!self.value;
+		return self && (self.value != undefined && self.value != null);
 	}
 
 	/**

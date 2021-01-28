@@ -14,6 +14,7 @@ export const template =
 	v-on:change.stop="onFileChange"
 >
 <b-modal
+	size="xl"
 	v-bind:return-focus="$refs.input"
 	v-bind:id="previewID"
 	scrollable
@@ -31,6 +32,7 @@ export const template =
 		v-if="accept =='image/*'"
 		v-bind:src="mediaSelected"
 		v-bind:alt="$t('shared.label-preview')"
+		class="img-fluid"
 	/>
 	<audio
 		v-else-if="accept =='audio/*'"
@@ -48,6 +50,7 @@ export const template =
 		v-else-if="accept =='video/*'"
 		controls="controls"
 		v-bind:src="mediaSelected"
+		class="img-fluid"
 	>
 		<!-- if format is not supported -->
 		<a

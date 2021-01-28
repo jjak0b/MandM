@@ -12,7 +12,7 @@ export const template =
 		<b-form-row>
 			<b-col>
 				<b-form-group
-					v-bind:label="$t( 'UserWidgets.label.select-type-media' )"
+					v-bind:label="$t( 'UserWidgets.Photo.label-select-type-media' )"
 					label-for="user-widget-editor-photo-capture"
 					aria-live="polite"
 					

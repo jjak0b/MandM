@@ -2,6 +2,7 @@ export const template =
 `
 <div
 	class="h-100"
+	aria-live="polite"
 >
 	<div
 		v-if="!isChatEnabled"
@@ -44,9 +45,10 @@ export const template =
 			</div>
 		</div>
 	</div>
-	<div
+	<section
 		v-else
 		class="h-100 d-flex flex-column"
+		aria-labelledby="player-chat-description"
 	>
 		<h4
 			class="text-center"
@@ -57,7 +59,7 @@ export const template =
 			id="player-chat"
 			aria-describedby="player-chat-description"
 			tabindex="0"
-			:list-label="$t('Player.label-list-messages')"
+			:list-label="$t('ChatWidget.label-list-messages')"
 			v-on:onMessageWasSent="sendMessage"
 			v-on:onMessagesReceived="showMessagesNotification"
 			v-bind:messageListProp="messages"
@@ -83,6 +85,6 @@ export const template =
 			class="h-100 flex-grow-1"
 		>
 		</chat-widget>
-	</div>
+	</section>
 </div>
 `;

@@ -140,7 +140,7 @@ export const template =
 							class="chat-input"
 						></b-form-input>
 						<b-input-group-append>
-							<b-btn pill type="submit" variant="secondary">Submit
+							<b-btn pill type="submit" variant="secondary">{{ $t( 'ChatWidget.label-send' ) }}
 								<!--<b-icon
 									icon="send"
 									:style="{color: iconColorProp, width: '30px'}"

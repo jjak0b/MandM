@@ -3,7 +3,7 @@ export const template =
 <chat-widget
 	ref="chat"
 	tabindex="0"
-	:list-label="$t('Player.label-list-messages')"
+	:list-label="$t('ChatWidget.label-list-messages')"
 	v-on:onMessageWasSent="sendMessage"
 	v-on:onMessagesReceived="showMessagesNotification"
 	v-bind:messageListProp="messages"

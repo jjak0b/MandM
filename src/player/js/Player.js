@@ -224,6 +224,7 @@ export default class Player {
 	handleActivityBehavior( inputMap ) {
 		let shouldChoseNextActivity = true;
 		let playerInput = null;
+		let valueToEvaluate = null;
 		let rewardPoints = 0;
 		if( this.current.activity ) {
 			console.log(`[${this.constructor.name}]`, "Processing User activity behavior of activity", this.current.activity );
@@ -265,9 +266,7 @@ export default class Player {
 						playerInput[ variableName ] = variableValue;
 					}
 				}
-				console.log( playerInput );
 				let localEnvVars = Object.assign( {}, playerInput, this.envVars );
-				console.log( localEnvVars );
 				let indexBranch = this.checkConditions(this.current.activity.children, localEnvVars );
 
 				// select branchNode as parent Node
@@ -277,6 +276,10 @@ export default class Player {
 					if ( branchNode.data.condition.rewardPoints ) {
 						rewardPoints = branchNode.data.condition.rewardPoints;
 						this.envVars.score.value += rewardPoints;
+					}
+
+					if ( branchNode.data.condition.requireHumanEvaluation ) {
+						valueToEvaluate =  branchNode.data.condition.params[0];
 					}
 
 					this.current.parentNodes.push(branchNode);
@@ -307,7 +310,8 @@ export default class Player {
 				{
 					input: playerInput,
 					score: rewardPoints,
-					end: shouldChoseNextActivity
+					end: shouldChoseNextActivity,
+					valueToEvaluate: valueToEvaluate
 				}
 			);
 		}
@@ -429,7 +433,6 @@ export default class Player {
 			let activities = parentNode.children;
 			let chosenActivity;
 
-			console.log( this.current.activityIndex, this.current.activity );
 			while( !chosenActivity && activities.length > 0 && this.current.activityIndex < activities.length ) {
 
 				if (this.current.activityIndex < 0) {

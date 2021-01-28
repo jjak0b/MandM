@@ -46,7 +46,7 @@ export const component = {
 					if( self.$refs.assetsBrowser ) {
 						self.$refs.assetsBrowser.updateList();
 					}
-					self.operationAlert.operationResult = this.$t("shared.label-operation-success");
+					self.operationAlert.operationResult = this.$t("shared.status.label-operation-success");
 					self.operationAlert.isError = false;
 					self.operationAlert.isVisible = true;
 					this.$emit( "fetch" );
@@ -77,7 +77,7 @@ export const component = {
 							self.operationAlert.operationResultCause = this.$tc("AssetsManager.error.label-unable-to-delete-asset", this.selectedAsset );
 							break;
 					}
-					self.operationAlert.operationResult = this.$t("shared.label-operation-failed");
+					self.operationAlert.operationResult = this.$t("shared.status.label-operation-failed");
 					self.operationAlert.isError = true;
 					self.operationAlert.isVisible = true;
 				});

@@ -25,24 +25,25 @@ export default class ContextMediaPlayer extends Disposable {
 
 	duplicate( locales, i18nCategoryPrefix ) {
 		let captions = {};
-		switch (this.asset.category) {
-			case "images":
-				captions[ 0 ] = i18nCategoryPrefix + ".image.caption";
-				locales.push([
-					this.captions[ 0 ],
-					captions[ 0 ]
-				]);
-				break;
-			default:
-				Object.keys(this.captions)
-					.forEach( (lang) => {
-						captions[lang] = this.captions[lang].duplicate();
-					});
-				break;
+		if( this.asset ) {
+			switch (this.asset.category) {
+				case "images":
+					captions[0] = i18nCategoryPrefix + ".image.caption";
+					locales.push([
+						this.captions[0],
+						captions[0]
+					]);
+					break;
+				default:
+					Object.keys(this.captions)
+						.forEach((lang) => {
+							captions[lang] = this.captions[lang].duplicate();
+						});
+					break;
+			}
 		}
-
 		let duplicate = {
-			asset: this.asset.duplicate(),
+			asset: this.asset ? this.asset.duplicate() : null,
 			captions: captions,
 			areas: this.areas ? this.areas.map( (area) => area.duplicate( locales, i18nCategoryPrefix ) ) : []
 		};

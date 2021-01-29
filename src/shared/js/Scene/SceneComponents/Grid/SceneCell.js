@@ -18,7 +18,7 @@ export default class SceneCell extends Disposable {
 	duplicate( locales, activityCategory ) {
 		let duplicate = {
 			colSize: this.colSize,
-			component: this.component ? this.component.duplicate( locales, activityCategory ) : null
+			component: this.component && this.component.duplicate ? this.component.duplicate( locales, activityCategory ) : null
 		};
 
 		return Object.setPrototypeOf( duplicate, SceneCell.prototype );

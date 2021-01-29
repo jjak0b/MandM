@@ -70,7 +70,7 @@ export default class ComponentGrid extends SceneComponent {
 	}
 
 	duplicate( locales, i18nCategoryPrefix ) {
-		let duplicate = super.duplicate( locales, i18nCategoryPrefix );
+		let duplicate = super.duplicate( i18nCategoryPrefix );
 		duplicate.props.gridData = new Array( this.props.gridData.length );
 		for( let i = 0; i < this.props.gridData.length; i++ ) {
 			duplicate.props.gridData[ i ] = new Array( this.props.gridData[ i ].length );

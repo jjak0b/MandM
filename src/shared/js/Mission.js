@@ -45,6 +45,7 @@ export default class Mission extends I18nCategorized {
 
 		if ( this.tree ) {
 			duplicateMission.tree = this.tree.duplicate(locales, duplicateMission.i18nCategory);
+			duplicateMission.tree.id = duplicateMission.id;
 		}
 
 		return Object.setPrototypeOf( duplicateMission, Mission.prototype );

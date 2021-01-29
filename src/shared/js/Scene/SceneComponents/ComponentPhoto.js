@@ -8,7 +8,7 @@ export default class ComponentPhoto extends InputSceneComponent {
     }
 
     duplicate(locales, activityCategory) {
-        let duplicate = super.duplicate(locales, activityCategory);
+        let duplicate = super.duplicate(activityCategory);
         duplicate.props.accept = this.props.accept || "image/*" ;
         duplicate.props.capture = this.props.capture || "enviroment";
         return Object.setPrototypeOf( duplicate, ComponentPhoto.prototype );

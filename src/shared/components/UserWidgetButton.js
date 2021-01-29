@@ -17,9 +17,6 @@ export const component = {
 		localeLabel: String
 	},
 	methods: {
-		emitInput(event){
-			this.$emit('input', this.value);
-		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );
 			if( !content || content === this.localeLabel )

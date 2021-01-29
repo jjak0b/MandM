@@ -3,7 +3,6 @@ export const template =
 <b-button
 	v-bind="$attrs"
 	v-bind:tabindex="tabindex"
-	v-on:click="emitInput"
 	v-bind:class="classes"
 	v-bind:type="type"
 	v-bind:size="size"

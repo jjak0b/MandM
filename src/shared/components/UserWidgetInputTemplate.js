@@ -10,7 +10,6 @@ export const template =
 	v-bind:tabindex="tabindex"
 	v-bind:class="classes"
 	v-bind:placeholder="getContent()"
-	v-bind:value="value ? value.toString() : null"
 	v-on:input="emitInput"
 	v-bind:type="type"
 	v-bind:min="min"

@@ -19,7 +19,6 @@ export const component = {
 		emitInput(event) {
 			this.value.type = Time.name;
 			this.value.value = event;
-			this.$emit('change', this.value);
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

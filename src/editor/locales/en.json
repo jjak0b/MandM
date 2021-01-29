@@ -366,6 +366,8 @@
 	  "label-variant-theme-today": "Today theme"
 	},
 	"MediaPlayer": {
+	  "label-select-media-asset": "Select media asset",
+	  "label-options": "Options",
 	  "label_upload_file": "Upload file",
 	  "label_mediatype": "Media type",
 	  "label_mediaSource": "Media source",

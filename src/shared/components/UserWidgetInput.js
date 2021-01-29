@@ -19,18 +19,20 @@ export const component = {
 	methods: {
 		emitInput(event){
 			let type = this.type;
-			let item = null;
+			this.value.value = event;
 			switch( type ) {
 				case "number":
+					this.value.type = Number.name;
+					break;
 				case "range":
-					item = new TypedValue( { type: Number.name, value: parseFloat( event ) } );
+					this.value.type = Number.name;
 					break;
 				case "text":
-					item = new TypedValue( { type: String.name, value: event } );
+					this.value.type = String.name;
+					break;
 				default:
 					break;
 			}
-			this.$emit('input', item);
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

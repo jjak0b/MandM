@@ -12,8 +12,6 @@ export const component = {
 		emitInput(event) {
 			this.value.type = Number.name;
 			this.value.value = event;
-			let item = new TypedValue({type: Number.name, value: event});
-			this.$emit('change', item);
 		}
 	}
 };

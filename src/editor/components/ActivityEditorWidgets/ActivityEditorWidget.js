@@ -80,9 +80,10 @@ export const component = {
 			}
 		},
 		disposeActivityQuestNode( node ) {
-			if( node.data.message ) {
+			if( node.data && node.data.message ) {
 				this.$i18n.removeMessageAll( node.data.message );
 			}
+			this.disposeActivityNode( node );
 		},
 		getActivityById( id, children ) {
 			if (children) {

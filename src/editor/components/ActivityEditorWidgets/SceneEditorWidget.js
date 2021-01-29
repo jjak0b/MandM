@@ -29,6 +29,7 @@ import ComponentButton from "../../../shared/js/Scene/SceneComponents/ComponentB
 import ComponentSpinbutton from "../../../shared/js/Scene/SceneComponents/ComponentSpinbutton.js";
 import ComponentDate from "../../../shared/js/Scene/SceneComponents/ComponentDate.js";
 import ComponentTime from "../../../shared/js/Scene/SceneComponents/ComponentTime.js";
+import ComponentQRDecoder from "../../../shared/js/Scene/SceneComponents/ComponentQRDecoder.js";
 
 export const component = {
 	template: template,
@@ -553,6 +554,23 @@ export function registerDisposeCallbacks() {
 					if( option.title ) {
 						this.$i18n.removeMessageAll( option.title );
 					}
+				}
+			}
+		}
+	);
+
+	ComponentQRDecoder.setDisposeCallback(
+		ComponentQRDecoder.name,
+		(that, params) => {
+			if( that.props.label ) {
+				this.$i18n.removeMessageAll( that.props.label );
+			}
+			if( that.props.errorMessage ) {
+				if( that.props.errorMessage.title ) {
+					this.$i18n.removeMessageAll( that.props.errorMessage.title );
+				}
+				if( that.props.errorMessage.body ) {
+					this.$i18n.removeMessageAll( that.props.errorMessage.body );
 				}
 			}
 		}

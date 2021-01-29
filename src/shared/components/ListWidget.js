@@ -214,9 +214,12 @@ export const component = {
 		},
 		select( keyIndex ) {
 			if( this.activedescendantKey != null && this.activedescendantKey != keyIndex ){
-				let el = this.$refs["li"+keyIndex][ 0 ];
-				if( el ) {
-					el.focus();
+				let elName = "li"+keyIndex;
+				if( elName in this.$refs ) {
+					let el = this.$refs[ elName ][0];
+					if (el) {
+						el.focus();
+					}
 				}
 			}
 			this.activedescendantKey = keyIndex;

@@ -164,18 +164,31 @@ const component = {
 			}
 		},
 		copyMission( mission ) {
+			if( this.copiedMission)
+				this.copiedMission.locales = undefined;
 			this.copiedMission = mission;
-			this.copiedMission.locales = i18n.messages;
+			if( this.copiedMission ){
+				let messages = I18nUtils.getRootMessages( this.$i18n, "assets" );
+				this.copiedMission.locales = () => messages;
+			}
 		},
 		grabActivity( activity ) {
+			if( this.grabbedActivity )
+				this.grabbedActivity.locales = undefined;
 			this.grabbedActivity = activity;
 			if ( this.grabbedActivity ) {
-				this.grabbedActivity.locales = i18n.messages;
+				let messages = I18nUtils.getRootMessages( this.$i18n, "assets" );
+				this.grabbedActivity.locales = () => messages;
 			}
 		},
 		copyActivity( activity ) {
+			if( this.copiedActivity )
+				this.copiedActivity.locales = undefined;
 			this.copiedActivity = activity;
-			this.copiedActivity.locales = i18n.messages;
+			if ( this.copiedActivity ) {
+				let messages = I18nUtils.getRootMessages( this.$i18n, "assets" );
+				this.copiedActivity.locales = () => messages;
+			}
 		},
 		saveStory() {
 			this.$refs.story.updateStoryOnServer();

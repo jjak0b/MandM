@@ -68,6 +68,7 @@ export const component = {
 	},
 	created() {
 		ActivityNode.setDisposeCallback( ActivityNode.name, this.disposeActivityNode );
+		ActivityNodeBranch.setDisposeCallback( ActivityNodeBranch.name, this.disposeActivityNode );
 		ActivityNodeTell.setDisposeCallback( ActivityNodeTell.name, this.disposeActivityNode );
 		ActivityNodeQuest.setDisposeCallback( ActivityNodeQuest.name, this.disposeActivityQuestNode );
 		registerSceneDisposeCallbacks.call( this );
@@ -80,9 +81,10 @@ export const component = {
 			}
 		},
 		disposeActivityQuestNode( node ) {
-			if( node.data.message ) {
+			if( node.data && node.data.message ) {
 				this.$i18n.removeMessageAll( node.data.message );
 			}
+			this.disposeActivityNode( node );
 		},
 		getActivityById( id, children ) {
 			if (children) {
@@ -179,14 +181,15 @@ export const component = {
 			if (!this.grabbedActivity) {
 				return
 			}
-			this.grabbedActivity.i18nTupleList = [];
-			let newActivity = this.grabbedActivity.duplicate(this.grabbedActivity.i18nTupleList, this.mission.i18nCategory );
-			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.grabbedActivity.locales, this.grabbedActivity.i18nTupleList );
+
+			let i18nTupleList = [];
+			let locales = this.grabbedActivity.locales();
+
+			let newActivity = this.grabbedActivity.duplicate(i18nTupleList, this.mission.i18nCategory );
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( locales, i18nTupleList );
 			for (const locale in localesCopy) {
 				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
 			}
-			this.grabbedActivity.i18nTupleList = undefined;
-			this.grabbedActivity.locales = undefined;
 
 			console.log("[ActivityEditor]", "Dropped activity", newActivity);
 			let nodeAdded = this.$refs.treeView.add(newActivity);
@@ -211,13 +214,13 @@ export const component = {
 			if (!this.copiedActivity) {
 				return
 			}
-			this.copiedActivity.i18nTupleList = [];
-			let newActivity = this.copiedActivity.duplicate(this.copiedActivity.i18nTupleList, this.mission.i18nCategory );
-			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( this.copiedActivity.locales, this.copiedActivity.i18nTupleList );
+			let i18nTupleList = [];
+			let locales = this.copiedActivity.locales();
+			let newActivity = this.copiedActivity.duplicate( i18nTupleList, this.mission.i18nCategory );
+			let localesCopy = I18nUtils.copyOldLabelsToNewLabels( locales, i18nTupleList );
 			for (const locale in localesCopy) {
 				this.$i18n.mergeLocaleMessage(locale, localesCopy[locale] );
 			}
-			this.copiedActivity.i18nTupleList = undefined;
 
 			console.log("[ActivityEditor]", "Pasted activity", newActivity);
 			let nodeAdded = this.$refs.treeView.add(newActivity);

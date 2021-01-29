@@ -5,13 +5,14 @@ import {I18nUtils} from "../../../../shared/js/I18nUtils.js";
 import {component as typedValueWidget} from "../../../../editor/components/InputTypedValueWidget.js";
 import { component as listComponent } from "../../../../shared/components/UserWidgetList.js";
 import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
+import ComponentList from "../../../../shared/js/Scene/SceneComponents/ComponentList.js";
 
 export const component = {
 	template: template,
 	props: {
 		locale: String,
 		localesList: Array,
-		component: Object
+		component: ComponentList
 	},
 	components: {
 		'i18n-input-widget': asyncLoadComponentI18nInputWidget,

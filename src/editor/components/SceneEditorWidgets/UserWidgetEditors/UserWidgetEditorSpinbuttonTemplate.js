@@ -10,7 +10,7 @@ export const template =
 				<b-col>
 					<b-form-checkbox
 						id="user-widget-spinbutton-editor-wrap"
-						v-model="props.wrap"
+						v-model="component.props.data.wrap"
 						switch inline
 					>{{ $t('shared.label-wrap') }}</b-form-checkbox>
 				</b-col>
@@ -23,7 +23,7 @@ export const template =
 						type="number"
 						id="user-widget-spinbutton-editor-step"
 						step="0.5"
-						v-model="props.step"
+						v-model="component.props.data.step"
 					></b-form-input>
 					</b-form-group>
 				</b-col>
@@ -37,7 +37,7 @@ export const template =
 					<b-form-input
 						type="number"
 						id="user-widget-spinbutton-editor-min"
-						v-model="props.min"
+						v-model="component.props.data.min"
 					></b-form-input>
 					</b-form-group>
 				</b-col>
@@ -49,7 +49,7 @@ export const template =
 					<b-form-input
 						type="number"
 						id="user-widget-spinbutton-editor-max"
-						v-model="props.max"
+						v-model="component.props.data.max"
 					></b-form-input>
 					</b-form-group>
 				</b-col>
@@ -60,7 +60,8 @@ export const template =
 <section>
 	<h4 v-t="'shared.label-preview'"></h4>
 	<user-widget-spinbutton
-		v-bind="props"
+		v-bind:value="component.value"
+		v-bind:data="component.props.data"
 	></user-widget-spinbutton>
 </section>
 </div>

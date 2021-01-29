@@ -20,6 +20,7 @@ import ComponentInput from "../js/Scene/SceneComponents/ComponentInput.js";
 import ComponentDate from "../js/Scene/SceneComponents/ComponentDate.js";
 import ComponentTime from "../js/Scene/SceneComponents/ComponentTime.js";
 import ComponentButton from "../js/Scene/SceneComponents/ComponentButton.js";
+import ComponentSpinbutton from "../js/Scene/SceneComponents/ComponentSpinbutton.js";
 import ComponentPhoto from "../js/Scene/SceneComponents/ComponentPhoto.js"
 import ComponentQRDecoder from "../js/Scene/SceneComponents/ComponentQRDecoder.js";
 
@@ -28,6 +29,7 @@ import ComponentQRDecoder from "../js/Scene/SceneComponents/ComponentQRDecoder.j
 SceneComponentParser.register( "user-widget-media-player", ComponentMediaPlayer );
 SceneComponentParser.register( "user-widget-text-content", ComponentText );
 SceneComponentParser.register( "user-widget-button", ComponentButton );
+SceneComponentParser.register( "user-widget-spinbutton", ComponentSpinbutton );
 SceneComponentParser.register( "user-widget-text-input", ComponentInput );
 SceneComponentParser.register( "user-widget-number-input", ComponentInput );
 SceneComponentParser.register( "user-widget-range", ComponentInput );

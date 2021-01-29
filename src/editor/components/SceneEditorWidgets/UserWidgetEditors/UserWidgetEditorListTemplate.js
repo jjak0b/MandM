@@ -40,8 +40,7 @@ export const template =
 			  <user-widget-list
 				v-bind="component.props"
 				v-bind:locale="locale"
-				v-bind:locales-list="localesList">
-			  </user-widget-list>
+			  ></user-widget-list>
 			</b-form-group>
 		</b-col>
 		<b-col>	

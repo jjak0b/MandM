@@ -26,6 +26,7 @@ import ComponentText from "../../../shared/js/Scene/SceneComponents/ComponentTex
 import ComponentList from "../../../shared/js/Scene/SceneComponents/ComponentList.js";
 import ComponentInput from "../../../shared/js/Scene/SceneComponents/ComponentInput.js";
 import ComponentButton from "../../../shared/js/Scene/SceneComponents/ComponentButton.js";
+import ComponentSpinbutton from "../../../shared/js/Scene/SceneComponents/ComponentSpinbutton.js";
 import ComponentDate from "../../../shared/js/Scene/SceneComponents/ComponentDate.js";
 import ComponentTime from "../../../shared/js/Scene/SceneComponents/ComponentTime.js";
 import ComponentQRDecoder from "../../../shared/js/Scene/SceneComponents/ComponentQRDecoder.js";
@@ -531,6 +532,14 @@ export function registerDisposeCallbacks() {
 
 	ComponentButton.setDisposeCallback(
 			ComponentButton.name,
+			(that, params) => {
+				if( that.i18nCategory )
+					this.$i18n.removeMessageAll( that.i18nCategory );
+			}
+	);
+
+	ComponentSpinbutton.setDisposeCallback(
+			ComponentSpinbutton.name,
 			(that, params) => {
 				if( that.i18nCategory )
 					this.$i18n.removeMessageAll( that.i18nCategory );

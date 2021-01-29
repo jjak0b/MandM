@@ -15,6 +15,8 @@ export default class ComponentList extends InputSceneComponent {
 	duplicate( locales, activityCategory ) {
 		let duplicate = super.duplicate( activityCategory );
 
+		duplicate.props.type = this.props.type;
+
 		if (this.props.options) {
 			duplicate.props.options = new Array( this.props.options.length );
 			for (let index = 0; index < this.props.options.length; index++){

@@ -68,6 +68,7 @@ export const component = {
 	},
 	created() {
 		ActivityNode.setDisposeCallback( ActivityNode.name, this.disposeActivityNode );
+		ActivityNodeBranch.setDisposeCallback( ActivityNodeBranch.name, this.disposeActivityNode );
 		ActivityNodeTell.setDisposeCallback( ActivityNodeTell.name, this.disposeActivityNode );
 		ActivityNodeQuest.setDisposeCallback( ActivityNodeQuest.name, this.disposeActivityQuestNode );
 		registerSceneDisposeCallbacks.call( this );

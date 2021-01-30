@@ -23,6 +23,6 @@
     "tiptap": "^1.30.0",
     "tiptap-extensions": "^1.33.1",
     "vue": "^2.6.12",
-    "vue-accessible-color-picker": "^1.0.1"
+    "vue-accessible-color-picker": "^1.1.2"
   }
 }

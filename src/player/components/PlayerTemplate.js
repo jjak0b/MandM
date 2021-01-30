@@ -12,6 +12,7 @@ export const template =
 		:title="$t('Player.label-main')"
 		active
 		class="h-100"
+		id="player-main"
 	>
 		<main class="h-100">
 			<player-viewport
@@ -22,6 +23,7 @@ export const template =
 		</main>
 	</b-tab>
 	<b-tab
+		id="player-info"
 		:title="$t('Player.label-info')"
 		class="h-100"
 	>
@@ -62,6 +64,7 @@ export const template =
 
 	</b-tab>
 	<b-tab
+		id="player-chat"
 		:title="$t('Player.label-help')"
 		class="h-100"
 	>

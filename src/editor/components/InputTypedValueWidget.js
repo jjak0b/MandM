@@ -13,6 +13,7 @@ componentArray = {
     },
     props: {
         value: Array,
+        required: [Boolean, String]
     },
     data() {
         return {
@@ -177,7 +178,7 @@ component = {
     },
     methods:{
         isValid(typedValue) {
-            return typedValue && typedValue.type && typedValue.value;
+            return !!(typedValue && typedValue.type && typedValue.value);
         },
         assign( value ) {
             if( this.typedValue.equals( value ) ) return;

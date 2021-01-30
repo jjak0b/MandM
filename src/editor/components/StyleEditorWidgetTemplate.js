@@ -34,6 +34,7 @@ export const template =
 <b-card no-body aria-labelledby="style-editor-widget-rule-tablist">
 	<b-card-header id="style-editor-widget-rule-tablist">{{ $t('StyleEditorWidget.rule.label-rule-list') }}</b-card-header>
 	<b-tabs card vertical
+		v-model="currentRuleIndex"
 	>
 		<b-tab
 			v-for="(rule, ruleIndex) in value.rules"

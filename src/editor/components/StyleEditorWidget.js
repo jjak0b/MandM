@@ -29,6 +29,7 @@ export const component = {
 	},
 	data(){
 		let data = {
+			currentRuleIndex: -1,
 			selector: null,
 			rules: [],
 			properties: {
@@ -417,7 +418,89 @@ export const component = {
 	created() {
 
 	},
+	mounted() {
+		if( this.value ) {
+			for (let i = 0; i < this.value.rules.length; i++) {
+				this.updateCSSInDocumentForRule(i);
+			}
+		}
+	},
+	computed: {
+		currentRule() {
+			if( this.currentRuleIndex >= 0 && this.currentRuleIndex < this.value.rules.length ) {
+				return this.value.rules[ this.currentRuleIndex ]
+			}
+			return null;
+		}
+	},
+	watch: {
+		value: function( newVal ) {
+			this.updateCSSInDocumentForRule();
+			this.$nextTick( () => {
+				if( this.value ) {
+					for (let i = 0; i < this.value.rules.length; i++) {
+						this.updateCSSInDocumentForRule(i);
+					}
+				}
+			});
+		},
+		currentRule: {
+			deep: true,
+			handler: function (newVal, oldVal) {
+				if( newVal && this.currentRuleIndex >= 0 )
+					this.updateCSSInDocumentForRule( this.currentRuleIndex );
+			}
+		}
+	},
 	methods: {
+		updateCSSInDocumentForRule( index, shouldDelete = false ) {
+			const prefix = "authored-style-rule";
+			if( index < 0 ) return ;
+
+			// write into style tag the custom CSS rules
+			let head = document.getElementsByTagName( "head" )[ 0 ];
+			let styleElements = head.querySelectorAll( "."  + prefix );
+
+			let childrenBaseCount = head.children.length - styleElements.length;
+			if( index == undefined ) {
+				while( head.children.length > childrenBaseCount ) {
+					// remove first element on every step
+					this.updateCSSInDocumentForRule( 0, true );
+				}
+				return ;
+			}
+
+			let styleElement;
+			if( index >= styleElements.length ) {
+				if( !shouldDelete ) {
+					styleElement = document.createElement("style");
+					styleElement.setAttribute("class", prefix);
+					// create after last index
+					if (styleElements.length > 0) {
+						$(styleElement).insertAfter(styleElements[styleElements.length - 1]);
+					}
+					// create on last index on parent
+					else {
+						head.appendChild(styleElement);
+					}
+				}
+			}
+			else if( index >= 0 ) {
+				styleElement = styleElements[ index ];
+			}
+
+			if( styleElement ) {
+				if( shouldDelete ) {
+					head.removeChild(styleElement);
+				}
+				else {
+					let rule = this.value.rules[ index ];
+					if( rule ){
+						styleElement.innerHTML = rule.toString();
+					}
+				}
+			}
+		},
 		removeStylesheet( index ) {
 			if( index < this.value.assets.length ) {
 				if( this.value.assets[ index ] )
@@ -438,10 +521,15 @@ export const component = {
 			rule = new StyleRule( rule );
 
 			this.value.rules.push( rule );
+
+			this.updateCSSInDocumentForRule( this.value.rules.length-1, false );
 		},
 		removeRule( index ) {
 			let removed = this.value.rules.splice( index, 1 )[0];
 			if( removed ) removed.dispose();
+			this.$nextTick( () => {
+				this.updateCSSInDocumentForRule( index, true );
+			});
 		},
 		addProperty( rule, event ) {
 			let serializedArray = $( event.target ).serializeArray();

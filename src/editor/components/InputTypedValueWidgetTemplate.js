@@ -1,6 +1,8 @@
 export const template =
 `
-<div v-on:reset="reset">
+<div
+	v-on:reset="reset" 
+>
 		<b-form-group
 			v-bind:label="$t('DataEditorWidget.label-value-type')"
 			v-bind:label-for="$attrs.id + '_data-editor-widget-select-type'"
@@ -26,6 +28,9 @@ export const template =
 			v-bind:label="componentDataForType.i18n ? $t( componentDataForType.i18n.type ) : typedValue.type"
 			v-bind:label-for="$attrs.id + '_data-editor-widget-atom-' + typedValue.type"
 			v-bind:description="componentDataForType.i18n.description ? $t( componentDataForType.i18n.description, { type: componentDataForType.i18n.type } ) : null"
+			v-bind:state="isValid(typedValue)"
+			v-bind:invalid-feedback="!isValid(typedValue) ? $t('shared.label-field-required') : null"
+			v-slot:default="{ ariaDescribedBy }"
 		>
 			<component
 				v-if="componentDataForType"
@@ -34,7 +39,9 @@ export const template =
 				v-bind:is="componentDataForType.component"
 				v-bind="componentDataForType.attrs"
 				v-model="typedValue.value"
-				required
+				required="required"
+				v-bind:state="isValid(typedValue)"
+				v-bind:aria-describedby="ariaDescribedBy"
 			></component>
 		</b-form-group>
 </div>

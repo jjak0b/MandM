@@ -5,7 +5,8 @@ export const template =
 	v-bind:class="classes"
 	v-bind:locale="$i18n.locale"
 	v-bind:placeholder="getContent()"
-	v-on:input="emitInput"
+	v-on:input="editValue"
+	v-on:hidden="emitInput"
 	menu-class="w-100"
 	calendar-width="100%"
 >

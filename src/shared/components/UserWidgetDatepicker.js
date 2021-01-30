@@ -57,7 +57,13 @@ export const component = {
 			}
 		},
 		emitInput(event) {
-			this.value.type = Date.name;
-			this.value.value = event;
-		}}
+			this.$nextTick(() => {
+
+				this.value.type = Date.name;
+				this.value.value = event.activeYMD;
+				this.$emit('change', this.value);
+
+			})
+		}
+	}
 };

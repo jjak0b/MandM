@@ -23,7 +23,7 @@ export const template =
 						>
 						<typed-value
 							id="editor-button-value"
-							v-model="component.value"
+							v-model="component.props.valueOnClick"
 						></typed-value>
 					</b-form-group>
 				</b-col>

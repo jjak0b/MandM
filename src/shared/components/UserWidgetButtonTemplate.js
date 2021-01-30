@@ -10,6 +10,7 @@ export const template =
 	v-bind:pill="shape === 'pill'"
 	v-bind:squared="shape === 'squared'"
 	v-bind:disabled="disabled"
+	v-on:click="emitInput"
 >
 {{ getContent() }}
 </b-button>

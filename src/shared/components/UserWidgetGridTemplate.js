@@ -35,6 +35,7 @@ export const template =
 			v-bind:tabindex="getTabindex( isFocused )"
 			v-bind:value="cellData.component"
 			v-bind:locale="locale"
+			v-on:change="$emit('change')"
 		></user-widget-viewport>
 	</template>
 </grid-widget>

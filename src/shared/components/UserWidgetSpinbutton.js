@@ -8,10 +8,23 @@ export const component = {
 		data: Object,
 		value: Object
 	},
+	data() {
+		return {
+			timer: null
+		}
+	},
 	methods: {
 		emitInput(event) {
-			this.value.type = Number.name;
-			this.value.value = event;
+			if ( this.timer ) {
+				clearTimeout( this.timer );
+			}
+
+			this.timer = setTimeout( () => {
+				this.value.type = Number.name;
+				this.value.value = event;
+				this.$emit( 'change', this.value );
+			}, 1500 )
+
 		}
 	}
 };

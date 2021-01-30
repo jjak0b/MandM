@@ -19,12 +19,13 @@ export const component = {
 	methods: {
 		emitInput(event){
 			let type = this.type;
-			this.value.value = event;
 			switch( type ) {
 				case "number":
+					this.value.value = parseInt(event);
 					this.value.type = Number.name;
 					break;
 				case "range":
+					this.value.value = parseInt(event);
 					this.value.type = Number.name;
 					break;
 				case "text":
@@ -33,6 +34,7 @@ export const component = {
 				default:
 					break;
 			}
+			this.$emit( 'change', this.value );
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

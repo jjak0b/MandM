@@ -5,7 +5,8 @@ export default class ComponentButton extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 
-		this.value = new TypedValue( unparsed.value || {} );
+		this.value = new TypedValue(  {} );
+		this.props.valueOnClick = 'valueOnClick' in unparsed.props ? new TypedValue( unparsed.props.valueOnClick ) : new TypedValue({});
 		this.props.type = 'type' in unparsed.props ? unparsed.props.type : 'button';
 		this.props.size = 'size' in unparsed.props ? unparsed.props.size : null;
 		this.props.variant = 'variant' in unparsed.props ? unparsed.props.variant : null;
@@ -17,7 +18,8 @@ export default class ComponentButton extends InputSceneComponent {
 	duplicate( locales, activityCategory ) {
 		let duplicate = super.duplicate( activityCategory );
 
-		duplicate.value = this.value;
+		duplicate.value = new TypedValue(  {} );
+		duplicate.props.valueOnClick = new TypedValue( this.props.valueOnClick );
 		duplicate.props.type = this.props.type;
 		duplicate.props.size = this.props.size;
 		duplicate.props.variant = this.props.variant;

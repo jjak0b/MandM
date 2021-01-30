@@ -11,14 +11,15 @@ export const component = {
 		localeLabel: String,
 		classes: Array
 	},
-	data() {
-		return {
-		}
-	},
 	methods: {
-		emitInput(event) {
+		editValue(event) {
 			this.value.type = Time.name;
 			this.value.value = event;
+		},
+		emitInput() {
+			if ( this.value.type ) {
+				this.$emit('change', this.value);
+			}
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

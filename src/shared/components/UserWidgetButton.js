@@ -13,10 +13,16 @@ export const component = {
 		shape: String,
 		disabled: Boolean,
 		value: Object,
+		valueOnClick: Object,
 		locale: String,
 		localeLabel: String
 	},
 	methods: {
+		emitInput(event){
+			this.value.type = this.valueOnClick.type;
+			this.value.value = this.valueOnClick.value;
+			this.$emit('change', this.value);
+		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );
 			if( !content || content === this.localeLabel )

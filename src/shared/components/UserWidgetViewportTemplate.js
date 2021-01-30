@@ -10,5 +10,6 @@ export const template =
 	v-bind:classes="value.props.class"
 	:locale="locale"
 	:localeLabel="value.i18nCategory"
+	v-on:change="$emit('change')"
 ></component>
 `;

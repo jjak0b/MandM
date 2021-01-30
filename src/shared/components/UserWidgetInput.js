@@ -29,12 +29,12 @@ export const component = {
 					this.value.type = Number.name;
 					break;
 				case "text":
+					this.value.value = event;
 					this.value.type = String.name;
 					break;
 				default:
 					break;
 			}
-			this.$emit( 'change', this.value );
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

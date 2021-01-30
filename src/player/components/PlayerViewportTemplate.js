@@ -9,14 +9,13 @@ export const template =
 	ref="form"
 	autocomplete="off"
 	@submit.prevent="onSubmit"
-	v-on:change="onChangeDoSubmit"
+	@change="onChangeDoSubmit"
 >
 <scene-viewport
 	v-bind:key="activity.id"
 	id="player-scene"
 	ref="scene"
 	v-if="isSceneable"
-	v-on:change="onChangeDoSubmit"
 	:value="scene"
 >
 </scene-viewport>

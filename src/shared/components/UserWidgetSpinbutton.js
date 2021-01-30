@@ -22,7 +22,7 @@ export const component = {
 			this.timer = setTimeout( () => {
 				this.value.type = Number.name;
 				this.value.value = event;
-				this.$emit( 'change', this.value );
+				this.$el.dispatchEvent(new Event('change', { bubbles: true }));
 			}, 1500 )
 
 		}

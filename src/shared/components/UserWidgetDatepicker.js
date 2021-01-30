@@ -56,14 +56,14 @@ export const component = {
 				});
 			}
 		},
+		editValue(event) {
+			this.value.type = Date.name;
+			this.value.value = event;
+		},
 		emitInput(event) {
-			this.$nextTick(() => {
-
-				this.value.type = Date.name;
-				this.value.value = event.activeYMD;
-				this.$emit('change', this.value);
-
-			})
-		}
+			if ( this.value.type ) {
+				this.$el.dispatchEvent(new Event('change', { bubbles: true }));
+			}
+		},
 	}
 };

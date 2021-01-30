@@ -435,29 +435,40 @@ export const component = {
 	},
 	watch: {
 		value: function( newVal ) {
-			if( this.value ) {
-				for (let i = 0; i < this.value.rules.length; i++) {
-					this.updateCSSInDocumentForRule(i);
+			this.updateCSSInDocumentForRule();
+			this.$nextTick( () => {
+				if( this.value ) {
+					for (let i = 0; i < this.value.rules.length; i++) {
+						this.updateCSSInDocumentForRule(i);
+					}
 				}
-			}
+			});
 		},
 		currentRule: {
 			deep: true,
 			handler: function (newVal, oldVal) {
-				this.updateCSSInDocumentForRule( this.currentRuleIndex );
+				if( newVal && this.currentRuleIndex >= 0 )
+					this.updateCSSInDocumentForRule( this.currentRuleIndex );
 			}
 		}
 	},
 	methods: {
 		updateCSSInDocumentForRule( index, shouldDelete = false ) {
+			const prefix = "authored-style-rule";
 			if( index < 0 ) return ;
 
-			console.log( "a", index );
 			// write into style tag the custom CSS rules
 			let head = document.getElementsByTagName( "head" )[ 0 ];
-
-			const prefix = "authored-style-rule";
 			let styleElements = head.querySelectorAll( "."  + prefix );
+
+			let childrenBaseCount = head.children.length - styleElements.length;
+			if( index == undefined ) {
+				while( head.children.length > childrenBaseCount ) {
+					// remove first element on every step
+					this.updateCSSInDocumentForRule( 0, true );
+				}
+				return ;
+			}
 
 			let styleElement;
 			if( index >= styleElements.length ) {

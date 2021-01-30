@@ -115,6 +115,14 @@ export const template =
 										v-bind:sort-desc="true"
       								>
 									</b-table>
+									
+									<div class="d-flex">
+										<b-button
+											variant="info"
+											class="mx-auto"
+											@click="downloadGameData"
+										>{{ $t('Evaluator.label-download-game-summary' ) }}</b-button>
+									</div>
 								</b-card-body>
 							</b-collapse>
 						</b-card>

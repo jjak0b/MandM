@@ -84,6 +84,16 @@ export const component = {
 		}
 	},
 	methods: {
+		downloadGameData() {
+			let exportName = 'Game-' + new Date().toLocaleDateString();
+			let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify( this.leaderboard, null, 4 ) );
+			let downloadAnchorNode = document.createElement('a');
+			downloadAnchorNode.setAttribute("href",     dataStr);
+			downloadAnchorNode.setAttribute("download", exportName + ".json");
+			document.body.appendChild(downloadAnchorNode); // required for firefox
+			downloadAnchorNode.click();
+			downloadAnchorNode.remove();
+		},
 		getLeaderboard(story) {
 			let leaderboard = {};
 			for ( const session in this.sessions) {

@@ -64,6 +64,21 @@ function handlePlayerSession( req, res, next ) {
 			next();
 		}
 	}
+	else if ( req.session.stopped === true ) {
+			console.log( "[routes/player]", "Resetting session because the story was stopped");
+			// create new session
+			req.session.stopped = false;
+			req.session.regenerate((err) => {
+				if( !err ) {
+					// init a new one
+					next();
+				}
+				else {
+					console.error( "[routes/player]", "Failed to reset the session", err );
+					next();
+				}
+			});
+	}
 	else {
 		// first init
 		next();
@@ -78,6 +93,7 @@ function initPlayerSession(req, res, next) {
 		req.session.views = 1;
 
 		req.session.initialized = true;
+		req.session.stopped = false;
 	}
 	else {
 		req.session.views += 1;

@@ -23,9 +23,8 @@ function RESET_STORY( req, res, next ) {
 				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 			} else {
 
-
 				if ( ('stories' in session) && session.stories[story] ) {
-					session.stories[story] = {};
+					session.stopped = true;
 				}
 
 

@@ -44,11 +44,7 @@ export const component = {
 			fetchTimeout: 1 * 1000,
 			selectedSession: null,
 			sessionName: null,
-			globalStorySettings: {
-				isRunning: false,
-				startSecondsCountDown: 0,
-				stuckTime: 5
-			},
+			storySettings: {},
 			stuckData: {},
 			collapseData: {},
 			editScoreData: null,
@@ -212,7 +208,7 @@ export const component = {
 			}
 		},
 		startStory() {
-			this.globalStorySettings.isRunning = null;
+			this.storySettings[this.selectedStory].isRunning = null;
 
 			$.ajax({
 				method: "POST",
@@ -220,11 +216,11 @@ export const component = {
 				contentType: "application/json",
 				dataType: "json",
 				data: JSON.stringify({
-					countDown: this.globalStorySettings.startSecondsCountDown
+					countDown: this.storySettings[this.selectedStory].startSecondsCountDown
 				})
 			})
 				.done( ( data, textStatus, jqXHR) => {
-					this.globalStorySettings.isRunning = true;
+					this.storySettings[this.selectedStory].isRunning = true;
 					this.$bvToast.toast(
 						this.$t("Evaluator.label-story-starting"),
 						{
@@ -238,7 +234,7 @@ export const component = {
 				.fail( ( jqXHR, textStatus, errorThrown ) => {
 					switch ( jqXHR.status ) {
 						case 405 : // method not allowed -> story already runnning
-							this.globalStorySettings.isRunning = true;
+							this.storySettings[this.selectedStory].isRunning = true;
 							this.$bvToast.toast(
 								this.$t("Evaluator.errors.label-story-already-active"),
 								{
@@ -250,7 +246,7 @@ export const component = {
 							)
 							break;
 						default:
-							this.globalStorySettings.isRunning = false;
+							this.storySettings[this.selectedStory].isRunning = false;
 							this.$bvToast.toast(
 								this.$t("Evaluator.errors.label-unable-to-start-story"),
 								{
@@ -265,7 +261,7 @@ export const component = {
 				})
 		},
 		stopStory() {
-			this.globalStorySettings.isRunning = null;
+			this.storySettings[this.selectedStory].isRunning = null;
 
 			$.ajax({
 				url: `/stories/${this.selectedStory}/stop`,
@@ -281,12 +277,13 @@ export const component = {
 							variant: "success"
 						}
 					)
-					this.globalStorySettings.isRunning = false;
+					this.storySettings[this.selectedStory].isRunning = false;
+					this.resetSessions(this.selectedStory);
 				})
 				.fail( ( jqXHR, textStatus, errorThrown ) => {
 					switch ( jqXHR.status ) {
 						case 405 : // method not allowed -> story already stopped
-							this.globalStorySettings.isRunning = false;
+							this.storySettings[this.selectedStory].isRunning = false;
 							this.$bvToast.toast(
 								this.$t("Evaluator.errors.label-story-already-ended"),
 								{
@@ -298,7 +295,7 @@ export const component = {
 							)
 							break;
 						default:
-							this.globalStorySettings.isRunning = true;
+							this.storySettings[this.selectedStory].isRunning = true;
 							this.$bvToast.toast(
 								this.$t("Evaluator.errors.label-unable-to-stop-story"),
 								{
@@ -463,7 +460,7 @@ export const component = {
 										activityStartTime = new Date(this.sessions[player][story][mission][activity]['start']);
 										difference = (currentTime - activityStartTime);
 
-										if (difference > (this.globalStorySettings.stuckTime * 60000)) {
+										if (difference > (this.storySettings[this.selectedStory].stuckTime * 60000)) {
 
 											this.stuckData[player].stuck = true;
 											this.stuckData[player].story = story;
@@ -489,6 +486,17 @@ export const component = {
 				}
 			}
 		},
+		resetSessions( story ) {
+			for ( const session in this.sessions ) {
+				if ( story in this.sessions[session] ) {
+
+					$.ajax({
+						method: "post",
+						url: `/player/log/${session}/reset/?story=${story}`
+					});
+				}
+			}
+		},
 		updateSessions() {
 				$.get( `/player/log` ).then( (response) => {
 					this.sessions = response;
@@ -505,12 +513,34 @@ export const component = {
 			this.updateSessions();
 			this.fetchDataOfChats();
 		},
+		fetchStoryStatus() {
+			for ( const story of this.storyNames ) {
+
+				if ( !(story in this.storySettings) ) {
+					this.$set( this.storySettings, story, {
+						isRunning: false,
+						startSecondsCountDown: 0,
+						stuckTime: 5
+					} )
+				}
+
+				$.get(`/stories/${story}/status`, {
+					dataType: "json"
+				}).done( (data) => {
+					this.storySettings[story].isRunning = data.isActive;
+				} ).fail( () => {
+					console.log(`Failed to update the status of story ${story}`)
+				})
+
+			}
+		},
 		fetchStoryNames() {
 			return $.get( "/stories/", {
 				dataType: "json"
 			})
 				.done( (data) => {
 					this.storyNames = data;
+					this.fetchStoryStatus();
 				})
 		},
 		getIconChatProps( playerID ) {

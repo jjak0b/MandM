@@ -128,7 +128,7 @@ export const template =
 						</b-card>
 					</b-col>
 				</b-row>
-				<b-row v-if="selectedStory">
+				<b-row v-if="selectedStory && selectedStory && storySettings[selectedStory]">
 					<b-col>
 						<b-card
 							no-body
@@ -150,8 +150,8 @@ export const template =
 													<div class="m-auto">
 														<b-form-spinbutton
 															id="evaluator-story-start-countdown"
-															v-bind:disabled="globalStorySettings.isRunning"
-															v-model="globalStorySettings.startSecondsCountDown"
+															v-bind:disabled="storySettings[selectedStory].isRunning"
+															v-model="storySettings[selectedStory].startSecondsCountDown"
 															min="0"
 															class="mb-2"
 														></b-form-spinbutton>
@@ -165,7 +165,7 @@ export const template =
 														<b-button
 															id="evaluator-story-control-start-story"
 															v-on:click="startStory()"	
-															v-bind:disabled="globalStorySettings.isRunning === true"
+															v-bind:disabled="storySettings[selectedStory].isRunning === true"
 														>
 															<b-icon
 																icon="play"
@@ -175,7 +175,7 @@ export const template =
 														<b-button
 															id="evaluator-story-control-end-story"
 															v-on:click="stopStory()"
-															v-bind:disabled="globalStorySettings.isRunning === false"
+															v-bind:disabled="storySettings[selectedStory].isRunning === false"
 														>
 															<b-icon
 																icon="stop"
@@ -196,8 +196,8 @@ export const template =
 													<div class="m-auto">
 														<b-form-spinbutton
 																id="evaluator-player-stuck-notification-time"
-																v-bind:disabled="globalStorySettings.isRunning"
-																v-model="globalStorySettings.stuckTime"
+																v-bind:disabled="storySettings[selectedStory].isRunning"
+																v-model="storySettings[selectedStory].stuckTime"
 																min="0"
 																class="mb-2"
 														></b-form-spinbutton>

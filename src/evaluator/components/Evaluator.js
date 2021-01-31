@@ -55,6 +55,8 @@ export const component = {
 			leaderboardFields: [
 				{ key: 'name', sortable: true },
 				{ key: 'totalScore', sortable: true },
+				{ key: 'totalTime', sortable: true },
+				{ key: 'averageActivityTime', sortable: true }
 			]
 		}
 	},
@@ -72,11 +74,31 @@ export const component = {
 							name = this.sessions[session].name;
 						}
 
+						let totalTime = 0;
+						let activityCountForTime = 0;
+						for( const missionID in this.sessions[session][story] ) {
+							let mission = this.sessions[session][story][ missionID ];
+							for (const activityID in mission) {
+								let activity = mission[ activityID ];
+								if( activity.start && activity.end ) {
+									let startTime = new Date(activity.start);
+									let endTime = new Date(activity.end);
+									let time = endTime - startTime;
+
+									totalTime += time;
+									activityCountForTime ++;
+								}
+							}
+						}
+
+						let totalDateTime = new Date( totalTime );
+						let averageDateTime = new Date( activityCountForTime > 0 ? Math.floor( totalTime / activityCountForTime ) : 0 );
 						leaderboard.push({
 							name: name,
-							totalScore: this.sessions[session][story].totalScore
-						})
-
+							totalScore: this.sessions[session][story].totalScore,
+							totalTime: `${ totalDateTime.getUTCHours() }h ${totalDateTime.getUTCMinutes()}m ${totalDateTime.getUTCSeconds()}s`,
+							averageActivityTime: `${ averageDateTime.getUTCHours() }h ${averageDateTime.getUTCMinutes()}m ${averageDateTime.getUTCSeconds()}s`
+						});
 					}
 				}
 			}

@@ -7,8 +7,42 @@ const router = express.Router();
 
 router.post("/", PUT_SESSION);
 router.post("/:sessionId", EDIT_SESSION);
+router.post("/:sessionId/reset", RESET_STORY);
 router.get("/", GET_SESSION);
 router.get("/totalscore", GET_TOTAL_SCORE);
+
+function RESET_STORY( req, res, next ) {
+
+	let sessionId = req.params.sessionId;
+	let story = req.query.story;
+
+	if ( story && sessionId ) {
+
+		req.sessionStore.get(sessionId, (error, session) => {
+			if (error || !session) {
+				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+			} else {
+
+
+				if ( ('stories' in session) && session.stories[story] ) {
+					session.stories[story] = {};
+				}
+
+
+				req.sessionStore.set(sessionId, session, (error) => {
+					if (error) {
+						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+					} else {
+						res.sendStatus(StatusCodes.OK);
+					}
+				});
+			}
+		})
+	}
+	else {
+		res.sendStatus(StatusCodes.BAD_REQUEST);
+	}
+}
 
 function GET_TOTAL_SCORE( req, res, next ) {
 	if (  req.query.story ) {

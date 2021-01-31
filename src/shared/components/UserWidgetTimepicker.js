@@ -18,7 +18,7 @@ export const component = {
 		},
 		emitInput() {
 			if ( this.value.type ) {
-				this.$emit('change', this.value);
+				this.$el.dispatchEvent(new Event('change', { bubbles: true }));
 			}
 		},
 		getContent(){

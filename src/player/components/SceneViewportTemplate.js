@@ -5,7 +5,6 @@ export const template =
 	v-bind:locale="$root.locale"
 	v-bind:value="value.body"
 	v-on="$listeners"
-	v-on:change="$emit('change')"
 >
 </user-widget-viewport>
 `

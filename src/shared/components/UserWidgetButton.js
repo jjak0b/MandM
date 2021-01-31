@@ -21,7 +21,7 @@ export const component = {
 		emitInput(event){
 			this.value.type = this.valueOnClick.type;
 			this.value.value = this.valueOnClick.value;
-			this.$emit('change', this.value);
+			this.$el.dispatchEvent(new Event('change', { bubbles: true }));
 		},
 		getContent(){
 			let content = this.$i18n.t( this.localeLabel, this.locale );

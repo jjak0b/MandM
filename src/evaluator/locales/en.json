@@ -32,7 +32,11 @@
 	"label-player-stuck-notification-time-description": "Define how many minutes will pass before the evaluator notifies that the player is stuck in an activity.",
 	"errors": {
 	  "label-error": "error",
-	  "label-unable-to-load-resources": "Unable to load resources"
+	  "label-unable-to-load-resources": "Unable to load resources",
+	  "label-story-already-active": "Story already active",
+	  "label-unable-to-start-story": "Unable to start story",
+	  "label-story-already-ended": "Story already ended",
+	  "label-unable-to-stop-story": "Unable to stop story"
 	}
   }
 }

@@ -99,6 +99,7 @@ export const component = {
                    [ this.selfParameter ]
                 );
 
+                this.condition.negate = false;
                 this.$nextTick( () =>  this.form.assign = false );
             }
         },

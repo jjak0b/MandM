@@ -10,6 +10,9 @@ export class TypedValue {
 				}
 			}
 		}
+		else if( this.isType( Number.name ) ) {
+			this.value = "string" === typeof this.value ? parseFloat( this.value ) : this.value;
+		}
 	}
 
 	equals( typedValue ) {

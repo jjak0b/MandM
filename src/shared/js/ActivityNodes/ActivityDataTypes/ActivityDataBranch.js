@@ -203,7 +203,7 @@ export default class ActivityDataBranch extends ActivityData {
 	 */
 	static isInRange( self, that0, that1 ) {
 		let isInRng = false;
-		if( self && that0 && that1 && self.type === that0.type && self.type !== that1.type ) {
+		if( self && self.type && that0 && that0.type && that1 && that1.type ) {
 			let min, max;
 			switch (self.type) {
 				case Number.name:

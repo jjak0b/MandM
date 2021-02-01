@@ -135,7 +135,10 @@
 		"label-description-region": "Dynamic content for current internationalization"
 	},
 	"UserWidgets": {
-
+		"QrDecoder": {
+			"label-camera-live-preview": "Camera live preview",
+			"label-consent-camera-usage-message": "if an authorization confirm popup appear, please press the \"confirm\" or \"allow\" button to use your device camera"
+		}
 	},
 	"ChatWidget": {
 		"status": {

@@ -148,6 +148,10 @@
 			"label-calendar" : "Calendario",
 			"label-nav" : "Navigazione calendario",
 			"label-help" : "Usa i tasti cursore per navigare tra le date del calendario"
+		},
+		"QrDecoder": {
+			"label-camera-live-preview": "Anteprima in tempo reale della fotocamera",
+			"label-consent-camera-usage-message": "Se viene visualizzato un popup di conferma dell'autorizzazione, premere il pulsante di \"conferma\" o \"consenti\" per utilizzare la fotocamera del tuo dispositivo"
 		}
 	},
 	"ChatWidget": {

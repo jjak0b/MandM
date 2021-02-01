@@ -3,6 +3,13 @@ const path = require('path');
 const router = express.Router();
 const session = require('express-session');
 
+const SessionQueue = require( "../js/SessionQueues");
+const sessionQueue = new SessionQueue( (req, res) => {
+	return req.params.sessionId // logger
+		|| req.params.receiverID // chat
+		|| req.sessionID; // any other
+});
+
 const sessionDuration = {
 	hours: 12,
 	minutes: 0,
@@ -13,8 +20,9 @@ router.use( setupSession() );
 
 router.use(
 	handlePlayerSession,
-	initPlayerSession // init only if needed
+	initPlayerSession, // init only if needed
 	// here any handler for player
+	sessionQueue.getQueueMiddleWare()
 );
 
 router.use('/locales',

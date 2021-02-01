@@ -1,3 +1,5 @@
+import Time from "./Time.js";
+
 export class TypedValue {
 	constructor( unparsed  = { type: null, value : null} ) {
 		this.type = unparsed ? unparsed.type : null;
@@ -30,5 +32,20 @@ export class TypedValue {
 		if (type && this.type)
 			return type === this.type;
 		return false;
+	}
+
+	toNumber() {
+		if( this.type && (this.value != undefined && this.value != null ) ) {
+			if (this.isType(Number.name)) {
+				return this.value;
+			}
+			else if (this.isType(Time.name)) {
+				return new Time(this.value).toNumber();
+			}
+			else if (this.isType(Date.name)) {
+				return new Date(this.value).getTime();
+			}
+		}
+		return null;
 	}
 }

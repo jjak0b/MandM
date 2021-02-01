@@ -67,4 +67,8 @@ export default class Time {
 		let thatSeconds = that.getElapsedSeconds();
 		return selfSeconds - thatSeconds;
 	}
+
+	toNumber() {
+		return this.getElapsedSeconds();
+	}
 }

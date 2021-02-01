@@ -9,8 +9,11 @@ export const template = `
     <p v-t="'ActivityEditorWidget.label-condition-required-to-continue-play-this-story-route'"
     ></p>
     
-    <b-row>
-    	<b-col>
+    <b-form-group>
+    <b-form-row>
+    	<b-col
+    		sm
+    	>
 			<b-form-group
 				v-bind:disabled="parametersDisabled"
 				v-bind:label="$t('ActivityEditorWidget.label-point-assignment')"
@@ -23,7 +26,9 @@ export const template = `
 				></b-form-input>
 			</b-form-group>
 		</b-col>
-		<b-col>
+		<b-col
+			sm
+		>
 			<div>
 				<b-form-checkbox
 					id="activity-editor-branch-human-eval-checkbox"
@@ -38,7 +43,8 @@ export const template = `
 				>{{ $t('ActivityEditorWidget.label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity') }}</small>
 			</div>
 		</b-col>
-	</b-row>
+	</b-form-row>
+	</b-form-group>
     <condition-parameter v-if="condition && condition.function"
 	    :key="condition.function + '_0'"
 	    v-bind:value="selfParameter"
@@ -50,26 +56,46 @@ export const template = `
 	    v-bind:label="getParameterI18n( 'this' )"
     >
     </condition-parameter>
-		
+	
     <b-form-group v-if="condition"
     	v-bind:disabled="parametersDisabled"
-	    v-bind:label="$t('ActivityEditorWidget.label-select-condition-to-check')"
-	    label-for="activity-editor-branch-select-function"
 	    v-bind:description="$t('ActivityEditorWidget.label-branch-condition-example')"
     >
+    
+    <b-form-row>
+    <b-col
+    	sm
+    >
+    <label
+    	for="activity-editor-branch-select-function"
+    >{{ $t('ActivityEditorWidget.label-select-condition-to-check') }}</label>
 	<b-form-select
 		v-bind:disabled="parametersDisabled"
 		id="activity-editor-branch-select-function"
 		v-bind:options="functionOptions"
 		v-model="condition.function"
 		required
+		class="mb-2"
 	>
 		<template #first>
 			<b-form-select-option v-bind:value="null" disabled v-t="'shared.label-select-option'"
 			></b-form-select-option>
 		</template>
 	</b-form-select>
-</b-form-group>
+	</b-col>
+	
+	<b-col
+		class="d-flex"
+		sm
+	>
+    <b-form-checkbox
+    	class="mb-2 my-auto"
+    	v-model="condition.negate"
+    	switch
+    >{{ $t('ActivityEditorWidget.label-negate-condition') }}</b-form-checkbox>
+    </b-col>
+    </b-form-row>
+	</b-form-group>
 <b-card v-if="condition && condition.function && parameters.length > 1"
 >
 	<template #header>
@@ -110,7 +136,7 @@ export const template = `
 		<b-button
 			type="submit"
 			variant="success"
-			v-t="'shared.label-save'"
+			v-t="'shared.label-confirm'"
 		></b-button>
 		<b-button
 			type="reset"

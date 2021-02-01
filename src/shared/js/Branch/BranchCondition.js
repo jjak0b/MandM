@@ -11,6 +11,7 @@ export class BranchCondition extends Disposable {
 			})
 
 		],
+		negate: false,
 		rewardPoints: 0,
 		requireHumanEvaluation: false
 	}) {
@@ -18,6 +19,7 @@ export class BranchCondition extends Disposable {
 
 		this.function = unparsed ? unparsed.function : null;
 		this.params = [];
+		this.negate = unparsed ? !!unparsed.negate : false;
 		this.rewardPoints = unparsed ? unparsed.rewardPoints : 0;
 		this.requireHumanEvaluation = unparsed ? !!unparsed.requireHumanEvaluation : false;
 		if( unparsed && unparsed.params) {
@@ -47,6 +49,7 @@ export class BranchCondition extends Disposable {
 		});
 		console.log( `[${this.constructor.name}]`, "computing", func.name, params );
 		let result = func.apply( undefined, params );
+		result = this.negate ? !result : !!result;
 		console.log( `[${this.constructor.name}]`, "computed", result );
 		return result;
 	}

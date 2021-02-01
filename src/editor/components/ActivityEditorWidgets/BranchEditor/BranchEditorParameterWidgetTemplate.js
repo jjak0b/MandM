@@ -5,7 +5,9 @@ export const template =
 	v-on="$listeners"
 >
 <b-form-row>
-	<b-col>
+	<b-col
+		sm
+	>
 		<b-form-group
 			v-bind:label="$t('ActivityEditorWidget.label-select-source-of-parameter-value')"
 			v-bind:label-for="$attrs.id + '-select-sourceType'"
@@ -23,7 +25,9 @@ export const template =
 			</b-form-select>
 		</b-form-group>
 	</b-col>
-	<b-col>
+	<b-col
+		sm
+	>
 		<div v-if="value.sourceType == 'value'"
 		>
 			<b-form-group

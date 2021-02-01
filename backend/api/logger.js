@@ -13,30 +13,54 @@ router.get("/totalscore", GET_TOTAL_SCORE);
 
 function RESET_STORY( req, res, next ) {
 
-	let sessionId = req.params.sessionId;
 	let story = req.query.story;
+	function _editSession(session, sessionId ) {
+		if( story ) {
+			if (('stories' in session) && session.stories[story]) {
+				session.stopped = true;
+			}
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 
-	if ( story && sessionId ) {
-
-		req.sessionStore.get(sessionId, (error, session) => {
+	// requested session to edit is same of requester
+	if( req.params.sessionId && req.params.sessionId === req.sessionID ) {
+		// edit request's session
+		let hasBeenHandled = _editSession(req.session, req.sessionID );
+		if( !hasBeenHandled ) {
+			res.sendStatus(StatusCodes.BAD_REQUEST);
+		}
+		else {
+			res.sendStatus(StatusCodes.OK);
+		}
+	}
+	else if( req.params.sessionId ) {
+		// edit requested session
+		req.sessionStore.get(req.params.sessionId, (error, session) => {
 			if (error || !session) {
-				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-			} else {
+				res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+			}
+			else {
+				let hasBeenHandled = _editSession(session, sessionId );
 
-				if ( ('stories' in session) && session.stories[story] ) {
-					session.stopped = true;
+				if( !hasBeenHandled ) {
+					res.sendStatus(StatusCodes.BAD_REQUEST);
+					return;
 				}
-
 
 				req.sessionStore.set(sessionId, session, (error) => {
 					if (error) {
 						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-					} else {
+					}
+					else {
 						res.sendStatus(StatusCodes.OK);
 					}
 				});
 			}
-		})
+		});
 	}
 	else {
 		res.sendStatus(StatusCodes.BAD_REQUEST);
@@ -67,42 +91,59 @@ function GET_TOTAL_SCORE( req, res, next ) {
 }
 
 function EDIT_SESSION( req, res, next ) {
-	let sessionId = req.params.sessionId;
+	function _editSession(session, sessionId ) {
+		let handled = false;
+		if ( req.query.name ) {
+			session.name = req.query.name;
+			handled = true;
+		}
 
-	if ( req.query.name ) {
-		req.sessionStore.get(sessionId, (error, session) => {
-			if (error || !session) {
-				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-			} else {
-				session.name = req.query.name;
+		if ( req.query.score && req.body ) {
+			session.stories[req.body.story][req.body.mission][req.body.activity].score = req.body.score;
+			updateTotalScore(session);
+			handled = true;
+		}
 
-				req.sessionStore.set(sessionId, session, (error) => {
-					if (error) {
-						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-					} else {
-						res.sendStatus(StatusCodes.OK);
-					}
-				});
-			}
-		})
+		return handled;
 	}
-	else if ( req.query.score && req.body ) {
-		req.sessionStore.get(sessionId, (error, session) => {
+
+	// requested session to edit is same of requester
+	if( req.sessionID && req.params.sessionId && req.params.sessionId === req.sessionID ) {
+		console.log( " edit request's session");
+		// edit request's session
+		let hasBeenHandled = _editSession(req.session, req.sessionID );
+		if( !hasBeenHandled ) {
+			res.sendStatus(StatusCodes.BAD_REQUEST);
+		}
+		else {
+			res.sendStatus(StatusCodes.OK);
+		}
+	}
+	else if( req.params.sessionId ) {
+		// edit requested session
+		req.sessionStore.get(req.params.sessionId, (error, session) => {
+			let sessionId = req.params.sessionId;
 			if (error || !session) {
-				req.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-			} else {
-				session.stories[req.body.story][req.body.mission][req.body.activity].score = req.body.score;
-				session = updateTotalScore(session);
+				res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
+			}
+			else {
+				let hasBeenHandled = _editSession(session, sessionId );
+
+				if( !hasBeenHandled ) {
+					res.sendStatus(StatusCodes.BAD_REQUEST);
+					return;
+				}
 
 				req.sessionStore.set(sessionId, session, (error) => {
 					if (error) {
 						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
-					} else {
+					}
+					else {
 						res.sendStatus(StatusCodes.OK);
 					}
 				});
 			}
-		})
+		});
 	}
 	else {
 		res.sendStatus(StatusCodes.BAD_REQUEST);
@@ -147,7 +188,7 @@ function PUT_SESSION( req, res, next ) {
 				}
 				if (log.params.score) {
 					req.session.stories[story][mission][activity].score = log.params.score;
-					req.session = updateTotalScore(req.session);
+					updateTotalScore(req.session);
 				}
 				if (log.params.valueToEvaluate) {
 					req.session.stories[story][mission][activity].valueToEvaluate = log.params.valueToEvaluate;

@@ -90,6 +90,7 @@
 	"label-condition-check-parameters": "Condition check parameters",
 	"label-select-a-variable": "Select a variable",
 	"label-select-condition-to-check": "Select condition to check",
+    "label-negate-condition": "Negate the condition",
 	"label-branch-condition-example": "Example: @:ActivityEditorWidget.label-variable \"@:shared.label-score\" @:ActivityEditorWidget.select-type-func.isGreaterThan @:shared.label-Number with value 1000",
 	"label-select-source-of-parameter-value": "Select source of parameter value",
 	"label-setup-your-condition": "Setup your condition",

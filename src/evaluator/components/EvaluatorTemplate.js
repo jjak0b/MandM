@@ -99,7 +99,7 @@ export const template =
 				</b-breadcrumb-item>
 			</b-breadcrumb>
 			<b-container>
-				<b-row v-if="selectedStory && Object.keys(leaderboard).length !== 0">
+				<b-row v-if="selectedStory && Object.keys(getLeaderboard).length !== 0">
 					<b-col>
 						<b-card no-body>
 							<b-card-header v-b-toggle="'story-leaderboard'">
@@ -109,7 +109,7 @@ export const template =
 								<b-card-body>
 									<b-table 
 										striped hover 
-										v-bind:items="leaderboard"
+										v-bind:items="getLeaderboard"
 										v-bind:fields="leaderboardFields"
 										sort-by="totalScore"
 										v-bind:sort-desc="true"

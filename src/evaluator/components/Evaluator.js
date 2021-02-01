@@ -53,10 +53,22 @@ export const component = {
 				{ key: 'totalScore', sortable: true },
 				{ key: 'totalTime', sortable: true },
 				{ key: 'averageActivityTime', sortable: true }
-			]
+			],
+			oldLeaderboard: {}
 		}
 	},
 	computed: {
+		getLeaderboard: function () {
+			if ( this.selectedStory ) {
+				if ( this.storySettings[this.selectedStory].isRunning ) {
+					return this.leaderboard;
+				}
+				else {
+					return this.oldLeaderboard;
+				}
+			}
+			return {}
+		},
 		leaderboard: function () {
 			let story = this.selectedStory;
 			let name;
@@ -111,22 +123,6 @@ export const component = {
 			document.body.appendChild(downloadAnchorNode); // required for firefox
 			downloadAnchorNode.click();
 			downloadAnchorNode.remove();
-		},
-		getLeaderboard(story) {
-			let leaderboard = {};
-			for ( const session in this.sessions) {
-				if ( story in this.sessions[session] ) {
-					if ( 'totalScore' in this.sessions[session][story] ) {
-						leaderboard[session] = {
-							totalScore: this.sessions[session][story].totalScore
-						}
-						if ( 'name' in this.sessions[session][story] ) {
-							leaderboard[session].name = this.sessions[session][story].name;
-						}
-					}
-				}
-			}
-			return leaderboard;
 		},
 		toggleStuckDataCollapse(sessionName) {
 			if (this.stuckData.hasOwnProperty(sessionName) && this.stuckData[sessionName].stuck === true ) {
@@ -279,6 +275,7 @@ export const component = {
 					)
 					this.storySettings[this.selectedStory].isRunning = false;
 					this.resetSessions(this.selectedStory);
+					this.oldLeaderboard = this.leaderboard;
 				})
 				.fail( ( jqXHR, textStatus, errorThrown ) => {
 					switch ( jqXHR.status ) {

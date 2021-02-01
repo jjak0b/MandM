@@ -15,10 +15,41 @@ export const component = {
     },
     data() {
         return {
-            content: null
+            content: null,
+            useStream: true,
+            isLoading: false
         }
     },
     methods: {
+        onInit(promise) {
+            this.isLoading = true;
+            return promise
+                .then( ( result ) => {
+                    // successfully initialized
+                    let capabilities = result.capabilities;
+                })
+                .catch( (error) => {
+                    // write all error types for reference purpose
+                    switch( error.name ) {
+                        case 'NotAllowedError': // user denied camera access permission
+                        case 'NotFoundError':  // no suitable camera device installed
+                        case 'NotSupportedError':  // page is not served over HTTPS (or localhost)
+                        case 'InsecureContextError':
+                        case 'StreamApiNotSupportedError': // browser seems to be lacking features
+                        case 'NotReadableError': // maybe camera is already in use
+                        case 'OverconstrainedError': // did you requested the front camera although there is none?
+                            this.useStream = false;
+                            break;
+                        default:
+                            console.error( "[UserWidgetQrDecoder]", "Unhandled error occurred", error);
+                            this.useStream = false;
+                            break;
+                    }
+                })
+                .finally( () => {
+                    this.isLoading = false;
+                })
+        },
         getContentOf( localeLabel ){
             let content = this.$i18n.t( localeLabel, this.locale );
             if( !content || content === localeLabel )
@@ -30,6 +61,7 @@ export const component = {
             promise
                 .then((decodeData) => {
                     let content = decodeData.content;
+                    console.log( "[UserWidgetQrDecoder]",`Detected: "${content}"` );
                     if (content === null) {
                         this.$bvToast.toast(
                             this.getContentOf( this.errorMessage.body ),
@@ -58,7 +90,7 @@ export const component = {
                             variant: 'danger'
                         }
                     );
-                })
+                });
         }
     }
 }

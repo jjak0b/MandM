@@ -63,6 +63,7 @@ export const component = {
 		return {
 			I18nUtils: I18nUtils,
 			loading: null,
+			operationLoading: undefined,
 			tabValue: -1,
 			newStory: new Story( null ),
 			newStoryLocale: navigator.language,
@@ -85,13 +86,41 @@ export const component = {
 	},
 	methods: {
 		updateStoryOnServer() {
+			this.startOperation();
 
 			this.value.dependencies.locales = I18nUtils.getRootMessages(this.$i18n, "assets" );
 			// load to the server the instance of the story present in the local cache
-			this.putStoryOnServer( this.value );
+			this.putStoryOnServer( this.value )
+				.then( () => {
+					this.endOperation( this.$t('shared.label-save'), true );
+				})
+				.catch( () => {
+					this.endOperation( this.$t('shared.label-save'), false );
+				})
+				.finally( () => setTimeout( this.clearOperation, 30000 ) );
+		},
+		startOperation() {
+			this.operationLoading = true;
+		},
+		endOperation( title, isSuccess ) {
+			let content = isSuccess ? this.$t("shared.status.label-operation-success") : this.$t("shared.status.label-operation-failed");
+			this.$bvToast.toast(content, {
+				title: title,
+				autoHideDelay: 5000,
+				appendToast: true,
+				isStatus: !!isSuccess,
+				variant: isSuccess ? "success" : "danger"
+			});
+			this.operationLoading = isSuccess ? false : null;
+		},
+		clearOperation() {
+			if( !this.operationLoading ) {
+				this.operationLoading = undefined;
+			}
 		},
 		reloadStoryFromServer() {
 			// delete story instance from local cache and reload the instance on the server
+			this.startOperation();
 			let name = this.value.name;
 			this.getStoryFromServer(this.value.name)
 				.then( (story) => {
@@ -104,9 +133,16 @@ export const component = {
 					if( this.selectedName === story.name ) {
 						this.$emit('import', story);
 					}
+
+					this.endOperation( this.$t('StoryEditorWidget.label-reload-from-server'), true );
 				})
+				.catch( () => {
+					this.endOperation( this.$t('StoryEditorWidget.label-reload-from-server'), false );
+				})
+				.finally( () => setTimeout( this.clearOperation, 30000 ) );
 		},
 		deleteStory() {
+			this.startOperation();
 			// delete story from server and from local cache
 			let name = this.value.name;
 			if ( this.stories.some( story => story.name === name ) ) {
@@ -116,12 +152,15 @@ export const component = {
 					.then ( (data) => {
 						this.$emit('delete-local-story', name);
 						console.log("[StoryEditor]", `Deleted the Story ${name}`);
+						this.endOperation( this.$t('shared.label-delete'), true );
 					})
 					.catch( ( error) => {
 						console.log("[StoryEditor]", `Failed to delete the Story ${name}`, error );
+						this.endOperation( this.$t('shared.label-delete'), false );
 					})
 					.always( () => {
 						this.$emit("update-names");
+						setTimeout( this.clearOperation, 30000 );
 					});
 			}
 		},
@@ -212,14 +251,20 @@ export const component = {
 				return;
 			}
 
+			this.startOperation();
 			this.putStoryOnServer( dataExport )
 			.then( () => {
 				this.$emit( 'add-local-story', dataExport );
+				this.endOperation( this.$t('StoryEditorWidget.label-add-new-story'), true );
+			})
+			.catch( () => {
+				this.endOperation( this.$t('StoryEditorWidget.label-add-new-story'), false );
 			})
 			.finally( () => {
 				this.$bvModal.hide('addModal');
 				this.resetModal();
 				this.$emit("update-names");
+				setTimeout( this.clearOperation, 30000 );
 			});
 		},
 		showDupModal() {
@@ -248,13 +293,19 @@ export const component = {
 			dataExport.name = this.newStory.name;
 			dataExport.dependencies.locales = localesCopy;
 
+			this.startOperation();
 			this.putStoryOnServer( dataExport )
 				.then( () => {
 					this.$emit( 'add-local-story', dataExport );
+					this.endOperation( this.$t('shared.label-duplicate'), true );
+				})
+				.catch( () => {
+					this.endOperation( this.$t('shared.label-duplicate'), false );
 				})
 			.finally( () => {
 				this.resetModal();
 				this.$emit("update-names");
+				setTimeout( this.clearOperation, 30000 );
 			});
 		},
 		selectMission( index ) {

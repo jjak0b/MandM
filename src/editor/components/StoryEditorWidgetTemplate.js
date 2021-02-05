@@ -140,17 +140,39 @@ export const template =
 						</b-row>
 						<b-row class="mr-5 mb-3 float-right">
 							<b-col>
+							<div
+								class="mb-3"
+							>
+								<span
+									role="status"
+									aria-live="polite"
+								>
+									<span v-if="operationLoading">
+										<b-spinner
+											role="img"
+											aria-hidden="true"
+											variant="primary"
+										></b-spinner> {{ $t( 'shared.label-loading' ) }}
+									</span>
+									<span
+										v-else-if="operationLoading === false"
+									>{{ $t( 'shared.status.label-operation-success' ) }}</span>
+									<span
+										v-else-if="operationLoading === null"
+									>{{ $t( 'shared.status.label-operation-failed' ) }}</span>
+								</span>
+							</div>
 							<b-button-toolbar>
-								<b-button type="submit" variant="primary">
+								<b-button type="submit" variant="primary" :disabled="operationLoading" >
 									{{ $t('shared.label-save') }}
 								</b-button>
-								<b-button class="mx-1" variant="info" v-on:click="showDupModal">
+								<b-button class="mx-1" variant="info" :disabled="operationLoading" v-on:click="showDupModal">
 									{{ $t('shared.label-duplicate') }}
 								</b-button>
-								<b-button class="mx-1" variant="secondary" v-on:click="reloadStoryFromServer">
+								<b-button class="mx-1" variant="secondary" :disabled="operationLoading" v-on:click="reloadStoryFromServer">
 									{{ $t('StoryEditorWidget.label-reload-from-server') }}
 								</b-button>
-								<b-button variant="danger" v-on:click="deleteStory">
+								<b-button variant="danger" :disabled="operationLoading" v-on:click="deleteStory">
 									{{ $t('shared.label-delete') }}
 								</b-button>
 							</b-button-toolbar>

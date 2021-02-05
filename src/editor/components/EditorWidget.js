@@ -191,7 +191,7 @@ const component = {
 			}
 		},
 		saveStory() {
-			this.$refs.story.updateStoryOnServer();
+			// this.$refs.story.updateStoryOnServer();
 		}
 	}
 }

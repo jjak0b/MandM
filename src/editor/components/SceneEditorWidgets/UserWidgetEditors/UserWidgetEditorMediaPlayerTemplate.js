@@ -201,14 +201,27 @@ export const template =
 		</section>
 	</div>
 	<div class="row">
-		<section class="col">
+		<section
+			class="col"
+			aria-labelledby="user-widget-editor-media-player-preview-h"
+		>
+			<h3
+				class="text-center"
+				id="user-widget-editor-media-player-preview-h"
+			>{{ $t('shared.label-preview') }}</h3>
+			
+			<div
+				class="d-flex justify-content-center"
+			>
 			<user-widget-media-player
 				ref="preview"
 				v-if="shouldPreview()"
 				id="mediaForm-preview"
 				v-bind:context="context"
 				v-bind:locale="locale"
+				v-bind:use-map-high-light="true"
 			></user-widget-media-player>
+			</div>
 		</section>
 	</div>
 </div>

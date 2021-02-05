@@ -270,9 +270,16 @@ export const component = {
 		showDupModal() {
 			this.$bvModal.show('duplicateModal');
 		},
-		saveDupModal(){
-			if (this.names.includes(this.newStory.name)) {
-				console.log(this.newStory.name," already exists");
+		onOkDupModal( event ) {
+			event.preventDefault();
+			this.$refs.duplicateStoryFormSubmit.click();
+		},
+		onDupModalSubmit(event){
+			this.newStoryForm.name.state = !this.names.includes( this.newStory.name );
+			if (this.names.includes( this.newStory.name ) ) {
+				console.error(this.newStory.name," already exists");
+				this.endOperation( this.$t('shared.label-duplicate'), false );
+				setTimeout( this.clearOperation, 10000 );
 				return
 			}
 
@@ -303,6 +310,7 @@ export const component = {
 					this.endOperation( this.$t('shared.label-duplicate'), false );
 				})
 			.finally( () => {
+				this.$bvModal.hide('duplicateModal');
 				this.resetModal();
 				this.$emit("update-names");
 				setTimeout( this.clearOperation, 30000 );

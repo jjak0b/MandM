@@ -200,16 +200,30 @@ export const template =
 	v-bind:ok-title="$t('shared.label-save')"
 	centered
 	v-on:show="resetModal"
-	v-on:ok="saveDupModal">
-	<b-form v-on:submit.stop.prevent>
+	v-on:ok="onOkDupModal">
+	<b-form
+		v-on:submit.prevent.stop="onDupModalSubmit"
+		autocomplete="off"
+	>
 		<b-form-group
-				v-bind:label="$t('StoryEditorWidget.label-story-name')"
-				label-for="storyNameInput">
+			v-bind:label="$t('StoryEditorWidget.label-story-name')"
+			label-for="storyDupNameInput"
+			v-bind:state="newStoryForm.name.state"
+			:invalid-feedback="$t('shared.label-invalid-name-already-exists')"
+		>
 			<b-form-input
-					id="storyNameInput"
-					v-model="newStory.name">
-			</b-form-input>
+				required
+				type="text"
+				id="storyDupNameInput"
+				v-model="newStory.name"
+			></b-form-input>
 		</b-form-group>
+		<input
+			ref="duplicateStoryFormSubmit"
+			type="submit"
+			hidden
+			aria-hidden="true"
+		>
 	</b-form>
 </b-modal>
 <b-modal 

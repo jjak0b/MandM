@@ -116,7 +116,7 @@ export const component = {
 	methods: {
 		downloadGameData() {
 			let exportName = 'Game-' + new Date().toLocaleDateString();
-			let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify( this.leaderboard, null, 4 ) );
+			let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify( this.getLeaderboard, null, 4 ) );
 			let downloadAnchorNode = document.createElement('a');
 			downloadAnchorNode.setAttribute("href",     dataStr);
 			downloadAnchorNode.setAttribute("download", exportName + ".json");

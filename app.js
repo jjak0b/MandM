@@ -23,4 +23,6 @@ app.use( '/stories', require('./backend/api/stories').router);
 app.use( '/libs', require('./backend/routes/libs'));
 app.use( '/assets', require('./backend/api/assets').router);
 app.use('/bundles', express.static(path.join(__basedir, '/bundles' )));
+app.get( '/', express.static(path.join(__basedir, "src" ) ) );
+
 module.exports = app;

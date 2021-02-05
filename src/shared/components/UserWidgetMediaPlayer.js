@@ -173,36 +173,24 @@ export const component = {
 			this.indexOverArea = -1;
 		},
 		getImgAlt() {
-			let localeLabel = this.context.captions[1];
-			let translation = this.$t( localeLabel );
-
-			if( translation && translation !== localeLabel ) {
-				return translation;
-			}
-			else {
-				return "";
-			}
+			return this.getLocaleContent( this.context.captions[1] );
 		},
 		getImgCaption() {
-			let localeLabel = this.context.captions[0];
-			let translation = this.$t( localeLabel );
-
-			if( translation && translation !== localeLabel ) {
-				return translation;
-			}
-			else {
-				return "";
-			}
+			return this.getLocaleContent( this.context.captions[0] );
 		},
 		getAreaAlt( area ) {
-			let localeLabel = area.alt;
-			let translation = this.$t( localeLabel );
-
-			if( translation && translation !== localeLabel ) {
-				return translation;
+			return this.getLocaleContent( area.alt )
+		},
+		getLocaleContent( localeLabel ) {
+			if( this.locale ) {
+				let content = this.$i18n.t(localeLabel, this.locale);
+				if (!content || content === localeLabel)
+					return "";
+				else
+					return content;
 			}
 			else {
-				return "";
+				return this.$t( localeLabel );
 			}
 		}
 	}

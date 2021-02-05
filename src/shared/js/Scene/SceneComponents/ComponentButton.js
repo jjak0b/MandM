@@ -5,7 +5,6 @@ export default class ComponentButton extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 
-		this.value = new TypedValue(  {} );
 		this.props.valueOnClick = 'valueOnClick' in unparsed.props ? new TypedValue( unparsed.props.valueOnClick ) : new TypedValue({});
 		this.props.type = 'type' in unparsed.props ? unparsed.props.type : 'button';
 		this.props.size = 'size' in unparsed.props ? unparsed.props.size : null;

@@ -5,7 +5,7 @@ export default class ComponentTime extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 
-		this.value = new TypedValue(  {} );
+
 		this.props.data = 'data' in unparsed.props ? unparsed.props.data : {};
 		this.props.data.showSeconds = 'data' in unparsed.props && 'showSeconds' in unparsed.props.data ? unparsed.props.data.showSeconds : null;
 		this.props.data.nowButton = 'data' in unparsed.props && 'nowButton' in unparsed.props.data ? unparsed.props.data.nowButton : null;

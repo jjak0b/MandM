@@ -5,7 +5,7 @@ export default class ComponentSpinbutton extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 
-		this.value = new TypedValue({} );
+
 		this.props.data = 'data' in unparsed.props ? unparsed.props.data : {};
 		this.props.data.wrap = 'data' in unparsed.props && 'wrap' in unparsed.props.data ? unparsed.props.data.wrap : null;
 		this.props.data.step = 'data' in unparsed.props && 'step' in unparsed.props.data ? unparsed.props.data.step : null;

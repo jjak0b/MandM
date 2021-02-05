@@ -5,7 +5,7 @@ export default class ComponentDate extends InputSceneComponent {
 	constructor(unparsed) {
 		super(unparsed);
 
-		this.value = new TypedValue(  {} );
+
 		this.props.data = 'data' in unparsed.props ? unparsed.props.data : {};
 		this.props.data.min = 'data' in unparsed.props && 'min' in unparsed.props.data ? unparsed.props.data.min : null;
 		this.props.data.max = 'data' in unparsed.props && 'max' in unparsed.props.data ? unparsed.props.data.max : null;

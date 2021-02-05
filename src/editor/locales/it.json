@@ -397,18 +397,20 @@
 			  "label-shape-full": "Pieno",
 			  "label-shape-rectangle": "Rettangolo",
 			  "label-shape-circle": "Cerchio",
-			  "label-rectangle-top-left": "Rettangolo in alto a sinistra",
-			  "label-rectangle-bottom-right": "Rettangolo in fondo a destra",
-			  "label-circle-centre": "Cerchio Centro",
-			  "label-circle-radius": "Cerchio Radiale",
+			  "label-distance-relative-from-left": "Distanza relativa da sinistra",
+			  "label-distance-relative-from-top": "Distanza relativa dall'alto",
+			  "label-rectangle-top-left": "Vertice in alto a sinistra",
+			  "label-rectangle-bottom-right": "Vertice in basso a destra",
+			  "label-circle-centre": "Centro del cerchio",
+			  "label-circle-radius": "Raggio del cerchio",
 			  "label-select-shape-area": "Seleziona area della forma",
 			  "label-select-interact-action": "Seleziona interazione",
-			  "label-add-url-to-open-when-triggered": "Aggiungi url da aprire quando interagita",
+			  "label-add-url-to-open-when-triggered": "Aggiungi url da aprire dopo interazione",
 			  "label-url-invalid": "url invalido",
 			  "label-url-invalid-example": "Esempio di url invalido",
 			  "actions": {
 				  "label-open-url-new-tab": "Apri url in a nuova finestra",
-				  "label-navigate-to-page-element": "Naviga nellàelemento della pagina",
+				  "label-navigate-to-page-element": "Naviga nell'elemento della pagina",
 				  "label-return-a-value-to-activity": "Riporta un valore nell'attività"
 			  }
 		  }

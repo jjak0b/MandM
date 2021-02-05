@@ -37,7 +37,7 @@ export const template =
 	
 			<b-sidebar
 				id="sidebar-stories"
-				:title="$t('shared.label-story')"
+				:title="$tc('shared.label-story', 2 )"
 				shadow
 				role="navigation"
 				:backdrop="true"

@@ -18,7 +18,8 @@ export const template =
 			v-bind:src="context.asset.getURL()"
 			v-bind:alt="getImgAlt()"
 			v-bind:usemap="context.areas ? '#' + $attrs.id + '-map' : ''"
-			class="figure-img img-fluid rounded" 
+			class="figure-img img-fluid rounded"
+			v-on:load="onImgLoad()"
 		/>
 		<map
 			:key="updateFlagToggle"

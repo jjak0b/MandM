@@ -13,6 +13,10 @@ export const component = {
 		tabindex: {
 			type: Number,
 			default: null
+		},
+		useMapHighLight: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data() {
@@ -33,15 +37,6 @@ export const component = {
 			window.addEventListener("resize", this.onResize);
 		}
 	},
-	mounted(){
-		if( this.context.asset && this.context.asset.category == "images" ) {
-
-			// trigger the update lifecycle after the DOM is rendered to set the highlight if needed
-			setTimeout( () => {
-				this.updateFlagToggle = !this.updateFlagToggle;
-			}, 0 );
-		}
-	},
 	watch: {
 		"context.areas": {
 			deep: true,
@@ -53,7 +48,8 @@ export const component = {
 	beforeUpdate() {
 		if( this.context.asset && this.context.asset.category == "images" ) {
 			// here image size may have been changed, resized, and the highlight plugin may be buggy so refresh it
-			this.setupHighlight();
+			if( this.useMapHighLight )
+				this.setupHighlight();
 
 			// let the view to update the areas coords
 			this.updateMapAreas();
@@ -62,7 +58,8 @@ export const component = {
 	updated(){
 		if( this.context.asset && this.context.asset.category == "images" ) {
 			// into before update we let the view to update the map areas coords, so update the highlight plugin with new DOM
-			this.setupHighlight();
+			if( this.useMapHighLight )
+				this.setupHighlight();
 
 			// while updating area sizes in editor, highlight it
 			if (this.indexOverArea >= 0)
@@ -75,6 +72,10 @@ export const component = {
 		}
 	},
 	methods: {
+		onImgLoad() {
+			// trigger the update lifecycle after the DOM is rendered to set the highlight if needed
+			this.updateFlagToggle = !this.updateFlagToggle;
+		},
 		areaOnClick( indexArea, event ) {
 			if( !this.context || !this.context.areas ) return;
 			let area = this.context.areas[ indexArea ];
@@ -163,11 +164,13 @@ export const component = {
 			}
 		},
 		highlightMapArea( indexArea ){
+			if( !this.useMapHighLight ) return;
 			this.indexOverArea = indexArea;
 			if( indexArea >= 0)
 				$( this.$refs.area[ indexArea ] ).mouseover();
 		},
 		unHighlightMapArea( indexArea  ){
+			if( !this.useMapHighLight ) return;
 			if( indexArea >= 0)
 				$( this.$refs.area[ indexArea ] ).mouseout();
 			this.indexOverArea = -1;

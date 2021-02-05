@@ -54,15 +54,32 @@ export const template =
 				<fieldset>
 					<legend>{{ $t( "UserWidgets.MediaPlayer.label-options" ) }}</legend>
 					<div v-if="context.asset && context.asset.category && context.asset.category == 'images'">
+						<b-form-row>
+						<b-col
+							sm
+						>
 						<i18n-input-widget
 							v-bind:label="$t('UserWidgets.MediaPlayer.label-input-file.imageCaption')"
 							v-bind:tag="'textarea'"
 							id="mediaForm-input-image-caption"
-							name="fileCaption"
 							rows="4"
 							v-bind:locale="locale"
 							v-bind:locale-label="context.captions[0]"
 						></i18n-input-widget>
+						</b-col>
+						<b-col
+							sm
+						>
+						<i18n-input-widget
+							v-bind:label="$t( 'accessibility.label-alt' )"
+							v-bind:tag="'input'"
+							id="mediaForm-input-image-label"
+							v-bind:locale="locale"
+							v-bind:locale-label="context.captions[1]"
+						></i18n-input-widget>
+						</b-col>
+						</b-form-row>
+						
 						<div class="form-group">
 							<div class="form-check">
 								<input

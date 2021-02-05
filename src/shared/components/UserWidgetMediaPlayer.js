@@ -79,6 +79,7 @@ export const component = {
 			if( !this.context || !this.context.areas ) return;
 			let area = this.context.areas[ indexArea ];
 			if( area.value != null ) {
+				console.log( area.value );
 				this.$emit('input', area.value);
 
 				this.$el.dispatchEvent(new Event('change', { bubbles: true }));
@@ -172,6 +173,17 @@ export const component = {
 			this.indexOverArea = -1;
 		},
 		getImgAlt() {
+			let localeLabel = this.context.captions[1];
+			let translation = this.$t( localeLabel );
+
+			if( translation && translation !== localeLabel ) {
+				return translation;
+			}
+			else {
+				return "";
+			}
+		},
+		getImgCaption() {
 			let localeLabel = this.context.captions[0];
 			let translation = this.$t( localeLabel );
 

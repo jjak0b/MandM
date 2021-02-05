@@ -486,7 +486,9 @@ export function registerDisposeCallbacks() {
 			if( that.props.context && that.props.context.asset && that.props.context.asset.category == "images" ) {
 				if( that.props.context.areas.captions ) {
 
-					this.$i18n.removeMessageAll( that.props.context.captions[ 0 ] );
+					for (const captionKey in that.props.context.captions) {
+						this.$i18n.removeMessageAll( that.props.context.captions[ captionKey ] );
+					}
 				}
 			}
 		}

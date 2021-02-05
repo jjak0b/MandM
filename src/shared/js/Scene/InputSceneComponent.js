@@ -12,6 +12,7 @@ export default class InputSceneComponent extends SceneComponent {
 	duplicate(i18nCategoryPrefix) {
 		let duplicate = super.duplicate(i18nCategoryPrefix);
 		duplicate.props.name = this.props.name ? "" + this.props.name : null;
+		duplicate.value = new TypedValue( {} );
 		return Object.setPrototypeOf( duplicate, InputSceneComponent );
 	}
 }

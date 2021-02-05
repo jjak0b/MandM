@@ -40,7 +40,7 @@ export const template =
 		</map>
 		<figcaption
 			class="figure-caption"
-		>{{ getImgAlt() }}</figcaption>
+		>{{ getImgCaption() }}</figcaption>
 	</figure>
 	<video
 		v-else-if="context.asset && context.asset.category == 'videos'"

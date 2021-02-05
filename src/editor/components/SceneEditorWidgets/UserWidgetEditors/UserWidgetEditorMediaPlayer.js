@@ -81,10 +81,17 @@ export const component = {
 				this.$set( this.context, "captions", {} );
 				if( this.context.asset.category == "images" ) {
 
+					// caption
 					this.$set(
 						this.context.captions,
 						0,
 						`${this.component.i18nCategory}.image.caption`
+					);
+					// label alt
+					this.$set(
+						this.context.captions,
+						1,
+						`${this.component.i18nCategory}.image.alt`
 					);
 				}
 			}
@@ -136,7 +143,9 @@ export const component = {
 			if( value.captions ) {
 				if (0 in value.captions) {
 					this.$i18n.removeMessageAll(value.captions[0]);
+					this.$i18n.removeMessageAll(value.captions[1]);
 					this.$delete(value.captions, 0);
+					this.$delete(value.captions, 1);
 				}
 				else {
 					Object.keys(value.captions)

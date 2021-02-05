@@ -3,7 +3,7 @@ import {Asset} from "../../../Asset.js";
 import ContextMediaPlayerArea from "./ContextMediaPlayerArea.js";
 
 export default class ContextMediaPlayer extends Disposable {
-	constructor(unparsed) {
+	constructor(unparsed, i18nCategory) {
 		super(unparsed);
 
 		let context = unparsed;
@@ -12,6 +12,12 @@ export default class ContextMediaPlayer extends Disposable {
 		if( this.asset ) {
 			switch (this.asset.category) {
 				case "images":
+					if( !(0 in this.captions)) {
+						this.captions[ 0 ] = i18nCategory + ".image.caption";
+					}
+					if( !(1 in this.captions)) {
+						this.captions[ 1 ] = i18nCategory + ".image.alt";
+					}
 					break;
 				default:
 					Object.keys(this.captions)
@@ -29,10 +35,13 @@ export default class ContextMediaPlayer extends Disposable {
 			switch (this.asset.category) {
 				case "images":
 					captions[0] = i18nCategoryPrefix + ".image.caption";
-					locales.push([
-						this.captions[0],
-						captions[0]
-					]);
+					captions[1] = i18nCategoryPrefix + ".image.alt";
+					for (const captionsKey in this.captions) {
+						locales.push([
+							this.captions[captionsKey],
+							captions[captionsKey]
+						]);
+					}
 					break;
 				default:
 					Object.keys(this.captions)

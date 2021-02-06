@@ -104,6 +104,11 @@ function EDIT_SESSION( req, res, next ) {
 			handled = true;
 		}
 
+		if ( req.query.valuated && req.body ) {
+			delete session.stories[req.body.story][req.body.mission][req.body.activity].valueToEvaluate;
+			handled = true;
+		}
+
 		return handled;
 	}
 

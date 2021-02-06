@@ -46,6 +46,7 @@ export const component = {
 			sessionName: null,
 			storySettings: {},
 			stuckData: {},
+			humanEvaluationData: {},
 			collapseData: {},
 			editScoreData: null,
 			leaderboardFields: [
@@ -124,29 +125,45 @@ export const component = {
 			downloadAnchorNode.click();
 			downloadAnchorNode.remove();
 		},
-		toggleStuckDataCollapse(sessionName) {
-			if (this.stuckData.hasOwnProperty(sessionName) && this.stuckData[sessionName].stuck === true ) {
-				let story = this.stuckData[sessionName].story;
-				let mission = this.stuckData[sessionName].mission;
-				let activity = this.stuckData[sessionName].activity;
-				let id;
+		toggleCollapse(sessionName, story, mission, activity) {
+			let id;
 
-				this.onSelectMission(story);
+			this.onSelectMission(story);
 
-				if (!this.collapseData[sessionName].visible) {
-					id = 'player-accordion-' + sessionName;
+			if (!this.collapseData[sessionName].visible) {
+				id = 'player-accordion-' + sessionName;
+				this.$emit('bv::toggle::collapse', id);
+			}
+			this.$nextTick(() => {
+				if (!this.collapseData[sessionName][story][mission].visible) {
+					id = 'collapse-player-' + sessionName + '-mission-' + mission;
 					this.$emit('bv::toggle::collapse', id);
 				}
 				this.$nextTick(() => {
-					if (!this.collapseData[sessionName][story][mission].visible) {
-						id = 'collapse-player-' + sessionName + '-mission-' + mission;
-						this.$emit('bv::toggle::collapse', id);
-					}
-					this.$nextTick(() => {
-						this.$refs[`${sessionName}${story}${mission}${activity}`][0].focus();
-					})
-
+					this.$refs[`${sessionName}${story}${mission}${activity}`][0].focus();
 				})
+
+			})
+		},
+		toggleStuckCollapse(sessionName) {
+			if (this.stuckData.hasOwnProperty(sessionName) && this.stuckData[sessionName].stuck === true ) {
+
+				let story = this.stuckData[sessionName].story;
+				let mission = this.stuckData[sessionName].mission;
+				let activity = this.stuckData[sessionName].activity;
+
+				this.toggleCollapse( sessionName, story, mission, activity );
+			}
+		},
+		toggleHumanEvaluationCollapse(sessionName) {
+			if ( this.humanEvaluationData.hasOwnProperty(sessionName)
+				 && this.humanEvaluationData[sessionName].requireHumanEvaluation === true ) {
+
+				let story = this.humanEvaluationData[sessionName].story;
+				let mission = this.humanEvaluationData[sessionName].mission;
+				let activity = this.humanEvaluationData[sessionName].activity;
+
+				this.toggleCollapse( sessionName, story, mission, activity );
 			}
 		},
 		getActivityBorderVariant(session, story, mission, activity) {
@@ -175,16 +192,31 @@ export const component = {
 				this.$bvModal.show('scoreModal');
 			} )
 		},
-		setActivityScore() {
+		setActivityValuation(sessionName, data) {
 			$.ajax({
 				method: "post",
-				url: `/player/log/${this.editScoreData.session}/?score=${this.editScoreData.score}`,
-				data: JSON.stringify(this.editScoreData),
+				url: `/player/log/${sessionName}/?valuated=true`,
+				data: JSON.stringify(data),
+				contentType: "application/json"
+			})
+		},
+		setActivityScore() {
+			let data = this.editScoreData;
+			$.ajax({
+				method: "post",
+				url: `/player/log/${data.session}/?score=${data.score}`,
+				data: JSON.stringify(data),
 				contentType: "application/json"
 			}).done(() => {
-				console.log(`[Evaluator] Changed the score of activity ${this.editScoreData.activity} of session ${this.editScoreData.session} to ${this.editScoreData.score}`)
+				console.log(`[Evaluator] Changed the score of activity ${data.activity} of session ${data.session} to ${data.score}`)
+				if ( data.session in this.humanEvaluationData
+						&& this.humanEvaluationData[data.session].story === data.story
+						&& this.humanEvaluationData[data.session].mission === data.mission
+						&& this.humanEvaluationData[data.session].activity === data.activity ) {
+						this.setActivityValuation( data.session, this.humanEvaluationData[data.session]);
+				}
 			}).fail( () => {
-				console.log(`[Evaluator] Failed to change the score of activity ${this.editScoreData.activity} of session ${this.editScoreData.session} to ${this.editScoreData.score}`)
+				console.log(`[Evaluator] Failed to change the score of activity ${data.activity} of session ${data.session} to ${data.score}`)
 			}).always( () => {
 				this.editScoreData = null;
 			});
@@ -362,14 +394,14 @@ export const component = {
 		},
 		getMissionTitle( missionId ) {
 			// TODO: read from story
-			if ( this.$t(`assets.mission.${missionId}.title`) )
+			if ( this.$te(`assets.mission.${missionId}.title`, this.locale) )
 				return this.$t(`assets.mission.${missionId}.title`);
 			else
 				return this.$t("shared.label-unnamed-mission");
 		},
 		getActivityTitle( missionId, activityId ) {
 			// TODO: read from story
-			if ( this.$te(`assets.mission.${missionId}.activity.${activityId}.title`) )
+			if ( this.$te(`assets.mission.${missionId}.activity.${activityId}.title`, this.locale) )
 				return this.$t(`assets.mission.${missionId}.activity.${activityId}.title`);
 			else
 				return this.$t("shared.label-unnamed-activity");
@@ -393,25 +425,90 @@ export const component = {
 					}
 
 					for (const mission in this.sessions[session][story]) {
+						if (mission !== 'totalScore') {
+							if (!this.activeStories[story].includes(mission)) {
+								this.activeStories[story].push(mission);
+							}
 
-						if (!this.activeStories[story].includes(mission)) {
-							this.activeStories[story].push(mission);
-						}
-
-						if (!(mission in this.collapseData[session][story])) {
-							this.$set(this.collapseData[session][story], mission, { visible: false });
+							if (!(mission in this.collapseData[session][story])) {
+								this.$set(this.collapseData[session][story], mission, {visible: false});
+							}
 						}
 					}
 				}
 			}
 		},
 		updateStoryLocale(story) {
-			I18nUtils.fetchLocales(`/stories/` + story, getLanguagesArraySet() )
-			.then(response => {
-				for (const locale in response) {
-					this.$i18n.mergeLocaleMessage(locale, response[locale]);
+			if ( story !== 'totalScore') {
+				I18nUtils.fetchLocales(`/stories/` + story, getLanguagesArraySet())
+				.then(response => {
+					for (const locale in response) {
+						this.$i18n.mergeLocaleMessage(locale, response[locale]);
+					}
+				})
+			}
+		},
+		updateHumanEvaluationStatus() {
+			let onStory, onMission, onActivity, maxTime;
+
+			for ( const player in this.sessions ) {
+				if ( !this.humanEvaluationData.hasOwnProperty( player ) ) {
+					this.humanEvaluationData[player] = {
+						requireHumanEvaluation: false,
+						story: null,
+						mission: null,
+						activity: null,
+					}
 				}
-			})
+
+				if ( this.humanEvaluationData[player].requireHumanEvaluation ) {
+
+					onStory = this.humanEvaluationData[player].story;
+					onMission = this.humanEvaluationData[player].mission;
+					onActivity = this.humanEvaluationData[player].activity;
+
+					if (this.sessions[player].hasOwnProperty(onStory)) {
+						if (this.sessions[player][onStory].hasOwnProperty(onMission)) {
+							if (this.sessions[player][onStory][onMission].hasOwnProperty(onActivity)) {
+								if (!this.sessions[player][onStory][onMission][onActivity].hasOwnProperty('valueToEvaluate')) {
+									this.humanEvaluationData[player].requireHumanEvaluation = false;
+								}
+							}
+						}
+					}
+				}
+
+				if ( !this.humanEvaluationData[player].requireHumanEvaluation ) {
+
+					for (const story in this.sessions[player]) {
+						for (const mission in this.sessions[player][story]) {
+							for (const activity in this.sessions[player][story][mission]) {
+
+								if (this.sessions[player][story][mission][activity].hasOwnProperty('valueToEvaluate')) {
+
+									this.humanEvaluationData[player].requireHumanEvaluation = true;
+									this.humanEvaluationData[player].story = story;
+									this.humanEvaluationData[player].mission = mission;
+									this.humanEvaluationData[player].activity = activity;
+
+									this.$bvToast.toast(
+											`${this.$t("shared.label-the-activity")} 
+												${this.getActivityTitle( mission, activity )} 
+												${this.$t("Evaluator.label-requires-human-evaluation")}`,
+											{
+												title: this.$t("Evaluator.label-human-evaluation-required"),
+												appendToast: true,
+												noAutoHide: true,
+												variant: "danger"
+											}
+									)
+
+								}
+							}
+						}
+					}
+				}
+			}
 		},
 		updateStuckStatus() {
 			let onStory, onMission, onActivity, maxTime;
@@ -457,7 +554,8 @@ export const component = {
 										activityStartTime = new Date(this.sessions[player][story][mission][activity]['start']);
 										difference = (currentTime - activityStartTime);
 
-										if (difference > (this.storySettings[this.selectedStory].stuckTime * 60000)) {
+										if ( this.selectedStory in this.storySettings
+											 && (difference > (this.storySettings[this.selectedStory].stuckTime * 60000))) {
 
 											this.stuckData[player].stuck = true;
 											this.stuckData[player].story = story;
@@ -499,6 +597,7 @@ export const component = {
 					this.sessions = response;
 					this.updateActiveStories();
 					this.updateStuckStatus();
+					this.updateHumanEvaluationStatus();
 				})
 		},
 		onSelectMission(story, mission) {
@@ -597,22 +696,25 @@ export const component = {
 		},
 		getItemsForInputTable( object ) {
 			let items = [];
-			let requireHumanEvaluation;
-			for (const objectKey in object) {
-				if( object[ objectKey] ) {
-					requireHumanEvaluation = '';
-					if ( 'valueToEvaluate' in object[objectKey]
-						 && object[objectKey].valueToEvaluate.sourceType === 'variable' ) {
-						requireHumanEvaluation = 'label-evaluate-the-activity-based-on-this-value'
-					}
-					let typedValue = new TypedValue( object[objectKey] );
-					items.push({
-						variableName: objectKey,
-						type: typedValue.type,
-						value: typedValue.toString(),
-						requireHumanEvaluation: requireHumanEvaluation
-					});
+			let requireHumanEvaluation = '';
+			let valueToEvaluate = null;
+
+			if ( 'valueToEvaluate' in object && object.valueToEvaluate.sourceType === 'variable' ) {
+				valueToEvaluate = object.valueToEvaluate;
+			}
+
+			for (const objectKey in object.input) {
+				requireHumanEvaluation = '';
+				let typedValue = new TypedValue( object.input[objectKey] );
+				if ( valueToEvaluate && valueToEvaluate.sourceValue === objectKey ) {
+					requireHumanEvaluation = 'Evaluator.label-evaluate-the-activity-based-on-this-value'
 				}
+				items.push({
+					variableName: objectKey,
+					type: typedValue.type,
+					value: typedValue.toString(),
+					requireHumanEvaluation: requireHumanEvaluation
+				});
 			}
 			return items;
 		}

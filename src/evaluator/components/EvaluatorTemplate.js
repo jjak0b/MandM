@@ -276,12 +276,17 @@ export const template =
 													</b-icon>
 												</b-button>
 												<b-button
-													v-on:click="toggleStuckDataCollapse(sessionName)"
+													v-on:click="toggleStuckCollapse(sessionName)"
 													v-bind:pressed="stuckData[sessionName].stuck"
 												>
-												<b-icon-alarm-fill></b-icon-alarm-fill>
+													<b-icon-alarm-fill></b-icon-alarm-fill>
 												</b-button>
-												<b-button><b-icon-check-circle-fill></b-icon-check-circle-fill></b-button>
+												<b-button
+													v-on:click="toggleHumanEvaluationCollapse(sessionName)"
+													v-bind:pressed="humanEvaluationData[sessionName].requireHumanEvaluation"
+												>
+													<b-icon-check-circle-fill></b-icon-check-circle-fill>
+												</b-button>
 											</b-button-toolbar>
 										</div>
 									</b-col>
@@ -355,7 +360,7 @@ export const template =
 																<b-table
 																	striped
 																	hover
-																	:items="getItemsForInputTable( activityObject.input )"
+																	:items="getItemsForInputTable( activityObject )"
 																	:fields="[
 																		{ key: 'variableName', label: $t('shared.label-variable-name', {name: ''}) },
 																		{ key: 'type', label: $t('Evaluator.label-input-type') },

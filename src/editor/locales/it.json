@@ -4,38 +4,37 @@
 	"label-locale-select": "Seleziona l'internazionalizzazione corrente da modificare"
   },
   "StoryEditorWidget": {
-	  "label-story-public": "Storia Pubblica",
-	  "label-remove-group": "Rimuovi gruppo",
-	  "label-add-new-group": "Aggiungi nuovo gruppo",
-	  "label-use-this-link-or-scan-this-qrcode-to-play": "Segui questo link o scansiona questo codice QR per giocare la storia",
-	  "label-use-this-link-or-scan-this-qrcode-to-play-as": "@:StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play come {team}",
-	  "label-group": "Gruppo",
-	  "label-groups": "Gestisci i gruppi e le missioni specifiche per ognuno",
-	  "label-edit-story": "Modifica storia",
-	  "label-local-story": "Locale",
-	  "label-select-internationalization": "Per favore seleziona una internazionalità",
-	  "label-reload-from-server": "Ricarica",
-	  "label-add-new-story": "Aggiungi nuova storia",
-	  "label-story-editor": "Modifica storia",
-	  "label-story-name": "Nome storia",
-	  "label-story-description": "Descrizione storia",
-	  "label-gamemode": "Modalità di gioco",
-	  "label-age": "Età",
-	  "label-story-to-import": "Storia da importare",
-	  "label-story-to-export": "Storia da esportare",
-	  "label-export-server-description": "La storia attuale caricata nell' applicazione sarà inserita nel server col il nome assegnato. Se una storia con lo stesso nome è già presente nel server, sarà rimpiazzata con questa versione",
-	  "label-upload-story": "Carica la storia",
-	  "label-download-story": "Scarica la storia",
-	  "label-select-story-file": "Seleziona un file storia",
-	  "label-story-id-name": "Nome id della storia",
-	  "label-replace-existing": "Rimpiazza storia",
-	  "label-invalid-name-already-exists": "Rinomina storia",
-	  "label-valid-name-available": "Nome disponibile",
-	  "label-valid-json": "Il file fornito è una storia valida",
-	  "label-invalid-json": "Il file fornito è una storia invalida. Riprova fornendo un file storia .json valido",
-	  "label-empty-tabs-up": "Non ci sono storie",
-	  "label-empty-tabs-down": "Crea una nuova storia premendo il tasto Aggiungi",
-	  "label-add-new-story": "Aggiungi nuova storia",
+	"label-story-public": "Storia Pubblica",
+	"label-remove-group": "Rimuovi gruppo",
+	"label-add-new-group": "Aggiungi nuovo gruppo",
+	"label-use-this-link-or-scan-this-qrcode-to-play": "Segui questo link o scansiona questo codice QR per giocare la storia",
+	"label-use-this-link-or-scan-this-qrcode-to-play-as": "@:StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play come {team}",
+	"label-group": "Gruppo",
+	"label-groups": "Gestisci i gruppi e le missioni specifiche per ognuno",
+	"label-edit-story": "Modifica storia",
+	"label-local-story": "Locale",
+	"label-select-internationalization": "Per favore seleziona una internazionalità",
+	"label-reload-from-server": "Ricarica",
+	"label-story-editor": "Modifica storia",
+	"label-story-name": "Nome storia",
+	"label-story-description": "Descrizione storia",
+	"label-gamemode": "Modalità di gioco",
+	"label-age": "Età",
+	"label-story-to-import": "Storia da importare",
+	"label-story-to-export": "Storia da esportare",
+	"label-export-server-description": "La storia attuale caricata nell' applicazione sarà inserita nel server col il nome assegnato. Se una storia con lo stesso nome è già presente nel server, sarà rimpiazzata con questa versione",
+	"label-upload-story": "Carica la storia",
+	"label-download-story": "Scarica la storia",
+	"label-select-story-file": "Seleziona un file storia",
+	"label-story-id-name": "Nome id della storia",
+	"label-replace-existing": "Rimpiazza storia",
+	"label-invalid-name-already-exists": "Rinomina storia",
+	"label-valid-name-available": "Nome disponibile",
+	"label-valid-json": "Il file fornito è una storia valida",
+	"label-invalid-json": "Il file fornito è una storia invalida. Riprova fornendo un file storia .json valido",
+	"label-empty-tabs-up": "Non ci sono storie",
+	"label-empty-tabs-down": "Crea una nuova storia premendo il tasto Aggiungi",
+	"label-add-new-story": "Aggiungi nuova storia",
 	"gamemodes": {
 	  "solo": {
 		"label": "Modalità individuale",
@@ -50,308 +49,321 @@
 		"description": "I gruppi agiscono indipendentemente e sono in competizione"
 	  }
 	},
-	  "ages": {
-		  "7_to_10": {
-			  "label": "Dai 7 ai 10 anni"
-		  },
-		  "11_to_14": {
-			  "label": "Dai 11 ai 14 anni"
-		  },
-		  "15_to_18": {
-			  "label": "Dai 15 ai 18 anni"
-		  }
+	"ages": {
+	  "7_to_10": {
+		"label": "Dai 7 ai 10 anni"
+	  },
+	  "11_to_14": {
+		"label": "Dai 11 ai 14 anni"
+	  },
+	  "15_to_18": {
+		"label": "Dai 15 ai 18 anni"
 	  }
+	}
   },
   "MissionEditorWidget": {
 	"label-add-and-edit-missions": "Aggiungi e modifica le missioni della storia corrente",
 	"label-select-mission-to-edit-properties-and-its-activities-in-activity-tab": "Seleziona una missione per modificarne qui ordine, proprietà e le sue attività nella scheda \"@:ActivityEditorWidget.label-activity-tab\"",
 	"label-mission-no-title": "Missione senza titolo",
 	"label-mission-title": "Titolo della missione",
-	  "label-add-mission-description": "Aggiungi descrizione missione",
+	"label-add-mission-description": "Aggiungi descrizione missione",
 	"label-mission-description": "Descrizione della missione",
 	"label-mission-list": "Lista missioni",
-	  "label-add-new-mission": "Aggiungi nuova missione",
-	  "label-selected-mission": "Modifica missione selezionata"
+	"label-add-new-mission": "Aggiungi nuova missione",
+	"label-selected-mission": "Modifica missione selezionata"
   },
   "ActivityEditorWidget": {
-	  "parameters": {
-		  "label-element-to-check": "Elemento da controllare",
-		  "label-elements-to-check": "Elementi da controllare",
-		  "label-that-element-to-compare": "Altro elemento da confrontare",
-		  "label-min-value": "Valore minimo da confrontare",
-		  "label-max-value": "Valore massimo da confrontare"
-	  },
-	  "select-type-var": {
-		  "label-user-input": "Interazione dell'utente"
-	  },
-	  "label-require-human-to-evaluate": "Richiede valutazione umana",
-	  "label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity": "Se questa condizione è verificata, suggerirà al valutatore di valutare l'attività",
-	  "label-point-assignment": "Imposta i punti da aggiungere o togliere al punteggio",
-	  "label-that-element-to-compare": "Elemento da confrontare",
-	  "label-condition-check-parameters": "Parametri del controllo",
-	  "label-select-a-variable": "Seleziona una variabile",
-	  "label-select-condition-to-check": "Seleziona una condizione da controllare",
-	  "label-negate-condition": "Nega la condizione",
-	  "label-branch-condition-example": "Esempio: @:ActivityEditorWidget.label-variable \"@:shared.label-score\" @:ActivityEditorWidget.select-type-func.isGreaterThan @:shared.label-Number con valore 1000",
-	  "label-select-source-of-parameter-value": "Seleziona da dove prendere il parametro",
-	  "label-setup-your-condition": "Imposta la tua condizione",
-	  "label-condition-required-to-continue-play-this-story-route": "Condizione che si deve verificare per continuare a giocare questo ramo della storia",
-	  "label-edit-menu-title": "Modifica menu",
-	  "label-add-menu-title": "Aggiungi menu",
-	  "label-activity-title": "Titolo attività",
-	  "label-activity-no-title": "Attività senza titolo",
-	  "label-activity-description": "Descrizione attività",
-	  "label-mission-activity-tree-of": "Alberi delle possibili attività nella missione: ",
-	  "label-select-mission-to-edit-activities": "Seleziona una missione per aggiungere e modificare le sue attività",
-	  "label-select-nodeType": "Seleziona un tipo di elemento da aggiungere all'albero",
-	  "add-menu-invalid-feedback": "Per favore seleziona tipo di attività",
-	  "add-menu-valid-feedback": "Grazie",
-	  "label-node-item-name": "Nome elemento dell' albero",
-	  "label-input-type": "Seleziona tipo di input",
-	  "label-node-item-description": "Nota sull'elemento dell'albero",
-	  "label-tree-tab": "Nodo",
-	  "label-activity-tab": "Attività",
-	  "label-scene-tab": "Scena",
-	  "label-tale-tab": "Racconto",
-	  "label-quest-tab": "Missione",
-	  "label-branch-tab": "Ramo",
-	  "treeNode-type": {
-		  "quest": {
-			  "label": "Missione",
-			  "description": "Crea un'attività la quale forma un ramo di risultati possibili"
-		  },
-		  "tell": {
-			  "label": "Racconto",
-			  "description": "Spiega e racconta un dialogo"
-		  },
-		  "branch": {
-			  "label": "Ramo",
-			  "description": "Descrive una strada possibile della storia"
-		  }
-	  },
-	  "input-type": {
-		  "any": "Qualsiasi",
-		  "atom": "Atomico",
-		  "range": "Intervallo",
-		  "function": "Funzione"
-	  },
-
-	  "tnt-desc": "Inserisci un {value}, premendo Rimuovi cancella l'ultimo elemento scelto, Salva conferma il valore",
-	  "array-desc": "Inserisci elementi in una lista premendo aggiungi oppure premi Rimuovi per eliminare il valore scritto, Salva conferma la lista ",
-	  "range-desc": "Inserisci la condizione minima e massima",
-	  "function-desc": "Seleziona parametri e tipi di condizioni avanzate",
-	  "label-single": "Singolo",
-	  "label-variable": "Variabile",
-	  "select-type-func": {
-		  "eq": "Equivalente",
-		  "neq": "Non uguali",
-		  "isAny": "è contenuto in",
-		  "isInRange": "è tra l'intervallo",
-		  "isGreaterThan": "è maggiore di",
-		  "isLessThan": "è minore di",
-		  "isDefined": "è impostato"
-	  },
-	  "label-tag": "Tag",
-	  "label-type": "Tipo",
-	  "label-type-func": "Tipo di funzione",
-	  "label-value": "Valori"
-  },
-   "SceneEditorWidget": {
-	    "label-edit-component-properties": "Modifica proprietà del componente",
-		"label-edit-cell-properties": "Modifica proprietà della cella",
-	    "label-scene-editor": "Editor della scena",
-		"GridWidget": {
-			"label-scene-description": "La scena rappresenta ciò che il giocatore vede da quando inizia questa attività. La scena è una griglia composta da righe e celle; A ogni cella è associato un componente personalizzabile a tua scelta. Uno di questi componenti può essere un'ulteriore griglia utilizzabile anche per creare una struttura nidificata a livelli",
-			"label-scene-input-description": "Quando il giocatore interagisce con un componente di scena, quest'ultimo fornisce un certo valore per aiutarti e informarti come il giocatore ha interagito o risposto all'attività. Questo valore puoi utilizzarlo per valutare la risposta e far progredire la storia con un possibile esito diverso tramite le attività \"@:ActivityEditorWidget.treeNode-type.branch.label\". Questo valore è memorizzato in una variabile con il nome che preferisci, personalizzabile quando modifichi le proprietà del componente. Ricordati a quale componente è associata la variabile perchè ti servirà se la utilizzi nella sezione di modifica  \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
-			"label-scene-input-details": "Puoi esplicitare di far valutare le interazioni dell'utente solo dopo che interagisce con un componente \"@:UserWidgets.label-button-widget-name\" di tipo \"@:shared.label-submit\". In caso questo non sia presente nella scena, la valutazione dell'attività avverrà subito dopo che ha effettuato una qualsiasi interazione con un componente interagibile",
-			"label-populate-grid-with-rows-and-cells-to-customize-widget-you-need": "Riempi la griglia con righe e celle per aggiungere e personalizzare i widget che ti servono",
-			"label-layout-level": "Livello nidificato {n}",
-			"label-no-rows-in-grid": "Non ci sono righe nella griglia",
-			"label-scene-grid-layout-and-content": "Contenuti e layout della scena",
-			"label-edit-current-grid-settings": "Modifica la configurazione della griglia corrente",
-			"label-add-row": "Aggiungi riga",
-			"label-add-col": "Aggiungi colonna",
-			"label-remove-cell": "Rimuovi cella selezionata",
-			"label-remove-row": "Rimuovi riga selezionata",
-			"label-show-grid-border": "Mostra bordi delle celle sulla griglia",
-			"label-edit-selected-cell": "Modifica la cella selezionata",
-			"label-edit-cell-size": "Imposta la dimensione della cella",
-			"label-edit-cell-widget": "Imposta il widget contenuto nella cella"
-		}
-  },
-	"StyleEditorWidget": {
-		"label-custom-stylesheet-description": "Includi un tuo foglio di stile che preferisci tra quelli che hai caricato nella piattaforma",
-		"label-select-custom-stylesheet": "Seleziona un tuo foglio di stile personalizzato",
-		"label-no-property": "Nessuna proprietà aggiunta",
-		"label-add-property-to-edit": "Aggiungi proprietà da modificare",
-		"label-no-CSS-rule": "Nessuna regole CSS",
-		"label-add-rule-to-edit": "Aggiungi regola da modificare",
-		"label-property-value": "Valore della proprietà",
-		"classes": {
-			"label-utility": "Utilità",
-			"label-image": "Imaggine",
-			"label-text": "Testo",
-			"label-align": "Allinea",
-			"label-color": "Colore",
-			"label-border": "Bordo",
-			"label-margin": "Margine",
-			"label-padding": "Spaziatura",
-			"label-position": "Posizione",
-			"label-size": "Grandezza",
-			"label-button": "Bottone"
-		},
-		"bootstrap": {
-			"label-search-into-available-classes": "Cerca tra le classi disponibili",
-			"label-search-and-add-bootstrap-classes": "Cerca e aggiungi le classi di Bootstrap",
-			"label-bootstrap-classes": "Classi di Bootstrap",
-			"label-visit-documentation-for-class-info": "Visita documentazione per informazioni delle classi"
-		},
-		"rule": {
-			"label-stylesheet-list": "Lista @.lower:media.label-stylesheets",
-			"label-rule-list": "Lista delle regole",
-			"label-css-selector-editor": "Modifica il selettore CSS",
-			"label-css-properties-editor": "Modifica le proprietà in CSS",
-			"label-add-property-name": "Aggiungi nome della proprietà",
-			"label-css-preview": "Anteprima in CSS",
-			"property": {
-				"label-parameter": "Parametro della proprietà"
-			}
-		},
-		"StyleLengthWidget": {
-			"units": {
-				"label_relative": "Relativo",
-				"label_absolute": "Assoluto"
-			}
-		},
-		"StyleColorWidget": {
-			"label-hue": "Tonalità"
-		},
-		"selector": {
-			"label-class": "Classe"
-		},
-		"StyleSelector": {
-			"selector": {
-				"label-class": "Classe",
-				"label-use-custom-selector": "Usa un selettore personalizzato",
-				"label-entity-selector": "Selettore di entità",
-				"label-warning-assuming-advanced-user": "Recommended for advanced users only",
-				"label-insert-custom-selector": "Inserisci selettore personalizzato",
-				"label-element": "Elemento",
-				"label-id": "Id",
-				"label-attribute-selector": "Selettore di attributo",
-				"label-attribute-name": "Nome dell'attributo",
-				"label-attribute-check-operator": "Operatore di controllo sull'attributo",
-				"label-attribute-value": "Valore dell'attributo",
-				"label-match-case-insensitive": "Confronta in minuscolo",
-				"label-pseudo-class": "Pseudo-classe",
-				"label-pseudo-element": "Pseudo-elemento",
-				"attributeOp": {
-					"label-equals": "Equivalenti",
-					"label-contains-word": "Contiene la parola",
-					"label-start-with": "Inizia con",
-					"label-end-with": "Finisce con",
-					"label-contains": "Contiene"
-				}
-			}
-		}
+	"parameters": {
+	  "label-element-to-check": "Elemento da controllare",
+	  "label-elements-to-check": "Elementi da controllare",
+	  "label-that-element-to-compare": "Altro elemento da confrontare",
+	  "label-min-value": "Valore minimo da confrontare",
+	  "label-max-value": "Valore massimo da confrontare"
 	},
-	"AttributeEditorWidget": {
-		"label-set-attribute-value": "Imposta il valore dell'attributo",
-		"label-associated-variable-name": "Nome della variabile asscoiata",
-		"label-variable-name-is-used-to-check-specific-user-input-in-branch-condition": "Il nome della variabile è utilizzata per tracciare le interazioni del giocatore sui componenti con questo nome e per controllarne il valore nella condizione del \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+	"select-type-var": {
+	  "label-user-input": "Interazione dell'utente"
+	},
+	"label-require-human-to-evaluate": "Richiede valutazione umana",
+	"label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity": "Se questa condizione è verificata, suggerirà al valutatore di valutare l'attività",
+	"label-point-assignment": "Imposta i punti da aggiungere o togliere al punteggio",
+	"label-that-element-to-compare": "Elemento da confrontare",
+	"label-condition-check-parameters": "Parametri del controllo",
+	"label-select-a-variable": "Seleziona una variabile",
+	"label-select-condition-to-check": "Seleziona una condizione da controllare",
+	"label-negate-condition": "Nega la condizione",
+	"label-branch-condition-example": "Esempio: @:ActivityEditorWidget.label-variable \"@:shared.label-score\" @:ActivityEditorWidget.select-type-func.isGreaterThan @:shared.label-Number con valore 1000",
+	"label-select-source-of-parameter-value": "Seleziona da dove prendere il parametro",
+	"label-setup-your-condition": "Imposta la tua condizione",
+	"label-condition-required-to-continue-play-this-story-route": "Condizione che si deve verificare per continuare a giocare questo ramo della storia",
+	"label-edit-menu-title": "Modifica menu",
+	"label-add-menu-title": "Aggiungi menu",
+	"label-activity-title": "Titolo attività",
+	"label-activity-no-title": "Attività senza titolo",
+	"label-activity-description": "Descrizione attività",
+	"label-mission-activity-tree-of": "Alberi delle possibili attività nella missione: ",
+	"label-select-mission-to-edit-activities": "Seleziona una missione per aggiungere e modificare le sue attività",
+	"label-select-nodeType": "Seleziona un tipo di elemento da aggiungere all'albero",
+	"add-menu-invalid-feedback": "Per favore seleziona tipo di attività",
+	"add-menu-valid-feedback": "Grazie",
+	"label-node-item-name": "Nome elemento dell' albero",
+	"label-input-type": "Seleziona tipo di input",
+	"label-node-item-description": "Nota sull'elemento dell'albero",
+	"label-tree-tab": "Nodo",
+	"label-activity-tab": "Attività",
+	"label-scene-tab": "Scena",
+	"label-tale-tab": "Racconto",
+	"label-quest-tab": "Missione",
+	"label-branch-tab": "Ramo",
+	"treeNode-type": {
+	  "quest": {
+		"label": "Missione",
+		"description": "Crea un'attività la quale forma un ramo di risultati possibili"
+	  },
+	  "tell": {
+		"label": "Racconto",
+		"description": "Spiega e racconta un dialogo"
+	  },
+	  "branch": {
+		"label": "Ramo",
+		"description": "Descrive una strada possibile della storia"
+	  }
+	},
+	"input-type": {
+	  "any": "Qualsiasi",
+	  "atom": "Atomico",
+	  "range": "Intervallo",
+	  "function": "Funzione"
+	},
+	"tnt-desc": "Inserisci un {value}, premendo Rimuovi cancella l'ultimo elemento scelto, Salva conferma il valore",
+	"array-desc": "Inserisci elementi in una lista premendo aggiungi oppure premi Rimuovi per eliminare il valore scritto, Salva conferma la lista ",
+	"range-desc": "Inserisci la condizione minima e massima",
+	"function-desc": "Seleziona parametri e tipi di condizioni avanzate",
+	"label-single": "Singolo",
+	"label-variable": "Variabile",
+	"select-type-func": {
+	  "eq": "Equivalente",
+	  "neq": "Non uguali",
+	  "isAny": "è contenuto in",
+	  "isInRange": "è tra l'intervallo",
+	  "isGreaterThan": "è maggiore di",
+	  "isLessThan": "è minore di",
+	  "isDefined": "è impostato"
+	},
+	"label-tag": "Tag",
+	"label-type": "Tipo",
+	"label-type-func": "Tipo di funzione",
+	"label-value": "Valori"
+  },
+  "SceneEditorWidget": {
+	"label-edit-component-properties": "Modifica proprietà del componente",
+	"label-edit-cell-properties": "Modifica proprietà della cella",
+	"label-scene-editor": "Editor della scena",
+	"GridWidget": {
+	  "label-scene-description": "La scena rappresenta ciò che il giocatore vede da quando inizia questa attività. La scena è una griglia composta da righe e celle; A ogni cella è associato un componente personalizzabile a tua scelta. Uno di questi componenti può essere un'ulteriore griglia utilizzabile anche per creare una struttura nidificata a livelli",
+	  "label-scene-input-description": "Quando il giocatore interagisce con un componente di scena, quest'ultimo fornisce un certo valore per aiutarti e informarti come il giocatore ha interagito o risposto all'attività. Questo valore puoi utilizzarlo per valutare la risposta e far progredire la storia con un possibile esito diverso tramite le attività \"@:ActivityEditorWidget.treeNode-type.branch.label\". Questo valore è memorizzato in una variabile con il nome che preferisci, personalizzabile quando modifichi le proprietà del componente. Ricordati a quale componente è associata la variabile perchè ti servirà se la utilizzi nella sezione di modifica  \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+	  "label-scene-input-details": "Puoi esplicitare di far valutare le interazioni dell'utente solo dopo che interagisce con un componente \"@:UserWidgets.label-button-widget-name\" di tipo \"@:shared.label-submit\". In caso questo non sia presente nella scena, la valutazione dell'attività avverrà subito dopo che ha effettuato una qualsiasi interazione con un componente interagibile",
+	  "label-populate-grid-with-rows-and-cells-to-customize-widget-you-need": "Riempi la griglia con righe e celle per aggiungere e personalizzare i widget che ti servono",
+	  "label-layout-level": "Livello nidificato {n}",
+	  "label-no-rows-in-grid": "Non ci sono righe nella griglia",
+	  "label-scene-grid-layout-and-content": "Contenuti e layout della scena",
+	  "label-edit-current-grid-settings": "Modifica la configurazione della griglia corrente",
+	  "label-add-row": "Aggiungi riga",
+	  "label-add-col": "Aggiungi colonna",
+	  "label-remove-cell": "Rimuovi cella selezionata",
+	  "label-remove-row": "Rimuovi riga selezionata",
+	  "label-show-grid-border": "Mostra bordi delle celle sulla griglia",
+	  "label-edit-selected-cell": "Modifica la cella selezionata",
+	  "label-edit-cell-size": "Imposta la dimensione della cella",
+	  "label-edit-cell-widget": "Imposta il widget contenuto nella cella"
+	}
+  },
+  "StyleEditorWidget": {
+	"label-custom-stylesheet-description": "Includi un tuo foglio di stile che preferisci tra quelli che hai caricato nella piattaforma",
+	"label-select-custom-stylesheet": "Seleziona un tuo foglio di stile personalizzato",
+	"label-no-property": "Nessuna proprietà aggiunta",
+	"label-add-property-to-edit": "Aggiungi proprietà da modificare",
+	"label-no-CSS-rule": "Nessuna regole CSS",
+	"label-add-rule-to-edit": "Aggiungi regola da modificare",
+	"label-property-value": "Valore della proprietà",
+	"classes": {
+	  "label-utility": "Utilità",
+	  "label-image": "Imaggine",
+	  "label-text": "Testo",
+	  "label-align": "Allinea",
+	  "label-color": "Colore",
+	  "label-border": "Bordo",
+	  "label-margin": "Margine",
+	  "label-padding": "Spaziatura",
+	  "label-position": "Posizione",
+	  "label-size": "Grandezza",
+	  "label-button": "Bottone"
+	},
+	"bootstrap": {
+	  "label-search-into-available-classes": "Cerca tra le classi disponibili",
+	  "label-search-and-add-bootstrap-classes": "Cerca e aggiungi le classi di Bootstrap",
+	  "label-bootstrap-classes": "Classi di Bootstrap",
+	  "label-visit-documentation-for-class-info": "Visita documentazione per informazioni delle classi"
+	},
+	"rule": {
+	  "label-stylesheet-list": "Lista @.lower:media.label-stylesheets",
+	  "label-rule-list": "Lista delle regole",
+	  "label-css-selector-editor": "Modifica il selettore CSS",
+	  "label-css-properties-editor": "Modifica le proprietà in CSS",
+	  "label-add-property-name": "Aggiungi nome della proprietà",
+	  "label-css-preview": "Anteprima in CSS",
+	  "property": {
+		"label-parameter": "Parametro della proprietà"
+	  }
+	},
+	"StyleLengthWidget": {
+	  "units": {
+		"label_relative": "Relativo",
+		"label_absolute": "Assoluto"
+	  }
+	},
+	"StyleColorWidget": {
+	  "label-hue": "Tonalità"
+	},
+	"selector": {
+	  "label-class": "Classe"
+	},
+	"StyleSelector": {
+	  "selector": {
+		"label-class": "Classe",
+		"label-use-custom-selector": "Usa un selettore personalizzato",
+		"label-entity-selector": "Selettore di entità",
+		"label-warning-assuming-advanced-user": "Recommended for advanced users only",
+		"label-insert-custom-selector": "Inserisci selettore personalizzato",
+		"label-element": "Elemento",
+		"label-id": "Id",
+		"label-attribute-selector": "Selettore di attributo",
 		"label-attribute-name": "Nome dell'attributo",
+		"label-attribute-check-operator": "Operatore di controllo sull'attributo",
 		"label-attribute-value": "Valore dell'attributo",
-		"label-no-added-attributes": "Non ci sono attributi aggiunti",
-		"label-add-or-remove-attributes": "Aggiungi o rimuovi l'attributo",
-		"label-attributes": "Attributi",
-		"label-label-id": "Id",
-		"label-classes": "Classi",
-		"label-current-classes": "Classe/i attuale/i",
-		"label-duplicate-classes": "Classi duplicate",
-		"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure digitando \"Invio\", \"Spazio\" ",
-		"label-add-custom-classes-or-pick-some-from-provided-framework": "Aggiungi le tue classi personalizzate, oppure scegline tra alcune del framework fornito"
-	},
+		"label-match-case-insensitive": "Confronta in minuscolo",
+		"label-pseudo-class": "Pseudo-classe",
+		"label-pseudo-element": "Pseudo-elemento",
+		"attributeOp": {
+		  "label-equals": "Equivalenti",
+		  "label-contains-word": "Contiene la parola",
+		  "label-start-with": "Inizia con",
+		  "label-end-with": "Finisce con",
+		  "label-contains": "Contiene"
+		}
+	  }
+	}
+  },
+  "AttributeEditorWidget": {
+	"label-set-attribute-value": "Imposta il valore dell'attributo",
+	"label-associated-variable-name": "Nome della variabile asscoiata",
+	"label-variable-name-is-used-to-check-specific-user-input-in-branch-condition": "Il nome della variabile è utilizzata per tracciare le interazioni del giocatore sui componenti con questo nome e per controllarne il valore nella condizione del \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+	"label-attribute-name": "Nome dell'attributo",
+	"label-attribute-value": "Valore dell'attributo",
+	"label-no-added-attributes": "Non ci sono attributi aggiunti",
+	"label-add-or-remove-attributes": "Aggiungi o rimuovi l'attributo",
+	"label-attributes": "Attributi",
+	"label-label-id": "Id",
+	"label-classes": "Classi",
+	"label-current-classes": "Classe/i attuale/i",
+	"label-duplicate-classes": "Classi duplicate",
+	"label-placeholder-insert-class": "Inserisci la classe e aggiungila premendo i bottoni \"@:shared.label-add\" oppure digitando \"Invio\", \"Spazio\" ",
+	"label-add-custom-classes-or-pick-some-from-provided-framework": "Aggiungi le tue classi personalizzate, oppure scegline tra alcune del framework fornito"
+  },
   "UserWidgets": {
-	  "Grid": {
-		  "grid": {
-			  "label-properties": "Proprietà della griglia"
-		  },
-		  "row": {
-			  "label-properties": "Proprietà delle righe"
-		  },
-		  "cell": {
-			  "label-properties": "Proprietà delle celle"
-		  },
-		  "label-html-tag-name": "Nome del tag HTML",
-		  "label-html-tag-role": "Nome del ruolo del tag HTML",
-		  "label-use-auto-generated-indexes": "Usa indici delle righe e celle auto-generati per accessibilità nelle griglie",
-		  "label-indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex": " Applica gli attributi aria-rowcount, aria-colcount, aria-rowindex, aria-colindex quando possibile",
-		  "label-allow-grid-navigation-using-keyboard": "Permette la navigazione sulla griglia utilizzando la tastiera",
-		  "label-disable-it-if-using-for-layout-only": "Disabilitarlo se si sta usando per solo scopo di struttura",
-		  "label-selection-provide-player-input-as-grid-coordinates": "Fornisce l'input al giocatore come coordinate della griglia (riga, colonna) indicizzate da 0",
-		  "label-its-recommended-to-enable-grid-navigation-for-accessibility-purpose-if-used": "Se utilizzato, Si raccomanda di abilitare la navigazione della griglia per motivi di accessibilità",
-		  "label-class-name": "Nomi delle classi",
-		  "label-cell-class-name-active-unselected": "Classi della cella vorrente, attiva",
-		  "label-current-unselected-cell-while-navigating": "Cella corrente, attiva mentre si sta interagendo sulla griglia",
-		  "label-cell-class-name-selected": "Classi della cella selezionata"
+	"Grid": {
+	  "grid": {
+		"label-properties": "Proprietà della griglia"
 	  },
-	  "label-button-widget-name": "Pulsante",
-	  "label-checkbox-widget-name": "Lista a scelta multipla",
-	  "label-select-widget-name": "Lista a tendina ",
-	  "label-radio-widget-name": "Lista a scelta unica",
-	  "label-text-input-widget-name": "Campo di inserimento testo",
-	  "label-number-input-widget-name": "Campo di inserimento numerico",
-	  "label-range-widget-name": "Campo con intervallo numerico",
-	  "label-spinbutton-widget-name": "Campo numerico con pulsanti",
-	  "label-datepicker-widget-name": "Campo di selezione data",
-	  "label-media-player-widget-name": "Visualizzatore multimediale",
-	  "label-photo-widget-name": "Acquisitore multimediale",
-	  "label-qr-decode-widget-name": "Acquisitore e scanner di codici QR",
-	  "label-grid-widget-name": "Griglia",
-	  "label-user-widget-checkbox-settings": "Impostazioni @:UserWidgets.label-checkbox-widget-name",
-	  "label-user-widget-radio-settings": "Impostazioni @:UserWidgets.label-radio-widget-name",
-	  "label-user-widget-select-settings": "Impostazioni @:UserWidgets.label-select-widget-name",
-	  "label-text-input-settings": "Impostazioni @:UserWidgets.label-text-input-widget-name",
-	  "label-number-input-settings": "Impostazioni @:UserWidgets.label-number-input-widget-name",
-	  "label-range-settings": "Impostazioni @:UserWidgets.label-range-widget-name",
-	  "label-spinbutton-settings": "Impostazioni @:UserWidgets.label-spinbutton-widget-name",
-	  "label-photo-settings": "Impostazioni @:UserWidgets.label-photo-widget-name",
-	  "label-qr-decoder-settings": "Impostazioni @:UserWidgets.label-qr-decode-widget-name",
-	  "label-grid-settings": "Impostazioni @:UserWidgets.label-grid-widget-name",
-	  "label-show-extremes": "Mostra Valori Limite",
-	  "Photo" : {
-		  "label-select-type-media": "Seleziona un tipo di media da acquisire",
-		  "cameraType" : {
-			  "front": "Fotocamera frontale",
-			  "back": "Fotocamera posteriore"
-		  }
+	  "row": {
+		"label-properties": "Proprietà delle righe"
 	  },
-	  "QrDecoder": {
-		  "label-qr-decoder-settings": "@:UserWidgets.label-qr-decoder-settings",
-		  "label-label-qr": "Contenuto dell'etichetta per il componente",
-		  "label-error-message": "Configurazione del messaggio di errore",
-		  "label-id-of-message" : "ID da asssegnare all'elemento di notifica se si vuole applicare uno stile personalizzato",
-		  "label-error-message-title": "Titolo della notifica di errore",
-		  "label-error-message-content": "Contenuto principale della notifica di errore",
-		  "label-error-message-to-show-if-no-qr-has-been-detected-after-use": "Consigliato: Notifica del messaggio di errore per mostrare se non è stato rilevato alcun codice QR dopo la scansione, ad esempio un messaggio per aiutare il giocatore a scattare una foto non sfocata, con il codice QR al centro",
-		  "label-detected-result": "Contenuto rilevato"
+	  "cell": {
+		"label-properties": "Proprietà delle celle"
 	  },
-	  "TextContent": {
-		  "initial-editor-content": "Aggiungi il tuo testo",
-		  "label-text-content": "Contenuto testuale",
-		  "label-text-content-editor": "Modifica contenuto Testo",
-		  "label-heading1": "Intestazione 1",
-		  "label-heading2": "Intestazione 2",
-		  "label-heading3": "Intestazione 3",
-		  "label-bold": "Grassetto",
-		  "label-italic": "Corsivo",
-		  "label-underline": "Sottolineato",
-		  "label-strike": "Barrato",
-		  "label-code_block": "Codice",
-		  "label-bullet_list": "Elenco Puntato",
-		  "label-ordered_list": "Elenco Ordinato"
-	  },
+	  "label-html-tag-name": "Nome del tag HTML",
+	  "label-html-tag-role": "Nome del ruolo del tag HTML",
+	  "label-use-auto-generated-indexes": "Usa indici delle righe e celle auto-generati per accessibilità nelle griglie",
+	  "label-indexes_aria-rowcount_aria-colcount_aria-rowindex_aria-colindex": " Applica gli attributi aria-rowcount, aria-colcount, aria-rowindex, aria-colindex quando possibile",
+	  "label-allow-grid-navigation-using-keyboard": "Permette la navigazione sulla griglia utilizzando la tastiera",
+	  "label-disable-it-if-using-for-layout-only": "Disabilitarlo se si sta usando per solo scopo di struttura",
+	  "label-selection-provide-player-input-as-grid-coordinates": "Fornisce l'input al giocatore come coordinate della griglia (riga, colonna) indicizzate da 0",
+	  "label-its-recommended-to-enable-grid-navigation-for-accessibility-purpose-if-used": "Se utilizzato, Si raccomanda di abilitare la navigazione della griglia per motivi di accessibilità",
+	  "label-class-name": "Nomi delle classi",
+	  "label-cell-class-name-active-unselected": "Classi della cella vorrente, attiva",
+	  "label-current-unselected-cell-while-navigating": "Cella corrente, attiva mentre si sta interagendo sulla griglia",
+	  "label-cell-class-name-selected": "Classi della cella selezionata"
+	},
+
+	"label-button-settings": "Impostazioni del @:UserWidgets.label-button-widget-name",
+	"label-button-widget-name": "Pulsante",
+	"label-checkbox-widget-name": "Lista a scelta multipla",
+	"label-select-widget-name": "Lista a tendina ",
+	"label-radio-widget-name": "Lista a scelta unica",
+	"label-range-input-settings": "Impostazioni di @:UserWidgets.label-range-widget-name",
+	"label-timepicker-widget-name": "Campo di inserimento orario",
+	"label-text-input-widget-name": "Campo di inserimento testo",
+	"label-number-input-widget-name": "Campo di inserimento numerico",
+	"label-range-widget-name": "Campo con intervallo numerico",
+	"label-spinbutton-widget-name": "Campo numerico con pulsanti",
+	"label-datepicker-widget-name": "Campo di selezione data",
+	"label-media-player-widget-name": "Visualizzatore multimediale",
+	"label-photo-widget-name": "Acquisitore multimediale",
+	"label-qr-decode-widget-name": "Acquisitore e scanner di codici QR",
+	"label-grid-widget-name": "Griglia",
+	"label-user-widget-checkbox-settings": "Impostazioni @:UserWidgets.label-checkbox-widget-name",
+	"label-user-widget-radio-settings": "Impostazioni @:UserWidgets.label-radio-widget-name",
+	"label-user-widget-select-settings": "Impostazioni @:UserWidgets.label-select-widget-name",
+	"label-text-input-settings": "Impostazioni @:UserWidgets.label-text-input-widget-name",
+	"label-number-input-settings": "Impostazioni @:UserWidgets.label-number-input-widget-name",
+	"label-range-settings": "Impostazioni @:UserWidgets.label-range-widget-name",
+	"label-spinbutton-settings": "Impostazioni @:UserWidgets.label-spinbutton-widget-name",
+	"label-photo-settings": "Impostazioni @:UserWidgets.label-photo-widget-name",
+	"label-qr-decoder-settings": "Impostazioni @:UserWidgets.label-qr-decode-widget-name",
+	"label-grid-settings": "Impostazioni @:UserWidgets.label-grid-widget-name",
+	"label-show-extremes": "Mostra Valori Limite",
+	"Photo": {
+	  "label-select-type-media": "Seleziona un tipo di media da acquisire",
+	  "cameraType": {
+		"front": "Fotocamera frontale",
+		"back": "Fotocamera posteriore"
+	  }
+	},
+	"QrDecoder": {
+	  "label-qr-decoder-settings": "@:UserWidgets.label-qr-decoder-settings",
+	  "label-label-qr": "Contenuto dell'etichetta per il componente",
+	  "label-error-message": "Configurazione del messaggio di errore",
+	  "label-id-of-message": "ID da asssegnare all'elemento di notifica se si vuole applicare uno stile personalizzato",
+	  "label-error-message-title": "Titolo della notifica di errore",
+	  "label-error-message-content": "Contenuto principale della notifica di errore",
+	  "label-error-message-to-show-if-no-qr-has-been-detected-after-use": "Consigliato: Notifica del messaggio di errore per mostrare se non è stato rilevato alcun codice QR dopo la scansione, ad esempio un messaggio per aiutare il giocatore a scattare una foto non sfocata, con il codice QR al centro",
+	  "label-detected-result": "Contenuto rilevato"
+	},
+	"TextContent": {
+	  "initial-editor-content": "Aggiungi il tuo testo",
+	  "label-text-content": "Contenuto testuale",
+	  "label-text-content-editor": "Modifica contenuto Testo",
+	  "label-heading1": "Intestazione 1",
+	  "label-heading2": "Intestazione 2",
+	  "label-heading3": "Intestazione 3",
+	  "label-bold": "Grassetto",
+	  "label-italic": "Corsivo",
+	  "label-underline": "Sottolineato",
+	  "label-strike": "Barrato",
+	  "label-code_block": "Codice",
+	  "label-bullet_list": "Elenco Puntato",
+	  "label-ordered_list": "Elenco Ordinato"
+	},
 	"Datepicker": {
+	  "description-constraints": "Descrizione dei vincoli",
+	  "label-constraints": "Vincoli",
+	  "label-date-max": "Data massima",
+	  "label-date-min": "Data minima",
+	  "label-readonly": "Solo-lettura",
+	  "label-settings": "Impostazioni",
+	  "label-start-weekday": "Inizio della settimana",
+	  "label-variant-theme-selected": "Tema selezionato",
+	  "label-variant-theme-today": "Tema per il giorno attuale",
+	  "label-variants-theme": "Tema",
 	  "label-prev-decade": "Decennio precedente",
 	  "label-prev-year": "Anno precedente",
 	  "label-prev-month": "Mese precedente",
@@ -366,102 +378,104 @@
 	  "label-nav": "Navigazione calendario",
 	  "label-help": "Usa i tasti cursore per navigare tra le date del calendario"
 	},
-	  "MediaPlayer": {
-		  "label_upload_file": "Carica File",
-		  "label_mediatype": "Tipo di media",
-		  "label_mediaSource": "Fonte del media",
-		  "label-add-image-area": "Aggiungi immagine",
-		  "label-input-useArea": "Usa Area",
-		  "label-select-shape-area": "Seleziona forma",
-		  "label-select-link-interaction": "Seleziona interazione link",
-		  "MediaType": {
-			  "label_audio": "Audio",
-			  "label_video": "Video",
-			  "label_image": "Immagine"
-		  },
-		  "label-input-file": {
-			  "audio": "Audio",
-			  "video": "Video",
-			  "image": "Immagine",
-			  "captions": "Sottotitoli",
-			  "captions_accessibility": "Accessibilità sottotitoli",
-			  "imageCaption": "Sottotitoli per Immagine",
-			  "useArea": "Usa Area"
-		  },
-		  "areas": {
-			  "label-vertex-description": "Descrizione nel vertice",
-			  "label-use-highlight": "Usa evidenziatore",
-			  "label-set-value-to-return-as-player-input": "Applica valore selezionabile dal giocatore",
-			  "label-add-anchor-to-scroll-onto-when-triggered": "Aggiungi ancora per scorrerci dentro quando attivato",
-			  "label-anchor-warning-no-element-found": "Nessun elemento trovato",
-			  "label-shape-full": "Pieno",
-			  "label-shape-rectangle": "Rettangolo",
-			  "label-shape-circle": "Cerchio",
-			  "label-distance-relative-from-left": "Distanza relativa da sinistra",
-			  "label-distance-relative-from-top": "Distanza relativa dall'alto",
-			  "label-rectangle-top-left": "Vertice in alto a sinistra",
-			  "label-rectangle-bottom-right": "Vertice in basso a destra",
-			  "label-circle-centre": "Centro del cerchio",
-			  "label-circle-radius": "Raggio del cerchio",
-			  "label-select-shape-area": "Seleziona area della forma",
-			  "label-select-interact-action": "Seleziona interazione",
-			  "label-add-url-to-open-when-triggered": "Aggiungi url da aprire dopo interazione",
-			  "label-url-invalid": "url invalido",
-			  "label-url-invalid-example": "Esempio di url invalido",
-			  "actions": {
-				  "label-open-url-new-tab": "Apri url in a nuova finestra",
-				  "label-navigate-to-page-element": "Naviga nell'elemento della pagina",
-				  "label-return-a-value-to-activity": "Riporta un valore nell'attività"
-			  }
-		  }
-	  }
-  },
-	"DataEditorWidget": {
-		"label-create-value-you-need": "Crea il valore desiderato",
-		"label-value-type": "Tipo di valore",
-		"label-values": "Valori"
-	},
-	"AssetsManager": {
-		"label-recurrences": "Nessuna ricorrenza | 1 ricorrenza | {n} ricorrenze",
-		"label-invalid-file-unsupported": "File non supportato",
-		"label-invalid-name-already-exists": "Nome già presente",
-		"label-valid-name-available": "Nome disponibile",
-		"label-asset-name-description": "Rinomina questa risorsa con il nome che desideri",
-		"label-asset-name": "Nome della risorsa",
-		"label-valid-file": "File accettato",
-		"label-server": "Nel server della piattaforma",
-		"label-locale": "In locale, nella storia corrente",
-		"label-select-and-upload": "Seleziona e carica",
-		"label-select-media-file": "Seleziona il tipo di file",
-		"label-replace-existing": "Rimpiazza file",
-		"label-search-asset": "Cerca risorsa",
-		"label-filter-categories": "Filtra categorie",
-		"label-result-list": "Lista risultati",
-		"label-select-asset": "Seleziona risorsa",
-		"label-stories-that-depend-by-asset": "Storie dipendenti dalla risorsa",
-		"error": {
-			"label-asset-is-dependency": "Risorsa è una dipendenza",
-			"label-unable-to-delete-asset": "Impossibile rimuovere la risorsa",
-			"label-asset-already-deleted": "Risorsa già eliminata"
+	"MediaPlayer": {
+	  "label_upload_file": "Carica File",
+	  "label_mediatype": "Tipo di media",
+	  "label_mediaSource": "Fonte del media",
+	  "label-add-image-area": "Aggiungi immagine",
+	  "label-input-useArea": "Usa Area",
+	  "label-select-shape-area": "Seleziona forma",
+	  "label-select-link-interaction": "Seleziona interazione link",
+	  "label-options": "Opzioni",
+	  "label-select-media-asset": "Seleziona risorsa multimediale",
+	  "MediaType": {
+		"label_audio": "Audio",
+		"label_video": "Video",
+		"label_image": "Immagine"
+	  },
+	  "label-input-file": {
+		"audio": "Audio",
+		"video": "Video",
+		"image": "Immagine",
+		"captions": "Sottotitoli",
+		"captions_accessibility": "Accessibilità sottotitoli",
+		"imageCaption": "Sottotitoli per Immagine",
+		"useArea": "Usa Area"
+	  },
+	  "areas": {
+		"label-vertex-description": "Descrizione nel vertice",
+		"label-use-highlight": "Usa evidenziatore",
+		"label-set-value-to-return-as-player-input": "Applica valore selezionabile dal giocatore",
+		"label-add-anchor-to-scroll-onto-when-triggered": "Aggiungi ancora per scorrerci dentro quando attivato",
+		"label-anchor-warning-no-element-found": "Nessun elemento trovato",
+		"label-shape-full": "Pieno",
+		"label-shape-rectangle": "Rettangolo",
+		"label-shape-circle": "Cerchio",
+		"label-distance-relative-from-left": "Distanza relativa da sinistra",
+		"label-distance-relative-from-top": "Distanza relativa dall'alto",
+		"label-rectangle-top-left": "Vertice in alto a sinistra",
+		"label-rectangle-bottom-right": "Vertice in basso a destra",
+		"label-circle-centre": "Centro del cerchio",
+		"label-circle-radius": "Raggio del cerchio",
+		"label-select-shape-area": "Seleziona area della forma",
+		"label-select-interact-action": "Seleziona interazione",
+		"label-add-url-to-open-when-triggered": "Aggiungi url da aprire dopo interazione",
+		"label-url-invalid": "url invalido",
+		"label-url-invalid-example": "Esempio di url invalido",
+		"actions": {
+		  "label-open-url-new-tab": "Apri url in a nuova finestra",
+		  "label-navigate-to-page-element": "Naviga nell'elemento della pagina",
+		  "label-return-a-value-to-activity": "Riporta un valore nell'attività"
 		}
-	},
-	"ActivityQuestEditor": {
-		"label-choose-behavior-on-what-should-happen-when-user-response-doesnt-match-with-any-branch": "Scegli cosa dovrebbe accadere quando la risposta del giocatore non rientra in nessuno dei casi nelle attività figlie \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
-		"label-nothing": "Non fare niente",
-		"label-show-message": "Mostra un messaggio",
-		"label-continue-on-next-activity-in-sequence": "Continua sulla prossima attività",
-		"label-activity-behaviors": "Le scelte \"@:ActivityQuestEditor.label-nothing\", \"@:ActivityQuestEditor.label-show-message\" non faranno continuare la storia a una nuova attività, ma \"@:ActivityQuestEditor.label-continue-on-next-activity-in-sequence\" farà continuare la storia a partire dalla prossima attività \"sorella\" nella stessa sequenza",
-		"label-insert-message-to-show": "Inserisci un messaggio da mostrare"
-	},
-	"UtilitySectionWidget" : {
-		"label-utility-section" : "Sezione utilità",
-		"label-qr-code-generator": "Generatore di @:shared.label-qr-code"
-	},
-	"QrCodeGenerator": {
-		"label-qr-codes-use-description": "Usa il @:UtilitySectionWidget.label-qr-code-generator per salvare e generare codici QR così puoi utilizzare il componente \"@:UserWidgets.label-qr-decode-widget-name\" in qualsiasi attività che vuoi",
-		"label-save-qrcodes-in-one-place-and-print-them-later": "Tieni qui da parte i codici QR che ti servono per questa storia in un post semplice, così potrai per esempio stamparli successivamente",
-		"label-no-qr-codes": "Non hai nessun codice QR",
-		"label-add-named-qr-codes-for-future-use": "Aggiungi codice QR con dei nomi associati e saranno qui per usi futuri",
-		"label-value-stored-in-qr-code" : "Valore memorizzato nel codice QR come risultato di una scansione"
+	  }
 	}
+  },
+  "DataEditorWidget": {
+	"label-create-value-you-need": "Crea il valore desiderato",
+	"label-value-type": "Tipo di valore",
+	"label-values": "Valori"
+  },
+  "AssetsManager": {
+	"label-recurrences": "Nessuna ricorrenza | 1 ricorrenza | {n} ricorrenze",
+	"label-invalid-file-unsupported": "File non supportato",
+	"label-invalid-name-already-exists": "Nome già presente",
+	"label-valid-name-available": "Nome disponibile",
+	"label-asset-name-description": "Rinomina questa risorsa con il nome che desideri",
+	"label-asset-name": "Nome della risorsa",
+	"label-valid-file": "File accettato",
+	"label-server": "Nel server della piattaforma",
+	"label-locale": "In locale, nella storia corrente",
+	"label-select-and-upload": "Seleziona e carica",
+	"label-select-media-file": "Seleziona il tipo di file",
+	"label-replace-existing": "Rimpiazza file",
+	"label-search-asset": "Cerca risorsa",
+	"label-filter-categories": "Filtra categorie",
+	"label-result-list": "Lista risultati",
+	"label-select-asset": "Seleziona risorsa",
+	"label-stories-that-depend-by-asset": "Storie dipendenti dalla risorsa",
+	"error": {
+	  "label-asset-is-dependency": "Risorsa è una dipendenza",
+	  "label-unable-to-delete-asset": "Impossibile rimuovere la risorsa",
+	  "label-asset-already-deleted": "Risorsa già eliminata"
+	}
+  },
+  "ActivityQuestEditor": {
+	"label-choose-behavior-on-what-should-happen-when-user-response-doesnt-match-with-any-branch": "Scegli cosa dovrebbe accadere quando la risposta del giocatore non rientra in nessuno dei casi nelle attività figlie \"@:ActivityEditorWidget.treeNode-type.branch.label\"",
+	"label-nothing": "Non fare niente",
+	"label-show-message": "Mostra un messaggio",
+	"label-continue-on-next-activity-in-sequence": "Continua sulla prossima attività",
+	"label-activity-behaviors": "Le scelte \"@:ActivityQuestEditor.label-nothing\", \"@:ActivityQuestEditor.label-show-message\" non faranno continuare la storia a una nuova attività, ma \"@:ActivityQuestEditor.label-continue-on-next-activity-in-sequence\" farà continuare la storia a partire dalla prossima attività \"sorella\" nella stessa sequenza",
+	"label-insert-message-to-show": "Inserisci un messaggio da mostrare"
+  },
+  "UtilitySectionWidget": {
+	"label-utility-section": "Sezione utilità",
+	"label-qr-code-generator": "Generatore di @:shared.label-qr-code"
+  },
+  "QrCodeGenerator": {
+	"label-qr-codes-use-description": "Usa il @:UtilitySectionWidget.label-qr-code-generator per salvare e generare codici QR così puoi utilizzare il componente \"@:UserWidgets.label-qr-decode-widget-name\" in qualsiasi attività che vuoi",
+	"label-save-qrcodes-in-one-place-and-print-them-later": "Tieni qui da parte i codici QR che ti servono per questa storia in un post semplice, così potrai per esempio stamparli successivamente",
+	"label-no-qr-codes": "Non hai nessun codice QR",
+	"label-add-named-qr-codes-for-future-use": "Aggiungi codice QR con dei nomi associati e saranno qui per usi futuri",
+	"label-value-stored-in-qr-code": "Valore memorizzato nel codice QR come risultato di una scansione"
+  }
 }

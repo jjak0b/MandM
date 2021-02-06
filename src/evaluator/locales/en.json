@@ -1,5 +1,7 @@
 {
   "Evaluator": {
+	"label-requires-human-evaluation": "requires human evaluation",
+	"label-human-evaluation-required": "Human evaluation required",
 	"label-download-game-summary": "Download game summary",
 	"label-story-leaderboard": "Story leaderboard",
 	"label-evaluate-activity-based-on-total-score": "Evaluate activity based on total score",

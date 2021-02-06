@@ -1,12 +1,45 @@
 {
   "Evaluator": {
-	"label-start-time": "Start time",
-	"label-end-time": "End time",
-	"label-input-type": "Input type",
-	"label-input-value": "Input value",
-	"label-edit-name": "Edit name",
-	"label-no-story-selected": "No story selected",
-	"label-select-story-to-show-player-status": "Select story to show player status"
-
+	"label-requires-human-evaluation": "richiede una valutazione umana",
+	"label-human-evaluation-required": "Valutazione umana richiesta",
+	"label-download-game-summary": "Scarica un riassunto della partita",
+	"label-story-leaderboard": "Classifica",
+	"label-evaluate-activity-based-on-total-score": "Valutare l'attività basandosi sul punteggio totale",
+	"label-evaluate-the-activity-based-on-this-value": "Valutare l'attività basandosi su questo valore",
+	"label-total-score": "Punteggio totale",
+	"label-edit-score": "Modifica il punteggio",
+	"label-edit-score-of-activity": "Modifica il punteggio dell'attività",
+	"label-score": "Punteggio",
+	"label-start-time": "Tempo d'inizio",
+	"label-end-time": "Tempo di fine",
+	"label-input-type": "Tipo di input",
+	"label-input-value": "Valore dell'input",
+	"label-edit-name": "Modifica il nome",
+	"label-no-story-selected": "Nessuna storia selezionata",
+	"label-select-story-to-show-player-status": "Seleziona una storia per vedere lo stato dei giocatori",
+	"label-is-stuck": "è bloccato",
+	"label-player-status": "Stato del giocatore",
+	"label-story-settings": "Impostazioni della storia",
+	"label-story-countdown": "Conto alla rovescia della storia",
+	"label-start-story": "Avvia la storia",
+	"label-end-story": "Termina la storia",
+	"label-unable-to-stop-story": "Impossibile terminare la storia",
+	"label-unable-to-start-story": "Impossibile avviare la storia",
+	"label-story-already-ended": "La storia è già stata terminata",
+	"label-story-already-active": "La storia è già stata avviata",
+	"label-story-ending": "Terminazione della storia",
+	"label-story-starting": "Avviamento della storia",
+	"label-story-end": "Terminazione della storia",
+	"label-loading-resources": "Caricamento delle risorse",
+	"label-player-stuck-notification-time": "Tempo di notifica di un giocatore bloccato",
+	"label-player-stuck-notification-time-description": "Definisce quanti minuti passeranno prima che il valutatore notifichi che il giocatore è bloccato in un attività.",
+	"errors": {
+	  "label-error": "Errore",
+	  "label-unable-to-load-resources": "Impossibile caricare le risorse",
+	  "label-story-already-active": "St",
+	  "label-unable-to-start-story": "La storia è già stata avviata",
+	  "label-story-already-ended": "La storia è già stata terminata",
+	  "label-unable-to-stop-story": "Impossibile terminare la storia"
+	}
   }
 }

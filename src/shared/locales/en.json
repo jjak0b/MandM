@@ -1,5 +1,7 @@
 {
 	"shared": {
+	  	"label-requires-human-evaluation": "Requires human evaluation",
+	  	"label-the-activity": "Activity",
 	  	"label-primary": "Primary",
 		"label-secondary": "Secondary",
 		"label-success": "Success",

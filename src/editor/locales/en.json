@@ -7,7 +7,7 @@
 	"label-story-public": "Public story",
 	"label-remove-group": "Remove group",
 	"label-add-new-group": "Add new group",
-  	"label-use-this-link-or-scan-this-qrcode-to-play": "Follow this link or scan this QR code to play the story",
+	"label-use-this-link-or-scan-this-qrcode-to-play": "Follow this link or scan this QR code to play the story",
 	"label-use-this-link-or-scan-this-qrcode-to-play-as": "@:StoryEditorWidget.label-use-this-link-or-scan-this-qrcode-to-play as {team}",
 	"label-group": "Group",
 	"label-groups": "Manage groups and specific missions for each one",
@@ -62,7 +62,7 @@
 	}
   },
   "MissionEditorWidget": {
-  	"label-add-and-edit-missions": "Add and edit missions of the current story",
+	"label-add-and-edit-missions": "Add and edit missions of the current story",
 	"label-select-mission-to-edit-properties-and-its-activities-in-activity-tab": "Select a mission to edit order, properties here and to edit its activities \"@:ActivityEditorWidget.label-activity-tab\" tab",
 	"label-mission-no-title": "Untitled mission",
 	"label-mission-title": "Mission title",
@@ -83,14 +83,14 @@
 	"select-type-var": {
 	  "label-user-input": "User input"
 	},
-  	"label-require-human-to-evaluate": "It Requires human evaluation",
-  	"label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity": "If this condition match will hint evaluator to evaluate the activity",
+	"label-require-human-to-evaluate": "It Requires human evaluation",
+	"label-if-condition-match-will-hint-evaluator-to-evaluate-this-activity": "If this condition match will hint evaluator to evaluate the activity",
 	"label-point-assignment": "Set points amount to add o decrement to score",
 	"label-that-element-to-compare": "Element to compare",
 	"label-condition-check-parameters": "Condition check parameters",
 	"label-select-a-variable": "Select a variable",
 	"label-select-condition-to-check": "Select condition to check",
-    "label-negate-condition": "Negate the condition",
+	"label-negate-condition": "Negate the condition",
 	"label-branch-condition-example": "Example: @:ActivityEditorWidget.label-variable \"@:shared.label-score\" @:ActivityEditorWidget.select-type-func.isGreaterThan @:shared.label-Number with value 1000",
 	"label-select-source-of-parameter-value": "Select source of parameter value",
 	"label-setup-your-condition": "Setup your condition",
@@ -101,7 +101,7 @@
 	"label-activity-no-title": "Untitled activity",
 	"label-activity-description": "Activity description",
 	"label-mission-activity-tree-of": "Tree of possible activities into the mission: ",
-    "label-select-mission-to-edit-activities": "Select a mission to add and edit its activities",
+	"label-select-mission-to-edit-activities": "Select a mission to add and edit its activities",
 	"label-select-nodeType": "Select a type of element to add to the tree",
 	"add-menu-invalid-feedback": "Please select activity type",
 	"add-menu-valid-feedback": "Thank you",
@@ -178,8 +178,8 @@
 	}
   },
   "StyleEditorWidget": {
-  	"label-custom-stylesheet-description": "Include your favorite stylesheet among those you have uploaded to the platform",
-  	"label-select-custom-stylesheet": "Select your own custom style sheet",
+	"label-custom-stylesheet-description": "Include your favorite stylesheet among those you have uploaded to the platform",
+	"label-select-custom-stylesheet": "Select your own custom style sheet",
 	"label-no-property": "No property added",
 	"label-add-property-to-edit": "Add property to edit",
 	"label-no-CSS-rule": "No CSS rule",
@@ -221,9 +221,9 @@
 		"label_absolute": "Absolute"
 	  }
 	},
-    "StyleColorWidget": {
-		"label-hue": "Hue"
-    },
+	"StyleColorWidget": {
+	  "label-hue": "Hue"
+	},
 	"selector": {
 	  "label-class": "Class"
 	},
@@ -264,10 +264,10 @@
 	"label-attributes": "Attributes",
 	"label-label-id": "Id",
 	"label-classes": "Classes",
-  	"label-current-classes": "Current classes",
+	"label-current-classes": "Current classes",
 	"label-duplicate-classes": "Duplicate class(es)",
 	"label-placeholder-insert-class": "Insert class and add it pressing \"@:shared.label-add\" button or \"Enter\", \"Space\" key buttons",
-  	"label-add-custom-classes-or-pick-some-from-provided-framework": "Add your custom classes or pick some from the provided framework"
+	"label-add-custom-classes-or-pick-some-from-provided-framework": "Add your custom classes or pick some from the provided framework"
   },
   "UserWidgets": {
 	"Grid": {
@@ -275,10 +275,10 @@
 		"label-properties": "Grid properties"
 	  },
 	  "row": {
-	  	"label-properties": "Rows properties"
+		"label-properties": "Rows properties"
 	  },
 	  "cell": {
-	  	"label-properties": "Cells properties"
+		"label-properties": "Cells properties"
 	  },
 	  "label-html-tag-name": "HTML tag name",
 	  "label-html-tag-role": "HTML tag role",
@@ -305,36 +305,36 @@
 	"label-timepicker-widget-name": "Timepicker",
 	"label-media-player-widget-name": "Media Player",
 	"label-photo-widget-name": "Media capture",
-    "label-qr-decode-widget-name": "QR capture and scanner",
+	"label-qr-decode-widget-name": "QR capture and scanner",
 	"label-grid-widget-name": "Grid",
-    "label-user-widget-checkbox-settings": "@:UserWidgets.label-checkbox-widget-name settings",
-    "label-user-widget-radio-settings": "@:UserWidgets.label-radio-widget-name settings",
-    "label-user-widget-select-settings": "@:UserWidgets.label-select-widget-name settings",
-    "label-text-input-settings": "@:UserWidgets.label-text-input-widget-name settings",
-    "label-number-input-settings": "@:UserWidgets.label-number-input-widget-name settings",
-    "label-range-input-settings": "@:UserWidgets.label-range-widget-name settings",
-    "label-spinbutton-settings": "@:UserWidgets.label-spinbutton-widget-name settings",
-    "label-photo-settings": "@:UserWidgets.label-photo-widget-name settings",
-    "label-button-settings": "@:UserWidgets.label-button-widget-name settings",
+	"label-user-widget-checkbox-settings": "@:UserWidgets.label-checkbox-widget-name settings",
+	"label-user-widget-radio-settings": "@:UserWidgets.label-radio-widget-name settings",
+	"label-user-widget-select-settings": "@:UserWidgets.label-select-widget-name settings",
+	"label-text-input-settings": "@:UserWidgets.label-text-input-widget-name settings",
+	"label-number-input-settings": "@:UserWidgets.label-number-input-widget-name settings",
+	"label-range-input-settings": "@:UserWidgets.label-range-widget-name settings",
+	"label-spinbutton-settings": "@:UserWidgets.label-spinbutton-widget-name settings",
+	"label-photo-settings": "@:UserWidgets.label-photo-widget-name settings",
+	"label-button-settings": "@:UserWidgets.label-button-widget-name settings",
 	"label-qr-decoder-settings": "@:UserWidgets.label-qr-decode-widget-name settings",
 	"label-grid-settings": "@:UserWidgets.label-grid-widget-name settings",
 	"label-show-extremes": "Show range extremes",
-	"Photo" : {
-		"label-select-type-media": "Select a media type to capture",
-		"cameraType" : {
-			"front": "Front-facing camera",
-			"back": "Back camera"
-		}
+	"Photo": {
+	  "label-select-type-media": "Select a media type to capture",
+	  "cameraType": {
+		"front": "Front-facing camera",
+		"back": "Back camera"
+	  }
 	},
 	"QrDecoder": {
-		"label-qr-decoder-settings": "@:UserWidgets.label-qr-decoder-settings",
-		"label-label-qr": "Label content for widget",
-		"label-error-message": "Error message settings",
-		"label-id-of-message" : "ID to assign to the notification element if you want apply a custom style",
-		"label-error-message-title": "Title of error message notification",
-		"label-error-message-content": "Main content of the error message",
-		"label-error-message-to-show-if-no-qr-has-been-detected-after-use": "Recommended: Error message notification to show if no QR code has been detected after scan, for example a message to help player to take a not blurred picture, with the QR code on center",
-		"label-detected-result": "Detected content"
+	  "label-qr-decoder-settings": "@:UserWidgets.label-qr-decoder-settings",
+	  "label-label-qr": "Label content for widget",
+	  "label-error-message": "Error message settings",
+	  "label-id-of-message": "ID to assign to the notification element if you want apply a custom style",
+	  "label-error-message-title": "Title of error message notification",
+	  "label-error-message-content": "Main content of the error message",
+	  "label-error-message-to-show-if-no-qr-has-been-detected-after-use": "Recommended: Error message notification to show if no QR code has been detected after scan, for example a message to help player to take a not blurred picture, with the QR code on center",
+	  "label-detected-result": "Detected content"
 	},
 	"TextContent": {
 	  "initial-editor-content": "Add your text",
@@ -402,8 +402,8 @@
 		"label-shape-full": "Full",
 		"label-shape-rectangle": "Rectangle",
 		"label-shape-circle": "Circle",
-	 	"label-distance-relative-from-left": "Relative distance from left",
-	  	"label-distance-relative-from-top": "Relative distance from top",
+		"label-distance-relative-from-left": "Relative distance from left",
+		"label-distance-relative-from-top": "Relative distance from top",
 		"label-rectangle-top-left": "Top left vertex",
 		"label-rectangle-bottom-right": "Bottom right vertex",
 		"label-circle-centre": "Circle centre",
@@ -427,7 +427,7 @@
 	"label-values": "Values"
   },
   "AssetsManager": {
-  	"label-recurrences": "No recurrences | 1 recurrence | {n} recurrence",
+	"label-recurrences": "No recurrences | 1 recurrence | {n} recurrence",
 	"label-invalid-file-unsupported": "File unsupported",
 	"label-invalid-name-already-exists": "Name already exists",
 	"label-valid-name-available": "Name available",
@@ -457,17 +457,16 @@
 	"label-continue-on-next-activity-in-sequence": "Continue on the next activity",
 	"label-activity-behaviors": "The options \"@:ActivityQuestEditor.label-nothing\",\"@:ActivityQuestEditor.label-show-message\" won't continue the story to a new activity, but \"@:ActivityQuestEditor.label-continue-on-next-activity-in-sequence\" will continue the story starting from next \"sibling\" activity in sequence",
 	"label-insert-message-to-show": "Insert message to show"
-
   },
-	"UtilitySectionWidget" : {
-		"label-utility-section" : "Utility section",
-		"label-qr-code-generator": "@:shared.label-qr-code generator"
-	},
-	"QrCodeGenerator": {
-		"label-qr-codes-use-description": "Use @:UtilitySectionWidget.label-qr-code-generator to save and generate QR codes so you can use the widget \"@:UserWidgets.label-qr-decode-widget-name\" in any activity you want",
-		"label-save-qrcodes-in-one-place-and-print-them-later": "Keep aside QR codes you need in this story in one easy place, so you can use or print them later",
-		"label-no-qr-codes": "No QR codes",
-		"label-add-named-qr-codes-for-future-use": "Add QR codes with the names you want and will be there for later uses",
-		"label-value-stored-in-qr-code" : "Value stored in QR code for scan result"
-	}
+  "UtilitySectionWidget": {
+	"label-utility-section": "Utility section",
+	"label-qr-code-generator": "@:shared.label-qr-code generator"
+  },
+  "QrCodeGenerator": {
+	"label-qr-codes-use-description": "Use @:UtilitySectionWidget.label-qr-code-generator to save and generate QR codes so you can use the widget \"@:UserWidgets.label-qr-decode-widget-name\" in any activity you want",
+	"label-save-qrcodes-in-one-place-and-print-them-later": "Keep aside QR codes you need in this story in one easy place, so you can use or print them later",
+	"label-no-qr-codes": "No QR codes",
+	"label-add-named-qr-codes-for-future-use": "Add QR codes with the names you want and will be there for later uses",
+	"label-value-stored-in-qr-code": "Value stored in QR code for scan result"
+  }
 }

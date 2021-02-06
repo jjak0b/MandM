@@ -14,7 +14,13 @@
 		"label-chat-and-ask-help": "Chatta e chiedi aiuto",
 		"errors": {
 			"label-generic": "Errore",
-			"label-unable-to-load-resources": "Ops, non possiamo caricare le risorse necessarie, ricarica l'applicazine per piacere"
+			"label-unable-to-load-resources": "Ops, non possiamo caricare le risorse necessarie, ricarica l'applicazine per piacere",
+			"label-no-story": "Nessuna storia",
+			"label-story-forbidden": "La storia non è pubblica",
+			"label-story-not-found": "Storia non trovata",
+			"label-error": "Error",
+			"label-no-team": "Nessun team",
+			"label-invalid-team": "Team non valido"
 		},
 		"label-game-will-start-in": "Il gioco inizierà tra",
 		"label-waiting-game-start": "Attendi finché non inizia il gioco"

@@ -44,14 +44,14 @@ function RESET_STORY( req, res, next ) {
 				res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 			}
 			else {
-				let hasBeenHandled = _editSession(session, sessionId );
+				let hasBeenHandled = _editSession(session, req.params.sessionId );
 
 				if( !hasBeenHandled ) {
 					res.sendStatus(StatusCodes.BAD_REQUEST);
 					return;
 				}
 
-				req.sessionStore.set(sessionId, session, (error) => {
+				req.sessionStore.set(req.params.sessionId, session, (error) => {
 					if (error) {
 						res.sendStatus(StatusCodes.INTERNAL_SERVER_ERROR);
 					}

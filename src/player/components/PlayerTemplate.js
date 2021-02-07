@@ -5,6 +5,7 @@ export const template =
 	v-if="isGameStarted"
 	pills card
 	content-class="flex-grow-1 overflow-auto"
+	justified
 	class="h-100 d-flex flex-column-reverse"
 	v-model="selectedPage"
 >

@@ -266,9 +266,12 @@ export default class Player {
 						playerInput[ variableName ] = variableValue;
 					}
 				}
+				console.log( `[${this.constructor.name}]`, "Got player input", playerInput );
+				
 				let localEnvVars = Object.assign( {}, playerInput, this.envVars );
 				let indexBranch = this.checkConditions(this.current.activity.children, localEnvVars );
 
+				console.log( `[${this.constructor.name}]`, "chose index branch", indexBranch );
 				// select branchNode as parent Node
 				if (indexBranch >= 0) {
 					let branchNode = this.current.activity.children[indexBranch];
@@ -375,7 +378,10 @@ export default class Player {
 	 * @return TypedValue
 	 */
 	guessAndParseToTypedValue( value ) {
+		console.log( "check", value );
+
 		if( value && !( value instanceof TypedValue) ) {
+			console.log( "is Not instance", value );
 			if (typeof value === "string") {
 				let number = Number.parseInt(value);
 				if (!isNaN(number))
@@ -419,6 +425,7 @@ export default class Player {
 			return new TypedValue( { type: value.constructor ? value.constructor.name : Object.name, value: value } );
 		}
 		else {
+			console.log( "is instance", value );
 			return value;
 		}
 	}

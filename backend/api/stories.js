@@ -135,7 +135,7 @@ function API_PUT_story( req, res ) {
 
 	let status = StatusCodes.CREATED;
 	if ( !fs.existsSync( storyDir ) ){
-		fs.mkdirSync( storyDir, { mode: 0o775 } );
+		fs.mkdirSync( storyDir, { mode: 0o0775 } );
 	}
 
 	let requests = [];

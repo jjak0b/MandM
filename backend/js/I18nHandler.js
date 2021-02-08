@@ -14,7 +14,7 @@ class I18nHandler {
 
 		let supportedLngs = [];
 		if ( !fs.existsSync( this.pathLocales ) ){
-			fs.mkdirSync( this.pathLocales, { mode: 0o775 } );
+			fs.mkdirSync( this.pathLocales, { mode: 0o0775 } );
 		}
 		else {
 			localesFilenames = fs.readdirSync( this.pathLocales );
@@ -77,7 +77,7 @@ class I18nHandler {
 				JSON.stringify(data),
 				{
 					encoding: "utf8",
-					mode: 0o775
+					mode: 0o0775
 				},
 				(err) => {
 					if (err) {

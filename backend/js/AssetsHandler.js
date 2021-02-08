@@ -58,14 +58,14 @@ class AssetsHandler {
 	updateAssetsList() {
 
 		if ( !fs.existsSync( this.getPath() ) ){
-			fs.mkdirSync( this.getPath(), { mode: 0o775 } );
+			fs.mkdirSync( this.getPath(), { mode: 0o0775 } );
 		}
 
 		let promises = [];
 
 		this.getCategories().forEach( (category) => {
 			if ( !fs.existsSync( this.getPathCategory( category ) ) ) {
-				fs.mkdirSync( this.getPathCategory( category ), { mode: 0o775 } );
+				fs.mkdirSync( this.getPathCategory( category ), { mode: 0o0775 } );
 			}
 			else{
 				promises.push(
@@ -90,7 +90,7 @@ class AssetsHandler {
 				self.getPathAsset( category, filename ),
 				fileFormData.buffer,
 				{
-					mode: 0o775
+					mode: 0o0775
 				},
 				function (err) {
 					if (err) {

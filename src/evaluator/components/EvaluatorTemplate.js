@@ -323,6 +323,7 @@ export const template =
 												>{{ getMissionTitle( missionId ) }}</b-card-title>
 											</b-card-header>
 											<b-collapse
+												v-on:shown="activityFocusHandler('collapse-player-'+ sessionName +'-mission-' + missionId)"
 												v-bind:id="'collapse-player-'+ sessionName +'-mission-' + missionId"
 												v-model="collapseData[sessionName][selectedStory][missionId].visible"
 											>

@@ -55,7 +55,8 @@ export const component = {
 				{ key: 'totalTime', sortable: true },
 				{ key: 'averageActivityTime', sortable: true }
 			],
-			oldLeaderboard: {}
+			oldLeaderboard: {},
+			activityFocus: null
 		}
 	},
 	computed: {
@@ -125,6 +126,13 @@ export const component = {
 			downloadAnchorNode.click();
 			downloadAnchorNode.remove();
 		},
+		activityFocusHandler( id ) {
+			if ( this.activityFocus && id === this.activityFocus.id ) {
+
+				this.$refs[`${this.activityFocus.sessionName}${this.activityFocus.story}${this.activityFocus.mission}${this.activityFocus.activity}`][0].focus();
+				this.activityFocus = null;
+			}
+		},
 		toggleCollapse(sessionName, story, mission, activity) {
 			let id;
 
@@ -135,13 +143,23 @@ export const component = {
 				this.$emit('bv::toggle::collapse', id);
 			}
 			this.$nextTick(() => {
+
+				id = 'collapse-player-' + sessionName + '-mission-' + mission;
+
 				if (!this.collapseData[sessionName][story][mission].visible) {
-					id = 'collapse-player-' + sessionName + '-mission-' + mission;
+
 					this.$emit('bv::toggle::collapse', id);
+					this.activityFocus = {
+						id: id,
+						sessionName: sessionName,
+						story: story,
+						mission: mission,
+						activity: activity
+					}
 				}
-				this.$nextTick(() => {
+				else {
 					this.$refs[`${sessionName}${story}${mission}${activity}`][0].focus();
-				})
+				}
 
 			})
 		},

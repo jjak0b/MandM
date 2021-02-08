@@ -99,7 +99,9 @@ export const template =
 				</b-breadcrumb-item>
 			</b-breadcrumb>
 			<b-container>
-				<b-row v-if="selectedStory && Object.keys(getLeaderboard).length !== 0">
+				<b-row v-if="selectedStory && Object.keys(getLeaderboard).length !== 0"
+					tag="section"
+				>
 					<b-col>
 						<b-card no-body>
 							<b-card-header v-b-toggle="'story-leaderboard'">
@@ -128,7 +130,9 @@ export const template =
 						</b-card>
 					</b-col>
 				</b-row>
-				<b-row v-if="selectedStory && selectedStory && storySettings[selectedStory]">
+				<b-row v-if="selectedStory && selectedStory && storySettings[selectedStory]"
+					tag="section"
+				>
 					<b-col>
 						<b-card
 							no-body
@@ -211,15 +215,18 @@ export const template =
 						</b-card>
 					</b-col>
 				</b-row>
-				<b-row v-if="selectedStory">
-					<b-col>
-						<b-card-group
-							deck
-						>
-							<template v-for="(sessionObject, sessionName) in sessions">
+				<b-row v-if="selectedStory"
+					tag="section"
+				>
+					<b-col
+						sm
+						class="mb-2"
+						v-for="(sessionObject, sessionName) in sessions"
+					>
 							<b-card
 								v-if="sessionObject[selectedStory]"
 								no-body
+								tag="article"
 								style="height: max-content"
 							>
 								<b-card-header class="clearfix">
@@ -316,6 +323,7 @@ export const template =
 											v-if="missionId !== 'totalScore'"
 											no-body
 											class="mx-0 my-1"
+											tag="article"
 										>
 											<b-card-header>
 												<b-card-title
@@ -330,11 +338,14 @@ export const template =
 												<b-card-body class="p-2">
 													<b-card
 														v-for="(activityObject, activityId) in missionObject"
+														tag="article"
 														v-bind:ref="sessionName + selectedStory + missionId + activityId"
 														tabindex="-1"
 														class="mx-0 my-1"
 														v-bind:border-variant="getActivityBorderVariant(sessionName, selectedStory, missionId, activityId)"
-														v-bind:header="getActivityTitle( missionId, activityId )">
+														v-bind:header="getActivityTitle( missionId, activityId )"
+														header-tag="h5"
+														>
 														<b-card-text>
 															<b-row v-if="activityObject.start">
 																<b-col>
@@ -456,11 +467,11 @@ export const template =
 								</b-collapse>
 								</div>
 							</b-card>
-							</template>
-						</b-card-group>
 					</b-col>
 				</b-row>
-				<b-row v-if="!selectedStory">
+				<b-row v-if="!selectedStory"
+					tag="section"
+				>
 					<b-col>
 						<h1 v-t="'Evaluator.label-no-story-selected'"
 						></h1>

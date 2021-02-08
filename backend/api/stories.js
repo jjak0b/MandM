@@ -116,8 +116,8 @@ function API_GET_story(req, res) {
 					else res.json( data );
 				})
 				.catch( (objError)=> {
-					console.error(`[ GET stories/${storyName}]`, "Error getting JSON of story", "cause", objError.error );
-					res.sendStatus( objError.statusCode );
+					console.error(`[ GET stories/${storyName}]`, "Error getting JSON of story", "cause", objError.error,objError );
+					res.sendStatus( objError.statusCode || StatusCodes.INTERNAL_SERVER_ERROR );
 				});
 		}
 	}

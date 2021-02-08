@@ -24,7 +24,7 @@ class StoryHandler {
 
 		let self = this;
 		if ( !fs.existsSync( this.pathStories ) ){
-			fs.mkdirSync( this.pathStories );
+			fs.mkdirSync( this.pathStories, { mode: 0o775 } );
 		}
 		else {
 			console.log("Detecting stories ..." );
@@ -73,7 +73,10 @@ class StoryHandler {
 			fs.writeFile(
 				dependenciesFilename,
 				JSON.stringify(data, null, self.debug ? 4 : 0 ),
-				self.encoding,
+				{
+					encoding: self.encoding,
+					mode: 0o775
+				},
 				function (err) {
 					if (err) {
 						let statusCode = null;
@@ -138,7 +141,10 @@ class StoryHandler {
 			fs.writeFile(
 				storyFilename,
 				JSON.stringify(data, null, self.debug ? 4 : 0 ),
-				self.encoding,
+				{
+					encoding: self.encoding,
+					mode: 0o775
+				},
 				function (err) {
 					if (err) {
 						let statusCode = null;

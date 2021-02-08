@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// for write/read permission
+process.umask(0o0000);
 /**
  * Module dependencies.
  */

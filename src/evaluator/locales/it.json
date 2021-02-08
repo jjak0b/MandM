@@ -36,8 +36,8 @@
 	"errors": {
 	  "label-error": "Errore",
 	  "label-unable-to-load-resources": "Impossibile caricare le risorse",
-	  "label-story-already-active": "St",
-	  "label-unable-to-start-story": "La storia è già stata avviata",
+	  "label-story-already-active": "La storia è già stata avviata",
+	  "label-unable-to-start-story": "Impossibile avviare la storia",
 	  "label-story-already-ended": "La storia è già stata terminata",
 	  "label-unable-to-stop-story": "Impossibile terminare la storia"
 	}

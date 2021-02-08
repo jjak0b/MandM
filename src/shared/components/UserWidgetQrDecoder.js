@@ -21,6 +21,12 @@ export const component = {
         }
     },
     methods: {
+        handleChange(e) {
+            //i can't stop change event from qr-code widget tag for a third party component bug, so stop event here
+            if( e && e.target != this.$el ) {
+                e.stopPropagation();
+            }
+        },
         onInit(promise) {
             this.isLoading = true;
             return promise
@@ -76,6 +82,7 @@ export const component = {
                     }
                     else {
                         this.$emit('input', new TypedValue({type: String.name, value: content}));
+                        console.warn( "n", content );
                         this.$el.dispatchEvent( new Event('change', { bubbles: true }) );
                     }
                 })

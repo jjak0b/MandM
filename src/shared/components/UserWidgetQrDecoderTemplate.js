@@ -1,6 +1,8 @@
 export const template =
 `
-<span>
+<span
+    @change="handleChange"
+>
     <template
         v-if="useStream"
     >
@@ -58,7 +60,6 @@ export const template =
         v-bind:class="classes"
         v-bind:tabindex="tabindex"
         v-bind:multiple="null"
-        v-on:change.stop
         
         @detect="onDetect"
     />

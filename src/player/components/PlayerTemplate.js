@@ -17,7 +17,7 @@ export const template =
 	>
 		<main class="h-100">
 			<player-viewport
-				:activity="player.current.activity"
+				:current-activity="player.current.activity"
 				:player="player"
 			>
 			</player-viewport>

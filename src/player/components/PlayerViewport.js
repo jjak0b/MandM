@@ -12,16 +12,16 @@ export const component = {
 		"scene-viewport": sceneViewportComponent
 	},
 	props: {
-		activity: ActivityNode,
+		currentActivity: ActivityNode,
 		player: Player
 	},
 	data() {
 		return {
-
+			activity: null
 		}
 	},
 	computed : {
-		shouldClickToContinue() { return this.activity instanceof ActivityNodeTell },
+		shouldClickToContinue() { return !this.isLastScene && this.activity instanceof ActivityNodeTell },
 		isSceneable() { return this.activity && this.activity.data && this.activity.data instanceof ActivityDataSceneable },
 		hasSubmit() {
 			if( this.scene && this.$refs && this.$refs.form ) {
@@ -33,24 +33,42 @@ export const component = {
 				return undefined;
 			}
 		},
-		scene() { return this.isSceneable ? this.activity.data.scene : null }
+		scene() { return this.isSceneable ? this.activity.data.scene : null },
+		isLastScene() { return this.player.flags.gameEnded }
 	},
-
 	watch: {
-		scene() {
-			this.$nextTick( () => {
-				this.$el.focus();
-			});
+		currentActivity( newActivity ) {
+			if( newActivity ) {
+				this.activity = newActivity;
+
+				if( !this.player.canStoryContinue() ) {
+					console.log(`[${this.constructor.name}]`, "we are on last activity -> so end it" );
+					this.player.handleActivityBehavior(null);
+				}
+			}
+		},
+		scene( newScene ) {
+			if( newScene ) {
+				this.$nextTick(() => {
+					this.$el.focus();
+				});
+			}
 		}
 	},
-
+	mounted() {
+		this.activity = this.currentActivity;
+	},
 	methods : {
 		// nextTick is needed to allow v-model to set value in component.value correctly
 
 		onSubmit( event ) {
+			if( this.isLastScene ) return;
+
 			this.$nextTick( () => this.onInput( 'input', event.target ) )
 		},
 		onChangeDoSubmit() {
+			if( this.isLastScene ) return;
+
 			// if is Quest activity and has no submit button, perform submit on first "onchange" event
 			if( !this.shouldClickToContinue && !this.hasSubmit ) {
 				let form = this.$refs.form;

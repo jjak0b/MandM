@@ -43,6 +43,11 @@ export default class Player {
 		 * @type {Story}
 		 */
 		this.story = null;
+
+		this.flags = {
+			gameEnded: false
+		};
+
 		this.current = {
 			parentNodes : [],
 			/**
@@ -332,6 +337,7 @@ export default class Player {
 
 			if( nextActivity ) {
 				console.log(`[${this.constructor.name}]`, "Next Activity found", nextActivity );
+				this.current.activity = nextActivity;
 			}
 			else {
 				console.warn(`[${this.constructor.name}]`, "No next Activity found in sequence, selecting next Mission" );
@@ -343,6 +349,7 @@ export default class Player {
 				nextMission = this.nextMission();
 				if( nextMission ) {
 					console.log(`[${this.constructor.name}]`, "next Mission found", nextMission );
+					this.current.mission = nextMission;
 					this.current.activityIndex = -1;
 					this.current.parentNodes.push( nextMission.tree );
 					console.log(`[${this.constructor.name}]`, "selecting first activity in sequence");
@@ -430,6 +437,62 @@ export default class Player {
 		}
 	}
 
+	canStoryContinue() {
+		// simulate activity and mission detection to detect if story can continue
+
+		// save current state
+		let activityIndex = this.current.activityIndex;
+		let missionIndex = this.current.missionIndex
+		let parentNodes = this.current.parentNodes;
+		this.current.parentNodes = this.current.parentNodes.slice();
+
+		let nextActivity = this.current.activity, nextMission = this.current.mission;
+		do {
+			if( nextActivity && nextActivity instanceof ActivityNodeQuest ) {
+				if( nextActivity.children && nextActivity.children.length > 0 ) {
+					let childCandidate = null;
+					for (const branch of nextActivity.children) {
+						if( branch && branch.children.length > 0 && branch.data.active ) {
+							childCandidate = branch.children.find( ( childActivity ) => childActivity.data && childActivity.data.active );
+							if( childCandidate ) break;
+						}
+					}
+					if( childCandidate ){
+						nextActivity = childCandidate;
+						break;
+					}
+				}
+			}
+
+			nextActivity = this.nextActivity();
+
+			if( !nextActivity ){
+				nextMission = null;
+			}
+
+			if( !nextMission ) {
+				nextMission = this.nextMission();
+				if( nextMission ) {
+					this.current.activityIndex = -1;
+					this.current.parentNodes.push( nextMission.tree );
+				}
+			}
+
+		}while( !nextActivity && nextMission );
+
+		// restore the initial state
+		this.current.activityIndex = activityIndex;
+		this.current.missionIndex = missionIndex;
+		this.current.parentNodes.splice( 0 , this.current.parentNodes.length );
+		this.current.parentNodes = parentNodes;
+
+		if( !nextMission && !nextActivity ) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
 	nextActivity() {
 		/**
 		 * @type {ActivityNode}
@@ -453,13 +516,11 @@ export default class Player {
 
 				if (0 <= this.current.activityIndex && this.current.activityIndex < activities.length) {
 					chosenActivity = activities[this.current.activityIndex];
-					if( chosenActivity && chosenActivity.data.active ){
-						this.current.activity = chosenActivity;
-					}
-					else {
+					if( !chosenActivity || !chosenActivity.data.active ){
 						console.log( `[${this.constructor.name}]`, "Skipping disabled activity", chosenActivity );
 						chosenActivity = null;
 					}
+					// else it's valid
 				}
 				else {
 					chosenActivity = null;
@@ -468,7 +529,6 @@ export default class Player {
 
 			if (this.current.activityIndex >= activities.length) {
 				this.current.activityIndex = -1;
-				this.current.activity = null;
 			}
 			return chosenActivity;
 		}
@@ -493,13 +553,11 @@ export default class Player {
 
 			if (0 <= this.current.missionIndex && this.current.missionIndex < missions.length) {
 				chosenMission = missions[this.current.missionIndex];
-				if( chosenMission && chosenMission.active ) {
-					this.current.mission = chosenMission;
-				}
-				else {
+				if( !chosenMission || !chosenMission.active ){
 					console.log( `[${this.constructor.name}]`, "Skipping disabled mission", chosenMission );
 					chosenMission = null;
 				}
+				// else it's valid
 			}
 			else {
 				chosenMission = null;
@@ -508,7 +566,6 @@ export default class Player {
 
 		if (this.current.missionIndex >= missions.length || !chosenMission ) {
 			this.current.missionIndex = -1;
-			this.current.mission = null;
 		}
 		return chosenMission;
 	}
@@ -519,6 +576,6 @@ export default class Player {
 	}
 
 	endStory() {
-
+		this.flags.gameEnded = true;
 	}
 }

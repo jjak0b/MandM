@@ -1,7 +1,7 @@
 export const template =
 		`
 <div>
-<div>
+<div v-bind:key="value.name">
 	<b-form v-on:submit.stop.prevent="updateStoryOnServer">
 		<b-tabs pills card vertical lazy v-model="tabValue" ref="tabs">
 			<template v-for="name in names">

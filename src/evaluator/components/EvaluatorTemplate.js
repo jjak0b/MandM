@@ -222,9 +222,9 @@ export const template =
 						sm
 						class="mb-2"
 						v-for="(sessionObject, sessionName) in sessions"
+						v-if="sessionObject[selectedStory]"
 					>
 							<b-card
-								v-if="sessionObject[selectedStory]"
 								no-body
 								tag="article"
 								style="height: max-content"

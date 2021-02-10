@@ -412,17 +412,15 @@ export const component = {
 		},
 		getMissionTitle( missionId ) {
 			// TODO: read from story
-			if ( this.$te(`assets.mission.${missionId}.title`, this.locale) )
-				return this.$t(`assets.mission.${missionId}.title`);
-			else
-				return this.$t("shared.label-unnamed-mission");
+			let label = `assets.mission.${missionId}.title`;
+			let translation = this.$t( label );
+			return translation !== label ? translation : this.$t("shared.label-unnamed-mission");
 		},
 		getActivityTitle( missionId, activityId ) {
 			// TODO: read from story
-			if ( this.$te(`assets.mission.${missionId}.activity.${activityId}.title`, this.locale) )
-				return this.$t(`assets.mission.${missionId}.activity.${activityId}.title`);
-			else
-				return this.$t("shared.label-unnamed-activity");
+			let label = `assets.mission.${missionId}.activity.${activityId}.title`;
+			let translation = this.$t( label );
+			return translation !== label ? translation : this.$t("shared.label-unnamed-activity");
 		},
 		updateActiveStories() {
 			for (const session in this.sessions) {

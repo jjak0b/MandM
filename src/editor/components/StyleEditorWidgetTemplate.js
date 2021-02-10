@@ -3,7 +3,7 @@ export const template =
 <div>
 <b-card no-body aria-labelledby="style-editor-widget-stylesheet-tablist">
 	<b-card-header id="style-editor-widget-stylesheet-tablist">{{ $t('StyleEditorWidget.rule.label-stylesheet-list') }}</b-card-header>
-	<b-tabs card vertical
+	<b-tabs card vertical lazy
 	>
 		<b-tab
 			v-for="(stylesheet, stylesheetIndex) in value.assets"
@@ -33,7 +33,7 @@ export const template =
 <hr>
 <b-card no-body aria-labelledby="style-editor-widget-rule-tablist">
 	<b-card-header id="style-editor-widget-rule-tablist">{{ $t('StyleEditorWidget.rule.label-rule-list') }}</b-card-header>
-	<b-tabs card vertical
+	<b-tabs card vertical lazy
 		v-model="currentRuleIndex"
 	>
 		<b-tab

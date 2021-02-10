@@ -69,8 +69,12 @@ export const component = {
 		missionTitle() {
 			let data = this.player.current.mission ? this.player.current.mission : null;
 			if(data) {
-				if( data.title && this.$te( data.title ) ) {
-					return this.$t( data.title );
+				let localeLabel = data.title;
+				if( localeLabel ) {
+					let translation = this.$t( localeLabel );
+					if( translation !=  localeLabel ) {
+						return this.$t( localeLabel );
+					}
 				}
 			}
 
@@ -79,8 +83,12 @@ export const component = {
 		missionDescription() {
 			let data = this.player.current.mission ? this.player.current.mission : null;
 			if(data) {
-				if( data.description && this.$te( data.description ) ) {
-					return this.$t( data.description );
+				if( data.description ) {
+					let localeLabel = data.description;
+					let translation = this.$t( localeLabel );
+					if( translation !=  localeLabel ) {
+						return this.$t( localeLabel );
+					}
 				}
 			}
 
@@ -89,8 +97,12 @@ export const component = {
 		activityTitle() {
 			let data = this.player.current.activity ? this.player.current.activity.data : null;
 			if(data) {
-				if( data.title && this.$te( data.title ) ) {
-					return this.$t( data.title );
+				if( data.title ) {
+					let localeLabel = data.title;
+					let translation = this.$t( localeLabel );
+					if( translation != localeLabel ) {
+						return this.$t( localeLabel );
+					}
 				}
 			}
 			return null;
@@ -98,8 +110,12 @@ export const component = {
 		activityDescription() {
 			let data = this.player.current.activity ? this.player.current.activity.data : null;
 			if(data) {
-				if( data.description && this.$te( data.description ) ) {
-					return this.$t( data.description );
+				if( data.description ) {
+					let localeLabel = data.description;
+					let translation = this.$t( localeLabel );
+					if( translation != localeLabel ) {
+						return this.$t( localeLabel );
+					}
 				}
 			}
 

@@ -48,7 +48,7 @@ export const component = {
 			console.log( "Added mission: ", this.newMission );
 			this.missions.push( this.newMission );
 
-			this.$emit('save-story');
+			// this.$emit('save-story');
 		},
 		onAddMission() {
 			let newMission = {};
@@ -103,13 +103,13 @@ export const component = {
 				mission.dispose();
 				this.missions.splice( index, 1);
 
-				this.$emit('save-story');
+				// this.$emit('save-story');
 			}
 		},
 		onCopyMission( index ) {
 			console.log("Copied mission", this.missions[index]);
 			this.$emit('copy-mission', new Mission(this.missions[index]));
-			this.$emit('save-story');
+			// this.$emit('save-story');
 		},
 		onPasteMission( index ) {
 			if (!this.copiedMission) {

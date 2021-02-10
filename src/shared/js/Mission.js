@@ -13,7 +13,7 @@ export default class Mission extends I18nCategorized {
 		this.title = unparsedMission ? unparsedMission.title : null;
 		this.description = unparsedMission ? unparsedMission.description : null;
 		this.tree = unparsedMission && unparsedMission.tree ? new ActivityNode( unparsedMission.tree ) : null;
-		this.active = unparsedMission && unparsedMission.active ? unparsedMission.active : true;
+		this.active = unparsedMission ? !!unparsedMission.active : true;
 	}
 
 	dispose(params) {

@@ -33,7 +33,7 @@ export function getLanguagesArraySet() {
 i18n.removeMessageAll = function ( key ){
 	let empty = I18nUtils.buildObjectFromLabel( key, undefined );
 	let self = this;
-	console.warn( "[i18n content]", "removing locales message for", key );
+	// console.warn( "[i18n content]", "removing locales message for", key );
 	this.availableLocales.forEach( locale => {
 		if( self.te( key, locale ) ) {
 			self.mergeLocaleMessage( locale, empty )

@@ -9,7 +9,7 @@ export const component = {
 		value: StylePropertyURI,
 		defaultValues: {
 			type: Array,
-			default: []
+			default: () => []
 		}
 	},
 	components: {

@@ -10,7 +10,7 @@ export const component = {
 		},
 		defaultValues: {
 			type: Array,
-			default: []
+			default: () => []
 		}
 	},
 	data() {

@@ -1,5 +1,5 @@
 import InputSceneComponent from "../InputSceneComponent.js";
-import {I18nUtils} from "/shared/js/I18nUtils.js";
+import {I18nUtils} from "../../I18nUtils.js";
 import {TypedValue} from "../../Types/TypedValue.js";
 
 export default class ComponentList extends InputSceneComponent {

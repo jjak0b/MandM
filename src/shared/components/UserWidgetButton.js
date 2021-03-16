@@ -1,5 +1,5 @@
 import {template} from "./UserWidgetButtonTemplate.js";
-import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
+import {TypedValue} from "../js/Types/TypedValue.js";
 
 export const component = {
 	inheritAttrs: false,

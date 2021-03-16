@@ -3,7 +3,26 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build": "npm run buildDemo",
+    "buildServerAsWebService": "browserify browser.js -o express-service.js --global-transform=aliasify",
+    "buildServer": "npm run buildServerAsWebService",
+    "buildDemo": "npm run buildServer",
+    "demo": "npm run buildDemo && http-server ./",
+    "serve": "npm run build && http-server ./"
+  },
+  "main": "./index.js",
+  "browser": "./browser.js",
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
+  "aliasify": {
+    "aliases": {
+      "fs": "browserify-fs",
+      "http": "stream-http"
+    }
   },
   "dependencies": {
     "@chenfengyuan/vue-qrcode": "^1.0.2",
@@ -20,9 +39,24 @@
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "promise": "^8.1.0",
+    "promise-deferred": "^2.0.3",
     "tiptap": "^1.30.0",
     "tiptap-extensions": "^1.33.1",
     "vue": "^2.6.12",
     "vue-accessible-color-picker": "^1.1.2"
+  },
+  "devDependencies": {
+    "aliasify": "^2.1.0",
+    "brfs": "^2.0.2",
+    "browser-process-hrtime": "^1.0.0",
+    "browser-stdout": "^1.3.1",
+    "browserify": "^17.0.0",
+    "browserify-fs": "^1.0.0",
+    "express-service": "github:jjak0b/express-service#master",
+    "http-proxy": "^1.18.1",
+    "level-filesystem": "^1.2.0",
+    "mkdirp": "^1.0.4",
+    "srepollock-browserify-fs": "^1.0.1",
+    "stream-http": "^3.1.1"
   }
 }

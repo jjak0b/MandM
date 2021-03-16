@@ -81,7 +81,15 @@ function middleware( staticPath ) {
 				res.locals.locales = {};
 			}
 			res.locals.locales.handler = handler || new I18nHandler( path );
-			next();
+
+			res.locals.locales.handler
+				.onInit()
+				.then( () => {
+					next();
+				})
+				.catch( () => {
+					next();
+				})
 		}
 		else {
 			console.error( "[api/locales]", "locales path has not been set to serve:", req.path );

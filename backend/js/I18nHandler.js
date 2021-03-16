@@ -3,6 +3,7 @@ const fs = require( 'fs' );
 const Promise = require( 'promise');
 const i18next = require("i18next");
 const i18nextFs = require( "i18next-fs-backend");
+const Deferred = require('promise-deferred');
 
 class I18nHandler {
 	constructor( basePath ) {
@@ -10,25 +11,32 @@ class I18nHandler {
 		this.pathLocales = path.join( basePath, this.localesDirname );
 
 		const filenameExtension = ".json";
-		let localesFilenames = [];
+		this.onReadyDeferred = new Deferred();
 
+		this.i18next = i18next.createInstance();
+		this.i18next.use( i18nextFs );
+
+		fs.mkdir( this.pathLocales, { mode: 0o0775 }, (error) => {
 		let supportedLngs = [];
-		if ( !fs.existsSync( this.pathLocales ) ){
-			fs.mkdirSync( this.pathLocales, { mode: 0o0775 } );
+		if( error && error.code && error.code !== "EEXIST") {
+			throw error;
 		}
 		else {
-			localesFilenames = fs.readdirSync( this.pathLocales );
-			if( localesFilenames ) {
+			fs.readdir( this.pathLocales, ( error, localesFilenames ) => {
+
+			if( !error && localesFilenames ) {
 				localesFilenames.filter((filename) => filename.endsWith(filenameExtension));
 				supportedLngs = new Array(localesFilenames.length);
 				localesFilenames.forEach(
 					(filename, i) => supportedLngs[i] = filename.substring(0, filename.length - filenameExtension.length));
 			}
+
+			console.log( "Detected languages in", this.pathLocales, supportedLngs );
+			this.locales = supportedLngs;
+			});
 		}
-		console.log( "Detected languages in", this.pathLocales, supportedLngs );
-		this.locales = supportedLngs;
-		this.i18next = i18next.createInstance();
-		this.i18next.use( i18nextFs );
+
+		this.onReadyDeferred.resolve(
 		this.i18next.init({
 			// debug: true,
 			lng: 'en',
@@ -36,10 +44,15 @@ class I18nHandler {
 			backend: {
 				loadPath: path.join( this.pathLocales, "{{lng}}.json" )
 			}
-		});
+		})
+		);
 
+		});
 	}
 
+	onInit() {
+		return this.onReadyDeferred.promise;
+	}
 
 	getI18nCodeList() {
 		return this.locales;

@@ -23,10 +23,12 @@ class StoryHandler {
 		return new Promise( (resolve, reject ) => {
 
 		let self = this;
-		if ( !fs.existsSync( this.pathStories ) ){
-			fs.mkdirSync( this.pathStories, { mode: 0o0775 } );
-		}
-		else {
+
+		fs.mkdir(this.pathStories, { mode: 0o0775 }, (error) => {
+			if( error && error.code && error.code !== "EEXIST") {
+				reject( error );
+			}
+			else {
 			console.log("Detecting stories ..." );
 			fs.readdir( this.pathStories, (err, filenames ) => {
 				if( err ){
@@ -41,7 +43,8 @@ class StoryHandler {
 					resolve( self.cacheList );
 				}
 			});
-		}
+			}
+		});
 		});
 	}
 
@@ -134,6 +137,18 @@ class StoryHandler {
 		let storyFilename = path.join( this.getPathStory( name ), this.getStoryFileName() );
 		let self = this;
 
+		return new Promise( (resolve, reject) => {
+			fs.mkdir( this.getPathStory( name ), { mode: 0o0775 }, (error) => {
+				if (error && error.code && error.code !== "EEXIST") {
+					reject( error );
+				}
+				else {
+					resolve();
+				}
+			});
+		})
+		.then( () => {
+
 		let dependencies = data.dependencies;
 		data.dependencies = null; // unlink from story structure
 		let promiseJSONDependencies = this.addDependencies( name, dependencies );
@@ -172,6 +187,8 @@ class StoryHandler {
 		});
 
 		return Promise.all( [ promiseJSON, promiseJSONDependencies ] );
+
+		});
 	}
 
 	getJSON( name ) {
@@ -225,9 +242,15 @@ class StoryHandler {
 		let self = this;
 		let storyFilename = path.join( this.getPathStory( name ) );
 		return new Promise( function (resolve, reject) {
-			fs.rmdirSync(storyFilename, {recursive: true});
-			self.getList().splice(self.getList().indexOf(name), 1);
-			resolve(name);
+			fs.rmdir(storyFilename, {recursive: true}, (error) => {
+				if(error) {
+					reject(error);
+				}
+				else {
+					self.getList().splice(self.getList().indexOf(name), 1);
+					resolve(name);
+				}
+			});
 		});
 	}
 

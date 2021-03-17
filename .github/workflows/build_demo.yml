@@ -19,11 +19,13 @@ jobs:
     - name: checkout to demo
       uses: actions/checkout@v2
       with:
-        ref: origin/demo
+        ref: demo
     - name: merge master
       run: |
           git config --global user.name 'jjak0b'
           git config --global user.email 'jjak0b@users.noreply.github.com'
+          ls -l
+          git status
           git merge origin/master
     - name: Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1

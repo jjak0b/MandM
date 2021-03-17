@@ -5,9 +5,9 @@ name: build_demo CI
 
 on:
   push:
-    branches: [ my.jjak0b ]
+    branches: [ master ]
   pull_request:
-    branches: [ my.jjak0b ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -19,16 +19,14 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Git config
-      uses: actions/checkout@v2
-    - run: |
-          git config --global user.name 'jjak0b'
-          git config --global user.email 'jjak0b@users.noreply.github.com'
     - name: Git merge to demo
       uses: actions/checkout@v2
       with:
         ref: demo
-    - run: git merge my.jjak0b
+    - run: |
+          git config --global user.name 'jjak0b'
+          git config --global user.email 'jjak0b@users.noreply.github.com'
+          git merge master
     - name: Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:

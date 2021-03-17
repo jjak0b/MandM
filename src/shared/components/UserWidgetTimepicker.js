@@ -1,5 +1,5 @@
 import {template} from "./UserWidgetTimepickerTemplate.js";
-import {TypedValue} from "../../../../shared/js/Types/TypedValue.js";
+import {TypedValue} from "../js/Types/TypedValue.js";
 import Time from "../../shared/js/Types/Time.js";
 
 export const component = {

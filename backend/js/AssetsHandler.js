@@ -56,24 +56,30 @@ class AssetsHandler {
 	}
 
 	updateAssetsList() {
-
-		if ( !fs.existsSync( this.getPath() ) ){
-			fs.mkdirSync( this.getPath(), { mode: 0o0775 } );
-		}
-
 		let promises = [];
 
+		fs.mkdir(this.getPath(), { mode: 0o0775 }, (error) => {
+		if (error && error.code && error.code !== "EEXIST") {
+			throw error;
+		}
+		else {
+
 		this.getCategories().forEach( (category) => {
-			if ( !fs.existsSync( this.getPathCategory( category ) ) ) {
-				fs.mkdirSync( this.getPathCategory( category ), { mode: 0o0775 } );
-			}
-			else{
-				promises.push(
-					getDirFileNames( this.getPathCategory( category ) )
-						.then( (files) => this.cacheAssets[ category ] = files )
-						.catch( (error) => console.error("Error Reading \"%s\" -> \"%s\"", category, this.getPathCategory( category ), error ) )
-				);
-			}
+
+			promises.push( new Promise( (resolveCategory, rejectCategory) => {
+				fs.mkdir(this.getPathCategory( category ), { mode: 0o0775 }, (error) => {
+					if (error && error.code && error.code !== "EEXIST") {
+						rejectCategory( error );
+					}
+					else{
+						resolveCategory(
+							getDirFileNames( this.getPathCategory( category ) )
+								.then( (files) => this.cacheAssets[ category ] = files )
+								.catch( (error) => console.error("Error Reading \"%s\" -> \"%s\"", category, this.getPathCategory( category ), error ) )
+						);
+					}
+				});
+			}));
 		});
 
 		Promise.all( promises )
@@ -81,6 +87,8 @@ class AssetsHandler {
 				console.log( "[AssetHandler]", "Found: ", this.cacheAssets );
 			});
 
+		}
+		});
 	}
 
 	addAsset( category, filename, fileFormData ) {

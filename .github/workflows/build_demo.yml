@@ -1,0 +1,41 @@
+# This workflow will do a clean install of node dependencies, build the source code and push to demo branch
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: build_demo CI
+
+on:
+  push:
+    branches: [ my.jjak0b ]
+  pull_request:
+    branches: [ my.jjak0b ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [15.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: git config
+      run: |
+          git config --global user.name 'jjak0b'
+          git config --global user.email 'jjak0b@users.noreply.github.com'
+    - name: git merge to demo
+      run: |
+          git checkout demo
+          git merge my.jjak0b
+    - name: Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run build --if-present
+    - name: Commit build
+          git commit -am "Automated demo deploy"
+          git push
+      
+      

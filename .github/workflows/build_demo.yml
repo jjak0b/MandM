@@ -24,14 +24,14 @@ jobs:
       run: |
           git config --global user.name 'jjak0b'
           git config --global user.email 'jjak0b@users.noreply.github.com'
+          git config --global pull.rebase false
           git fetch
           git checkout master
-          git pull
+          ls -l
           git checkout demo
-          git pull
+          git branch
           ls -l
           git status
-          git branch
           git merge master
     - name: Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1

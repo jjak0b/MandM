@@ -20,21 +20,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
     - name: git config
       run: |
           git config --global user.name 'jjak0b'
           git config --global user.email 'jjak0b@users.noreply.github.com'
-    - name: git merge to demo
+    - name: Git merge to demo
       run: |
           git checkout demo
           git merge my.jjak0b
     - name: Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm run build --if-present
     - name: Commit build
+      run: |
           git commit -am "Automated demo deploy"
           git push
       

@@ -1,0 +1,127 @@
+{
+    "locales": null,
+    "captions": [],
+    "videos": [],
+    "audios": [],
+    "images": [
+        {
+            "asset": {
+                "name": "Bottega.png",
+                "category": "images",
+                "url": "/assets/images/Bottega.png",
+                "data": null
+            },
+            "count": 6
+        },
+        {
+            "asset": {
+                "name": "Bottega2.png",
+                "category": "images",
+                "url": "/assets/images/Bottega2.png",
+                "data": null
+            },
+            "count": 3
+        },
+        {
+            "asset": {
+                "name": "firma michelangelo.png",
+                "category": "images",
+                "url": "/assets/images/firma michelangelo.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "firma raffaello.png",
+                "category": "images",
+                "url": "/assets/images/firma raffaello.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Leonardo firma.png",
+                "category": "images",
+                "url": "/assets/images/Leonardo firma.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "david.png",
+                "category": "images",
+                "url": "/assets/images/david.png",
+                "data": null
+            },
+            "count": 2
+        },
+        {
+            "asset": {
+                "name": "pieta.png",
+                "category": "images",
+                "url": "/assets/images/pieta.png",
+                "data": null
+            },
+            "count": 2
+        },
+        {
+            "asset": {
+                "name": "tondo-taddei.png",
+                "category": "images",
+                "url": "/assets/images/tondo-taddei.png",
+                "data": null
+            },
+            "count": 2
+        },
+        {
+            "asset": {
+                "name": "Madonna di bruges.png",
+                "category": "images",
+                "url": "/assets/images/Madonna di bruges.png",
+                "data": null
+            },
+            "count": 2
+        },
+        {
+            "asset": {
+                "name": "Le-tre-Grazie.png",
+                "category": "images",
+                "url": "/assets/images/Le-tre-Grazie.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "jim davis.jpg",
+                "category": "images",
+                "url": "/assets/images/jim davis.jpg",
+                "data": null
+            },
+            "count": 1
+        }
+    ],
+    "stylesheets": [
+        {
+            "asset": {
+                "name": "daVinci.player.chat.css",
+                "category": "stylesheets",
+                "url": "/assets/stylesheets/daVinci.player.chat.css",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "daVinci.player.css",
+                "category": "stylesheets",
+                "url": "/assets/stylesheets/daVinci.player.css",
+                "data": null
+            },
+            "count": 1
+        }
+    ]
+}

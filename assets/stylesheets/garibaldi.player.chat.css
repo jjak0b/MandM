@@ -1,0 +1,64 @@
+/* Chat look and feel stuff in console style */
+
+.chat-container {
+    background-color: #BF360C;
+    font-family: "Lucida Console", "Courier New", Monospaced, sans-serif;
+}
+
+/* chat body */
+.chat-container > .card-body {
+    background-color: #FF7043;
+}
+
+.chat-container > .card-body [role="log"] > [role="mark"] > [role="comment"].bg-info {
+    /* override bootstrap color*/
+    background-color: #FFFFFF !important;
+}
+
+/* chat message */
+.message {
+    background-color: transparent;
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+}
+.message .card-header,
+.message .card-body {
+    background-color: transparent;
+}
+
+.message-out {
+    background-color: #FF8A65;
+}
+
+.message-in {
+    background-color: #FF7043;
+}
+
+.message .message-header {
+    color: #B71C1C;
+}
+
+.message .message-footer time {
+    color: #B71C1C;
+}
+
+/* chat footer */
+.chat-container .card-footer > .chat-form:before {
+    color: #B71C1C;
+}
+.chat-container .card-footer .chat-input {
+    background-color: #FFCCBC;
+    color: #212121;
+}
+.chat-container .card-footer .chat-input::placeholder {
+    color: #212121;
+}
+.chat-container .card-footer button {
+    margin-left: 2em;
+    color: #FFFFFF;
+    background-color: #BF360C;
+}
+
+.chat-list {
+    background-color: #FFCCBC;
+}

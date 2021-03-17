@@ -1,0 +1,145 @@
+{
+    "locales": null,
+    "captions": [],
+    "videos": [],
+    "audios": [],
+    "images": [
+        {
+            "asset": {
+                "name": "taverna.png",
+                "category": "images",
+                "url": "/assets/images/taverna.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Garibaldi.png",
+                "category": "images",
+                "url": "/assets/images/Garibaldi.png",
+                "data": null
+            },
+            "count": 8
+        },
+        {
+            "asset": {
+                "name": "Taverna2.png",
+                "category": "images",
+                "url": "/assets/images/Taverna2.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Saverio.png",
+                "category": "images",
+                "url": "/assets/images/Saverio.png",
+                "data": null
+            },
+            "count": 79
+        },
+        {
+            "asset": {
+                "name": "Giuseppe Caruso.png",
+                "category": "images",
+                "url": "/assets/images/Giuseppe Caruso.png",
+                "data": null
+            },
+            "count": 128
+        },
+        {
+            "asset": {
+                "name": "Piazza.jpg",
+                "category": "images",
+                "url": "/assets/images/Piazza.jpg",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Giovanni Corrao.png",
+                "category": "images",
+                "url": "/assets/images/Giovanni Corrao.png",
+                "data": null
+            },
+            "count": 32
+        },
+        {
+            "asset": {
+                "name": "Cavour.png",
+                "category": "images",
+                "url": "/assets/images/Cavour.png",
+                "data": null
+            },
+            "count": 17
+        },
+        {
+            "asset": {
+                "name": "Vittorio Emanuele.png",
+                "category": "images",
+                "url": "/assets/images/Vittorio Emanuele.png",
+                "data": null
+            },
+            "count": 16
+        },
+        {
+            "asset": {
+                "name": "Martiri di Belfiore.png",
+                "category": "images",
+                "url": "/assets/images/Martiri di Belfiore.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Cinque giornate di Milano.png",
+                "category": "images",
+                "url": "/assets/images/Cinque giornate di Milano.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Viva Verdi.png",
+                "category": "images",
+                "url": "/assets/images/Viva Verdi.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "porta pia.png",
+                "category": "images",
+                "url": "/assets/images/porta pia.png",
+                "data": null
+            },
+            "count": 1
+        }
+    ],
+    "stylesheets": [
+        {
+            "asset": {
+                "name": "garibaldi.player.chat.css",
+                "category": "stylesheets",
+                "url": "/assets/stylesheets/garibaldi.player.chat.css",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "garibaldi.player.css",
+                "category": "stylesheets",
+                "url": "/assets/stylesheets/garibaldi.player.css",
+                "data": null
+            },
+            "count": 1
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+/* Chat look and feel stuff in vintage letter style */
+
+.chat-container {
+    background-color: #e2ccb1;
+    font-family: "Lucida Handwriting", "Segoe Script", cursive, serif;
+}
+
+/* chat body */
+.chat-container > .card-body {
+    background-color: #e2ccb1;
+}
+
+.chat-container > .card-body [role="log"] > [role="mark"] > [role="comment"].bg-info {
+    /* override bootstrap color*/
+    background-color: #7D6F40 !important;
+}
+
+/* chat message */
+.message {
+    background-color: transparent;
+    box-shadow: inset 0 0 0.5rem 0.25rem #7D6F40;
+    color:#262d31;
+}
+.message .card-header,
+.message .card-body {
+    background-color: transparent;
+}
+
+.message-out,
+.message-in {
+    background-color: transparent;
+}
+
+.message .message-header,
+.message .message-footer,
+.message .message-footer time {
+    color: #77140b !important;
+}
+
+.chat-container .card-footer .chat-input {
+    background-color: #e2ccb1;
+    color: #262d31;
+}
+.chat-container .card-footer .chat-input::placeholder {
+    color: #262d31;
+}
+
+.message .message-footer {
+    color: #262d31;
+}
+
+.chat-container .card-footer button {
+    color: #e2ccb1;
+    background-color: #77140b;
+}
+
+.chat-list {
+    background-color: #e2ccb1;
+}
+
+.message,
+.chat-list {
+    -webkit-box-shadow:inset 0 0 0.5rem 0.25rem #7D6F40;
+    -moz-box-shadow:inset 0 0 0.5rem 0.25rem #7D6F40;
+    box-shadow: inset 0 0 0.5rem 0.25rem #7D6F40;
+}

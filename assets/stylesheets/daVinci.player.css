@@ -1,0 +1,62 @@
+
+body {
+    background-color: #77140b;
+}
+
+#loading-container,
+#waiting-container {
+    color: #e2ccb1;
+}
+
+#loading-container .progress-bar {
+    background-color: #7D6F40;
+}
+
+/* tabs bar */
+
+
+.tabs > .card-header [role="tablist"] > .nav-item {
+    border-radius: 10em;
+    margin: 0.25em;
+    background-color: transparent;
+    color: #7D6F40;
+}
+
+.tabs > .card-header [role="tablist"] > .nav-item > * {
+    border-radius: inherit;
+    color: inherit;
+    background-color: inherit;
+}
+
+
+.tabs .card-header [role="tablist"] > * .active {
+    background-color: #7D6F40;
+    color: #e2ccb1;
+}
+
+/* vintage effect */
+
+.tabs > .card-header [role="tablist"],
+main > *
+{
+    padding: 0.5rem;
+    background-color: #e2ccb1;
+    border-radius: 0.5rem;
+}
+
+/* shadow border */
+.tabs > .card-header [role="tablist"],
+.tabs > .card-header [role="tablist"] > .nav-item,
+main > *
+{
+    -webkit-box-shadow:inset 0 0 0.5rem 0.25rem #7D6F40;
+    -moz-box-shadow:inset 0 0 0.5rem 0.25rem #7D6F40;
+    box-shadow: inset 0 0 0.5rem 0.25rem #7D6F40;
+}
+/* Scene */
+
+/* button to continue in tell type activity */
+#player-main form + div button {
+    background-color: #7D6F40;
+    color: #e2ccb1;
+}

@@ -1,0 +1,57 @@
+
+body {
+    background-color: #FFCDD2;
+}
+
+/* tabs bar */
+
+.tabs > .card-header {
+    background-color:#E57373;
+}
+
+.tabs > .card-header [role="tablist"] > .nav-item {
+    background-color:#d0451b;
+    border:1px solid #942911;
+    color:#ffffff;
+    margin-right: 3px;
+    text-shadow:0px 1px 0px #854629;
+}
+
+
+.tabs > .card-header [role="tablist"] > .nav-item > * {
+    color: inherit;
+    background-color: inherit;
+}
+
+.tabs .card-header [role="tablist"] > * .active {
+    background-color: #F44336;
+    color: #212121;
+}
+
+.tabs .card-body {
+    background-color: #ffcdd2;
+}
+
+/* Scene */
+
+/* button to continue in tell type activity */
+#player-main form + div button {
+    box-shadow: 0px 10px 14px -7px #276873;
+    background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+    background-color:#c62d1f;
+    border-radius:8px;
+    color:#ffffff;
+    font-size:1.2em;
+    font-weight:bold;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #3d768a;
+}
+
+#player-main form + div button:hover {
+    background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+    background-color:#f24437;
+}
+#player-main form + div button:active {
+    position:relative;
+    top:1px;
+}

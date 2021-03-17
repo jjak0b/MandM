@@ -1,0 +1,34 @@
+
+body {
+    background-color: #eeac12;
+}
+
+/* tabs bar */
+
+.tabs > .card-header [role="tablist"] > .nav-item {
+    border-color: #262d31;
+    border-style: dashed;
+    border-width: 0.4em;
+    background-color: #eeac12;
+    color: #b22222;
+}
+.tabs > .card-header [role="tablist"] > .nav-item > * {
+    color: inherit;
+    background-color: inherit;
+}
+
+.tabs .card-header [role="tablist"] > * .active {
+    background-color: #b22222;
+    color: #eeac12;
+}
+
+.tabs .card-body {
+    background-color: #eeac12;
+}
+
+/* Scene */
+
+/* button to continue in tell type activity */
+#player-main form + div button {
+    background-color: #b22222;
+}

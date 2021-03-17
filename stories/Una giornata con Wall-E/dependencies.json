@@ -1,0 +1,217 @@
+{
+    "locales": null,
+    "captions": [],
+    "videos": [],
+    "audios": [],
+    "images": [
+        {
+            "asset": {
+                "name": "shot1.png",
+                "category": "images",
+                "url": "/assets/images/shot1.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Bottone.png",
+                "category": "images",
+                "url": "/assets/images/Bottone.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "buccia_banane.png",
+                "category": "images",
+                "url": "/assets/images/buccia_banane.png",
+                "data": null
+            },
+            "count": 11
+        },
+        {
+            "asset": {
+                "name": "Bottiglia di plastica.png",
+                "category": "images",
+                "url": "/assets/images/Bottiglia di plastica.png",
+                "data": null
+            },
+            "count": 11
+        },
+        {
+            "asset": {
+                "name": "Pezzo di Carta.png",
+                "category": "images",
+                "url": "/assets/images/Pezzo di Carta.png",
+                "data": null
+            },
+            "count": 11
+        },
+        {
+            "asset": {
+                "name": "Pila.png",
+                "category": "images",
+                "url": "/assets/images/Pila.png",
+                "data": null
+            },
+            "count": 13
+        },
+        {
+            "asset": {
+                "name": "Sveglia.png",
+                "category": "images",
+                "url": "/assets/images/Sveglia.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "mattina.png",
+                "category": "images",
+                "url": "/assets/images/mattina.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "pome.png",
+                "category": "images",
+                "url": "/assets/images/pome.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "sera.png",
+                "category": "images",
+                "url": "/assets/images/sera.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "notte.png",
+                "category": "images",
+                "url": "/assets/images/notte.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "Layou_River.png",
+                "category": "images",
+                "url": "/assets/images/Layou_River.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "Cascata.png",
+                "category": "images",
+                "url": "/assets/images/Cascata.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "tundra.png",
+                "category": "images",
+                "url": "/assets/images/tundra.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "amazzonia_2.png",
+                "category": "images",
+                "url": "/assets/images/amazzonia_2.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "Display.png",
+                "category": "images",
+                "url": "/assets/images/Display.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "sound icon.png",
+                "category": "images",
+                "url": "/assets/images/sound icon.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "shield.png",
+                "category": "images",
+                "url": "/assets/images/shield.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "sun.png",
+                "category": "images",
+                "url": "/assets/images/sun.png",
+                "data": null
+            },
+            "count": 4
+        },
+        {
+            "asset": {
+                "name": "Axiom.png",
+                "category": "images",
+                "url": "/assets/images/Axiom.png",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "shot2.png",
+                "category": "images",
+                "url": "/assets/images/shot2.png",
+                "data": null
+            },
+            "count": 1
+        }
+    ],
+    "stylesheets": [
+        {
+            "asset": {
+                "name": "wall-e.player.css",
+                "category": "stylesheets",
+                "url": "/assets/stylesheets/wall-e.player.css",
+                "data": null
+            },
+            "count": 1
+        },
+        {
+            "asset": {
+                "name": "wall-e.player.chat.css",
+                "category": "stylesheets",
+                "url": "/assets/stylesheets/wall-e.player.chat.css",
+                "data": null
+            },
+            "count": 1
+        }
+    ]
+}

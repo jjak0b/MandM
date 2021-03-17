@@ -26,7 +26,8 @@ jobs:
           git config --global user.email 'jjak0b@users.noreply.github.com'
           ls -l
           git status
-          git merge origin/master
+          git branch
+          git merge master
     - name: Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:

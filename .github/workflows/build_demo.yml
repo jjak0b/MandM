@@ -16,10 +16,13 @@ jobs:
     steps:
     - name: checkout to master
       uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: checkout to demo
       uses: actions/checkout@v2
       with:
         ref: demo
+        fetch-depth: 0
     - name: merge master
       run: |
           git config --global user.name 'jjak0b'

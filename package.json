@@ -21,7 +21,7 @@
   "aliasify": {
     "aliases": {
       "fs": "browserify-fs",
-      "http": "stream-http"
+      "http": "stream-http" 
     }
   },
   "dependencies": {

@@ -19,7 +19,7 @@ jobs:
     - name: checkout to demo
       uses: actions/checkout@v2
       with:
-        ref: demo
+        ref: origin/demo
     - name: merge master
       run: |
           git config --global user.name 'jjak0b'

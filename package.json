@@ -15,7 +15,7 @@
   "browser": "./browser.js",
   "browserify": {
     "transform": [
-      "brfs"
+      "@wardpeet/brfs"
     ]
   },
   "aliasify": {
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "aliasify": "^2.1.0",
-    "brfs": "^2.0.2",
+    "@wardpeet/brfs": "^2.1.0",
     "browser-process-hrtime": "^1.0.0",
     "browser-stdout": "^1.3.1",
     "browserify": "^17.0.0",

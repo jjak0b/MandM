@@ -20,7 +20,7 @@
 	}
 
 	var serviceScriptUrl = getCurrentScriptFolder() + 'express-service.js'
-	var scope = '/'
+	var scope = './' 
 
 	function registeredWorker (registration) {
 		console.log('express-service registered...')

@@ -46,8 +46,7 @@ jobs:
       run: npm run build --if-present
     - name: Add and commit build
       run: |
-          git add *.js
-          git commit -am "Automated demo deploy"
+          git add *.js && git commit -am "Automated demo deploy" || echo "No file changed -> no commit"
           git push
       
       

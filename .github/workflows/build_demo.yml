@@ -24,7 +24,7 @@ jobs:
       run: |
           git config --global user.name 'jjak0b'
           git config --global user.email 'jjak0b@users.noreply.github.com'
-          git merge master
+          git merge origin/master
     - name: Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:

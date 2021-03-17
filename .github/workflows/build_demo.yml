@@ -24,6 +24,11 @@ jobs:
       run: |
           git config --global user.name 'jjak0b'
           git config --global user.email 'jjak0b@users.noreply.github.com'
+          git fetch
+          git checkout master
+          git pull
+          git checkout demo
+          git pull
           ls -l
           git status
           git branch

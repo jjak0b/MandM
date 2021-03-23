@@ -41,6 +41,7 @@
     "multer": "^1.4.2",
     "promise": "^8.1.0",
     "promise-deferred": "^2.0.3",
+    "rimraf": "^3.0.2",
     "tiptap": "^1.30.0",
     "tiptap-extensions": "^1.33.1",
     "vue": "^2.6.12",

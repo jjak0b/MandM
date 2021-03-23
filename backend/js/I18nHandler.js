@@ -4,6 +4,7 @@ const Promise = require( 'promise');
 const i18next = require("i18next");
 const i18nextFs = require( "i18next-fs-backend");
 const Deferred = require('promise-deferred');
+const {Mutex} = require("async-mutex");
 
 class I18nHandler {
 	constructor( basePath ) {
@@ -15,6 +16,7 @@ class I18nHandler {
 
 		this.i18next = i18next.createInstance();
 		this.i18next.use( i18nextFs );
+		this.mutex = new Mutex();
 
 		fs.mkdir( this.pathLocales, { mode: 0o0775 }, (error) => {
 		let supportedLngs = [];
@@ -33,20 +35,19 @@ class I18nHandler {
 
 			console.log( "Detected languages in", this.pathLocales, supportedLngs );
 			this.locales = supportedLngs;
+
+			this.onReadyDeferred.resolve(
+				this.i18next.init({
+					// debug: true,
+					lng: 'en',
+					// fallbackLng: ["en"], // frontend handle localization codes
+					backend: {
+						loadPath: path.join( this.pathLocales, "{{lng}}.json" )
+					}
+				})
+			);
 			});
 		}
-
-		this.onReadyDeferred.resolve(
-		this.i18next.init({
-			// debug: true,
-			lng: 'en',
-			// fallbackLng: ["en"], // frontend handle localization codes
-			backend: {
-				loadPath: path.join( this.pathLocales, "{{lng}}.json" )
-			}
-		})
-		);
-
 		});
 	}
 
@@ -55,11 +56,15 @@ class I18nHandler {
 	}
 
 	getI18nCodeList() {
-		return this.locales;
+		return this.onInit().then( () => Promise.resolve( this.locales ) );
 	}
 
 	getJSON( langCode ) {
 		return new Promise( (resolve, reject) => {
+			this.mutex
+				.acquire()
+				.then((release) => {
+
 			this.i18next.changeLanguage( langCode )
 				.finally( () => {
 					let data = null;
@@ -72,6 +77,7 @@ class I18nHandler {
 							break;
 						}
 					}
+					release();
 					if( data ) {
 						resolve( data );
 					}
@@ -80,6 +86,7 @@ class I18nHandler {
 						reject( null );
 					}
 				});
+			});
 		});
 	}
 

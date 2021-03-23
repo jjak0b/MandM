@@ -13,13 +13,18 @@ const StatusCodes = require("http-status-codes").StatusCodes;
 function API_GET_I18nCodeList( req, res) {
 
 	let handler = res.locals.locales.handler;
-	let i18nList = handler.getI18nCodeList();
+	handler.getI18nCodeList()
+.then( (i18nList) => {
 	if( i18nList ) {
 		res.json( i18nList );
 	}
 	else {
 		res.sendStatus( StatusCodes.NOT_FOUND );
 	}
+})
+.catch( () => {
+	res.sendStatus( StatusCodes.NOT_FOUND );
+})
 
 }
 

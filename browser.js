@@ -2,8 +2,10 @@
 const path = require( "path");
 const fs = require("fs");
 const http = require( "http");
-const expressService = require('express-service');
+const { ExpressService } = require('express-service');
 const mkdirp = require("mkdirp");
+const Buffer = require("buffer").Buffer
+const Url = require("url-parse");
 
 // patch browser env
 process.hrtime = require('browser-process-hrtime');
@@ -44,52 +46,81 @@ const urls = []
 			.map( (name) => path.join( "src", "player", "locales" , name ) )
 	)
 
-const cacheName = require('./package.json').name
-console.log( "urls:", urls );
 
-const app = require("./app");
-expressService(app, urls, cacheName);
+var server = new ExpressService();
 
-let promises = [];
-for (const url of urls) {
-	promises.push( fetch(url) );
+self.addEventListener('install', function (event) {
+	cacheUrls( urls )
+		.then( () => {
+			const app = require("./app");
+			server.mount( app );
+			server.listen(8080);
+		})
+})
+
+function cacheUrls( urls ) {
+	let promises = [];
+	for (const url of urls) {
+		promises.push( statAndFetchAndStore( url ) );
+	}
+	return Promise.allSettled( promises )
+		.then( (promiseStates) => {
+			for (let i = 0; i < promiseStates.length; i++) {
+				let promiseState = promiseStates[i];
+				if( promiseState.status === "rejected" ) {
+					console.error( "Unable to fetch and store", urls[ i ], "for reason", promiseState.reason );
+				}
+			}
+		})
 }
 
-Promise.allSettled( promises )
-.then( (promiseStates) => {
-	let responses = promiseStates
-		.filter( (promiseStatus) => promiseStatus.status === "fulfilled" )
-		.map( (promiseStatus) => promiseStatus.value );
+function statAndFetchAndStore( url ) {
+	let parsedUrl = new Url( url );
+	let decodedPathname = decodeURIComponent( parsedUrl.pathname );
+	let dirPath = path.dirname( decodedPathname );
+	return new Promise( function( resolve, reject) {
+		mkdirp(dirPath, {mode: 0o0775, recursive: true } )
+			.then( (parentDirectory) => {
+				fs.stat( decodedPathname, function (error, stats) {
+					if( error ) {
+						if( error.code == "ENOENT" ) {
+							resolve( fetchAndStore( url, decodedPathname ) );
+						}
+						else {
+							reject( error );
+						}
+					}
+					else {
+						resolve( Promise.resolve() );
+					}
+				});
+			})
+			.catch( reject );
+	});
+}
 
-	for (
-		/**
-		 * @type {Response}
-		 */
-		const response of responses) {
+function fetchAndStore( url, pathname ) {
+	return fetch( url )
+		.then( (response) => {
+			let encoding = response.headers.get("charset")
+			return response.arrayBuffer()
+				.then( (buffer) => new Promise( function (resolve, reject) {
+					console.log( "Storing", pathname );
 
-		if( response.ok ) {
-		(function(response) {
-			let url = new URL(response.url);
-			let pathname = decodeURIComponent( url.pathname )
-			console.log( "creating", pathname, path.dirname( pathname ))
-			Promise.all(
-				[
-					mkdirp(path.dirname( pathname ), {mode: 0o0775, recursive: true } ),
-					response.arrayBuffer(),
-				]
-			)
-				.then(([parentDirectory, buffer]) => {
-					fs.writeFile( pathname, buffer, { mode: 0o0775 }, (error) => {
+					fs.writeFile(
+						pathname,
+						Buffer.from( buffer, encoding ),
+						{ mode: 0o0775, flag: "wx", encoding: encoding },
+						(error) => {
 						if (error) {
-							console.error("Unable to store", response.url, "into",  pathname, "reason", error);
+							reject( error );
+						}
+						else {
+							resolve( buffer )
 						}
 					});
-				})
-				.catch((error) => {
-					console.error("Error while init storing of", response.url, "into",  pathname, "reason", error);
-				})
-		})(response);
-		}
-	}
+				}));
+		})
 
-})
+
+}

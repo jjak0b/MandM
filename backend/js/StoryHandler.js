@@ -1,5 +1,6 @@
 const path = require( 'path' );
 const fs = require( 'fs' );
+const rimraf = require("rimraf");
 const Promise = require( 'promise');
 const StatusCodes = require("http-status-codes").StatusCodes;
 
@@ -242,7 +243,7 @@ class StoryHandler {
 		let self = this;
 		let storyFilename = path.join( this.getPathStory( name ) );
 		return new Promise( function (resolve, reject) {
-			fs.rmdir(storyFilename, {recursive: true}, (error) => {
+			rimraf(storyFilename, {disableGlob: true}, (error) => {
 				if(error) {
 					reject(error);
 				}

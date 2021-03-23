@@ -169,6 +169,7 @@ function API_DELETE_story( req, res ) {
 				res.sendStatus( StatusCodes.OK );
 			})
 			.catch( (err)=> {
+				console.error( "Unable to delete story", storyName, "reason:", err );
 				res.sendStatus( StatusCodes.CONFLICT );
 			});
 		}

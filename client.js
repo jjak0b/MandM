@@ -25,7 +25,8 @@
 	function registeredWorker (registration) {
 		console.log('express-service registered...')
 		// let the Express take over, even the index page
-		window.location.reload()
+		// TODO: wait for sw until ready
+		// window.location.reload()
 	}
 
 	function onError (err) {

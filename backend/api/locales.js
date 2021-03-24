@@ -5,7 +5,7 @@ const I18nHandler = require( '../js/I18nHandler').I18nHandler;
 const StatusCodes = require("http-status-codes").StatusCodes;
 
 // router.get('/i18n/map', function(req, res) { res.json( locales.i18n ) } );
-// router.get('/*/', express.static(path.join(__basedir, '/shared/static')));
+// router.get('/*/', express.static(path.join(global.__basedir, '/shared/static')));
 // router.get('/i18n/codes', function(req, res) { res.json( Object.keys( locales.i18n ) ); });
 // router.get('/i18n/map', function(req, res) { res.json( locales.i18n ) } );
 

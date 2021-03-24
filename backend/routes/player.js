@@ -27,13 +27,13 @@ router.use(
 
 router.use('/locales',
 	// first provide to middleware the path it needs
-	require("../api/locales" )( path.join(__basedir, "src", "player" ) )
+	require("../api/locales" )( path.join(global.__basedir, "src", "player" ) )
 );
 
 router.use( "/log", require("../api/logger") );
 router.use( "/chat", require("../api/chat") );
 
-router.get('/*', express.static(path.join(__basedir, "src", "player" ) ) );
+router.get('/*', express.static(path.join(global.__basedir, "src", "player" ) ) );
 
 function setupSession() {
 

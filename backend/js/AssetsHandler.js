@@ -6,7 +6,7 @@ const storyHandler = require("./StoryHandler").instance;
 class AssetsHandler {
 	constructor() {
 		this.assetsDirname = "assets";
-		this.pathAssets = path.join( __basedir, this.assetsDirname );
+		this.pathAssets = path.join( global.__basedir, this.assetsDirname );
 		this.pathAssetsCategories = {
 			videos: path.join( this.pathAssets, 'videos' ),
 			audios: path.join( this.pathAssets, 'audios' ),

@@ -8,8 +8,8 @@
     "buildServerAsWebService": "browserify browser.js -o express-service.js --global-transform=aliasify",
     "buildServer": "npm run buildServerAsWebService",
     "buildDemo": "npm run buildServer",
-    "demo": "npm run buildDemo && http-server ./",
-    "serve": "npm run build && http-server ./"
+    "demo": "npm run buildDemo && serve ./",
+    "serve": "npm run build && serve ./"
   },
   "main": "./index.js",
   "browser": "./browser.js",
@@ -54,8 +54,10 @@
     "browser-stdout": "^1.3.1",
     "browserify": "^17.0.0",
     "browserify-fs": "^1.0.0",
-    "express-service": "github:jjak0b/express-service#v2.0.0",
+    "charset": "^1.0.1",
+    "express-service": "github:jjak0b/express-service#v2.1.0",
     "http-proxy": "^1.18.1",
+    "https-localhost": "^4.6.4",
     "level-filesystem": "^1.2.0",
     "mkdirp": "^1.0.4",
     "srepollock-browserify-fs": "^1.0.1",

@@ -1,12 +1,4 @@
-
-const path = require( "path");
-const fs = require("fs");
-const http = require( "http");
-const { ExpressService } = require('express-service');
-const mkdirp = require("mkdirp");
-const Buffer = require("buffer").Buffer
-const Url = require("url-parse");
-
+process.env.DEBUG = "express-service,express-service:*,body-parser:json,express-session"
 // patch browser env
 process.hrtime = require('browser-process-hrtime');
 process.stdout = require('browser-stdout')();
@@ -15,6 +7,14 @@ if( !process.config ) {
 		variables: {}
 	};
 }
+
+const path = require( "path");
+const fs = require("fs");
+const { ExpressService } = require('express-service');
+const mkdirp = require("mkdirp");
+const Url = require("url-parse");
+const charset = require( "charset")
+
 
 if( typeof fs.Stats === "undefined"  ) {
 	fs.Stats = require("level-filesystem/stat")({}).constructor;
@@ -26,42 +26,69 @@ if( typeof fs.ReadStream === "undefined" ) {
 // for write/read permission
 process.umask(0o0000);
 
-const urls = []
-	.concat( require("./demo/static-assets") )
-	.concat( require("./demo/static-stories") )
-	.concat(
-		fs.readdirSync( path.join( "src", "shared", "locales" ) )
-			.map( (name) => path.join( "src", "shared", "locales" , name ) )
-	)
-	.concat(
-		fs.readdirSync( path.join( "src", "editor", "locales" ) )
-			.map( (name) => path.join( "src", "editor", "locales" , name ) )
-	)
-	.concat(
-		fs.readdirSync( path.join( "src", "evaluator", "locales" ) )
-			.map( (name) => path.join( "src", "evaluator", "locales" , name ) )
-	)
-	.concat(
-		fs.readdirSync( path.join( "src", "player", "locales" ) )
-			.map( (name) => path.join( "src", "player", "locales" , name ) )
-	)
+class MyApp extends ExpressService {
+	constructor() {
+		super();
+
+		// if sw is already installed just mount app now
+		if( self.registration.active ) {
+			mountApp( this );
+		}
+	}
+
+	onInstall(event) {
+		super.onInstall(event);
+
+		const urlsTOStore = []
+			.concat( require("./demo/static-stories") )
+			.concat(
+				fs.readdirSync( path.join( "src", "shared", "locales" ) )
+					.map( (name) => path.join( "src", "shared", "locales" , name ) )
+			)
+			.concat(
+				fs.readdirSync( path.join( "src", "editor", "locales" ) )
+					.map( (name) => path.join( "src", "editor", "locales" , name ) )
+			)
+			.concat(
+				fs.readdirSync( path.join( "src", "evaluator", "locales" ) )
+					.map( (name) => path.join( "src", "evaluator", "locales" , name ) )
+			)
+			.concat(
+				fs.readdirSync( path.join( "src", "player", "locales" ) )
+					.map( (name) => path.join( "src", "player", "locales" , name ) )
+			)
+
+		const urlToProxy = []
+			.concat( require("./demo/static-assets") );
+
+		event.waitUntil(
+			Promise.all([
+				cacheUrls( urlsTOStore, fetchAndStore ),
+				// tricky way to add to fs, on get api will proxy to remote
+				cacheUrls( urlToProxy, storeDummy )
+			])
+		)
+	}
+
+	onActivate(event) {
+		super.onActivate(event);
+		mountApp( this );
+	}
+}
+
+new MyApp();
 
 
-var server = new ExpressService();
+function mountApp( server ) {
+	const app = require("./app");
+	server.mount( app );
+	server.listen(80);
+}
 
-self.addEventListener('install', function (event) {
-	cacheUrls( urls )
-		.then( () => {
-			const app = require("./app");
-			server.mount( app );
-			server.listen(8080);
-		})
-})
-
-function cacheUrls( urls ) {
+function cacheUrls( urls, storeFunc ) {
 	let promises = [];
 	for (const url of urls) {
-		promises.push( statAndFetchAndStore( url ) );
+		promises.push( statAndAndStore( url, storeFunc ) );
 	}
 	return Promise.allSettled( promises )
 		.then( (promiseStates) => {
@@ -74,7 +101,7 @@ function cacheUrls( urls ) {
 		})
 }
 
-function statAndFetchAndStore( url ) {
+function statAndAndStore( url, storeFunc ) {
 	let parsedUrl = new Url( url );
 	let decodedPathname = decodeURIComponent( parsedUrl.pathname );
 	let dirPath = path.dirname( decodedPathname );
@@ -84,7 +111,7 @@ function statAndFetchAndStore( url ) {
 				fs.stat( decodedPathname, function (error, stats) {
 					if( error ) {
 						if( error.code == "ENOENT" ) {
-							resolve( fetchAndStore( url, decodedPathname ) );
+							resolve( storeFunc( url, decodedPathname ) );
 						}
 						else {
 							reject( error );
@@ -102,25 +129,44 @@ function statAndFetchAndStore( url ) {
 function fetchAndStore( url, pathname ) {
 	return fetch( url )
 		.then( (response) => {
-			let encoding = response.headers.get("charset")
+			let encoding = charset( Object.fromEntries( response.headers.entries() ) );
 			return response.arrayBuffer()
 				.then( (buffer) => new Promise( function (resolve, reject) {
-					console.log( "Storing", pathname );
+					console.log( "Storing", pathname, "with encode", encoding );
 
 					fs.writeFile(
 						pathname,
-						Buffer.from( buffer, encoding ),
+						buffer,
 						{ mode: 0o0775, flag: "wx", encoding: encoding },
 						(error) => {
 						if (error) {
+							console.error( "Failed to store", pathname, error );
 							reject( error );
 						}
 						else {
+							console.log( "Stored", pathname );
 							resolve( buffer )
 						}
 					});
 				}));
 		})
+}
 
-
+function storeDummy( url, pathname ) {
+	console.log( "Storing dummy", pathname );
+	return new Promise(function (resolve, reject) {
+		let buffer = "dummy";
+		fs.writeFile(
+			pathname,
+			buffer,
+			{ mode: 0o0775, flag: "wx", encoding: "utf-8" },
+			(error) => {
+				if (error) {
+					reject( error );
+				}
+				else {
+					resolve( buffer );
+				}
+			});
+	})
 }

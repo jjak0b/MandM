@@ -26,7 +26,7 @@
 		console.log('express-service registered...')
 		// let the Express take over, even the index page
 		// TODO: wait for sw until ready
-		// window.location.reload()
+		window.location.reload()
 	}
 
 	function onError (err) {

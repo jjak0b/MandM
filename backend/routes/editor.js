@@ -4,9 +4,9 @@ const router = express.Router();
 
 router.use('/locales',
 	// first provide to middleware the path it needs
-	require("../api/locales" )( path.join(__basedir, "src", "editor" ) )
+	require("../api/locales" )( path.join(global.__basedir, "src", "editor" ) )
 );
 
-router.get( '/*', express.static(path.join(__basedir, "src", "editor" ) ) );
+router.get( '/*', express.static(path.join(global.__basedir, "src", "editor" ) ) );
 
 module.exports = router;

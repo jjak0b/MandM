@@ -12,7 +12,7 @@ class StoryHandler {
 		this.storyFilename = "story.json"
 		this.storyDependeciesFilename = "dependencies.json"
 		this.cacheList = [];
-		this.pathStories = path.join( __basedir, this.storyDirname );
+		this.pathStories = path.join( global.__basedir, this.storyDirname );
 		/**
 		 *
 		 * @type {Map<String, Object>}

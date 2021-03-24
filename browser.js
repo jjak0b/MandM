@@ -16,13 +16,6 @@ const Url = require("url-parse");
 const charset = require( "charset")
 
 
-if( typeof fs.Stats === "undefined"  ) {
-	fs.Stats = require("level-filesystem/stat")({}).constructor;
-}
-if( typeof fs.ReadStream === "undefined" ) {
-	fs.ReadStream = {}
-}
-
 // for write/read permission
 process.umask(0o0000);
 
@@ -88,7 +81,7 @@ function mountApp( server ) {
 function cacheUrls( urls, storeFunc ) {
 	let promises = [];
 	for (const url of urls) {
-		promises.push( statAndAndStore( url, storeFunc ) );
+		promises.push( statAndAndStore( path.join( ".", url ), storeFunc ) );
 	}
 	return Promise.allSettled( promises )
 		.then( (promiseStates) => {
@@ -102,16 +95,14 @@ function cacheUrls( urls, storeFunc ) {
 }
 
 function statAndAndStore( url, storeFunc ) {
-	let parsedUrl = new Url( url );
-	let decodedPathname = decodeURIComponent( parsedUrl.pathname );
-	let dirPath = path.dirname( decodedPathname );
+	let dirPath = path.dirname( url );
 	return new Promise( function( resolve, reject) {
 		mkdirp(dirPath, {mode: 0o0775, recursive: true } )
 			.then( (parentDirectory) => {
-				fs.stat( decodedPathname, function (error, stats) {
+				fs.stat( url, function (error, stats) {
 					if( error ) {
 						if( error.code == "ENOENT" ) {
-							resolve( storeFunc( url, decodedPathname ) );
+							resolve( storeFunc( url ) );
 						}
 						else {
 							reject( error );
@@ -126,25 +117,25 @@ function statAndAndStore( url, storeFunc ) {
 	});
 }
 
-function fetchAndStore( url, pathname ) {
+function fetchAndStore( url ) {
 	return fetch( url )
 		.then( (response) => {
 			let encoding = charset( Object.fromEntries( response.headers.entries() ) );
 			return response.arrayBuffer()
 				.then( (buffer) => new Promise( function (resolve, reject) {
-					console.log( "Storing", pathname, "with encode", encoding );
+					console.log( "Storing", url, "with encode", encoding );
 
 					fs.writeFile(
-						pathname,
+						url,
 						buffer,
 						{ mode: 0o0775, flag: "wx", encoding: encoding },
 						(error) => {
 						if (error) {
-							console.error( "Failed to store", pathname, error );
+							console.error( "Failed to store", url, error );
 							reject( error );
 						}
 						else {
-							console.log( "Stored", pathname );
+							console.log( "Stored", url );
 							resolve( buffer )
 						}
 					});
@@ -152,12 +143,12 @@ function fetchAndStore( url, pathname ) {
 		})
 }
 
-function storeDummy( url, pathname ) {
-	console.log( "Storing dummy", pathname );
+function storeDummy( url ) {
+	console.log( "Storing dummy", url );
 	return new Promise(function (resolve, reject) {
 		let buffer = "dummy";
 		fs.writeFile(
-			pathname,
+			url,
 			buffer,
 			{ mode: 0o0775, flag: "wx", encoding: "utf-8" },
 			(error) => {

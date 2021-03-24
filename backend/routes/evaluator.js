@@ -7,5 +7,5 @@ router.use('/locales',
 		require("../api/locales" )( path.join(global.__basedir, "src", "evaluator" ) )
 );
 
-router.get('/*', express.static(path.join(global.__basedir, "src", "evaluator" ) ) );
+router.use('/', express.static(path.join(global.__basedir, "src", "evaluator" ) ) );
 module.exports = router;

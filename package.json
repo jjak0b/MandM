@@ -20,7 +20,7 @@
   },
   "aliasify": {
     "aliases": {
-      "fs": "browserify-fs",
+      "fs": "./fs",
       "http": "stream-http"
     }
   },
@@ -54,13 +54,13 @@
     "browser-process-hrtime": "^1.0.0",
     "browser-stdout": "^1.3.1",
     "browserify": "^17.0.0",
-    "browserify-fs": "^1.0.0",
     "charset": "^1.0.1",
     "express-service": "github:jjak0b/express-service#v2.1.0",
     "http-proxy": "^1.18.1",
     "https-localhost": "^4.6.4",
-    "level-filesystem": "^1.2.0",
-    "srepollock-browserify-fs": "^1.0.1",
+    "level-filesystem": "github:aredridel/level-filesystem#update-levelup",
+    "level-js": "^5.0.2",
+    "levelup": "^4.4.0",
     "stream-http": "^3.1.1",
     "url-parse": "^1.5.1"
   }

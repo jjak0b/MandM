@@ -7,6 +7,6 @@ router.use('/locales',
 	require("../api/locales" )( path.join(global.__basedir, "src", "editor" ) )
 );
 
-router.get( '/*', express.static(path.join(global.__basedir, "src", "editor" ) ) );
+router.use( '/', express.static(path.join(global.__basedir, "src", "editor" ) ) );
 
 module.exports = router;

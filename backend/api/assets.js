@@ -44,7 +44,7 @@ router.get('/', ( req, res ) => {
 });
 
 // GET /assets/* file
-router.get('/*', express.static( handler.getPath() ) );
+router.use('/', express.static( handler.getPath() ) );
 
 // PUT /assets/:category/:filename
 router.options('/:category/:filename', (req, res) => {

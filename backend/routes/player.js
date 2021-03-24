@@ -33,7 +33,7 @@ router.use('/locales',
 router.use( "/log", require("../api/logger") );
 router.use( "/chat", require("../api/chat") );
 
-router.get('/*', express.static(path.join(global.__basedir, "src", "player" ) ) );
+router.use('/', express.static(path.join(global.__basedir, "src", "player" ) ) );
 
 function setupSession() {
 

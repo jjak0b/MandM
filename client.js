@@ -33,7 +33,7 @@
 			sw.addEventListener('statechange', function(e) {
 				if( e.target.state === "activated" ) {
 					// let the Express take over, even the index page
-					window.location.reload()
+					setTimeout(  window.location.reload, 2000 );
 				}
 			})
 		}

@@ -37,6 +37,7 @@
     "i18next": "^19.8.3",
     "i18next-fs-backend": "^1.0.7",
     "langmap": "0.0.16",
+    "mkdirp": "^1.0.4",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
     "promise": "^8.1.0",
@@ -59,7 +60,6 @@
     "http-proxy": "^1.18.1",
     "https-localhost": "^4.6.4",
     "level-filesystem": "^1.2.0",
-    "mkdirp": "^1.0.4",
     "srepollock-browserify-fs": "^1.0.1",
     "stream-http": "^3.1.1",
     "url-parse": "^1.5.1"

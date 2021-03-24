@@ -56,7 +56,9 @@ class I18nHandler {
 	}
 
 	getI18nCodeList() {
-		return this.onInit().then( () => Promise.resolve( this.locales ) );
+		return this.onInit()
+			.then( () => Promise.resolve( this.locales ) )
+			.catch( () => Promise.resolve( this.locales ) )
 	}
 
 	getJSON( langCode ) {

@@ -20,13 +20,23 @@
 	}
 
 	var serviceScriptUrl = getCurrentScriptFolder() + 'express-service.js'
-	var scope = './' 
+	var scope = './'
 
+	/**
+	 *
+	 * @param registration {ServiceWorkerRegistration}
+	 */
 	function registeredWorker (registration) {
 		console.log('express-service registered...')
-		// let the Express take over, even the index page
-		// TODO: wait for sw until ready
-		window.location.reload()
+		const sw = registration.installing || registration.waiting || registration.active;
+		if (sw) {
+			sw.addEventListener('statechange', function(e) {
+				if( e.target.state === "activated" ) {
+					// let the Express take over, even the index page
+					window.location.reload()
+				}
+			})
+		}
 	}
 
 	function onError (err) {

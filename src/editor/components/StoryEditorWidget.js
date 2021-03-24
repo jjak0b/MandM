@@ -57,7 +57,11 @@ export const component = {
 	},
 	computed: {
 		selectedName: function () { return (this.tabValue > -1) ? this.names[this.tabValue] : null },
-		playStoryURL: function () { return this.value && this.value.name ? encodeURI(`${window.location.protocol}//${window.location.host}/player/?story=${this.value.name}`) : "Error"; }
+		playStoryURL: function () {
+			return this.value && this.value.name
+				? new URL( `../player/?story=${this.value.name}`, `${window.location.protocol}//${window.location.host}/` ).toString()
+				: "Error";
+		}
 	},
 	data() {
 		return {

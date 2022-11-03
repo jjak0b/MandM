@@ -32,7 +32,7 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "express-session": "^1.17.1",
+    "express-session": "^1.17.3",
     "http-status-codes": "^2.1.3",
     "i18next": "^19.8.3",
     "i18next-fs-backend": "^1.0.7",
@@ -55,13 +55,13 @@
     "browser-stdout": "^1.3.1",
     "browserify": "^17.0.0",
     "charset": "^1.0.1",
-    "express-service": "github:jjak0b/express-service#v2.1.0",
+    "express-service": "github:jjak0b/express-service#v2.1.1",
     "http-proxy": "^1.18.1",
     "https-localhost": "^4.6.4",
     "level-filesystem": "github:aredridel/level-filesystem#update-levelup",
     "level-js": "^5.0.2",
     "levelup": "^4.4.0",
-    "stream-http": "^3.1.1",
+    "stream-http": "^3.2.0",
     "url-parse": "^1.5.1"
   }
 }
